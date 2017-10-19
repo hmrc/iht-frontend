@@ -64,10 +64,10 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
     firstName, surname, CommonBuilder.DefaultNino, "01", "01", "1980", statusSingle)
 
   def deceasedAddress(line1: String, line2: String, line3: String, line4: String, postCode: String, countryCode: String) =
-    Map("ukAddress.addressLine1" -> line1,
+    Map("ukAddress.ukAddressLine1" -> line1,
       "ukAddress.ukAddressLine2" -> line2,
-      "ukAddress.addressLine3" -> line3,
-      "ukAddress.addressLine4" -> line4,
+      "ukAddress.ukAddressLine3" -> line3,
+      "ukAddress.ukAddressLine4" -> line4,
       "ukAddress.postCode" -> postCode,
       "ukAddress.countryCode" -> countryCode)
 
@@ -319,6 +319,13 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
       checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
     }
 
+    "give an error when the first name contains invalid characters" in {
+      val data = completeAboutDeceased + ("firstName" -> "<<<")
+      val expectedErrors = error("firstName", "error.firstName.giveUsingOnlyValidChars")
+
+      checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
+    }
+
     "give an error when the last name is blank" in {
       val data = completeAboutDeceased + ("lastName" -> "")
       val expectedErrors = error("lastName", "error.lastName.give")
@@ -434,29 +441,29 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
     }
 
     "not give an error when lines 2 and 3 are omitted" in {
-      val data = completeUkAddress - "ukAddress.addressLine3" - "ukAddress.addressLine4"
+      val data = completeUkAddress - "ukAddress.ukAddressLine3" - "ukAddress.ukAddressLine4"
 
       deceasedAddressDetailsUKForm.bind(data).get shouldBe
         DeceasedDetails(ukAddress = Some(UkAddress("Line 1", "Line 2", None, None, "AA111AA", "GB")))
     }
 
     "give an error when line 1 is blank" in {
-      val data = completeUkAddress + ("ukAddress.addressLine1" -> "")
-      val expectedErrors = error("ukAddress.addressLine1", "error.address.giveInLine1And2")
+      val data = completeUkAddress + ("ukAddress.ukAddressLine1" -> "")
+      val expectedErrors = error("ukAddress.ukAddressLine1", "error.address.giveInLine1And2")
 
       checkForError(deceasedAddressDetailsUKForm, data, expectedErrors)
     }
 
     "give an error when line 1 is omitted" in {
-      val data = completeUkAddress - "ukAddress.addressLine1"
-      val expectedErrors = error("ukAddress.addressLine1", "error.address.giveInLine1And2")
+      val data = completeUkAddress - "ukAddress.ukAddressLine1"
+      val expectedErrors = error("ukAddress.ukAddressLine1", "error.address.giveInLine1And2")
 
       checkForError(deceasedAddressDetailsUKForm, data, expectedErrors)
     }
 
     "give an error when line 1 is too long" in {
-      val data = completeUkAddress + ("ukAddress.addressLine1" -> valueLongerThan36Chars)
-      val expectedErrors = error("ukAddress.addressLine1", "error.address.giveUsing35CharsOrLess")
+      val data = completeUkAddress + ("ukAddress.ukAddressLine1" -> valueLongerThan36Chars)
+      val expectedErrors = error("ukAddress.ukAddressLine1", "error.address.giveUsing35CharsOrLess")
 
       checkForError(deceasedAddressDetailsUKForm, data, expectedErrors)
     }
@@ -484,15 +491,15 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
     }
 
     "give an error when line 3 is too long" in {
-      val data = completeUkAddress + ("ukAddress.addressLine3" -> valueLongerThan36Chars)
-      val expectedErrors = error("ukAddress.addressLine3", "error.address.giveUsing35CharsOrLess")
+      val data = completeUkAddress + ("ukAddress.ukAddressLine3" -> valueLongerThan36Chars)
+      val expectedErrors = error("ukAddress.ukAddressLine3", "error.address.giveUsing35CharsOrLess")
 
       checkForError(deceasedAddressDetailsUKForm, data, expectedErrors)
     }
 
     "give an error when line 4 is too long" in {
-      val data = completeUkAddress + ("ukAddress.addressLine4" -> valueLongerThan36Chars)
-      val expectedErrors = error("ukAddress.addressLine4", "error.address.giveUsing35CharsOrLess")
+      val data = completeUkAddress + ("ukAddress.ukAddressLine4" -> valueLongerThan36Chars)
+      val expectedErrors = error("ukAddress.ukAddressLine4", "error.address.giveUsing35CharsOrLess")
 
       checkForError(deceasedAddressDetailsUKForm, data, expectedErrors)
     }
@@ -527,7 +534,7 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
     }
 
     "give multiple errors when no data is supplied" in {
-      val expectedErrors = error("ukAddress.addressLine1", "error.address.give") ++
+      val expectedErrors = error("ukAddress.ukAddressLine1", "error.address.give") ++
         error("ukAddress.ukAddressLine2", "") ++
         error("ukAddress.postCode", "error.address.givePostcode") ++
         error("ukAddress.ukAddressLine2", "error.required") ++
@@ -549,29 +556,29 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
     }
 
     "not give an error when lines 2 and 3 are omitted" in {
-      val data = completeAddressAbroad - "ukAddress.addressLine3" - "ukAddress.addressLine4"
+      val data = completeAddressAbroad - "ukAddress.ukAddressLine3" - "ukAddress.ukAddressLine4"
 
       deceasedAddressDetailsOutsideUKForm.bind(data).get shouldBe
         DeceasedDetails(ukAddress = Some(UkAddress("Line 1", "Line 2", None, None, "", "AU")))
     }
 
     "give an error when line 1 is blank" in {
-      val data = completeAddressAbroad + ("ukAddress.addressLine1" -> "")
-      val expectedErrors = error("ukAddress.addressLine1", "error.address.give")
+      val data = completeAddressAbroad + ("ukAddress.ukAddressLine1" -> "")
+      val expectedErrors = error("ukAddress.ukAddressLine1", "error.address.give")
 
       checkForError(deceasedAddressDetailsOutsideUKForm, data, expectedErrors)
     }
 
     "give an error when line 1 is omitted" in {
-      val data = completeAddressAbroad - "ukAddress.addressLine1"
-      val expectedErrors = error("ukAddress.addressLine1", "error.required")
+      val data = completeAddressAbroad - "ukAddress.ukAddressLine1"
+      val expectedErrors = error("ukAddress.ukAddressLine1", "error.required")
 
       checkForError(deceasedAddressDetailsOutsideUKForm, data, expectedErrors)
     }
 
     "give an error when line 1 is too long" in {
-      val data = completeAddressAbroad + ("ukAddress.addressLine1" -> valueLongerThan36Chars)
-      val expectedErrors = error("ukAddress.addressLine1", "error.address.giveUsing35CharsOrLess")
+      val data = completeAddressAbroad + ("ukAddress.ukAddressLine1" -> valueLongerThan36Chars)
+      val expectedErrors = error("ukAddress.ukAddressLine1", "error.address.giveUsing35CharsOrLess")
 
       checkForError(deceasedAddressDetailsOutsideUKForm, data, expectedErrors)
     }
@@ -598,15 +605,15 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
     }
 
     "give an error when line 3 is too long" in {
-      val data = completeAddressAbroad + ("ukAddress.addressLine3" -> valueLongerThan36Chars)
-      val expectedErrors = error("ukAddress.addressLine3", "error.address.giveUsing35CharsOrLess")
+      val data = completeAddressAbroad + ("ukAddress.ukAddressLine3" -> valueLongerThan36Chars)
+      val expectedErrors = error("ukAddress.ukAddressLine3", "error.address.giveUsing35CharsOrLess")
 
       checkForError(deceasedAddressDetailsOutsideUKForm, data, expectedErrors)
     }
 
     "give an error when line 4 is too long" in {
-      val data = completeAddressAbroad + ("ukAddress.addressLine4" -> valueLongerThan36Chars)
-      val expectedErrors = error("ukAddress.addressLine4", "error.address.giveUsing35CharsOrLess")
+      val data = completeAddressAbroad + ("ukAddress.ukAddressLine4" -> valueLongerThan36Chars)
+      val expectedErrors = error("ukAddress.ukAddressLine4", "error.address.giveUsing35CharsOrLess")
 
       checkForError(deceasedAddressDetailsOutsideUKForm, data, expectedErrors)
     }
@@ -626,7 +633,7 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
     }
 
     "give multiple errors when no data is supplied" in {
-      val expectedErrors = error("ukAddress.addressLine1", "error.required") ++
+      val expectedErrors = error("ukAddress.ukAddressLine1", "error.required") ++
         error("ukAddress.ukAddressLine2", "error.required") ++
         error("ukAddress.countryCode", "error.required")
 

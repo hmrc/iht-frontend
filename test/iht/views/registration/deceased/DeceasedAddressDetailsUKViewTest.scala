@@ -53,11 +53,11 @@ class DeceasedAddressDetailsUKViewTest extends RegistrationPageBehaviour[Decease
     behave like registrationPageWithErrorSummaryBox()
 
     "have a line 1 field" in {
-      assertRenderedById(doc, "ukAddress.addressLine1")
+      assertRenderedById(doc, "ukAddress.ukAddressLine1")
     }
 
     "have the correct label for line 1" in {
-      labelShouldBe(doc, "ukAddress.addressLine1-container", "iht.address.line1")
+      labelShouldBe(doc, "ukAddress.ukAddressLine1-container", "iht.address.line1")
     }
 
     "have a line 2 field" in {
@@ -69,19 +69,19 @@ class DeceasedAddressDetailsUKViewTest extends RegistrationPageBehaviour[Decease
     }
 
     "have a line 3 field" in {
-      assertRenderedById(doc, "ukAddress.addressLine3")
+      assertRenderedById(doc, "ukAddress.ukAddressLine3")
     }
 
     "have the correct label for line 3" in {
-      labelShouldBe(doc, "ukAddress.addressLine3-container", "iht.address.line3")
+      labelShouldBe(doc, "ukAddress.ukAddressLine3-container", "iht.address.line3")
     }
 
     "have a line 4 field" in {
-      assertRenderedById(doc, "ukAddress.addressLine4")
+      assertRenderedById(doc, "ukAddress.ukAddressLine4")
     }
 
     "have the correct label for line 4" in {
-      labelShouldBe(doc, "ukAddress.addressLine4-container", "iht.address.line4")
+      labelShouldBe(doc, "ukAddress.ukAddressLine4-container", "iht.address.line4")
     }
 
     "have a post code field" in {

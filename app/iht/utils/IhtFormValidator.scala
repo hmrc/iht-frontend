@@ -166,8 +166,6 @@ trait IhtFormValidator extends FormValidator {
                                           invalidAddressLineMessageKey: String,
                                           invalidChars: String,
                                           errors: scala.collection.mutable.ListBuffer[FormError]): Unit = {
-
-    println( "\nOPTIONAL:" + addrKey + "==" + addr)
     addr match {
       case a if a.length > maxLength => errors += FormError(addrKey, invalidAddressLineMessageKey)
       case a if addresslineRegex.findFirstIn(a).fold(true)(_=>false) =>

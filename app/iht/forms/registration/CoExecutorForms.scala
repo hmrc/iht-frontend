@@ -106,7 +106,7 @@ trait CoExecutorForms {
     )
   )
 
-  private lazy val nameRegex = """^[A-Za-z0-9,. \(\)\&\-]*$""".r
+  private lazy val nameRegex = """^[A-Za-z0-9,. \(\)\&\-']*$""".r
 
   def coExecutorPersonalDetailsEditForm(implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = Form(
     mapping(

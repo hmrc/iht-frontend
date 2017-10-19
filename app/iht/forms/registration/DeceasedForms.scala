@@ -54,7 +54,7 @@ trait DeceasedForms {
     )
   )
 
-  private lazy val nameRegex = """^[A-Za-z0-9,. \(\)\&\-]*$""".r
+  private lazy val nameRegex = """^[A-Za-z0-9,. \(\)\&\-']*$""".r
 
   def aboutDeceasedForm(dateOfDeath: LocalDate = LocalDate.now())(implicit messages: Messages, request: Request[_],
                                                                   hc: HeaderCarrier, ec: ExecutionContext) = Form(
@@ -106,8 +106,8 @@ trait DeceasedForms {
         "error.address.givePostcodeUsingNumbersAndLetters", "error.country.select"
       ))  ,
       "ukAddress.ukAddressLine2" -> text,
-      "ukAddress.ukAddressLine3" -> optional(text).verifying("error.address.giveUsing35CharsOrLess", x => x.getOrElse("").trim.length < 36),
-      "ukAddress.ukAddressLine4" -> optional(text).verifying("error.address.giveUsing35CharsOrLess", x => x.getOrElse("").trim.length < 36),
+      "ukAddress.ukAddressLine3" -> optional(text),
+      "ukAddress.ukAddressLine4" -> optional(text),
       "ukAddress.postCode" -> text,
       "ukAddress.countryCode" -> default(text, "GB")
     )
@@ -129,10 +129,10 @@ trait DeceasedForms {
 
   val deceasedAddressDetailsOutsideUKForm = Form(
     mapping(
-      "ukAddress.addressLine1" -> ihtNonEmptyText("error.address.give").verifying("error.address.giveUsing35CharsOrLess", x => x.trim.length < 36),
+      "ukAddress.ukAddressLine1" -> ihtNonEmptyText("error.address.give").verifying("error.address.giveUsing35CharsOrLess", x => x.trim.length < 36),
       "ukAddress.ukAddressLine2" -> ihtNonEmptyText("error.address.give").verifying("error.address.giveUsing35CharsOrLess", x => x.trim.length < 36),
-      "ukAddress.addressLine3" -> optional(text).verifying("error.address.giveUsing35CharsOrLess", x => x.getOrElse("").trim.length < 36),
-      "ukAddress.addressLine4" -> optional(text).verifying("error.address.giveUsing35CharsOrLess", x => x.getOrElse("").trim.length < 36),
+      "ukAddress.ukAddressLine3" -> optional(text).verifying("error.address.giveUsing35CharsOrLess", x => x.getOrElse("").trim.length < 36),
+      "ukAddress.ukAddressLine4" -> optional(text).verifying("error.address.giveUsing35CharsOrLess", x => x.getOrElse("").trim.length < 36),
       "ukAddress.countryCode" -> ihtNonEmptyText("error.country.select")
     )
     (
