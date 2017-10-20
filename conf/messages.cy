@@ -2042,3 +2042,6 @@ page.iht.questionnaire.activity.declare-app=Cwblhau''ch datganiad ac anfon adrod
 error.address.giveUsingOnlyValidChars = ???
 error.firstName.giveUsingOnlyValidChars = ???
 error.lastName.giveUsingOnlyValidChars = ???
+error.charityName.giveUsingOnlyValidChars = ???
+error.qualifyingBodyName.giveUsingOnlyValidChars = ???
+
