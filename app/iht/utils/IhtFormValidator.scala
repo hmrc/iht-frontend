@@ -370,7 +370,7 @@ trait IhtFormValidator extends FormValidator {
     Forms.of(nameFormatter(maxLength, blankMessageKey, invalidLengthMessageKey, invalidCharsMessageKey))
 
 
-  def nameFormatter(maxLength: Int,
+  private def nameFormatter(maxLength: Int,
                    blankMessageKey: String,
                    invalidLengthMessageKey: String,
                    invalidCharsMessageKey: String) = new Formatter[String] {
