@@ -19,6 +19,7 @@ package iht.utils
 import iht.connector.CachingConnector
 import iht.constants.IhtProperties
 import iht.models.{RegistrationDetails, UkAddress}
+import iht.views.html.ihtHelpers.custom.name
 import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, FormError, Forms}
 import play.api.i18n.{Lang, Messages}
@@ -168,7 +169,7 @@ trait IhtFormValidator extends FormValidator {
                                           errors: scala.collection.mutable.ListBuffer[FormError]): Unit = {
     addr match {
       case a if a.length > maxLength => errors += FormError(addrKey, invalidAddressLineMessageKey)
-      case a if nameAndAddressRegex.findFirstIn(a).fold(true)(_=>false) =>
+      case a if nameAndAddressRegex.findFirstIn(a).fold(true)(_ => false) =>
         errors += FormError(addrKey, invalidChars)
       case _ =>
     }
@@ -182,7 +183,7 @@ trait IhtFormValidator extends FormValidator {
     addr match {
       case a if a.length == 0 => errors += FormError(addrKey, blankMessageKey)
       case a if a.length > maxLength => errors += FormError(addrKey, invalidAddressLineMessageKey)
-      case a if nameAndAddressRegex.findFirstIn(a).fold(true)(_=>false) =>
+      case a if nameAndAddressRegex.findFirstIn(a).fold(true)(_ => false) =>
         errors += FormError(addrKey, invalidChars)
       case _ =>
     }
@@ -202,7 +203,7 @@ trait IhtFormValidator extends FormValidator {
   }
 
   private def validateIntlCountryCode(countryCodeKey: String, countryCode: String, errorMessageKey: String,
-                                      errors: scala.collection.mutable.ListBuffer[FormError])(implicit lang: Lang, messages:Messages) = {
+                                      errors: scala.collection.mutable.ListBuffer[FormError])(implicit lang: Lang, messages: Messages) = {
     countryCode match {
       case a if a.length == 0 => errors += FormError(countryCodeKey, errorMessageKey)
       case a if !validateInternationalCountryCode(a)(lang, messages) => errors += FormError(countryCodeKey, errorMessageKey)
@@ -309,6 +310,7 @@ trait IhtFormValidator extends FormValidator {
         Left(errors.toList)
       }
     }
+
     override def unbind(key: String, value: String): Map[String, String] = {
       Map(key -> value.toString)
     }
@@ -361,6 +363,66 @@ trait IhtFormValidator extends FormValidator {
     }
   }
 
+  def name(maxLength: Int,
+         blankMessageKey: String,
+         invalidLengthMessageKey: String,
+         invalidCharsMessageKey: String): FieldMapping[String] =
+    Forms.of(nameFormatter(maxLength, blankMessageKey, invalidLengthMessageKey, invalidCharsMessageKey))
+
+
+  def nameFormatter(maxLength: Int,
+                   blankMessageKey: String,
+                   invalidLengthMessageKey: String,
+                   invalidCharsMessageKey: String) = new Formatter[String] {
+    override def bind(key: String, data: Map[String, String]) = {
+      val errors = new scala.collection.mutable.ListBuffer[FormError]()
+
+      val name = data.get(key)
+
+      checkForNameError(
+        key = key,
+        maxLength = maxLength,
+        blankMessageKey = blankMessageKey,
+        invalidLengthMessageKey = invalidLengthMessageKey,
+        invalidCharsMessageKey = invalidCharsMessageKey,
+        name = name) match {
+        case Some(error) => errors += error
+        case _ =>
+      }
+
+      if (errors.isEmpty) {
+        try {
+          data.get(key) match {
+            case Some(value) => Right(Some(value))
+            case None => Right(None)
+          }
+        } catch {
+          case _: IllegalArgumentException => Left(List(FormError(key, "error.invalid")))
+        }
+      } else {
+        Left(errors.toList)
+      }
+    }
+
+    override def unbind(key: String, value: String): Map[String, String] = {
+      Map(key -> value)
+    }
+  }
+
+  def checkForNameError(key: String,
+                        maxLength: Int,
+                        blankMessageKey: String,
+                        invalidLengthMessageKey: String,
+                        invalidCharsMessageKey: String,
+                        name: Option[String]): Option[FormError] = {
+    name.getOrElse("") match {
+      case a if a.isEmpty => Some(FormError(key, blankMessageKey))
+      case a if a.length > maxLength => Some(FormError(key, invalidLengthMessageKey))
+      case a if nameAndAddressRegex.findFirstIn(a).fold(true)(_ => false) => Some(FormError(key, invalidCharsMessageKey))
+      case _ => None
+    }
+  }
+
   /**
     * Validate the First and LastName in Tnrb Partner Page
     */
@@ -371,16 +433,26 @@ trait IhtFormValidator extends FormValidator {
       val firstName = data.get(key)
       val lastName = data.get(lastNameKey)
 
-
-      if (firstName.getOrElse("").isEmpty) {
-        errors += FormError(key, "error.firstName.give")
-      } else if (CommonHelper.getOrException(firstName).length > IhtProperties.validationMaxLengthFirstName) {
-        errors += FormError(key, "error.firstName.giveUsingXCharsOrLess")
+      checkForNameError(
+        key = key,
+        maxLength = IhtProperties.validationMaxLengthFirstName,
+        blankMessageKey = "error.firstName.give",
+        invalidLengthMessageKey = "error.firstName.giveUsingXCharsOrLess",
+        invalidCharsMessageKey = "error.firstName.giveUsingOnlyValidChars",
+        name = firstName) match {
+        case Some(error) => errors += error
+        case _ =>
       }
-      if (lastName.getOrElse("").isEmpty) {
-        errors += FormError(lastNameKey, "error.lastName.give")
-      } else if (CommonHelper.getOrException(lastName).length > IhtProperties.validationMaxLengthLastName) {
-        errors += FormError(lastNameKey, "error.lastName.giveUsingXCharsOrLess")
+
+      checkForNameError(
+        key = lastNameKey,
+        maxLength = IhtProperties.validationMaxLengthLastName,
+        blankMessageKey = "error.lastName.give",
+        invalidLengthMessageKey = "error.lastName.giveUsingXCharsOrLess",
+        invalidCharsMessageKey = "error.lastName.giveUsingOnlyValidChars",
+        name = lastName) match {
+        case Some(error) => errors += error
+        case _ =>
       }
 
       if (errors.isEmpty) {
@@ -455,12 +527,12 @@ trait IhtFormValidator extends FormValidator {
   val nino: FieldMapping[String] = nino("error.nino.give", "error.nino.giveUsing8Or9Characters", "error.nino.giveUsingOnlyLettersAndNumbers")
 
   private def ninoForCoExecutorFormatter(blankMessageKey: String, lengthMessageKey: String,
-                                         formatMessageKey: String, coExecutorIDKey:String)(
-    implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = new Formatter[String] {
+                                         formatMessageKey: String, coExecutorIDKey: String)(
+                                          implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = new Formatter[String] {
 
-    def normalize(s:String) = s.replaceAll("\\s", "").toUpperCase
+    def normalize(s: String) = s.replaceAll("\\s", "").toUpperCase
 
-    def ninoIsUnique(nino: String, excludingCoExecutorID:Option[String]): Boolean = {
+    def ninoIsUnique(nino: String, excludingCoExecutorID: Option[String]): Boolean = {
       val normalizedNino = normalize(nino)
       val futureOptionRD: Future[Option[RegistrationDetails]] = cachingConnector.getRegistrationDetails
       val isDifferentFuture = futureOptionRD.map {
@@ -468,7 +540,7 @@ trait IhtFormValidator extends FormValidator {
         case Some(rd) =>
           rd.applicantDetails.flatMap(_.nino).fold(true)(normalize(_) != normalizedNino) &&
             rd.deceasedDetails.flatMap(_.nino).fold(true)(normalize(_) != normalizedNino) &&
-            !rd.coExecutors.filter(_.id != excludingCoExecutorID).exists( x => normalize(x.nino) == normalizedNino)
+            !rd.coExecutors.filter(_.id != excludingCoExecutorID).exists(x => normalize(x.nino) == normalizedNino)
       }
       Await.result(isDifferentFuture, Duration.Inf)
     }
@@ -494,10 +566,10 @@ trait IhtFormValidator extends FormValidator {
   }
 
   private def ninoForDeceasedFormatter(blankMessageKey: String, lengthMessageKey: String,
-                                         formatMessageKey: String)(
-                                          implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = new Formatter[String] {
+                                       formatMessageKey: String)(
+                                        implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = new Formatter[String] {
 
-    def normalize(s:String) = s.replaceAll("\\s", "").toUpperCase
+    def normalize(s: String) = s.replaceAll("\\s", "").toUpperCase
 
     def ninoIsUnique(nino: String): Boolean = {
       val normalizedNino = normalize(nino)
@@ -505,7 +577,7 @@ trait IhtFormValidator extends FormValidator {
       val isDifferentFuture = futureOptionRD.map {
         case None => true
         case Some(rd) =>
-          val doesNotMatchCoexecNino = if(rd.coExecutors.isEmpty) true else !rd.coExecutors.map(x => normalize(x.nino)).contains(normalizedNino)
+          val doesNotMatchCoexecNino = if (rd.coExecutors.isEmpty) true else !rd.coExecutors.map(x => normalize(x.nino)).contains(normalizedNino)
           rd.applicantDetails.flatMap(_.nino).fold(true)(normalize(_) != normalizedNino) && doesNotMatchCoexecNino
       }
       Await.result(isDifferentFuture, Duration.Inf)
@@ -531,7 +603,7 @@ trait IhtFormValidator extends FormValidator {
   }
 
 
-  def ninoForCoExecutor(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String, coExecutorIDKey:String)(
+  def ninoForCoExecutor(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String, coExecutorIDKey: String)(
     implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] =
     Forms.of(ninoForCoExecutorFormatter(blankMessageKey, lengthMessageKey, formatMessageKey, coExecutorIDKey))
 

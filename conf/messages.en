@@ -2413,6 +2413,7 @@ error.isPartnerHomeInUK.select = Select an answer for if {0}’s spouse or civil
 error.isAssetForCharity.select = Select an answer for if any assets have been left to a charity
 error.charityName.giveUsing35CharactersOrLess = Give a charity name using 35 characters or less
 error.charityName.enterName = Enter the name of the charity
+error.charityName.giveUsingOnlyValidChars = Give a charity name using only valid characters
 
 error.charityNumber.enterUsingOnly6Or7Numbers = Enter the correct charity number using only 6 or 7 numbers
 error.charityNumber.give = Give the registered charity number
@@ -2420,6 +2421,8 @@ error.charityNumber.give = Give the registered charity number
 error.isAssetForQualifyingBody.select = Select an answer for if any assets have been left to another qualifying body
 error.qualifyingBodyName.enterName = Enter the name of the other qualifying body
 error.qualifyingBodyName.giveUsing35CharactersOrLess = Give the name of the other qualifying body using 35 characters or less
+error.qualifyingBodyName.giveUsingOnlyValidChars = Give a qualifying body name using only valid characters
+
 error.blank.qualifyingBody.name = Enter the name of who received assets
 error.blank.qualifyingBody.name.summary = enter the name of who received assets
 

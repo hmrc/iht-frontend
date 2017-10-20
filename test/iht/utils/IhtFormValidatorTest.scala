@@ -283,6 +283,22 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
     }
   }
 
+  // scalastyle:off magic.number
+  "check for name error" should {
+    "respond with error when no value entered" in {
+      checkForNameError("", 10, "blank", "length", "chars", Some("")) shouldBe Some(FormError("","blank"))
+    }
+
+    "respond with error when too long" in {
+      checkForNameError("", 10, "blank", "length", "chars", Some("a" * 11)) shouldBe Some(FormError("","length"))
+    }
+
+    "respond with error when invalid chars present" in {
+      checkForNameError("", 10, "blank", "length", "chars", Some(">>>")) shouldBe Some(FormError("","chars"))
+    }
+  }
+  // scalastyle:on magic.number
+
   "nino for deceased" should {
 
     "respond with no error when nino not same as main executor nino or an executor nino" in {

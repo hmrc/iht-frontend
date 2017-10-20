@@ -491,8 +491,11 @@ object ApplicationForms {
   )
 
   val charityNameForm = Form(mapping(
-    "name" -> ihtNonEmptyText("error.charityName.enterName")
-      .verifying("error.charityName.giveUsing35CharactersOrLess", f=>f.length <= IhtProperties.validationMaxLengthCharityName))
+    "name" -> name(
+      IhtProperties.validationMaxLengthCharityName,
+      "error.charityName.enterName",
+      "error.charityName.giveUsing35CharactersOrLess",
+      "error.charityName.giveUsingOnlyValidChars"))
   (
     (name) => Charity(None, Some(name), None, None)
   )
@@ -511,8 +514,11 @@ object ApplicationForms {
   )
 
   val qualifyingBodyNameForm: Form[QualifyingBody] = Form(mapping(
-    "name" -> ihtNonEmptyText("error.qualifyingBodyName.enterName")
-      .verifying("error.qualifyingBodyName.giveUsing35CharactersOrLess", f=>f.length <= IhtProperties.validationMaxLengthQualifyingBodyName))
+    "name" -> name(
+        IhtProperties.validationMaxLengthQualifyingBodyName,
+        "error.qualifyingBodyName.enterName",
+        "error.qualifyingBodyName.giveUsing35CharactersOrLess",
+        "error.qualifyingBodyName.giveUsingOnlyValidChars"))
   (
     name => QualifyingBody(None, Some(name), None)
   )(
