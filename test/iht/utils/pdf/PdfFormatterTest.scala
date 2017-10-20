@@ -17,11 +17,13 @@
 package iht.utils.pdf
 
 import iht.forms.FormTestHelper
+import iht.models.UkAddress
 import iht.models.application.ApplicationDetails
-import iht.models.application.gifts.PreviousYearsGifts
-import iht.models.des.ihtReturn.Asset
-import iht.testhelpers.CommonBuilder
+import iht.models.application.assets.{AllAssets, Properties, Property}
+import iht.models.des.ihtReturn.{Asset, Trust}
 import iht.testhelpers.IHTReturnTestHelper.{buildIHTReturnCorrespondingToApplicationDetailsAllFields, _}
+import iht.testhelpers.{CommonBuilder, IHTReturnTestHelper, TestHelper}
+import iht.views.html.application.asset.{foreign, nominated, other}
 import org.joda.time.LocalDate
 
 import scala.collection.immutable.ListMap
@@ -97,7 +99,11 @@ class PdfFormatterTest extends FormTestHelper {
     }
     val result = PdfFormatter.transform(ihtReturn, regDetails, messages)
     val setOfAssets = result.freeEstate.flatMap(_.estateAssets).fold[Set[Asset]](Set.empty)(identity)
-    setOfAssets shouldBe expectedSetOfAssets
+    setOfAssets.foreach { asset =>
+      val expectedAssetDescription = expectedSetOfAssets
+        .find(x => x.assetCode == asset.assetCode && x.howheld == asset.howheld).flatMap(_.assetDescription)
+      asset.assetDescription shouldBe expectedAssetDescription
+    }
   }
 
   "transform" must {
@@ -223,38 +229,38 @@ class PdfFormatterTest extends FormTestHelper {
     }
   }
 
-    "combineGiftSets" must {
-      "combine two sets updating with values in second set" in {
-        val expectedGifts = Set(
-          makeGiftWithOutExemption(111, toDate("2008-04-05")),
-          makeGiftWithOutExemption(5000, toDate("2009-04-05")),
-          makeGiftWithOutExemption(222, toDate("2010-04-05")),
-          makeGiftWithOutExemption(5000, toDate("2011-04-05")),
-          makeGiftWithOutExemption(5000, toDate("2012-04-05")),
-          makeGiftWithOutExemption(333, toDate("2013-04-05")),
-          makeGiftWithOutExemption(444, toDate("2014-10-05"))
-        )
+  "combineGiftSets" must {
+    "combine two sets updating with values in second set" in {
+      val expectedGifts = Set(
+        makeGiftWithOutExemption(111, toDate("2008-04-05")),
+        makeGiftWithOutExemption(5000, toDate("2009-04-05")),
+        makeGiftWithOutExemption(222, toDate("2010-04-05")),
+        makeGiftWithOutExemption(5000, toDate("2011-04-05")),
+        makeGiftWithOutExemption(5000, toDate("2012-04-05")),
+        makeGiftWithOutExemption(333, toDate("2013-04-05")),
+        makeGiftWithOutExemption(444, toDate("2014-10-05"))
+      )
 
-        val gifts1 = Seq(
-          makeGiftWithOutExemption(3000, toDate("2008-04-05")),
-          makeGiftWithOutExemption(5000, toDate("2009-04-05")),
-          makeGiftWithOutExemption(5000, toDate("2010-04-05")),
-          makeGiftWithOutExemption(5000, toDate("2011-04-05")),
-          makeGiftWithOutExemption(5000, toDate("2012-04-05")),
-          makeGiftWithOutExemption(5000, toDate("2013-04-05")),
-          makeGiftWithOutExemption(7000, toDate("2014-10-05"))
-        )
+      val gifts1 = Seq(
+        makeGiftWithOutExemption(3000, toDate("2008-04-05")),
+        makeGiftWithOutExemption(5000, toDate("2009-04-05")),
+        makeGiftWithOutExemption(5000, toDate("2010-04-05")),
+        makeGiftWithOutExemption(5000, toDate("2011-04-05")),
+        makeGiftWithOutExemption(5000, toDate("2012-04-05")),
+        makeGiftWithOutExemption(5000, toDate("2013-04-05")),
+        makeGiftWithOutExemption(7000, toDate("2014-10-05"))
+      )
 
-        val gifts2 = Seq(
-          makeGiftWithOutExemption(111, toDate("2008-04-05")),
-          makeGiftWithOutExemption(222, toDate("2010-04-05")),
-          makeGiftWithOutExemption(333, toDate("2013-04-05")),
-          makeGiftWithOutExemption(444, toDate("2014-10-05"))
-        )
+      val gifts2 = Seq(
+        makeGiftWithOutExemption(111, toDate("2008-04-05")),
+        makeGiftWithOutExemption(222, toDate("2010-04-05")),
+        makeGiftWithOutExemption(333, toDate("2013-04-05")),
+        makeGiftWithOutExemption(444, toDate("2014-10-05"))
+      )
 
-        PdfFormatter.combineGiftSets(gifts1, gifts2).toSet shouldBe expectedGifts
-      }
+      PdfFormatter.combineGiftSets(gifts1, gifts2).toSet shouldBe expectedGifts
     }
+  }
 
   "padGifts" must {
     "pad correctly where 7 years exactly" in {
@@ -292,10 +298,10 @@ class PdfFormatterTest extends FormTestHelper {
       val expectedGifts = Set(Set(
         makeGiftWithOutExemption(444, toDate("2010-04-05")),
         makeGiftWithOutExemption(555, toDate("2011-04-05")),
-        makeGiftWithOutExemption(0,   toDate("2012-04-05")),
-        makeGiftWithOutExemption(0,   toDate("2013-04-05")),
+        makeGiftWithOutExemption(0, toDate("2012-04-05")),
+        makeGiftWithOutExemption(0, toDate("2013-04-05")),
         makeGiftWithOutExemption(666, toDate("2014-04-05")),
-        makeGiftWithOutExemption(0,   toDate("2015-04-05")),
+        makeGiftWithOutExemption(0, toDate("2015-04-05")),
         makeGiftWithOutExemption(777, toDate("2016-04-05")),
         makeGiftWithOutExemption(888, toDate("2016-10-10"))
       ))
@@ -317,7 +323,7 @@ class PdfFormatterTest extends FormTestHelper {
     "return exemptions mode when exemptions value is greater than 0" in {
 
       val estateExemptions1 = CommonBuilder.buildEstateExemptions.copy(exemptionType = Some("Spouse"),
-                                                                        overrideValue = Some(BigDecimal(5000)))
+        overrideValue = Some(BigDecimal(5000)))
       val freeEstate = CommonBuilder.buildFreeEstate.copy(estateExemptions = Some(Seq(estateExemptions1)))
       val ihtReturnWithPositiveExemptions = CommonBuilder.buildIHTReturn.copy(freeEstate = Some(freeEstate))
 
@@ -331,4 +337,105 @@ class PdfFormatterTest extends FormTestHelper {
     }
   }
 
+  private def createShareableBasicEstateElementNoShared(value: BigDecimal) =
+    CommonBuilder.buildShareableBasicElementExtended.copy(
+      value = Some(value), shareValue = None, isOwned = Some(true), isOwnedShare = Some(false)
+    )
+
+  private def createShareableBasicEstateElementSharedOnly(value: BigDecimal) =
+    CommonBuilder.buildShareableBasicElementExtended.copy(
+      value = None, shareValue = Some(value), isOwned = Some(false), isOwnedShare = Some(true)
+    )
+
+  private def createShareableBasicEstateElement(value: BigDecimal, shareValue: BigDecimal) =
+    CommonBuilder.buildShareableBasicElementExtended.copy(value = Some(value), shareValue = Some(shareValue), isOwned = Some(true), isOwnedShare = Some(true))
+
+  private val buildAllAssetsWithAllSectionsFilled = {
+    AllAssets(
+      money = Some(createShareableBasicEstateElementSharedOnly(BigDecimal(2))),
+      household = Some(createShareableBasicEstateElementNoShared(BigDecimal(8))),
+      vehicles = None,
+      privatePension = Some(CommonBuilder.buildPrivatePensionExtended.copy(isChanged = Some(false),
+        value = Some(BigDecimal(7)), isOwned = Some(true))),
+      stockAndShare = Some(CommonBuilder.buildStockAndShare.copy(
+        valueNotListed = Some(BigDecimal(9)),
+        valueListed = Some(BigDecimal(10)),
+        value = None,
+        isNotListed = Some(true),
+        isListed = Some(true))),
+      insurancePolicy = Some(CommonBuilder.buildInsurancePolicy.copy(
+        isAnnuitiesBought = None,
+        isInsurancePremiumsPayedForSomeoneElse = None,
+        value = Some(BigDecimal(12)),
+        shareValue = Some(BigDecimal(13)),
+        policyInDeceasedName = Some(true),
+        isJointlyOwned = Some(true),
+        isInTrust = None,
+        coveredByExemption = None,
+        sevenYearsBefore = None,
+        moreThanMaxValue = None
+      )),
+      businessInterest = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(14)), isOwned = Some(true))),
+      nominated = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(16)), isOwned = Some(true))),
+      heldInTrust = Some(CommonBuilder.buildAssetsHeldInTrust.copy(isOwned = Some(true), isMoreThanOne = None, value = Some(BigDecimal(17)))),
+      foreign = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(18)), isOwned = Some(true))),
+      moneyOwed = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(15)), isOwned = Some(true))),
+      other = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(19)), isOwned = Some(true))),
+      properties = Some(Properties(isOwned = Some(true)))
+    )
+  }
+
+  private val optionUkAddress = Some(UkAddress("addr1", "addr2", None, None, CommonBuilder.DefaultPostCode))
+
+  private val propertyDeceasedHome = Property(
+    id = Some("1"),
+    address = optionUkAddress,
+    propertyType = TestHelper.PropertyTypeDeceasedHome,
+    typeOfOwnership = TestHelper.TypesOfOwnershipDeceasedOnly,
+    tenure = TestHelper.TenureFreehold,
+    value = Some(100)
+  )
+
+  private val propertyOtherResidentialBuilding = Property(
+    id = Some("2"),
+    address = optionUkAddress,
+    propertyType = TestHelper.PropertyTypeOtherResidentialBuilding,
+    typeOfOwnership = TestHelper.TypesOfOwnershipJoint,
+    tenure = TestHelper.TenureLeasehold,
+    value = Some(200)
+  )
+
+  "createApplicationDetails" must {
+    "create an app details object with info for each asset stored appropriately" in {
+      val expectedResult = ApplicationDetails(
+        allAssets = Some(buildAllAssetsWithAllSectionsFilled),
+        propertyList = List(propertyDeceasedHome, propertyOtherResidentialBuilding)
+      )
+
+      val optionSetAsset = Some(Set(
+        IHTReturnTestHelper.buildJointAssetMoney,
+        IHTReturnTestHelper.buildAssetHouseholdAndPersonalItems,
+        IHTReturnTestHelper.buildAssetPrivatePensions,
+        IHTReturnTestHelper.buildAssetStocksAndSharesListed,
+        IHTReturnTestHelper.buildAssetStocksAndSharesNotListed,
+        IHTReturnTestHelper.buildAssetInsurancePoliciesOwned,
+        IHTReturnTestHelper.buildJointAssetInsurancePoliciesOwned,
+        IHTReturnTestHelper.buildAssetBusinessInterests,
+        IHTReturnTestHelper.buildAssetNominatedAssets,
+        IHTReturnTestHelper.buildAssetForeignAssets,
+        IHTReturnTestHelper.buildAssetMoneyOwed,
+        IHTReturnTestHelper.buildAssetOther,
+        IHTReturnTestHelper.buildAssetsPropertiesDeceasedsHome,
+        IHTReturnTestHelper.buildAssetsPropertiesOtherResidentialBuilding
+      )
+      )
+
+      val optionSetTrust = Some(IHTReturnTestHelper.buildTrusts)
+
+      val result = PdfFormatter.createApplicationDetails(optionSetAsset, optionSetTrust)
+
+      result.allAssets shouldBe expectedResult.allAssets
+      result.propertyList shouldBe expectedResult.propertyList
+    }
+  }
 }

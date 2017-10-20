@@ -81,6 +81,12 @@ Fix placement of service name
     padding-right: 20px;
 }
 
+@media (max-width: 900px) {
+  .header__menu__proposition-links {
+     float:none;
+  }
+}
+
 /*
 ====================================
 Welsh/English language selector

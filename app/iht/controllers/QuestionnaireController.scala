@@ -73,7 +73,9 @@ trait QuestionnaireController extends FrontendController with IhtActions {
             },
             howCanYouImprove = value.howCanYouImprove.getOrElse(""),
             fullName = value.fullName.getOrElse(""),
-            nino = SessionHelper.getNinoFromSession(request).fold("")(identity)
+            nino = SessionHelper.getNinoFromSession(request).fold("")(identity),
+            contactDetails = value.contactDetails.getOrElse(""),
+            stageInService = value.stageInService.getOrElse("")
           )
           explicitAuditConnector.sendEvent(questionnaireEvent)
           Redirect(IhtProperties.linkGovUkIht)
