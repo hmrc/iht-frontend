@@ -2180,7 +2180,7 @@ error.value.blank = A value should be entered
 
 # frontend-bootstrap error messages
 
-global.error.InternalServerError500.link.gov-uk-iht.text = Continue to Inheritance Tax overview
+global.error.InternalServerError500.link.gov-uk-iht.text = Continue to Valuing the estate of someone who has died
 global.error.InternalServerError500.link.gov-uk.text = Explore GOV.UK.
 
 global.error.badRequest400.title = Bad request - 400
