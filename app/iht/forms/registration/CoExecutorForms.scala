@@ -37,7 +37,7 @@ trait CoExecutorForms {
     "ukAddressLine1" -> of(ihtInternationalAddress("ukAddressLine2", "ukAddressLine3",
       "ukAddressLine4", "countryCode",
       "error.address.give", "error.address.giveInLine1And2",
-      "error.address.giveUsing35CharsOrLess",
+      "error.address.giveUsing35CharsOrLess", "error.address.giveUsingOnlyValidChars",
       "error.country.select")),
     "ukAddressLine2" -> text,
     "ukAddressLine3" -> optional(text),
@@ -49,7 +49,8 @@ trait CoExecutorForms {
     "ukAddressLine1" -> of(ihtAddress("ukAddressLine2", "ukAddressLine3",
       "ukAddressLine4", "postCode", "countryCode",
       "error.address.give", "error.address.giveInLine1And2",
-      "error.address.giveUsing35CharsOrLess", "error.address.givePostcode",
+      "error.address.giveUsing35CharsOrLess", "error.address.giveUsingOnlyValidChars",
+      "error.address.givePostcode",
       "error.address.givePostcodeUsingNumbersAndLetters", "error.country.select")),
     "ukAddressLine2" -> text,
     "ukAddressLine3" -> optional(text),
@@ -65,10 +66,12 @@ trait CoExecutorForms {
       "id" -> optional(text),
       "firstName" -> ihtNonEmptyText("error.firstName.give")
         .verifying("error.firstName.giveUsingXCharsOrLess",
-          f => f.length <= IhtProperties.validationMaxLengthFirstName),
+          f => f.length <= IhtProperties.validationMaxLengthFirstName)
+        .verifying("error.firstName.giveUsingOnlyValidChars", f => nameAndAddressRegex.findFirstIn(f).fold(false)(_=>true)),
       "lastName" -> ihtNonEmptyText("error.lastName.give")
         .verifying("error.lastName.giveUsingXCharsOrLess",
-          f => f.length <= IhtProperties.validationMaxLengthLastName),
+          f => f.length <= IhtProperties.validationMaxLengthLastName)
+        .verifying("error.lastName.giveUsingOnlyValidChars", f => nameAndAddressRegex.findFirstIn(f).fold(false)(_=>true)),
       "dateOfBirth" -> DateMapping(
         "error.dateOfBirth.giveFull",
         "error.dateOfBirth.giveCorrectDateUsingOnlyNumbers",
@@ -108,10 +111,12 @@ trait CoExecutorForms {
       "id" -> optional(text),
       "firstName" -> ihtNonEmptyText("error.firstName.give")
         .verifying("error.firstName.giveUsingXCharsOrLess",
-          f => f.length <= IhtProperties.validationMaxLengthFirstName),
+          f => f.length <= IhtProperties.validationMaxLengthFirstName)
+        .verifying("error.firstName.giveUsingOnlyValidChars", f => nameAndAddressRegex.findFirstIn(f).fold(false)(_=>true)),
       "lastName" -> ihtNonEmptyText("error.lastName.give")
         .verifying("error.lastName.giveUsingXCharsOrLess",
-          f => f.length <= IhtProperties.validationMaxLengthLastName),
+          f => f.length <= IhtProperties.validationMaxLengthLastName)
+        .verifying("error.lastName.giveUsingOnlyValidChars", f => nameAndAddressRegex.findFirstIn(f).fold(false)(_=>true)),
       "dateOfBirth" -> DateMapping(
         "error.dateOfBirth.giveFull",
         "error.dateOfBirth.giveCorrectDateUsingOnlyNumbers",

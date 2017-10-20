@@ -136,7 +136,7 @@ object TnrbForms {
   )
 
   val partnerNameForm = Form(mapping(
-    "firstName" ->of(IhtFormValidator.validatePartnerName(
+    "firstName" -> of(IhtFormValidator.validatePartnerName(
       "lastName"
     )),
     "lastName" -> optional(text)

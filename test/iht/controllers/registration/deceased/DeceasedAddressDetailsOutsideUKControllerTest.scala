@@ -139,7 +139,7 @@ class DeceasedAddressDetailsOutsideUKControllerTest
       val deceasedDetails = CommonBuilder.buildDeceasedDetails
       val registrationDetails = RegistrationDetails(None, None, Some(deceasedDetails))
       val deceasedDetailsForm1 = deceasedAddressDetailsOutsideUKForm.fill(deceasedDetails)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(("ukAddress.addressLine1", "addr1"))
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(("ukAddress.ukAddressLine1", "addr1"))
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))

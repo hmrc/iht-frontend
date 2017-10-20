@@ -113,6 +113,8 @@ trait FormTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
 
   lazy val valueLongerThan36Chars = "A sentence that is 37 characters long"
 
+  lazy val valueInvalidChars = "<<<<"
+
   lazy val emptyForm = Map[String, String]()
 
   def formData(fieldName: String, value: String) = Map(fieldName -> value)

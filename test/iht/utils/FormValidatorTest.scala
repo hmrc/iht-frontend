@@ -151,6 +151,24 @@ class FormValidatorTest extends  FormTestHelper with FakeIhtApp {
       "countrycodekey"->"GB"
     )
 
+    val invalidChar1 = Map(
+      "addr1key"->"<HTML>",
+      "addr2key"->"addr2",
+      "addr3key"->"addr3",
+      "addr4key"->"addr4",
+      "postcodekey"->"pcode",
+      "countrycodekey"->"GB"
+    )
+
+    val invalidChar2 = Map(
+      "addr1key"->"addr1",
+      "addr2key"->"<HTML>",
+      "addr3key"->"addr3",
+      "addr4key"->"addr4",
+      "postcodekey"->"pcode",
+      "countrycodekey"->"GB"
+    )
+
     val blankPostcode = Map(
       "addr1key"->"addr1",
       "addr2key"->"addr2",
@@ -179,7 +197,7 @@ class FormValidatorTest extends  FormTestHelper with FakeIhtApp {
     )
 
     val formatter = ihtAddress("addr2key","addr3key","addr4key","postcodekey", "countrycodekey",
-      "all-lines-blank","first-two-blank","invalid-line","blank-postcode","invalid-postcode", "blankcountrycode")
+      "all-lines-blank","first-two-blank","invalid-line", "invalid-char", "blank-postcode","invalid-postcode", "blankcountrycode")
 
     "Return a formatter which responds suitably to all lines being blank" in {
       formatter.bind("", allBlank).left.get.contains(FormError("", "all-lines-blank")) shouldBe true
@@ -191,6 +209,11 @@ class FormValidatorTest extends  FormTestHelper with FakeIhtApp {
     "Return a formatter which responds suitably to invalid lines" in {
       formatter.bind("", invalidLine2).left.get.contains(FormError("addr2key", "invalid-line")) shouldBe true
     }
+
+    "Return a formatter which responds suitably to invalid character in address line 2" in {
+      formatter.bind("", invalidChar2).left.get.contains(FormError("addr2key", "invalid-char")) shouldBe true
+    }
+
     "Return a formatter which responds suitably to blank postcode" in {
       formatter.bind("", blankPostcode).left.get.contains(FormError("postcodekey", "blank-postcode")) shouldBe true
     }

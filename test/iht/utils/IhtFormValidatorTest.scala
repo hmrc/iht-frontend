@@ -24,6 +24,7 @@ import iht.utils.IhtFormValidator._
 import org.mockito.Matchers._
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
+import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, Form, FormError}
 import uk.gov.hmrc.play.http.HeaderCarrier
 import uk.gov.hmrc.play.http.logging.SessionId
@@ -34,7 +35,10 @@ import scala.concurrent.Future
 
 class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
   val coExecutorIDKey = "id"
-  def ninoForCoExecutorMapping(rd:RegistrationDetails): FieldMapping[String] = {
+  val validName = "Axxlsk"
+  val mapping: FieldMapping[String] = name(10, "blank", "length", "chars")
+
+  def ninoForCoExecutorMapping(rd: RegistrationDetails): FieldMapping[String] = {
     val mockCachingConnector = mock[CachingConnector]
     val ihtFormValidator = new IhtFormValidator {
       override def cachingConnector = mockCachingConnector
@@ -47,7 +51,7 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
     ihtFormValidator.ninoForCoExecutor("", "", "", coExecutorIDKey)
   }
 
-  def ninoForDeceasedMapping(rd:RegistrationDetails): FieldMapping[String] = {
+  def ninoForDeceasedMapping(rd: RegistrationDetails): FieldMapping[String] = {
     val mockCachingConnector = mock[CachingConnector]
     val ihtFormValidator = new IhtFormValidator {
       override def cachingConnector = mockCachingConnector
@@ -126,7 +130,7 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
     "reject ninos with invalid prefixes" in {
       val nino = NinoBuilder.defaultNino
       val ninoWithoutPrefix = nino.substring(2)
-      
+
       Set("BG", "GB", "KN", "NK", "NT", "TN", "ZZ").foreach { prefix =>
         ninoMapping.bind(Map("" -> s"${prefix}$ninoWithoutPrefix")) shouldBe Left(List(FormError("", "format")))
       }
@@ -134,16 +138,16 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
 
     "reject nino with illegal suffix" in {
       val defaultNino = NinoBuilder.defaultNino
-      val lastChar = defaultNino.charAt(defaultNino.length-1)
+      val lastChar = defaultNino.charAt(defaultNino.length - 1)
 
-      val ninoWithIllegalSuffix = NinoBuilder.defaultNino.replace(lastChar,'F')
+      val ninoWithIllegalSuffix = NinoBuilder.defaultNino.replace(lastChar, 'F')
       ninoMapping.bind(Map("" -> ninoWithIllegalSuffix)) shouldBe Left(List(FormError("", "format")))
     }
 
     "reject nino which has more than one trailing character" in {
       val defaultNino = NinoBuilder.defaultNino
-      val secondLastChar = defaultNino.charAt(defaultNino.length-2)
-      val ninoWithMoreThanOneTrailingCharacter = defaultNino.replace(secondLastChar,'C')
+      val secondLastChar = defaultNino.charAt(defaultNino.length - 2)
+      val ninoWithMoreThanOneTrailingCharacter = defaultNino.replace(secondLastChar, 'C')
 
       ninoMapping.bind(Map("" -> ninoWithMoreThanOneTrailingCharacter)) shouldBe Left(List(FormError("", "format")))
     }
@@ -165,12 +169,12 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
       val nino2 = NinoBuilder.randomNino.toString()
       val nino3 = NinoBuilder.randomNino.toString()
 
-      val coExec1 = CommonBuilder.DefaultCoExecutor1 copy (nino = nino1, ukAddress = None, role = None, isAddressInUk = None)
-      val coExec2 = CommonBuilder.DefaultCoExecutor2 copy (nino = NinoBuilder.addSpacesToNino(nino2), ukAddress = None, role = None, isAddressInUk = None)
-      val coExec3 = CommonBuilder.DefaultCoExecutor3 copy (nino = nino3, ukAddress = None, role = None, isAddressInUk = None)
+      val coExec1 = CommonBuilder.DefaultCoExecutor1 copy(nino = nino1, ukAddress = None, role = None, isAddressInUk = None)
+      val coExec2 = CommonBuilder.DefaultCoExecutor2 copy(nino = NinoBuilder.addSpacesToNino(nino2), ukAddress = None, role = None, isAddressInUk = None)
+      val coExec3 = CommonBuilder.DefaultCoExecutor3 copy(nino = nino3, ukAddress = None, role = None, isAddressInUk = None)
 
       val ad = CommonBuilder.buildApplicantDetails copy (nino = Some(CommonBuilder.DefaultNino))
-      val rd = CommonBuilder.buildRegistrationDetails1 copy (
+      val rd = CommonBuilder.buildRegistrationDetails1 copy(
         applicantDetails = Some(ad),
         coExecutors = Seq(coExec1, coExec2, coExec3)
       )
@@ -183,12 +187,12 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
       val nino2 = NinoBuilder.randomNino.toString()
       val nino3 = NinoBuilder.randomNino.toString()
 
-      val coExec1 = CommonBuilder.DefaultCoExecutor1 copy (nino = nino1, ukAddress = None, role = None, isAddressInUk = None)
-      val coExec2 = CommonBuilder.DefaultCoExecutor2 copy (nino = NinoBuilder.addSpacesToNino(nino2), ukAddress = None, role = None, isAddressInUk = None)
-      val coExec3 = CommonBuilder.DefaultCoExecutor3 copy (nino = nino3, ukAddress = None, role = None, isAddressInUk = None)
+      val coExec1 = CommonBuilder.DefaultCoExecutor1 copy(nino = nino1, ukAddress = None, role = None, isAddressInUk = None)
+      val coExec2 = CommonBuilder.DefaultCoExecutor2 copy(nino = NinoBuilder.addSpacesToNino(nino2), ukAddress = None, role = None, isAddressInUk = None)
+      val coExec3 = CommonBuilder.DefaultCoExecutor3 copy(nino = nino3, ukAddress = None, role = None, isAddressInUk = None)
 
       val ad = CommonBuilder.buildApplicantDetails copy (nino = Some(CommonBuilder.DefaultNino))
-      val rd = CommonBuilder.buildRegistrationDetails1 copy (
+      val rd = CommonBuilder.buildRegistrationDetails1 copy(
         applicantDetails = Some(ad),
         coExecutors = Seq(coExec1, coExec2, coExec3)
       )
@@ -202,12 +206,12 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
       val nino2 = NinoBuilder.randomNino.toString()
       val nino3 = NinoBuilder.randomNino.toString()
 
-      val coExec1 = CommonBuilder.DefaultCoExecutor1 copy (nino = nino1, ukAddress = None, role = None, isAddressInUk = None)
-      val coExec2 = CommonBuilder.DefaultCoExecutor2 copy (nino = NinoBuilder.addSpacesToNino(nino2), ukAddress = None, role = None, isAddressInUk = None)
-      val coExec3 = CommonBuilder.DefaultCoExecutor3 copy (nino = nino3, ukAddress = None, role = None, isAddressInUk = None)
+      val coExec1 = CommonBuilder.DefaultCoExecutor1 copy(nino = nino1, ukAddress = None, role = None, isAddressInUk = None)
+      val coExec2 = CommonBuilder.DefaultCoExecutor2 copy(nino = NinoBuilder.addSpacesToNino(nino2), ukAddress = None, role = None, isAddressInUk = None)
+      val coExec3 = CommonBuilder.DefaultCoExecutor3 copy(nino = nino3, ukAddress = None, role = None, isAddressInUk = None)
 
       val ad = CommonBuilder.buildApplicantDetails copy (nino = Some(CommonBuilder.DefaultNino))
-      val rd = CommonBuilder.buildRegistrationDetails1 copy (
+      val rd = CommonBuilder.buildRegistrationDetails1 copy(
         applicantDetails = Some(ad),
         coExecutors = Seq(coExec1, coExec2, coExec3)
       )
@@ -239,7 +243,7 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
 
       ninoForCoExecutorMapping(rd)
         .bind(Map("" -> NinoBuilder.addSpacesToNino(CommonBuilder.DefaultNino))) shouldBe
-          Left(Seq(FormError("", "error.nino.alreadyGiven")))
+        Left(Seq(FormError("", "error.nino.alreadyGiven")))
     }
 
     "respond with error when nino same as another executor nino but other one has an extra space" in {
@@ -247,15 +251,15 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
       val nino2 = NinoBuilder.randomNino.toString()
       val nino3 = NinoBuilder.randomNino.toString()
 
-      val coExec1 = CommonBuilder.DefaultCoExecutor1 copy (nino = nino1, ukAddress = None, role = None, isAddressInUk = None)
-      val coExec2 = CommonBuilder.DefaultCoExecutor2 copy (nino = NinoBuilder.addSpacesToNino(nino2), ukAddress = None, role = None, isAddressInUk = None)
-      val coExec3 = CommonBuilder.DefaultCoExecutor3 copy (nino = nino3, ukAddress = None, role = None, isAddressInUk = None)
+      val coExec1 = CommonBuilder.DefaultCoExecutor1 copy(nino = nino1, ukAddress = None, role = None, isAddressInUk = None)
+      val coExec2 = CommonBuilder.DefaultCoExecutor2 copy(nino = NinoBuilder.addSpacesToNino(nino2), ukAddress = None, role = None, isAddressInUk = None)
+      val coExec3 = CommonBuilder.DefaultCoExecutor3 copy(nino = nino3, ukAddress = None, role = None, isAddressInUk = None)
 
       val ad = CommonBuilder.buildApplicantDetails copy (nino = Some(CommonBuilder.DefaultNino))
-      val rd = CommonBuilder.buildRegistrationDetails1 copy (
+      val rd = CommonBuilder.buildRegistrationDetails1 copy(
         applicantDetails = Some(ad),
         coExecutors = Seq(coExec1, coExec2, coExec3)
-        )
+      )
 
       ninoForCoExecutorMapping(rd)
         .bind(Map("" -> nino2)) shouldBe
@@ -267,12 +271,12 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
       val nino2 = NinoBuilder.randomNino.toString().toLowerCase
       val nino3 = NinoBuilder.randomNino.toString()
 
-      val coExec1 = CommonBuilder.DefaultCoExecutor1 copy (nino = nino1, ukAddress = None, role = None, isAddressInUk = None)
-      val coExec2 = CommonBuilder.DefaultCoExecutor2 copy (nino = nino2.toUpperCase, ukAddress = None, role = None, isAddressInUk = None)
-      val coExec3 = CommonBuilder.DefaultCoExecutor3 copy (nino = nino3, ukAddress = None, role = None, isAddressInUk = None)
+      val coExec1 = CommonBuilder.DefaultCoExecutor1 copy(nino = nino1, ukAddress = None, role = None, isAddressInUk = None)
+      val coExec2 = CommonBuilder.DefaultCoExecutor2 copy(nino = nino2.toUpperCase, ukAddress = None, role = None, isAddressInUk = None)
+      val coExec3 = CommonBuilder.DefaultCoExecutor3 copy(nino = nino3, ukAddress = None, role = None, isAddressInUk = None)
 
       val ad = CommonBuilder.buildApplicantDetails copy (nino = Some(CommonBuilder.DefaultNino))
-      val rd = CommonBuilder.buildRegistrationDetails1 copy (
+      val rd = CommonBuilder.buildRegistrationDetails1 copy(
         applicantDetails = Some(ad),
         coExecutors = Seq(coExec1, coExec2, coExec3)
       )
@@ -282,6 +286,69 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
         Left(Seq(FormError("", "error.nino.alreadyGiven")))
     }
   }
+
+  // scalastyle:off magic.number
+  "check for name error" should {
+    "respond with error when no value entered" in {
+      checkForNameError("", 10, "blank", "length", "chars", Some("")) shouldBe Some(FormError("", "blank"))
+    }
+
+    "respond with error when too long" in {
+      checkForNameError("", 10, "blank", "length", "chars", Some("a" * 11)) shouldBe Some(FormError("", "length"))
+    }
+
+    "respond with error when invalid chars present" in {
+      checkForNameError("", 10, "blank", "length", "chars", Some(">>>")) shouldBe Some(FormError("", "chars"))
+    }
+  }
+
+  "validatePartnerName" should {
+    "return errors for blank values" in {
+      val formatter: Formatter[Option[String]] = validatePartnerName("lastName")
+      val result = formatter.bind("firstName", Map("firstName" -> "", "lastName" -> ""))
+      result shouldBe Left(Seq(FormError("firstName", "error.firstName.give"),
+        FormError("lastName", "error.lastName.give")))
+    }
+
+    "return errors for length" in {
+      val formatter: Formatter[Option[String]] = validatePartnerName("lastName")
+      val result = formatter.bind("firstName", Map("firstName" -> "a" * 50, "lastName" -> "a" * 50))
+      result shouldBe Left(Seq(FormError("firstName", "error.firstName.giveUsingXCharsOrLess"),
+        FormError("lastName", "error.lastName.giveUsingXCharsOrLess")))
+    }
+
+    "return errors for invalid chars" in {
+      val formatter: Formatter[Option[String]] = validatePartnerName("lastName")
+      val result = formatter.bind("firstName", Map("firstName" -> ">>", "lastName" -> ">>"))
+      result shouldBe Left(Seq(FormError("firstName", "error.firstName.giveUsingOnlyValidChars"),
+        FormError("lastName", "error.lastName.giveUsingOnlyValidChars")))
+    }
+
+    "return no errors for valid entry" in {
+      val formatter: Formatter[Option[String]] = validatePartnerName("lastName")
+      val result = formatter.bind("firstName", Map("firstName" -> validName, "lastName" -> validName))
+      result shouldBe Right(Some(validName))
+    }
+  }
+
+  "name" should {
+    "return error for blank value" in {
+      mapping.bind(Map("" -> "")) shouldBe Left(List(FormError("", "blank")))
+    }
+
+    "return error for long value" in {
+      mapping.bind(Map("" -> "a" * 50)) shouldBe Left(List(FormError("", "length")))
+    }
+
+    "return error for value with invalid chars" in {
+      mapping.bind(Map("" -> ">>")) shouldBe Left(List(FormError("", "chars")))
+    }
+
+    "return no error for valid value" in {
+      mapping.bind(Map("" -> validName)) shouldBe Right(validName)
+    }
+  }
+  // scalastyle:on magic.number
 
   "nino for deceased" should {
 
@@ -303,22 +370,22 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
     }
 
     "respond with error when nino entered for deceased matches previously entered nino for a coexecutor" in {
-      val coExec1 = CommonBuilder.DefaultCoExecutor1 copy (nino = Some(CommonBuilder.DefaultNino),
+      val coExec1 = CommonBuilder.DefaultCoExecutor1 copy(nino = Some(CommonBuilder.DefaultNino),
         ukAddress = None, role = None, isAddressInUk = None)
       val ad = CommonBuilder.buildApplicantDetails copy (nino = Some(NinoBuilder.randomNino.toString()))
-      val rd = CommonBuilder.buildRegistrationDetails1 copy (applicantDetails = Some(ad), coExecutors = Seq(coExec1))
+      val rd = CommonBuilder.buildRegistrationDetails1 copy(applicantDetails = Some(ad), coExecutors = Seq(coExec1))
 
       ninoForDeceasedMapping(rd)
         .bind(Map("" -> CommonBuilder.DefaultNino)) shouldBe Left(Seq(FormError("", "error.nino.alreadyGiven")))
     }
 
     "respond with error when nino entered for deceased matches previously entered nino for a 2nd coexecutor" in {
-      val coExec1 = CommonBuilder.DefaultCoExecutor1 copy (nino = Some(NinoBuilder.randomNino.toString()),
+      val coExec1 = CommonBuilder.DefaultCoExecutor1 copy(nino = Some(NinoBuilder.randomNino.toString()),
         ukAddress = None, role = None, isAddressInUk = None)
-      val coExec2 = CommonBuilder.DefaultCoExecutor1 copy (nino = Some(CommonBuilder.DefaultNino),
+      val coExec2 = CommonBuilder.DefaultCoExecutor1 copy(nino = Some(CommonBuilder.DefaultNino),
         ukAddress = None, role = None, isAddressInUk = None)
       val ad = CommonBuilder.buildApplicantDetails copy (nino = Some(NinoBuilder.randomNino.toString()))
-      val rd = CommonBuilder.buildRegistrationDetails1 copy (applicantDetails = Some(ad), coExecutors = Seq(coExec1, coExec2))
+      val rd = CommonBuilder.buildRegistrationDetails1 copy(applicantDetails = Some(ad), coExecutors = Seq(coExec1, coExec2))
 
       ninoForDeceasedMapping(rd)
         .bind(Map("" -> CommonBuilder.DefaultNino)) shouldBe Left(Seq(FormError("", "error.nino.alreadyGiven")))
