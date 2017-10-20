@@ -76,8 +76,6 @@ object ControllerHelper {
   val desErrorCode504 = "des_error_code_504"
   val notFoundExceptionCode = 404
 
-  val ihtReferenceErrorString = "error_in_reference"
-
   object Mode extends Enumeration {
     val Edit, Standard = Value
   }
