@@ -17,20 +17,9 @@ You will need to clone the project first then navigate to the main folder and ru
 
 You will also need the [IHT Microservice](https://github.com/hmrc/iht) to run on port 9071 in the same way as above.
 
- **URL**
+## URL
 
-  `/your-tax-calculator-frontend/calculator`
-
- API
- ---
-
- The frontend additionally exposes the following service:
-
- | *Task* | *Supported Methods* | *Description* |
- |--------|----|----|
- | ```/your-tax-calculator-frontend/version-check``` | POST | Validates the mobile application version [More...](docs/version-check.md) |
- | ```/tax-estimator/tax-credit-renewals/:os``` | GET | Return the tax-credit-renwals JS app [More...](docs/tax-credit-renewals.md) |
-
+  `http://localhost:9070/inheritance-tax/what-do-you-want-to-do`
 
 ### License
 
