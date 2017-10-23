@@ -13,9 +13,24 @@ The user logs in via the [Government Gateway](http://www.gateway.gov.uk/) servic
 
 ## How to run the service
 
-You will need to clone the project first then navigate to the main folder and run the following sbt command ```sbt "run 9070"```. You may need to add the '-mem 4048' switch after sbt so the command would look like ```sbt -mem 4048 "run 9070"```.
+You will need to clone the project first then navigate to the main folder and run the following sbt command ```sbt "run 9070"```. You may need to add the '-mem 4096' switch after sbt so the command would look like ```sbt -mem 4048 "run 9070"```.
 
 You will also need the [IHT Microservice](https://github.com/hmrc/iht) to run on port 9071 in the same way as above.
+
+ **URL**
+
+  `/your-tax-calculator-frontend/calculator`
+
+ API
+ ---
+
+ The frontend additionally exposes the following service:
+
+ | *Task* | *Supported Methods* | *Description* |
+ |--------|----|----|
+ | ```/your-tax-calculator-frontend/version-check``` | POST | Validates the mobile application version [More...](docs/version-check.md) |
+ | ```/tax-estimator/tax-credit-renewals/:os``` | GET | Return the tax-credit-renwals JS app [More...](docs/tax-credit-renewals.md) |
+
 
 ### License
 
