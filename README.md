@@ -3,6 +3,8 @@
 
 [![Build Status](https://travis-ci.org/hmrc/iht-frontend.svg?branch=master)](https://travis-ci.org/hmrc/iht-frontend) [ ![Download](https://api.bintray.com/packages/hmrc/releases/iht-frontend/images/download.svg) ](https://bintray.com/hmrc/releases/iht-frontend/_latestVersion)
 
+A digital service enabling the general public to report details of an estate to HMRC so they can identify if there is any Inheritance Tax to pay and to allow them to then apply for probate.
+
 ## Requirements
 
 This is a scala based application using the [Play framework](https://playframework.com/) and html and javascript. You will therefore need to have a JRE installed and setup.
