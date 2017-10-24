@@ -32,9 +32,9 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Request, Result}
-import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
 
 object DateOfMarriageController extends DateOfMarriageController with IhtConnectors {
   def metrics: Metrics = Metrics

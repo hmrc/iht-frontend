@@ -23,9 +23,9 @@ import iht.models.application.ApplicationDetails
 import iht.utils.IhtSection
 import org.mockito.ArgumentCaptor
 import org.mockito.Mockito._
-import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.concurrent.ExecutionContext
+import uk.gov.hmrc.http.HeaderCarrier
 
 /**
   * Created by yasar on 10/2/15.

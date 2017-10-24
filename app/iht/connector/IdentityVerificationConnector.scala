@@ -23,9 +23,9 @@ import play.api.data.validation.ValidationError
 import play.api.libs.json.{JsPath, Json}
 import uk.gov.hmrc.play.config.ServicesConfig
 import uk.gov.hmrc.play.http.logging.MdcLoggingExecutionContext._
-import uk.gov.hmrc.play.http.{HeaderCarrier, HttpGet, HttpResponse}
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.{ HeaderCarrier, HttpGet, HttpResponse }
 
 
 object IdentityVerificationConnector extends IdentityVerificationConnector with ServicesConfig{

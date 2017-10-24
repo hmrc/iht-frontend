@@ -28,10 +28,10 @@ import play.api.http.Status._
 import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout, redirectLocation}
 import play.api.test.{FakeHeaders, FakeRequest}
-import uk.gov.hmrc.play.http.HeaderCarrier
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
+import uk.gov.hmrc.http.HeaderCarrier
 
 /**
  * Created by jamestuttle on 09/10/15.

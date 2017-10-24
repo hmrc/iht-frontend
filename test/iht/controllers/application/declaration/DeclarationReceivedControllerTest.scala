@@ -24,8 +24,8 @@ import iht.testhelpers.MockObjectBuilder._
 import org.mockito.Matchers.same
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.http.HeaderCarrier
 import uk.gov.hmrc.play.partials.FormPartialRetriever
+import uk.gov.hmrc.http.HeaderCarrier
 
 
 class DeclarationReceivedControllerTest extends ApplicationControllerTest {

@@ -26,7 +26,7 @@ import iht.viewmodels.estateReports.YourEstateReportsRowViewModel
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
-import uk.gov.hmrc.play.http.{SessionKeys, Upstream4xxResponse}
+import uk.gov.hmrc.http.{ SessionKeys, Upstream4xxResponse }
 
 /**
   *

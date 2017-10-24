@@ -45,6 +45,7 @@ trait MicroService {
 //    .settings(scalaSettings: _*)
     .settings(publishingSettings: _*)
     .settings(
+      scalaVersion := "2.11.11",
       libraryDependencies ++= appDependencies,
       fork in Test := false,
       retrieveManaged := true,

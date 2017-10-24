@@ -30,11 +30,11 @@ import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, Form, FormError, Forms}
 import play.api.i18n.Lang
 import play.api.mvc.Request
-import uk.gov.hmrc.play.http.HeaderCarrier
-import uk.gov.hmrc.play.http.logging.SessionId
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.ExecutionContext.Implicits.global
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.logging.SessionId
 
 class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
 

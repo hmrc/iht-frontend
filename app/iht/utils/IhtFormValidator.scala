@@ -24,13 +24,13 @@ import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, FormError, Forms}
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Request
-import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.collection.immutable.ListMap
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
+import uk.gov.hmrc.http.HeaderCarrier
 
 object IhtFormValidator extends IhtFormValidator
 

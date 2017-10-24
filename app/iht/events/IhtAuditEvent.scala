@@ -17,10 +17,10 @@
 package iht.events
 
 import uk.gov.hmrc.play.audit.model.DataEvent
-import uk.gov.hmrc.play.http.HeaderCarrier
-import uk.gov.hmrc.play.http.logging.ForwardedFor
 
 import scala.util.Try
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.logging.ForwardedFor
 
 abstract class IhtAuditEvent(auditType: String, detail: Map[String, String])(implicit hc: HeaderCarrier)
   extends DataEvent(auditSource = "iht-frontend", auditType = auditType, detail = detail, tags =

@@ -26,7 +26,7 @@ import iht.views.html.estateReports.your_estate_reports
 import play.api.i18n.Messages.Implicits._
 import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.http.HeaderCarrier
 
 class YourEstateReportsViewTest extends ViewTestHelper with ApplicationControllerTest {
 

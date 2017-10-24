@@ -29,8 +29,8 @@ import org.mockito.Matchers._
 import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}
-import uk.gov.hmrc.play.http.HeaderCarrier
 import uk.gov.hmrc.play.partials.FormPartialRetriever
+import uk.gov.hmrc.http.HeaderCarrier
 
 class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSpec {
 

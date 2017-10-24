@@ -23,10 +23,10 @@ import iht.models.application.debts.BasicEstateElementLiabilities
 import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.http.HeaderCarrier
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
+import uk.gov.hmrc.http.HeaderCarrier
 
 class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
 

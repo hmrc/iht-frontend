@@ -34,8 +34,8 @@ import play.api.http.Status.OK
 import play.api.i18n.Messages
 import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}
-import uk.gov.hmrc.play.http.{GatewayTimeoutException, HeaderCarrier}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
+import uk.gov.hmrc.http.{ GatewayTimeoutException, HeaderCarrier }
 
 class DeclarationControllerTest extends ApplicationControllerTest {
 

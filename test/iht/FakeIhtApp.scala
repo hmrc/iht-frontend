@@ -27,9 +27,9 @@ import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import uk.gov.hmrc.domain.{Nino, SaUtr}
 import uk.gov.hmrc.play.frontend.auth.connectors.domain._
-import uk.gov.hmrc.play.http.{HeaderCarrier, SessionKeys}
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
+import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys}
 
 trait FakeIhtApp extends OneAppPerSuite {
   this: Suite =>
@@ -76,7 +76,7 @@ trait FakeIhtApp extends OneAppPerSuite {
     override val serviceUrl: String = null
     override lazy val http = null
 
-    override def currentAuthority(implicit hc: HeaderCarrier): Future[Option[Authority]] = {
+    override def currentAuthority(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[Authority]] = {
       Future.successful(Some(createFakeAuthority(isAuthorised)))
     }
   }

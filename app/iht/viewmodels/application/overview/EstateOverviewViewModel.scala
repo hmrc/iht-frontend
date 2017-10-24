@@ -126,7 +126,7 @@ object EstateOverviewViewModel {
     EstateOverviewViewModel(
       ihtReference = CommonHelper.getOrException(registrationDetails.ihtReference),
       deceasedName = registrationDetails.deceasedDetails.fold("")(_.name),
-      submissionDeadline = Dates.formatDate(deadlineDate).toString,
+      submissionDeadline = Dates.formatDate(deadlineDate)(messages).toString,
       assetsAndGiftsSection = AssetsAndGiftsSectionViewModel(applicationDetails,
         behaveAsIncreasingTheEstateSection = applicationDetails.hasSeenExemptionGuidance.getOrElse(false))(messages),
       reducingEstateValueSection = reducingEstateValueSection,

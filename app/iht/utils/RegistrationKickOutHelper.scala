@@ -23,10 +23,10 @@ import iht.models.{DeceasedDateOfDeath, RegistrationDetails}
 import play.api.Logger
 import play.api.mvc.Results._
 import play.api.mvc.{Call, Request, Result}
-import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
 
 object RegistrationKickOutHelper {
   lazy val RegistrationKickoutReasonCachingKey = "RegistrationKickoutReason"
