@@ -25,10 +25,10 @@ import org.joda.time.LocalDate
 import org.scalatest.BeforeAndAfter
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.mock.MockitoSugar
-import uk.gov.hmrc.play.http.HeaderCarrier
 import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
 
 class SubmissionDeadlineHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter with ScalaFutures {
 

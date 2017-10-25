@@ -25,9 +25,9 @@ import play.api.data.Forms._
 import play.api.data.{Form, Mapping}
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Request
-import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.concurrent.ExecutionContext
+import uk.gov.hmrc.http.HeaderCarrier
 
 object CoExecutorForms extends CoExecutorForms
 

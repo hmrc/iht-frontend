@@ -29,10 +29,11 @@ import play.api.libs.json.{JsError, JsValue, Json}
 import play.api.mvc.Result
 import play.api.mvc.Request
 import uk.gov.hmrc.play.config.ServicesConfig
-import uk.gov.hmrc.play.http.{HeaderCarrier, _}
+import uk.gov.hmrc.play.http._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import uk.gov.hmrc.http.{ BadRequestException, ConflictException, GatewayTimeoutException, HeaderCarrier, HttpDelete, HttpGet, HttpPost, HttpPut, HttpResponse, NotFoundException, Upstream4xxResponse, Upstream5xxResponse }
 
 trait IhtConnector {
 

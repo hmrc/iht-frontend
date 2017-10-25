@@ -23,11 +23,11 @@ import play.api.i18n.Messages.Implicits._
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Call
 import play.api.{Application, Logger}
-import uk.gov.hmrc.play.http.HeaderCarrier
 import uk.gov.hmrc.play.language.LanguageUtils.Dates
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
+import uk.gov.hmrc.http.HeaderCarrier
 
 /**
   * Created by vineet on 26/09/16.
@@ -50,7 +50,7 @@ object YourEstateReportsRowViewModel {
 
     new YourEstateReportsRowViewModel(deceasedName = s"${ihtApp.firstName} ${ihtApp.lastName}",
       ihtRefNo = ihtApp.ihtRefNo,
-      dateOfDeath = Dates.formatDate(ihtApp.dateOfDeath).toString,
+      dateOfDeath = Dates.formatDate(ihtApp.dateOfDeath)(messages).toString,
       currentStatus = getApplicationStatusMessage(currentStatus)(messages),
       linkLabel = getLinkLabel(currentStatus)(messages),
       link = getLink(currentStatus, ihtRef),

@@ -33,9 +33,9 @@ import play.api.Play.current
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Request, Result}
-import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
 
 object DeceasedWidowCheckDateController extends DeceasedWidowCheckDateController with IhtConnectors {
   def metrics: Metrics = Metrics

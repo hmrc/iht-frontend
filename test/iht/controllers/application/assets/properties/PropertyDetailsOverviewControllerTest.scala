@@ -24,10 +24,10 @@ import iht.utils._
 import play.api.mvc.{Request, Result}
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.http.HeaderCarrier
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
 
 /**
   * Created by james on 16/06/16.

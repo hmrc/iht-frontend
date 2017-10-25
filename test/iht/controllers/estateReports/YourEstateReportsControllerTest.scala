@@ -30,10 +30,10 @@ import play.api.i18n.MessagesApi
 import play.api.i18n.Messages.Implicits._
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.http.{HeaderCarrier, Upstream4xxResponse}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent._
+import uk.gov.hmrc.http.{ HeaderCarrier, Upstream4xxResponse }
 /**
  *
  * Created by Vineet Tyagi on 18/06/15.

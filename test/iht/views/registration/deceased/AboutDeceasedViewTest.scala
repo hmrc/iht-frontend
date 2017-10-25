@@ -25,8 +25,8 @@ import org.joda.time.LocalDate
 import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
-import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.ExecutionContext.Implicits.global
+import uk.gov.hmrc.http.HeaderCarrier
 
 class AboutDeceasedViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
 

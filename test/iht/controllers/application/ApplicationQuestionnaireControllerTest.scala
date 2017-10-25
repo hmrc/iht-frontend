@@ -25,10 +25,10 @@ import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.http.HeaderCarrier
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
 
 /**
  * Created by yasar on 6/18/15.

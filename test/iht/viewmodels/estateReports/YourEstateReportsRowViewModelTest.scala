@@ -24,7 +24,7 @@ import iht.testhelpers.MockObjectBuilder._
 import iht.utils.ApplicationStatus
 import iht.viewmodels.estateReports.YourEstateReportsRowViewModel
 import org.joda.time.LocalDate
-import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.http.HeaderCarrier
 
 class YourEstateReportsRowViewModelTest extends ApplicationControllerTest {
 

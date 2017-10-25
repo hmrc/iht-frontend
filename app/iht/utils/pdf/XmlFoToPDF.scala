@@ -108,7 +108,7 @@ trait XmlFoToPDF {
     setupTransformerEventHandling(transformer)
 
     setupCommonTransformerParameters(transformer, messages)
-    transformer.setParameter("declaration-date", Dates.formatDate(declarationDate)(messages.lang))
+    transformer.setParameter("declaration-date", Dates.formatDate(declarationDate)(messages))
     transformer
   }
 
@@ -171,7 +171,7 @@ trait XmlFoToPDF {
       transformer.setParameter(s"exemptionTotalsGNCP",totals.find(_._1 == "Other qualifying bodies").fold(BigDecimal(0))(_._2))
     }
 
-    transformer.setParameter("declarationDate", Dates.formatDate(declarationDate)(messages.lang))
+    transformer.setParameter("declarationDate", Dates.formatDate(declarationDate)(messages))
     transformer.setParameter("giftsExemptionsTotal", ihtReturn.giftsExemptionsTotal)
     transformer.setParameter("giftsTotalExclExemptions", ihtReturn.giftsTotalExclExemptions)
     transformer.setParameter("estateValue", ihtReturn.totalNetValue)

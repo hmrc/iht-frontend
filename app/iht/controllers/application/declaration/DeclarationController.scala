@@ -34,12 +34,12 @@ import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Result
 import uk.gov.hmrc.play.frontend.auth.AuthContext
-import uk.gov.hmrc.play.http.{GatewayTimeoutException, HeaderCarrier}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
+import uk.gov.hmrc.http.{ GatewayTimeoutException, HeaderCarrier }
 
 /**
   * Created by vineet on 01/12/16.

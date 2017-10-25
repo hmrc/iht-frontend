@@ -33,7 +33,6 @@ import play.api.Play.current
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.domain.{Nino, TaxIds}
-import uk.gov.hmrc.play.http.HeaderCarrier
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class ApplicantTellUsAboutYourselfControllerTest

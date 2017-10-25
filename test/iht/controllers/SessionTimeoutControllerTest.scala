@@ -21,9 +21,9 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.MockFormPartialRetriever
 import play.api.http.Status._
 import play.api.test.FakeRequest
-import uk.gov.hmrc.play.http.HeaderCarrier
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.play.test.UnitSpec
+import uk.gov.hmrc.http.HeaderCarrier
 
 class SessionTimeoutControllerTest extends ApplicationControllerTest with UnitSpec {
   implicit val hc = new HeaderCarrier()

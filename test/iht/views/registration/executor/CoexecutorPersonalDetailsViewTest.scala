@@ -28,7 +28,7 @@ import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
 import play.api.mvc.Call
 import scala.concurrent.ExecutionContext.Implicits.global
-import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.http.HeaderCarrier
 
 class CoexecutorPersonalDetailsViewTest extends YesNoQuestionViewBehaviour[CoExecutor] with PersonalDetailsViewBehaviour[CoExecutor] {
 

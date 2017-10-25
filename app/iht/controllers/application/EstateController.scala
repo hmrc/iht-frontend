@@ -28,10 +28,10 @@ import play.api.data.{Form, FormError}
 import play.api.mvc.{Call, Request, Result}
 import play.twirl.api.HtmlFormat._
 import uk.gov.hmrc.play.frontend.auth.AuthContext
-import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.concurrent.Future
 import scala.util.{Failure, Success, Try}
+import uk.gov.hmrc.http.HeaderCarrier
 
 trait EstateController extends ApplicationController {
 

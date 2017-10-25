@@ -22,11 +22,11 @@ import iht.models.application.{ApplicationDetails, ProbateDetails}
 import play.api.libs.json.{JsValue, Json, Reads, Writes}
 import uk.gov.hmrc.http.cache.client.SessionCache
 import uk.gov.hmrc.play.config.{AppName, ServicesConfig}
-import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.concurrent.duration._
 import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
+import uk.gov.hmrc.http.HeaderCarrier
 
 object SessionHttpCaching extends SessionCache with AppName with ServicesConfig {
   override lazy val http = WSHttp

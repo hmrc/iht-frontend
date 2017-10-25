@@ -27,10 +27,10 @@ import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Result
-import uk.gov.hmrc.play.http.{ConflictException, GatewayTimeoutException, HeaderCarrier}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import uk.gov.hmrc.http.{ ConflictException, GatewayTimeoutException, HeaderCarrier }
 
 object RegistrationSummaryController extends RegistrationSummaryController with IhtConnectors {
   def metrics: Metrics = Metrics

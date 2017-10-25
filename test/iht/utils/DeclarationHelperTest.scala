@@ -27,7 +27,7 @@ import iht.testhelpers.MockObjectBuilder._
 import org.joda.time.LocalDate
 import play.api.data.Form
 import play.api.data.Forms._
-import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.http.HeaderCarrier
 
 /**
   * Created by david-beer on 21/11/16.

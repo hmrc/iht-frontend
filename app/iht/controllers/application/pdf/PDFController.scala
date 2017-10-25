@@ -30,9 +30,9 @@ import iht.utils.{CommonHelper, DeclarationHelper, StringHelper}
 import play.api.Logger
 import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
-import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
 
 /**
   * Created by dbeer on 14/08/15.
