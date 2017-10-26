@@ -119,14 +119,14 @@ if($('[data-enhanced-select]').length > 0){
 // =====================================================
 // Handle the IHT UR panel dismiss link functionality
 // =====================================================
-    var cookieData=GOVUK.getCookie("iht_ur_panel");
-    if (cookieData == null) {
+    var cookieData=GOVUK.getCookie("mdtpurr");
+    if (cookieData==null) {
         $("#ur-panel").addClass("banner-panel--show");
     }
 
     $(".banner-panel__close").on("click", function(e) {
         e.preventDefault();
-         GOVUK.setCookie("iht_ur_panel", 1, 99999999999);
+         GOVUK.setCookie("mdtpurr", "suppress_for_all_services=true", 99999999999);
          $("#ur-panel").removeClass("banner-panel--show");
     });
   // end of on doc ready
