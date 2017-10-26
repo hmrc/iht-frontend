@@ -78,7 +78,7 @@ trait OtherPersonsAddressController extends RegistrationController {
         val formType = if (isInternational) coExecutorAddressAbroadForm else coExecutorAddressUkForm
         findExecutor(id, rd.coExecutors) match {
           case Some(coExecutor) => {
-            val form = if (coExecutor.isAddressInUk.get == isInternational) {
+            val form = if (coExecutor.isAddressInUk.fold(false)(_ == isInternational)) {
               formType
             } else {
               coExecutor.ukAddress.fold(formType)(address => formType.fill(address))
