@@ -51,8 +51,9 @@ trait FilterController extends FrontendController {
 
   def onPageLoad = UnauthorisedAction.async {
     implicit request => {
-      val ref = request.headers.get(REFERER).getOrElse("")
-      if(ref.endsWith("cy")) {
+      val refEndsWithCy = request.headers.get(REFERER).exists(_.endsWith(".cy"))
+
+      if (refEndsWithCy) {
         Future.successful(Ok(iht.views.html.filter.filter_view(filterForm)(
           messages = MessagesHelper.messagesForLang(applicationMessages, "cy"),
           request = request, ihtFormPartialRetriever = formPartialRetriever)))

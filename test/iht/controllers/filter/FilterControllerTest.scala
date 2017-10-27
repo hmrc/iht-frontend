@@ -50,7 +50,7 @@ class FilterControllerTest extends ApplicationControllerTest with HtmlSpec {
 
   "FilterController" must {
     "show the 'what do you want to do' page when accessed by an unauthorized person" in {
-      val result = controller.onPageLoad()(createFakeRequest(isAuthorised = false))
+      val result = controller.onPageLoad()(createFakeRequest(isAuthorised = false, Some("")))
       status(result) should be(OK)
 
       val doc = asDocument(contentAsString(result))
