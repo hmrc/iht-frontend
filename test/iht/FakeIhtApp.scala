@@ -21,6 +21,7 @@ import iht.constants.Constants
 import iht.testhelpers.{CommonBuilder, NinoBuilder}
 import org.scalatest._
 import org.scalatestplus.play.{OneAppPerSuite, OneServerPerSuite}
+import play.api.http.HeaderNames
 import play.api.{Application, Mode}
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.mvc.AnyContentAsEmpty
@@ -43,7 +44,7 @@ trait FakeIhtApp extends OneAppPerSuite {
 
   val fakeNino = CommonBuilder.DefaultNino
 
-  def createFakeRequest(isAuthorised: Boolean = true): FakeRequest[AnyContentAsEmpty.type] = {
+  def createFakeRequest(isAuthorised: Boolean = true, referer: Option[String] = None): FakeRequest[AnyContentAsEmpty.type] = {
     val userId = "ID-" + fakeNino
     if (isAuthorised) {
       FakeRequest().withSession(
@@ -55,7 +56,8 @@ trait FakeIhtApp extends OneAppPerSuite {
       )
     } else {
       FakeRequest().withHeaders(
-        "Accept-Language" -> "en-GB"
+        "Accept-Language" -> "en-GB",
+        HeaderNames.REFERER -> referer.getOrElse("")
       )
     }
   }

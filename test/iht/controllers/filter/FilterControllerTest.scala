@@ -103,5 +103,12 @@ class FilterControllerTest extends ApplicationControllerTest with HtmlSpec {
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some(iht.controllers.filter.routes.DomicileController.onPageLoad().url))
     }
+
+    "switch languages when the referer ends with .cy" in {
+      val request = createFakeRequest(isAuthorised = false, Some("test.cy"))
+      val result = controller.onPageLoad(request)
+      contentAsString(result) shouldNot include(messages("site.registration.title"))
+      contentAsString(result) should include("Cofrestru i lenwi adroddiad ystâd")
+    }
   }
 }

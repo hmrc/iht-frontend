@@ -20,10 +20,12 @@ import iht.config.{FrontendAuthConnector, IhtFormPartialRetriever}
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.Constants
 import iht.forms.FilterForms._
+import iht.utils.MessagesHelper
 import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
 import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.Lang
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.duration.Duration
@@ -49,7 +51,14 @@ trait FilterController extends FrontendController {
 
   def onPageLoad = UnauthorisedAction.async {
     implicit request => {
-      Future.successful(Ok(iht.views.html.filter.filter_view(filterForm)))
+      val ref = request.headers.get(REFERER).getOrElse("")
+      if(ref.endsWith("cy")) {
+        Future.successful(Ok(iht.views.html.filter.filter_view(filterForm)(
+          messages = MessagesHelper.messagesForLang(applicationMessages, "cy"),
+          request = request, ihtFormPartialRetriever = formPartialRetriever)))
+      } else {
+        Future.successful(Ok(iht.views.html.filter.filter_view(filterForm)))
+      }
     }
   }
 
