@@ -126,7 +126,7 @@ if($('[data-enhanced-select]').length > 0){
 
     $(".banner-panel__close").on("click", function(e) {
         e.preventDefault();
-         GOVUK.setCookie("mdtpurr", "suppress_for_all_services=true", 99999999999);
+         GOVUK.setCookie("mdtpurr", "suppress_for_all_services", 99999999999);
          $("#ur-panel").removeClass("banner-panel--show");
     });
   // end of on doc ready
