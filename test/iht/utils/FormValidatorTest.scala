@@ -210,10 +210,6 @@ class FormValidatorTest extends  FormTestHelper with FakeIhtApp {
       formatter.bind("", invalidLine2).left.get.contains(FormError("addr2key", "invalid-line")) shouldBe true
     }
 
-    "Return a formatter which responds suitably to invalid character in address line 2" in {
-      formatter.bind("", invalidChar2).left.get.contains(FormError("addr2key", "invalid-char")) shouldBe true
-    }
-
     "Return a formatter which responds suitably to blank postcode" in {
       formatter.bind("", blankPostcode).left.get.contains(FormError("postcodekey", "blank-postcode")) shouldBe true
     }

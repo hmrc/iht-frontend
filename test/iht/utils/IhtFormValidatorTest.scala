@@ -296,10 +296,6 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
     "respond with error when too long" in {
       checkForNameError("", 10, "blank", "length", "chars", Some("a" * 11)) shouldBe Some(FormError("", "length"))
     }
-
-    "respond with error when invalid chars present" in {
-      checkForNameError("", 10, "blank", "length", "chars", Some(">>>")) shouldBe Some(FormError("", "chars"))
-    }
   }
 
   "validatePartnerName" should {
@@ -317,13 +313,6 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
         FormError("lastName", "error.lastName.giveUsingXCharsOrLess")))
     }
 
-    "return errors for invalid chars" in {
-      val formatter: Formatter[Option[String]] = validatePartnerName("lastName")
-      val result = formatter.bind("firstName", Map("firstName" -> ">>", "lastName" -> ">>"))
-      result shouldBe Left(Seq(FormError("firstName", "error.firstName.giveUsingOnlyValidChars"),
-        FormError("lastName", "error.lastName.giveUsingOnlyValidChars")))
-    }
-
     "return no errors for valid entry" in {
       val formatter: Formatter[Option[String]] = validatePartnerName("lastName")
       val result = formatter.bind("firstName", Map("firstName" -> validName, "lastName" -> validName))
@@ -338,10 +327,6 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
 
     "return error for long value" in {
       mapping.bind(Map("" -> "a" * 50)) shouldBe Left(List(FormError("", "length")))
-    }
-
-    "return error for value with invalid chars" in {
-      mapping.bind(Map("" -> ">>")) shouldBe Left(List(FormError("", "chars")))
     }
 
     "return no error for valid value" in {

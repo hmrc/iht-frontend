@@ -319,13 +319,6 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
       checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
     }
 
-    "give an error when the first name contains invalid characters" in {
-      val data = completeAboutDeceased + ("firstName" -> "<<<")
-      val expectedErrors = error("firstName", "error.firstName.giveUsingOnlyValidChars")
-
-      checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
-    }
-
     "give an error when the last name is blank" in {
       val data = completeAboutDeceased + ("lastName" -> "")
       val expectedErrors = error("lastName", "error.lastName.give")
@@ -468,13 +461,6 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
       checkForError(deceasedAddressDetailsUKForm, data, expectedErrors)
     }
 
-    "give an error when line 1 contains invalid characters" in {
-      val data = completeUkAddress + ("ukAddress.ukAddressLine1" -> valueInvalidChars)
-      val expectedErrors = error("ukAddress.ukAddressLine1", "error.address.giveUsingOnlyValidChars")
-
-      checkForError(deceasedAddressDetailsUKForm, data, expectedErrors)
-    }
-
     "give an error when line 2 is blank" in {
       val data = completeUkAddress + ("ukAddress.ukAddressLine2" -> "")
       val expectedErrors = error("ukAddress.ukAddressLine2", "error.address.giveInLine1And2")
@@ -497,13 +483,6 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
       checkForError(deceasedAddressDetailsUKForm, data, expectedErrors)
     }
 
-    "give an error when line 2 contains invalid characters" in {
-      val data = completeUkAddress + ("ukAddress.ukAddressLine2" -> valueInvalidChars)
-      val expectedErrors = error("ukAddress.ukAddressLine2", "error.address.giveUsingOnlyValidChars")
-
-      checkForError(deceasedAddressDetailsUKForm, data, expectedErrors)
-    }
-
     "give an error when line 3 is too long" in {
       val data = completeUkAddress + ("ukAddress.ukAddressLine3" -> valueLongerThan36Chars)
       val expectedErrors = error("ukAddress.ukAddressLine3", "error.address.giveUsing35CharsOrLess")
@@ -511,23 +490,9 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
       checkForError(deceasedAddressDetailsUKForm, data, expectedErrors)
     }
 
-    "give an error when line 3 contains invalid characters" in {
-      val data = completeUkAddress + ("ukAddress.ukAddressLine3" -> valueInvalidChars)
-      val expectedErrors = error("ukAddress.ukAddressLine3", "error.address.giveUsingOnlyValidChars")
-
-      checkForError(deceasedAddressDetailsUKForm, data, expectedErrors)
-    }
-
     "give an error when line 4 is too long" in {
       val data = completeUkAddress + ("ukAddress.ukAddressLine4" -> valueLongerThan36Chars)
       val expectedErrors = error("ukAddress.ukAddressLine4", "error.address.giveUsing35CharsOrLess")
-
-      checkForError(deceasedAddressDetailsUKForm, data, expectedErrors)
-    }
-
-    "give an error when line 4 contains invalid characters" in {
-      val data = completeUkAddress + ("ukAddress.ukAddressLine4" -> valueInvalidChars)
-      val expectedErrors = error("ukAddress.ukAddressLine4", "error.address.giveUsingOnlyValidChars")
 
       checkForError(deceasedAddressDetailsUKForm, data, expectedErrors)
     }
@@ -611,13 +576,6 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
       checkForError(deceasedAddressDetailsOutsideUKForm, data, expectedErrors)
     }
 
-    "give an error when line 1 contains invalid characters" in {
-      val data = completeAddressAbroad + ("ukAddress.ukAddressLine1" -> valueInvalidChars)
-      val expectedErrors = error("ukAddress.ukAddressLine1", "error.address.giveUsingOnlyValidChars")
-
-      checkForError(deceasedAddressDetailsOutsideUKForm, data, expectedErrors)
-    }
-
     "give an error when line 2 is blank" in {
       val data = completeAddressAbroad + ("ukAddress.ukAddressLine2" -> "")
       val expectedErrors = error("ukAddress.ukAddressLine2", "error.address.give")
@@ -639,13 +597,6 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
       checkForError(deceasedAddressDetailsOutsideUKForm, data, expectedErrors)
     }
 
-    "give an error when line 2 contains invalid characters" in {
-      val data = completeAddressAbroad + ("ukAddress.ukAddressLine2" -> valueInvalidChars)
-      val expectedErrors = error("ukAddress.ukAddressLine2", "error.address.giveUsingOnlyValidChars")
-
-      checkForError(deceasedAddressDetailsOutsideUKForm, data, expectedErrors)
-    }
-
     "give an error when line 3 is too long" in {
       val data = completeAddressAbroad + ("ukAddress.ukAddressLine3" -> valueLongerThan36Chars)
       val expectedErrors = error("ukAddress.ukAddressLine3", "error.address.giveUsing35CharsOrLess")
@@ -653,23 +604,9 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
       checkForError(deceasedAddressDetailsOutsideUKForm, data, expectedErrors)
     }
 
-    "give an error when line 3 contains invalid characters" in {
-      val data = completeAddressAbroad + ("ukAddress.ukAddressLine3" -> valueInvalidChars)
-      val expectedErrors = error("ukAddress.ukAddressLine3", "error.address.giveUsingOnlyValidChars")
-
-      checkForError(deceasedAddressDetailsOutsideUKForm, data, expectedErrors)
-    }
-
     "give an error when line 4 is too long" in {
       val data = completeAddressAbroad + ("ukAddress.ukAddressLine4" -> valueLongerThan36Chars)
       val expectedErrors = error("ukAddress.ukAddressLine4", "error.address.giveUsing35CharsOrLess")
-
-      checkForError(deceasedAddressDetailsOutsideUKForm, data, expectedErrors)
-    }
-
-    "give an error when line 4 contains invalid characters" in {
-      val data = completeAddressAbroad + ("ukAddress.ukAddressLine4" -> valueInvalidChars)
-      val expectedErrors = error("ukAddress.ukAddressLine4", "error.address.giveUsingOnlyValidChars")
 
       checkForError(deceasedAddressDetailsOutsideUKForm, data, expectedErrors)
     }
