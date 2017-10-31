@@ -32,10 +32,10 @@ import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{AnyContent, Call, Request, Result}
 import uk.gov.hmrc.domain.Nino
-import uk.gov.hmrc.play.http.NotFoundException
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.NotFoundException
 
 
 object ApplicantTellUsAboutYourselfController extends ApplicantTellUsAboutYourselfController with IhtConnectors {

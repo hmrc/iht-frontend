@@ -18,8 +18,8 @@ package iht.testhelpers
 
 import play.api.mvc.RequestHeader
 import play.twirl.api.Html
-import uk.gov.hmrc.play.http.HttpGet
 import uk.gov.hmrc.play.partials.FormPartialRetriever
+import uk.gov.hmrc.http.HttpGet
 
 /**
   * Created by vineet on 09/08/17.

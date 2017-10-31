@@ -111,5 +111,13 @@ import play.api.Play.current
       redirectLocation(result) shouldBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url)
     }
 
+    "redirect to estate overview when IHT ref is equal to None" in {
+      val registrationDetails = CommonBuilder.buildRegistrationDetails copy(ihtReference = None)
+      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
+      val result = completedRegistrationController.onPageLoad()(createFakeRequest())
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) shouldBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url)
+    }
+
   }
 }

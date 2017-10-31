@@ -24,9 +24,9 @@ import iht.models.des.ihtReturn.IHTReturn
 import iht.testhelpers.CommonBuilder._
 import org.mockito.Matchers._
 import org.mockito.Mockito._
-import uk.gov.hmrc.play.http.NotFoundException
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.NotFoundException
 
 /**
   * Created by vineet on 16/03/16.

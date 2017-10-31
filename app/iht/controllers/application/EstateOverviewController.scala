@@ -31,10 +31,10 @@ import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc._
 import uk.gov.hmrc.play.frontend.auth.AuthContext
-import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
+import uk.gov.hmrc.http.HeaderCarrier
 
 object EstateOverviewController extends EstateOverviewController with IhtConnectors
 

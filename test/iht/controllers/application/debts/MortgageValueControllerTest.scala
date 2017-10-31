@@ -26,12 +26,12 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.http.HeaderCarrier
 import iht.testhelpers.TestHelper._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
+import uk.gov.hmrc.http.HeaderCarrier
 
 /**
  * Created by Vineet on 22/06/16.

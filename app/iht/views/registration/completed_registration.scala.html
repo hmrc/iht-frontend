@@ -28,12 +28,8 @@
     hasTimeOut=true) {
 
 <div class="panel-indent">
-@if(referenceNumber.equals(ControllerHelper.ihtReferenceErrorString)) {
-    <p>@Messages("page.iht.registration.completedRegistration.ref.error.title") </p>
-    } else {
-        <p>@Messages("page.iht.registration.completedRegistration.ref.title") </p>
+    <p>@Messages("page.iht.registration.completedRegistration.ref.title") </p>
     <p><strong>@formattedIHTReference(referenceNumber)</strong></p>
-    }
 </div>
 <p>@Messages("page.iht.registration.completedRegistration.ref.text")</p>
 <section class="section">

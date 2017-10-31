@@ -50,7 +50,7 @@ class FilterControllerTest extends ApplicationControllerTest with HtmlSpec {
 
   "FilterController" must {
     "show the 'what do you want to do' page when accessed by an unauthorized person" in {
-      val result = controller.onPageLoad()(createFakeRequest(isAuthorised = false))
+      val result = controller.onPageLoad()(createFakeRequest(isAuthorised = false, Some("")))
       status(result) should be(OK)
 
       val doc = asDocument(contentAsString(result))
@@ -102,6 +102,13 @@ class FilterControllerTest extends ApplicationControllerTest with HtmlSpec {
 
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some(iht.controllers.filter.routes.DomicileController.onPageLoad().url))
+    }
+
+    "switch languages when the referer ends with .cy" in {
+      val request = createFakeRequest(isAuthorised = false, Some("test.cy"))
+      val result = controller.onPageLoad(request)
+      contentAsString(result) shouldNot include(messages("site.registration.title"))
+      contentAsString(result) should include("Cofrestru i lenwi adroddiad ystâd")
     }
   }
 }

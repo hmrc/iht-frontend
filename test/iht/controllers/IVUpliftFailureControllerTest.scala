@@ -26,10 +26,10 @@ import org.mockito.Mockito._
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Result
 import play.api.test.Helpers.{OK, _}
-import uk.gov.hmrc.play.http.HeaderCarrier
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
 
 class IVUpliftFailureControllerTest extends ApplicationControllerTest {
   implicit val hc = new HeaderCarrier

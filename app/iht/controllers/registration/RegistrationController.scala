@@ -29,10 +29,10 @@ import play.api.Logger
 import play.api.mvc.{Call, Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.frontend.controller.FrontendController
-import uk.gov.hmrc.play.http.HeaderCarrier
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
 
 
 trait RegistrationController extends FrontendController with IhtActions {
@@ -122,7 +122,13 @@ trait RegistrationController extends FrontendController with IhtActions {
       case None =>
         Logger.info(s"Registration details not found in cache when $url requested so re-directing to application overview page")
         Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
-      case Some(rd) => body(rd)
+      case Some(rd) =>
+        if (rd.ihtReference.isEmpty) {
+          Logger.info(s"IHT reference number not found in cache when $url requested so re-directing to application overview page")
+          Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
+        } else {
+          body(rd)
+        }
     }
   }
 

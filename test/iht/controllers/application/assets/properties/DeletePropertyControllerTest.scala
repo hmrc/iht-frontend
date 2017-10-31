@@ -26,9 +26,9 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.http.HeaderCarrier
 import iht.utils.CommonHelper
 import uk.gov.hmrc.play.partials.FormPartialRetriever
+import uk.gov.hmrc.http.HeaderCarrier
 
 /**
  * Created by yasar on 22/06/15.

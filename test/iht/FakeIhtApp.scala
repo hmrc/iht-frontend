@@ -21,15 +21,16 @@ import iht.constants.Constants
 import iht.testhelpers.{CommonBuilder, NinoBuilder}
 import org.scalatest._
 import org.scalatestplus.play.{OneAppPerSuite, OneServerPerSuite}
+import play.api.http.HeaderNames
 import play.api.{Application, Mode}
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import uk.gov.hmrc.domain.{Nino, SaUtr}
 import uk.gov.hmrc.play.frontend.auth.connectors.domain._
-import uk.gov.hmrc.play.http.{HeaderCarrier, SessionKeys}
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
+import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys}
 
 trait FakeIhtApp extends OneAppPerSuite {
   this: Suite =>
@@ -43,7 +44,7 @@ trait FakeIhtApp extends OneAppPerSuite {
 
   val fakeNino = CommonBuilder.DefaultNino
 
-  def createFakeRequest(isAuthorised: Boolean = true): FakeRequest[AnyContentAsEmpty.type] = {
+  def createFakeRequest(isAuthorised: Boolean = true, referer: Option[String] = None): FakeRequest[AnyContentAsEmpty.type] = {
     val userId = "ID-" + fakeNino
     if (isAuthorised) {
       FakeRequest().withSession(
@@ -55,7 +56,8 @@ trait FakeIhtApp extends OneAppPerSuite {
       )
     } else {
       FakeRequest().withHeaders(
-        "Accept-Language" -> "en-GB"
+        "Accept-Language" -> "en-GB",
+        HeaderNames.REFERER -> referer.getOrElse("")
       )
     }
   }
@@ -76,7 +78,7 @@ trait FakeIhtApp extends OneAppPerSuite {
     override val serviceUrl: String = null
     override lazy val http = null
 
-    override def currentAuthority(implicit hc: HeaderCarrier): Future[Option[Authority]] = {
+    override def currentAuthority(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[Authority]] = {
       Future.successful(Some(createFakeAuthority(isAuthorised)))
     }
   }

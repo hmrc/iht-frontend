@@ -26,12 +26,12 @@ import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, Form, FormError}
-import uk.gov.hmrc.play.http.HeaderCarrier
-import uk.gov.hmrc.play.http.logging.SessionId
 import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.logging.SessionId
 
 class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
   val coExecutorIDKey = "id"

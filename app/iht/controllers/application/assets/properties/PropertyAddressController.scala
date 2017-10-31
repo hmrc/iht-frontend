@@ -31,9 +31,9 @@ import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Call, Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
-import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
 
 /**
   * Created by james on 17/06/16.

@@ -44,7 +44,7 @@ class XSLScalaBridge private(messages: Messages) {
       case "" => inputDate
       case _ => {
         val jodaDate = LocalDate.parse(inputDate)
-        Dates.formatDate(jodaDate)(messages.lang)
+        Dates.formatDate(jodaDate)(messages)
       }
     }
   }

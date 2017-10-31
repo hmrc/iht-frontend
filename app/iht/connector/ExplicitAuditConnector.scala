@@ -19,9 +19,9 @@ package iht.connector
 import iht.config.IhtAuditConnector
 import play.api.Logger
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
-import uk.gov.hmrc.play.audit.model.AuditEvent
-import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.play.audit.model.DataEvent
 import uk.gov.hmrc.play.http.logging.MdcLoggingExecutionContext._
+import uk.gov.hmrc.http.HeaderCarrier
 
 object ExplicitAuditConnector extends ExplicitAuditConnector {
   override lazy val auditConnector = IhtAuditConnector
@@ -31,7 +31,7 @@ trait ExplicitAuditConnector {
 
   val auditConnector: AuditConnector
 
-  def sendEvent(event: AuditEvent)(implicit hc: HeaderCarrier): Unit = {
+  def sendEvent(event: DataEvent)(implicit hc: HeaderCarrier): Unit = {
     Logger.info("Auditing event")
     auditConnector.sendEvent(event)
   }
