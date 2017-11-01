@@ -26,6 +26,7 @@ import org.joda.time.LocalDate
 import play.api.i18n.Messages
 import play.api.mvc.Results.Redirect
 import play.api.mvc.{Call, Result}
+import org.apache.commons.lang3.StringEscapeUtils
 
 /**
   * Created by vineet on 27/04/16.
@@ -42,13 +43,13 @@ object TnrbHelper {
 
     val predeceasedName = optionTnrbModel.map(_.Name.toString.trim).fold("")(identity)
     if (predeceasedName.nonEmpty) {
-      predeceasedName
+      StringEscapeUtils.escapeHtml4(predeceasedName)
     } else {
       spouseOrCivilPartnerMessageText(
         "page.iht.application.tnrb.kickout.previousSpouse",
         "page.iht.application.tnrb.kickout.previousSpouseOrCivilPartner",
         optionWidowCheck.flatMap(_.dateOfPreDeceased),
-        deceasedName
+        ihtHelpers.custom.name(deceasedName).toString()
       )(messages)
     }
   }
@@ -64,7 +65,7 @@ object TnrbHelper {
       if (wrapName) {
         ihtHelpers.custom.name(tnrbModel.Name.toString).toString
       } else {
-        tnrbModel.Name.toString
+        StringEscapeUtils.escapeHtml4(tnrbModel.Name.toString)
       }
     } else {
       messages("page.iht.application.TnrbEligibilty.spouseOrCivilPartner.ofPerson",
@@ -84,7 +85,7 @@ object TnrbHelper {
       if (wrapName) {
         and + " " + ihtHelpers.custom.name(tnrbModel.Name.toString).toString
       } else {
-        and + " " + tnrbModel.Name.toString
+        and + " " + StringEscapeUtils.escapeHtml4(tnrbModel.Name.toString)
       }
     } else {
       prefixText + " " + spouseOrCivilPartnerMessage(widowCheck.dateOfPreDeceased)(messages)
@@ -102,7 +103,7 @@ object TnrbHelper {
       case name => if (wrapName) {
         ihtHelpers.custom.name(name).toString
       } else {
-        name
+        StringEscapeUtils.escapeHtml4(name)
       }
     }
   }
@@ -126,7 +127,7 @@ object TnrbHelper {
   def preDeceasedMaritalStatusLabel(tnrbModel: TnrbEligibiltyModel,
                                     widowCheck: WidowCheck)(implicit messages: Messages): String = {
     if (tnrbModel.Name.toString.trim != "") {
-      tnrbModel.Name.toString + " " + messages("page.iht.application.tnrbEligibilty.partner.married.label")
+      ihtHelpers.custom.name(tnrbModel.Name.toString) + " " + messages("page.iht.application.tnrbEligibilty.partner.married.label")
     } else {
       messages("iht.the.deceased") + " " +
         messages(preDeceasedMaritalStatusSubLabel(widowCheck.dateOfPreDeceased)(messages))

@@ -28,6 +28,7 @@
 @import iht.constants.Constants._
 @import uk.gov.hmrc.play.language.LanguageUtils.Dates
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import org.apache.commons.lang3.StringEscapeUtils
 
 @(registrationDetails: RegistrationDetails,
         widowCheckModel: WidowCheck,
@@ -144,7 +145,7 @@
                             answerValueFormatted = Some(ihtHelpers.custom.name(answerValue)),
                             link = Some(iht.controllers.application.tnrb.routes.PartnerNameController.onPageLoad),
                             linkScreenReader = messages("page.iht.application.tnrbEligibilty.overview.partner.name.question.screenReader.text." + messageFileSuffix,
-                                predeceasedName, ihtHelpers.custom.name(deceasedName), answerValue),
+                                predeceasedName, ihtHelpers.custom.name(deceasedName), ihtHelpers.custom.name(answerValue)),
                             linkID = TnrbSpouseNameID
                             )
                     }
