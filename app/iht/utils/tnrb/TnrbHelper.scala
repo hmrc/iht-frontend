@@ -49,7 +49,7 @@ object TnrbHelper {
         "page.iht.application.tnrb.kickout.previousSpouse",
         "page.iht.application.tnrb.kickout.previousSpouseOrCivilPartner",
         optionWidowCheck.flatMap(_.dateOfPreDeceased),
-        ihtHelpers.custom.name(deceasedName).toString()
+        deceasedName
       )(messages)
     }
   }
