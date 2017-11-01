@@ -691,7 +691,6 @@ page.iht.questionnaire.feelingAboutExperience.satisfied=Bodlon
 error.dateOfMarriage.blank.summary=nodwch ddyddiad priodi neu ffurfio partneriaeth sifil
 page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.noValue=Rhowch ateb ar gyfer eitemau i''r tŷ ac eitemau personol sydd yn enw {0}
 iht.estateReport.declaration.estateValueBeforeExemptionsLessThan1Million=mae gwerth yr ystâd cyn ystyried unrhyw eithriadau yn llai na neu''n hafal i £1,000,000
-error.giftsDetails.exceedsLimit=Rhowch werth eithriad sy''n £14,000 neu''n llai
 page.iht.application.tnrbEligibilty.overview.giftsWithReservation.question.screenReader.text.no=Na, ni roddwyd rhoddion â budd wedi''i gadw i unrhyw un ar wahân i {1}. Newid yr ateb hwn.
 site.link.giveAValue=Rhowch werth
 page.iht.application.estateOverview.increaseThreshold.notAvailable=Ddim ar gael

@@ -2371,7 +2371,6 @@ error.giftSevenYearsGivenInLast7Years.select = Select an answer for if {0} gave 
 error.giftSevenYearsToTrust.select = Select an answer for if {0} gifted a property, building or land to a non-person
 
 error.giftsDetails.exceedsGivenAway = The total value of exemptions being claimed on a year cannot be more than the total value of gifts given away
-error.giftsDetails.exceedsLimit = Give an exemption value of £14,000 or less
 error.giftsDetails.noValue = You must give the total value of gifts given away during this period
 error.length.giftsDetails.exemptions = Enter a value using less than 11 numbers
 error.length.giftsDetails.exemptions.summary = enter an exemption value using less than 11 numbers

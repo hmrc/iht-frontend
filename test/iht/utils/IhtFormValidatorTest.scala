@@ -84,10 +84,6 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
 
   "validateGiftsDetails" should {
     val fv = IhtFormValidator.validateGiftsDetails("value", "ex")
-    "display error if exemptions > 14K" in {
-      val result = fv.bind("", Map("value" -> "16000", "ex" -> "15000"))
-      result shouldBe Left(List(FormError("ex", "error.giftsDetails.exceedsLimit")))
-    }
 
     "display error if value < exemptions" in {
       val result = fv.bind("", Map("value" -> "12000", "ex" -> "15000"))
