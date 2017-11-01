@@ -226,13 +226,6 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
       checkForError(data, expectedErrors)
     }
 
-    "give an error when the first name contains invalid characters" in {
-      val data = completePersonalDetails + ("firstName" -> "<<<")
-      val expectedErrors = error("firstName", "error.firstName.giveUsingOnlyValidChars")
-
-      checkForError(data, expectedErrors)
-    }
-
     "give an error when the last name is blank" in {
       val data = completePersonalDetails + ("lastName" -> "")
       val expectedErrors = error("lastName", "error.lastName.give")
@@ -250,13 +243,6 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
     "give an error when the last name is too long" in {
       val data = completePersonalDetails + ("lastName" -> "A value that's longer than the 40 characters allowed in this field")
       val expectedErrors = error("lastName", "error.lastName.giveUsingXCharsOrLess")
-
-      checkForError(data, expectedErrors)
-    }
-
-    "give an error when the last name contains invalid characters" in {
-      val data = completePersonalDetails + ("lastName" -> "<<<")
-      val expectedErrors = error("lastName", "error.lastName.giveUsingOnlyValidChars")
 
       checkForError(data, expectedErrors)
     }
@@ -478,13 +464,6 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
       checkForError(data, expectedErrors)
     }
 
-    "give an error when the first name contains invalid characters" in {
-      val data = completePersonalDetails + ("firstName" -> "<<<")
-      val expectedErrors = error("firstName", "error.firstName.giveUsingOnlyValidChars")
-
-      checkForError(data, expectedErrors)
-    }
-
     "give an error when the last name is blank" in {
       val data = completePersonalDetails + ("lastName" -> "")
       val expectedErrors = error("lastName", "error.lastName.give")
@@ -502,13 +481,6 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
     "give an error when the last name is too long" in {
       val data = completePersonalDetails + ("lastName" -> "A value that's longer than the 40 characters allowed in this field")
       val expectedErrors = error("lastName", "error.lastName.giveUsingXCharsOrLess")
-
-      checkForError(data, expectedErrors)
-    }
-
-    "give an error when the last name contains invalid characters" in {
-      val data = completePersonalDetails + ("lastName" -> "<<<")
-      val expectedErrors = error("lastName", "error.lastName.giveUsingOnlyValidChars")
 
       checkForError(data, expectedErrors)
     }
@@ -686,13 +658,6 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
       checkForError(coExecutorAddressUkForm, data, expectedErrors)
     }
 
-    "give an error when line 1 contains invalid characters" in {
-      val data = completeUkAddress + ("ukAddressLine1" -> valueInvalidChars)
-      val expectedErrors = error("ukAddressLine1", "error.address.giveUsingOnlyValidChars")
-
-      checkForError(coExecutorAddressUkForm, data, expectedErrors)
-    }
-
     "give an error when line 2 is blank" in {
       val data = completeUkAddress + ("ukAddressLine2" -> "")
       val expectedErrors = error("ukAddressLine2", "error.address.giveInLine1And2")
@@ -715,13 +680,6 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
       checkForError(coExecutorAddressUkForm, data, expectedErrors)
     }
 
-    "give an error when line 2 contains invalid characters" in {
-      val data = completeUkAddress + ("ukAddressLine2" -> valueInvalidChars)
-      val expectedErrors = error("ukAddressLine2", "error.address.giveUsingOnlyValidChars")
-
-      checkForError(coExecutorAddressUkForm, data, expectedErrors)
-    }
-
     "give an error when line 3 is too long" in {
       val data = completeUkAddress + ("ukAddressLine3" -> valueLongerThan36Chars)
       val expectedErrors = error("ukAddressLine3", "error.address.giveUsing35CharsOrLess")
@@ -729,23 +687,9 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
       checkForError(coExecutorAddressUkForm, data, expectedErrors)
     }
 
-    "give an error when line 3 contains invalid characters" in {
-      val data = completeUkAddress + ("ukAddressLine3" -> valueInvalidChars)
-      val expectedErrors = error("ukAddressLine3", "error.address.giveUsingOnlyValidChars")
-
-      checkForError(coExecutorAddressUkForm, data, expectedErrors)
-    }
-
     "give an error when line 4 is too long" in {
       val data = completeUkAddress + ("ukAddressLine4" -> valueLongerThan36Chars)
       val expectedErrors = error("ukAddressLine4", "error.address.giveUsing35CharsOrLess")
-
-      checkForError(coExecutorAddressUkForm, data, expectedErrors)
-    }
-
-    "give an error when line 4 contains invalid characters" in {
-      val data = completeUkAddress + ("ukAddressLine4" -> valueInvalidChars)
-      val expectedErrors = error("ukAddressLine4", "error.address.giveUsingOnlyValidChars")
 
       checkForError(coExecutorAddressUkForm, data, expectedErrors)
     }
@@ -829,13 +773,6 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
       checkForError(coExecutorAddressAbroadForm, data, expectedErrors)
     }
 
-    "give an error when line 1 contains invalid characters" in {
-      val data = completeAddressAbroad + ("ukAddressLine1" -> valueInvalidChars)
-      val expectedErrors = error("ukAddressLine1", "error.address.giveUsingOnlyValidChars")
-
-      checkForError(coExecutorAddressAbroadForm, data, expectedErrors)
-    }
-
     "give an error when line 2 is blank" in {
       val data = completeAddressAbroad + ("ukAddressLine2" -> "")
       val expectedErrors = error("ukAddressLine2", "error.address.giveInLine1And2")
@@ -858,13 +795,6 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
       checkForError(coExecutorAddressAbroadForm, data, expectedErrors)
     }
 
-    "give an error when line 2 contains invalid characters" in {
-      val data = completeAddressAbroad + ("ukAddressLine2" -> valueInvalidChars)
-      val expectedErrors = error("ukAddressLine2", "error.address.giveUsingOnlyValidChars")
-
-      checkForError(coExecutorAddressAbroadForm, data, expectedErrors)
-    }
-
     "give an error when line 3 is too long" in {
       val data = completeAddressAbroad + ("ukAddressLine3" -> valueLongerThan36Chars)
       val expectedErrors = error("ukAddressLine3", "error.address.giveUsing35CharsOrLess")
@@ -872,23 +802,9 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
       checkForError(coExecutorAddressAbroadForm, data, expectedErrors)
     }
 
-    "give an error when line 3 contains invalid characters" in {
-      val data = completeAddressAbroad + ("ukAddressLine3" -> valueInvalidChars)
-      val expectedErrors = error("ukAddressLine3", "error.address.giveUsingOnlyValidChars")
-
-      checkForError(coExecutorAddressAbroadForm, data, expectedErrors)
-    }
-
     "give an error when line 4 is too long" in {
       val data = completeAddressAbroad + ("ukAddressLine4" -> valueLongerThan36Chars)
       val expectedErrors = error("ukAddressLine4", "error.address.giveUsing35CharsOrLess")
-
-      checkForError(coExecutorAddressAbroadForm, data, expectedErrors)
-    }
-
-    "give an error when line 4 contains invalid characters" in {
-      val data = completeAddressAbroad + ("ukAddressLine4" -> valueInvalidChars)
-      val expectedErrors = error("ukAddressLine4", "error.address.giveUsingOnlyValidChars")
 
       checkForError(coExecutorAddressAbroadForm, data, expectedErrors)
     }

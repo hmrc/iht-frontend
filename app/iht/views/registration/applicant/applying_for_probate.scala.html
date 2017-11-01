@@ -20,6 +20,7 @@
 @import iht.controllers.ControllerHelper._
 @import iht.utils._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import org.apache.commons.lang3.StringEscapeUtils
 
 @(applyingForProbateForm:Form[iht.models.ApplicantDetails], deceasedName: String,
     actionLocation: Call,
@@ -42,7 +43,7 @@ hasTimeOut=true) {
     '_fieldsetId -> "applying-for-probate",
     '_divClass -> "form-group",
     '_legendIsHeading -> true,
-    '_extraText -> Html("<p class=\"lede\">" + Messages("page.iht.registration.applicant.applyingForProbate.p1") + "</p><p>" + Messages("page.iht.registration.applicant.applyingForProbate.p2", deceasedName) + "</p>")
+    '_extraText -> Html("<p class=\"lede\">" + Messages("page.iht.registration.applicant.applyingForProbate.p1") + "</p><p>" + Messages("page.iht.registration.applicant.applyingForProbate.p2", StringEscapeUtils.escapeHtml4(deceasedName)) + "</p>")
   )
 
 @ihtHelpers.custom.continue_button()

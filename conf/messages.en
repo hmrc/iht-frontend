@@ -2149,7 +2149,6 @@ error.address.wasInUK.give = Give an answer for if the address was in the UK
 error.lastName.blank = Enter a last name
 error.lastName.blank.summary = enter a last name
 error.lastName.give = Give a last name
-error.lastName.giveUsingOnlyValidChars = Give a last name using only valid characters
 error.lastName.giveUsingXCharsOrLess = Give a last name using 40 characters or less
 error.lastName.length = Enter a last name using less than 40 characters
 error.lastName.length.summary = enter a last name using less than 40 characters
@@ -2204,7 +2203,6 @@ error.address.giveInLine1And2 = Give an address in both address lines 1 and 2
 error.address.givePostcode = Give a postcode
 error.address.givePostcodeUsingNumbersAndLetters = Give a postcode using numbers and letters
 error.address.giveUsing35CharsOrLess = Give an address using 35 characters or less
-error.address.giveUsingOnlyValidChars = Give an address using only valid characters
 
 error.address.invalid.character = This line contains an invalid character. Valid characters are: A-Z a-z 0-9 - ’ , / & space
 error.address.length = Enter an address of less than 36 characters
@@ -2263,7 +2261,6 @@ error.dateOfMarriage.giveCorrectMonthYear = Give a correct month and year for da
 error.email = Enter a valid email address.
 
 error.firstName.give = Give a first name
-error.firstName.giveUsingOnlyValidChars = Give a first name using only valid characters
 error.firstName.giveUsingXCharsOrLess = Give a first name using 40 characters or less
 
 #Errors - Registration
@@ -2413,7 +2410,6 @@ error.isPartnerHomeInUK.select = Select an answer for if {0}’s spouse or civil
 error.isAssetForCharity.select = Select an answer for if any assets have been left to a charity
 error.charityName.giveUsing35CharactersOrLess = Give a charity name using 35 characters or less
 error.charityName.enterName = Enter the name of the charity
-error.charityName.giveUsingOnlyValidChars = Give a charity name using only valid characters
 
 error.charityNumber.enterUsingOnly6Or7Numbers = Enter the correct charity number using only 6 or 7 numbers
 error.charityNumber.give = Give the registered charity number
@@ -2421,7 +2417,6 @@ error.charityNumber.give = Give the registered charity number
 error.isAssetForQualifyingBody.select = Select an answer for if any assets have been left to another qualifying body
 error.qualifyingBodyName.enterName = Enter the name of the other qualifying body
 error.qualifyingBodyName.giveUsing35CharactersOrLess = Give the name of the other qualifying body using 35 characters or less
-error.qualifyingBodyName.giveUsingOnlyValidChars = Give a qualifying body name using only valid characters
 
 error.blank.qualifyingBody.name = Enter the name of who received assets
 error.blank.qualifyingBody.name.summary = enter the name of who received assets

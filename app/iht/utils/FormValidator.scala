@@ -35,7 +35,8 @@ trait FormValidator {
   protected val phoneNoFormat = "^[A-Z0-9 \\)\\/\\(\\-\\*#]{1,27}$"
   protected lazy val moneyFormatSimple = """^(\d{1,10}+([.]\d{1,2})?)$""".r
 
-  lazy val nameAndAddressRegex = """^[A-Za-z0-9,. \(\)\&\-']*$""".r
+  //lazy val nameAndAddressRegex = """^[A-Za-z0-9,. \(\)\&\-']*$""".r
+  lazy val nameAndAddressRegex = """^.*$""".r
 
   lazy val countryCodes = IhtProperties.validCountryCodes
 

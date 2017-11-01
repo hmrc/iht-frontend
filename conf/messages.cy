@@ -2038,10 +2038,3 @@ page.iht.questionnaire.activity.question=Beth wnaethoch pan ddefnyddio''ch y gwa
 page.iht.questionnaire.activity.register=Wedi cwblhau''r cofrestriad ond heb ddechrau''r adroddiad ynghylch yr ystâd
 page.iht.questionnaire.activity.estateReport=Wedi dechrau''ch adroddiad ynghylch yr ystâd
 page.iht.questionnaire.activity.declare-app=Cwblhau''ch datganiad ac anfon adroddiad ynghylch yr ystâd i CThEM
-
-error.address.giveUsingOnlyValidChars = Rhowch gyfeiriad gan ddefnyddio cymeriadau dilys yn unig
-error.firstName.giveUsingOnlyValidChars = Rhowch enw cyntaf gan ddefnyddio cymeriadau dilys yn unig
-error.lastName.giveUsingOnlyValidChars = Rhowch enw olaf gan ddefnyddio cymeriadau dilys yn unig
-error.charityName.giveUsingOnlyValidChars = Rhowch enw elusen gan ddefnyddio cymeriadau dilys yn unig
-error.qualifyingBodyName.giveUsingOnlyValidChars = Rhowch enw corff cymwys gan ddefnyddio cymeriadau dilys yn unig
-

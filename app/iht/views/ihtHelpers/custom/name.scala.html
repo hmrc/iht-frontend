@@ -1,12 +1,13 @@
 @import iht.constants.IhtProperties
 @import iht.utils.StringHelper
+@import org.apache.commons.lang3.StringEscapeUtils
 @(name: String)
 @{
     Html(StringHelper.splitAndMapElements(name,IhtProperties.nameRestrictDelimiters, x =>
         if (x.length > IhtProperties.nameRestrictLength) {
-            s"""<span class="copy--restricted">$x</span>"""
+            "<span class=\"copy--restricted\">" + StringEscapeUtils.escapeHtml4(x) + "</span>"
         } else {
-            x
+            StringEscapeUtils.escapeHtml4(x)
         }
     ))
 }
