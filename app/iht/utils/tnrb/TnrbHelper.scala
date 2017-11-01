@@ -127,7 +127,7 @@ object TnrbHelper {
   def preDeceasedMaritalStatusLabel(tnrbModel: TnrbEligibiltyModel,
                                     widowCheck: WidowCheck)(implicit messages: Messages): String = {
     if (tnrbModel.Name.toString.trim != "") {
-      ihtHelpers.custom.name(tnrbModel.Name.toString) + " " + messages("page.iht.application.tnrbEligibilty.partner.married.label")
+      StringEscapeUtils.escapeHtml4(tnrbModel.Name.toString) + " " + messages("page.iht.application.tnrbEligibilty.partner.married.label")
     } else {
       messages("iht.the.deceased") + " " +
         messages(preDeceasedMaritalStatusSubLabel(widowCheck.dateOfPreDeceased)(messages))
