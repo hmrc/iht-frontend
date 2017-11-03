@@ -95,7 +95,7 @@ class UsePaperFormViewTest extends ViewTestHelper {
     "contain a 'Change' link to go back to the domicile page" in {
       val doc = getPageAsDoc("iht.countries.scotland")
       val link = doc.getElementById("change-domicile")
-      link.text() should be(messagesApi("iht.change"))
+      link.text() should include(messagesApi("iht.change"))
       link.attr("href") should be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
     }
 
@@ -157,7 +157,7 @@ class UsePaperFormViewTest extends ViewTestHelper {
     "contain a 'Change' link to go back to the domicile page" in {
       val doc = getPageAsDoc("iht.countries.northernIreland")
       val link = doc.getElementById("change-domicile")
-      link.text() should be(messagesApi("iht.change"))
+      link.text() should include(messagesApi("iht.change"))
       link.attr("href") should be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
     }
 
@@ -209,7 +209,7 @@ class UsePaperFormViewTest extends ViewTestHelper {
     "contain a 'Change' link to go back to the domicile page" in {
       val doc = getPageAsDoc("page.iht.filter.domicile.choice.other")
       val link = doc.getElementById("change-domicile")
-      link.text() should be(messagesApi("iht.change"))
+      link.text() should include(messagesApi("iht.change"))
       link.attr("href") should be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
     }
 

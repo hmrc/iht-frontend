@@ -55,11 +55,13 @@ estimatedValue: Option[String] = None)(implicit request:Request[_], messages: Me
             <div class="tabular-data__data tabular-data__data--3-12">
                 @if(jointAssets.get) {
                     <a id="change-estimate" href="@iht.controllers.filter.routes.EstimateController.onPageLoadJointAssets().url">
-                        <span>@Messages("iht.change")</span>
+                        <span aria-hidden="true">@Messages("iht.change")</span>
+                        <span class="visually-hidden">@Messages("page.iht.filter.previous.answers.change.estate")</span>
                     </a>
                 } else {
                     <a id="change-estimate" href="@iht.controllers.filter.routes.EstimateController.onPageLoadWithoutJointAssets().url">
-                        <span>@Messages("iht.change")</span>
+                        <span aria-hidden="true">@Messages("iht.change")</span>
+                        <span class="visually-hidden">@Messages("page.iht.filter.previous.answers.change.estate")</span>
                     </a>
                 }
             </div>
@@ -76,7 +78,8 @@ estimatedValue: Option[String] = None)(implicit request:Request[_], messages: Me
                 </div>
                 <div class="tabular-data__data tabular-data__data--3-12">
                     <a id="change-joint-assets" href="@iht.controllers.filter.routes.FilterJointlyOwnedController.onPageLoad().url">
-                        <span>@Messages("iht.change")</span>
+                        <span aria-hidden="true">@Messages("iht.change")</span>
+                        <span class="visually-hidden">@Messages("page.iht.filter.previous.answers.change.jointlyOwned")</span>
                     </a>
                 </div>
             </li>
@@ -93,7 +96,8 @@ estimatedValue: Option[String] = None)(implicit request:Request[_], messages: Me
             </div>
             <div class="tabular-data__data tabular-data__data--3-12">
               <a id="change-domicile" href="@iht.controllers.filter.routes.DomicileController.onPageLoad().url">
-                  <span>@Messages("iht.change")</span>
+                  <span aria-hidden="true">@Messages("iht.change")</span>
+                  <span class="visually-hidden">@Messages("page.iht.filter.previous.answers.change.home")</span>
               </a>
             </div>
         </li>
