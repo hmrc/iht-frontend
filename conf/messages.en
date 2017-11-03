@@ -257,7 +257,7 @@ page.iht.filter.useService.under325000.otherWaysToReportValue = Other ways to re
 page.iht.filter.useService.under325000.p1.a = You can
 page.iht.filter.useService.under325000.p1.b = use the paper IHT205 form
 page.iht.filter.useService.under325000.p1.c = if you are not able to report the estate value online.
-page.iht.filter.useService.under325000.p2 = If you are not able to download or print the form, you can ask for a copy to sent to you by ringing the Inheritance Tax helpline on 0300 123 1072. If you are outside of the UK, call +44 300 123 1072.
+page.iht.filter.useService.under325000.p2 = If you are not able to download or print the form, you can ask for a copy to be sent to you by calling the Inheritance Tax helpline on 0300 123 1072. If you are outside of the UK, call +44 300 123 1072.
 
 #Registration
 iht.registration.changeAddressToAbroad = Change the address to one that is abroad
