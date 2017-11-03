@@ -69,7 +69,7 @@ estimatedValue: Option[String] = None)(implicit request:Request[_], messages: Me
         @if(jointAssets.isDefined) {
             <li id="joint-assets-row" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
                 <div class="tabular-data__data tabular-data__data--6-12">
-                @Messages("page.iht.filter.jointlyowned.previousanswers")
+                @Messages("page.iht.filter.jointlyowned.question")
                 </div>
                 <div class="tabular-data__data tabular-data__data--3-12">
                     @if(jointAssets.get) { @Messages("iht.yes") } else { @Messages("iht.no") }

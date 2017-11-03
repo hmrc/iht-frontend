@@ -2005,7 +2005,6 @@ page.iht.filter.jointlyowned.question = A oedd y person a fu farw yn berchen ar 
 page.iht.filter.jointlyowned.guidance = Gallai hyn fod yn berchen ar gartref gyda rhywun arall neu gael cyfrif banc ar y cyd.
 page.iht.filter.jointlyowned.yes = Oedd, roedd yn berchen ar rywbeth ar y cyd â rhywun arall
 page.iht.filter.jointlyowned.no = Nac oedd, nid oedd yn berchen ar rywbeth ar y cyd â rhywun arall
-page.iht.filter.jointlyowned.previousanswers = A oedd y person a fu farw yn berchen ar unrhyw eiddo, neu a oedd ganddo gyfrifon banc ar y cyd â rhywun arall?
 
 page.iht.filter.useService.between325000And1Million.paragraph0 = Gan eich bod o''r farn bod gwerth yr ystâd, o bosibl, rhwng £325,000 ac £1 miliwn, dylech ystyried rhai pethau eraill cyn i chi ddechrau llenwi unrhyw fanylion.
 page.iht.filter.useService.between325000And1Million.title = Bydd angen i chi wirio p''un a allwch ddefnyddio''r gwasanaeth ar-lein.
