@@ -65,8 +65,6 @@ trait IhtFormValidator extends FormValidator {
       if (isValueAndExemptionsValueSuccess) {
         if (BigDecimal(value) < BigDecimal(exemptionsValue)) {
           errors += FormError(exemptionsValueKey, "error.giftsDetails.exceedsGivenAway")
-        } else if (BigDecimal(exemptionsValue) > IhtProperties.giftsInYearMaxExemptionsValue) {
-          errors += FormError(exemptionsValueKey, "error.giftsDetails.exceedsLimit")
         }
       } else if (value.length == 0 && theExemptionsValue.isSuccess) {
         errors += FormError(valueKey, "error.giftsDetails.noValue")
