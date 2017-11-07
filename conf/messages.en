@@ -198,13 +198,15 @@ page.iht.filter.jointlyowned.question = Did the person who has died jointly own 
 page.iht.filter.jointlyowned.guidance = This could be owning a home with someone else or having any joint bank accounts.
 page.iht.filter.jointlyowned.yes = Yes, they owned something with someone else
 page.iht.filter.jointlyowned.no = No, they did not own anything with someone else
-page.iht.filter.jointlyowned.previousanswers = Did the person who has died own any properties or have any joint bank accounts with someone else?
 
 page.iht.filter.estimate.choice.under = Under £325,000
 page.iht.filter.estimate.choice.between = Between £325,000 and £1 million
 page.iht.filter.estimate.choice.over = More than £1 million
 
 page.iht.filter.previous.answers = Previous answers
+page.iht.filter.previous.answers.change.estate = Change how much you think the estate is worth
+page.iht.filter.previous.answers.change.jointlyOwned = Change your answer for whether the person who has died jointly owned anything with someone else
+page.iht.filter.previous.answers.change.home = Change your answer for where the permanent home was
 
 page.iht.filter.paperform.scotland.p1 = Reporting the estate value in Scotland is completed by using a paper form.
 page.iht.filter.paperform.scotland.p2.start = You can read the

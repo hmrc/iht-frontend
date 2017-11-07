@@ -115,7 +115,7 @@ class UseIHT400ViewTest extends ViewTestHelper {
       val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val link = doc.getElementById("change-domicile")
-      link.text() should be(messagesApi("iht.change"))
+      link.text() should include(messagesApi("iht.change"))
       link.attr("href") should be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
     }
 
@@ -139,7 +139,7 @@ class UseIHT400ViewTest extends ViewTestHelper {
       val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val link = doc.getElementById("change-estimate")
-      link.text() should be(messagesApi("iht.change"))
+      link.text() should include(messagesApi("iht.change"))
       link.attr("href") should be(iht.controllers.filter.routes.EstimateController.onPageLoadWithoutJointAssets().url)
     }
 

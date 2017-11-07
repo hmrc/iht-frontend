@@ -2004,7 +2004,6 @@ page.iht.filter.jointlyowned.question = A oedd y person a fu farw yn berchen ar 
 page.iht.filter.jointlyowned.guidance = Gallai hyn fod yn berchen ar gartref gyda rhywun arall neu gael cyfrif banc ar y cyd.
 page.iht.filter.jointlyowned.yes = Oedd, roedd yn berchen ar rywbeth ar y cyd â rhywun arall
 page.iht.filter.jointlyowned.no = Nac oedd, nid oedd yn berchen ar rywbeth ar y cyd â rhywun arall
-page.iht.filter.jointlyowned.previousanswers = A oedd y person a fu farw yn berchen ar unrhyw eiddo, neu a oedd ganddo gyfrifon banc ar y cyd â rhywun arall?
 
 page.iht.filter.useService.between325000And1Million.paragraph0 = Gan eich bod o''r farn bod gwerth yr ystâd, o bosibl, rhwng £325,000 ac £1 miliwn, dylech ystyried rhai pethau eraill cyn i chi ddechrau llenwi unrhyw fanylion.
 page.iht.filter.useService.between325000And1Million.title = Bydd angen i chi wirio p''un a allwch ddefnyddio''r gwasanaeth ar-lein.
@@ -2037,3 +2036,7 @@ page.iht.questionnaire.activity.question=Beth wnaethoch pan ddefnyddioch y gwasa
 page.iht.questionnaire.activity.register=Wedi cwblhau''r cofrestriad ond heb ddechrau''r adroddiad ynghylch yr ystâd
 page.iht.questionnaire.activity.estateReport=Wedi dechrau''ch adroddiad ynghylch yr ystâd
 page.iht.questionnaire.activity.declare-app=Wedi cwblhau''r datganiad ac anfon adroddiad ynghylch yr ystâd i CThEM
+
+page.iht.filter.previous.answers.change.estate = Newidiwch faint yn eich barn chi yw gwerth yr ystâd
+page.iht.filter.previous.answers.change.jointlyOwned = Newidiwch eich ateb ar gyfer p''un a oedd y person a fu farw yn berchen ar unrhyw beth ar y cyd â rhywun arall
+page.iht.filter.previous.answers.change.home = Newidiwch eich ateb ar gyfer lle''r oedd y cartref parhaol

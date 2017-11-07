@@ -116,7 +116,7 @@ class EstimateViewTest extends ViewTestHelper {
     "contain a 'Change' link to go back to the domicile page" in {
       val doc = getPageAsDoc()
       val link = doc.getElementById("change-domicile")
-      link.text() should be(messagesApi("iht.change"))
+      link.text() should include(messagesApi("iht.change"))
       link.attr("href") should be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
     }
   }

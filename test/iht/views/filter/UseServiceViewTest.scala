@@ -156,7 +156,7 @@ class UseServiceViewTest extends ViewTestHelper {
       val result = use_service(under325000, false, "")(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val link = doc.getElementById("change-domicile")
-      link.text() should be(messagesApi("iht.change"))
+      link.text() should include(messagesApi("iht.change"))
       link.attr("href") should be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
     }
 
@@ -180,7 +180,7 @@ class UseServiceViewTest extends ViewTestHelper {
       val result = use_service(under325000, false, "")(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val link = doc.getElementById("change-estimate")
-      link.text() should be(messagesApi("iht.change"))
+      link.text() should include(messagesApi("iht.change"))
       link.attr("href") should be(iht.controllers.filter.routes.EstimateController.onPageLoadWithoutJointAssets().url)
     }
   }
