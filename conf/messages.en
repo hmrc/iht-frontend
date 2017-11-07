@@ -259,7 +259,7 @@ page.iht.filter.useService.under325000.otherWaysToReportValue = Other ways to re
 page.iht.filter.useService.under325000.p1.a = You can
 page.iht.filter.useService.under325000.p1.b = use the paper IHT205 form
 page.iht.filter.useService.under325000.p1.c = if you are not able to report the estate value online.
-page.iht.filter.useService.under325000.p2 = If you are not able to download or print the form, you can ask for a copy to sent to you by ringing the Inheritance Tax helpline on 0300 123 1072. If you are outside of the UK, call +44 300 123 1072.
+page.iht.filter.useService.under325000.p2 = If you are not able to download or print the form, you can ask for a copy to be sent to you by calling the Inheritance Tax helpline on 0300 123 1072. If you are outside of the UK, call +44 300 123 1072.
 
 #Registration
 iht.registration.changeAddressToAbroad = Change the address to one that is abroad
@@ -2373,7 +2373,6 @@ error.giftSevenYearsGivenInLast7Years.select = Select an answer for if {0} gave 
 error.giftSevenYearsToTrust.select = Select an answer for if {0} gifted a property, building or land to a non-person
 
 error.giftsDetails.exceedsGivenAway = The total value of exemptions being claimed on a year cannot be more than the total value of gifts given away
-error.giftsDetails.exceedsLimit = Give an exemption value of £14,000 or less
 error.giftsDetails.noValue = You must give the total value of gifts given away during this period
 error.length.giftsDetails.exemptions = Enter a value using less than 11 numbers
 error.length.giftsDetails.exemptions.summary = enter an exemption value using less than 11 numbers

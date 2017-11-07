@@ -56,12 +56,6 @@ class GiftFormsTest extends FormTestHelper with FakeIhtApp {
   }
 
   "previousYearsGiftsForm" must {
-    "display error if exemptions > 14K" in {
-      val expectedErrors = error("exemptions", "error.giftsDetails.exceedsLimit")
-      val data = Map("yearId" -> "1", "value" -> "16000", "exemptions" -> "15000", "startDate" -> "", "endDate" -> "")
-
-      checkForError(previousYearsGiftsForm, data, expectedErrors)
-    }
 
     "display error if value < exemptions" in {
       val expectedErrors = error("exemptions", "error.giftsDetails.exceedsGivenAway")

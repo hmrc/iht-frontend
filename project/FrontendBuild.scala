@@ -19,7 +19,7 @@ val compile = Seq(
   ws, cache,
   "uk.gov.hmrc" %% "url-builder" % "2.1.0",
   "uk.gov.hmrc" %% "http-caching-client" % httpCachingClientVersion,
-  "uk.gov.hmrc" %% "frontend-bootstrap" % "8.8.0",
+  "uk.gov.hmrc" %% "frontend-bootstrap" % "8.9.0",
   "uk.gov.hmrc" %% "play-partials" % "6.1.0",
   "uk.gov.hmrc" %% "domain" % "5.0.0",
   "uk.gov.hmrc" %% "play-language" % "3.4.0",

@@ -108,7 +108,6 @@ object IhtProperties {
   lazy val questionnaireFeelingAboutExperienceNeither: String = getProperty("questionnaireFeelAboutYourExperienceNeither")
   lazy val questionnaireFeelingAboutExperienceDissatisfied: String = getProperty("questionnaireFeelAboutYourExperienceDissatisfied")
   lazy val questionnaireFeelingAboutExperienceVeryDissatisfied: String = getProperty("questionnaireFeelAboutYourExperienceVeryDissatisfied")
-  lazy val giftsInYearMaxExemptionsValue: Int = getPropertyAsInt("giftsInYearMaxExemptionsValue")
   lazy val maximumAdditionalCoExecutors: Int = getPropertyAsInt("maximumAdditionalCoExecutors")
   lazy val dateOfDeathMinValidationDate: LocalDate = getPropertyAsDate("dateOfDeathMinValidationDate")
   lazy val dateOfDeathMaxValidationDate: LocalDate = getPropertyAsDate("dateOfDeathMaxValidationDate")
