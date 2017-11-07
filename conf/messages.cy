@@ -2037,3 +2037,7 @@ page.iht.questionnaire.activity.question=Beth wnaethoch pan ddefnyddio''ch y gwa
 page.iht.questionnaire.activity.register=Wedi cwblhau''r cofrestriad ond heb ddechrau''r adroddiad ynghylch yr ystâd
 page.iht.questionnaire.activity.estateReport=Wedi dechrau''ch adroddiad ynghylch yr ystâd
 page.iht.questionnaire.activity.declare-app=Cwblhau''ch datganiad ac anfon adroddiad ynghylch yr ystâd i CThEM
+
+page.iht.filter.previous.answers.change.estate = Newidiwch faint yn eich barn chi yw gwerth yr ystâd
+page.iht.filter.previous.answers.change.jointlyOwned = Newidiwch eich ateb ar gyfer p''un a oedd y person a fu farw yn berchen ar unrhyw beth ar y cyd â rhywun arall
+page.iht.filter.previous.answers.change.home = Newidiwch eich ateb ar gyfer lle''r oedd y cartref parhaol
