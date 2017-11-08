@@ -16,17 +16,19 @@
 
 package iht.connector
 
+import java.io
+
 import iht.config.WSHttp
 import iht.models._
 import iht.models.application.{ApplicationDetails, ProbateDetails}
-import play.api.libs.json.{JsValue, Json, Reads, Writes}
+import play.api.libs.json._
+import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.cache.client.SessionCache
 import uk.gov.hmrc.play.config.{AppName, ServicesConfig}
 
 import scala.concurrent.duration._
 import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
-import uk.gov.hmrc.http.HeaderCarrier
 
 object SessionHttpCaching extends SessionCache with AppName with ServicesConfig {
   override lazy val http = WSHttp
@@ -52,26 +54,30 @@ trait CachingConnector {
       Future.successful(cachedData.getEntry[A](formKey))
     }
 
-  private def store[A](formKey: String, data: A)(implicit hc: HeaderCarrier, ec: ExecutionContext, writes: Writes[A], reads: Reads[A]): Future[Option[A]] =
-    storeChangeData[A](formKey, data)
-
-  private def get[A](formKey: String)(implicit hc: HeaderCarrier, ec: ExecutionContext, writes: Writes[A], reads: Reads[A]): Future[Option[A]] =
-    getChangeData[A](formKey)
-
-  def delete(key: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Any] = {
-    def storeKickoutDetails(data: KickoutDetails)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[KickoutDetails]] =
+  def storeKickoutDetails(data: KickoutDetails)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[KickoutDetails]] =
     storeChangeData[KickoutDetails](kickoutDetailsKey, data)
 
-    def storeData(key: String, data: JsValue)(implicit hc: HeaderCarrier, ec: ExecutionContext) =
-      key match {
-        case `registrationDetailsFormKey` =>
-          storeRegistrationDetails(Json.fromJson[RegistrationDetails](data).get)
-        case `kickoutDetailsKey` =>
-          storeKickoutDetails(Json.fromJson[KickoutDetails](data).get)
-        case _ =>
-          storeSingleValue(key, Json.fromJson[String](data).get)
-      }
+  def storeData(key: String, data: JsValue)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[io.Serializable]] = {
+        key match {
+          case `registrationDetailsFormKey` =>
+            data.validate[RegistrationDetails] match {
+              case JsError(_) => Future.successful(None)
+              case JsSuccess(reg, _) => storeRegistrationDetails(reg)
+            }
+          case `kickoutDetailsKey` =>
+            data.validate[KickoutDetails] match {
+              case JsError(_) => Future.successful(None)
+              case JsSuccess(kickoutDetails, _) => storeKickoutDetails(kickoutDetails)
+            }
+          case _ =>
+            data.validate[String] match {
+              case JsError(_) => Future.successful(None)
+              case JsSuccess(value, _) => storeSingleValue(key, value)
+            }
+        }
+    }
 
+  def delete(key: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Any] = {
     SessionHttpCaching.fetch.map {
       case Some(x) =>
         Await.ready(SessionHttpCaching.remove(), Duration.Inf)
