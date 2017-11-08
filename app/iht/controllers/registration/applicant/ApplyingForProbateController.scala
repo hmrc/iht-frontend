@@ -46,19 +46,19 @@ trait ApplyingForProbateController extends RegistrationApplicantControllerWithEd
 
   def okForPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.applying_for_probate(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), submitRoute)
-    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
+    (request, language, applicationMessages, formPartialRetriever))
 
   def okForEditPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.applying_for_probate(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
+    (request, language, applicationMessages, formPartialRetriever))
 
   def badRequestForSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.applying_for_probate(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), submitRoute)
-    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
+    (request, language, applicationMessages, formPartialRetriever))
 
   def badRequestForEditSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.applying_for_probate(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
+    (request, language, applicationMessages, formPartialRetriever))
 
   def applyChangesToRegistrationDetails(rd: RegistrationDetails, ad: ApplicantDetails, mode: Mode.Value) = {
     val x = rd.applicantDetails.getOrElse(new ApplicantDetails) copy (

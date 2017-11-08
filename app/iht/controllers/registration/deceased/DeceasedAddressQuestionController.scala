@@ -44,13 +44,13 @@ trait DeceasedAddressQuestionController extends RegistrationDeceasedController {
     Ok(views.deceased_address_question(form,
       DeceasedInfoHelper.getDeceasedNameOrDefaultString(name),
       routes.DeceasedAddressQuestionController.onSubmit())
-    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
+    (request, language, applicationMessages, formPartialRetriever))
 
   def badRequestForSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.deceased_address_question(form,
       DeceasedInfoHelper.getDeceasedNameOrDefaultString(name),
       routes.DeceasedAddressQuestionController.onSubmit())
-    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
+    (request, language, applicationMessages, formPartialRetriever))
 
   def onwardRoute(rd: RegistrationDetails) = {
     val addressInUk = rd.deceasedDetails.flatMap(_.isAddressInUK)
