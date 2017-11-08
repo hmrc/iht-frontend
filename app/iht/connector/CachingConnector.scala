@@ -54,12 +54,6 @@ trait CachingConnector {
       Future.successful(cachedData.getEntry[A](formKey))
     }
 
-  private def store[A](formKey: String, data: A)(implicit hc: HeaderCarrier, ec: ExecutionContext, writes: Writes[A], reads: Reads[A]): Future[Option[A]] =
-    storeChangeData[A](formKey, data)
-
-  private def get[A](formKey: String)(implicit hc: HeaderCarrier, ec: ExecutionContext, writes: Writes[A], reads: Reads[A]): Future[Option[A]] =
-    getChangeData[A](formKey)
-
   def storeKickoutDetails(data: KickoutDetails)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[KickoutDetails]] =
     storeChangeData[KickoutDetails](kickoutDetailsKey, data)
 
