@@ -26,7 +26,8 @@ import iht.utils.CommonHelper._
 import iht.utils.DeceasedInfoHelper._
 import iht.utils.{IhtSection, RegistrationKickOutHelper}
 import play.api.Logger
-import play.api.mvc.{Call, Request, Result}
+import play.api.i18n.Lang
+import play.api.mvc.{AnyContent, Call, Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
@@ -40,6 +41,8 @@ trait RegistrationController extends FrontendController with IhtActions {
   override lazy val ihtSection = IhtSection.Registration
 
   def cachingConnector: CachingConnector
+
+  protected def language(implicit request: Request[AnyContent]) = request.acceptLanguages.foldRight(Lang.apply("en"))((_, lang) => lang)
 
   implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
 

@@ -29,6 +29,7 @@ import play.api.data.Form
 import play.api.mvc._
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.Lang
 
 object DeceasedPermanentHomeController extends DeceasedPermanentHomeController with IhtConnectors {
   def metrics: Metrics = Metrics
@@ -43,24 +44,26 @@ trait DeceasedPermanentHomeController extends RegistrationDeceasedControllerWith
 
   override val storageFailureMessage = "Storage of registration details fails during deceased permanent home submission"
 
+
   lazy val submitRoute = routes.DeceasedPermanentHomeController.onSubmit
   lazy val editSubmitRoute = routes.DeceasedPermanentHomeController.onEditSubmit
 
-  def okForPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
+  def okForPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) = {
     Ok(views.deceased_permanent_home(form, submitRoute)
-    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
+    (request, language, applicationMessages, formPartialRetriever))
+  }
 
   def okForEditPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.deceased_permanent_home(form, editSubmitRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
+    (request, language, applicationMessages, formPartialRetriever))
 
   def badRequestForSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.deceased_permanent_home(form, submitRoute)
-    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
+    (request, language, applicationMessages, formPartialRetriever))
 
   def badRequestForEditSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.deceased_permanent_home(form, editSubmitRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
+    (request, language, applicationMessages, formPartialRetriever))
 
   def onwardRoute(rd: RegistrationDetails) = routes.AboutDeceasedController.onPageLoad
 

@@ -30,7 +30,7 @@ import play.api.Play.current
 import scala.concurrent.Future
 
 trait RegistrationBaseController[T] extends RegistrationController {
-  def getLang(request: Request[AnyContent]) = request.acceptLanguages.head
+  def getLang(request: Request[AnyContent]) = language(request)
 
   def cachingConnector: CachingConnector
 
