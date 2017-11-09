@@ -34,7 +34,7 @@ object OptionalCurrency extends Currency {
                                         errorInvalidCommaPositionKey: String) = new Formatter[Option[BigDecimal]] {
     override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Option[BigDecimal]] =
       data.get(key).fold("")(identity) match {
-        case v if v.isEmpty => Right(None)
+        case v if v.trim.isEmpty => Right(None)
         case v =>
           validationErrors(key, v, errorLengthKey, errorInvalidCharsKey, errorInvalidPenceKey,
                                     errorInvalidSpacesKey, errorInvalidCommaPositionKey: String) match {

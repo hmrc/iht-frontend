@@ -83,5 +83,9 @@ class OptionalCurrencyTest extends UnitSpec with FakeIhtApp {
       optionalCurrency.bind(Map("" -> "2,00.00")) shouldBe Left(List(FormError("", "hasCommaAtInvalidPosition")))
     }
 
+    "give no error if a space character has been entered instead of a number" in {
+      optionalCurrency.bind(Map("" -> " ")) shouldBe Right(None)
+    }
+
   }
 }
