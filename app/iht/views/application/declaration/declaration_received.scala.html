@@ -27,7 +27,7 @@
 
 @iht_main_template_application(title = Messages("page.iht.application.declaration_received.title"),
 browserTitle = Some(Messages("page.iht.application.declaration_received.title")),
-isFullWidth=true
+isFullWidth=false
 ){
 
 <h2>@Messages("page.iht.application.declaration_received.subtitle")</h2>
@@ -35,16 +35,15 @@ isFullWidth=true
 <div class="panel-indent">
     @if(probateDetails.isDefined){
 
-    <div class="grid-2-3"> @Messages("page.iht.application.probateDetails.content2")
+@Messages("page.iht.application.probateDetails.content2")
     <ul class="bullets">
         <li>@Messages("page.iht.application.probateDetails.content2.bullet1") @formattedProbateReference(probateDetails.get.probateReference)</li>
         <li>@Messages("page.iht.application.probateDetails.content2.bullet2",probateDetails.get.grossEstateforProbatePurposes )</li>
         <li>@Messages("page.iht.application.probateDetails.content2.bullet3",probateDetails.get.netEstateForProbatePurposes)</li>
     </ul>
-    </div>
 
     @defining(Html(
-    "<div class='grid-2-3'>"
+    "<div>"
         +"<ul class='bullets'>"
         +"<li>"+Messages("page.iht.application.probateDetails.guidance.bullet1")+"</li>"
             +"<li>"+Messages("page.iht.application.probateDetails.guidance.bullet2")+"</li>"
@@ -58,13 +57,12 @@ isFullWidth=true
     )
     }
 
-
-    <p class="grid-2-3"> @Messages("page.iht.application.probateDetails.content4")
+    <p> @Messages("page.iht.application.probateDetails.content4")
         <a id="download-and-print" href="javascript:window.print()">@Messages("page.iht.application.probateDetails.content4.print")</a>
         @Messages("page.iht.application.probateDetails.content5")
     </p>
     } else {
-    <p class="grid-2-3">@Messages("page.iht.application.probateDetails.probateDetailsNotAvailableText")</p>
+    <p>@Messages("page.iht.application.probateDetails.probateDetailsNotAvailableText")</p>
     }
 </div>
 <h3>@Messages("page.iht.application.declaration_received.subheading1")</h3>
