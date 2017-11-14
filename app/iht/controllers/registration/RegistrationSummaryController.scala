@@ -72,7 +72,6 @@ trait RegistrationSummaryController extends RegistrationController {
   def onSubmit = authorisedForIht {
     implicit user => implicit request => {
       def errorHandler: PartialFunction[Throwable, Result] = {
-        case ex: ConflictException => Redirect(routes.DuplicateRegistrationController.onPageLoad("IHT Reference"))
         case ex: GatewayTimeoutException => {
           Logger.debug("Request has been timed out while submitting registration")
           Ok(iht.views.html.registration.registration_error(ControllerHelper.errorRequestTimeOut))
@@ -99,17 +98,21 @@ trait RegistrationSummaryController extends RegistrationController {
           registrationDetails.copy(acknowledgmentReference = ackRef)
         )
         ihtReference.flatMap { ihtReference => {
-          val storedFutureOptionRegistrationDetails = cachingConnector.storeRegistrationDetails {
-            registrationDetails.copy(ihtReference = Some(ihtReference), acknowledgmentReference = ackRef)
-          }
-          storedFutureOptionRegistrationDetails.flatMap { storedResult => {
-            storedResult match {
-              case Some(_) => saveApplicationDetails(registrationDetails, ihtReference, ackRef)
-              case None =>
-                Logger.warn("Storage of registration details fails during registration summary")
-                Future.successful(InternalServerError)
+          if (ihtReference.isEmpty) {
+            Future.successful(Redirect(routes.DuplicateRegistrationController.onPageLoad("IHT Reference")))
+          } else {
+            val storedFutureOptionRegistrationDetails = cachingConnector.storeRegistrationDetails {
+              registrationDetails.copy(ihtReference = Some(ihtReference), acknowledgmentReference = ackRef)
             }
-          }
+            storedFutureOptionRegistrationDetails.flatMap { storedResult => {
+              storedResult match {
+                case Some(_) => saveApplicationDetails(registrationDetails, ihtReference, ackRef)
+                case None =>
+                  Logger.warn("Storage of registration details fails during registration summary")
+                  Future.successful(InternalServerError)
+              }
+            }
+            }
           }
         }
         } recover errorHandler
