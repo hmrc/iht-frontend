@@ -1,5 +1,10 @@
+/*
+Setting border box as it is not being set by AF
+Have to set it to content-box rather than border box
+due to disconnect between header and content containers
+*/
 * {
-box-sizing: border-box;
+box-sizing: content-box;
 }
 
 /*
