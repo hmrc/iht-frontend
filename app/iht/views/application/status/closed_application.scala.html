@@ -44,11 +44,11 @@ sidebarLinks = iht.views.html.application.status.post_submission_sidebar(ihtref,
     </div>
 
     <div id="clearance-button" class="form-field form-field--submit">
-        <a id="clearance-anchor" class='button' href="@iht.controllers.application.status.routes.ApplicationClosedAndClearedController.onPageLoad(ihtref)">
+        <a id="clearance-anchor" href="@iht.controllers.application.status.routes.ApplicationClosedAndClearedController.onPageLoad(ihtref)">
             @Messages("page.iht.application.overview.closed.clearance")
         </a>
     </div>
 
-    <a id="return-link" href="@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad">@Messages("page.iht.application.overview.common.return")</a>
+    <a id="return-link" class='button' href="@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad">@Messages("page.iht.application.overview.common.return")</a>
 </div>
 }
