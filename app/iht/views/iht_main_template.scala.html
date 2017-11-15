@@ -39,7 +39,6 @@ browserTitle: Option[String] = None,
 contentHeader: Option[Html] = None,
 isFullWidth: Boolean = false,
 backUrl: Option[Call] = None,
-jsFile: Option[String]= None,
 cssFile: Option[String]= None,
 cancelUrl: Option[Call]=None,
 cancelLabel: => Option[String] = Some(""),
@@ -50,7 +49,8 @@ headerTitle: Option[String],
 headingClass: String = "",
 headingName: String = "",
 isRegistration: Boolean = false,
-isUserResearchBannerVisible:Boolean = false
+isUserResearchBannerVisible:Boolean = false,
+highlightBox:Boolean = false
 )(mainContent: Html)(implicit  request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @lc = @{Application.instanceCache[CustomLanguageController].apply(current) }
@@ -113,7 +113,6 @@ isUserResearchBannerVisible:Boolean = false
     <script src='@routes.Assets.versioned("javascripts/gaTracking.js")' type="text/javascript"></script>
 
     <script src='@routes.Assets.versioned("javascripts/iht-app.min.js")'> </script>
-    @jsFile.map{js => <script src='@routes.Assets.versioned("javascripts/" + js)'> </script>}
     @if(hasTimeOut && ApplicationConfig.enableRefresh) {
             <script>
                 $.timeoutDialog({
@@ -176,6 +175,9 @@ isUserResearchBannerVisible:Boolean = false
 
 @mainContentIht = {
     @if(title > ""){
+        @if(highlightBox) {
+        <div class="govuk-box-highlight">
+        }
     <h1 class="@headingClassName">
         @if(headingName > ""){
             @parseForName(title, headingName)
@@ -183,6 +185,7 @@ isUserResearchBannerVisible:Boolean = false
             @Html(title)
         }
     </h1>
+    @if(highlightBox){</div>}
     }
     @mainContent
 

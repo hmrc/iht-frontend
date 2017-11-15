@@ -27,7 +27,7 @@
 
 @iht_main_template_application(title = Messages("page.iht.application.declaration_received.title", DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)),
 browserTitle = Some(Messages("page.iht.application.declaration_received.browserTitle")),
-isFullWidth=false
+isFullWidth=false, highlightBox = true
 ){
 
     <p><a href="@iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF()">@Messages("page.iht.application.declaration_received.pdf.link")</a></p>
@@ -46,7 +46,4 @@ isFullWidth=false
         @Messages("page.iht.application.declaration_received.continue")
     </a>
 
-
 }
-
-
