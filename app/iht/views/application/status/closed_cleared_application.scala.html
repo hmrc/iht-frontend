@@ -37,11 +37,11 @@ sidebarLinks=iht.views.html.application.status.post_submission_sidebar(ihtref, p
     @post_submit_common(deceasedName, false)
     <p>@Messages("page.iht.application.overview.cleared.helptext1")</p>
     <p>@Messages("page.iht.application.overview.cleared.helptext2")</p>
-    <p><a class="button" id="view-certificate-button" href="@iht.controllers.application.pdf.routes.PDFController.onClearancePDF()">
+    <p><a id="view-certificate-button" href="@iht.controllers.application.pdf.routes.PDFController.onClearancePDF()">
         @Html(Messages("page.iht.application.overview.common.viewcertificate"))
     </a> </p>
     
-    <p><a id="return-link" href="@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad">@Messages("page.iht.application.overview.common.return")</a></p>
+    <p><a id="return-link" class="button" href="@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad">@Messages("page.iht.application.overview.common.return")</a></p>
 
 
 
