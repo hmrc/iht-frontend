@@ -31,7 +31,7 @@ sidebarLinks: Html = HtmlFormat.empty,
 headingClass: String = "",
 headingName: String = "",
 isUserResearchBannerVisible:Boolean = false,
-highlightBox: Boolean = false
+isHighlightBoxVisible: Boolean = false
 )(mainContent: Html)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template(
@@ -52,5 +52,5 @@ highlightBox: Boolean = false
     headingName = headingName,
     isRegistration = true,
     isUserResearchBannerVisible = isUserResearchBannerVisible,
-    highlightBox = highlightBox
+    isHighlightBoxVisible = isHighlightBoxVisible
 )(mainContent)

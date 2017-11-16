@@ -50,7 +50,7 @@ headingClass: String = "",
 headingName: String = "",
 isRegistration: Boolean = false,
 isUserResearchBannerVisible:Boolean = false,
-highlightBox:Boolean = false
+isHighlightBoxVisible:Boolean = false
 )(mainContent: Html)(implicit  request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @lc = @{Application.instanceCache[CustomLanguageController].apply(current) }
@@ -175,7 +175,7 @@ highlightBox:Boolean = false
 
 @mainContentIht = {
     @if(title > ""){
-        @if(highlightBox) {
+        @if(isHighlightBoxVisible) {
         <div class="govuk-box-highlight">
         }
     <h1 class="@headingClassName">
@@ -185,7 +185,7 @@ highlightBox:Boolean = false
             @Html(title)
         }
     </h1>
-    @if(highlightBox){</div>}
+    @if(isHighlightBoxVisible){</div>}
     }
     @mainContent
 
