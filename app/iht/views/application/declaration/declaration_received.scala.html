@@ -22,8 +22,7 @@
 @import iht.constants.IhtProperties
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-@(probateDetails: Option[ProbateDetails],
- registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+@(registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(title = Messages("page.iht.application.declaration_received.title", DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)),
 browserTitle = Some(Messages("page.iht.application.declaration_received.browserTitle")),
