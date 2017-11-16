@@ -16,6 +16,51 @@
 
 package iht.views.application.declaration
 
-class ProbateApplicationFormDetailsViewTest {
+import iht.testhelpers.CommonBuilder
+import iht.utils.DeceasedInfoHelper
+import iht.views.ViewTestHelper
+import iht.views.html.application.declaration.probate_application_form_details
+import play.api.i18n.Messages.Implicits._
+
+class ProbateApplicationFormDetailsViewTest extends ViewTestHelper {
+
+  lazy val regDetails = CommonBuilder.buildRegistrationDetails1
+  lazy val probateDetails = CommonBuilder.buildProbateDetails
+  val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
+
+  def probateApplicationFormDetailsView() = {
+    implicit val request = createFakeRequest()
+
+    val view = probate_application_form_details(Some(probateDetails), regDetails).toString
+    asDocument(view)
+  }
+
+  "ProbateApplicationFormDetails Page" must {
+
+    "have no message keys in html" in {
+      val view = probateApplicationFormDetailsView().toString
+      noMessageKeysShouldBePresent(view)
+    }
+
+    "show correct title and browserTitle" in {
+      val view = probateApplicationFormDetailsView().toString
+      titleShouldBeCorrect(view, messagesApi("page.iht.application.probate.title"))
+      browserTitleShouldBeCorrect(view, messagesApi("page.iht.application.probate.browserTitle"))
+    }
+
+    "show the correct guidance" in {
+      val view = probateApplicationFormDetailsView().toString
+      messagesShouldBePresent(view, messagesApi("page.iht.application.probate.guidance.p1", deceasedName))
+      messagesShouldBePresent(view, messagesApi("page.iht.application.probate.guidance.p2"))
+      messagesShouldBePresent(view, messagesApi("page.iht.application.probate.guidance.indent"))
+    }
+
+    "show the continue to Inheritance Tax estate reports link" in {
+      val view = probateApplicationFormDetailsView()
+      val continue = view.getElementById("continue-to-estate-reports")
+      continue.attr("href") shouldBe iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url
+      continue.text() shouldBe messagesApi("site.button.continue.iht.app.page")
+    }
+  }
 
 }
