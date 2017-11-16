@@ -858,6 +858,7 @@ page.iht.application.charity.name.screenReader=Enw''r elusen hon yw {0}
 page.iht.application.overview.cleared.helptext2=Gallwch fwrw golwg ar gopi o''ch tystysgrif clirio sy''n cadarnhau bod yr adroddiad hwn ynghylch yr ystâd wedi''i glirio.
 site.link.return.mortgage=Ychwanegu gwerth morgais ar gyfer eiddo, adeilad neu dir
 page.iht.application.probateDetails.content4.print=lawrlwytho neu argraffu''r dudalen hon
+page.iht.application.probate.print=Lawrlwytho neu argraffu''r dudalen hon
 error.postcode.incorrect.summary=nodwch god post dilys
 error.dateOfBirth.numeric=Nodwch ddyddiad geni dilys gan ddefnyddio rhifau''n unig
 iht.estateReport.exemptions.partner.homeInUK.question=A yw cartref parhaol y priod neu''r partner sifil yn y DU?

@@ -100,9 +100,9 @@ class DeclarationReceivedViewTest extends ViewTestHelper {
     "show the continue to Inheritance Tax estate reports link" in {
       val view = declarationReceivedView()
 
-      val continue = view.getElementById("continue-to-estate-report")
-      continue.attr("href") shouldBe iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url
-      continue.text() shouldBe messagesApi("page.iht.application.declaration_received.continuelink")
+      val continue = view.getElementById("continue-to-probate-page")
+      continue.attr("href") shouldBe iht.controllers.application.declaration.routes.ProbateApplicationFormDetailsController.onPageLoad().url
+      continue.text() shouldBe messagesApi("page.iht.application.declaration_received.continue")
 
     }
   }
