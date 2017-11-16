@@ -31,7 +31,7 @@ class DeclarationReceivedViewTest extends ViewTestHelper {
   def declarationReceivedView() = {
     implicit val request = createFakeRequest()
 
-    val view = declaration_received(Some(probateDetails), regDetails).toString
+    val view = declaration_received(regDetails).toString
     asDocument(view)
   }
 

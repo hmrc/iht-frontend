@@ -39,13 +39,8 @@ trait DeclarationReceivedController extends ApplicationController {
     implicit user =>
       implicit request => {
         withRegistrationDetails { rd =>
-          val ihtReference = CommonHelper.getOrException(rd.ihtReference)
-          cachingConnector.getProbateDetails.flatMap { optionProbateDetails =>
-            cachingConnector.storeSingleValue(Constants.PDFIHTReference, ihtReference).flatMap { _ =>
-              Future.successful(Ok(iht.views.html.application.declaration.declaration_received(optionProbateDetails, rd)))
+              Future.successful(Ok(iht.views.html.application.declaration.declaration_received(rd)))
             }
           }
         }
       }
-  }
-}
