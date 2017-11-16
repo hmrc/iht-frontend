@@ -1696,7 +1696,7 @@ page.iht.application.declaration_received.pdf.link = Save a copy of this estate 
 page.iht.application.declaration_received.continue=Continue to the PA1 - Probate application form details page
 page.iht.application.declaration_received.guidance.indent=You can choose this estate report from your Inheritance Tax estate reports page to get a copy of it at any time.
 page.iht.application.declaration_received.guidance.retention=HMRC recommend that you keep a copy of this estate report along with any other paperwork you have used to help you complete it. You should keep these details for 5 years.
-page.iht.application.declaration_received.guidance.probate=You will need some details to finish your PA1 - Probate application form. These details can be found on the PA1 - Probate application form page.
+page.iht.application.declaration_received.guidance.probate=You will need some details to finish your PA1 - Probate application form. These details can be found on the PA1 - Probate application form details page.
 
 #Estate report - Probate Details
 page.iht.application.probateDetails.content2 = You will need the following details to write on your PA1 – Probate application form:
