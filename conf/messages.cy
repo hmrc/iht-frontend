@@ -2047,4 +2047,14 @@ page.iht.application.declaration_received.browserTitle=???
 page.iht.application.declaration_received.guidance.retention=???
 page.iht.application.declaration_received.pdf.link=???
 page.iht.application.declaration_received.guidance.probate=???
-page.iht.application.declaration_received.guidance.indent=???
+page.iht.application.declaration_received.guidance.indent=??
+
+page.iht.application.probate.guidance.p2=???
+page.iht.application.probate.guidance.indent=???
+page.iht.application.probate.data.visuallyHiddenCaption=???
+page.iht.application.probate.guidance.p1=???
+page.iht.application.probate.data.ihtIdentifier=???
+page.iht.application.probate.data.grossEstateFigure=???
+page.iht.application.probate.browserTitle=???
+page.iht.application.probate.data.netEstateFigure=???
+page.iht.application.probate.title=???
