@@ -22,7 +22,6 @@ browserTitle: Option[String] = None,
 contentHeader: Option[Html] = None,
 isFullWidth: Boolean = false,
 backUrl: Option[Call] = None,
-jsFile: Option[String]= None,
 cssFile: Option[String]= None,
 cancelUrl: Option[Call]=None,
 cancelLabel: => Option[String] = None,
@@ -30,7 +29,8 @@ hasSignOut: Boolean = true,
 hasTimeOut:Boolean = true,
 sidebarLinks: Html = HtmlFormat.empty,
 headingClass: String = "",
-headingName: String = ""
+headingName: String = "",
+isHighlightBoxVisible: Boolean = false
 )(mainContent: Html)(implicit  request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template(
@@ -40,7 +40,6 @@ headingName: String = ""
     contentHeader = contentHeader,
     isFullWidth = isFullWidth,
     backUrl = backUrl,
-    jsFile = jsFile,
     cssFile = cssFile,
     cancelUrl = cancelUrl,
     cancelLabel = cancelLabel,
@@ -50,5 +49,6 @@ headingName: String = ""
     headerTitle = Some(Messages("site.application.title")),
     headingClass = headingClass,
     headingName = headingName,
-    isRegistration = false
+    isRegistration = false,
+    isHighlightBoxVisible = isHighlightBoxVisible
 )(mainContent)
