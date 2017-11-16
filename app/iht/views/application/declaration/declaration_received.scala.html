@@ -25,81 +25,25 @@
 @(probateDetails: Option[ProbateDetails],
  registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
-@iht_main_template_application(title = Messages("page.iht.application.declaration_received.title"),
-browserTitle = Some(Messages("page.iht.application.declaration_received.title")),
-isFullWidth=false
+@iht_main_template_application(title = Messages("page.iht.application.declaration_received.title", DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+browserTitle = Some(Messages("page.iht.application.declaration_received.browserTitle")),
+isFullWidth=false, isHighlightBoxVisible = true
 ){
 
-<h2>@Messages("page.iht.application.declaration_received.subtitle")</h2>
+    <p><a href="@iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF()">@Messages("page.iht.application.declaration_received.pdf.link")</a></p>
 
-<div class="panel-indent">
-    @if(probateDetails.isDefined){
+    <div class="panel-indent">
+        <p>@Messages("page.iht.application.declaration_received.guidance.indent")</p>
+    </div>
 
-@Messages("page.iht.application.probateDetails.content2")
-    <ul class="bullets">
-        <li>@Messages("page.iht.application.probateDetails.content2.bullet1") @formattedProbateReference(probateDetails.get.probateReference)</li>
-        <li>@Messages("page.iht.application.probateDetails.content2.bullet2",probateDetails.get.grossEstateforProbatePurposes )</li>
-        <li>@Messages("page.iht.application.probateDetails.content2.bullet3",probateDetails.get.netEstateForProbatePurposes)</li>
-    </ul>
+    <p>@Messages("page.iht.application.declaration_received.guidance.retention")</p>
 
-    @defining(Html(
-    "<div>"
-        +"<ul class='bullets'>"
-        +"<li>"+Messages("page.iht.application.probateDetails.guidance.bullet1")+"</li>"
-            +"<li>"+Messages("page.iht.application.probateDetails.guidance.bullet2")+"</li>"
-            +"<li>"+Messages("page.iht.application.probateDetails.guidance.bullet3")+"</li>"
-        +"</ul>"
-    +"</div>"
-    )) { slideHTML =>
-    @ihtHelpers.standard.accordion_slider_help_text(
-    '_helpText -> Messages("page.iht.application.probateDetails.guidance"),
-    '_slideOutText -> slideHTML
-    )
-    }
+    <h2>@Messages("iht.nextSteps")</h2>
 
-    <p> @Messages("page.iht.application.probateDetails.content4")
-        <a id="download-and-print" href="javascript:window.print()">@Messages("page.iht.application.probateDetails.content4.print")</a>
-        @Messages("page.iht.application.probateDetails.content5")
-    </p>
-    } else {
-    <p>@Messages("page.iht.application.probateDetails.probateDetailsNotAvailableText")</p>
-    }
-</div>
-<h3>@Messages("page.iht.application.declaration_received.subheading1")</h3>
+    <p>@Messages("page.iht.application.declaration_received.guidance.probate")</p>
 
-<p>@Messages("page.iht.application.declaration_received.probate.paragraph1")</p>
-
-<p>@Messages("page.iht.application.declaration_received.paragraph2")</p>
-
-    @defining(DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)) { deceasedName =>
-
-        <h3>@Messages("page.iht.application.declaration_received.subheading3")</h3>
-        <p>
-            <a id="pdfLink" href="@iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF()">@Html(Messages("page.iht.application.declaration_received.paragraph5.link"))</a>
-            .
-            @Messages("page.iht.application.declaration_received.paragraph5.part2", deceasedName)
-        </p>
-
-<h3>@Messages("page.iht.application.declaration_received.subheading2")</h3>
-<p>@Messages("page.iht.application.declaration_received.paragraph3")</p>
-<p>@Messages("page.iht.application.declaration_received.paragraph4", deceasedName)</p>
-
-    }
-
-@defining(Html(Messages("page.iht.application.overview.helptext.part1")
-  +" <a id=\"correctiveAccount\" href="+IhtProperties.correctiveAccountsLink+"> "
-  + Messages("iht.estateReport.correctiveAccountForm")+"</a>"
-  + Messages("page.iht.application.overview.helptext.part2"))) { slideHTML =>
-    @ihtHelpers.standard.accordion_slider_help_text(
-      '_helpText -> Messages("page.iht.application.declaration_received.hint"),
-      '_slideOutText -> slideHTML,
-      '_needHighlight -> true
-    )
-}
-
-<a id="continue-to-estate-report" class="button" href="@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad">
-  @Messages("page.iht.application.declaration_received.continuelink")
-</a>
-
+    <a id="continue-to-probate-page" class="button" href="@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad">
+        @Messages("page.iht.application.declaration_received.continue")
+    </a>
 
 }
