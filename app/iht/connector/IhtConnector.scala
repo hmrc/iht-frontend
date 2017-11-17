@@ -94,8 +94,12 @@ object IhtConnector extends IhtConnector with ServicesConfig {
     Logger.info("Calling IHT micro-service to submit registration")
     http.POST(s"$serviceUrl/iht/$ninoFormatted/registration/submit", er) map {
       response => {
-        Logger.info("Successful return from registration submit")
-        response.body
+        if (response.status == ACCEPTED) {
+          ""
+        } else {
+          Logger.info("Successful return from registration submit")
+          response.body
+        }
       }
     } recoverWith {
       case Upstream4xxResponse(message, CONFLICT, _, _) => {
