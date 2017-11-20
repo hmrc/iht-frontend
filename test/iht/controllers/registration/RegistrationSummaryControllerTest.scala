@@ -140,7 +140,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       }
     }
 
-    "onSubmit duplicate registration throw ConflictException" in {
+    "onSubmit duplicate registration redirect to Duplicate Registration page" in {
       val deceasedDateOfDeath = new DeceasedDateOfDeath(new LocalDate(2001,11, 11))
       val applicantDetails = CommonBuilder.buildApplicantDetails
       val deceasedDetails = CommonBuilder.buildDeceasedDetails
@@ -153,13 +153,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
-      createMockToSubmitRegistration(mockIhtConnector)
-
-      when(mockIhtConnector.saveApplication(any(), any(), any())(any()))
-        .thenAnswer(new Answer[Future[Option[ApplicationDetails]]] {
-          override def answer(invocation: InvocationOnMock): Future[Option[ApplicationDetails]] = {
-            Future.failed(new ConflictException("test"))
-          }})
+      createMockToSubmitRegistration(mockIhtConnector, "")
 
       val result = controller.onSubmit(createFakeRequest())
       status(result) should be(SEE_OTHER)
