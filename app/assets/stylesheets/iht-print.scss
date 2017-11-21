@@ -1,0 +1,79 @@
+// Hide unwanted links in page
+.u--no-print {
+    display: none;
+}
+
+// Hide get help link
+.report-error__toggle {
+    display: none;
+}
+
+// Service Name
+.header__menu__proposition-name {
+    color: #000;
+}
+
+// position header to line up with main content
+#global-header {
+    margin-bottom: 0;
+}
+
+.header-wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0em 0.6em;
+}
+.header-global {
+    display: block;
+    position: relative;
+}
+.header-global:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    border-top-width: 100px;
+    border-top-color: #000;
+    border-style: solid;
+    z-index: 0;
+}
+.header-logo {
+    font-size: 1.4em;
+    line-height: 1;
+    padding: 10px;
+//    -webkit-print-color-adjust: exact;
+}
+#global-header #logo {
+    color: #fff!important;
+        -webkit-print-color-adjust: exact;
+    display: inline-block;
+    z-index: 1;
+    position: relative;
+}
+#global-header img {
+    display: inline-block;
+    width: 35px;
+    height: 31px;
+    vertical-align: bottom;
+}
+
+// Hide menu
+.header-proposition a {
+    display: none;
+}
+
+// Style Details component
+details summary {
+    color: #000;
+}
+details .panel-indent {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+details .arrow,
+details summary::-webkit-details-marker {
+    display: none!important;
+}

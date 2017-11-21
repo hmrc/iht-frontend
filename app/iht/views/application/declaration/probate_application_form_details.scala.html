@@ -32,7 +32,7 @@
         </tbody>
     </table>
 
-    <p><a id="download-and-print" href="javascript:window.print()">@Messages("page.iht.application.probate.print")</a></p>
+    <p><a id="download-and-print" class="u--no-print" href="javascript:window.print()">@Messages("page.iht.application.probate.print")</a></p>
 
     <div class="panel-indent">
     <p>@Messages("page.iht.application.probate.guidance.indent")</p>
@@ -40,7 +40,7 @@
 
     <p>@Messages("page.iht.application.probate.guidance.p2")</p>
 
-    <a id="continue-to-estate-reports" class="button" href="@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad">
+    <a id="continue-to-estate-reports" class="button u--no-print" href="@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad">
          @Messages("site.button.continue.iht.app.page")
     </a>
 }
