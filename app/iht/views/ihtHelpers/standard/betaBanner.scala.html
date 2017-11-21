@@ -19,7 +19,7 @@ betaFeedbackUnauthenticatedUrl: String,
 showFeedbackLinkInBetaBanner: Boolean = true,
 noBorder: Boolean = false)(implicit messages: Messages)
 
-<div class="beta-banner @if(noBorder) {beta-banner--borderless}">
+<div class="beta-banner @if(noBorder) {beta-banner--borderless} u--no-print">
     <p>
         <strong class="phase-tag">@Messages("label.beta")</strong>
         <span>@Messages("label.beta.newservice") @if(showFeedbackLinkInBetaBanner) {

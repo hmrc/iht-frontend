@@ -1,0 +1,46 @@
+@import iht.models._
+@import iht.models.application.ProbateDetails
+
+@import iht.views.html._
+@import iht.utils._
+@import iht.constants.IhtProperties
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
+
+@(probateDetails: Option[ProbateDetails],
+        registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+
+@iht_main_template_application(title = Messages("page.iht.application.probate.title"),
+    browserTitle = Some(Messages("page.iht.application.probate.browserTitle"))
+){
+    <p>@Messages("page.iht.application.probate.guidance.p1", DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+
+    <table>
+        <caption class="visually-hidden">@Messages("page.iht.application.probate.data.visuallyHiddenCaption", DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails))</caption>
+        <tbody>
+            <tr>
+                <td>@Messages("page.iht.application.probate.data.ihtIdentifier")</td>
+                <td>@formattedProbateReference(probateDetails.get.probateReference)</td>
+            </tr>
+            <tr>
+                <td>@Messages("page.iht.application.probate.data.grossEstateFigure")</td>
+                <td>£@CommonHelper.numberWithCommas(probateDetails.get.grossEstateforProbatePurposes)</td>
+            </tr>
+            <tr>
+                <td>@Messages("page.iht.application.probate.data.netEstateFigure")</td>
+                <td>£@CommonHelper.numberWithCommas(probateDetails.get.netEstateForProbatePurposes)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p><a id="download-and-print" class="u--no-print" href="javascript:window.print()">@Messages("page.iht.application.probate.print")</a></p>
+
+    <div class="panel-indent">
+    <p>@Messages("page.iht.application.probate.guidance.indent")</p>
+    </div>
+
+    <p>@Messages("page.iht.application.probate.guidance.p2")</p>
+
+    <a id="continue-to-estate-reports" class="button u--no-print" href="@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad">
+         @Messages("site.button.continue.iht.app.page")
+    </a>
+}

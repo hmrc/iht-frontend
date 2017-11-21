@@ -25,7 +25,6 @@ import iht.utils._
 class DeclarationReceivedViewTest extends ViewTestHelper {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
-  lazy val probateDetails = CommonBuilder.buildProbateDetails
   val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
 
   def declarationReceivedView() = {
@@ -64,8 +63,7 @@ class DeclarationReceivedViewTest extends ViewTestHelper {
     "show the continue to Inheritance Tax estate reports link" in {
       val view = declarationReceivedView()
       val continue = view.getElementById("continue-to-probate-page")
-      // TODO: Update this once the probate page has been implemented
-      continue.attr("href") shouldBe iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url
+      continue.attr("href") shouldBe iht.controllers.application.declaration.routes.ProbateApplicationFormDetailsController.onPageLoad().url
       continue.text() shouldBe messagesApi("page.iht.application.declaration_received.continue")
     }
   }

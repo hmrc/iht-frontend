@@ -30,6 +30,7 @@
 @import iht.config.ApplicationConfig
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.constants.IhtProperties
+@import iht.views.html.ihtHelpers.standard._
 
 @import ihtHelpers.custom._
 
@@ -78,7 +79,7 @@ isHighlightBoxVisible:Boolean = false
 
 @navLinks = {
     @signOutUrl.map{ url =>
-        <li><a id="logOutNavHref" href="@url">@signOutText</a></li>
+        <li class="u--no-print"><a id="logOutNavHref" href="@url">@signOutText</a></li>
     }
 }
 
@@ -88,6 +89,7 @@ isHighlightBoxVisible:Boolean = false
     <!--[if lte IE 8 ]>
     <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/iht-app-ie.css")" />
     <![endif]-->
+    <link rel="stylesheet" media="print" href='@routes.Assets.versioned("stylesheets/iht-print.css")' />
 }
 
 @scriptElement = {
@@ -146,7 +148,7 @@ isHighlightBoxVisible:Boolean = false
             ihtHelpers.standard.language_selection(
                 lc.languageMap,
                 lc.langToCall,
-                Some("translate u-align--right")
+                Some("translate u-align--right u--no-print")
             )
         }
     }
@@ -196,7 +198,7 @@ isHighlightBoxVisible:Boolean = false
         <a id="cancel-button" class="" href=@url>@Html(cancelLabel.getOrElse(""))</a>
     }
 
-   @progressive_disclosure(Messages("iht.needHelp"), Seq(Messages("iht.needHelp.guidance")))
+    @progressive_disclosure(Messages("iht.needHelp"), Seq(Messages("iht.needHelp.guidance")))
 }
 
 @betaBanner = {
@@ -247,5 +249,5 @@ bodyEnd = bodyEnd,
 insideHeader = insideHeader,
 afterHeader = afterHeader,
 footerTop = HtmlFormat.empty,
-footerLinks = Some(layouts.footer_links()),
+footerLinks = Some(iht.views.html.ihtHelpers.standard.footer_links()),
 nav = true)(content)
