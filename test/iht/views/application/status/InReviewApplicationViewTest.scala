@@ -16,6 +16,8 @@
 
 package iht.views.application.status
 
+import iht.testhelpers.TestHelper
+import iht.utils.{CommonHelper, formattedProbateReference}
 import iht.views.ExitComponent
 import iht.views.html.application.status.in_review_application
 import play.api.i18n.Messages.Implicits._
@@ -24,9 +26,9 @@ class InReviewApplicationViewTest extends ApplicationStatusViewBehaviour {
 
   override def sidebarTitle: String = messagesApi("page.iht.application.overview.inreview.sidebartitle")
 
-  def guidanceParagraphs = commonGuidanceParagraphs
+  def guidanceParagraphs = Set.empty
 
-  def pageTitle = messagesApi("page.iht.application.overview.inreview.title")
+  def pageTitle = messagesApi("page.iht.application.overview.inreview.title", deceasedName)
 
   def browserTitle = messagesApi("page.iht.application.overview.inreview.title")
 
@@ -39,7 +41,32 @@ class InReviewApplicationViewTest extends ApplicationStatusViewBehaviour {
   override def exitComponent = None
 
   "In Review Application View" must {
-    behave like applicationStatusPage()
+
+
+    link("tellHMRC",
+      TestHelper.linkEstateReportKickOut,
+      messagesApi("page.iht.application.overview.inreview.tellHMRC")
+    )
+
+    link("view-app-copy",
+      iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF().url,
+      messagesApi("page.iht.application.overview.common.viewcopy")
+    )
+
+    "show the IHT identifier" in {
+      val expectedContent = formattedProbateReference(probateDetails.probateReference)
+      elementShouldHaveText(doc, "probate-details-iht-identifier", expectedContent)
+    }
+
+    "show the gross estate figure" in {
+      val expectedContent = "£" + CommonHelper.numberWithCommas(probateDetails.grossEstateforProbatePurposes)
+      elementShouldHaveText(doc, "probate-details-gross-estate-figure", expectedContent)
+    }
+
+    "show the net estate figure" in {
+      val expectedContent = "£" + CommonHelper.numberWithCommas(probateDetails.netEstateForProbatePurposes)
+      elementShouldHaveText(doc, "probate-details-net-estate-figure", expectedContent)
+    }
 
     "show submit button with correct target and text" in {
       doc.getElementsByTag("form").attr("action") shouldBe iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url

@@ -108,6 +108,7 @@ object TestHelper {
   lazy val marriedMessageKey = "page.iht.application.tnrbEligibilty.partner.married.label"
   lazy val marriedOrInCivilPartnershipMessageKey = "page.iht.application.tnrbEligibilty.partner.marriedOrCivilPartnership.label"
   lazy val ihtPropertiesCorrectiveAccountsLink = "https://www.gov.uk/government/publications/inheritance-tax-corrective-account-c4"
+  lazy val linkEstateReportKickOut = "https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400"
 
 
   lazy val AppSectionPropertiesID = "properties-buildings-and-land"

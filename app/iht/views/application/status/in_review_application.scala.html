@@ -57,15 +57,15 @@ isFullWidth=false
                     <tbody>
                     <tr>
                         <td>@Messages("page.iht.application.probate.data.ihtIdentifier")</td>
-                        <td>@formattedProbateReference(probateDetails.probateReference)</td>
+                        <td id="probate-details-iht-identifier">@formattedProbateReference(probateDetails.probateReference)</td>
                     </tr>
                     <tr>
                         <td>@Messages("page.iht.application.probate.data.grossEstateFigure")</td>
-                        <td>£@CommonHelper.numberWithCommas(probateDetails.grossEstateforProbatePurposes)</td>
+                        <td id="probate-details-gross-estate-figure">£@CommonHelper.numberWithCommas(probateDetails.grossEstateforProbatePurposes)</td>
                     </tr>
                     <tr>
                         <td>@Messages("page.iht.application.probate.data.netEstateFigure")</td>
-                        <td>£@CommonHelper.numberWithCommas(probateDetails.netEstateForProbatePurposes)</td>
+                        <td id="probate-details-net-estate-figure">£@CommonHelper.numberWithCommas(probateDetails.netEstateForProbatePurposes)</td>
                     </tr>
                     </tbody>
                 </table>
