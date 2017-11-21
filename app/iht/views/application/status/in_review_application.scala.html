@@ -21,21 +21,66 @@
 @import iht.utils._
 @import iht.views.html.application.overview._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.constants.IhtProperties
 
 @(ihtref: String,
 deceasedName: String,
 probateDetails: ProbateDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
-@iht_main_template_application(title = Messages("page.iht.application.overview.inreview.title"),
+@iht_main_template_application(title = Messages("page.iht.application.overview.inreview.title", deceasedName),
 browserTitle = Some(Messages("page.iht.application.overview.inreview.title")),
-isFullWidth=false,
-sidebarLinks= iht.views.html.application.status.post_submission_sidebar(ihtref, probateDetails, "page.iht.application.overview.inreview.sidebartitle")
+isFullWidth=false
 ) {
 
 <div>
-    @post_submit_common(deceasedName, true)
     <div id="return-button">
         @helpers.form(action = iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad) {
+
+        <p>@messages("page.iht.application.overview.inreview.p1")</p>
+        <p>@messages("page.iht.application.overview.inreview.p2")</p>
+
+        <p>
+            <a id="view-app-copy" href="@iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF()">
+                @Html(Messages("page.iht.application.overview.common.viewcopy"))
+            </a>
+        </p>
+
+        <h2><strong>@messages("page.iht.application.overview.inreview.ifYouNeed")</strong></h2>
+        <p>@messages("page.iht.application.overview.inreview.p3")</p>
+
+        <details id="need-details-reveal">
+            <summary class="summary">@Messages("page.iht.application.overview.common.needDetails")</summary>
+            <div class="panel-indent panel-indent--gutter">
+                <p>@Messages("page.iht.application.overview.common.p1")</p>
+
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>@Messages("page.iht.application.probate.data.ihtIdentifier")</td>
+                        <td>@formattedProbateReference(probateDetails.probateReference)</td>
+                    </tr>
+                    <tr>
+                        <td>@Messages("page.iht.application.probate.data.grossEstateFigure")</td>
+                        <td>£@CommonHelper.numberWithCommas(probateDetails.grossEstateforProbatePurposes)</td>
+                    </tr>
+                    <tr>
+                        <td>@Messages("page.iht.application.probate.data.netEstateFigure")</td>
+                        <td>£@CommonHelper.numberWithCommas(probateDetails.netEstateForProbatePurposes)</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </details>
+
+        <h2><strong>@messages("page.iht.application.overview.inreview.ifYouFind")</strong></h2>
+        <p>@messages("page.iht.application.overview.inreview.p4")</p>
+
+        <p>@messages("page.iht.application.overview.inreview.youWillNeedTo")
+            <a id="tellHMRC" href="@IhtProperties.linkEstateReportKickOut">
+                @Html(Messages("page.iht.application.overview.inreview.tellHMRC"))
+            </a>.
+        </p>
         <p><input id="return-input" class="button" type="submit" value="@Messages("page.iht.application.overview.common.return")"></p>
         }
     </div>
