@@ -26,12 +26,15 @@
 deceasedName: String,
 probateDetails: ProbateDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
+@contentBelowTitle={
+    <p>@messages("page.iht.application.overview.closed.noTaxToPay")</p>
+}
+
 @iht_main_template_application(title = Messages("page.iht.application.overview.closed.title", deceasedName),
 browserTitle = Some(Messages("page.iht.application.overview.closed.browserTitle")),
-isFullWidth=false, isHighlightBoxVisible = true
+isFullWidth=false, isHighlightBoxVisible = true,
+optionContentBelowTitle = Some(contentBelowTitle)
 ) {
-
-<p>@messages("page.iht.application.overview.closed.noTaxToPay")</p>
 
 <h2><strong>@messages("page.iht.application.overview.closed.keepingRecords")</strong></h2>
 <p>

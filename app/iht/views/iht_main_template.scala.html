@@ -40,7 +40,6 @@ browserTitle: Option[String] = None,
 contentHeader: Option[Html] = None,
 isFullWidth: Boolean = false,
 backUrl: Option[Call] = None,
-cssFile: Option[String]= None,
 cancelUrl: Option[Call]=None,
 cancelLabel: => Option[String] = Some(""),
 hasTimeOut:Boolean = true,
@@ -51,7 +50,8 @@ headingClass: String = "",
 headingName: String = "",
 isRegistration: Boolean = false,
 isUserResearchBannerVisible:Boolean = false,
-isHighlightBoxVisible:Boolean = false
+isHighlightBoxVisible:Boolean = false,
+optionContentBelowTitle: Option[Html] = None
 )(mainContent: Html)(implicit  request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @lc = @{Application.instanceCache[CustomLanguageController].apply(current) }
@@ -84,7 +84,6 @@ isHighlightBoxVisible:Boolean = false
 }
 
 @linkElement = {
-    @cssFile.map{css => <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/" + css)' /> }
     <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/iht-app.css")' />
     <!--[if lte IE 8 ]>
     <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/iht-app-ie.css")" />
@@ -187,6 +186,9 @@ isHighlightBoxVisible:Boolean = false
             @Html(title)
         }
     </h1>
+    @optionContentBelowTitle.map{ content =>
+            @content
+    }
     @if(isHighlightBoxVisible){</div>}
     }
     @mainContent

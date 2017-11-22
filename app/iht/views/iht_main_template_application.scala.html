@@ -22,7 +22,6 @@ browserTitle: Option[String] = None,
 contentHeader: Option[Html] = None,
 isFullWidth: Boolean = false,
 backUrl: Option[Call] = None,
-cssFile: Option[String]= None,
 cancelUrl: Option[Call]=None,
 cancelLabel: => Option[String] = None,
 hasSignOut: Boolean = true,
@@ -30,7 +29,8 @@ hasTimeOut:Boolean = true,
 sidebarLinks: Html = HtmlFormat.empty,
 headingClass: String = "",
 headingName: String = "",
-isHighlightBoxVisible: Boolean = false
+isHighlightBoxVisible: Boolean = false,
+optionContentBelowTitle: Option[Html] = None
 )(mainContent: Html)(implicit  request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template(
@@ -40,7 +40,6 @@ isHighlightBoxVisible: Boolean = false
     contentHeader = contentHeader,
     isFullWidth = isFullWidth,
     backUrl = backUrl,
-    cssFile = cssFile,
     cancelUrl = cancelUrl,
     cancelLabel = cancelLabel,
     hasTimeOut = hasTimeOut,
@@ -50,5 +49,6 @@ isHighlightBoxVisible: Boolean = false
     headingClass = headingClass,
     headingName = headingName,
     isRegistration = false,
-    isHighlightBoxVisible = isHighlightBoxVisible
+    isHighlightBoxVisible = isHighlightBoxVisible,
+    optionContentBelowTitle = optionContentBelowTitle
 )(mainContent)
