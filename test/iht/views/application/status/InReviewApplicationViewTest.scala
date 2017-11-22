@@ -23,18 +23,7 @@ import play.api.i18n.Messages.Implicits._
 
 class InReviewApplicationViewTest extends ApplicationStatusViewBehaviour {
 
-  def guidanceParagraphs = Set(
-    messagesApi("page.iht.application.overview.inreview.p1"),
-    messagesApi("page.iht.application.overview.inreview.p2"),
-    messagesApi("page.iht.application.overview.inreview.p3"),
-    messagesApi("page.iht.application.overview.inreview.p4"),
-    messagesApi("page.iht.application.overview.inreview.ifYouNeed"),
-    messagesApi("page.iht.application.overview.inreview.ifYouFind"),
-    messagesApi("page.iht.application.overview.inreview.youWillNeedTo"),
-    messagesApi("page.iht.application.overview.inreview.tellHMRC"),
-    messagesApi("page.iht.application.overview.common.needDetails"),
-    messagesApi("page.iht.application.overview.common.p1")
-  )
+  def guidanceParagraphs = commonGuidanceParagraphs
 
   def pageTitle = messagesApi("page.iht.application.overview.inreview.title", deceasedName)
 

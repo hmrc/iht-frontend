@@ -23,9 +23,10 @@ import iht.views.HtmlSpec
 class ApplicationClosedControllerTest extends ApplicationControllerTest with HtmlSpec {
   "ApplicationClosedController" must {
     "implement a view" in {
+      val deceasedName = "Xyz"
       val request = createFakeRequest()
-      val pageContent = ApplicationClosedController.getView("","",CommonBuilder.buildProbateDetails)(request, formPartialRetriever).toString
-      titleShouldBeCorrect(pageContent, messagesApi("page.iht.application.overview.common.title"))
+      val pageContent = ApplicationClosedController.getView("",deceasedName,CommonBuilder.buildProbateDetails)(request, formPartialRetriever).toString
+      titleShouldBeCorrect(pageContent, messagesApi("page.iht.application.overview.closed.title", deceasedName))
     }
   }
 }

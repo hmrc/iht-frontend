@@ -24,8 +24,16 @@ import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
 trait ApplicationStatusViewBehaviour extends GenericNonSubmittablePageBehaviour {
 
   def commonGuidanceParagraphs = Set(
-    messagesApi("page.iht.application.overview.common.helptext.part1", deceasedName),
-    messagesApi("page.iht.application.overview.common.helptext.part2")
+    messagesApi("page.iht.application.overview.inreview.ifYouNeed"),
+    messagesApi("page.iht.application.overview.inreview.p3"),
+    messagesApi("page.iht.application.overview.common.needDetails"),
+    messagesApi("page.iht.application.overview.common.p1"),
+    messagesApi("page.iht.application.probate.data.ihtIdentifier"),
+    messagesApi("page.iht.application.probate.data.grossEstateFigure"),
+    messagesApi("page.iht.application.probate.data.netEstateFigure"),
+    messagesApi("page.iht.application.overview.inreview.ifYouFind"),
+    messagesApi("page.iht.application.overview.inreview.p4"),
+    messagesApi("page.iht.application.overview.inreview.youWillNeedTo")
   )
 
   val ihtRef: String = "test1"
@@ -46,32 +54,14 @@ trait ApplicationStatusViewBehaviour extends GenericNonSubmittablePageBehaviour 
   def applicationStatusPage() = {
     nonSubmittablePage()
 
-    link("corrective-account-form",
-      TestHelper.ihtPropertiesCorrectiveAccountsLink,
-      messagesApi("iht.estateReport.correctiveAccountForm")
+    link("tellHMRC",
+      TestHelper.linkEstateReportKickOut,
+      messagesApi("page.iht.application.overview.inreview.tellHMRC")
     )
 
-//    link("view-app-copy",
-//      iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF().url,
-//      messagesApi("page.iht.application.overview.common.viewcopy")
-//    )
-
-//    "show the IHT identifier" in {
-//      val expectedContent = messagesApi("page.iht.application.probateDetails.content2.bullet1") + " " +
-//        formattedProbateReference(probateDetails.probateReference)
-//      elementShouldHaveText(doc, "probate-details-iht-identifier", expectedContent)
-//    }
-//
-//    "show the gross estate figure" in {
-//      val expectedContent = messagesApi("page.iht.application.probateDetails.content2.bullet2",
-//        probateDetails.grossEstateforProbatePurposes)
-//      elementShouldHaveText(doc, "probate-details-gross-estate-figure", expectedContent)
-//    }
-//
-//    "show the net estate figure" in {
-//      val expectedContent = messagesApi("page.iht.application.probateDetails.content2.bullet3",
-//        probateDetails.netEstateForProbatePurposes)
-//      elementShouldHaveText(doc, "probate-details-net-estate-figure", expectedContent)
-//    }
+    link("view-app-copy",
+      iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF().url,
+      messagesApi("page.iht.application.overview.common.viewcopy")
+    )
   }
 }

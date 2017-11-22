@@ -2472,19 +2472,6 @@ page.iht.deadlines.p2 = You will have to start paying Inheritance Tax by the end
 page.iht.deadlines.anchorText = make a payment before you finish valuing the estate
 page.iht.deadlines.p3 = When you have finished the IHT400 form, it will tell you if there is any Inheritance Tax to pay and, if so, how much it is.
 
-
-###Removed from common app status template:-
-###page.iht.application.overview.common.estatevalue = Based on the details you have provided, {0}’s estate is below the threshold and there is no Inheritance Tax to pay.
-###page.iht.application.overview.inreview.helptext = It could take HMRC up to 2 months to review this estate report from the date you sent it. HMRC will contact you if they have any questions about this estate report.
-###page.iht.application.overview.common.helptext.part1 = If you find any more assets owned by {0} that were not included in this estate report, let HMRC know by using a
-###page.iht.application.overview.common.helptext.part2 = Only do this if these assets increase the value of the estate over the Inheritance Tax threshold.
-###iht.estateReport.correctiveAccountForm = Corrective Account form
-###page.iht.application.overview.common.viewcertificate = View clearance certificate (PDF, size is less than 500KB)
-###page.iht.application.overview.cleared.helptext1 = You have confirmed that you have nothing left to do with this estate.
-###page.iht.application.overview.cleared.helptext2 = You can view a copy of your clearance certificate that confirms that this estate report has been cleared.
-###page.iht.application.overview.cleared.sidebartitle = You have completed clearance of this estate report.
-###page.iht.application.overview.common.title = This estate report has been closed
-
 page.iht.application.overview.closed.title = {0}’s estate report has been closed
 page.iht.application.overview.closed.noTaxToPay = There is no Inheritance Tax to pay
 page.iht.application.overview.closed.browserTitle = This estate report has been closed
