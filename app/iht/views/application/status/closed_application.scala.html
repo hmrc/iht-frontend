@@ -26,22 +26,26 @@
 deceasedName: String,
 probateDetails: ProbateDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
-@iht_main_template_application(title = Messages("page.iht.application.overview.common.title"),
-browserTitle = Some(Messages("page.iht.application.overview.common.title")),
-isFullWidth=false
+@iht_main_template_application(title = Messages("page.iht.application.overview.closed.title", deceasedName),
+browserTitle = Some(Messages("page.iht.application.overview.closed.browserTitle")),
+isFullWidth=false, isHighlightBoxVisible = true
 ) {
 
+<p>@messages("page.iht.application.overview.closed.noTaxToPay")</p>
 
+<h2><strong>@messages("page.iht.application.overview.closed.keepingRecords")</strong></h2>
+<p>
+    <a id="view-app-copy" href="@iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF()">
+        @Html(Messages("page.iht.application.overview.common.viewcopy"))
+    </a>
+</p>
 
-@post_submit_common(deceasedName, false)
-<p>@Messages("page.iht.application.overview.cleared.helptext1")</p>
-<p>@Messages("page.iht.application.overview.cleared.helptext2")</p>
 <p><a id="view-certificate-button" href="@iht.controllers.application.pdf.routes.PDFController.onClearancePDF()">
-    @Html(Messages("page.iht.application.overview.common.viewcertificate"))
-</a> </p>
+        @Html(Messages("page.iht.application.overview.closed.viewClearanceCertificate"))
+    </a>@Messages("page.iht.application.overview.closed.p1")
+</p>
+
+@post_submit_common(deceasedName, probateDetails)
 
 <p><a id="return-link" class="button" href="@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad">@Messages("page.iht.application.overview.common.return")</a></p>
-
-
-
 }

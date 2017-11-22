@@ -16,12 +16,42 @@
 
 @import iht.constants.IhtProperties
 @import iht.views.html._
+@import iht.models.application.ProbateDetails
+@import iht.utils._
 
-@(deceasedName: String, inReview: Boolean)(implicit request:Request[_], messages: Messages)
+@(deceasedName: String, probateDetails: ProbateDetails)(implicit request:Request[_], messages: Messages)
+<h2><strong>@messages("page.iht.application.overview.inreview.ifYouNeed")</strong></h2>
+<p>@messages("page.iht.application.overview.inreview.p3")</p>
+<details id="need-details-reveal">
+    <summary class="summary">@Messages("page.iht.application.overview.common.needDetails")</summary>
+    <div class="panel-indent panel-indent--gutter">
+        <p>@Messages("page.iht.application.overview.common.p1")</p>
 
-@Html(Messages("page.iht.application.overview.common.estatevalue", deceasedName))
-@if(inReview) { <p>@Messages("page.iht.application.overview.inreview.helptext")</p> }
-<div class="panel-indent">@Messages("page.iht.application.overview.common.helptext.part1", deceasedName)
-    <a id="corrective-account-form" href="@IhtProperties.correctiveAccountsLink">@Messages("iht.estateReport.correctiveAccountForm")</a>.
-    <p>@Messages("page.iht.application.overview.common.helptext.part2")</p>
-</div>
+        <table>
+            <tbody>
+            <tr>
+                <td>@Messages("page.iht.application.probate.data.ihtIdentifier")</td>
+                <td id="probate-details-iht-identifier">@formattedProbateReference(probateDetails.probateReference)</td>
+            </tr>
+            <tr>
+                <td>@Messages("page.iht.application.probate.data.grossEstateFigure")</td>
+                <td id="probate-details-gross-estate-figure">£@CommonHelper.numberWithCommas(probateDetails.grossEstateforProbatePurposes)</td>
+            </tr>
+            <tr>
+                <td>@Messages("page.iht.application.probate.data.netEstateFigure")</td>
+                <td id="probate-details-net-estate-figure">£@CommonHelper.numberWithCommas(probateDetails.netEstateForProbatePurposes)</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</details>
+
+<h2><strong>@messages("page.iht.application.overview.inreview.ifYouFind")</strong></h2>
+<p>@messages("page.iht.application.overview.inreview.p4")</p>
+
+<p>@messages("page.iht.application.overview.inreview.youWillNeedTo")
+    <a id="tellHMRC" href="@IhtProperties.linkEstateReportKickOut">
+        @Html(Messages("page.iht.application.overview.inreview.tellHMRC"))
+    </a>.
+</p>
