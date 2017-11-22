@@ -606,7 +606,6 @@ page.iht.application.overview.common.return = Return to your Inheritance Tax est
 page.iht.application.overview.common.viewcopy = View a copy of this estate report (PDF, size is less than 500KB)
 page.iht.application.overview.common.viewcertificate = View clearance certificate (PDF, size is less than 500KB)
 
-### NEW
 page.iht.application.overview.inreview.p1 = HMRC might take up to 2 months to review this estate report from the date you sent it. HMRC will contact you if they have any questions.
 page.iht.application.overview.inreview.p2 = You can check the status of this estate report at any time by choosing it from your Inheritance Tax estate reports page. When HMRC have finished their review, you will either be contacted or the estate report will be closed.
 page.iht.application.overview.inreview.ifYouNeed = If you need to continue your PA1 - Probate application
