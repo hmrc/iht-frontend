@@ -18,7 +18,6 @@ package iht.views.application.status
 
 import iht.testhelpers.TestHelper
 import iht.utils.{CommonHelper, formattedProbateReference}
-import iht.views.ExitComponent
 import iht.views.html.application.status.in_review_application
 import play.api.i18n.Messages.Implicits._
 
@@ -26,11 +25,22 @@ class InReviewApplicationViewTest extends ApplicationStatusViewBehaviour {
 
   override def sidebarTitle: String = messagesApi("page.iht.application.overview.inreview.sidebartitle")
 
-  def guidanceParagraphs = Set.empty
+  def guidanceParagraphs = Set(
+    messagesApi("page.iht.application.overview.inreview.p1"),
+    messagesApi("page.iht.application.overview.inreview.p2"),
+    messagesApi("page.iht.application.overview.inreview.p3"),
+    messagesApi("page.iht.application.overview.inreview.p4"),
+    messagesApi("page.iht.application.overview.inreview.ifYouNeed"),
+    messagesApi("page.iht.application.overview.inreview.ifYouFind"),
+    messagesApi("page.iht.application.overview.inreview.youWillNeedTo"),
+    messagesApi("page.iht.application.overview.inreview.tellHMRC"),
+    messagesApi("page.iht.application.overview.common.needDetails"),
+    messagesApi("page.iht.application.overview.common.p1")
+  )
 
   def pageTitle = messagesApi("page.iht.application.overview.inreview.title", deceasedName)
 
-  def browserTitle = messagesApi("page.iht.application.overview.inreview.title")
+  def browserTitle = messagesApi("page.iht.application.overview.inreview.browserTitle")
 
   def view: String = in_review_application(ihtRef, deceasedName, probateDetails)(createFakeRequest(),
                                                                                  applicationMessages,

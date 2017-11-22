@@ -588,6 +588,7 @@ page.iht.application.overview.closed.sidebartitle = This estate report has not b
 
 #Estate report - Application Status - In Review
 page.iht.application.overview.inreview.title = {0}’s estate report is being reviewed by HMRC
+page.iht.application.overview.inreview.browserTitle = This estate report is being reviewed by HMRC
 page.iht.application.overview.inreview.helptext = It could take HMRC up to 2 months to review this estate report from the date you sent it. HMRC will contact you if they have any questions about this estate report.
 page.iht.application.overview.inreview.sidebartitle = You have sent this report to HMRC.
 

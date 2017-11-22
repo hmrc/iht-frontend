@@ -28,7 +28,7 @@ deceasedName: String,
 probateDetails: ProbateDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(title = Messages("page.iht.application.overview.inreview.title", deceasedName),
-browserTitle = Some(Messages("page.iht.application.overview.inreview.title")),
+browserTitle = Some(Messages("page.iht.application.overview.inreview.browserTitle")),
 isFullWidth=false
 ) {
 
