@@ -29,8 +29,8 @@ class ClosedApplicationViewTest extends ApplicationStatusViewBehaviour {
   def browserTitle = messagesApi("page.iht.application.overview.common.title")
 
   def view: String = closed_application(ihtRef, deceasedName, probateDetails)(createFakeRequest(),
-                                                                              applicationMessages,
-                                                                              formPartialRetriever).toString
+    applicationMessages,
+    formPartialRetriever).toString
 
   override val exitId: String = "return-link"
 
@@ -41,11 +41,12 @@ class ClosedApplicationViewTest extends ApplicationStatusViewBehaviour {
     )
   )
 
-  "Closed Application View" must {
+  "Closed Cleared Application View" must {
     behave like applicationStatusPage()
 
-//    behave like link("clearance-anchor",
-//      iht.controllers.application.status.routes.ApplicationClosedAndClearedController.onPageLoad(ihtRef).url,
-//      messagesApi("page.iht.application.overview.closed.clearance"))
+    behave like link("view-certificate-button",
+      iht.controllers.application.pdf.routes.PDFController.onClearancePDF().url,
+      messagesApi("page.iht.application.overview.common.viewcertificate")
+    )
   }
 }
