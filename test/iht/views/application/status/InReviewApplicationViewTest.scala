@@ -23,8 +23,6 @@ import play.api.i18n.Messages.Implicits._
 
 class InReviewApplicationViewTest extends ApplicationStatusViewBehaviour {
 
-  override def sidebarTitle: String = messagesApi("page.iht.application.overview.inreview.sidebartitle")
-
   def guidanceParagraphs = Set(
     messagesApi("page.iht.application.overview.inreview.p1"),
     messagesApi("page.iht.application.overview.inreview.p2"),

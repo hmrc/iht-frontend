@@ -17,11 +17,9 @@
 @import iht.models._
 @import iht.models.application.ProbateDetails
 @import iht.views.html._
-@import iht.utils._
 @import uk.gov.hmrc.play.views.html._
+@import iht.utils._
 @import iht.views.html.application.overview._
-@import play.api.Application
-@import iht.constants.IhtProperties._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(ihtref: String,
@@ -30,25 +28,20 @@ probateDetails: ProbateDetails)(implicit request:Request[_], messages: Messages,
 
 @iht_main_template_application(title = Messages("page.iht.application.overview.common.title"),
 browserTitle = Some(Messages("page.iht.application.overview.common.title")),
-isFullWidth=false,
-sidebarLinks = iht.views.html.application.status.post_submission_sidebar(ihtref, probateDetails, "page.iht.application.overview.closed.sidebartitle")) {
+isFullWidth=false
+) {
 
 
-<div>
-    @post_submit_common(deceasedName, false)
-    <p>@Messages("page.iht.application.overview.closed.helptext")</p>
-    <div class="form-group">
-        <div class="important-notice">
-            @Messages("page.iht.application.overview.closed.warning")
-        </div>
-    </div>
 
-    <div id="clearance-button" class="form-field form-field--submit">
-        <a id="clearance-anchor" href="@iht.controllers.application.status.routes.ApplicationClosedAndClearedController.onPageLoad(ihtref)">
-            @Messages("page.iht.application.overview.closed.clearance")
-        </a>
-    </div>
+@post_submit_common(deceasedName, false)
+<p>@Messages("page.iht.application.overview.cleared.helptext1")</p>
+<p>@Messages("page.iht.application.overview.cleared.helptext2")</p>
+<p><a id="view-certificate-button" href="@iht.controllers.application.pdf.routes.PDFController.onClearancePDF()">
+    @Html(Messages("page.iht.application.overview.common.viewcertificate"))
+</a> </p>
 
-    <a id="return-link" class='button' href="@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad">@Messages("page.iht.application.overview.common.return")</a>
-</div>
+<p><a id="return-link" class="button" href="@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad">@Messages("page.iht.application.overview.common.return")</a></p>
+
+
+
 }

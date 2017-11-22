@@ -22,12 +22,7 @@ import play.api.i18n.Messages.Implicits._
 
 class ClosedApplicationViewTest extends ApplicationStatusViewBehaviour {
 
-  override def sidebarTitle: String = messagesApi("page.iht.application.overview.closed.sidebartitle")
-
-  def guidanceParagraphs = commonGuidanceParagraphs ++ Set(
-    messagesApi("page.iht.application.overview.closed.helptext"),
-    messagesApi("page.iht.application.overview.closed.warning")
-  )
+  def guidanceParagraphs = commonGuidanceParagraphs
 
   def pageTitle = messagesApi("page.iht.application.overview.common.title")
 
@@ -49,8 +44,8 @@ class ClosedApplicationViewTest extends ApplicationStatusViewBehaviour {
   "Closed Application View" must {
     behave like applicationStatusPage()
 
-    behave like link("clearance-anchor",
-      iht.controllers.application.status.routes.ApplicationClosedAndClearedController.onPageLoad(ihtRef).url,
-      messagesApi("page.iht.application.overview.closed.clearance"))
+//    behave like link("clearance-anchor",
+//      iht.controllers.application.status.routes.ApplicationClosedAndClearedController.onPageLoad(ihtRef).url,
+//      messagesApi("page.iht.application.overview.closed.clearance"))
   }
 }

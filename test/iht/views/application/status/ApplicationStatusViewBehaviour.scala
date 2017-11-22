@@ -22,12 +22,10 @@ import iht.utils._
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
 
 trait ApplicationStatusViewBehaviour extends GenericNonSubmittablePageBehaviour {
-  def sidebarTitle: String
 
   def commonGuidanceParagraphs = Set(
     messagesApi("page.iht.application.overview.common.helptext.part1", deceasedName),
-    messagesApi("page.iht.application.overview.common.helptext.part2"),
-    messagesApi("page.iht.application.probateDetails.yourProbateText")
+    messagesApi("page.iht.application.overview.common.helptext.part2")
   )
 
   val ihtRef: String = "test1"
@@ -53,35 +51,27 @@ trait ApplicationStatusViewBehaviour extends GenericNonSubmittablePageBehaviour 
       messagesApi("iht.estateReport.correctiveAccountForm")
     )
 
-    "show sidebar title" in {
-      elementShouldHaveText(doc, "in-review-side-text", sidebarTitle)
-    }
+//    link("view-app-copy",
+//      iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF().url,
+//      messagesApi("page.iht.application.overview.common.viewcopy")
+//    )
 
-    link("view-app-copy",
-      iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF().url,
-      messagesApi("page.iht.application.overview.common.viewcopy")
-    )
-
-    "show the IHT identifier" in {
-      val expectedContent = messagesApi("page.iht.application.probateDetails.content2.bullet1") + " " +
-        formattedProbateReference(probateDetails.probateReference)
-      elementShouldHaveText(doc, "probate-details-iht-identifier", expectedContent)
-    }
-
-    "show the gross estate figure" in {
-      val expectedContent = messagesApi("page.iht.application.probateDetails.content2.bullet2",
-        probateDetails.grossEstateforProbatePurposes)
-      elementShouldHaveText(doc, "probate-details-gross-estate-figure", expectedContent)
-    }
-
-    "show the net estate figure" in {
-      val expectedContent = messagesApi("page.iht.application.probateDetails.content2.bullet3",
-        probateDetails.netEstateForProbatePurposes)
-      elementShouldHaveText(doc, "probate-details-net-estate-figure", expectedContent)
-    }
-
-    "show the in review sidebar title text" in {
-      elementShouldHaveText(doc, "in-review-side-text", sidebarTitle)
-    }
+//    "show the IHT identifier" in {
+//      val expectedContent = messagesApi("page.iht.application.probateDetails.content2.bullet1") + " " +
+//        formattedProbateReference(probateDetails.probateReference)
+//      elementShouldHaveText(doc, "probate-details-iht-identifier", expectedContent)
+//    }
+//
+//    "show the gross estate figure" in {
+//      val expectedContent = messagesApi("page.iht.application.probateDetails.content2.bullet2",
+//        probateDetails.grossEstateforProbatePurposes)
+//      elementShouldHaveText(doc, "probate-details-gross-estate-figure", expectedContent)
+//    }
+//
+//    "show the net estate figure" in {
+//      val expectedContent = messagesApi("page.iht.application.probateDetails.content2.bullet3",
+//        probateDetails.netEstateForProbatePurposes)
+//      elementShouldHaveText(doc, "probate-details-net-estate-figure", expectedContent)
+//    }
   }
 }

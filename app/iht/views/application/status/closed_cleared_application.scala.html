@@ -28,8 +28,7 @@ probateDetails: ProbateDetails)(implicit request:Request[_], messages: Messages,
 
 @iht_main_template_application(title = Messages("page.iht.application.overview.common.title"),
 browserTitle = Some(Messages("page.iht.application.overview.common.title")),
-isFullWidth=false,
-sidebarLinks=iht.views.html.application.status.post_submission_sidebar(ihtref, probateDetails, "page.iht.application.overview.cleared.sidebartitle")
+isFullWidth=false
 ) {
 
 

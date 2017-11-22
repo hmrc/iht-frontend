@@ -23,12 +23,7 @@ import play.api.i18n.Messages.Implicits._
 
 class ClosedClearedApplicationViewTest extends ApplicationStatusViewBehaviour {
 
-  override def sidebarTitle: String = messagesApi("page.iht.application.overview.cleared.sidebartitle")
-
-  def guidanceParagraphs = commonGuidanceParagraphs ++ Set(
-    messagesApi("page.iht.application.overview.cleared.helptext1"),
-    messagesApi("page.iht.application.overview.cleared.helptext2")
-  )
+  def guidanceParagraphs = commonGuidanceParagraphs
 
   def pageTitle = messagesApi("page.iht.application.overview.common.title")
 
