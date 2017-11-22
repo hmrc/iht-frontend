@@ -5,7 +5,6 @@ GET         /estate-overview/continue-declaration/:ihtAppReference              
 
 GET         /estate-report-overview/in-review/:ihtAppReference                                  iht.controllers.application.status.ApplicationInReviewController.onPageLoad(ihtAppReference:String)
 GET         /estate-report-overview/closed/:ihtAppReference                                     iht.controllers.application.status.ApplicationClosedController.onPageLoad(ihtAppReference:String)
-GET         /estate-report-overview/closed-and-cleared/:ihtAppReference                         iht.controllers.application.status.ApplicationClosedAndClearedController.onPageLoad(ihtAppReference:String)
 
 GET         /assets-in-estate                                                                   iht.controllers.application.assets.AssetsOverviewController.onPageLoad
 

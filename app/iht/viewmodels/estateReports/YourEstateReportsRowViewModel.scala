@@ -107,7 +107,7 @@ object YourEstateReportsRowViewModel {
           iht.controllers.application.status.routes.ApplicationClosedController.onPageLoad(ihtRef)
 
         case AppStatus.ClearanceGranted =>
-          iht.controllers.application.status.routes.ApplicationClosedAndClearedController.onPageLoad(ihtRef)
+          iht.controllers.application.status.routes.ApplicationClosedController.onPageLoad(ihtRef)
 
         case AppStatus.IneligibleApplication => {
           Logger.warn("Ineligible Application status found")
