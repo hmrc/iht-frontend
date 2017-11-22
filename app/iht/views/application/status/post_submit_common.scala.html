@@ -20,8 +20,8 @@
 @import iht.utils._
 
 @(deceasedName: String, probateDetails: ProbateDetails)(implicit request:Request[_], messages: Messages)
-<h2><strong>@messages("page.iht.application.overview.inreview.ifYouNeed")</strong></h2>
-<p>@messages("page.iht.application.overview.inreview.p3")</p>
+<h2><strong>@messages("page.iht.application.overview.common.ifYouNeed")</strong></h2>
+<p>@messages("page.iht.application.overview.common.p3")</p>
 <details id="need-details-reveal">
     <summary class="summary">@Messages("page.iht.application.overview.common.needDetails")</summary>
     <div class="panel-indent panel-indent--gutter">
@@ -47,11 +47,11 @@
     </div>
 </details>
 
-<h2><strong>@messages("page.iht.application.overview.inreview.ifYouFind")</strong></h2>
-<p>@messages("page.iht.application.overview.inreview.p4")</p>
+<h2><strong>@messages("page.iht.application.overview.common.ifYouFind")</strong></h2>
+<p>@messages("page.iht.application.overview.common.p4")</p>
 
-<p>@messages("page.iht.application.overview.inreview.youWillNeedTo")
+<p>@messages("page.iht.application.overview.common.youWillNeedTo")
     <a id="tellHMRC" href="@IhtProperties.linkEstateReportKickOut">
-        @Html(Messages("page.iht.application.overview.inreview.tellHMRC"))
+        @Html(Messages("page.iht.application.overview.common.tellHMRC"))
     </a>.
 </p>

@@ -24,16 +24,16 @@ import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
 trait ApplicationStatusViewBehaviour extends GenericNonSubmittablePageBehaviour {
 
   def commonGuidanceParagraphs = Set(
-    messagesApi("page.iht.application.overview.inreview.ifYouNeed"),
-    messagesApi("page.iht.application.overview.inreview.p3"),
+    messagesApi("page.iht.application.overview.common.ifYouNeed"),
+    messagesApi("page.iht.application.overview.common.p3"),
     messagesApi("page.iht.application.overview.common.needDetails"),
     messagesApi("page.iht.application.overview.common.p1"),
     messagesApi("page.iht.application.probate.data.ihtIdentifier"),
     messagesApi("page.iht.application.probate.data.grossEstateFigure"),
     messagesApi("page.iht.application.probate.data.netEstateFigure"),
-    messagesApi("page.iht.application.overview.inreview.ifYouFind"),
-    messagesApi("page.iht.application.overview.inreview.p4"),
-    messagesApi("page.iht.application.overview.inreview.youWillNeedTo")
+    messagesApi("page.iht.application.overview.common.ifYouFind"),
+    messagesApi("page.iht.application.overview.common.p4"),
+    messagesApi("page.iht.application.overview.common.youWillNeedTo")
   )
 
   val ihtRef: String = "test1"
@@ -56,7 +56,7 @@ trait ApplicationStatusViewBehaviour extends GenericNonSubmittablePageBehaviour 
 
     link("tellHMRC",
       TestHelper.linkEstateReportKickOut,
-      messagesApi("page.iht.application.overview.inreview.tellHMRC")
+      messagesApi("page.iht.application.overview.common.tellHMRC")
     )
 
     link("view-app-copy",

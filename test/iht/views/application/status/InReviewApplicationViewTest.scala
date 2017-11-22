@@ -42,7 +42,7 @@ class InReviewApplicationViewTest extends ApplicationStatusViewBehaviour {
 
     link("tellHMRC",
       TestHelper.linkEstateReportKickOut,
-      messagesApi("page.iht.application.overview.inreview.tellHMRC")
+      messagesApi("page.iht.application.overview.common.tellHMRC")
     )
 
     link("view-app-copy",
