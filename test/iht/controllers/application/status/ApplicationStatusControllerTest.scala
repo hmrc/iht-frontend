@@ -68,7 +68,7 @@ class ApplicationStatusControllerTest extends ApplicationControllerTest {
 
       val result = applicationStatusController.onPageLoad("")(createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include(messagesApi("page.iht.application.overview.inreview.title"))
+      contentAsString(result) should include(messagesApi("page.iht.application.overview.inreview.browserTitle"))
     }
   }
 }
