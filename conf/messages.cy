@@ -2042,15 +2042,15 @@ page.iht.filter.previous.answers.change.home = Newidiwch eich ateb ar gyfer lle'
 
 page.iht.application.declaration_received.title=Mae adroddiad ynghylch ystâd {0} wedi''i anfon i CThEM
 page.iht.application.declaration_received.continue = Ewch yn eich blaen i dudalen manylion y ''PA1 – ffurflen gais ar gyfer Profiant''
-page.iht.application.declaration_received.browserTitle=???
-page.iht.application.declaration_received.guidance.retention=Mae CThEM yn argymell eich bod yn cadw copi o''r adroddiad hwn ynghylch yr ystâd, ynghyd ag unrhyw waith bapur yr ydych wedi''i ddefnyddio i''ch helpu i''w lenwi. Dylech gadw'r manylion hyn am 5 mlynedd.
+page.iht.application.declaration_received.browserTitle=Mae''ch adroddiad ynghylch yr ystâd wedi''i anfon i CThEM
+page.iht.application.declaration_received.guidance.retention=Mae CThEM yn argymell eich bod yn cadw copi o''r adroddiad hwn ynghylch yr ystâd, ynghyd ag unrhyw waith bapur yr ydych wedi''i ddefnyddio i''ch helpu i''w lenwi. Dylech gadw''r manylion hyn am 5 mlynedd.
 page.iht.application.declaration_received.pdf.link=Cadwch gopi o''r adroddiad ynghylch yr ystâd (PDF, mae''r maint yn llai na 500KB)
-page.iht.application.declaration_received.guidance.probate=Bydd angen ychydig o fanylion arnoch i lenwi''ch ''PA1 – ffurflen gais ar gyfer Profiant''. Mae'r manylion hyn ar y dudalen '''PA1 – ffurflen gais ar gyfer Profiant''.
+page.iht.application.declaration_received.guidance.probate=Bydd angen ychydig o fanylion arnoch i lenwi''ch ''PA1 – ffurflen gais ar gyfer Profiant''. Mae''r manylion hyn ar y dudalen '''PA1 – ffurflen gais ar gyfer Profiant''.
 page.iht.application.declaration_received.guidance.indent=Drwy ddewis yr adroddiad hwn ynghylch yr ystâd o''ch tudalen adroddiadau Treth Etifeddiant ynghylch yr ystâd, gallwch gael copi ohono ar unrhyw adeg.
 
 page.iht.application.probate.guidance.p2=Drwy ddewis yr adroddiad hwn ynghylch yr ystâd o''ch tudalen adroddiadau Treth Etifeddiant ynghylch yr ystâd, gallwch ddod o hyd i ragor o wybodaeth am yr hyn efallai bydd yn rhaid i chi wneud nesaf.
 page.iht.application.probate.guidance.indent=Byddwch yn dal i allu gweld y manylion hynny drwy ddewis yr adroddiad hwn ynghylch yr ystâd o''ch tudalen adroddiadau Treth Etifeddiant.
-page.iht.application.probate.data.visuallyHiddenCaption=???
+page.iht.application.probate.data.visuallyHiddenCaption=Manylion ''PA1 – ffurflen gais ar gyfer Profiant'' ar gyfer ystâd John Smith
 page.iht.application.probate.guidance.p1=Bydd angen i chi nodi''r Dynodydd IHT, Ffigur Gros yr Ystâd a Ffigur Net yr Ystâd ar y ''PA1 – ffurflen gais ar gyfer Profiant'', ar gyfer ystâd {0}.
 page.iht.application.probate.data.ihtIdentifier=Dynodydd IHT
 page.iht.application.probate.data.grossEstateFigure=Ffigur Gros yr Ystâd
