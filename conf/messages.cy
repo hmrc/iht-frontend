@@ -2068,3 +2068,4 @@ page.iht.application.overview.inreview.youWillNeedTo = ???
 page.iht.application.overview.inreview.tellHMRC = ???
 page.iht.application.overview.common.needDetails = ???
 page.iht.application.overview.common.p1 = ???
+page.iht.application.overview.inreview.browserTitle = ???
