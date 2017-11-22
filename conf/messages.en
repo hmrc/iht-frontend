@@ -587,7 +587,8 @@ page.iht.application.overview.closed.clearance = Complete clearance of this esta
 page.iht.application.overview.closed.sidebartitle = This estate report has not been cleared.
 
 #Estate report - Application Status - In Review
-page.iht.application.overview.inreview.title = This estate report is being reviewed by HMRC
+page.iht.application.overview.inreview.title = {0}’s estate report is being reviewed by HMRC
+page.iht.application.overview.inreview.browserTitle = This estate report is being reviewed by HMRC
 page.iht.application.overview.inreview.helptext = It could take HMRC up to 2 months to review this estate report from the date you sent it. HMRC will contact you if they have any questions about this estate report.
 page.iht.application.overview.inreview.sidebartitle = You have sent this report to HMRC.
 
@@ -604,6 +605,17 @@ page.iht.application.overview.common.helptext.part2 = Only do this if these asse
 page.iht.application.overview.common.return = Return to your Inheritance Tax estate reports
 page.iht.application.overview.common.viewcopy = View a copy of this estate report (PDF, size is less than 500KB)
 page.iht.application.overview.common.viewcertificate = View clearance certificate (PDF, size is less than 500KB)
+
+page.iht.application.overview.inreview.p1 = HMRC might take up to 2 months to review this estate report from the date you sent it. HMRC will contact you if they have any questions.
+page.iht.application.overview.inreview.p2 = You can check the status of this estate report at any time by choosing it from your Inheritance Tax estate reports page. When HMRC have finished their review, you will either be contacted or the estate report will be closed.
+page.iht.application.overview.inreview.ifYouNeed = If you need to continue your PA1 - Probate application
+page.iht.application.overview.inreview.p3 = You can continue your PA1 - Probate application by using the IHT Identifier, Gross Estate Figure and Net Estate Figure for this estate.
+page.iht.application.overview.inreview.ifYouFind = If you find anything else in the estate
+page.iht.application.overview.inreview.p4 = If you find any out anything else that was in the estate, you will only need to tell HMRC if the value of those things increase the value of the estate over the threshold. There will be Inheritance Tax to pay.
+page.iht.application.overview.inreview.youWillNeedTo = You will need to
+page.iht.application.overview.inreview.tellHMRC = tell HMRC about the estate by using an IHT400 form
+page.iht.application.overview.common.needDetails = I need the IHT Identifier, Gross Estate Figure and Net Estate Figure
+page.iht.application.overview.common.p1 = You need to write the IHT Identifier, the Gross Estate Figure and the Net Estate Figure on the PA1 - Probate application form for John Smith’s estate.
 
 #Estate report - Estate overview
 page.iht.application.estateOverview.noValue = No value given
