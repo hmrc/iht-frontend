@@ -50,7 +50,7 @@ headingClass: String = "",
 headingName: String = "",
 isRegistration: Boolean = false,
 isUserResearchBannerVisible:Boolean = false,
-isHighlightBoxVisible:Boolean = false,
+highlightBoxClass:Option[String] = None,
 optionContentBelowTitle: Option[Html] = None
 )(mainContent: Html)(implicit  request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
@@ -176,20 +176,22 @@ optionContentBelowTitle: Option[Html] = None
 
 @mainContentIht = {
     @if(title > ""){
-        @if(isHighlightBoxVisible) {
-        <div class="govuk-box-highlight">
+        @highlightBoxClass.map{css=>
+            <div class="@css">
         }
-    <h1 class="@headingClassName">
-        @if(headingName > ""){
-            @parseForName(title, headingName)
-        } else {
-            @Html(title)
+        <h1 class="@headingClassName">
+            @if(headingName > ""){
+                @parseForName(title, headingName)
+            } else {
+                @Html(title)
+            }
+        </h1>
+        @optionContentBelowTitle.map{content=>
+                @content
         }
-    </h1>
-    @optionContentBelowTitle.map{ content =>
-            @content
-    }
-    @if(isHighlightBoxVisible){</div>}
+        @highlightBoxClass.map{_=>
+            </div>
+        }
     }
     @mainContent
 

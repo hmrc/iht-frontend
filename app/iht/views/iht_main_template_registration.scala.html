@@ -30,7 +30,7 @@ sidebarLinks: Html = HtmlFormat.empty,
 headingClass: String = "",
 headingName: String = "",
 isUserResearchBannerVisible:Boolean = false,
-isHighlightBoxVisible: Boolean = false,
+highlightBoxClass:Option[String] = None,
 optionContentBelowTitle: Option[Html] = None
 )(mainContent: Html)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
@@ -51,6 +51,6 @@ optionContentBelowTitle: Option[Html] = None
     headingName = headingName,
     isRegistration = true,
     isUserResearchBannerVisible = isUserResearchBannerVisible,
-    isHighlightBoxVisible = isHighlightBoxVisible,
+    highlightBoxClass = highlightBoxClass,
     optionContentBelowTitle = optionContentBelowTitle
 )(mainContent)

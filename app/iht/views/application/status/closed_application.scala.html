@@ -32,7 +32,7 @@ probateDetails: ProbateDetails)(implicit request:Request[_], messages: Messages,
 
 @iht_main_template_application(title = Messages("page.iht.application.overview.closed.title", deceasedName),
 browserTitle = Some(Messages("page.iht.application.overview.closed.browserTitle")),
-isFullWidth=false, isHighlightBoxVisible = true,
+isFullWidth=false, highlightBoxClass = Some("govuk-box-highlight govuk-blue"),
 optionContentBelowTitle = Some(contentBelowTitle)
 ) {
 

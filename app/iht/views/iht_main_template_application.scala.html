@@ -29,7 +29,7 @@ hasTimeOut:Boolean = true,
 sidebarLinks: Html = HtmlFormat.empty,
 headingClass: String = "",
 headingName: String = "",
-isHighlightBoxVisible: Boolean = false,
+highlightBoxClass:Option[String] = None,
 optionContentBelowTitle: Option[Html] = None
 )(mainContent: Html)(implicit  request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
@@ -49,6 +49,6 @@ optionContentBelowTitle: Option[Html] = None
     headingClass = headingClass,
     headingName = headingName,
     isRegistration = false,
-    isHighlightBoxVisible = isHighlightBoxVisible,
+    highlightBoxClass = highlightBoxClass,
     optionContentBelowTitle = optionContentBelowTitle
 )(mainContent)
