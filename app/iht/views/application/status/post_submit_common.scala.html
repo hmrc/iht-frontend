@@ -21,10 +21,6 @@
 
 @(deceasedName: String, probateDetails: ProbateDetails)(implicit request:Request[_], messages: Messages)
 <h2><strong>@messages("page.iht.application.overview.common.ifYouNeed")</strong></h2>
-<p>@messages("page.iht.application.overview.common.p3")</p>
-<details id="need-details-reveal">
-    <summary class="summary">@Messages("page.iht.application.overview.common.needDetails")</summary>
-    <div class="panel-indent panel-indent--gutter">
         <p>@Messages("page.iht.application.overview.common.p1")</p>
 
         <table>
@@ -43,9 +39,6 @@
             </tr>
             </tbody>
         </table>
-
-    </div>
-</details>
 
 <h2><strong>@messages("page.iht.application.overview.common.ifYouFind")</strong></h2>
 <p>@messages("page.iht.application.overview.common.p4")</p>

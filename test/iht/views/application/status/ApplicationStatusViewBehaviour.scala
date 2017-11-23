@@ -18,15 +18,12 @@ package iht.views.application.status
 
 import iht.models.application.ProbateDetails
 import iht.testhelpers.{CommonBuilder, TestHelper}
-import iht.utils._
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
 
 trait ApplicationStatusViewBehaviour extends GenericNonSubmittablePageBehaviour {
 
   def commonGuidanceParagraphs = Set(
     messagesApi("page.iht.application.overview.common.ifYouNeed"),
-    messagesApi("page.iht.application.overview.common.p3"),
-    messagesApi("page.iht.application.overview.common.needDetails"),
     messagesApi("page.iht.application.overview.common.p1"),
     messagesApi("page.iht.application.probate.data.ihtIdentifier"),
     messagesApi("page.iht.application.probate.data.grossEstateFigure"),
