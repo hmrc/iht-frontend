@@ -22,7 +22,6 @@ browserTitle: Option[String] = None,
 contentHeader: Option[Html] = None,
 isFullWidth: Boolean = false,
 backUrl: Option[Call] = None,
-cssFile: Option[String]= None,
 cancelUrl: Option[Call]=None,
 cancelLabel: => Option[String] = Some(""),
 hasSignOut: Boolean = true,
@@ -31,7 +30,8 @@ sidebarLinks: Html = HtmlFormat.empty,
 headingClass: String = "",
 headingName: String = "",
 isUserResearchBannerVisible:Boolean = false,
-isHighlightBoxVisible: Boolean = false
+highlightBoxClass:Option[String] = None,
+optionContentBelowTitle: Option[Html] = None
 )(mainContent: Html)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template(
@@ -41,7 +41,6 @@ isHighlightBoxVisible: Boolean = false
     contentHeader = contentHeader,
     isFullWidth = isFullWidth,
     backUrl = backUrl,
-    cssFile = cssFile,
     cancelUrl = cancelUrl,
     cancelLabel = Some(Messages("site.link.cancel")),
     hasTimeOut = hasTimeOut,
@@ -52,5 +51,6 @@ isHighlightBoxVisible: Boolean = false
     headingName = headingName,
     isRegistration = true,
     isUserResearchBannerVisible = isUserResearchBannerVisible,
-    isHighlightBoxVisible = isHighlightBoxVisible
+    highlightBoxClass = highlightBoxClass,
+    optionContentBelowTitle = optionContentBelowTitle
 )(mainContent)

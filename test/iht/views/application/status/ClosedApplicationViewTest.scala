@@ -16,26 +16,24 @@
 
 package iht.views.application.status
 
+import iht.utils.{CommonHelper, formattedProbateReference}
 import iht.views.ExitComponent
 import iht.views.html.application.status.closed_application
 import play.api.i18n.Messages.Implicits._
 
 class ClosedApplicationViewTest extends ApplicationStatusViewBehaviour {
 
-  override def sidebarTitle: String = messagesApi("page.iht.application.overview.closed.sidebartitle")
-
   def guidanceParagraphs = commonGuidanceParagraphs ++ Set(
-    messagesApi("page.iht.application.overview.closed.helptext"),
-    messagesApi("page.iht.application.overview.closed.warning")
+    messagesApi("page.iht.application.overview.closed.keepingRecords")
   )
 
-  def pageTitle = messagesApi("page.iht.application.overview.common.title")
+  def pageTitle = messagesApi("page.iht.application.overview.closed.title", deceasedName)
 
-  def browserTitle = messagesApi("page.iht.application.overview.common.title")
+  def browserTitle = messagesApi("page.iht.application.overview.closed.browserTitle")
 
   def view: String = closed_application(ihtRef, deceasedName, probateDetails)(createFakeRequest(),
-                                                                              applicationMessages,
-                                                                              formPartialRetriever).toString
+    applicationMessages,
+    formPartialRetriever).toString
 
   override val exitId: String = "return-link"
 
@@ -46,11 +44,27 @@ class ClosedApplicationViewTest extends ApplicationStatusViewBehaviour {
     )
   )
 
-  "Closed Application View" must {
+  "Closed Cleared Application View" must {
     behave like applicationStatusPage()
 
-    behave like link("clearance-anchor",
-      iht.controllers.application.status.routes.ApplicationClosedAndClearedController.onPageLoad(ihtRef).url,
-      messagesApi("page.iht.application.overview.closed.clearance"))
+    behave like link("view-certificate-button",
+      iht.controllers.application.pdf.routes.PDFController.onClearancePDF().url,
+      messagesApi("page.iht.application.overview.closed.viewClearanceCertificate")
+    )
+
+    "show the IHT identifier" in {
+      val expectedContent = formattedProbateReference(probateDetails.probateReference)
+      elementShouldHaveText(doc, "probate-details-iht-identifier", expectedContent)
+    }
+
+    "show the gross estate figure" in {
+      val expectedContent = "£" + CommonHelper.numberWithCommas(probateDetails.grossEstateforProbatePurposes)
+      elementShouldHaveText(doc, "probate-details-gross-estate-figure", expectedContent)
+    }
+
+    "show the net estate figure" in {
+      val expectedContent = "£" + CommonHelper.numberWithCommas(probateDetails.netEstateForProbatePurposes)
+      elementShouldHaveText(doc, "probate-details-net-estate-figure", expectedContent)
+    }
   }
 }

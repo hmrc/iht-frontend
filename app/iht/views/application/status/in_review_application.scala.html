@@ -45,42 +45,12 @@ isFullWidth=false
             </a>
         </p>
 
-        <h2><strong>@messages("page.iht.application.overview.inreview.ifYouNeed")</strong></h2>
-        <p>@messages("page.iht.application.overview.inreview.p3")</p>
 
-        <details id="need-details-reveal">
-            <summary class="summary">@Messages("page.iht.application.overview.common.needDetails")</summary>
-            <div class="panel-indent panel-indent--gutter">
-                <p>@Messages("page.iht.application.overview.common.p1")</p>
 
-                <table>
-                    <tbody>
-                    <tr>
-                        <td>@Messages("page.iht.application.probate.data.ihtIdentifier")</td>
-                        <td id="probate-details-iht-identifier">@formattedProbateReference(probateDetails.probateReference)</td>
-                    </tr>
-                    <tr>
-                        <td>@Messages("page.iht.application.probate.data.grossEstateFigure")</td>
-                        <td id="probate-details-gross-estate-figure">£@CommonHelper.numberWithCommas(probateDetails.grossEstateforProbatePurposes)</td>
-                    </tr>
-                    <tr>
-                        <td>@Messages("page.iht.application.probate.data.netEstateFigure")</td>
-                        <td id="probate-details-net-estate-figure">£@CommonHelper.numberWithCommas(probateDetails.netEstateForProbatePurposes)</td>
-                    </tr>
-                    </tbody>
-                </table>
 
-            </div>
-        </details>
 
-        <h2><strong>@messages("page.iht.application.overview.inreview.ifYouFind")</strong></h2>
-        <p>@messages("page.iht.application.overview.inreview.p4")</p>
+        @post_submit_common(deceasedName, probateDetails)
 
-        <p>@messages("page.iht.application.overview.inreview.youWillNeedTo")
-            <a id="tellHMRC" href="@IhtProperties.linkEstateReportKickOut">
-                @Html(Messages("page.iht.application.overview.inreview.tellHMRC"))
-            </a>.
-        </p>
         <p><input id="return-input" class="button" type="submit" value="@Messages("page.iht.application.overview.common.return")"></p>
         }
     </div>
