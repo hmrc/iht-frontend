@@ -16,7 +16,7 @@ site.button.save.return.mortgages = Save and return to mortgages
 site.button.save.return.properties = Save and return to properties, buildings and land owned
 site.button.save = Save
 site.currentPage = This is the current page
-site.button.continue.iht.app.page = Continue to your Inheritance Tax estate reports page
+site.button.continue.iht.app.page = Go to your Inheritance Tax estate reports
 site.button.finish = Finish
 site.button.details.correct = The details given are correct
 site.button.details.correct.exitToGovK = The details given are correct – exit to GOV.UK
@@ -580,8 +580,8 @@ page.iht.home.button.continueApplication.screenReader = Continue {0}’s estate 
 page.iht.home.button.viewApplication.screenReader = View {0}’s estate report
 
 #Estate report - Application Status - In Review
-page.iht.application.overview.inreview.title = {0}’s estate report is being reviewed by HMRC
-page.iht.application.overview.inreview.browserTitle = This estate report is being reviewed by HMRC
+page.iht.application.overview.inreview.title = We are reviewing {0}’s estate report
+page.iht.application.overview.inreview.browserTitle = We are reviewing this estate report
 page.iht.application.overview.inreview.sidebartitle = You have sent this report to HMRC.
 
 #Estate report - Application Status - Clearance Granted
@@ -591,16 +591,15 @@ page.iht.application.overview.inreview.sidebartitle = You have sent this report 
 page.iht.application.overview.common.return = Return to your Inheritance Tax estate reports
 page.iht.application.overview.common.viewcopy = View a copy of this estate report (PDF, size is less than 500KB)
 
-page.iht.application.overview.inreview.p1 = HMRC might take up to 2 months to review this estate report from the date you sent it. HMRC will contact you if they have any questions.
-page.iht.application.overview.inreview.p2 = You can check the status of this estate report at any time by choosing it from your Inheritance Tax estate reports page. When HMRC have finished their review, you will either be contacted or the estate report will be closed.
+page.iht.application.overview.inreview.p1 = We might take up to 2 months to review this estate report from the date you sent it. We will contact you if we have any questions.
+page.iht.application.overview.inreview.p2 = You can check the status of this estate report at any time by choosing it from your Inheritance Tax estate reports. When we have finished the review, we will either contact you or the estate report will be closed.
 page.iht.application.overview.common.ifYouNeed = If you need to continue your PA1 - Probate application
-page.iht.application.overview.common.p3 = You can continue your PA1 - Probate application by using the IHT Identifier, Gross Estate Figure and Net Estate Figure for this estate.
 page.iht.application.overview.common.ifYouFind = If you find anything else in the estate
-page.iht.application.overview.common.p4 = If you find anything else in the estate, you will only need to tell HMRC if the value of those things increase the value of the estate over the threshold. There will be Inheritance Tax to pay.
+page.iht.application.overview.common.p4 = You will only need to tell us if the value of those things increase the value of the estate over the threshold. There will be Inheritance Tax to pay.
 page.iht.application.overview.common.youWillNeedTo = You will need to
-page.iht.application.overview.common.tellHMRC = tell HMRC about the estate by using an IHT400 form
+page.iht.application.overview.common.tellHMRC = tell us about the estate by using an IHT400 form
 page.iht.application.overview.common.needDetails = I need the IHT Identifier, Gross Estate Figure and Net Estate Figure
-page.iht.application.overview.common.p1 = You need to write the IHT Identifier, the Gross Estate Figure and the Net Estate Figure on the PA1 - Probate application form for John Smith’s estate.
+page.iht.application.overview.common.p1 = Write these details on your probate form.
 
 #Estate report - Estate overview
 page.iht.application.estateOverview.noValue = No value given
@@ -1673,8 +1672,8 @@ iht.application.declaration.risking.money.message = You have said that the decea
 iht.application.declaration.risking.money.message.amended = You have said that {0} had no money in any bank accounts. By sending this application, you are declaring that you believe this is correct.
 
 #Estate report - Declaration Received
-page.iht.application.declaration_received.browserTitle = Your estate report has been sent to HMRC
-page.iht.application.declaration_received.title ={0}’s estate report has been sent to HMRC
+page.iht.application.declaration_received.browserTitle = Estate report sent
+page.iht.application.declaration_received.title ={0}’s estate report has been sent
 page.iht.application.declaration_received.subtitle = What happens next
 page.iht.application.declaration_received.probate.paragraph1 = HMRC will review your Inheritance Tax estate report – this might take up to 2 months. HMRC might be in touch with you during this time if they have any queries. Once the review has been completed, the estate report status will be changed to closed.
 page.iht.application.declaration_received.paragraph2 = HMRC might also check the valuation of any properties that you have entered – if they do this, the Valuation Office might call you.
@@ -1687,12 +1686,12 @@ page.iht.application.declaration_received.subheading1 = HMRC will review this es
 page.iht.application.declaration_received.subheading2 = Getting your statutory certificate of discharge
 page.iht.application.declaration_received.subheading3 = Keeping records for the future
 iht.iht.estateReport.declaration.acceptanceOfDeclaration = Anyone who is applying to the Probate Service should accept this declaration. By signing this form, you are accepting this.
-page.iht.application.declaration_received.continue=Continue to the PA1 - Probate application form details page
+page.iht.application.declaration_received.continue=View the details you need for your probate form
 
 page.iht.application.declaration_received.pdf.link = Save a copy of this estate report (PDF, size is less than 500KB)
-page.iht.application.declaration_received.guidance.indent=You can choose this estate report from your Inheritance Tax estate reports page to get a copy of it at any time.
-page.iht.application.declaration_received.guidance.retention=HMRC recommend that you keep a copy of this estate report along with any other paperwork you have used to help you complete it. You should keep these details for 5 years.
-page.iht.application.declaration_received.guidance.probate=You will need some details to finish your PA1 - Probate application form. These details can be found on the PA1 - Probate application form details page.
+page.iht.application.declaration_received.guidance.indent=You can choose this estate report from your Inheritance Tax estate reports to get a copy of it at any time.
+page.iht.application.declaration_received.guidance.retention=We recommend that you keep a copy of this estate report along with any other paperwork you have used to help you complete it. You should keep these details for 5 years.
+page.iht.application.declaration_received.guidance.probate=You need some details to finish your PA1 - Probate application form.
 
 #Estate report - Probate Details
 page.iht.application.probateDetails.content2 = You will need the following details to write on your PA1 – Probate application form:
@@ -1709,12 +1708,11 @@ page.iht.application.probateDetails.guidance.bullet3 = the net estate figure is 
 
 page.iht.application.probateDetails.probateDetailsNotAvailableText = You will need to complete your Probate Application form (PA1) with some details from the estate report before you post it off. You can find these details by viewing this estate report on your Inheritance Tax estate reports page.
 
-page.iht.application.probate.title=PA1 - Probate application form details
-page.iht.application.probate.browserTitle=Probate application form details
+page.iht.application.probate.title=Details you need for your probate form
+page.iht.application.probate.browserTitle=Probate form details
 page.iht.application.probate.print = Download or print this page
-page.iht.application.probate.guidance.p1=You need to write the IHT Identifier, the Gross Estate Figure and the Net Estate Figure on the PA1 - Probate application form for {0}’s estate.
-page.iht.application.probate.guidance.indent=You will still be able to see these details by choosing this estate report from your Inheritance Tax estate reports page.
-page.iht.application.probate.guidance.p2=You can find other details about what you might need to do next by choosing this estate report from your Inheritance Tax estate reports page.
+page.iht.application.probate.guidance.p1=Write these details on the PA1 - Probate application form for {0}’s estate.
+page.iht.application.probate.guidance.indent=You will still be able to see these details by choosing this estate report from your Inheritance Tax estate reports.
 page.iht.application.probate.data.visuallyHiddenCaption=PA1 - Probate application form details for {0}'s estate
 page.iht.application.probate.data.ihtIdentifier = IHT Identifier
 page.iht.application.probate.data.grossEstateFigure = Gross Estate Figure
@@ -2477,4 +2475,4 @@ page.iht.application.overview.closed.noTaxToPay = There is no Inheritance Tax to
 page.iht.application.overview.closed.browserTitle = This estate report has been closed
 page.iht.application.overview.closed.keepingRecords = Keeping records
 page.iht.application.overview.closed.viewClearanceCertificate = View this estate’s clearance certificate (PDF, size is less than 500KB).
-page.iht.application.overview.closed.p1 = This certificate confirms that HMRC will not make any future tax claims on the estate based on the details you have given on the estate report.
+page.iht.application.overview.closed.p1 = This certificate confirms that we will not make any future tax claims on the estate based on the details you have given in the estate report.

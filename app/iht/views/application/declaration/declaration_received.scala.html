@@ -29,13 +29,13 @@ browserTitle = Some(Messages("page.iht.application.declaration_received.browserT
 isFullWidth=false, highlightBoxClass = Some("govuk-box-highlight")
 ){
 
+    <p>@Messages("page.iht.application.declaration_received.guidance.retention")</p>
+
     <p><a href="@iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF()">@Messages("page.iht.application.declaration_received.pdf.link")</a></p>
 
     <div class="panel-indent">
         <p>@Messages("page.iht.application.declaration_received.guidance.indent")</p>
     </div>
-
-    <p>@Messages("page.iht.application.declaration_received.guidance.retention")</p>
 
     <h2>@Messages("iht.nextSteps")</h2>
 

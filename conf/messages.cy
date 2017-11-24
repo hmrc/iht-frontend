@@ -2032,7 +2032,6 @@ page.iht.application.declaration_received.pdf.link=Cadwch gopi o''r adroddiad yn
 page.iht.application.declaration_received.guidance.probate=Bydd angen ychydig o fanylion arnoch i lenwi''ch ''PA1 – ffurflen gais ar gyfer Profiant''. Mae''r manylion hyn ar y dudalen '''PA1 – ffurflen gais ar gyfer Profiant''.
 page.iht.application.declaration_received.guidance.indent=Drwy ddewis yr adroddiad hwn ynghylch yr ystâd o''ch tudalen adroddiadau Treth Etifeddiant ynghylch yr ystâd, gallwch gael copi ohono ar unrhyw adeg.
 
-page.iht.application.probate.guidance.p2=Drwy ddewis yr adroddiad hwn ynghylch yr ystâd o''ch tudalen adroddiadau Treth Etifeddiant ynghylch yr ystâd, gallwch ddod o hyd i ragor o wybodaeth am yr hyn efallai bydd yn rhaid i chi wneud nesaf.
 page.iht.application.probate.guidance.indent=Byddwch yn dal i allu gweld y manylion hynny drwy ddewis yr adroddiad hwn ynghylch yr ystâd o''ch tudalen adroddiadau Treth Etifeddiant.
 page.iht.application.probate.data.visuallyHiddenCaption=Manylion ''PA1 – ffurflen gais ar gyfer Profiant'' ar gyfer ystâd John Smith
 page.iht.application.probate.guidance.p1=Bydd angen i chi nodi''r Dynodydd IHT, Ffigur Gros yr Ystâd a Ffigur Net yr Ystâd ar y ''PA1 – ffurflen gais ar gyfer Profiant'', ar gyfer ystâd {0}.
@@ -2045,7 +2044,6 @@ page.iht.application.probate.title=Manylion y ''PA1 – ffurflen gais ar gyfer P
 page.iht.application.overview.inreview.p1 = Gallai gymryd hyd at 2 fis i CThEM adolygu''r adroddiad hwn ynghylch yr ystâd o''r dyddiad y gwnaethoch ei anfon. Bydd CThEM yn cysylltu â chi os oes ganddynt gwestiynau.
 page.iht.application.overview.inreview.p2 = Gallwch wirio statws yr adroddiad hwn ynghylch yr ystâd ar unrhyw adeg drwy ei ddewis o''ch tudalen Treth Etifeddiant - adroddiad ynghylch yr ystâd. Pan fydd CThEM wedi cwblhau ei adolygiad, byddwn un ai yn cysylltu â chi neu caiff yr adroddiad ynghylch yr ystâd ei gau.
 page.iht.application.overview.common.ifYouNeed = Os ydych am gario ymlaen gyda''ch ''PA1 – cais ar gyfer Profiant''
-page.iht.application.overview.common.p3 = Gallwch gario ymlaen gyda''ch ''PA1 – cais ar gyfer Profiant'' - drwy ddefnyddio''r Dynodydd IHT, Ffigur Gros yr Ystâd a Ffigur Net yr Ystâd ar gyfer yr ystâd hon.
 page.iht.application.overview.common.ifYouFind = Os darganfyddwch unrhyw beth arall yn yr ystâd
 page.iht.application.overview.common.p4 = Os darganfyddwch unrhyw beth arall yn yr ystâd, bydd ond yn rhaid i chi roi gwybod i CThEM os yw gwerth y pethau hynny yn mynd â gwerth yr ystâd dros y trothwy. Bydd Treth Etifeddiant i''w thalu.
 page.iht.application.overview.common.youWillNeedTo = Bydd angen i chi

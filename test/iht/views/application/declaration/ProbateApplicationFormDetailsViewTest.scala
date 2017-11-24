@@ -51,7 +51,6 @@ class ProbateApplicationFormDetailsViewTest extends ViewTestHelper {
     "show the correct guidance" in {
       val view = probateApplicationFormDetailsView().toString
       messagesShouldBePresent(view, messagesApi("page.iht.application.probate.guidance.p1", deceasedName))
-      messagesShouldBePresent(view, messagesApi("page.iht.application.probate.guidance.p2"))
       messagesShouldBePresent(view, messagesApi("page.iht.application.probate.guidance.indent"))
     }
 
