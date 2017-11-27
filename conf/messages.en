@@ -2474,5 +2474,5 @@ page.iht.application.overview.closed.title = {0}’s estate report has been clos
 page.iht.application.overview.closed.noTaxToPay = There is no Inheritance Tax to pay
 page.iht.application.overview.closed.browserTitle = This estate report has been closed
 page.iht.application.overview.closed.keepingRecords = Keeping records
-page.iht.application.overview.closed.viewClearanceCertificate = View this estate’s clearance certificate (PDF, size is less than 500KB).
+page.iht.application.overview.closed.viewClearanceCertificate = View this estate’s clearance certificate (PDF, size is less than 500KB)
 page.iht.application.overview.closed.p1 = This certificate confirms that we will not make any future tax claims on the estate based on the details you have given in the estate report.

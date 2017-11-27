@@ -31,9 +31,9 @@ browserTitle = Some(Messages("page.iht.application.overview.closed.browserTitle"
 isFullWidth=false
 ) {
 
-<p class="lede">@messages("page.iht.application.overview.closed.noTaxToPay")</p>
+<h2 class="lede">@messages("page.iht.application.overview.closed.noTaxToPay")</h2>
 
-<h2><strong>@messages("page.iht.application.overview.closed.keepingRecords")</strong></h2>
+<h3 class="heading-medium"><strong>@messages("page.iht.application.overview.closed.keepingRecords")</strong></h3>
 <p>
     <a id="view-app-copy" href="@iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF()">
         @Html(Messages("page.iht.application.overview.common.viewcopy"))
@@ -42,7 +42,8 @@ isFullWidth=false
 
 <p><a id="view-certificate-button" href="@iht.controllers.application.pdf.routes.PDFController.onClearancePDF()">
         @Html(Messages("page.iht.application.overview.closed.viewClearanceCertificate"))
-    </a>@Messages("page.iht.application.overview.closed.p1")
+</a><BR>
+    @Messages("page.iht.application.overview.closed.p1")
 </p>
 
 @post_submit_common(deceasedName, probateDetails)
