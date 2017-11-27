@@ -59,13 +59,13 @@ object ApplicationConfig extends AppConfig with ServicesConfig {
   override lazy val analyticsToken: Option[String] = configuration.getString("google-analytics.token")
   override lazy val analyticsHost: String = configuration.getString("google-analytics.host").getOrElse("auto")
 
-  private lazy val contactFrontendService = baseUrl("contact-frontend")
+  private lazy val contactFrontendService = "https://www.tax.service.gov.uk/contact"
 
-  override lazy val reportAProblemPartialUrl = s"$contactFrontendService/contact/problem_reports"
-  override lazy val reportAProblemNonJSUrl = s"$contactFrontendService/contact/problem_reports_nonjs?service=iht"
+  override lazy val reportAProblemPartialUrl = s"$contactFrontendService/problem_reports"
+  override lazy val reportAProblemNonJSUrl = s"$contactFrontendService/problem_reports_nonjs?service=iht"
 
-  override lazy val betaFeedbackUrl = s"$contactFrontendService/contact/beta-feedback"
-  override lazy val betaFeedbackUnauthenticatedUrl = s"$contactFrontendService/contact/beta-feedback-unauthenticated"
+  override lazy val betaFeedbackUrl = s"$contactFrontendService/beta-feedback"
+  override lazy val betaFeedbackUnauthenticatedUrl = s"$contactFrontendService/beta-feedback-unauthenticated"
 
   override val runningEnvironment: String =  configuration.getString("current-environment").getOrElse("local")
 
