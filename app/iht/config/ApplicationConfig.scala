@@ -64,10 +64,8 @@ object ApplicationConfig extends AppConfig with ServicesConfig {
   override lazy val reportAProblemPartialUrl = s"$contactFrontendService/contact/problem_reports"
   override lazy val reportAProblemNonJSUrl = s"$contactFrontendService/contact/problem_reports_nonjs?service=iht"
 
-  private lazy val contactFrontendRedirectBase = readFromConfig(s"$env.microservice.contact-frontend.url")
-
-  override lazy val betaFeedbackUrl = s"$contactFrontendRedirectBase/contact/beta-feedback"
-  override lazy val betaFeedbackUnauthenticatedUrl = s"$contactFrontendRedirectBase/contact/beta-feedback-unauthenticated"
+  override lazy val betaFeedbackUrl = "/contact/beta-feedback"
+  override lazy val betaFeedbackUnauthenticatedUrl = "/contact/beta-feedback-unauthenticated"
 
   override val runningEnvironment: String =  configuration.getString("current-environment").getOrElse("local")
 
