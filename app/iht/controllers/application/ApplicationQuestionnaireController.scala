@@ -30,7 +30,7 @@ trait ApplicationQuestionnaireController extends ApplicationController with Ques
   override def questionnaireView = (form, request) => {
     implicit val req = request
     application_questionnaire(form, includeIntendReturnQuestion = false,
-      postRoute = iht.controllers.application.routes.ApplicationQuestionnaireController.onSubmit
+      postRoute = iht.controllers.application.routes.ApplicationQuestionnaireController.onSubmit()
     )
   }
   override def callPageLoad = iht.controllers.application.routes.ApplicationQuestionnaireController.onPageLoad()

@@ -20,29 +20,25 @@ import iht.connector.{CachingConnector, ExplicitAuditConnector, IhtConnector}
 import iht.constants.{Constants, IhtProperties}
 import iht.models.QuestionnaireModel
 import iht.testhelpers.MockFormPartialRetriever
-import iht.utils.{CommonHelper, IhtSection}
-import org.mockito.Matchers.any
-import org.mockito.Mockito.when
+import iht.utils.IhtSection
 import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.partials.FormPartialRetriever
-
-import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
  * Created by yasar on 6/18/15.
  */
-class ApplicationQuestionnaireControllerTest extends ApplicationControllerTest {
+class OverviewQuestionnaireControllerTest extends ApplicationControllerTest {
 
   override implicit val messagesApi = app.injector.instanceOf[MessagesApi]
-  implicit val hc = new HeaderCarrier()
+  implicit val hc = HeaderCarrier()
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
   val mockAuditConnector = mock[ExplicitAuditConnector]
 
   // Create controller object and pass in mock.
-  def questionnaireController = new ApplicationQuestionnaireController {
+  def questionnaireController = new OverviewQuestionnaireController {
     override val authConnector = createFakeAuthConnector()
     override def explicitAuditConnector = mockAuditConnector
     def cachingConnector = mockCachingConnector
@@ -50,7 +46,7 @@ class ApplicationQuestionnaireControllerTest extends ApplicationControllerTest {
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def questionnaireControllerNotAuthorised = new ApplicationQuestionnaireController {
+  def questionnaireControllerNotAuthorised = new OverviewQuestionnaireController {
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override def explicitAuditConnector = mockAuditConnector
     def cachingConnector = mockCachingConnector
@@ -60,16 +56,15 @@ class ApplicationQuestionnaireControllerTest extends ApplicationControllerTest {
 
   "onApplicationPageLoad method" must {
     "respond with OK and correct header title on page load" in {
-
       val result = questionnaireController.onPageLoad()(createFakeRequest())
       status(result) shouldBe OK
       contentAsString(result) should include(messagesApi("site.application.title"))
     }
 
-    "respond with no intent question on page load" in {
+    "respond with intent question on page load" in {
       val result = questionnaireController.onPageLoad()(createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should not include messagesApi("page.iht.questionnaire.intendReturn.question")
+      contentAsString(result) should include(messagesApi("page.iht.questionnaire.intendReturn.question"))
     }
 
     "redirect to questionnaire page when Nino is present in the session" in {
@@ -90,7 +85,7 @@ class ApplicationQuestionnaireControllerTest extends ApplicationControllerTest {
     }
 
     "set up instance for explicit audit connector" in {
-      ApplicationQuestionnaireController.explicitAuditConnector shouldBe ExplicitAuditConnector
+      OverviewQuestionnaireController.explicitAuditConnector shouldBe ExplicitAuditConnector
     }
 
     "log helper bad request validation" in {
@@ -108,7 +103,7 @@ class ApplicationQuestionnaireControllerTest extends ApplicationControllerTest {
 
     "have the correct callPageLoad" in {
       questionnaireController.callPageLoad shouldBe
-        iht.controllers.application.routes.ApplicationQuestionnaireController.onPageLoad()
+        iht.controllers.application.routes.OverviewQuestionnaireController.onPageLoad()
     }
   }
 
