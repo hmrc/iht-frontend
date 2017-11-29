@@ -96,22 +96,20 @@ class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationC
         Logger.info("Generating Application PDF")
         val messages = messagesApi.preferred(request)
         cachingConnector.getSingleValue(Constants.PDFIHTReference).flatMap {
-          optionIHTReference => optionIHTReference match {
-            case Some(ihtReference) => {
-              val fileName = s"${messages("iht.inheritanceTaxEstateReport")}.pdf"
-              val nino = StringHelper.getNino(user)
-              ihtConnector.getCaseDetails(nino, ihtReference).flatMap(regDetails =>
-                getSubmittedApplicationDetails(nino, regDetails, messages) map {
-                  case Some(ihtReturn) =>
-                    val pdfByteArray = XmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn, messages)
-                    Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*)
-                  case _ =>
-                    internalServerError
-                }
-              )
-            }
-            case _ => Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
+          case Some(ihtReference) => {
+            val fileName = s"${messages("iht.inheritanceTaxEstateReport")}.pdf"
+            val nino = StringHelper.getNino(user)
+            ihtConnector.getCaseDetails(nino, ihtReference).flatMap(regDetails =>
+              getSubmittedApplicationDetails(nino, regDetails, messages) map {
+                case Some(ihtReturn) =>
+                  val pdfByteArray = XmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn, messages)
+                  Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*)
+                case _ =>
+                  internalServerError
+              }
+            )
           }
+          case _ => Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
         }
       }
   }
