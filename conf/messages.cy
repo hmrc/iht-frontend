@@ -2060,4 +2060,4 @@ page.iht.application.overview.closed.viewClearanceCertificate = Bwrw golwg ar dy
 page.iht.application.overview.closed.p1 = Mae''r dystysgrif hon yn cadarnhau, yn seiliedig ar y manylion a roddwyd gennych yn yr adroddiad ynghylch yr ystâd, na fyddwn yn gwneud unrhyw geisiadau am dreth yn y dyfodol.
 page.iht.application.overview.common.viewcopy=Bwrw golwg ar adroddiad ynghylch yr ystâd hon (PDF, llai na 500KB)
 
-page.iht.questionnaire.intendReturn.question=???
+page.iht.questionnaire.intendReturn.question=A ydych yn bwriadu dychwelyd yn nes ymlaen i lenwi''ch adroddiad ynghylch yr ystâd?
