@@ -48,6 +48,7 @@
         form("stageInService"),
         questionnaireActivity.toSeq,
         '_legend -> messages("page.iht.questionnaire.activity.question"),
+        '_legendClass -> Some("legend-with-heading"),
         '_fieldsetId -> "stageInService",
         '_groupClass -> "form-group ",
         '_labelClass -> "block-label",
@@ -60,9 +61,7 @@
             form("intendToReturn"),
             '_divClass -> Some("form-group"),
             '_legend -> Messages("page.iht.questionnaire.intendReturn.question"),
-            '_legendClass -> Some("legend-with-heading"),
-            '_legendIsHeading -> true,
-            '_headingClass -> "heading-large"
+            '_legendClass -> "form-label-bold"
         )
     }
 
