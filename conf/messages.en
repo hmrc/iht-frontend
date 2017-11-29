@@ -2477,4 +2477,4 @@ page.iht.application.overview.closed.keepingRecords = Keeping records
 page.iht.application.overview.closed.viewClearanceCertificate = View this estate’s clearance certificate (PDF, size is less than 500KB)
 page.iht.application.overview.closed.p1 = This certificate confirms that we will not make any future tax claims on the estate based on the details you have given in the estate report.
 
-page.iht.questionnaire.intendReturn.question=Do you intend to return later to complete your IHT Estate report?
+page.iht.questionnaire.intendReturn.question=Do you intend to come back later to complete your estate report?
