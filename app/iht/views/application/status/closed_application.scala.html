@@ -35,14 +35,22 @@ isFullWidth=false
 
 <h3 class="heading-medium"><strong>@messages("page.iht.application.overview.closed.keepingRecords")</strong></h3>
 <p>
-    <a id="view-app-copy" href="@iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF()">
+    <a data-ga-event-category="download - click"
+       data-ga-event-action='@Messages("page.iht.application.overview.closed.browserTitle")'
+       data-ga-event-label='@Messages("page.iht.application.overview.common.viewcopy")'
+       id="view-app-copy" href="@iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF()">
         @Html(Messages("page.iht.application.overview.common.viewcopy"))
     </a>
 </p>
 
-<p><a id="view-certificate-button" href="@iht.controllers.application.pdf.routes.PDFController.onClearancePDF()">
+<p>
+    <a data-ga-event-category="download - click"
+       data-ga-event-action='@Messages("page.iht.application.overview.closed.browserTitle")'
+       data-ga-event-label='@Messages("page.iht.application.overview.closed.viewClearanceCertificate")'
+       id="view-certificate-button" href="@iht.controllers.application.pdf.routes.PDFController.onClearancePDF()">
         @Html(Messages("page.iht.application.overview.closed.viewClearanceCertificate"))
-</a><BR>
+    </a>
+    <BR>
     @Messages("page.iht.application.overview.closed.p1")
 </p>
 
