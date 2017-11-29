@@ -31,7 +31,10 @@ isFullWidth=false, highlightBoxClass = Some("govuk-box-highlight")
 
     <p>@Messages("page.iht.application.declaration_received.guidance.retention")</p>
 
-    <p><a href="@iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF()">@Messages("page.iht.application.declaration_received.pdf.link")</a></p>
+    <p><a data-ga-event-category="download - click"
+    data-ga-event-action='@Messages("page.iht.application.declaration_received.browserTitle")'
+    data-ga-event-label='@Messages("page.iht.application.declaration_received.pdf.link")'
+    href="@iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF()">@Messages("page.iht.application.declaration_received.pdf.link")</a></p>
 
     <div class="panel-indent">
         <p>@Messages("page.iht.application.declaration_received.guidance.indent")</p>
