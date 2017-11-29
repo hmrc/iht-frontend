@@ -33,7 +33,7 @@ object QuestionnaireForms {
       "fullName" -> optional(text),
       "contactDetails" -> optional(text),
       "stageInService" -> optional(text),
-      "intendToReturn" -> optional(boolean).verifying("site.link.giveAnswer", intend => intend.fold(false)(_=>true))
+      "intendToReturn" -> optional(boolean)
     )(QuestionnaireModel.apply)(QuestionnaireModel.unapply)
   )
 }

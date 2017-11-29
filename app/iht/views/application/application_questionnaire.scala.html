@@ -33,5 +33,9 @@
     </a>
 </div>
     <h2 class="heading-large">@Messages("page.iht.questionnaire.completeSurvey")</h2>
-   @ihtHelpers.custom.questionnaire_form(form, iht.controllers.application.routes.ApplicationQuestionnaireController.onSubmit)
+   @ihtHelpers.custom.questionnaire_form(
+        form = form,
+        postRoute = iht.controllers.application.routes.ApplicationQuestionnaireController.onSubmit,
+        includeIntendReturnQuestion = true
+    )
 }

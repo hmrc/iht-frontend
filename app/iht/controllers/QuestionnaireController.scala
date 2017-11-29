@@ -56,7 +56,9 @@ trait QuestionnaireController extends FrontendController with IhtActions {
     }
   }
 
-  def onSubmit = UnauthorisedAction {
+  def onSubmit:Action[AnyContent]
+
+  def doSubmit(includeIntendReturnQuestion:Boolean) = UnauthorisedAction {
     implicit request =>
       questionnaire_form.bindFromRequest().fold(
         formWithErrors => {
@@ -76,8 +78,13 @@ trait QuestionnaireController extends FrontendController with IhtActions {
             nino = SessionHelper.getNinoFromSession(request).fold("")(identity),
             contactDetails = value.contactDetails.getOrElse(""),
             stageInService = value.stageInService.getOrElse(""),
-            intendReturn = value.intendToReturn.fold("")(i=> StringHelper.booleanToYesNo(i))
+            intendReturn = if (includeIntendReturnQuestion) {
+              value.intendToReturn.fold("")(i => StringHelper.booleanToYesNo(i))
+            } else {
+              ""
+            }
           )
+          println( "\n\n***" + questionnaireEvent)
           explicitAuditConnector.sendEvent(questionnaireEvent)
           Redirect(IhtProperties.linkGovUkIht)
         }

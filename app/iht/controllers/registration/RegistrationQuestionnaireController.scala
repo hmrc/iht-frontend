@@ -33,5 +33,6 @@ trait RegistrationQuestionnaireController extends RegistrationController with Qu
     registration_questionnaire(form)
   }
   override def callPageLoad = iht.controllers.registration.routes.RegistrationQuestionnaireController.onPageLoad()
+  override def onSubmit = doSubmit(includeIntendReturnQuestion = false)
   override val redirectLocationOnMissingNino = iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad()
 }

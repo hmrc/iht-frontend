@@ -32,5 +32,6 @@ trait ApplicationQuestionnaireController extends ApplicationController with Ques
     application_questionnaire(form)
   }
   override def callPageLoad = iht.controllers.application.routes.ApplicationQuestionnaireController.onPageLoad()
+  override def onSubmit = doSubmit(includeIntendReturnQuestion = true)
   override val redirectLocationOnMissingNino = iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()
 }
