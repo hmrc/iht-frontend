@@ -22,7 +22,7 @@ import iht.views.ViewTestHelper
 import iht.views.html.ihtHelpers.custom.questionnaire_form
 import org.jsoup.nodes.Document
 import play.api.data.Form
-import play.api.data.Forms.{mapping, number, optional, text}
+import play.api.data.Forms.{boolean, mapping, number, optional, text}
 import play.api.i18n.Messages
 import play.api.mvc.Call
 import play.twirl.api.HtmlFormat
@@ -40,10 +40,12 @@ class QuestionnaireFormViewTest extends ViewTestHelper {
         "howcanyouimprove" -> optional(text(minLength = 1, maxLength = 1200)),
         "fullName" -> optional(text),
         "contactDetails" -> optional(text),
-        "stageInService" -> optional(text(minLength = 1, maxLength = 1200))
+        "stageInService" -> optional(text(minLength = 1, maxLength = 1200)),
+        "intendToReturn" -> optional(boolean)
       )(QuestionnaireModel.apply)(QuestionnaireModel.unapply))
 
-    val view: HtmlFormat.Appendable = questionnaire_form(form, call)(request, messagesApi.preferred(request))
+    val view: HtmlFormat.Appendable = questionnaire_form(form, call,
+      includeIntendReturnQuestion=true)(request, messagesApi.preferred(request))
     asDocument(view.toString)
   }
 

@@ -66,6 +66,12 @@ class ApplicationQuestionnaireControllerTest extends ApplicationControllerTest {
       contentAsString(result) should include(messagesApi("site.application.title"))
     }
 
+    "respond with no intent question on page load" in {
+      val result = questionnaireController.onPageLoad()(createFakeRequest())
+      status(result) shouldBe OK
+      contentAsString(result) should not include messagesApi("page.iht.questionnaire.intendReturn.question")
+    }
+
     "redirect to questionnaire page when Nino is present in the session" in {
       val result = questionnaireController.onPageLoad()(createFakeRequest().withSession(Constants.NINO -> "CSXXXXX"))
       status(result) shouldBe OK
@@ -88,7 +94,7 @@ class ApplicationQuestionnaireControllerTest extends ApplicationControllerTest {
     }
 
     "log helper bad request validation" in {
-      val questionnaireModel = QuestionnaireModel(Some(7),None,None,None,None,None)
+      val questionnaireModel = QuestionnaireModel(Some(7),None,None,None,None,None,None)
       val questionnaire_form1 = iht.forms.QuestionnaireForms.questionnaire_form.fill(questionnaireModel)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(questionnaire_form1.data.toSeq: _*)
 

@@ -23,17 +23,17 @@ import iht.views.html.application.application_questionnaire
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
-object ApplicationQuestionnaireController extends ApplicationQuestionnaireController  with IhtConnectors {}
+object OverviewQuestionnaireController extends OverviewQuestionnaireController  with IhtConnectors {}
 
-trait ApplicationQuestionnaireController extends ApplicationController with QuestionnaireController {
+trait OverviewQuestionnaireController extends ApplicationController with QuestionnaireController {
   override lazy val ihtSection = IhtSection.Application
   override def questionnaireView = (form, request) => {
     implicit val req = request
-    application_questionnaire(form, includeIntendReturnQuestion = false,
-      postRoute = iht.controllers.application.routes.ApplicationQuestionnaireController.onSubmit()
+    application_questionnaire(form, includeIntendReturnQuestion = true,
+      postRoute = iht.controllers.application.routes.OverviewQuestionnaireController.onSubmit()
     )
   }
-  override def callPageLoad = iht.controllers.application.routes.ApplicationQuestionnaireController.onPageLoad()
-  override def onSubmit = doSubmit(includeIntendReturnQuestion = false)
+  override def callPageLoad = iht.controllers.application.routes.OverviewQuestionnaireController.onPageLoad()
+  override def onSubmit = doSubmit(includeIntendReturnQuestion = true)
   override val redirectLocationOnMissingNino = iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()
 }

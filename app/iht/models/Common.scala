@@ -79,7 +79,8 @@ object Joda {
 
 case class QuestionnaireModel(feelingAboutExperience: Option[Int], easyToUse: Option[Int],
                               howCanYouImprove: Option[String], fullName: Option[String],
-                              contactDetails: Option[String], stageInService: Option[String])
+                              contactDetails: Option[String], stageInService: Option[String],
+                              intendToReturn: Option[Boolean])
 
 object TaxIdsFormat {
   private def ninoBuilder(value: String) = if (Nino.isValid(value)) Nino(value) else throw new InvalidNinoException(value: String)

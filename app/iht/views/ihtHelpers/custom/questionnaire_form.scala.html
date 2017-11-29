@@ -14,7 +14,7 @@
 * limitations under the License.
 *@
 
-@(form: Form[_], postRoute: play.api.mvc.Call)(implicit request:Request[_], messages: Messages)
+@(form: Form[_], postRoute: play.api.mvc.Call, includeIntendReturnQuestion: Boolean)(implicit request:Request[_], messages: Messages)
 
 @import uk.gov.hmrc.play.views.html.helpers
 @import iht.views.html._
@@ -44,6 +44,27 @@
         '_legendClass -> "form-label-bold"
     )
 
+    @ihtHelpers.standard.input_radio_group(
+        form("stageInService"),
+        questionnaireActivity.toSeq,
+        '_legend -> messages("page.iht.questionnaire.activity.question"),
+        '_legendClass -> Some("legend-with-heading"),
+        '_fieldsetId -> "stageInService",
+        '_groupClass -> "form-group ",
+        '_labelClass -> "block-label",
+        '_labelTextClass -> "form-label",
+        '_legendClass -> "form-label-bold"
+    )
+
+    @if(includeIntendReturnQuestion) {
+        @ihtHelpers.standard.input_yes_no_radio_group(
+            form("intendToReturn"),
+            '_divClass -> Some("form-group"),
+            '_legend -> Messages("page.iht.questionnaire.intendReturn.question"),
+            '_legendClass -> "form-label-bold"
+        )
+    }
+
     @helpers.textArea(form("howcanyouimprove"),
         '_label -> messages("page.iht.questionnaire.improve.question"),
         '_labelClass -> "form-label-bold",
@@ -66,17 +87,6 @@
     '_inputClass -> "form-control",
     '_labelTextClass -> "bold",
     '_label -> Html(messages("page.iht.questionnaire.contactDetails")))
-
-    @ihtHelpers.standard.input_radio_group(
-        form("stageInService"),
-        questionnaireActivity.toSeq,
-        '_legend -> messages("page.iht.questionnaire.activity.question"),
-        '_fieldsetId -> "stageInService",
-        '_groupClass -> "form-group ",
-        '_labelClass -> "block-label",
-        '_labelTextClass -> "form-label",
-        '_legendClass -> "form-label-bold"
-    )
 
     <input class="button" type="submit" value = "@messages("page.iht.questionnaire.button.submit-and-signout")" />
 }

@@ -39,7 +39,8 @@
     isFullWidth=false,
     sidebarLinks = iht.views.html.application.overview.overview_sidebar(model.submissionDeadline, model.submissionMonthsLeft),
     headingClass = if(checkNameSize(model.deceasedName)){"heading-large"} else {"heading-xlarge"},
-    headingName = model.deceasedName
+    headingName = model.deceasedName,
+    signOutCall = Some(iht.controllers.application.routes.OverviewQuestionnaireController.signOutAndLoadPage())
 ){
 
   <p id="estate-overview-guidance" aria-describedby="estate-report-deadline-date" role="heading" aria-level="2">@Messages("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text2")</p>

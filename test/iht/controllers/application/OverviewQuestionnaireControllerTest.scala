@@ -14,47 +14,40 @@
  * limitations under the License.
  */
 
-package iht.controllers.registration
+package iht.controllers.application
 
 import iht.connector.{CachingConnector, ExplicitAuditConnector, IhtConnector}
 import iht.constants.{Constants, IhtProperties}
 import iht.models.QuestionnaireModel
 import iht.testhelpers.MockFormPartialRetriever
 import iht.utils.IhtSection
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.http.HeaderCarrier
-
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
  * Created by yasar on 6/18/15.
  */
-class RegistrationQuestionnaireControllerTest extends RegistrationControllerTest {
+class OverviewQuestionnaireControllerTest extends ApplicationControllerTest {
 
-  override implicit val hc = new HeaderCarrier()
+  override implicit val messagesApi = app.injector.instanceOf[MessagesApi]
+  implicit val hc = HeaderCarrier()
+  val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
   val mockAuditConnector = mock[ExplicitAuditConnector]
 
-  before {
-    mockCachingConnector = mock[CachingConnector]
-  }
-
   // Create controller object and pass in mock.
-  def questionnaireController = new RegistrationQuestionnaireController {
+  def questionnaireController = new OverviewQuestionnaireController {
     override val authConnector = createFakeAuthConnector()
-
     override def explicitAuditConnector = mockAuditConnector
     def cachingConnector = mockCachingConnector
     def ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def questionnaireControllerNotAuthorised = new RegistrationQuestionnaireController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
-
+  def questionnaireControllerNotAuthorised = new OverviewQuestionnaireController {
+    override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override def explicitAuditConnector = mockAuditConnector
     def cachingConnector = mockCachingConnector
     def ihtConnector = mockIhtConnector
@@ -65,7 +58,13 @@ class RegistrationQuestionnaireControllerTest extends RegistrationControllerTest
     "respond with OK and correct header title on page load" in {
       val result = questionnaireController.onPageLoad()(createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include(messagesApi("site.registration.title"))
+      contentAsString(result) should include(messagesApi("site.application.title"))
+    }
+
+    "respond with intent question on page load" in {
+      val result = questionnaireController.onPageLoad()(createFakeRequest())
+      status(result) shouldBe OK
+      contentAsString(result) should include(messagesApi("page.iht.questionnaire.intendReturn.question"))
     }
 
     "redirect to questionnaire page when Nino is present in the session" in {
@@ -73,11 +72,10 @@ class RegistrationQuestionnaireControllerTest extends RegistrationControllerTest
       status(result) shouldBe OK
     }
 
-    "redirect to Registration Checklist page when Nino is not present in the session" in {
+    "redirect to Case List page when Nino is not present in the session" in {
       val result = questionnaireController.onPageLoad()(createFakeRequest(false).withSession())
       status(result) shouldBe SEE_OTHER
-      redirectLocation(result) shouldBe
-        Some(iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad.url)
+      redirectLocation(result) shouldBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url)
     }
 
     "respond with redirect on page submit" in {
@@ -87,7 +85,7 @@ class RegistrationQuestionnaireControllerTest extends RegistrationControllerTest
     }
 
     "set up instance for explicit audit connector" in {
-      RegistrationQuestionnaireController.explicitAuditConnector shouldBe ExplicitAuditConnector
+      OverviewQuestionnaireController.explicitAuditConnector shouldBe ExplicitAuditConnector
     }
 
     "log helper bad request validation" in {
@@ -98,23 +96,15 @@ class RegistrationQuestionnaireControllerTest extends RegistrationControllerTest
       val result = questionnaireController.onSubmit()(request)
       status(result) should be(BAD_REQUEST)
     }
-  }
 
-  "guardConditions" must {
-    "be empty" in {
-      questionnaireController.guardConditions shouldBe Set.empty
+    "have the correct iht section" in {
+      questionnaireController.ihtSection shouldBe IhtSection.Application
+    }
+
+    "have the correct callPageLoad" in {
+      questionnaireController.callPageLoad shouldBe
+        iht.controllers.application.routes.OverviewQuestionnaireController.onPageLoad()
     }
   }
 
-  "ihtSection" must {
-    "Registration" in {
-      questionnaireController.ihtSection shouldBe IhtSection.Registration
-    }
-  }
-
-  "callPageLoad" must {
-    "redirect to RegistrationQuestionnaireController onPageLoad" in {
-      questionnaireController.callPageLoad shouldBe iht.controllers.registration.routes.RegistrationQuestionnaireController.onPageLoad()
-    }
-  }
 }

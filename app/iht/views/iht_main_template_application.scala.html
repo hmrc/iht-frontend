@@ -30,7 +30,8 @@ sidebarLinks: Html = HtmlFormat.empty,
 headingClass: String = "",
 headingName: String = "",
 highlightBoxClass:Option[String] = None,
-optionContentBelowTitle: Option[Html] = None
+optionContentBelowTitle: Option[Html] = None,
+signOutCall: Option[Call] = Some(iht.controllers.application.routes.ApplicationQuestionnaireController.signOutAndLoadPage())
 )(mainContent: Html)(implicit  request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template(
@@ -44,7 +45,7 @@ optionContentBelowTitle: Option[Html] = None
     cancelLabel = cancelLabel,
     hasTimeOut = hasTimeOut,
     sidebarLinks = sidebarLinks,
-    signOutUrl = if (hasSignOut) Some(iht.controllers.application.routes.ApplicationQuestionnaireController.signOutAndLoadPage()) else None,
+    signOutUrl = if (hasSignOut) signOutCall else None,
     headerTitle = Some(Messages("site.application.title")),
     headingClass = headingClass,
     headingName = headingName,
