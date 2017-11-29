@@ -40,14 +40,14 @@ isFullWidth=false
         <p>@messages("page.iht.application.overview.inreview.p2")</p>
 
         <p>
-            <a id="view-app-copy" href="@iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF()">
+            <a class="ga-track-anchor-click"
+               data-ga-event-category="download - click"
+               data-ga-event-action='@Messages("page.iht.application.overview.inreview.browserTitle")'
+               data-ga-event-label='@Messages("page.iht.application.overview.common.viewcopy")'
+               id="view-app-copy" href="@iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF()">
                 @Html(Messages("page.iht.application.overview.common.viewcopy"))
             </a>
         </p>
-
-
-
-
 
         @post_submit_common(deceasedName, probateDetails)
 

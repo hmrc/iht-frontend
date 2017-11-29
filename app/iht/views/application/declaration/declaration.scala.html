@@ -56,7 +56,10 @@ browserTitle = Some(Messages("iht.estateReport.declaration.title")) ) {
                         }
                     </ul>
                     <p id="prologue4">@Messages("iht.estateReport.declaration.coExecutors.prologue4")
-                        <a id="pdf-summary-link" class="backButton" href="@iht.controllers.application.pdf.routes.PDFController.onPreSubmissionPDF">
+                        <a data-ga-event-category="download - click"
+                        data-ga-event-action='@Messages("iht.estateReport.declaration.title")'
+                        data-ga-event-label='@Messages("iht.estateReport.copyOfTheEstateReportAndPrint")'
+                        id="pdf-summary-link" class="backButton" href="@iht.controllers.application.pdf.routes.PDFController.onPreSubmissionPDF">
                             @Html(Messages("iht.estateReport.copyOfTheEstateReportAndPrint"))
                         </a>
                     </p>
