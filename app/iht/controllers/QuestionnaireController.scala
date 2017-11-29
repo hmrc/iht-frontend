@@ -22,7 +22,7 @@ import iht.controllers.auth.IhtActions
 import iht.events.QuestionnaireEvent
 import iht.forms.QuestionnaireForms._
 import iht.models.QuestionnaireModel
-import iht.utils.{LogHelper, SessionHelper}
+import iht.utils.{LogHelper, SessionHelper, StringHelper}
 import play.api.data.Form
 import play.api.mvc._
 import play.twirl.api.HtmlFormat.Appendable
@@ -75,7 +75,8 @@ trait QuestionnaireController extends FrontendController with IhtActions {
             fullName = value.fullName.getOrElse(""),
             nino = SessionHelper.getNinoFromSession(request).fold("")(identity),
             contactDetails = value.contactDetails.getOrElse(""),
-            stageInService = value.stageInService.getOrElse("")
+            stageInService = value.stageInService.getOrElse(""),
+            intendReturn = value.intendToReturn.fold("")(i=> StringHelper.booleanToYesNo(i))
           )
           explicitAuditConnector.sendEvent(questionnaireEvent)
           Redirect(IhtProperties.linkGovUkIht)

@@ -78,5 +78,14 @@
         '_legendClass -> "form-label-bold"
     )
 
+    @ihtHelpers.standard.input_yes_no_radio_group(
+        form("intendToReturn"),
+        '_divClass -> Some("form-group"),
+        '_legend -> Messages("page.iht.questionnaire.intendReturn.question"),
+        '_legendClass -> Some("legend-with-heading"),
+        '_legendIsHeading -> true,
+        '_headingClass -> "heading-large"
+    )
+
     <input class="button" type="submit" value = "@messages("page.iht.questionnaire.button.submit-and-signout")" />
 }

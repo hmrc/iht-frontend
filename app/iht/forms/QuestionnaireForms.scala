@@ -32,7 +32,8 @@ object QuestionnaireForms {
       "howcanyouimprove" -> optional(text(minLength = 1, maxLength = 1200)),
       "fullName" -> optional(text),
       "contactDetails" -> optional(text),
-      "stageInService" -> optional(text)
+      "stageInService" -> optional(text),
+      "intendToReturn" -> optional(boolean).verifying("site.link.giveAnswer", intend => intend.fold(false)(_=>true))
     )(QuestionnaireModel.apply)(QuestionnaireModel.unapply)
   )
 }
