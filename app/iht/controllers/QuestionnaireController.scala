@@ -84,7 +84,6 @@ trait QuestionnaireController extends FrontendController with IhtActions {
               ""
             }
           )
-          println( "\n\n***" + questionnaireEvent)
           explicitAuditConnector.sendEvent(questionnaireEvent)
           Redirect(IhtProperties.linkGovUkIht)
         }
