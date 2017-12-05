@@ -43,7 +43,7 @@ trait IhtConnector {
 
   def url(path: String) = s"$serviceUrl$path"
 
-  def submitRegistration(nino: String, rd: RegistrationDetails)(implicit headerCarrier: HeaderCarrier): Future[String]
+  def submitRegistration(nino: String, rd: RegistrationDetails)(implicit headerCarrier: HeaderCarrier, request: Request[_]): Future[String]
 
   def getCaseList(nino: String)(implicit headerCarrier: HeaderCarrier): Future[Seq[IhtApplication]]
 
@@ -55,13 +55,13 @@ trait IhtConnector {
 
   def saveApplication(nino: String,
                       data: ApplicationDetails,
-                      acknowledgmentReference: String)(implicit headerCarrier: HeaderCarrier): Future[Option[ApplicationDetails]]
+                      acknowledgmentReference: String)(implicit headerCarrier: HeaderCarrier, request: Request[_]): Future[Option[ApplicationDetails]]
 
   def getRealtimeRiskingMessage(ihtAppReference: String, nino: String)(implicit headerCarrier: HeaderCarrier): Future[Option[String]]
 
   def submitApplication(ihtAppReference: String,
                         nino: String, applicationDetails: ApplicationDetails)
-                       (implicit headerCarrier: HeaderCarrier): Future[Option[String]]
+                       (implicit headerCarrier: HeaderCarrier, request: Request[_]): Future[Option[String]]
 
   def requestClearance(nino: String,
                        ihtReference: String)
@@ -87,12 +87,14 @@ object IhtConnector extends IhtConnector with ServicesConfig {
     http.GET(s"$serviceUrl/iht/$nino/application/delete/$ihtReference")
   }
 
-  override def submitRegistration(nino: String, rd: RegistrationDetails)(implicit headerCarrier: HeaderCarrier):
+  private def ihtHeaders(implicit request: Request[_]) = Seq("path"->request.headers.get("Referer").getOrElse(""))
+
+  override def submitRegistration(nino: String, rd: RegistrationDetails)(implicit headerCarrier: HeaderCarrier, request: Request[_]):
   Future[String] = {
     val er = EventRegistration.fromRegistrationDetails(rd)
     val ninoFormatted = StringHelper.trimAndUpperCaseNino(nino)
     Logger.info("Calling IHT micro-service to submit registration")
-    http.POST(s"$serviceUrl/iht/$ninoFormatted/registration/submit", er) map {
+    http.POST(s"$serviceUrl/iht/$ninoFormatted/registration/submit", er, ihtHeaders) map {
       response => {
         if (response.status == ACCEPTED) {
           ""
@@ -120,9 +122,10 @@ object IhtConnector extends IhtConnector with ServicesConfig {
   override def saveApplication(nino: String,
                                data: ApplicationDetails,
                                acknowledgmentReference: String)
-                              (implicit headerCarrier: HeaderCarrier): Future[Option[ApplicationDetails]] = exceptionCheckForResponses {
+                              (implicit headerCarrier: HeaderCarrier, request: Request[_]): Future[Option[ApplicationDetails]] =
+    exceptionCheckForResponses {
     Logger.info("Saving application in Secure Storage")
-    val future_response = http.POST(s"$serviceUrl/iht/$nino/application/save/$acknowledgmentReference", data)
+    val future_response = http.POST(s"$serviceUrl/iht/$nino/application/save/$acknowledgmentReference", data, ihtHeaders)
     for {
       response <- future_response
     } yield {
@@ -217,10 +220,11 @@ object IhtConnector extends IhtConnector with ServicesConfig {
     }
   }
 
-  override def submitApplication(ihtAppReference: String, nino: String, applicationDetails: ApplicationDetails)(implicit headerCarrier: HeaderCarrier):
+  override def submitApplication(ihtAppReference: String, nino: String, applicationDetails: ApplicationDetails)(implicit
+                 headerCarrier: HeaderCarrier, request: Request[_]):
   Future[Option[String]] = {
     Logger.info("Submitting application")
-    http.POST(s"$serviceUrl/iht/$nino/$ihtAppReference/application/submit", applicationDetails).map(
+    http.POST(s"$serviceUrl/iht/$nino/$ihtAppReference/application/submit", applicationDetails, ihtHeaders).map(
       response => response.status match {
         case OK => {
           Logger.info("Response received from Right for application submit")
