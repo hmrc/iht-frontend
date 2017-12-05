@@ -175,7 +175,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
       createMockToSubmitRegistration(mockIhtConnector)
 
-      when(mockIhtConnector.saveApplication(any(), any(), any())(any()))
+      when(mockIhtConnector.saveApplication(any(), any(), any())(any(), any()))
         .thenAnswer(new Answer[Future[Option[ApplicationDetails]]] {
           override def answer(invocation: InvocationOnMock): Future[Option[ApplicationDetails]] = {
             Future.failed(new GatewayTimeoutException("test"))
@@ -283,7 +283,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
       createMockToSubmitRegistration(mockIhtConnector)
 
-      when(mockIhtConnector.saveApplication(any(), any(), any())(any()))
+      when(mockIhtConnector.saveApplication(any(), any(), any())(any(), any()))
         .thenAnswer(new Answer[Future[Option[ApplicationDetails]]] {
           override def answer(invocation: InvocationOnMock): Future[Option[ApplicationDetails]] = {
             Future.failed(new RuntimeException("Request timed out"))
@@ -310,7 +310,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
       createMockToSubmitRegistration(mockIhtConnector)
 
-      when(mockIhtConnector.saveApplication(any(), any(), any())(any()))
+      when(mockIhtConnector.saveApplication(any(), any(), any())(any(), any()))
         .thenAnswer(new Answer[Future[Option[ApplicationDetails]]] {
           override def answer(invocation: InvocationOnMock): Future[Option[ApplicationDetails]] = {
             Future.failed(new RuntimeException("testing"))

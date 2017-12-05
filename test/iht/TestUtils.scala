@@ -23,6 +23,7 @@ import iht.models.application.ApplicationDetails
 import iht.utils.IhtSection
 import org.mockito.ArgumentCaptor
 import org.mockito.Mockito._
+import play.api.mvc.Request
 
 import scala.concurrent.ExecutionContext
 import uk.gov.hmrc.http.HeaderCarrier
@@ -34,6 +35,7 @@ trait TestUtils {
 
   implicit val headnapper = ArgumentCaptor.forClass(classOf[HeaderCarrier])
   implicit val exenapper = ArgumentCaptor.forClass(classOf[ExecutionContext])
+  implicit val reqnapper = ArgumentCaptor.forClass(classOf[Request[_]])
 
   def buildLoginUrl(ihtSection: IhtSection.Value) = ihtSection match {
     case IhtSection.Registration => ApplicationConfig.ggSignInFullUrlRegistration
@@ -54,7 +56,7 @@ trait TestUtils {
     val stringnapper1 = ArgumentCaptor.forClass(classOf[String])
 
     verify(mockIhtConnector)
-      .saveApplication(stringnapper0.capture, captor.capture, stringnapper1.capture) (headnapper.capture)
+      .saveApplication(stringnapper0.capture, captor.capture, stringnapper1.capture) (headnapper.capture, reqnapper.capture)
     captor.getValue
   }
 
