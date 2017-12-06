@@ -104,7 +104,7 @@ optionContentBelowTitle: Option[Html] = None
               label: label
             }));
 
-            if (typeof args['hitCallback'] === 'function' ) {
+            if (args && typeof args['hitCallback'] === 'function' ) {
               args['hitCallback']();
             }
           };
