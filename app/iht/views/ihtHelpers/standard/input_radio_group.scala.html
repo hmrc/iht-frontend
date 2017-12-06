@@ -58,7 +58,10 @@
 @if(elements.hasErrors){
     <div class="form-field form-field--error">
 }
-@elements.errors.map{error => <span class="error-notification">@Messages(error)</span>}
+
+@defining(elements.field.name){fieldName=>
+    @elements.errors.map{error => <span class="error-notification" data-journey="error - field:@fieldName:@error">@Messages(error)</span>}
+}
 
 @radioOptions.map { case (value, label) =>
     @defining(s"${elements.field.name}-${value.toLowerCase.replace(" ","_")}")  { inputId =>
