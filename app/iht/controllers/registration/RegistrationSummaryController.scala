@@ -26,11 +26,11 @@ import iht.utils._
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.Result
+import play.api.mvc.{Request, Result}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import uk.gov.hmrc.http.{ ConflictException, GatewayTimeoutException, HeaderCarrier }
+import uk.gov.hmrc.http.{ConflictException, GatewayTimeoutException, HeaderCarrier}
 
 object RegistrationSummaryController extends RegistrationSummaryController with IhtConnectors {
   def metrics: Metrics = Metrics
@@ -53,7 +53,7 @@ trait RegistrationSummaryController extends RegistrationController {
     }
   }
 
-  private def saveApplicationDetails(rd: RegistrationDetails, ihtRef: String, ackRef: String)(implicit hc: HeaderCarrier) = {
+  private def saveApplicationDetails(rd: RegistrationDetails, ihtRef: String, ackRef: String)(implicit hc: HeaderCarrier, request: Request[_]) = {
     Logger.info("Create initial (empty) Application Details")
     val savedFutureOptionApplicationDetails = ihtConnector.saveApplication(
       CommonHelper.getOrException(rd.applicantDetails).nino,

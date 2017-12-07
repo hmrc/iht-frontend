@@ -131,7 +131,7 @@ object MockObjectBuilder {
     */
   def createMockToSaveApplicationDetails(ihtConnector: IhtConnector,
                                         appDetails: Option[ApplicationDetails] = Some(buildApplicationDetails)) = {
-    when(ihtConnector.saveApplication(any(), any(), any())(any()))
+    when(ihtConnector.saveApplication(any(), any(), any())(any(), any()))
       .thenReturn(Future.successful(appDetails))
   }
 
@@ -195,7 +195,7 @@ object MockObjectBuilder {
     */
   def createMockToSubmitApplication(ihtConnector: IhtConnector ,
                                     returnId: Option[String] = Some("XXX")) = {
-    when(ihtConnector.submitApplication(any(),any(),any())(any())).thenReturn(Future.successful(returnId))
+    when(ihtConnector.submitApplication(any(),any(),any())(any(), any())).thenReturn(Future.successful(returnId))
   }
 
   /**
@@ -213,7 +213,7 @@ object MockObjectBuilder {
     */
   def createMockToSubmitRegistration(ihtConnector: IhtConnector,
                                      returnIhtRef: String = "ABC123") = {
-    when(ihtConnector.submitRegistration(any(), any())(any()))
+    when(ihtConnector.submitRegistration(any(), any())(any(), any()))
       .thenReturn(Future.successful(returnIhtRef))
   }
 

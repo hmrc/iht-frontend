@@ -99,7 +99,7 @@ class InsurancePolicyDetailsAnnuityControllerTest extends ApplicationControllerT
       .thenReturn(Future.successful(Some(applicationDetails)))
     when(mockCachingConnector.storeApplicationDetails(any())(any(), any()))
       .thenReturn(Future.successful(Some(applicationDetails)))
-    when(mockIhtConnector.saveApplication(any(), any(), any())(any()))
+    when(mockIhtConnector.saveApplication(any(), any(), any())(any(), any()))
       .thenReturn(Future.successful(Some(applicationDetails)))
   }
 
@@ -179,7 +179,7 @@ class InsurancePolicyDetailsAnnuityControllerTest extends ApplicationControllerT
     "redirect to kickout page when yes selected on submit" in {
       createMocks(applicationDetails)
 
-      when(mockIhtConnector.saveApplication(any(), any(), any())(any()))
+      when(mockIhtConnector.saveApplication(any(), any(), any())(any(), any()))
         .thenReturn(Future.successful(Some(applicationDetails)))
 
       val filledForm = insurancePolicyAnnuityForm.fill(insurancePolicyDetailsKickOut)
