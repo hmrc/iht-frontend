@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 HM Revenue & Customs
+ * Copyright 2018 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,12 +67,10 @@ trait YourEstateReportsController extends ApplicationController {
             Ok(iht.views.html.estateReports.your_estate_reports(viewModels))
               .withSession(request.session + (SessionKeys.sessionId -> s"session-${UUID.randomUUID}") + (Constants.NINO -> nino))
           }
-        } recover {
-          case e: Upstream4xxResponse if e.upstreamResponseCode == 404 =>
+          case _ =>
             Ok(iht.views.html.estateReports.your_estate_reports(Nil)).withSession(
               SessionHelper.ensureSessionHasNino(request.session, user) +
-                (SessionKeys.sessionId -> s"session-${UUID.randomUUID}")
-            )
+                (SessionKeys.sessionId -> s"session-${UUID.randomUUID}"))
         }
       }
   }
