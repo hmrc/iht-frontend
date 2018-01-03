@@ -71,6 +71,12 @@ trait YourEstateReportsController extends ApplicationController {
             Ok(iht.views.html.estateReports.your_estate_reports(Nil)).withSession(
               SessionHelper.ensureSessionHasNino(request.session, user) +
                 (SessionKeys.sessionId -> s"session-${UUID.randomUUID}"))
+        } recover {
+          case e: Upstream4xxResponse if e.upstreamResponseCode == 404 =>
+            Ok(iht.views.html.estateReports.your_estate_reports(Nil)).withSession(
+              SessionHelper.ensureSessionHasNino(request.session, user) +
+                (SessionKeys.sessionId -> s"session-${UUID.randomUUID}")
+            )
         }
       }
   }
