@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 HM Revenue & Customs
+ * Copyright 2018 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -133,12 +133,22 @@ class YourEstateReportsControllerTest  extends ApplicationControllerTest{
       contentAsString(result) should include(messagesApi("iht.inReview"))
     }
 
-    "respond normally when 404 occurs" in {
+    "respond normally when No Content occurs" in {
       when(mockIhtConnector.getCaseList(any())(any()))
         .thenAnswer(new Answer[Future[Seq[IhtApplication]]] {
         override def answer(invocation: InvocationOnMock): Future[Seq[IhtApplication]] = {
-          Future.failed(new Upstream4xxResponse("", 404, 404, Map()))
+          Future.successful(Nil)
         }})
+      val result = yourEstateReportsController.onPageLoad(createFakeRequest())
+      status(result) shouldBe (OK)
+    }
+
+    "respond normally when 404 occurs" in {
+      when(mockIhtConnector.getCaseList(any())(any()))
+        .thenAnswer(new Answer[Future[Seq[IhtApplication]]] {
+          override def answer(invocation: InvocationOnMock): Future[Seq[IhtApplication]] = {
+            Future.failed(new Upstream4xxResponse("", 404, 404, Map()))
+          }})
       val result = yourEstateReportsController.onPageLoad(createFakeRequest())
       status(result) shouldBe (OK)
     }
