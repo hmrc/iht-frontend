@@ -37,7 +37,9 @@
         @if(labelHighlight){</strong>}
     </label>
 
-    @elements.errors.map { error => <span class="error-notification">@messages(error)</span>}
+    @defining(elements.field.name){fieldName=>
+        @elements.errors.map{error => <span class="error-notification" data-journey="error - field:user-input:@fieldName">@Messages(error)</span>}
+    }
     @if(parentElements.isDefined) {
     @CommonHelper.getOrException(parentElements).errors.map { error => <span class="error-notification">@messages(error)</span>}
     }
