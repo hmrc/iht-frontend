@@ -205,13 +205,7 @@ optionContentBelowTitle: Option[Html] = None
     @progressive_disclosure(Messages("iht.needHelp"), Seq(Messages("iht.needHelp.guidance")))
 }
 
-@betaBanner = {
-    @ihtHelpers.standard.betaBanner(
-        userLoggedIn = false,
-        betaFeedbackUrl = ApplicationConfig.betaFeedbackUrl,
-        betaFeedbackUnauthenticatedUrl = ApplicationConfig.betaFeedbackUnauthenticatedUrl,
-        showFeedbackLinkInBetaBanner = true)
-}
+@betaBanner = {}
 
 @serviceInfo = {
     @ihtHelpers.standard.serviceInfo(
