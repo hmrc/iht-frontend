@@ -16,9 +16,11 @@
 
 package iht.controllers.application.declaration
 
+import controllers.template.routes
 import iht.connector.{CachingConnector, IhtConnectors}
 import iht.constants.Constants
 import iht.controllers.application.ApplicationController
+import iht.controllers.estateReports.YourEstateReportsController
 import iht.utils.CommonHelper
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
@@ -36,9 +38,9 @@ trait ProbateApplicationFormDetailsController extends ApplicationController {
         withRegistrationDetails { rd =>
           val ihtReference = CommonHelper.getOrException(rd.ihtReference)
           cachingConnector.getProbateDetails.flatMap { optionProbateDetails =>
-            cachingConnector.storeSingleValue(Constants.PDFIHTReference, ihtReference).flatMap { _ =>
-              Future.successful(
-                Ok(iht.views.html.application.declaration.probate_application_form_details(optionProbateDetails, rd)))
+            cachingConnector.storeSingleValue(Constants.PDFIHTReference, ihtReference).map {
+              case None => Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad())
+              case Some(getProbateDetails) => Ok(iht.views.html.application.declaration.probate_application_form_details(optionProbateDetails, rd))
             }
           }
         }
