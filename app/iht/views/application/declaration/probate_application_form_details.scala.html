@@ -6,7 +6,7 @@
 @import iht.constants.IhtProperties
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-@(probateDetails: Option[ProbateDetails],
+@(probateDetails: ProbateDetails,
         registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(title = Messages("page.iht.application.probate.title"),
@@ -19,15 +19,15 @@
         <tbody>
             <tr>
                 <td>@Messages("page.iht.application.probate.data.ihtIdentifier")</td>
-                <td>@formattedProbateReference(probateDetails.get.probateReference)</td>
+                <td>@formattedProbateReference(probateDetails.probateReference)</td>
             </tr>
             <tr>
                 <td>@Messages("page.iht.application.probate.data.grossEstateFigure")</td>
-                <td>£@CommonHelper.numberWithCommas(probateDetails.get.grossEstateforProbatePurposes)</td>
+                <td>£@CommonHelper.numberWithCommas(probateDetails.grossEstateforProbatePurposes)</td>
             </tr>
             <tr>
                 <td>@Messages("page.iht.application.probate.data.netEstateFigure")</td>
-                <td>£@CommonHelper.numberWithCommas(probateDetails.get.netEstateForProbatePurposes)</td>
+                <td>£@CommonHelper.numberWithCommas(probateDetails.netEstateForProbatePurposes)</td>
             </tr>
         </tbody>
     </table>

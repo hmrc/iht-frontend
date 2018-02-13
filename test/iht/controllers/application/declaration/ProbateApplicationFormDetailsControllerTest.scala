@@ -29,7 +29,8 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.Constants
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
+import iht.controllers.estateReports.YourEstateReportsController
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.testhelpers.MockObjectBuilder._
 import org.mockito.Matchers.same
 import play.api.test.FakeHeaders
@@ -59,6 +60,12 @@ class ProbateApplicationFormDetailsControllerTest extends ApplicationControllerT
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
+  val registrationDetails = CommonBuilder.buildRegistrationDetails copy (
+    deceasedDetails = Some(CommonBuilder.buildDeceasedDetails),
+    deceasedDateOfDeath=Some(CommonBuilder.buildDeceasedDateOfDeath),
+    ihtReference=Some(CommonBuilder.DefaultNino))
+
+
   "ProbateApplicationFormDetailsController" must {
 
     "redirect to GG login page on PageLoad if the user is not logged in" in {
@@ -67,11 +74,18 @@ class ProbateApplicationFormDetailsControllerTest extends ApplicationControllerT
       redirectLocation(result) should be (Some(loginUrl))
     }
 
+    "redirect to estate overview of no probate details in cache" in {
+
+      createMockToGetRegDetailsFromCache(mockCachingConnector, Option(registrationDetails))
+      createMockToGetProbateDetailsFromCache(mockCachingConnector, None)
+
+      val result = probateApplicationFormDetailsController.onPageLoad()(createFakeRequest())
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be (Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url))
+    }
+
     "load the page" in {
-      val registrationDetails = CommonBuilder.buildRegistrationDetails copy (
-        deceasedDetails = Some(CommonBuilder.buildDeceasedDetails),
-        deceasedDateOfDeath=Some(CommonBuilder.buildDeceasedDateOfDeath),
-        ihtReference=Some(CommonBuilder.DefaultNino))
+
 
       createMockToGetProbateDetailsFromCache(mockCachingConnector)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Option(registrationDetails))

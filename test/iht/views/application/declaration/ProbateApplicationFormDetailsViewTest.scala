@@ -31,7 +31,7 @@ class ProbateApplicationFormDetailsViewTest extends ViewTestHelper {
   def probateApplicationFormDetailsView() = {
     implicit val request = createFakeRequest()
 
-    val view = probate_application_form_details(Some(probateDetails), regDetails).toString
+    val view = probate_application_form_details(probateDetails, regDetails).toString
     asDocument(view)
   }
 

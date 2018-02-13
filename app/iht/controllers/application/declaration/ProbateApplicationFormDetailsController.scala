@@ -16,14 +16,13 @@
 
 package iht.controllers.application.declaration
 
-import controllers.template.routes
 import iht.connector.{CachingConnector, IhtConnectors}
 import iht.constants.Constants
 import iht.controllers.application.ApplicationController
-import iht.controllers.estateReports.YourEstateReportsController
 import iht.utils.CommonHelper
-import play.api.Play.current
+import play.api.Logger
 import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 import scala.concurrent.Future
 
@@ -37,11 +36,14 @@ trait ProbateApplicationFormDetailsController extends ApplicationController {
       implicit request => {
         withRegistrationDetails { rd =>
           val ihtReference = CommonHelper.getOrException(rd.ihtReference)
-          cachingConnector.getProbateDetails.flatMap { optionProbateDetails =>
-            cachingConnector.storeSingleValue(Constants.PDFIHTReference, ihtReference).map {
-              case None => Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad())
-              case Some(getProbateDetails) => Ok(iht.views.html.application.declaration.probate_application_form_details(optionProbateDetails, rd))
+          cachingConnector.getProbateDetails.flatMap {
+            case Some(probateDetails) => cachingConnector.storeSingleValue(Constants.PDFIHTReference, ihtReference).map {
+              _ => Ok(iht.views.html.application.declaration.probate_application_form_details(probateDetails, rd))
             }
+            case None =>
+              Logger.warn("No probate details in keystore")
+              Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
+
           }
         }
       }
