@@ -181,7 +181,7 @@ object PdfFormatter {
       case Some("9098") => Some(currentAllAssets copy (foreign = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.foreign)))
       case Some("9013") => Some(currentAllAssets copy (moneyOwed = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.moneyOwed)))
       case Some("9015") => Some(currentAllAssets copy (other = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.other)))
-      case Some("0016") => Some(currentAllAssets copy (properties = Some(Properties(isOwned = Some(true))) ))
+      case Some("0016" | "0017" | "0018") => Some(currentAllAssets copy (properties = Some(Properties(isOwned = Some(true))) ))
       case _ => None
     }
   }
