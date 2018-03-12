@@ -173,7 +173,7 @@ object PdfFormatter {
     }
   }
 
-  private def transformAssets2(currentAllAssets: AllAssets, currentAsset:Asset): Option[AllAssets] = {
+  private[utils] def transformAssets2(currentAllAssets: AllAssets, currentAsset:Asset): Option[AllAssets] = {
     currentAsset.assetCode match {
       case Some("9021") => Some(currentAllAssets copy (businessInterest = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.businessInterest)))
       case Some("9099") => Some(currentAllAssets copy (nominated = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.nominated)))
