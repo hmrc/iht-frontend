@@ -438,4 +438,29 @@ class PdfFormatterTest extends FormTestHelper {
       result.propertyList shouldBe expectedResult.propertyList
     }
   }
+
+  "transformAssets2" must {
+    val emptyAssets = AllAssets()
+    val assetsWithPropertyTag = AllAssets(properties = Some(Properties(isOwned = Some(true))))
+
+    "set the isOwned flag to true for Other Residential Building asset (0017)" in {
+      val tstAsset = Asset(assetCode = Some("0017"))
+      PdfFormatter.transformAssets2(emptyAssets, tstAsset) shouldBe Some(assetsWithPropertyTag)
+    }
+
+    "set the isOwned flag to true for Non-Residential asset (0018)" in {
+      val tstAsset = Asset(assetCode = Some("0018"))
+      PdfFormatter.transformAssets2(emptyAssets, tstAsset) shouldBe Some(assetsWithPropertyTag)
+    }
+
+    "Return None if no asset code is provided" in {
+      val tstAsset = Asset(assetCode = None)
+      PdfFormatter.transformAssets2(emptyAssets, tstAsset) shouldBe None
+    }
+
+    "Return None if an unknown asset code is provided" in {
+      val tstAsset = Asset(assetCode = Some("8888"))
+      PdfFormatter.transformAssets2(emptyAssets, tstAsset) shouldBe None
+    }
+  }
 }

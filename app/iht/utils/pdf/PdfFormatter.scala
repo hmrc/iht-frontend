@@ -173,7 +173,7 @@ object PdfFormatter {
     }
   }
 
-  private def transformAssets2(currentAllAssets: AllAssets, currentAsset:Asset): Option[AllAssets] = {
+  private[utils] def transformAssets2(currentAllAssets: AllAssets, currentAsset:Asset): Option[AllAssets] = {
     currentAsset.assetCode match {
       case Some("9021") => Some(currentAllAssets copy (businessInterest = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.businessInterest)))
       case Some("9099") => Some(currentAllAssets copy (nominated = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.nominated)))
@@ -181,7 +181,7 @@ object PdfFormatter {
       case Some("9098") => Some(currentAllAssets copy (foreign = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.foreign)))
       case Some("9013") => Some(currentAllAssets copy (moneyOwed = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.moneyOwed)))
       case Some("9015") => Some(currentAllAssets copy (other = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.other)))
-      case Some("0016") => Some(currentAllAssets copy (properties = Some(Properties(isOwned = Some(true))) ))
+      case Some("0016" | "0017" | "0018") => Some(currentAllAssets copy (properties = Some(Properties(isOwned = Some(true))) ))
       case _ => None
     }
   }
