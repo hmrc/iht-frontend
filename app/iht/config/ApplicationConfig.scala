@@ -61,7 +61,7 @@ object ApplicationConfig extends AppConfig with ServicesConfig {
 
   private lazy val contactFrontendService = baseUrl("contact-frontend")
 
-  override lazy val reportAProblemPartialUrl = s"$contactFrontendService/contact/problem_reports"
+  override lazy val reportAProblemPartialUrl = s"$contactFrontendService/contact/problem_reports_ajax?service=iht"
   override lazy val reportAProblemNonJSUrl = s"$contactFrontendService/contact/problem_reports_nonjs?service=iht"
 
   override lazy val betaFeedbackUrl = "/contact/beta-feedback"
