@@ -220,7 +220,7 @@ optionContentBelowTitle: Option[Html] = None
         serviceInfoContent = None)
 }
 
-@getHelpForm = @{ihtHelpers.standard.get_help_form(appConfig = ApplicationConfig)}
+@getHelpForm = @{uiHelpers.reportAProblemLink(ApplicationConfig.reportAProblemPartialUrl, ApplicationConfig.reportAProblemNonJSUrl)}
 
 @content = {
     @layouts.main_content(
