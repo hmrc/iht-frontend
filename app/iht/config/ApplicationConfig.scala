@@ -60,9 +60,10 @@ object ApplicationConfig extends AppConfig with ServicesConfig {
   override lazy val analyticsHost: String = configuration.getString("google-analytics.host").getOrElse("auto")
 
   private lazy val contactFrontendService = baseUrl("contact-frontend")
+  private lazy val contactFrontendHost = configuration.getString(s"$env.microservice.services.contact-frontend.host").getOrElse("")
 
-  override lazy val reportAProblemPartialUrl = s"$contactFrontendService/contact/problem_reports_ajax?service=iht"
-  override lazy val reportAProblemNonJSUrl = s"$contactFrontendService/contact/problem_reports_nonjs?service=iht"
+  override lazy val reportAProblemPartialUrl = s"$contactFrontendHost/contact/problem_reports_ajax?service=iht"
+  override lazy val reportAProblemNonJSUrl = s"$contactFrontendHost/contact/problem_reports_nonjs?service=iht"
 
   override lazy val betaFeedbackUrl = "/contact/beta-feedback"
   override lazy val betaFeedbackUnauthenticatedUrl = "/contact/beta-feedback-unauthenticated"
