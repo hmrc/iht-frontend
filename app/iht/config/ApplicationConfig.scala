@@ -18,7 +18,6 @@ package iht.config
 
 import java.net.URLEncoder
 
-import play.api.Play._
 import uk.gov.hmrc.play.config.ServicesConfig
 
 trait AppConfig {
@@ -60,9 +59,10 @@ object ApplicationConfig extends AppConfig with ServicesConfig {
   override lazy val analyticsHost: String = configuration.getString("google-analytics.host").getOrElse("auto")
 
   private lazy val contactFrontendService = baseUrl("contact-frontend")
+  private val contactHost = configuration.getString(s"$env.microservice.services.contact-frontend.host").getOrElse("")
 
-  override lazy val reportAProblemPartialUrl = s"$contactFrontendService/contact/problem_reports_ajax?service=iht"
-  override lazy val reportAProblemNonJSUrl = s"$contactFrontendService/contact/problem_reports_nonjs?service=iht"
+  override lazy val reportAProblemPartialUrl = s"$contactHost/contact/problem_reports_ajax?service=iht"
+  override lazy val reportAProblemNonJSUrl = s"$contactHost/contact/problem_reports_nonjs?service=iht"
 
   override lazy val betaFeedbackUrl = "/contact/beta-feedback"
   override lazy val betaFeedbackUnauthenticatedUrl = "/contact/beta-feedback-unauthenticated"
