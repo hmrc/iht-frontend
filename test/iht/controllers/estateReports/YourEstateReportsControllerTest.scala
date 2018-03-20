@@ -22,7 +22,7 @@ import iht.models.application.{ApplicationDetails, IhtApplication}
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
-import org.mockito.Matchers._
+import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer

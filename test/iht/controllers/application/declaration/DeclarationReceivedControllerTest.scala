@@ -21,7 +21,7 @@ import iht.constants.Constants
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
-import org.mockito.Matchers.same
+import org.mockito.ArgumentMatchers._
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever

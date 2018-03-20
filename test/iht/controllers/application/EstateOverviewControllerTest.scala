@@ -25,7 +25,7 @@ import iht.models.RegistrationDetails
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, MockObjectBuilder, TestHelper}
 import iht.views.HtmlSpec
-import org.mockito.Matchers._
+import org.mockito.ArgumentMatchers._
 import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}

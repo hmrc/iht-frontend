@@ -23,7 +23,7 @@ import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.CommonBuilder._
 import iht.testhelpers.MockObjectBuilder._
-import org.mockito.Matchers.any
+import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito.when
 import play.api.data.Form
 import play.api.data.Forms._

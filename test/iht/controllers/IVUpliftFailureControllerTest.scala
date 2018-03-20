@@ -21,7 +21,7 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.models.enums.IdentityVerificationResult
 import iht.models.enums.IdentityVerificationResult.IdentityVerificationResult
 import iht.testhelpers.MockFormPartialRetriever
-import org.mockito.Matchers._
+import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Result

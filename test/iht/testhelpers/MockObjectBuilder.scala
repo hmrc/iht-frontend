@@ -22,7 +22,7 @@ import iht.models._
 import iht.models.application.{ApplicationDetails, IhtApplication, ProbateDetails}
 import iht.models.des.ihtReturn.IHTReturn
 import iht.testhelpers.CommonBuilder._
-import org.mockito.Matchers._
+import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
 
 import scala.concurrent.Future

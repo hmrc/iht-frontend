@@ -18,7 +18,7 @@ package iht.config
 
 import iht.FakeIhtApp
 import iht.constants.IhtProperties
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.OneAppPerTest
 import uk.gov.hmrc.play.test.UnitSpec
 

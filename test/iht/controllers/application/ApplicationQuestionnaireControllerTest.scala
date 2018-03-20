@@ -21,7 +21,7 @@ import iht.constants.{Constants, IhtProperties}
 import iht.models.QuestionnaireModel
 import iht.testhelpers.MockFormPartialRetriever
 import iht.utils.{CommonHelper, IhtSection}
-import org.mockito.Matchers.any
+import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito.when
 import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
