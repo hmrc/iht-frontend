@@ -2457,11 +2457,11 @@ site.language.english = English
 site.language.welsh = Cymraeq
 
 # BETA header
-label.beta = BETA
-label.beta.newservice =  This is a new service
-label.beta.improve =  will help us to improve it.
-label.beta.feedback = feedback
-label.beta.yours = - your
+#label.beta = BETA
+#label.beta.newservice =  This is a new service
+#label.beta.improve =  will help us to improve it.
+#label.beta.feedback = feedback
+#label.beta.yours = - your
 
 # DEADLINES
 page.iht.deadlines.title = Deadlines for completing the IHT400 form

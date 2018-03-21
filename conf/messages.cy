@@ -1967,12 +1967,6 @@ site.threshold.value.display = £325,000.00
 site.tnrb.value.display = £650,000.00
 site.tnrb.value = 650,000
 
-# BETA header
-label.beta = BETA
-label.beta.newservice = Mae hwn yn wasanaeth newydd
-label.beta.improve = yn ein helpu i''w wella.
-label.beta.feedback = adborth
-label.beta.yours = - bydd eich
 
 page.iht.registration.applicantDetails.citizenDetailsNotFound.title = Ni all CThEM ddod o hyd i unrhyw fanylion amdanoch.
 page.iht.registration.applicantDetails.citizenDetailsNotFound.guidance = Mae''n rhaid i chi ffonio''r llinell gymorth Treth Etifeddiant ar 0300 123 1072. Ffoniwch +44 300 123 1072 os ydych y tu allan i''r DU.
