@@ -29,7 +29,8 @@ import uk.gov.hmrc.play.test.UnitSpec
  */
 class IhtPropertiesReaderTest extends UnitSpec with OneAppPerTest with MockitoSugar{
 
-  "IhtPropertiesReaderTest" must {
+
+    "IhtPropertiesReaderTest" must {
 
     "should read the key and return appropriate value" in {
       val maxExecutors = IhtProperties.maxCoExecutors

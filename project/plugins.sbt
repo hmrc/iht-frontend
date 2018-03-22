@@ -17,8 +17,6 @@ addSbtPlugin("org.scoverage" %% "sbt-scoverage" % "1.3.3")
 
 addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "0.8.0")
 
-addSbtPlugin("org.brianmckenna" % "sbt-wartremover" % "0.11")
-
 addSbtPlugin("org.ensime" % "ensime-sbt" % "0.1.7")
 addSbtPlugin("org.irundaia.sbt" % "sbt-sassify" % "1.4.2")
 addSbtPlugin("net.ground5hark.sbt" % "sbt-concat" % "0.1.9")
