@@ -29,7 +29,7 @@ import iht.models.enums.StatsSource
 import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.ApplicationStatus
-import org.mockito.Matchers._
+import org.mockito.ArgumentMatchers._
 import play.api.http.Status.OK
 import play.api.i18n.Messages
 import play.api.test.Helpers._

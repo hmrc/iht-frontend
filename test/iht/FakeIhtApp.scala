@@ -33,7 +33,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys}
 
 trait FakeIhtApp extends OneAppPerSuite {
-  this: Suite =>
+  this: TestSuite =>
 
     val config: Map[String, _] = Map("application.secret" -> "Its secret",
                       "passcodeAuthentication.enabled" -> false,

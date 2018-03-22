@@ -21,8 +21,9 @@ import iht.connector.CachingConnector
 import iht.constants.Constants
 import iht.testhelpers.{CommonBuilder, MockObjectBuilder}
 import org.mockito.Matchers._
+import org.mockito.ArgumentMatchers.same
 import org.scalatest.BeforeAndAfter
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import play.api.i18n.MessagesApi
 import play.api.mvc.Call
 import play.api.test.{FakeHeaders, FakeRequest}

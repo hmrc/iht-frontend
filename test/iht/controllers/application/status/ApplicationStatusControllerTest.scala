@@ -24,7 +24,7 @@ import iht.models.application.ApplicationDetails
 import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import play.api.i18n.Messages.Implicits._
-import org.mockito.Matchers.same
+import org.mockito.ArgumentMatchers._
 import play.api.mvc.Request
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever

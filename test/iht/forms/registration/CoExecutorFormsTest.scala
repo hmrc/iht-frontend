@@ -24,7 +24,7 @@ import iht.models._
 import iht.testhelpers.{CommonBuilder, NinoBuilder}
 import iht.utils.IhtFormValidator
 import org.joda.time.LocalDate
-import org.mockito.Matchers._
+import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
 import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, Form, FormError, Forms}

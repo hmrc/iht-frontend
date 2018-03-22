@@ -21,7 +21,7 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.assets.InsurancePolicy
 import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, TestHelper, ContentChecker}
 import iht.utils.DeceasedInfoHelper
-import org.mockito.Matchers._
+import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever

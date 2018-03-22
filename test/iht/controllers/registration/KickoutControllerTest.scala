@@ -21,7 +21,7 @@ import iht.metrics.Metrics
 import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.RegistrationKickOutHelper
-import org.mockito.Matchers._
+import org.mockito.ArgumentMatchers._
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.mvc.Result

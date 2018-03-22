@@ -23,7 +23,7 @@ import iht.metrics.Metrics
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, MockObjectBuilder, TestHelper}
 import iht.utils.{DeceasedInfoHelper, KickOutReason, ApplicationStatus => AppStatus}
-import org.mockito.Matchers._
+import org.mockito.ArgumentMatchers._
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.FakeRequest

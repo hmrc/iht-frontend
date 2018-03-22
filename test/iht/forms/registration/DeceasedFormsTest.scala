@@ -25,7 +25,7 @@ import iht.models.{DeceasedDateOfDeath, DeceasedDetails, UkAddress}
 import iht.testhelpers.{CommonBuilder, NinoBuilder}
 import iht.utils.IhtFormValidator
 import org.joda.time.LocalDate
-import org.mockito.Matchers.any
+import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito.when
 import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, FormError, Forms}

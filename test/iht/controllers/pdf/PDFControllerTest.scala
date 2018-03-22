@@ -24,7 +24,7 @@ import iht.models.RegistrationDetails
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.pdf.XmlFoToPDF
-import org.mockito.Matchers.same
+import org.mockito.ArgumentMatchers._
 import play.api.test.Helpers._
 
 /**
