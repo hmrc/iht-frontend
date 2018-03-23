@@ -26,8 +26,6 @@ trait AppConfig {
   val analyticsHost: String
   val reportAProblemPartialUrl: String
   val reportAProblemNonJSUrl: String
-  val betaFeedbackUrl: String
-  val betaFeedbackUnauthenticatedUrl: String
   val refreshInterval: Int
   val timeOutSeconds: Int
   val timeOutCountdownSeconds: Int
@@ -64,9 +62,6 @@ object ApplicationConfig extends AppConfig with ServicesConfig {
 
   override lazy val reportAProblemPartialUrl = s"$contactFrontendHost/contact/problem_reports_ajax?service=iht"
   override lazy val reportAProblemNonJSUrl = s"$contactFrontendHost/contact/problem_reports_nonjs?service=iht"
-
-  override lazy val betaFeedbackUrl = "/contact/beta-feedback"
-  override lazy val betaFeedbackUnauthenticatedUrl = "/contact/beta-feedback-unauthenticated"
 
   override val runningEnvironment: String =  configuration.getString("current-environment").getOrElse("local")
 

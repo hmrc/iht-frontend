@@ -14,10 +14,9 @@
  * limitations under the License.
  *@
 
-@(betaBanner: Html, includeGridWrapper: Boolean, serviceInfoContent: Option[Html], includeHMRCBranding: Boolean = true)(implicit messages: Messages)
+@(includeGridWrapper: Boolean, serviceInfoContent: Option[Html], includeHMRCBranding: Boolean = true)(implicit messages: Messages)
 
 <div class="service-info @if( includeGridWrapper ){ grid-wrapper}">
-    @betaBanner
     @if(includeHMRCBranding) {
     <div class="logo">
         <span class="organisation-logo organisation-logo-medium">@messages("pdf.meta.author")</span>

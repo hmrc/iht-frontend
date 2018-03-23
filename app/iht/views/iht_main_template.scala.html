@@ -155,7 +155,7 @@ optionContentBelowTitle: Option[Html] = None
 }
 
 @insideHeader = {
-    @ihtHelpers.standard.header_nav(headerTitle, None, false, Some(navLinks))
+    @ihtHelpers.standard.header_nav(headerTitle, None, Some(navLinks))
 }
 
 @afterHeader = {
@@ -205,17 +205,9 @@ optionContentBelowTitle: Option[Html] = None
     @progressive_disclosure(Messages("iht.needHelp"), Seq(Messages("iht.needHelp.guidance")))
 }
 
-@betaBanner = {
-    @ihtHelpers.standard.betaBanner(
-        userLoggedIn = false,
-        betaFeedbackUrl = ApplicationConfig.betaFeedbackUrl,
-        betaFeedbackUnauthenticatedUrl = ApplicationConfig.betaFeedbackUnauthenticatedUrl,
-        showFeedbackLinkInBetaBanner = true)
-}
 
 @serviceInfo = {
     @ihtHelpers.standard.serviceInfo(
-        betaBanner = betaBanner,
         includeGridWrapper = false,
         serviceInfoContent = None)
 }
