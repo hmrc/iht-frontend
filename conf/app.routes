@@ -8,6 +8,7 @@ GET         /keep-alive                                              iht.control
 GET         /                                                        iht.controllers.filter.FilterController.redirectPageLoad
 
 GET         /assets/*file                                             controllers.Assets.versioned(path="/public", file: Asset)
+
 ->          /template                                                template.Routes
 ->          /estate-report                                           taxreturn.Routes
 ->          /registration                                            registration.Routes
@@ -15,6 +16,7 @@ GET         /assets/*file                                             controller
 GET         /estate-report                                           iht.controllers.estateReports.YourEstateReportsController.onPageLoad
 
 GET         /signout                                                 iht.controllers.SessionManagementController.signOut
+GET         /save-and-exit                                           iht.controllers.SessionTimeoutController.onSaveAndExitPageLoad
 
 GET         /register/timeout                                        iht.controllers.SessionTimeoutController.onRegistrationPageLoad
 GET         /estate-report/timeout                                   iht.controllers.SessionTimeoutController.onApplicationPageLoad
