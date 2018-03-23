@@ -23,7 +23,8 @@
 @()(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(title = Messages("page.iht.exit.title"),
-    browserTitle=Some(Messages("page.iht.exit.title"))){
+    browserTitle=Some(Messages("page.iht.exit.title")),
+){
 
 <div class="panel-indent">
     <p>@Messages("page.iht.exit.text")</p>

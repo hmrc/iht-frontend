@@ -1477,6 +1477,8 @@ page.iht.application.tnrbEligibilty.partner.married.label = yn briod
 page.iht.application.tnrbEligibilty.partner.marriage.label = briodas
 page.iht.application.TnrbEligibilty.spouseOrCivilPartner.notOfPerson = {0} {1}
 
+page.iht.exit.link = https://www.tax.service.gov.uk/inheritance-tax/estate-report
+
 iht.estateReport.pdf.declaration.declaringThat=Rydych yn datgan y canlynol:
 iht.pdf.endOfTheEstateReport=Diwedd adroddiad ystâd {0}
 iht.pdf.TnrbEligibilty.thresholdLimit.label=Mae''r trothwy Treth Etifeddiant wedi''i gynyddu i £650,000
