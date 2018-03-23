@@ -510,6 +510,7 @@ page.iht.registration.completedRegistration.ref.text = If any of the details cha
 page.iht.registration.completedRegistration.p1 = In the estate report you'll need to enter details about the value of what is in the estate and any debts owed. You can save these details and make changes before you finally submit the report to HMRC.
 page.iht.registration.completedRegistration.p2 = Once you've given all these details, the service will calculate the total value of the estate to check there is no Inheritance Tax to pay.
 page.iht.registration.completedRegistration.link = Save and exit
+page.iht.registration.completedRegistration.button = Continue to estate report
 
 page.iht.registration.duplicateRegistration.title = You have already registered these details
 page.iht.registration.duplicateRegistration.ref.title = You can start this estate report on your Inheritance Tax reports page.
@@ -578,6 +579,13 @@ page.iht.home.currentStatus.screenReader = {0}’s estate report is {1}
 page.iht.home.button.startApplication.screenReader = Start {0}’s estate report
 page.iht.home.button.continueApplication.screenReader = Continue {0}’s estate report
 page.iht.home.button.viewApplication.screenReader = View {0}’s estate report
+
+#Estate report - Save and Exit
+page.iht.exit.title = Save your estate report
+page.iht.exit.text = Save this link to your estate report so you can access it when you are ready to add details to it.
+page.iht.exit.button = Exit
+page.iht.exit.link = https://www.tax.service.gov.uk/inheritance-tax/estate-report
+
 
 #Estate report - Application Status - In Review
 page.iht.application.overview.inreview.title = We are reviewing {0}’s estate report

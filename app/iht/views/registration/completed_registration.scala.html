@@ -40,11 +40,11 @@
 </section>
 <div id="continue-button">
     <a id="go-to-inheritance-tax-report" class="button" href="@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url">
-        @Messages("iht.estateReport.goToEstateReports")
+        @Messages("page.iht.registration.completedRegistration.button")
     </a>
 </div>
 <section class="section">
-    <a href='@iht.controllers.SessionTimeoutController.onSaveAndExitPageLoad'>@Messages("page.iht.registration.completedRegistration.link")</a>
+    <a id="go-to-save-and-exit" href="@iht.controllers.routes.SessionTimeoutController.onSaveAndExitPageLoad.url">@Messages("page.iht.registration.completedRegistration.link")</a>
 </section>
 
 }

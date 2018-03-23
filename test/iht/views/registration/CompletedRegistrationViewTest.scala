@@ -50,19 +50,6 @@ class CompletedRegistrationViewTest extends ViewTestHelper{
       messagesShouldBePresent(view, messagesApi("iht.nextSteps"))
       messagesShouldBePresent(view, messagesApi("page.iht.registration.completedRegistration.p1"))
       messagesShouldBePresent(view, messagesApi("page.iht.registration.completedRegistration.p2"))
-      messagesShouldBePresent(view, messagesApi("page.iht.registration.completedRegistration.p2.bullet1"))
-      messagesShouldBePresent(view, messagesApi("page.iht.registration.completedRegistration.p2.bullet2"))
-      messagesShouldBePresent(view, messagesApi("page.iht.registration.completedRegistration.p2.bullet3"))
-    }
-
-    "contain the second paragraph with bullets" in {
-      implicit val request = createFakeRequest()
-      val view = completed_registration(ihtRef).toString
-      val doc = asDocument(view)
-
-      val paragraphWithBullets = doc.getElementById("second-paragraph-bullets")
-      val bulletTags = paragraphWithBullets.getElementsByTag("li")
-      bulletTags.size() shouldEqual 3
     }
 
     "contain correct formatted reference number" in {
@@ -79,8 +66,20 @@ class CompletedRegistrationViewTest extends ViewTestHelper{
       val doc = asDocument(view)
 
       val button = doc.getElementById("go-to-inheritance-tax-report")
-      button.text shouldBe messagesApi("iht.estateReport.goToEstateReports")
+      button.text shouldBe messagesApi("page.iht.registration.completedRegistration.button")
       button.attr("href") shouldBe iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url
+
+    }
+
+    "contain text-link with correct text and target as Save and Exit page" in {
+
+      implicit val request = createFakeRequest()
+      val view = completed_registration(ihtRef).toString
+      val doc = asDocument(view)
+
+      val button = doc.getElementById("go-to-save-and-exit")
+      button.text shouldBe messagesApi("page.iht.registration.completedRegistration.link")
+      button.attr("href") shouldBe iht.controllers.routes.SessionTimeoutController.onSaveAndExitPageLoad.url
 
     }
 
