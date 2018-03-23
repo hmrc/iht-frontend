@@ -30,8 +30,16 @@ isFullWidth=true) {
 
   <p class="grid-2-3">@Messages("page.iht.home.applicationList.table.guidance.label.empty")</p>
 
+<div class="panel-indent">
+    <p>@Messages("page.iht.home.text")</p>
+</div>
+
 } else {
    <p class="grid-2-3">@Messages("page.iht.home.applicationList.table.guidance.label")</p>
+
+<div class="panel-indent">
+    <p>@Messages("page.iht.home.text")</p>
+</div>
 
    @your_estate_reports_application_table(applications)
 }
