@@ -5,6 +5,8 @@ GET         /assets/resources/151001%20Notes%20to%20help%20you%20fill%20in%20IHT
 
 GET         /keep-alive                                              iht.controllers.SessionManagementController.keepAlive
 
+GET         /                                                        iht.controllers.filter.FilterController.onPageLoad
+
 GET         /assets/*file                                             controllers.Assets.versioned(path="/public", file: Asset)
 ->          /template                                                template.Routes
 ->          /estate-report                                           taxreturn.Routes
