@@ -77,9 +77,9 @@ class CompletedRegistrationViewTest extends ViewTestHelper{
       val view = completed_registration(ihtRef).toString
       val doc = asDocument(view)
 
-      val button = doc.getElementById("go-to-save-and-exit")
-      button.text shouldBe messagesApi("page.iht.registration.completedRegistration.link")
-      button.attr("href") shouldBe iht.controllers.routes.SessionTimeoutController.onSaveAndExitPageLoad.url
+      val textlink = doc.getElementById("go-to-save-and-exit")
+      textlink.text shouldBe messagesApi("page.iht.registration.completedRegistration.link")
+      textlink.attr("href") shouldBe iht.controllers.routes.SessionTimeoutController.onSaveAndExitPageLoad.url
 
     }
 
