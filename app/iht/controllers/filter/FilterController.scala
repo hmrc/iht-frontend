@@ -63,6 +63,11 @@ trait FilterController extends FrontendController {
     }
   }
 
+  def redirectPageLoad = UnauthorisedAction {
+    implicit user =>
+      Redirect(iht.controllers.filter.routes.FilterController.onPageLoad())
+  }
+
   def onSubmit = UnauthorisedAction.async {
     implicit request => {
       val boundForm = filterForm.bindFromRequest()
