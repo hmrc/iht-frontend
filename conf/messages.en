@@ -507,8 +507,8 @@ page.iht.registration.registrationSummary.coExecutorTable.email.data.screenReade
 page.iht.registration.completedRegistration.title = Now you’ve finished registering this estate you can access your estate report.
 page.iht.registration.completedRegistration.ref.title = The reference for your Inheritance Tax estate report is:
 page.iht.registration.completedRegistration.ref.text = If any of the details change, tell HMRC using the help form at the base of all the pages on this service. You’ll need to quote your reference number and explain what needs to be corrected.
-page.iht.registration.completedRegistration.p1 = In the estate report you'll need to enter details about the value of what is in the estate and any debts owed. You can save these details and make changes before you finally submit the report to HMRC.
-page.iht.registration.completedRegistration.p2 = Once you've given all these details, the service will calculate the total value of the estate to check there is no Inheritance Tax to pay.
+page.iht.registration.completedRegistration.p1 = In the estate report you’ll need to enter details about the value of what is in the estate and any debts owed. You can save these details and make changes before you finally submit the report to HMRC.
+page.iht.registration.completedRegistration.p2 = Once you’ve given all these details, the service will calculate the total value of the estate to check there is no Inheritance Tax to pay.
 page.iht.registration.completedRegistration.link = Save and exit
 page.iht.registration.completedRegistration.button = Continue to estate report
 
