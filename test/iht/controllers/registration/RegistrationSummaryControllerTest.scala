@@ -182,7 +182,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
           }})
 
       val result = controller.onSubmit(createFakeRequest())
-      status(result) should be(OK)
+      status(result) should be(INTERNAL_SERVER_ERROR)
 
       contentAsString(result) should include(messagesApi("error.cannotSend"))
     }
@@ -290,7 +290,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
           }})
 
       val result = controller.onSubmit(createFakeRequest())
-      status(result) should be(OK)
+      status(result) should be(INTERNAL_SERVER_ERROR)
 
       contentAsString(result) should include(messagesApi("error.cannotSend"))
     }
@@ -317,7 +317,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
           }})
 
       val result = controller.onSubmit(createFakeRequest())
-      status(result) should be(OK)
+      status(result) should be(INTERNAL_SERVER_ERROR)
 
       contentAsString(result) should include(messagesApi("error.cannotSend"))
     }

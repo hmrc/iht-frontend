@@ -73,16 +73,16 @@ trait RegistrationSummaryController extends RegistrationController {
     implicit user => implicit request => {
       def errorHandler: PartialFunction[Throwable, Result] = {
         case ex: GatewayTimeoutException => {
-          Logger.debug("Request has been timed out while submitting registration")
-          Ok(iht.views.html.registration.registration_error(ControllerHelper.errorRequestTimeOut))
+          Logger.warn("Request has been timed out while submitting registration")
+          InternalServerError(iht.views.html.registration.registration_error(ControllerHelper.errorRequestTimeOut))
         }
         case ex: Exception => {
           if (ex.getMessage.contains("Request timed out")) {
-            Logger.debug("Request has been timed out while submitting registration")
-            Ok(iht.views.html.registration.registration_error(ControllerHelper.errorRequestTimeOut))
+            Logger.warn("Request has been timed out while submitting registration")
+            InternalServerError(iht.views.html.registration.registration_error(ControllerHelper.errorRequestTimeOut))
           } else {
-            Logger.debug("System error while submitting registration")
-            Ok(iht.views.html.registration.registration_error(ControllerHelper.errorSystem))
+            Logger.warn("System error while submitting registration")
+            InternalServerError(iht.views.html.registration.registration_error(ControllerHelper.errorSystem))
           }
         }
       }
