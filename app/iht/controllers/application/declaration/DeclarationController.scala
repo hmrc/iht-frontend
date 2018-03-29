@@ -138,7 +138,7 @@ trait DeclarationController extends ApplicationController {
                                                         user: AuthContext,
                                                         ihtFormPartialRetriever: FormPartialRetriever): Future[Result] = {
     val errorHandler: PartialFunction[Throwable, Result] = {
-      case ex: Throwable => Ok(iht.views.html.application.application_error(submissionException(ex))(request, applicationMessages, ihtFormPartialRetriever))
+      case ex: Throwable => InternalServerError(iht.views.html.application.application_error(submissionException(ex))(request, applicationMessages, ihtFormPartialRetriever))
     }
     withRegistrationDetails { regDetails =>
       val ihtAppReference = regDetails.ihtReference
