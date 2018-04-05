@@ -79,7 +79,7 @@ optionContentBelowTitle: Option[Html] = None
 
 @navLinks = {
     @signOutUrl.map{ url =>
-        <li class="u--no-print"><a id="logOutNavHref" href="@url">@signOutText</a></li>
+        <li class="u--no-print"><a class="link--no-underline" id="logOutNavHref" href="@url">@signOutText</a></li>
     }
 }
 
