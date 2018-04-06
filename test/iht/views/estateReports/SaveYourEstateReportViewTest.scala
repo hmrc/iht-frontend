@@ -39,21 +39,21 @@ class SaveYourEstateReportViewTest extends ViewTestHelper {
       lazy val view = save_your_estate_report()
       lazy val doc = Jsoup.parse(view.body)
 
-      doc.select("div p").get(3).text() shouldBe messagesApi("page.iht.exit.text")
+      doc.select("div p").get(2).text() shouldBe messagesApi("page.iht.exit.text")
     }
 
     "have a link for users to save" in {
       lazy val view = save_your_estate_report()
       lazy val doc = Jsoup.parse(view.body)
 
-      doc.select("div a").get(7).text() shouldBe messagesApi("page.iht.exit.link")
+      doc.select("div a").get(6).text() shouldBe messagesApi("page.iht.exit.link")
     }
 
     "have a link with href" in {
       lazy val view = save_your_estate_report()
       lazy val doc = Jsoup.parse(view.body)
 
-      doc.select("div a").get(7).attr("href") shouldBe "/inheritance-tax/estate-report"
+      doc.select("div a").get(6).attr("href") shouldBe "/inheritance-tax/estate-report"
     }
 
     "have a button that" should {
