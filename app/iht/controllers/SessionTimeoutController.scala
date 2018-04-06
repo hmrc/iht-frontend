@@ -43,4 +43,10 @@ trait SessionTimeoutController extends FrontendController{
       Ok(iht.views.html.application.timeout_application())
     }
   }
+
+  def onSaveAndExitPageLoad = UnauthorisedAction {
+    implicit request => {
+      Ok(iht.views.html.estateReports.save_your_estate_report())
+    }
+  }
 }

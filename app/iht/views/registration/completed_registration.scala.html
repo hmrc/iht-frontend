@@ -27,25 +27,24 @@
     isFullWidth=false,
     hasTimeOut=true) {
 
+<p>@Messages("page.iht.registration.completedRegistration.title") </p>
+<p>@Messages("page.iht.registration.completedRegistration.ref.title") </p>
+<p><strong>@formattedIHTReference(referenceNumber)</strong></p>
 <div class="panel-indent">
-    <p>@Messages("page.iht.registration.completedRegistration.ref.title") </p>
-    <p><strong>@formattedIHTReference(referenceNumber)</strong></p>
+    <p>@Messages("page.iht.registration.completedRegistration.ref.text")</p>
 </div>
-<p>@Messages("page.iht.registration.completedRegistration.ref.text")</p>
 <section class="section">
   <h2 class="heading-medium">@Messages("iht.nextSteps")</h2>
   <p>@Messages("page.iht.registration.completedRegistration.p1")</p>
   <p>@Messages("page.iht.registration.completedRegistration.p2")</p>
-  <ul id="second-paragraph-bullets" class="bullets" style ="margin-left:2em;">
-        <li>@Messages("page.iht.registration.completedRegistration.p2.bullet1")</li>
-        <li>@Messages("page.iht.registration.completedRegistration.p2.bullet2")</li>
-        <li>@Messages("page.iht.registration.completedRegistration.p2.bullet3")</li>
-  </ul>
 </section>
 <div id="continue-button">
     <a id="go-to-inheritance-tax-report" class="button" href="@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url">
-        @Messages("iht.estateReport.goToEstateReports")
+        @Messages("page.iht.registration.completedRegistration.button")
     </a>
 </div>
+<section class="section">
+    <a id="go-to-save-and-exit" href="@iht.controllers.routes.SessionTimeoutController.onSaveAndExitPageLoad.url">@Messages("page.iht.registration.completedRegistration.link")</a>
+</section>
 
 }

@@ -1,0 +1,38 @@
+@*
+ * Copyright 2018 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import iht.utils._
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+@import iht.controllers.ControllerHelper
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
+
+@()(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+
+@iht_main_template_application(title = Messages("page.iht.exit.title"),
+    browserTitle=Some(Messages("page.iht.exit.title"))){
+
+<div class="panel-indent">
+    <p>@Messages("page.iht.exit.text")</p>
+    <a id="estate-report-link" href="@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url">@Messages("page.iht.exit.link")</a>
+</div>
+<section class="section">
+    <a id="exit-button" class="button" href="@iht.controllers.application.routes.ApplicationQuestionnaireController.signOutAndLoadPage.url">
+        @Messages("page.iht.exit.button")
+    </a>
+</section>
+
+}
