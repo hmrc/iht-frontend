@@ -1,7 +1,7 @@
 
 ## Inheritance Tax Frontend Service
 
-[ ![Download](https://api.bintray.com/packages/hmrc/releases/iht-frontend/images/download.svg) ](https://bintray.com/hmrc/releases/iht-frontend/_latestVersion)
+[![Download](https://api.bintray.com/packages/hmrc/releases/iht-frontend/images/download.svg) ](https://bintray.com/hmrc/releases/iht-frontend/_latestVersion)
 
 A digital service enabling the general public to report details of an estate to HMRC so they can identify if there is any Inheritance Tax to pay and to allow them to then apply for probate.
 
