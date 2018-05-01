@@ -13,7 +13,7 @@ private object AppDependencies {
 
   private val httpCachingClientVersion = "7.1.0"
   private val jsonSchemaValidatorVersion = "2.2.6"
-  private val jsonVersion = "20160212"
+  private val jsonVersion = "20180130"
 
 val compile = Seq(
   ws, cache,
