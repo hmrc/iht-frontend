@@ -234,26 +234,50 @@ page.iht.filter.paperform.iht400.link.text = IHT400 form
 
 page.iht.filter.useService.under325000.paragraph0 = Because you think the estate might be worth less than £325,000, you can use the online service to report the estate value to HMRC.
 page.iht.filter.useService.paragraphFinal = You will need to register to use the service first, but before that, you will need to confirm who you are with HMRC.
-page.iht.filter.useService.between325000And1Million.paragraph0 = Because you think the value of the estate is between £325,000 and £1 million, you should think about some other things before you start completing any details.
 
-page.iht.filter.useService.between325000And1Million.title = You need to check if you can use the online service
-page.iht.filter.useService.between325000And1Million.section1.title = Who the estate has been left to
-page.iht.filter.useService.between325000And1Million.section1.p1 = If all of the estate has been left to a spouse, a civil partner, a charity or to another qualifying body, like a sports club, then you can use the online service as long as the value of the estate is less than £1 million.
-page.iht.filter.useService.between325000And1Million.section2.title = If the person who has died was ever married or in a civil partnership and their spouse or civil partner died before them
-page.iht.filter.useService.between325000And1Million.section2.p1.start = If the person who has died had been married or was in a civil partnership during their lifetime and
-page.iht.filter.useService.between325000And1Million.section2.p1.link = their spouse or civil partner died first
-page.iht.filter.useService.between325000And1Million.section2.p1.end = , you can use the online service if:
-page.iht.filter.useService.between325000And1Million.section2.bullet1 = all of the spouse’s or civil partner’s estate had passed to the person whose estate you are now reporting on
-page.iht.filter.useService.between325000And1Million.section2.bullet2 = the value of the estate is less than £650,000
-page.iht.filter.useService.between325000And1Million.section2.p2 = If the value of the estate is more than £650,000 and it has not all been left to a spouse, a civil partner, a charity or another qualifying body, you should report the value of the estate using a paper IHT400 form.
-page.iht.filter.useService.between325000And1Million.section3.title = If you want to claim any other additional thresholds to use with this service
-page.iht.filter.useService.between325000And1Million.section3.p1.start = If you already know the value of the estate and want to
-page.iht.filter.useService.between325000And1Million.section3.p1.link = claim the additional residence nil rate band threshold
-page.iht.filter.useService.between325000And1Million.section3.p1.end = , you should report the value of the estate using a paper IHT400 form.
+
+page.iht.filter.useService.between325000And1Million.paragraph0  = If the gross value of the estate (ie the value before you subtract debts and mortgages) is between £325,000 and £1 million, you may have to use the 
+page.iht.filter.useService.between325000And1Million.IHTFormlink = IHT400 form
+page.iht.filter.useService.between325000And1Million.IHTFormlink1 = IHT400 form.
+page.iht.filter.useService.between325000And1Million.paragraph1  = to report the estate value.
+page.iht.filter.useService.between325000And1Million.paragraph2  = There are two ways that you can continue with this online service:
+page.iht.filter.useService.between325000And1Million.bullet1     = if the estate has exemptions
+page.iht.filter.useService.between325000And1Million.bullet2     = if you can raise the threshold
+
+
+page.iht.filter.useService.between325000And1Million.title = You may need to use a different form
+page.iht.filter.useService.between325000And1Million.section1.title =  If the estate has exemptions
+page.iht.filter.useService.between325000And1Million.section1.p1 = The estate has exemptions when any part of the estate has been left to a surviving spouse (by marriage or civil partnership), or to a registered charity or other qualifying body like a sports club.
+page.iht.filter.useService.between325000And1Million.section1.p2 = This means you will only need to show HMRC that the net estate value is below the threshold. The estate's debts and mortgages will subtracted from the value of the estate before it's checked against the threshold.
+page.iht.filter.useService.between325000And1Million.section1.p3 = If it turns out there is tax to pay you will need to submit a full account, which means the
+page.iht.filter.useService.between325000And1Million.section1.p4 = You will be able to keep the calculations from this service to help you.
+
+page.iht.filter.useService.between325000And1Million.section2.title = If the Inheritance Tax threshold can be raised
+page.iht.filter.useService.between325000And1Million.section2.p1.start = If the person who's died was married or in a civil partnership during their lifetime and their spouse or civil partner died first, you may be able to
+page.iht.filter.useService.between325000And1Million.section2.p1.link = transfer their basic threshold 
+page.iht.filter.useService.between325000And1Million.section2.p1.end =  of £325,000 and add it to the threshold for this estate. You can still use the online service if both:
+page.iht.filter.useService.between325000And1Million.section2.bullet1 = the entire estate of the spouse or civil partner passed to the person whose estate you are now reporting on
+page.iht.filter.useService.between325000And1Million.section2.bullet2 = the gross value of the estate you are reporting on now is less than £650,000
+page.iht.filter.useService.between325000And1Million.section2.p2 = If it was not the entire estate that passed, for example if the spouse or civil partner left other legacies or gifted anything over £3000 to other people within the seven years before their death, then the estate may still qualify for some threshold transfer, but you must use the
+
+
+
+page.iht.filter.useService.between325000And1Million.section3.title = Additional threshold for a residence
+page.iht.filter.useService.between325000And1Million.section3.p1.start = If the estate is over the threshold and you are going to
+page.iht.filter.useService.between325000And1Million.section3.p1.link = use additional threshold (residence nil-rate band, RNRB)
+page.iht.filter.useService.between325000And1Million.section3.p1.end = to raise the threshold, you need to use the
+page.iht.filter.useService.between325000And1Million.section3.p1.end2 = to report the estate value.
 page.iht.filter.useService.between325000And1Million.section3.p2 = If you are using the online service to report the estate value, you will need to register to use it, but before that, you will need to confirm who you are with HMRC.
-page.iht.filter.useService.between325000And1Million.report = Report the value of the estate online
+page.iht.filter.useService.between325000And1Million.report = Continue to the online service
 page.iht.filter.useService.between325000And1Million.otherWaysToReport = If you need to report the value of the estate using the paper IHT400 form, you can
 page.iht.filter.useService.between325000And1Million.iht400link = download and print it from GOV.UK
+
+page.iht.filter.useService.between325000And1Million.section4.p1 = You’ll be asked to log in to confirm who you are with HMRC.
+page.iht.filter.useService.between325000And1Million.section4.p2.start = You can use the
+page.iht.filter.useService.between325000And1Million.section4.p2.link  = paper IHT205 form
+page.iht.filter.useService.between325000And1Million.section4.p2.end   = if you are not able to report the estate value online.
+page.iht.filter.useService.between325000And1Million.section4.p3 = If you are not able to download or print the form, you can call the Inheritance Tax helpline on 0300 123 1072 to request one.
+
 
 page.iht.filter.useService.under325000.otherWaysToReportValue = Other ways to report the value of an estate
 page.iht.filter.useService.under325000.p1.a = You can
