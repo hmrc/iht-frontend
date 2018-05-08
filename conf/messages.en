@@ -2166,27 +2166,36 @@ country.EE = Estonia
 #Errors
 
 #Errors - IV
-page.iht.iv.failure.2fa.title = You cannot sign in to use Inheritance Tax Online
-page.iht.iv.failure.2fa.p1 = You will not be able to use Inheritance Tax Online until you have set up 2-step verification. This is because you need to securely sign in to protect your personal details.
-page.iht.iv.failure.2fa.p2 = When you want to sign in to securely use Inheritance Tax Online, you should set up 2-step verification.
-page.iht.iv.failure.2fa.exitLink = Exit to Inheritance Tax on GOV.UK
-page.iht.iv.failure.2fa.verifyLink = Verify your identity
-page.iht.iv.failure.failedMatching.title = We were unable to confirm your identity
-page.iht.iv.failure.failedMatching.p1 = If you cannot confirm your identity and you have a query,
-page.iht.iv.failure.lockedOut.title = Maximum number of attempts reached
-page.iht.iv.failure.lockedOut.p1 = You have reached the maximum number of attempts to confirm your identity.
-page.iht.iv.failure.lockedOut.p2 = You can try again in 7 days.
-page.iht.iv.failure.userAborted.title = You do not have enough information to continue
-page.iht.iv.failure.userAborted.p1 = You can try again when you have the information you need or, if you have a query,
-page.iht.iv.failure.timeout.title = Your session has ended due to inactivity
-page.iht.iv.failure.timeout.p1 = Your session has ended because you have not done anything for 30 minutes.
-page.iht.iv.failure.timeout.p2 = We have deleted all the details you have entered for your own security.
-page.iht.iv.failure.technicalIssue.title = There is a technical problem
-page.iht.iv.failure.technicalIssue.p1 = This online service is experiencing technical difficulties.
-page.iht.iv.failure.technicalIssue.p3 = If you have a query,
-page.iht.iv.failure.preconditionFailed.title = You are unable to sign in
-page.iht.iv.failure.preconditionFailed.p1 = You have already registered with another account.
-page.iht.iv.failure.preconditionFailed.p1.link.text = Contact HMRC to get help
+iht.iv.signIn = Sign in
+page.iht.iv.failure.cannotConfirmIdentity = We cannot confirm who you are
+page.iht.iv.failure.tryAgainOr = You can try again or:
+page.iht.iv.failure.youCanAlso = You can also:
+page.iht.iv.failure.reportWithPaperForm = report the estate value using the <a id="paperFormLink" href="{0}">IHT205 paper form</a> instead
+page.iht.iv.failure.askForHelp = ask for help by email using ''Get help with this page'' below
+
+page.iht.iv.failure.failedMatching.failureReason = The information you have provided does not match what we hold.
+page.iht.iv.failure.insufficientEvidence.failureReason = You have not given us enough information.
+
+page.iht.iv.failure.lockedOut.heading = You tried to confirm who you are too many times
+page.iht.iv.failure.lockedOut.tryAgain = Try again in 24 hours by signing in to the service at <a id="signInLink" href="{0}">{0}</a> (save this link).
+
+page.iht.iv.failure.timeout.heading = For your security, we signed you out
+page.iht.iv.failure.timeout.p1 = We did not save your answers.
+
+page.iht.iv.failure.incomplete.heading = Sorry, there was a problem with the service
+page.iht.iv.failure.incomplete.failureReason = We still need to confirm who you are.
+
+page.iht.iv.failure.preconditionFailed.heading = You cannot use this service
+page.iht.iv.failure.preconditionFailed.failureReason = HMRC cannot confirm your identity from the information you gave.
+page.iht.iv.failure.preconditionFailed.usePaperForm = Use the <a id="paperFormLink" href="{0}">IHT205 paper form</a> to report the estate value instead.
+
+page.iht.iv.failure.userAborted.failureReason = You have not given us enough information.
+
+page.iht.iv.failure.technicalIssue.heading = Sorry, there is a problem with the service
+page.iht.iv.failure.technicalIssue.tryAgain = Try again now or in 24 hours by signing in to the service at <a id="signInLink" href="{0}">{0}</a> (save this link).
+
+page.iht.iv.failure.2fa.heading = You have not been signed in
+page.iht.iv.failure.2fa.p1 = You need to set up 2-step verification so you can sign in securely.
 
 #Errors - Common
 error.invalid.date.format = You must specify a valid date

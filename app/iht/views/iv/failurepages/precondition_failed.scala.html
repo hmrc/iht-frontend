@@ -14,18 +14,16 @@
  * limitations under the License.
  *@
 
-@import iht.constants.IhtProperties
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.views.html.iht_main_template_application
+@import iht.constants.IhtProperties.linkIHT205PDF
 
 @()(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
-@message={
-<p>@Messages("page.iht.iv.failure.preconditionFailed.p1")
-    <a id="contact-hmrc" href='@IhtProperties.linkContactHMRC'>@Messages("page.iht.iv.failure.preconditionFailed.p1.link.text")</a>.
-</p>
-}
 
-@iv_failure_template(pageTitle = Messages("page.iht.iv.failure.preconditionFailed.title"),
-message=message,
-exitLinkHref=iht.controllers.filter.routes.FilterController.onPageLoad.url,
-exitLinkText=Messages("iht.iv.exit"))
+@defining(Messages("page.iht.iv.failure.preconditionFailed.heading")) { pageTitle =>
+  @iht_main_template_application(title = pageTitle, browserTitle = Some(pageTitle)) {
+    <p>@Messages("page.iht.iv.failure.preconditionFailed.failureReason")</p>
+    <p>@Html(Messages("page.iht.iv.failure.preconditionFailed.usePaperForm", linkIHT205PDF))</p>
+  }
+}

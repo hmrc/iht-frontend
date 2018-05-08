@@ -14,18 +14,21 @@
  * limitations under the License.
  *@
 
-@import iht.constants.IhtProperties
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.views.html.iht_main_template_application
+@import iht.constants.IhtProperties.linkIHT205PDF
 
-@(ivUrl: String)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+@(tryAgainRoute: String)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
-@message={
-<p>@Messages("page.iht.iv.failure.userAborted.p1")
-    <a href='https://www.gov.uk/contact-hmrc'>@Messages("iht.iv.contactHMRC")</a>.
-</p>
+
+@defining(Messages("page.iht.iv.failure.cannotConfirmIdentity")) { pageTitle =>
+  @iht_main_template_application(title = pageTitle, browserTitle = Some(pageTitle)) {
+    <p>@Messages("page.iht.iv.failure.userAborted.failureReason")</p>
+    <p>@Messages("page.iht.iv.failure.tryAgainOr")</p>
+    <ul class="list-bullet">
+      <li>@Html(Messages("page.iht.iv.failure.reportWithPaperForm", linkIHT205PDF))</li>
+      <li>@Messages("page.iht.iv.failure.askForHelp")</li>
+    </ul>
+    <a id="tryAgain" class="button" role="button" href="@tryAgainRoute">@Messages("iht.iv.tryAgain")</a>
+  }
 }
-
-@iv_failure_template(pageTitle = Messages("page.iht.iv.failure.userAborted.title"),
-message=message,
-exitLinkHref=ivUrl,
-exitLinkText=Messages("iht.iv.tryAgain"))

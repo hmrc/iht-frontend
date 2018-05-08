@@ -14,19 +14,15 @@
  * limitations under the License.
  *@
 
-@import iht.constants.IhtProperties
+@import iht.views.html.iht_main_template_application
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-@(ivUrl:String)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+@(tryAgainRoute: String)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
-@message={
-    <p>@Messages("page.iht.iv.failure.2fa.p1")</p>
-    <p>@Messages("page.iht.iv.failure.2fa.p2")</p>
+
+@defining(Messages("page.iht.iv.failure.2fa.heading")) { pageTitle =>
+    @iht_main_template_application(title = pageTitle, browserTitle = Some(pageTitle)) {
+        <p>@Messages("page.iht.iv.failure.2fa.p1")</p>
+        <a id="tryAgainLink" href="@tryAgainRoute">@Messages("iht.iv.tryAgain")</a>
+    }
 }
-
-@iv_failure_template(pageTitle = Messages("page.iht.iv.failure.2fa.title"),
-    message=message,
-    exitLinkHref=IhtProperties.linkRegistrationKickOut,
-    exitLinkText=Messages("page.iht.iv.failure.2fa.exitLink"),
-    verifyLinkHref=Some(ivUrl),
-    verifyLinkText=Some(Messages("page.iht.iv.failure.2fa.verifyLink")))

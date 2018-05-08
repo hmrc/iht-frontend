@@ -31,7 +31,7 @@ class IncompleteViewTest extends GenericNonSubmittablePageBehaviour {
 
   def browserTitle = messagesApi("error.problem")
 
-  def view: String = incomplete()(createFakeRequest(), applicationMessages, formPartialRetriever).toString
+  def view: String = incomplete("/inheritance-tax/start-again")(createFakeRequest(), applicationMessages, formPartialRetriever).toString
 
   override def exitComponent = Some(
     ExitComponent(

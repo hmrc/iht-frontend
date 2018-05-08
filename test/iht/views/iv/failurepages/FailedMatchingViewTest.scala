@@ -31,7 +31,7 @@ class FailedMatchingViewTest extends GenericNonSubmittablePageBehaviour {
 
   def browserTitle = messagesApi("page.iht.iv.failure.failedMatching.title")
 
-  def view: String = failed_matching()(createFakeRequest(), applicationMessages, formPartialRetriever).toString
+  def view: String = failed_matching("/inheritance-tax/start-again")(createFakeRequest(), applicationMessages, formPartialRetriever).toString
 
   override def exitComponent = Some(
     ExitComponent(

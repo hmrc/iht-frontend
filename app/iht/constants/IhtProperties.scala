@@ -81,6 +81,7 @@ object IhtProperties {
   lazy val linkExitToGovUKIHTForms: String = getProperty("linkExitToGovUKIHTForms")
   lazy val linkScottishCourtAndTribunal: String = getProperty("linkScottishCourtAndTribunal")
   lazy val linkIHT205: String = getProperty("linkIHT205")
+  lazy val linkIHT205PDF: String = getProperty("linkIHT205PDF")
   lazy val linkContactHMRC: String = getProperty("linkContactHMRC")
   lazy val linkLandRegistry: String = getProperty("linkLandRegistry")
   lazy val linkUserResearch: String = getProperty("linkUserResearch")

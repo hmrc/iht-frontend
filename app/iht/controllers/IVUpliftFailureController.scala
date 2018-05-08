@@ -21,12 +21,11 @@ import iht.connector.IdentityVerificationConnector
 import iht.models.enums.IdentityVerificationResult
 import iht.views.html.iv.failurepages._
 import play.api.Logger
-import play.api.mvc.{Action, AnyContent}
+import play.api.mvc._
 import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import uk.gov.hmrc.play.partials.FormPartialRetriever
-
 
 import scala.concurrent.Future
 
@@ -46,57 +45,38 @@ trait IVUpliftFailureController extends FrontendController{
   implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
 
   def showNotAuthorisedApplication(journeyId: Option[String]) : Action[AnyContent] = UnauthorisedAction.async {implicit request =>
-    Logger.debug(message = "Entered showNotAuthorisedApplication with journeyId " + journeyId)
-    val result = journeyId map { id =>
-      val identityVerificationResult = identityVerificationConnector.identityVerificationResponse(id)
-      Logger.debug(message = "Obtained identityVerificationResult is " + identityVerificationResult)
-      identityVerificationResult map {
-        case IdentityVerificationResult.FailedMatching => failed_matching()
-        case IdentityVerificationResult.InsufficientEvidence => insufficient_evidence(ivUrlApplication)
-        case IdentityVerificationResult.TechnicalIssue => technical_issue(ivUrlApplication)
-        case IdentityVerificationResult.LockedOut => locked_out()
-        case IdentityVerificationResult.Timeout => timeout(ivUrlApplication)
-        case IdentityVerificationResult.Incomplete => incomplete()
-        case IdentityVerificationResult.PreconditionFailed => precondition_failed()
-        case IdentityVerificationResult.UserAborted => user_aborted(ivUrlApplication)
-        case ivr =>
-          Logger.error("Unknown identityVerificationResult (" + ivr + ")" )
-          technical_issue(ivUrlApplication)
-      }
-    } getOrElse {
-      Future.successful(failure_2fa(ivUrlApplication)) // 2FA returns no journeyId
-    }
-
-    result.map {
-      Ok(_).withNewSession
-    }
+    showNotAuthorised(journeyId, ivUrlApplication)
   }
 
   def showNotAuthorisedRegistration(journeyId: Option[String]) : Action[AnyContent] = UnauthorisedAction.async {implicit request =>
-    Logger.debug(message = "Entered showNotAuthorisedApplication with journeyId " + journeyId)
-    val result = journeyId map { id =>
-      val identityVerificationResult = identityVerificationConnector.identityVerificationResponse(id)
-      Logger.debug(message = "Obtained identityVerificationResult is " + identityVerificationResult)
-      identityVerificationResult map {
-        case IdentityVerificationResult.FailedMatching => failed_matching()
-        case IdentityVerificationResult.InsufficientEvidence => insufficient_evidence(ivUrlRegistration)
-        case IdentityVerificationResult.TechnicalIssue => technical_issue(ivUrlRegistration)
-        case IdentityVerificationResult.LockedOut => locked_out()
-        case IdentityVerificationResult.Timeout => timeout(ivUrlRegistration)
-        case IdentityVerificationResult.Incomplete => incomplete()
-        case IdentityVerificationResult.PreconditionFailed => precondition_failed()
-        case IdentityVerificationResult.UserAborted => user_aborted(ivUrlRegistration)
-        case ivr =>
-          Logger.error("Unknown identityVerificationResult (" + ivr + ")" )
-          technical_issue(ivUrlRegistration)
-      }
-    } getOrElse {
-      Future.successful(failure_2fa(ivUrlRegistration)) // 2FA returns no journeyId
-    }
+    showNotAuthorised(journeyId, ivUrlRegistration)
+  }
 
-    result.map {
-      Ok(_).withNewSession
-    }
+  private def showNotAuthorised(oJourneyId: Option[String], tryAgainRoute: String)(implicit request: Request[AnyContent]): Future[Result] = {
+    import IdentityVerificationResult._
+    import IdentityVerificationResult.{PreconditionFailed => PreconditionFailedIV}
+
+    oJourneyId.map { journeyId =>
+      identityVerificationConnector.identityVerificationResponse(journeyId).map {
+        case FailedMatching =>       Forbidden(failed_matching(tryAgainRoute))
+        case PreconditionFailedIV => Forbidden(precondition_failed())
+        case InsufficientEvidence => Unauthorized(insufficient_evidence(tryAgainRoute))
+        case LockedOut =>            Unauthorized(locked_out())
+        case Timeout =>              Unauthorized(timeout(tryAgainRoute))
+        case Incomplete =>           Unauthorized(incomplete(tryAgainRoute))
+        case UserAborted =>          Unauthorized(user_aborted(tryAgainRoute))
+        case TechnicalIssue =>       InternalServerError(technical_issue(tryAgainRoute))
+        case other =>
+                                     Logger.error(s"Unknown identityVerificationResult ($other)")
+                                     InternalServerError(technical_issue(tryAgainRoute))
+      }
+    }.getOrElse {
+      Future.successful(Unauthorized(failure_2fa(tryAgainRoute))) // 2FA returns no journeyId
+    }.map(_.withNewSession)
+  }
+
+  val showTestPage = Action {
+    implicit request => Ok(failure_2fa(ivUrlRegistration))
   }
 
 }
