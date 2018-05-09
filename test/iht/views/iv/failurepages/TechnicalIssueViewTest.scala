@@ -24,14 +24,12 @@ import play.api.i18n.Messages.Implicits._
 class TechnicalIssueViewTest extends GenericNonSubmittablePageBehaviour {
 
   def guidanceParagraphs = Set(
-    messagesApi("page.iht.iv.failure.technicalIssue.p1"),
-    messagesApi("iht.iv.tryAgainLater"),
-    messagesApi("page.iht.iv.failure.technicalIssue.p3")
+    messagesApi("page.iht.iv.failure.youCanAlso")
   )
 
-  def pageTitle = messagesApi("page.iht.iv.failure.technicalIssue.title")
+  def pageTitle = messagesApi("page.iht.iv.failure.technicalIssue.heading")
 
-  def browserTitle = messagesApi("page.iht.iv.failure.technicalIssue.title")
+  def browserTitle = messagesApi("page.iht.iv.failure.technicalIssue.heading")
 
   def view: String = technical_issue(CommonBuilder.DefaultCall1.url)(createFakeRequest(), applicationMessages, formPartialRetriever).toString
 

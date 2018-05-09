@@ -24,20 +24,19 @@ import play.api.i18n.Messages.Implicits._
 class TimeOutViewTest extends GenericNonSubmittablePageBehaviour {
 
   def guidanceParagraphs = Set(
-    messagesApi("page.iht.iv.failure.timeout.p1"),
-    messagesApi("page.iht.iv.failure.timeout.p2")
+    messagesApi("page.iht.iv.failure.timeout.p1")
   )
 
-  def pageTitle = messagesApi("page.iht.iv.failure.timeout.title")
+  def pageTitle = messagesApi("page.iht.iv.failure.timeout.heading")
 
-  def browserTitle = messagesApi("page.iht.iv.failure.timeout.title")
+  def browserTitle = messagesApi("page.iht.iv.failure.timeout.heading")
 
   def view: String = timeout(CommonBuilder.DefaultCall1.url)(createFakeRequest(), applicationMessages, formPartialRetriever).toString
 
   override def exitComponent = Some(
     ExitComponent(
       CommonBuilder.DefaultCall1,
-      messagesApi("iht.startAgain")
+      messagesApi("iht.iv.signIn")
     )
   )
 

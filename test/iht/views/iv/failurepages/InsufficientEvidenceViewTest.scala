@@ -24,13 +24,12 @@ import play.api.i18n.Messages.Implicits._
 class InsufficientEvidenceViewTest extends GenericNonSubmittablePageBehaviour {
 
   def guidanceParagraphs = Set(
-    messagesApi("iht.iv.unableToContinue"),
-    messagesApi("iht.iv.tryAgainLater")
+    messagesApi("page.iht.iv.failure.insufficientEvidence.failureReason")
   )
 
-  def pageTitle = messagesApi("error.problem")
+  def pageTitle = messagesApi("page.iht.iv.failure.cannotConfirmIdentity")
 
-  def browserTitle = messagesApi("error.problem")
+  def browserTitle = messagesApi("page.iht.iv.failure.cannotConfirmIdentity")
 
   def view: String = insufficient_evidence(CommonBuilder.DefaultCall1.url)(createFakeRequest(),
                                                                           applicationMessages,

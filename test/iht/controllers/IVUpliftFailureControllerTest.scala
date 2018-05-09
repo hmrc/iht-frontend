@@ -42,40 +42,41 @@ class IVUpliftFailureControllerTest extends ApplicationControllerTest {
 
 
   def iVUpliftFailureBehaviour(showFailure: Option[String] => Future[Result]) = {
-    def ivFailure(showFailure: Option[String] => Future[Result], failureName: String, ivResult: IdentityVerificationResult,
-                  titleMessagesKey: String) = {
+
+    def ivFailure(failureName: String, ivResult: IdentityVerificationResult,
+                  titleMessagesKey: String, expectedStatus: Int) = {
       s"go to the $failureName page upon receipt of iv verification result of " + ivResult in {
         when(mockIdentityVerificationConnector.identityVerificationResponse(any())(any()))
           .thenReturn(Future.successful(ivResult))
         val result = showFailure(Some(""))
-        status(result) should be(OK)
+        status(result) should be(expectedStatus)
         contentAsString(result) should include(messagesApi(titleMessagesKey))
       }
     }
 
     "go to 2fa failure page if no journey id" in {
       val result = showFailure(None)
-      status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("page.iht.iv.failure.2fa.title"))
+      status(result) should be(UNAUTHORIZED)
+      contentAsString(result) should include(messagesApi("page.iht.iv.failure.2fa.heading"))
     }
 
-    behave like ivFailure(showFailure, "failed matching", IdentityVerificationResult.FailedMatching, "page.iht.iv.failure.failedMatching.title")
+    behave like ivFailure("failed matching", IdentityVerificationResult.FailedMatching, "page.iht.iv.failure.failedMatching.failureReason", FORBIDDEN)
 
-    behave like ivFailure(showFailure, "incomplete", IdentityVerificationResult.Incomplete, "error.problem")
+    behave like ivFailure("incomplete", IdentityVerificationResult.Incomplete, "page.iht.iv.failure.incomplete.heading", UNAUTHORIZED)
 
-    behave like ivFailure(showFailure, "insufficient evidence", IdentityVerificationResult.InsufficientEvidence, "error.problem")
+    behave like ivFailure("insufficient evidence", IdentityVerificationResult.InsufficientEvidence, "page.iht.iv.failure.insufficientEvidence.failureReason", UNAUTHORIZED)
 
-    behave like ivFailure(showFailure, "locked out", IdentityVerificationResult.LockedOut, "page.iht.iv.failure.lockedOut.title")
+    behave like ivFailure("locked out", IdentityVerificationResult.LockedOut, "page.iht.iv.failure.lockedOut.heading", UNAUTHORIZED)
 
-    behave like ivFailure(showFailure, "precondition failed", IdentityVerificationResult.PreconditionFailed, "page.iht.iv.failure.preconditionFailed.title")
+    behave like ivFailure("precondition failed", IdentityVerificationResult.PreconditionFailed, "page.iht.iv.failure.preconditionFailed.heading", FORBIDDEN)
 
-    behave like ivFailure(showFailure, "technical issue", IdentityVerificationResult.TechnicalIssue, "page.iht.iv.failure.technicalIssue.title")
+    behave like ivFailure("technical issue", IdentityVerificationResult.TechnicalIssue, "page.iht.iv.failure.technicalIssue.heading", INTERNAL_SERVER_ERROR)
 
-    behave like ivFailure(showFailure, "timeout", IdentityVerificationResult.Timeout, "page.iht.iv.failure.timeout.title")
+    behave like ivFailure("timeout", IdentityVerificationResult.Timeout, "page.iht.iv.failure.timeout.heading", UNAUTHORIZED)
 
-    behave like ivFailure(showFailure, "user aborted", IdentityVerificationResult.UserAborted, "page.iht.iv.failure.userAborted.title")
+    behave like ivFailure("user aborted", IdentityVerificationResult.UserAborted, "page.iht.iv.failure.userAborted.failureReason", UNAUTHORIZED)
 
-    behave like ivFailure(showFailure, "technical issue", IdentityVerificationResult.Success, "page.iht.iv.failure.technicalIssue.title")
+    behave like ivFailure("unexpected IV failure result", IdentityVerificationResult.Success, "page.iht.iv.failure.technicalIssue.heading", INTERNAL_SERVER_ERROR)
   }
 
   "showNotAuthorisedRegistration" must {
