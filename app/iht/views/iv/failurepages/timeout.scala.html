@@ -22,6 +22,6 @@
 @defining(Messages("page.iht.iv.failure.timeout.heading")) { pageTitle =>
   @iht_main_template_application(title = pageTitle, browserTitle = Some(pageTitle)) {
     <p>@Messages("page.iht.iv.failure.timeout.p1")</p>
-    <a id="signIn" class="button" role="button" href="@signInRoute">@Messages("iht.iv.signIn")</a>
+    <a id="return-button" class="button" role="button" href="@signInRoute">@Messages("iht.iv.signIn")</a>
   }
 }

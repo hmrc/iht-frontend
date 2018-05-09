@@ -23,6 +23,6 @@
 @defining(Messages("page.iht.iv.failure.2fa.heading")) { pageTitle =>
     @iht_main_template_application(title = pageTitle, browserTitle = Some(pageTitle)) {
         <p>@Messages("page.iht.iv.failure.2fa.p1")</p>
-        <a id="tryAgainLink" href="@tryAgainRoute">@Messages("iht.iv.tryAgain")</a>
+        <a id="return-button" href="@tryAgainRoute">@Messages("iht.iv.tryAgain")</a>
     }
 }
