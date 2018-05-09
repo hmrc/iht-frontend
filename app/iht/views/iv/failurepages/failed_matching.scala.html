@@ -23,7 +23,7 @@
 
 @defining(Messages("page.iht.iv.failure.cannotConfirmIdentity")) { pageTitle =>
   @iht_main_template_application(title = pageTitle, browserTitle = Some(pageTitle)) {
-    <p>@Messages("page.iht.iv.failure.failedMatching.failureReason")</p>
+    <p data-journey="iv-failure:page-view:failed-matching">@Messages("page.iht.iv.failure.failedMatching.failureReason")</p>
     <p>@Messages("page.iht.iv.failure.tryAgainOr")</p>
     <ul class="list-bullet">
       <li>@Html(Messages("page.iht.iv.failure.reportWithPaperForm", linkIHT205PDF))</li>
