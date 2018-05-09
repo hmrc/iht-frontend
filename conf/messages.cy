@@ -730,7 +730,7 @@ page.iht.application.debts.overview.debtsFromTrust.screenReader.link.value=Newid
 page.iht.application.tnrbEligibilty.overview.benefitFromTrust.question.screenReader.text.no=Na, nid oedd {0} â''r hawl i fuddio o ymddiriedolaeth tra''r oedd yn fyw. Newid yr ateb hwn.
 page.iht.registration.applicantDetails.email.label=Eich cyfeiriad e-bost
 page.iht.registration.multipleExecutors.title=Ychwanegu rhagor o {0}
-error.address.invalid.character=Mae''r llinell hon yn cynnwys cymeriad annilys. Dyma''r cymeriadau dilys: A-Z a-z 0-9 - ’ , / & bwlch
+error.address.invalid.character=Mae''r llinell hon yn cynnwys cymeriad annilys. Dyma''r cymeriadau dilys: A-Z a-z 0-9 - '' , / & bwlch
 page.iht.registration.checklist.deceased.reveal.label2=Y cyfeiriad hysbys diwethaf ar gyfer gohebu yw''r cyfeiriad lle''r oedd yn cael ei bost cyn iddo farw. Gallai hwn fod yn gartref roedd yn berchen arno, neu''r man diwethaf lle''r oedd yn byw.
 page.iht.application.insurance.policies.section4.title=A oedd polisi yswiriant yr oedd {0} yn talu amdano wedi''i roi mewn ymddiriedolaeth yn y 7 mlynedd cyn y bu farw?
 error.heldInTrust.currencyValue.summary=nodwch werth ar gyfer asedion mewn ymddiriedolaeth gan ddefnyddio rhifau''n unig
@@ -1036,7 +1036,7 @@ global.error.InternalServerError500.title=Rydym yn profi anawsterau technegol
 page.iht.registration.co-executor-personal-details.isAddressInUk=A yw ei gyfeiriad yn y DU?
 page.iht.application.overview.timeScale.guidance.months=Os na fyddwch yn anfon yr adroddiad ynghylch yr ystâd erbyn yr adeg hon, caiff ei ddileu a bydd yn rhaid i chi ddechrau o''r newydd.
 page.iht.application.tnrb.threshold.screenReader=Y trothwy Treth Etifeddiant yw £{0}
-error.postcode.invalid.character=Mae''r llinell hon yn cynnwys cymeriad annilys. Dyma''r cymeriadau dilys: A-Z a-z 0-9 - ’ , / & bwlch
+error.postcode.invalid.character=Mae''r llinell hon yn cynnwys cymeriad annilys. Dyma''r cymeriadau dilys: A-Z a-z 0-9 - '' , / & bwlch
 iht.estateReport.exemptions.charities.charityNo.question=Beth yw rhif yr elusen gofrestredig?
 page.iht.application.assets.stocksAndShares.overview.guidance = Dyma unrhyw stociau a chyfranddaliadau yn y DU yr oedd {0} yn berchen arnynt pan fu farw.
 page.iht.application.assets.stocksAndShares.overview.guidance2=Bydd angen i chi wahanu unrhyw stociau a chyfranddaliadau wedi''u rhestru ar gyfnewidfa oddi wrth rhai nad oeddynt wedi''u rhestru.
@@ -2067,33 +2067,34 @@ page.iht.application.overview.common.viewcopy=Bwrw golwg ar adroddiad ynghylch y
 
 page.iht.questionnaire.intendReturn.question=A ydych yn bwriadu dychwelyd yn nes ymlaen i lenwi''ch adroddiad ynghylch yr ystâd?
 
-iht.iv.signIn = Sign in
+iht.iv.signIn = Mewngofnodi
 page.iht.iv.failure.cannotConfirmIdentity = Ni allwn gadarnhau pwy ydych
 page.iht.iv.failure.tryAgainOr = Gallwch roi cynnig arall arni neu:
 page.iht.iv.failure.youCanAlso = Gallwch wneud y canlynol:
-page.iht.iv.failure.reportWithPaperForm = rhoi gwybod am werth yr ystâd gan ddefnyddio’r <a href="https://www.gov.uk/government/publications/inheritance-tax-return-of-estate-information-iht205-2011.cy">ffurflen bapur IHT205</a> yn lle hynny
-page.iht.iv.failure.askForHelp = gofyn am help drwy e-bost gan ddefnyddio’r cysylltiad ‘Cael cymorth gyda’r dudalen hon’ isod
+page.iht.iv.failure.reportWithPaperForm = rhoi gwybod am werth yr ystâd gan ddefnyddio''r <a href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/459774/IHT205_2011__Cymraeg.pdf">ffurflen bapur IHT205</a> yn lle hynny
+page.iht.iv.failure.askForHelp = gofyn am help drwy e-bost gan ddefnyddio''r cysylltiad ''Cael cymorth gyda''r dudalen hon'' isod
 
-page.iht.iv.failure.failedMatching.failureReason = Nid yw’r wybodaeth yr ydych wedi’i rhoi’n cyd-fynd â’r hyn sydd gennym yn ein cofnodion.
+page.iht.iv.failure.failedMatching.failureReason = Nid yw''r wybodaeth yr ydych wedi''i rhoi''n cyd-fynd â''r hyn sydd gennym yn ein cofnodion.
 page.iht.iv.failure.insufficientEvidence.failureReason = Nid ydych wedi rhoi digon o wybodaeth i ni.
 
 page.iht.iv.failure.lockedOut.heading = Rydych wedi ceisio cadarnhau pwy ydych ormod o weithiau
-page.iht.iv.failure.lockedOut.tryAgain = Gallwch roi cynnig arall arni mewn 24 awr drwy fewngofnodi i’r gwasanaeth yn <a id="signInLink" href="{0}">{0}</a> (dylech gadw''r cysylltiad hwn).
+page.iht.iv.failure.lockedOut.tryAgain = Gallwch roi cynnig arall arni mewn 24 awr drwy fewngofnodi i''r gwasanaeth yn <a id="signInLink" href="{0}">{0}</a> (dylech gadw''r cysylltiad hwn).
 
 page.iht.iv.failure.timeout.heading = Er eich diogelwch, gwnaethom eich allgofnodi
-page.iht.iv.failure.timeout.p1 = Ni wnaethom gadw’ch atebion.
+page.iht.iv.failure.timeout.notSaved = Ni wnaethom gadw''ch atebion.
+page.iht.iv.failure.timeout.saved = Mae''ch holl fanylion wedi''u cadw.
 
-page.iht.iv.failure.incomplete.heading = Mae’n ddrwg gennym, roedd problem gyda’r gwasanaeth
-page.iht.iv.failure.incomplete.failureReason = Mae’n dal yn rhaid i ni gadarnhau pwy ydych.
+page.iht.iv.failure.incomplete.heading = Mae''n ddrwg gennym, roedd problem gyda''r gwasanaeth
+page.iht.iv.failure.incomplete.failureReason = Mae''n dal yn rhaid i ni gadarnhau pwy ydych.
 
-page.iht.iv.failure.preconditionFailed.heading = Ni allwch ddefnyddio’r gwasanaeth hwn
-page.iht.iv.failure.preconditionFailed.failureReason = Ni all CThEM gadarnhau pwy ydych o’r wybodaeth a roesoch.
+page.iht.iv.failure.preconditionFailed.heading = Ni allwch ddefnyddio''r gwasanaeth hwn
+page.iht.iv.failure.preconditionFailed.failureReason = Ni all CThEM gadarnhau pwy ydych o''r wybodaeth a roesoch.
 page.iht.iv.failure.preconditionFailed.usePaperForm = Defnyddiwch y <a href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/459774/IHT205_2011__Cymraeg.pdf">ffurflen bapur IHT205</a> i roi gwybod am werth yr ystâd yn lle hynny.
 
 page.iht.iv.failure.userAborted.failureReason = Nid ydych wedi rhoi digon o wybodaeth i ni.
 
-page.iht.iv.failure.technicalIssue.heading = Mae’n ddrwg gennym, mae problem gyda’r gwasanaeth
-page.iht.iv.failure.technicalIssue.tryAgain = Gallwch roi cynnig arall arni mewn 24 awr drwy fewngofnodi i’r gwasanaeth yn <a id="signInLink" href="{0}">{0}</a> (dylech gadw''r cysylltiad hwn).
+page.iht.iv.failure.technicalIssue.heading = Mae''n ddrwg gennym, mae problem gyda''r gwasanaeth
+page.iht.iv.failure.technicalIssue.tryAgain = Gallwch roi cynnig arall arni mewn 24 awr drwy fewngofnodi i''r gwasanaeth yn <a id="signInLink" href="{0}">{0}</a> (dylech gadw''r cysylltiad hwn).
 
-page.iht.iv.failure.2fa.heading = Nid ydych wedi'ch mewngofnodi
-page.iht.iv.failure.2fa.p1 = Bydd angen i chi sefydlu'r Dull Gwirio 2-Gam er mwyn gallu mewngofnodi'n ddiogel.
+page.iht.iv.failure.2fa.heading = Nid ydych wedi''ch mewngofnodi
+page.iht.iv.failure.2fa.p1 = Bydd angen i chi sefydlu''r Dull Gwirio 2-Gam er mwyn gallu mewngofnodi''n ddiogel.

@@ -75,8 +75,20 @@ trait IVUpliftFailureController extends FrontendController{
     }.map(_.withNewSession)
   }
 
-  val showTestPage = Action {
-    implicit request => Ok(failure_2fa(ivUrlRegistration))
+  def showTestPage(page: String) = Action {
+    implicit request =>
+      page match {
+        case "failedMatching" => Ok(failed_matching(ivUrlApplication))
+        case "preconFailed"   => Ok(precondition_failed())
+        case "evidence"       => Ok(insufficient_evidence(ivUrlApplication))
+        case "lockedOut"      => Ok(locked_out())
+        case "timeout"        => Ok(timeout(ivUrlApplication))
+        case "incomplete"     => Ok(incomplete(ivUrlApplication))
+        case "aborted"        => Ok(user_aborted(ivUrlApplication))
+        case "technical"      => Ok(technical_issue(ivUrlApplication))
+        case "2fa"            => Ok(failure_2fa(ivUrlApplication))
+        case _ => throw new RuntimeException("wrong url for test route")
+      }
   }
 
 }

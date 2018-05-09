@@ -24,7 +24,7 @@ GET         /estate-report/timeout                                   iht.control
 GET         /registration/identity-verification-problem              iht.controllers.IVUpliftFailureController.showNotAuthorisedRegistration(journeyId: Option[String])
 GET         /estate-report/identity-verification-problem             iht.controllers.IVUpliftFailureController.showNotAuthorisedApplication(journeyId: Option[String])
 
-GET         /registration/testing-iv                                 iht.controllers.IVUpliftFailureController.showTestPage
+GET         /registration/testing-iv/:page                           iht.controllers.IVUpliftFailureController.showTestPage(page)
 
 GET         /guidancepdf                                             iht.controllers.pdf.GuidancePDFController.loadPDF
 

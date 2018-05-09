@@ -2180,7 +2180,8 @@ page.iht.iv.failure.lockedOut.heading = You tried to confirm who you are too man
 page.iht.iv.failure.lockedOut.tryAgain = Try again in 24 hours by signing in to the service at <a id="signInLink" href="{0}">{0}</a> (save this link).
 
 page.iht.iv.failure.timeout.heading = For your security, we signed you out
-page.iht.iv.failure.timeout.p1 = We did not save your answers.
+page.iht.iv.failure.timeout.notSaved = We did not save your answers.
+page.iht.iv.failure.timeout.saved = We saved your answers.
 
 page.iht.iv.failure.incomplete.heading = Sorry, there was a problem with the service
 page.iht.iv.failure.incomplete.failureReason = We still need to confirm who you are.
