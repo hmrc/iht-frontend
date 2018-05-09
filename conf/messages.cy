@@ -1988,25 +1988,51 @@ page.iht.filter.jointlyowned.guidance = Gallai hyn fod yn berchen ar gartref gyd
 page.iht.filter.jointlyowned.yes = Oedd, roedd yn berchen ar rywbeth ar y cyd â rhywun arall
 page.iht.filter.jointlyowned.no = Nac oedd, nid oedd yn berchen ar rywbeth ar y cyd â rhywun arall
 
-page.iht.filter.useService.between325000And1Million.paragraph0 = Gan eich bod o''r farn bod gwerth yr ystâd, o bosibl, rhwng £325,000 ac £1 miliwn, dylech ystyried rhai pethau eraill cyn i chi ddechrau llenwi unrhyw fanylion.
-page.iht.filter.useService.between325000And1Million.title = Bydd angen i chi wirio p''un a allwch ddefnyddio''r gwasanaeth ar-lein.
-page.iht.filter.useService.between325000And1Million.section1.title = I bwy y gadawyd yr ystâd.
-page.iht.filter.useService.between325000And1Million.section1.p1 = Os gadawyd yr ystâd gyfan i briod, partner sifil, elusen neu gorff cymwys arall, megis clwb chwaraeon, gallwch ddefnyddio''r gwasanaeth ar-lein cyn belled â bod gwerth yr ystâd yn llai nag £1 miliwn.
-page.iht.filter.useService.between325000And1Million.section2.title = Os bu''r person a fu farw erioed yn briod neu mewn partneriaeth sifil, a bu farw''r priod neu''r partner sifil yn gyntaf.
-page.iht.filter.useService.between325000And1Million.section2.p1.start =	Os bu''r person a fu farw''n briod neu mewn partneriaeth sifil yn ystod ei oes a
-page.iht.filter.useService.between325000And1Million.section2.p1.link = a bu farw''r priod neu''r partner sifil yn gyntaf
-page.iht.filter.useService.between325000And1Million.section2.p1.end =  , gallwch ddefnyddio''r gwasanaeth ar-lein os:
-page.iht.filter.useService.between325000And1Million.section2.bullet1 = trosglwyddwyd ystâd gyfan y priod neu''r partner sifil i ystâd y person yr ydych nawr yn rhoi gwybod amdano
-page.iht.filter.useService.between325000And1Million.section2.bullet2 =	yw gwerth yr ystâd yn llai na £650,000
-page.iht.filter.useService.between325000And1Million.section2.p2 = Os yw gwerth yr ystâd yn fwy na £650,000 ac ni adawyd y cyfan i briod, partner sifil, elusen, neu gorff cymwys arall, dylech roi gwybod beth yw gwerth yr ystâd drwy ddefnyddio ffurflen bapur IHT400.
-page.iht.filter.useService.between325000And1Million.section3.title = Os ydych eisiau gwneud cais am unrhyw drothwy ychwanegol i''w ddefnyddio gyda''r gwasanaeth hwn
-page.iht.filter.useService.between325000And1Million.section3.p1.start = Os ydych eisoes yn gwybod beth yw gwerth yr ystâd ac am
-page.iht.filter.useService.between325000And1Million.section3.p1.link = wneud cais am drothwy''r Haen Cyfradd Sero ar gyfer Cartrefi ychwanegol
-page.iht.filter.useService.between325000And1Million.section3.p1.end =  , dylech roi gwybod beth yw gwerth yr ystâd drwy ddefnyddio ffurflen bapur IHT400.
+page.iht.filter.useService.between325000And1Million.paragraph0 = Os yw gwerth gros yr ystâd (h.y. y gwerth cyn i chi dynnu dyledion a morgeisi) rhwng £325,000 ac £1 miliwn, efallai y bydd angen i chi ddefnyddio
+page.iht.filter.useService.between325000And1Million.title = Efallai y bydd angen i chi ddefnyddio ffurflen wahanol
+page.iht.filter.useService.between325000And1Million.IHTFormlink = ffurflen IHT400
+page.iht.filter.useService.between325000And1Million.IHTFormlink1 = ffurflen IHT400.
+page.iht.filter.useService.between325000And1Million.section1.title = Os oes gan yr ystâd eithriadau
+page.iht.filter.useService.between325000And1Million.paragraph1  = i roi gwybod am werth yr ystâd.
+page.iht.filter.useService.between325000And1Million.paragraph2  = Mae dwy ffordd y gallwch barhau â'r gwasanaeth ar-lein hwn:
+page.iht.filter.useService.between325000And1Million.bullet1     = os oes gan yr ystâd eithriadau
+page.iht.filter.useService.between325000And1Million.bullet2     = os gallwch gynyddu'r trothwy
+
+page.iht.filter.useService.between325000And1Million.section1.p1 = Mae gan yr ystâd eithriadau pan fo unrhyw ran o'r ystâd wedi'i gadael i briod sy'n goroesi (drwy briodas neu bartneriaeth sifil), neu i elusen gofrestredig neu gorff cymwys arall megis clwb chwaraeon.
+page.iht.filter.useService.between325000And1Million.section1.p2 = Mae hyn yn golygu y bydd ond angen i chi ddangos i CThEM fod gwerth net yr ystâd yn is na'r trothwy. Caiff dyledion a morgeisi'r ystâd eu tynnu o werth yr ystâd cyn iddi gael ei gwirio yn erbyn y trothwy.
+page.iht.filter.useService.between325000And1Million.section1.p3 = Os digwydd bod treth i'w thalu, bydd angen i chi gyflwyno cyfrif llawn, sef
+page.iht.filter.useService.between325000And1Million.section1.p4 = Byddwch yn gallu cadw'r cyfrifiadau o'r gwasanaeth hwn i'ch helpu.
+
+
+page.iht.filter.useService.between325000And1Million.section2.title = Os gellir cynyddu trothwy'r Dreth Etifeddiant
+page.iht.filter.useService.between325000And1Million.section2.p1.start =	Os oedd y person a fu farw'n briod neu mewn partneriaeth sifil yn ystod ei oes a bu farw ei briod neu bartner sifil yn gyntaf, efallai y gallwch
+page.iht.filter.useService.between325000And1Million.section2.p1.link = drosglwyddo'i drothwy sylfaenol
+page.iht.filter.useService.between325000And1Million.section2.p1.end = o £325,000 a'i ychwanegu at y trothwy ar gyfer yr ystâd hon. Gallwch ddal i ddefnyddio'r gwasanaeth ar-lein os yw'r canlynol yn wir:
+page.iht.filter.useService.between325000And1Million.section2.bullet1 = trosglwyddodd ystâd gyfan y priod neu'r partner sifil i'r person rydych yn rhoi gwybod am ei ystâd nawr
+page.iht.filter.useService.between325000And1Million.section2.bullet2 = mae gwerth gros yr ystâd rydych yn rhoi gwybod amdani nawr yn llai na £650,000
+page.iht.filter.useService.between325000And1Million.section2.p2 = Os na chafodd yr ystâd gyfan ei throsglwyddo, er enghraifft os gadawodd y priod neu'r partner sifil gymynroddion eraill neu os gadawodd roddion gwerth dros £3,000 i bobl eraill o fewn y saith blynedd cyn iddo farw, yna efallai y gall yr ystâd ddal i fod yn gymwys i gael rhywfaint o'r trothwy wedi'i drosglwyddo, ond rhaid i chi ddefnyddio
+
+
+page.iht.filter.useService.between325000And1Million.section3.title = Trothwy ychwanegol ar gyfer preswylfan
+page.iht.filter.useService.between325000And1Million.section3.p1.start = Os yw'r ystâd dros y trothwy ac rydych yn mynd
+page.iht.filter.useService.between325000And1Million.section3.p1.link = i ddefnyddio trothwy ychwanegol (haen cyfradd sero ar gyfer cartrefi, RNRB)
+page.iht.filter.useService.between325000And1Million.section3.p1.end = i godi'r trothwy, mae angen i chi ddefnyddio
+page.iht.filter.useService.between325000And1Million.section3.p1.end2 = i roi gwybod am werth yr ystâd.
 page.iht.filter.useService.between325000And1Million.section3.p2 = Os ydych yn defnyddio''r gwasanaeth ar-lein i roi gwybod beth yw gwerth yr ystâd, bydd angen i chi gofrestru i''w ddefnyddio, ond cyn hynny, bydd angen i chi gadarnhau pwy ydych gyda CThEM.
-page.iht.filter.useService.between325000And1Million.report = Rhoi gwybod beth yw gwerth yr ystâd ar-lein
+page.iht.filter.useService.between325000And1Million.report = Yn eich blaen i'r gwasanaeth ar-lein
 page.iht.filter.useService.between325000And1Million.otherWaysToReport = Os oes angen i chi roi gwybod beth yw gwerth yr ystâd drwy ddefnyddio ffurflen bapur IHT400, gallwch
 page.iht.filter.useService.between325000And1Million.iht400link = ei lawrlwytho a''i hargraffu o GOV.UK
+
+
+page.iht.filter.useService.between325000And1Million.section4.p1 = Gofynnir i chi fewngofnodi i gadarnhau pwy ydych gyda CThEM.
+page.iht.filter.useService.between325000And1Million.section4.p2.start = Gallwch ddefnyddio
+page.iht.filter.useService.between325000And1Million.section4.p2.link = ffurflen bapur IHT205
+page.iht.filter.useService.between325000And1Million.section4.p2.end = os na allwch roi gwybod ar-lein am werth yr ystâd.
+page.iht.filter.useService.between325000And1Million.section4.p3 = Os na allwch lawrlwytho neu argraffu'r ffurflen, gallwch ffonio'r Ganolfan Cyswllt Cymraeg ar 0300 200 1900 i ofyn am un.
+
+
+
+
 
 page.iht.deadlines.title = Dyddiadau cau ar gyfer llenwi''r ffurflen IHT400
 page.iht.deadlines.p1 = Mae gennych 1 flwyddyn o ddyddiad y farwolaeth i lenwi''r ffurflen IHT400 os oes unrhyw Dreth Etifeddiant i''w chreu.

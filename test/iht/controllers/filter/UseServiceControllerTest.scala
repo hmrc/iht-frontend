@@ -25,11 +25,12 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.testhelpers.UseService
 
 /**
   * Created by adwelly on 25/10/2016.
   */
-class UseServiceControllerTest extends ApplicationControllerTest with HtmlSpec {
+class UseServiceControllerTest extends ApplicationControllerTest with HtmlSpec with UseService {
 
   override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val mockCachingConnector = mock[CachingConnector]
@@ -66,7 +67,8 @@ class UseServiceControllerTest extends ApplicationControllerTest with HtmlSpec {
 
       val doc = asDocument(contentAsString(result))
       val paragraph0 = doc.getElementById("paragraph0")
-      paragraph0.text() should be(messagesApi("page.iht.filter.useService.between325000And1Million.paragraph0"))
+      paragraph0.text() shouldBe pageIHTFilterUseServiceBetween325000And1MillionParagraph0
     }
+
   }
 }

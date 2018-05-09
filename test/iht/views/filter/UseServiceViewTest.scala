@@ -21,11 +21,12 @@ import iht.views.ViewTestHelper
 import iht.views.html.filter.use_service
 import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
+import iht.testhelpers.UseService
 
 /**
   * Created by adwelly on 25/10/2016.
   */
-class UseServiceViewTest extends ViewTestHelper {
+class UseServiceViewTest extends ViewTestHelper with UseService {
 
   val fakeRequest = createFakeRequest(isAuthorised = false)
 
@@ -81,11 +82,11 @@ class UseServiceViewTest extends ViewTestHelper {
       h2.text() should be(messagesApi("page.iht.filter.useService.under325000.otherWaysToReportValue"))
     }
 
-    "display content about other ways to report the value of the estate when value is between 325000 and 1 million" in {
+    "does not display content about other ways to report the value of the estate when value is between 325000 and 1 million" in {
       val result = use_service(between325000and1million, false, "")(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
-      val h2 = doc.getElementById("other-ways-to-report")
-      h2.text() should be(messagesApi("page.iht.filter.useService.under325000.otherWaysToReportValue"))
+      val h2 = doc.getElementById("other-ways-to-reportOver")
+      h2.text() shouldBe pageIHTFilterUseServiceBetween325000And1MillionSection4P1
     }
 
     "contain a link with the button class with the text 'Continue' for values under 325000" in {
@@ -101,13 +102,13 @@ class UseServiceViewTest extends ViewTestHelper {
       paragraph0.text() should be(messagesApi("page.iht.filter.useService.paragraphFinal"))
     }
 
-    "contain a link with the button class with the text 'Report the value of the estate online' " +
+    "contain a link with the button class with the text 'Continue to online service' " +
       "for values between 325000 and 1 million" in {
       val result = use_service(between325000and1million, false, "")(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 
-      button.text() should be(messagesApi("page.iht.filter.useService.between325000And1Million.report"))
+      button.text() shouldBe pageIHTFilterUseServiceBetween325000And1MillionReport
     }
 
     "contain a link to the TNRB and RNRB guidance, and IHT400, when value is between 325 and 1 million" in {
@@ -115,10 +116,10 @@ class UseServiceViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val tnrb = doc.getElementById("tnrb-link")
       val rnrb = doc.getElementById("rnrb-link")
-      val iht400 = doc.getElementById("400-link")
+      val iht400 = doc.getElementById("IHT400-form")
 
       tnrb.attr("href") should be("https://www.gov.uk/guidance/inheritance-tax-transfer-of-threshold")
-      rnrb.attr("href") should be("https://www.gov.uk/guidance/inheritance-tax-residence-nil-rate-band")
+      rnrb.attr("href") should be("https://www.gov.uk/guidance/check-if-you-can-get-an-additional-inheritance-tax-threshold")
       iht400.attr("href") should be("https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400")
     }
 
@@ -171,9 +172,8 @@ class UseServiceViewTest extends ViewTestHelper {
     "contain a row showing the user's answer to the previous estimate question when given the between parameter" in {
       val result = use_service(between325000and1million, false, "")(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
-      val row = doc.getElementById("estimate-row")
-      row.text() should include(messagesApi("iht.roughEstimateEstateWorth"))
-      row.text() should include(messagesApi("page.iht.filter.estimate.choice.between"))
+      val rows = doc.getElementsByAttributeValue("id","estimate-row")
+      rows.size() shouldEqual 0
     }
 
     "contain a 'Change' link to go back to the estimate page" in {
