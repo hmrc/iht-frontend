@@ -24,12 +24,13 @@ import play.api.i18n.Messages.Implicits._
 class UserAbortedViewTest extends GenericNonSubmittablePageBehaviour {
 
   def guidanceParagraphs = Set(
-    messagesApi("page.iht.iv.failure.userAborted.p1")
+    messagesApi("page.iht.iv.failure.userAborted.failureReason"),
+    messagesApi("page.iht.iv.failure.tryAgainOr")
   )
 
-  def pageTitle = messagesApi("page.iht.iv.failure.userAborted.title")
+  def pageTitle = messagesApi("page.iht.iv.failure.cannotConfirmIdentity")
 
-  def browserTitle = messagesApi("page.iht.iv.failure.userAborted.title")
+  def browserTitle = messagesApi("page.iht.iv.failure.cannotConfirmIdentity")
 
   def view: String = user_aborted(CommonBuilder.DefaultCall1.url)(createFakeRequest(),
                                                                   applicationMessages,

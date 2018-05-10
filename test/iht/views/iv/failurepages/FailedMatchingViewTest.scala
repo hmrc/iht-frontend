@@ -16,7 +16,7 @@
 
 package iht.views.iv.failurepages
 
-import iht.constants.IhtProperties
+import iht.testhelpers.CommonBuilder
 import iht.views.html.iv.failurepages.failed_matching
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
 import play.api.i18n.Messages.Implicits._
@@ -24,30 +24,24 @@ import play.api.i18n.Messages.Implicits._
 class FailedMatchingViewTest extends GenericNonSubmittablePageBehaviour {
 
   def guidanceParagraphs = Set(
-    messagesApi("page.iht.iv.failure.failedMatching.p1")
+    messagesApi("page.iht.iv.failure.failedMatching.failureReason"),
+    messagesApi("page.iht.iv.failure.tryAgainOr")
   )
 
-  def pageTitle = messagesApi("page.iht.iv.failure.failedMatching.title")
+  def pageTitle = messagesApi("page.iht.iv.failure.cannotConfirmIdentity")
 
-  def browserTitle = messagesApi("page.iht.iv.failure.failedMatching.title")
+  def browserTitle = messagesApi("page.iht.iv.failure.cannotConfirmIdentity")
 
-  def view: String = failed_matching()(createFakeRequest(), applicationMessages, formPartialRetriever).toString
+  def view: String = failed_matching(CommonBuilder.DefaultCall1.url)(createFakeRequest(), applicationMessages, formPartialRetriever).toString
 
   override def exitComponent = Some(
     ExitComponent(
-      iht.controllers.filter.routes.FilterController.onPageLoad(),
-      messagesApi("iht.iv.exit")
+      CommonBuilder.DefaultCall1,
+      messagesApi("iht.iv.tryAgain")
     )
   )
 
   "Failed Matching View" must {
     behave like nonSubmittablePage()
-
-    "show the contact hmrc link with the correct target and text" in {
-      implicit val request = createFakeRequest()
-      val cancelButton = doc.getElementById("contact-hmrc")
-      cancelButton.attr("href") shouldBe IhtProperties.linkContactHMRC
-      cancelButton.text() shouldBe messagesApi("iht.iv.contactHMRC")
-    }
   }
 }

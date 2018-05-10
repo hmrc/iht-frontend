@@ -24,30 +24,18 @@ import play.api.i18n.Messages.Implicits._
 class PreconditionFailedViewTest extends GenericNonSubmittablePageBehaviour {
 
   def guidanceParagraphs = Set(
-    messagesApi("page.iht.iv.failure.preconditionFailed.p1")
+    messagesApi("page.iht.iv.failure.preconditionFailed.failureReason")
   )
 
-  def pageTitle = messagesApi("page.iht.iv.failure.preconditionFailed.title")
+  def pageTitle = messagesApi("page.iht.iv.failure.preconditionFailed.heading")
 
-  def browserTitle = messagesApi("page.iht.iv.failure.preconditionFailed.title")
+  def browserTitle = messagesApi("page.iht.iv.failure.preconditionFailed.heading")
 
   def view: String = precondition_failed()(createFakeRequest(), applicationMessages, formPartialRetriever).toString
 
-  override def exitComponent = Some(
-    ExitComponent(
-      iht.controllers.filter.routes.FilterController.onPageLoad(),
-      messagesApi("iht.iv.exit")
-    )
-  )
+  override def exitComponent = None
 
   "Precondition Failed View" must {
     behave like nonSubmittablePage()
-
-    "show the contact hmrc link with the correct target and text" in {
-      implicit val request = createFakeRequest()
-      val cancelButton = doc.getElementById("contact-hmrc")
-      cancelButton.attr("href") shouldBe IhtProperties.linkContactHMRC
-      cancelButton.text() shouldBe messagesApi("page.iht.iv.failure.preconditionFailed.p1.link.text")
-    }
   }
 }

@@ -14,18 +14,21 @@
  * limitations under the License.
  *@
 
-@import iht.constants.IhtProperties
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.views.html.iht_main_template_application
+@import iht.constants.IhtProperties.linkIHT205PDF
 
-@()(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+@(tryAgainRoute: String)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
-@message={
-<p>@Messages("page.iht.iv.failure.failedMatching.p1")
-    <a id="contact-hmrc" href='@IhtProperties.linkContactHMRC'>@Messages("iht.iv.contactHMRC")</a>.
-</p>
+
+@defining(Messages("page.iht.iv.failure.cannotConfirmIdentity")) { pageTitle =>
+  @iht_main_template_application(title = pageTitle, browserTitle = Some(pageTitle)) {
+    <p data-journey="iv-failure:page-view:failed-matching">@Messages("page.iht.iv.failure.failedMatching.failureReason")</p>
+    <p>@Messages("page.iht.iv.failure.tryAgainOr")</p>
+    <ul class="list-bullet">
+      <li>@Html(Messages("page.iht.iv.failure.reportWithPaperForm", linkIHT205PDF))</li>
+      <li>@Messages("page.iht.iv.failure.askForHelp")</li>
+    </ul>
+    <a id="return-button" class="button" role="button" href="@tryAgainRoute">@Messages("iht.iv.tryAgain")</a>
+  }
 }
-
-@iv_failure_template(pageTitle = Messages("page.iht.iv.failure.failedMatching.title"),
-message=message,
-exitLinkHref=iht.controllers.filter.routes.FilterController.onPageLoad.url,
-exitLinkText=Messages("iht.iv.exit"))

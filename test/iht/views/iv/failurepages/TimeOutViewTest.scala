@@ -24,24 +24,31 @@ import play.api.i18n.Messages.Implicits._
 class TimeOutViewTest extends GenericNonSubmittablePageBehaviour {
 
   def guidanceParagraphs = Set(
-    messagesApi("page.iht.iv.failure.timeout.p1"),
-    messagesApi("page.iht.iv.failure.timeout.p2")
+    messagesApi("page.iht.iv.failure.timeout.notSaved")
   )
 
-  def pageTitle = messagesApi("page.iht.iv.failure.timeout.title")
+  def pageTitle = messagesApi("page.iht.iv.failure.timeout.heading")
 
-  def browserTitle = messagesApi("page.iht.iv.failure.timeout.title")
+  def browserTitle = messagesApi("page.iht.iv.failure.timeout.heading")
 
   def view: String = timeout(CommonBuilder.DefaultCall1.url)(createFakeRequest(), applicationMessages, formPartialRetriever).toString
 
   override def exitComponent = Some(
     ExitComponent(
       CommonBuilder.DefaultCall1,
-      messagesApi("iht.startAgain")
+      messagesApi("iht.iv.signIn")
     )
   )
 
   "Time Out View" must {
     behave like nonSubmittablePage()
+
+    "show the 'your answers have been saved' message" when {
+      "the user is completing their application" in {
+        val applicationView = timeout("/estate-report")(createFakeRequest(), applicationMessages, formPartialRetriever).toString
+        applicationView should include(messagesApi("page.iht.iv.failure.timeout.saved"))
+        applicationView should not include messagesApi("page.iht.iv.failure.timeout.notSaved")
+      }
+    }
   }
 }
