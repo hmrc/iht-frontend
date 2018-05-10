@@ -34,14 +34,19 @@ hasTimeOut=true) {
 
     @helpers.form(action = actionLocation,'autoComplete -> "off") {
 
-    @ihtHelpers.standard.input_yes_no_radio_group(
-      deceasedAddressQuestionForm("isAddressInUk"),
-      '_legend -> Messages("page.iht.registration.deceasedAddressQuestion.title", StringEscapeUtils.escapeHtml4(deceasedName)),
-      '_legendClass -> Some("legend-with-heading"),
-      '_fieldsetId -> "last-contact-address-in-uk",
-      '_divClass -> Some("form-group"),
-      '_legendIsHeading -> true,
-      '_extraText -> Html("<p class=\"lede\">" + Messages("page.iht.registration.deceasedAddressQuestion.p1", StringEscapeUtils.escapeHtml4(deceasedName)) + "</p><p class=\"lede\">" + Messages("page.iht.registration.deceasedAddressQuestion.p2") + "</p>")
+    @ihtHelpers.standard.input_radio_group(
+        deceasedAddressQuestionForm("isAddressInUk"),
+        Seq(
+            ("true", Messages("page.iht.registration.deceasedAddressAnswerInUk")),
+            ("false", Messages("page.iht.registration.deceasedAddressAnswerAbroad"))
+        ),
+        '_legend -> Messages("page.iht.registration.deceasedAddressQuestion.title", StringEscapeUtils.escapeHtml4(deceasedName)),
+        '_legendClass -> Some("legend-with-heading"),
+        '_labelClass -> "block-label",
+        '_fieldsetId -> "last-contact-address-in-uk",
+        '_divClass -> Some("form-group"),
+        '_legendIsHeading -> true,
+        '_extraText -> Html("<p class=\"lede\">" + Messages("page.iht.registration.deceasedAddressQuestion.p1", StringEscapeUtils.escapeHtml4(deceasedName)) + "</p><p class=\"lede\">" + Messages("page.iht.registration.deceasedAddressQuestion.p2") + "</p>")
     )
 
       <input id = 'continue-button' class='button' type='submit' value='@Messages("iht.continue")' />
