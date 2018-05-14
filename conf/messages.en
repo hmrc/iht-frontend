@@ -362,9 +362,11 @@ page.iht.registration.deceasedDetails.maritalStatus.civilPartner.label = Divorce
 page.iht.registration.deceasedDetails.maritalStatus.widowed.label = Widowed or a surviving civil partner
 
 #Registration - Decease Address Question Page
-page.iht.registration.deceasedAddressQuestion.title = Was {0}’s last contact address in the UK?
-page.iht.registration.deceasedAddressQuestion.p1 = This is the last address where {0} could have been contacted before they died.
-page.iht.registration.deceasedAddressQuestion.p2 = This address does not have to be the same as where they had their permanent home.
+page.iht.registration.deceasedAddressQuestion.title = Where was {0}’s last contact address?
+page.iht.registration.deceasedAddressQuestion.p1 = This is the last address where {0} had their mail sent.
+page.iht.registration.deceasedAddressQuestion.p2 = It does not have to be the same as where they had their permanent home.
+page.iht.registration.deceasedAddressAnswerInUk = In the UK
+page.iht.registration.deceasedAddressAnswerAbroad = Abroad
 iht.registration.deceased.lastContactAddress = {0}’s last contact address
 
 #Registration - Deceased address details

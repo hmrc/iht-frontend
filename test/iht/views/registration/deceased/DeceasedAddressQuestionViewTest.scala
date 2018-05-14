@@ -41,6 +41,19 @@ class DeceasedAddressQuestionViewTest extends YesNoQuestionViewBehaviour[Decease
     form => deceased_address_question(form, name, CommonBuilder.DefaultCall1)
 
   "Deceased Address Question View" must {
-    behave like yesNoQuestion
+    "show the correct guidance paragraphs" in {
+      for (paragraph <- guidanceParagraphs) messagesShouldBePresent(view, paragraph)
+    }
+
+    "show the correct answer text" in {
+      doc.getElementById("isAddressInUk-true-label").text shouldBe messagesApi("page.iht.registration.deceasedAddressAnswerInUk")
+      doc.getElementById("isAddressInUk-false-label").text shouldBe messagesApi("page.iht.registration.deceasedAddressAnswerAbroad")
+    }
+
+    "show the Continue button with the correct target" in {
+      val continueButton = doc.getElementById("continue-button")
+      continueButton.`val` shouldBe messagesApi("iht.continue")
+      doc.getElementsByTag("form").attr("action") shouldBe CommonBuilder.DefaultCall1.url
+    }
   }
 }
