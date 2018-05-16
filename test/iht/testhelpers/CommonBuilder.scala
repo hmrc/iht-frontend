@@ -86,6 +86,7 @@ object CommonBuilder {
   val DefaultCoExecutorRole = TestHelper.RoleExecutor
   val DefaultDomicile = TestHelper.DomicileEnglandOrWales
   val DefaultMaritalStatus = TestHelper.MaritalStatusMarried
+  val SingleMaritalStatus = TestHelper.MaritalStatusSingle
   val DefaultIHTReference = Some("ABC1234567890")
   val DefaultAcknowledgmentReference = StringHelper.generateAcknowledgeReference
   val DefaultIsAddressInUK = Some(true)
@@ -168,6 +169,19 @@ object CommonBuilder {
     domicile = Some(DefaultDomicile),
     maritalStatus = Some(DefaultMaritalStatus),
     isAddressInUK = DefaultIsAddressInUK)
+
+  // Creates the DeceasedDetails with single as marital status
+  val buildDeceasedDetailsSingle = DeceasedDetails(
+    firstName = Some(DefaultFirstName),
+    middleName = Some(DefaultMiddleName),
+    lastName = Some(DefaultLastName),
+    nino = Some(DefaultNino),
+    ukAddress = Some(DefaultUkAddress),
+    dateOfBirth = Some(DefaultDateOfBirth),
+    domicile = Some(DefaultDomicile),
+    maritalStatus = Some(SingleMaritalStatus),
+    isAddressInUK = DefaultIsAddressInUK)
+
 
   // Creates the CoExecutor with default values
   val buildCoExecutor = CoExecutor(
