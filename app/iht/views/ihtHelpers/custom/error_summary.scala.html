@@ -28,14 +28,14 @@
 *@
 
 @if(form.hasErrors) {
-<div id="errors" tabindex="-1" role="alert" class="validation-summary" aria-labelledby="errors-heading">
-    <h2 class="heading-small" id="errors-heading">@Messages("error.problem")</h2>
+<div id="errors" tabindex="-1" role="alert" class="error-summary error-summary--show" aria-labelledby="errors-heading">
+    <h2 class="heading-medium error-summary-heading" id="errors-heading">@Messages("error.problem")</h2>
     <p>@Messages("error.checkCorrect")</p>
-    <ul class="error-list">
+    <ul class="error-summary-list">
         @form.errors.map { error =>
         @defining(messages(s"${error.message}.summary", error.args : _*)) { errMsg =>
         @if(!errMsg.equals(".summary")) {
-                <li class="validation-message" id='@error.key.replaceAll("""[\.\[\]]""", "_")Error'>
+                <li id='@error.key.replaceAll("""[\.\[\]]""", "_")Error'>
                     <a href='#@error.key.replaceAll("""[\[\]]""", "_")-container'>
                         @overrideSummaryMessages(overrideKeys, error)
                     </a>

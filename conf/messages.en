@@ -2232,7 +2232,7 @@ error.postcode.invalid.character = This line contains an invalid character. Vali
 error.problem = There is a problem
 error.report.redo = Select the estate report through the Your Inheritance Tax estate reports page and send the details again.
 error.selectAnswer = Select an answer
-error.selectAnswer.summary = select an answer
+error.selectAnswer.summary = Select an answer
 error.signOutLater = Sign out and complete this service at another time.
 error.value.blank = A value should be entered
 
