@@ -88,8 +88,8 @@ object CommonHelper {
 
   def getEmptyStringOrElse[A](option: Option[A], noneValue: String): String = option.fold(noneValue)(_ => "")
 
-  def mapMaritalStatus(rd: RegistrationDetails, newValueMarried: String = "married", newValueNotMarried: String = "notMarried") =
-    if (getOrException(rd.deceasedDetails.map(_.maritalStatus)) == statusMarried) newValueMarried else newValueNotMarried
+  def mapMaritalStatus(rd: RegistrationDetails, newValueMarried: String = "married", newValueNotMarried: String = "notMarried"): String =
+    if (getOrException(rd.deceasedDetails.map(_.maritalStatus)).contains(statusMarried)) newValueMarried else newValueNotMarried
 
   def mapBigDecimalPair(first: Option[BigDecimal],
                         second: Option[BigDecimal],
@@ -97,7 +97,7 @@ object CommonHelper {
                         bothHaveValue: String,
                         firstHasValue: String,
                         secondHasValue: String
-                       ) = {
+                       ): String = {
     (first, second) match {
       case (None, None) => bothNone
       case (Some(_), Some(_)) => bothHaveValue
@@ -108,16 +108,16 @@ object CommonHelper {
 
   def getOrMinus1(value: Option[BigDecimal]): BigDecimal = value.fold(BigDecimal(-1))(identity)
 
-  def getEnglishOrWelsh(englishValue:String, welshValue: String, lang: Lang) =
+  def getEnglishOrWelsh(englishValue:String, welshValue: String, lang: Lang): String =
     if (lang.code == "en") {
       englishValue
     } else {
       welshValue
     }
 
-  def isSectionComplete[T](inputSection: Seq[Option[T]]) = inputSection.forall(_.isDefined)
+  def isSectionComplete[T](inputSection: Seq[Option[T]]): Boolean = inputSection.forall(_.isDefined)
 
-  def getMessageKeyValueOrBlank(key: String) = if (key.length == 0) key else Messages(key)
+  def getMessageKeyValueOrBlank(key: String): String = if (key.length == 0) key else Messages(key)
 
   def withValue[A, B](value: A)(func: A => B) = func(value)
 
@@ -208,7 +208,7 @@ object CommonHelper {
     }
   }
 
-  def addFragmentIdentifier(call: Call, identifier: Option[String] = None) = {
+  def addFragmentIdentifier(call: Call, identifier: Option[String] = None): Call = {
     identifier match {
       case None => call
       case Some(id) => Call(call.method, addFragmentIdentifierToUrl(call.url, id))

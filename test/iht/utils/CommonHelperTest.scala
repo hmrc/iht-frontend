@@ -17,7 +17,10 @@
 package iht.utils
 
 import iht.FakeIhtApp
+import iht.models.{DeceasedDetails, RegistrationDetails}
 import iht.models.application.ApplicationDetails
+import iht.testhelpers.CommonBuilder
+import iht.testhelpers.CommonBuilder._
 import org.scalatest.mock.MockitoSugar
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.test.FakeRequest
@@ -178,5 +181,34 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I
       CommonHelper.formatCurrencyForInput(number) shouldBe "thisIsNotANumber"
     }
   }
+
+    "" should {
+      val deceasedDetails = CommonBuilder.buildDeceasedDetails
+      val singleDeceasedDetails = CommonBuilder.buildDeceasedDetailsSingle
+      val applicantDetails = CommonBuilder.buildApplicantDetails
+
+      val buildDeceasedDetailsNone = DeceasedDetails(None)
+
+      "have no registration details" in {
+        val registrationDetails = RegistrationDetails(None, None, None)
+        the[RuntimeException] thrownBy CommonHelper.mapMaritalStatus(registrationDetails) should have message "No element found"
+      }
+
+      "have no marital status" in {
+        val registrationDetails = RegistrationDetails(None, Some(applicantDetails), Some(buildDeceasedDetailsNone))
+        CommonHelper.mapMaritalStatus(registrationDetails) shouldBe "notMarried"
+      }
+
+      "have married status" in {
+        val registrationDetails = RegistrationDetails(None, Some(applicantDetails), Some(deceasedDetails))
+        CommonHelper.mapMaritalStatus(registrationDetails) shouldBe "married"
+      }
+
+      "have not married status" in {
+        val registrationDetails = RegistrationDetails(None, Some(applicantDetails), Some(singleDeceasedDetails))
+        CommonHelper.mapMaritalStatus(registrationDetails) shouldBe "notMarried"
+      }
+
+    }
 
 }
