@@ -51,6 +51,10 @@
 </div>
 }
 
+@if(elements.hasErrors) {
+    <div class="form-group form-group-error">
+}
+
 @if(elements.args.get('_hintText).isDefined && !elements.args.contains('_slideOutText)) {
     <div class="form-hint@if(elements.args.get('_hintClass).isDefined) { @elements.args.get('_hintClass)}" @if(hintID>""){id="@hintID"}>
     @elements.args.get('_hintText)
@@ -67,12 +71,9 @@
     '_slideOutText -> elements.args.get('_slideOutText),
     '_needHighlight -> true)
 }
-@if(elements.hasErrors) {
-    <div class="form-field form-field--error">
-}
 
 @defining(elements.field.name){fieldName=>
-    @elements.errors.map{error => <span class="error-notification" data-journey="error - field:user-input:@fieldName">@Messages(error)</span>}
+    @elements.errors.map{error => <span class="error-message" data-journey="error - field:user-input:@fieldName">@Messages(error)</span>}
 }
 
 @import java.lang.String; val labelYes=Messages("iht.yes")

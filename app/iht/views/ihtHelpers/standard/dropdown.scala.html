@@ -28,17 +28,17 @@
 @labelAfter = @{ elements.args.get('_labelAfter).getOrElse(false).asInstanceOf[Boolean] }
 @labelHighlight = @{ elements.args.get('_labelHighlight).getOrElse(false).asInstanceOf[Boolean] }
 
-<div data-exclude="true" class="form-group @if(elements.hasErrors || (parentElements.isDefined && CommonHelper.getOrException(parentElements).hasErrors)) {form-field--error}">
+<div data-exclude="true" class="form-group @if(elements.hasErrors || (parentElements.isDefined && CommonHelper.getOrException(parentElements).hasErrors)) {form-group-error}">
 
 
     <label for="@if( elements.args.get('_id) ) {@elements.args.get('_id)} else {@elements.field.name.replaceAll("""[\.\[\]]""", "-")}" class="@elements.args.get('_divClass) @if( elements.args.get('_labelClass) ){ @elements.args.get('_labelClass) }" @if(elements.args.contains('_labelDataAttributes)){@elements.args.get('_labelDataAttributes)} id="@if( elements.args.get('_labelid) ) {@elements.args.get('_labelid)} else {@elements.field.name.replaceAll("""[\.\[\]]""", "-")_field}">
         @if(labelHighlight){<strong>}
-        @if(elements.args.contains('_label)) {<span class="form-label @if(elements.args.contains('_labelClass)){ @elements.args.get('_labelClass)}"> @elements.label </span>}
+        @if(elements.args.contains('_label)) {<span class="bold @if(elements.args.contains('_labelClass)){ @elements.args.get('_labelClass)}"> @elements.label </span>}
         @if(labelHighlight){</strong>}
     </label>
 
     @defining(elements.field.name){fieldName=>
-        @elements.errors.map{error => <span class="error-notification" data-journey="error - field:user-input:@fieldName">@Messages(error)</span>}
+        @elements.errors.map{error => <span class="error-message" data-journey="error - field:user-input:@fieldName">@Messages(error)</span>}
     }
     @if(parentElements.isDefined) {
     @CommonHelper.getOrException(parentElements).errors.map { error => <span class="error-notification">@messages(error)</span>}

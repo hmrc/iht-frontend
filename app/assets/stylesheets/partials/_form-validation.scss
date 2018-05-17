@@ -1,0 +1,110 @@
+// Form validation
+// ==========================================================================
+$error-colour: #b10e1e;
+$focus-colour: #ffbf47;
+
+$gutter: 30px;
+$gutter-one-sixth: $gutter / 6;
+$gutter-one-third: $gutter / 3;
+$gutter-half: $gutter / 2;
+$gutter-two-thirds: $gutter - $gutter-one-third;
+
+
+// Use .form-group-error to add a red border to the left of a .form-group
+.form-group-error {
+  margin-right: $gutter-half;
+  border-left: 4px solid $error-colour;
+  padding-left: $gutter-one-third;
+}
+
+@media (min-width: 641px) {
+  .form-group-error {
+    border-left: $gutter-one-sixth solid $error-colour;
+    padding-left: $gutter-half;
+  }
+}
+
+
+// Use .form-control-error to add a red border to .form-control
+.form-control-error {
+  border: 4px solid $error-colour;
+}
+
+
+// Error messages should be red and bold
+.error-message {
+  font-weight: 700;
+  font-size: 16px;
+  color: $error-colour;
+
+
+  display: block;
+  clear: both;
+
+  margin: 0;
+  padding: 2px 0;
+}
+
+@media (min-width: 641px) {
+  .error-message {
+    font-size: 19px;
+  }
+}
+
+.form-label .error-message,
+.form-label-bold .error-message {
+  padding-top: 4px;
+  padding-bottom: 0;
+}
+
+// Summary of multiple error messages
+.error-summary {
+
+  // Error summary has a border on all sides
+  border: 4px solid $error-colour;
+
+  margin-top: $gutter-half;
+  margin-bottom: $gutter-half;
+
+  padding: $gutter-half $gutter-one-third;
+
+  // Use the GOV.UK outline focus style
+  &:focus {
+    outline: 3px solid $focus-colour;
+  }
+
+  .error-summary-heading {
+    margin-top: 0;
+  }
+
+  p {
+    margin-bottom: $gutter-one-third;
+  }
+
+  .error-summary-list {
+    padding-left: 0;
+
+    @media (min-width: 641px) {
+      li {
+        margin-bottom: 5px;
+      }
+    }
+
+    a {
+      color: $error-colour;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+  }
+}
+
+@media (min-width: 641px) {
+  .error-summary {
+    border: $gutter-one-sixth solid $error-colour;
+
+    margin-top: $gutter;
+    margin-bottom: $gutter;
+
+    padding: $gutter-two-thirds $gutter-half $gutter-half;
+  }
+}
