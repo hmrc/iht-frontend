@@ -205,7 +205,35 @@ optionContentBelowTitle: Option[Html] = None
     }
 
     @progressive_disclosure(Messages("iht.needHelp"), Seq(Messages("iht.needHelp.guidance")))
+
+
+<script>
+function myFunction() {
+ if (document.getElementById("test").open) {
+    document.getElementById("test").open = false;
+ }
+ else {
+    document.getElementById("test").open = true;
+ }
 }
+</script>
+
+
+<details id="test" class="u-mt--3 u--no-print">
+    <summary><a class="report-error__toggle" href="@ApplicationConfig.reportAProblemNonJSUrl" onclick="myFunction()">Hope v11.3</a></summary>
+    <div class="panel-indent">
+        test message about some phone number
+        please call us on abcd12376238 .com if not use the form below
+
+        <div class="report-error">
+            <div id="report-error-partial-form" class="report-error__content">
+                <div class="report-error__loading"></div>
+            </div>
+        </div>
+    </div>
+</details>
+}
+
 
 
 @serviceInfo = {
