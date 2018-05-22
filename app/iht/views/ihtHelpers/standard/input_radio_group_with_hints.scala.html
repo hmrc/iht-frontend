@@ -59,58 +59,37 @@
 @radioOptions.map { case (value, (label, hint, aria)) =>
     @defining(s"${elements.field.name}-${value.toLowerCase.replace(" ","_")}")  { inputId =>
 
-            <label
-                   @if((elements.args.get('_ariaHintID)) && aria.contains(true)) {
-                        data-target="@elements.args.get('_ariaHintID)" } else {
-                        data-target=""
-                        }
-                   for="@inputId"
-                   id="@inputId-label"
-                   class="block-label--with-hint @elements.args.get('_labelClass).map{labelClass => @labelClass}">
-
-            @if(!labelAfter) {
-                <span id="@inputId-main" class="label__hint bold">
-                @if(elements.args.get('_stackedLabel)) {
-                    @if(label.split(" ").length < 2) {<br>@label
-                    } else {
-                        @for( (l, index) <- label.split(" ").zipWithIndex) {
-                            @if(index != 0) {<br>}@l
-                        }
-                    }
-                } else { @label }
-              </span>
-            }
-
-            @hint match {
-                case Some(hint) => {
-
-                    <span id="@inputId-hint" class="label__hint">@hint</span>
-
-                }
-                case None => {}
-            }
+        <div class="multiple-choice">
             <input
-                    type="radio"
-                    id="@inputId"
-                    name="@elements.field.name"
-                    value="@value"
-                    @elements.args.get('_inputClass).map{inputClass => class="@inputClass"}
-            @if(elements.args.contains('_dataAttributes) ){ @elements.args.get('_dataAttributes)}
-            @field.value.filter( _ == value).map{_ => checked="checked"}/>
+                type="radio"
+                id="@inputId"
+                name="@elements.field.name"
+                value="@value"
+                @elements.args.get('_inputClass).map{inputClass => class="@inputClass"}
+                @if(elements.args.contains('_dataAttributes) ){ @elements.args.get('_dataAttributes)}
+                @field.value.filter( _ == value).map{_ => checked="checked"}/>
 
-            @if(labelAfter) {
-            @if(elements.args.get('_stackedLabel)) {
-            @if(label.split(" ").length < 2) {<br>@label
-            } else {
-            @for( (l, index) <- label.split(" ").zipWithIndex) {
-            @if(index != 0) {<br>}@l
-            }
-            }
-            } else { @label }
-            }
+            <label
+                @if((elements.args.get('_ariaHintID)) && aria.contains(true)) {
+                    data-target="@elements.args.get('_ariaHintID)" } else {
+                    data-target=""
+                }
+                for="@inputId"
+                id="@inputId-label"
+                class="block-label--with-hint @elements.args.get('_labelClass).map{labelClass => @labelClass}">
 
+                <span id="@inputId-main" class="label__hint bold">
+                    @label
+                </span>
 
+                @hint match {
+                    case Some(hint) => {
+                        <span id="@inputId-hint" class="label__hint">@hint</span>
+                    }
+                    case None => {}
+                }
             </label>
+        </div>
 
     }
 }

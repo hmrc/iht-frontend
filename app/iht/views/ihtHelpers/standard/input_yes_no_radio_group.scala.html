@@ -31,9 +31,9 @@
 
 @if(elements.args.get('_legend).isDefined) {
     @if(elements.args.get('_fieldsetId).isDefined) {
-    <fieldset id="@elements.args.get('_fieldsetId)" @if(elements.args.get('_fieldsetAttributes).isDefined) {@elements.args.get('_fieldsetAttributes)}>
+    <fieldset id="@elements.args.get('_fieldsetId)" @if(elements.args.get('_fieldsetAttributes).isDefined) {@elements.args.get('_fieldsetAttributes)} class="inline">
     } else {
-    <fieldset @if(elements.args.get('_fieldsetAttributes).isDefined) {@elements.args.get('_fieldsetAttributes)}>
+    <fieldset @if(elements.args.get('_fieldsetAttributes).isDefined) {@elements.args.get('_fieldsetAttributes)} class="inline">
     }
 
     <legend id="yes-no-question-legend" class="@if(!labelAsHeading){bold-small }@elements.args.get('_legendClass)">
@@ -81,18 +81,11 @@
 
 @defining(s"${elements.field.name}-${valueYes}")  { inputId =>
 
-
-
-    <label for="yes"
-           id="yes-label"
-           class="block-label block-label--inline"
-        @if(elements.args.get('_labelAttributes).isDefined) {@elements.args.get('_labelAttributes)}
-        @if(elements.args.get('_shownElementYes).isDefined) {data-target= "@elements.args.get('_shownElementYes)"}
-        @if(elements.args.get('_hiddenElementYes).isDefined) {data-hide-target= "@elements.args.get('_hiddenElementYes)"}
-        @if(elements.args.get('_clearTargetYes).isDefined) {data-clear-target= "@elements.args.get('_clearTargetYes)"}>
-        @labelYes
-
-    <input
+    <div class="multiple-choice"
+            @if(elements.args.get('_shownElementYes).isDefined) {data-target= "@elements.args.get('_shownElementYes)"}
+            @if(elements.args.get('_hiddenElementYes).isDefined) {data-hide-target= "@elements.args.get('_hiddenElementYes)"}
+            @if(elements.args.get('_clearTargetYes).isDefined) {data-clear-target= "@elements.args.get('_clearTargetYes)"}>
+        <input
             type="radio"
             id="yes"
             name="@elements.field.name"
@@ -101,7 +94,14 @@
             @if(elements.args.contains('_dataAttributes) ){ @elements.args.get('_dataAttributes)}
             @if(elements.args.contains('_hintText)){aria-describedby="@hintID" }
             @field.value.filter( _ == valueYes).map{_ => checked="checked"} />
-    </label>
+        <label for="yes"
+            id="yes-label"
+            class="block-label block-label--inline"
+            @if(elements.args.get('_labelAttributes).isDefined) {@elements.args.get('_labelAttributes)}>
+            @labelYes
+        </label>
+    </div>
+
 }
 
 @import java.lang.String; val labelNo=Messages("iht.no")
@@ -109,28 +109,26 @@
 
 @defining(s"${elements.field.name}-${valueNo}")  { inputId =>
 
-
-
-    <label for="no"
-           id="no-label"
-           class="block-label block-label--inline"
-        @if(elements.args.get('_labelAttributes).isDefined) {@elements.args.get('_labelAttributes)}
-        @if(elements.args.get('_shownElementNo).isDefined) {data-target= "@elements.args.get('_shownElementNo)"}
-        @if(elements.args.get('_hiddenElementNo).isDefined) {data-hide-target= "@elements.args.get('_hiddenElementNo)"}
-        @if(elements.args.get('_clearTargetNo).isDefined) {data-clear-target= "@elements.args.get('_clearTargetNo)"}>
-        @labelNo
-    <input
+    <div class="multiple-choice"
+            @if(elements.args.get('_shownElementNo).isDefined) {data-target= "@elements.args.get('_shownElementNo)"}
+            @if(elements.args.get('_hiddenElementNo).isDefined) {data-hide-target= "@elements.args.get('_hiddenElementNo)"}
+            @if(elements.args.get('_clearTargetNo).isDefined) {data-clear-target= "@elements.args.get('_clearTargetNo)"}>
+        <input
             type="radio"
             id="no"
             name="@elements.field.name"
             value="@valueNo"
             @elements.args.get('_inputClass).map{inputClass => class="@inputClass"}
-    @if(elements.args.contains('_dataAttributes) ){ @elements.args.get('_dataAttributes)}
-        @if(elements.args.contains('_hintText)){aria-describedby="@hintID" }
-    @field.value.filter( _ == valueNo).map{_ => checked="checked"}/>
-    </label>
-
-
+            @if(elements.args.contains('_dataAttributes) ){ @elements.args.get('_dataAttributes)}
+            @if(elements.args.contains('_hintText)){aria-describedby="@hintID" }
+            @field.value.filter( _ == valueNo).map{_ => checked="checked"}/>
+        <label for="no"
+            id="no-label"
+            class="block-label block-label--inline"
+            @if(elements.args.get('_labelAttributes).isDefined) {@elements.args.get('_labelAttributes)}>
+            @labelNo
+        </label>
+    </div>
 
 }
 @if(elements.hasErrors) {
