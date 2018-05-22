@@ -347,3 +347,13 @@ function numberInputs() {
             e.preventDefault();
     });
 }
+
+//=======================================================================
+//GA for get help form submit button
+//=======================================================================
+
+$( document ).ajaxComplete(function() {
+    $( "#report-submit" ).on('click', function () {
+        ga('send', 'event','page', 'Click' , 'Get help with this page Submit');
+    });
+});
