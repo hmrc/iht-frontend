@@ -62,8 +62,8 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
     val labelText = messagesApi(labelTextMessagesKey)
     val label = doc.getElementById(labelID.fold(s"$radioID-label")(identity))
     label.text shouldBe labelText
-    val radio = label.children.first
-    radio.id shouldBe radioID
+    val radio = label.parent().select("input")
+    radio.attr("id") shouldBe radioID
   }
 
   def noMessageKeysShouldBePresent(content:String) = {
