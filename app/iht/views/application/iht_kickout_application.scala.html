@@ -35,7 +35,7 @@ deceasedName: String)(implicit request:Request[_], messages: Messages, ihtFormPa
 
 @iht_main_template_application(title = Messages("iht.notPossibleToUseService"),
     browserTitle = Some(Messages("iht.notPossibleToUseService"))) {
-    <div class="panel-indent">
+    <div class="panel panel-border-wide">
         @ApplicationKickOutSummaryHelper.summary.find( _._1 == kickoutReason).map{summary =>
             <p id="kickout-message">
                 @TnrbHelper.mutateContent(Messages(summary._2, summaryParameter1, deceasedName), messages.lang.code)

@@ -41,7 +41,7 @@
 @ihtHelpers.custom.error_summary(othersApplyingForProbateAddressForm)
 
 @helpers.form(action = actionCall,'autoComplete -> "off") {
-    <p class="lede" id="other-persons-address-guidance">@Messages("page.iht.registration.others-applying-for-probate-address.address.guidance")</p>
+    <p id="other-persons-address-guidance">@Messages("page.iht.registration.others-applying-for-probate-address.address.guidance")</p>
 
     <div id="ukAddress_ukAddressLine1-container" class="form-group">
       @ihtHelpers.standard.input_with_help(othersApplyingForProbateAddressForm("ukAddressLine1"),
@@ -88,7 +88,9 @@
         )
     </div>
 
-    <a href="@changeNationalityLocation" >@Messages("iht.registration.changeAddressToUK")</a>
+    <div class="form-group">
+      <a href="@changeNationalityLocation" >@Messages("iht.registration.changeAddressToUK")</a>
+    </div>
     } else {
       <div id="ukAddress_postCode-container" class="form-group">
           @ihtHelpers.standard.input_with_help(othersApplyingForProbateAddressForm("postCode"),
@@ -98,7 +100,10 @@
             '_labelTextClass -> "bold",
           '_label -> Html(Messages("iht.postcode")))
       </div>
-      <a href="@changeNationalityLocation">@Messages("iht.registration.changeAddressToAbroad")</a>
+
+      <div class="form-group">
+        <a href="@changeNationalityLocation">@Messages("iht.registration.changeAddressToAbroad")</a>
+      </div>
     }
 
     @ihtHelpers.custom.continue_button()

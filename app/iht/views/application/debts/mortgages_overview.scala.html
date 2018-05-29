@@ -40,19 +40,19 @@ onCancelMessageKey: String)(implicit request:Request[_], messages: Messages, iht
 @iht_main_template_application(title = Messages("iht.estateReport.debts.mortgages"),
 browserTitle = Some(Messages("iht.estateReport.debts.mortgages")),
 isFullWidth= false) {
-    <p class="lede">@Messages("page.iht.application.debts.mortgages.description.p1")</p>
+    <p>@Messages("page.iht.application.debts.mortgages.description.p1")</p>
     <p>@Html(Messages("page.iht.application.debts.mortgages.description", deceasedName))</p>
     <p>@Html(Messages("page.iht.application.debts.mortgages.description.p3", deceasedName))</p>
 
     @if(propertyList.isEmpty){
-        <div class="panel-indent panel-indent--gutter">
+        <div class="panel panel-border-wide">
           <p><strong>@Messages("page.iht.application.debts.mortgages.noProperties.description")</strong></p>
           <p>@Messages("page.iht.application.debts.mortgages.noProperties.warning.text")</p>
         </div>
     }else{
 
 
-        <section id="property-table" class="section">
+        <section id="property-table" class="form-group">
             <h2 class="visually-hidden" id="properties-header">@Messages("page.iht.application.assets.deceased-permanent-home.table.header")</h2>
             <ul id="properties" class="tabular-data tabular-data--list">
             @for((element,i) <- propertyList.zipWithIndex){

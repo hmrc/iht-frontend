@@ -66,14 +66,14 @@ title = (Messages("page.iht.application.giftsDetails.subtitle",startDateFormatte
     '_ariaControls -> "value-of-gifts-added",
     '_inputClass -> "form-control")
 
-    <div id="value-of-gifts-added" role="region" aria-live="polite" class="js-combined-value bold" data-combine-add="value" data-combine-subtract="exemptions" data-combine-copy='@Messages("page.iht.application.giftsDetails.amountAdded")'></div>
+    <div id="value-of-gifts-added" role="region" aria-live="polite" class="js-combined-value bold form-group" data-combine-add="value" data-combine-subtract="exemptions" data-combine-copy='@Messages("page.iht.application.giftsDetails.amountAdded")'></div>
 
 
 <input type="hidden" name="yearId" value='@previousYearGiftsForm("yearId").value'>
 <input type="hidden" name="startDate" value='@previousYearGiftsForm("startDate").value'>
 <input type="hidden" name="endDate" value='@previousYearGiftsForm("endDate").value'>
 
-<div id="savePropertyButton" class="form-field form-field--submit">
+<div id="savePropertyButton" class="form-group">
     <button class="button" id="save-continue">@Messages("iht.saveAndContinue")</button>
 </div>
 

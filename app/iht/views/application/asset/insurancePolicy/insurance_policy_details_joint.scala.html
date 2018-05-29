@@ -39,12 +39,14 @@ registrationDetails: RegistrationDetails
 
     @helpers.form(action = iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsJointController.onSubmit,'autoComplete -> "off") {
 
-          <p class="lede" id="insurance-policy-description">
-              @Html(Messages("page.iht.application.insurance.policies.section2.guidance",deceasedName,deceasedName))
-          </p>
+         <div class="form-group">
+            <p id="insurance-policy-description">
+                @Html(Messages("page.iht.application.insurance.policies.section2.guidance",deceasedName,deceasedName))
+            </p>
+        </div>
 
          @defining( Messages("page.iht.application.assets.insurances.sectionName")) { sectionName =>
-            <div data-exclude="true">
+            <div data-exclude="true" class="form-group">
                 @ihtHelpers.standard.input_yes_no_radio_group(
                     insurancePolicyForm("isJointlyOwned"),
                     '_legend -> Html(Messages("iht.estateReport.insurancePolicies.jointlyHeld.question", deceasedName)),
@@ -52,17 +54,15 @@ registrationDetails: RegistrationDetails
                     '_shownElementYes -> Some("deceaseds-policy"),
                     '_hiddenElementYes -> None,
                     '_hiddenElementNo -> Some("deceaseds-policy"),
-                    '_divClass -> Some(sectionName+"4-change form-group indeceasedsname"),
                     '_clearTargetNo -> Some("shareValue"),
                     '_mainQuestion -> true)
 
-                <div class="js-hidden panel-indent panel-indent--gutter" id="deceaseds-policy">
+                <div class="js-hidden panel panel-border-narrow" id="deceaseds-policy">
                     @ihtHelpers.custom.input_estate_value(insurancePolicyForm("shareValue"),
                     '_label -> Messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare", deceasedName),
                     '_hintText -> Html(Messages("page.iht.application.insurance.policies.section2.guidance2", deceasedName)),
                     '_sectionName -> (sectionName + "1"),
                     '_currency -> "GBP",
-                    '_divClass -> "form-group",
                     '_labelTextClass -> "form-label bold",
                     '_inputClass -> "form-control form-control-1-3 js-valInput")
                 </div>
@@ -70,7 +70,7 @@ registrationDetails: RegistrationDetails
 
             }
 
-    <div id="action-button" class="form-field form-field--submit">
+    <div id="action-button" class="form-group">
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
 

@@ -30,16 +30,18 @@ browserTitle = Some(Messages("page.iht.application.exemptions.qualifyingBodyDele
 isFullWidth=false){
 @helpers.form(action = submitUrl, 'autoComplete -> "off") {
 <div>
-    <p id="qualifying-body-name" class="panel-indent">
-        <strong>
-            @defining(qualifyingBody.name)  { qualifyingBodyName =>
-                @qualifyingBodyName match{
-                    case Some(x) => {@ihtHelpers.custom.name(qualifyingBodyName.getOrElse(""))}
-                    case None => {@Messages("iht.estateReport.exemptions.charities.noNameAdded")}
+    <div id="qualifying-body-name" class="panel panel-border-wide">
+        <p>
+            <strong>
+                @defining(qualifyingBody.name)  { qualifyingBodyName =>
+                    @qualifyingBodyName match{
+                        case Some(x) => {@ihtHelpers.custom.name(qualifyingBodyName.getOrElse(""))}
+                        case None => {@Messages("iht.estateReport.exemptions.charities.noNameAdded")}
+                    }
                 }
-            }
-        </strong>
-    </p>
+            </strong>
+        </p>
+    </div>
     <p id="action-button"><button class="button" id="confirm-delete" name="action" value="save">@Messages("site.button.confirmDelete")</button></p>
     @ihtHelpers.custom.return_link(
         Messages("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies"),

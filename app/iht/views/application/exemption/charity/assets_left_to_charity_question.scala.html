@@ -35,8 +35,10 @@ cancelLabel = Some(Messages("page.iht.application.return.to.exemptionsOf", ihtHe
     @ihtHelpers.custom.error_summary(assetsLeftToCharityQuestionForm)
     @helpers.form(action = iht.controllers.application.exemptions.charity.routes.AssetsLeftToCharityQuestionController.onSubmit,'autoComplete -> "off") {
 
-        <p class="lede">@Messages("page.iht.application.exemptions.assetLeftToCharity.p1")</p>
-        <p>@Messages("page.iht.application.exemptions.assetLeftToCharity.p2")</p>
+        <div class="form-group">
+          <p>@Messages("page.iht.application.exemptions.assetLeftToCharity.p1")</p>
+          <p>@Messages("page.iht.application.exemptions.assetLeftToCharity.p2")</p>
+        </div>
 
 
             @ihtHelpers.standard.input_yes_no_radio_group(
@@ -45,7 +47,7 @@ cancelLabel = Some(Messages("page.iht.application.return.to.exemptionsOf", ihtHe
                                       getDeceasedNameOrDefaultString(registrationDetails, true)),
             '_divClass -> Some("-change form-group"))
 
-         <div id="action-button" class="form-field form-field--submit">
+         <div id="action-button" class="form-group">
              <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
 

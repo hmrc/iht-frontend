@@ -47,13 +47,13 @@ isFullWidth=false
 ) {
 
 <div id='trusts-description' >
-    <p class="lede">@Html(Messages("iht.estateReport.assets.trusts.benefittedFromHeldInTrust",deceasedName))</p>
+    <p>@Html(Messages("iht.estateReport.assets.trusts.benefittedFromHeldInTrust",deceasedName))</p>
     <p>@Html(Messages("iht.estateReport.assets.trusts.needInclusion",deceasedName))</p>
     <p>@Html(Messages("iht.estateReport.assets.heldInTrust.needInclusion",deceasedName))</p>
 </div>
 
 
-    <section id="trusts-section" class="section">
+    <section id="trusts-section" class="form-group">
         <ul>
             @{
                 generic_overview_table_item(id = AssetsTrustsBenefitedID,

@@ -46,7 +46,7 @@ isFullWidth=false
 ) {
 
 <div id="property-description">
-    <p class="lede">@Messages("page.iht.application.assets.household.overview.guidance")</p>
+    <p>@Messages("page.iht.application.assets.household.overview.guidance")</p>
 </div>
 
         @{
@@ -120,13 +120,11 @@ isFullWidth=false
                     )
         }
 
-    <div class="form-field form-field--submit">
-        @registrationDetails.deceasedDetails.map{ dd=>
-             @ihtHelpers.custom.return_link(
-                Messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(dd.name)),
-                Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
-                AppSectionHouseholdID
-            )
-        }
-     </div>
+    @registrationDetails.deceasedDetails.map{ dd=>
+         @ihtHelpers.custom.return_link(
+            Messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(dd.name)),
+            Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
+            AppSectionHouseholdID
+        )
+    }
 }

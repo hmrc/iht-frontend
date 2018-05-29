@@ -39,7 +39,9 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
 
     @helpers.form(action = iht.controllers.application.assets.money.routes.MoneyDeceasedOwnController.onSubmit(),'autoComplete -> "off") {
 
-    <p>@Html(Messages("page.iht.application.assets.money.deceased.guidance", ihtHelpers.custom.name(deceasedName)))</p>
+    <div class="form-group">
+      <p>@Html(Messages("page.iht.application.assets.money.deceased.guidance", ihtHelpers.custom.name(deceasedName)))</p>
+    </div>
 
     @ihtHelpers.custom.generic_estate_element_assets(
       assetType = Constants.AssetTypeSingle,
@@ -49,7 +51,7 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
       clearTargetInput = Some("value")
     )
 
-    <div id="action-button" class="form-field form-field--submit">
+    <div id="action-button" class="form-group">
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
 }

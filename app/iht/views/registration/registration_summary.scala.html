@@ -37,9 +37,9 @@ role:String)(implicit request : Request[_], messages: Messages, lang : play.api.
                    isFullWidth=false,
                    hasTimeOut=true) {
 
-    <p class="lede">@Messages("page.iht.registration.registrationSummary.subTitle")</p>
+    <p>@Messages("page.iht.registration.registrationSummary.subTitle")</p>
 
-    <section class="section">
+    <section class="form-group">
         <h2>@Html(Messages("site.nameDetails", ihtHelpers.custom.name(deceasedName).toString))</h2>
         <ul class="tabular-data tabular-data--list">
             @defining(CommonHelper.getOrException(registrationDetails.deceasedDetails, "Deceased Details could not be found")) { deceasedDetails=>
@@ -116,7 +116,7 @@ role:String)(implicit request : Request[_], messages: Messages, lang : play.api.
       </section>
 
 
-      <section class="section">
+      <section class="form-group">
         <h2>@Messages("page.iht.registration.registrationSummary.applicantTable.title")</h2>
         <ul class="tabular-data tabular-data--list">
             @defining( CommonHelper.getOrException(registrationDetails.applicantDetails, "Applicant Details could not be found") ) { applicantDetails=>
@@ -185,7 +185,7 @@ role:String)(implicit request : Request[_], messages: Messages, lang : play.api.
             @registration_summary_coexecutor_panel(registrationDetails.coExecutors)
         }
 
-    <div class="form-field form-field--submit">
+    <div class="form-group">
         @helpers.form(action = iht.controllers.registration.routes.RegistrationSummaryController.onSubmit) {
         <input class='button' type='submit' value='@Messages("page.iht.registration.registrationSummary.button")' />
         }

@@ -29,12 +29,14 @@
     hasSignOut = false,
     hasTimeOut = false) {
 
-    <p id="paragraph0">@Messages("page.iht.filter.paperform.million.p1") <a href="@linkEstateReportKickOut" id="form-link">@Messages("page.iht.filter.paperform.iht400.link.text")</a>.</p>
-    <p id="paragraph1">@Messages("page.iht.filter.paperform.million.p2")</p>
+    <div class="form-group">
+        <p id="paragraph0">@Messages("page.iht.filter.paperform.million.p1") <a href="@linkEstateReportKickOut" id="form-link">@Messages("page.iht.filter.paperform.iht400.link.text")</a>.</p>
+        <p id="paragraph1">@Messages("page.iht.filter.paperform.million.p2")</p>
+    </div>
 
-    <p>
+    <div class="form-group">
         <a id="continue" href="@iht.controllers.routes.DeadlinesController.onPageLoadRegistration" class="button">@Messages("iht.continue")</a>
-    </p>
+    </div>
 
     @previous_answers(Messages("iht.countries.englandOrWales"), Some(jointAssets), Some(moreThan1million))
 

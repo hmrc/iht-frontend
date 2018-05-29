@@ -29,7 +29,7 @@
 browserTitle = Some(Messages("page.iht.application.exemptions.charityDelete.browserTitle")),
 isFullWidth=false){
 @helpers.form(action = submitUrl, 'autoComplete -> "off") {
-<div class="panel-indent">
+<div class="panel panel-border-narrow">
     <p id="charity-name">
         <strong>
             @defining(charity.name)  { charityName =>
@@ -41,7 +41,7 @@ isFullWidth=false){
         </strong>
     </p>
 </div>
-    <div id="action-button" class="form-field form-field--submit">
+    <div id="action-button" class="form-group">
         <button class="button" id="confirm-delete" name="action" value="save">@Messages("site.button.confirmDelete")</button>
     </div>
 

@@ -33,11 +33,11 @@ browserTitle = Some(Messages("iht.estateReport.declaration.title")) ) {
         @defining(DeceasedInfoHelper.getDeceasedNameOrDefaultString(model.registrationDetails)) { deceasedName =>
 
         @model.riskMessageFromEdh.map{ riskMessage =>
-                <div class="alert">
+                <div class="panel panel-border-wide">
                     @if(MessagesHelper.englishMessages("iht.application.declaration.risking.money.message", messages) == model.riskMessageFromEdh){
-                        @messages("iht.application.declaration.risking.money.message.amended", deceasedName)
+                        <p>@messages("iht.application.declaration.risking.money.message.amended", deceasedName)</p>
                     } else {
-                        @riskMessage
+                        <p>@riskMessage</p>
                     }
                 </div>
         }
@@ -49,7 +49,7 @@ browserTitle = Some(Messages("iht.estateReport.declaration.title")) ) {
 
             <section class="form-group">
                 <h2 class="heading-medium">@Messages("iht.estateReport.declaration.executors")</h2>
-                <div class="panel-indent">
+                <div class="panel panel-border-wide">
                     <ul>
                         @for(executor <- model.executors) {
                         <li>@executor.firstName&nbsp;@executor.lastName</li>
@@ -118,7 +118,7 @@ browserTitle = Some(Messages("iht.estateReport.declaration.title")) ) {
             </div>
         </div>
 
-        <div id="continue-button" role="region" aria-live="polite" class="form-field form-field--submit">
+        <div id="continue-button" role="region" aria-live="polite" class="form-group">
             <input class='button @if(model.isMultipleExecutor){ toDisableButton}' type='submit' value='@Messages("site.button.declare")'>
         </div>
         <a id="return-to-overview" href='@iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(

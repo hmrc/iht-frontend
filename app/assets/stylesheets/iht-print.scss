@@ -1,13 +1,3 @@
-// Hide unwanted links in page
-.u--no-print {
-    display: none;
-}
-
-// Hide get help link
-.report-error__toggle {
-    display: none;
-}
-
 // Service Name
 .header__menu__proposition-name {
     color: #000;
@@ -76,4 +66,11 @@ details .panel-indent {
 details .arrow,
 details summary::-webkit-details-marker {
     display: none!important;
+}
+
+// Hide elements that are unnecessary for print
+.contact-details-help,
+.u--no-print,
+.report-error__toggle {
+    display: none;
 }

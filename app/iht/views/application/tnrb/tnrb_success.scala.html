@@ -29,17 +29,20 @@ title = Messages("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.tit
 browserTitle = Some(Messages("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.browserTitle"))
 ){
 
-<div class="panel-indent">
+<div class="panel panel-border-wide">
     <p id="increased-tnrb-threshold-paragraph1">@Html(Messages("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph1", ihtHelpers.custom.name(deceasedName), ihtHelpers.custom.name(preDeceasedName)))</p>
 </div>
 
-<p id="increased-tnrb-threshold-paragraph2">@Messages("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph2")</p>
+<div class="form-group">
+	<p id="increased-tnrb-threshold-paragraph2">@Messages("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph2")</p>
+</div>
 
-<div id="action-button" class="form-field form-field--submit">
+<div id="action-button" class="form-group">
     <a id="continue-to-estate-overview" class='button' href="@iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference)">
         @Messages("iht.estateReport.returnToEstateOverview")
     </a>
 </div>
+
 @ihtHelpers.custom.return_link(Messages("page.iht.application.tnrbEligibilty.returnToTnrbEligibilty"), Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()))
 
 }

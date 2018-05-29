@@ -37,13 +37,14 @@ isFullWidth=false, highlightBoxClass = Some("govuk-box-highlight")
     data-ga-event-label='@Messages("page.iht.application.declaration_received.pdf.link")'
     href="@iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF()">@Messages("page.iht.application.declaration_received.pdf.link")</a></p>
 
-    <div class="panel-indent">
+    <div class="panel panel-border-wide">
         <p>@Messages("page.iht.application.declaration_received.guidance.indent")</p>
     </div>
 
-    <h2>@Messages("iht.nextSteps")</h2>
-
-    <p>@Messages("page.iht.application.declaration_received.guidance.probate")</p>
+    <div class="form-group">
+        <h2>@Messages("iht.nextSteps")</h2>
+        <p>@Messages("page.iht.application.declaration_received.guidance.probate")</p>
+    </div>
 
     <a id="continue-to-probate-page" class="button" href="@iht.controllers.application.declaration.routes.ProbateApplicationFormDetailsController.onPageLoad">
         @Messages("page.iht.application.declaration_received.continue")

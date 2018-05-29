@@ -39,9 +39,11 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
 
     @helpers.form(action = iht.controllers.application.assets.routes.MoneyOwedController.onSubmit, 'autoComplete -> "off") {
 
-        <p class="lede">@Html(Messages("page.iht.application.assets.moneyOwed.description.p1",deceasedNameWrap))</p>
-        <p>@Html(Messages("page.iht.application.assets.moneyOwed.description.p2",deceasedNameWrap))</p>
-        <p>@Html(Messages("page.iht.application.assets.moneyOwed.description.p3",deceasedNameWrap))</p>
+        <div class="form-group">
+            <p>@Html(Messages("page.iht.application.assets.moneyOwed.description.p1",deceasedNameWrap))</p>
+            <p>@Html(Messages("page.iht.application.assets.moneyOwed.description.p2",deceasedNameWrap))</p>
+            <p>@Html(Messages("page.iht.application.assets.moneyOwed.description.p3",deceasedNameWrap))</p>
+        </div>
 
 
         @ihtHelpers.custom.generic_estate_element_assets(
@@ -52,14 +54,14 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
             clearTargetInput = Some("value")
         )
 
-        <div id="action-button" class="form-field form-field--submit">
+        <div id="action-button" class="form-group">
             <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
 
-            @ihtHelpers.custom.return_link(
-                Messages("page.iht.application.return.to.assetsOf", deceasedNameWrap),
-                Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
-                AppSectionMoneyOwedID
-            )
+        @ihtHelpers.custom.return_link(
+            Messages("page.iht.application.return.to.assetsOf", deceasedNameWrap),
+            Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
+            AppSectionMoneyOwedID
+        )
     }
 }

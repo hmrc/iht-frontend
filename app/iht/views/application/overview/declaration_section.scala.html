@@ -26,7 +26,7 @@
 <div id="declaration-section">
     @model.declarationSectionStatus match{
     case InComplete => {
-      <div class="panel-indent panel-indent--gutter">
+      <div class="panel panel-border-wide">
         <p id="all-sections-not-complete-declaration-guidance-text1">
           <strong>@Messages("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text1")</strong>
         </p>
@@ -36,22 +36,22 @@
       </div>
                         }
     case NotDeclarable => {
-      <div class="panel-indent panel-indent--gutter">
+      <div class="panel panel-border-wide">
         <p id="not-declarable-guidance">
             @Messages("page.iht.application.estateOverview.declaration.continue.guidance.text")
         </p>
       </div>
-      <div class="form-field form-field--submit">
+      <div class="form-group">
         <a id="continue" class="button" href="@routes.EstateOverviewController.onContinueOrDeclarationRedirect(model.ihtReference)">@Messages("iht.continue")</a>
       </div>
     }
     case Declarable => {
-      <div class="panel-indent panel-indent--gutter">
+      <div class="panel panel-border-wide">
         <p id="declarable-guidance">
             @Messages("page.iht.application.estateOverview.declaration.allSectionsComplete.guidance.text")
         </p>
       </div>
-      <div class="form-field form-field--submit">
+      <div class="form-group">
         <a id="continue-to-declaration" class="button"  href="@routes.EstateOverviewController.onContinueOrDeclarationRedirect(model.ihtReference)">@Messages("iht.continue")</a>
       </div>
     }

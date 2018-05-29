@@ -35,7 +35,7 @@ returnHash: String = "",
 messagesFileBullets:Seq[String] = Seq.empty
 )(implicit request:Request[_], messages: Messages)
 
-<p id="assets-guidance1" class="lede">@Html(Messages(messagesFileSectionLine1))</p>
+<p id="assets-guidance1">@Html(Messages(messagesFileSectionLine1))</p>
 @if(!messagesFileBullets.isEmpty) {
     <ul class="bullets">
     @messagesFileBullets.map{ bullet =>
@@ -47,7 +47,7 @@ messagesFileBullets:Seq[String] = Seq.empty
 <p id="assets-guidance2">@Html(Messages(messagesFileSectionLine2))</p>
 }
 @seqRows.map{section=>
-<section id="@section.id">
+<section id="@section.id" class="form-group">
     @section.title.map{ sectionTitle =>
     <div class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
         <div class="tabular-data__data tabular-data__data--7-12">
@@ -103,12 +103,11 @@ messagesFileBullets:Seq[String] = Seq.empty
   </ul>
 </section>
 }
-<div class="form-field form-field--submit">
-  @registrationDetails.deceasedDetails.map{ dd=>
-    @if(returnAsButton){
-      @ihtHelpers.custom.return_link_button(Some(Messages(returnToMessagesKey, dd.name)), returnToCall)
-    } else {
-        @ihtHelpers.custom.return_link(Messages(returnToMessagesKey, ihtHelpers.custom.name(dd.name)), returnToCall, returnHash)
-    }
+
+@registrationDetails.deceasedDetails.map{ dd=>
+  @if(returnAsButton){
+    @ihtHelpers.custom.return_link_button(Some(Messages(returnToMessagesKey, dd.name)), returnToCall)
+  } else {
+      @ihtHelpers.custom.return_link(Messages(returnToMessagesKey, ihtHelpers.custom.name(dd.name)), returnToCall, returnHash)
   }
-</div>
+}

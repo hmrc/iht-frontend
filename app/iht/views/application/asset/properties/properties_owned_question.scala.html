@@ -36,19 +36,23 @@ isFullWidth=false){
     @ihtHelpers.custom.error_summary(propertiesForm)
     @helpers.form(action = iht.controllers.application.assets.properties.routes.PropertiesOwnedQuestionController.onSubmit,'autoComplete -> "off") {
 
-        <p class="lede" id="properties-question-description">@Html(Messages("page.iht.application.assets.properties.question.p1", deceasedName))</p>
-
-        @ihtHelpers.standard.input_yes_no_radio_group(
-        propertiesForm("isOwned"),
-        '_legend -> Html(Messages("page.iht.application.assets.properties.question.question", deceasedName)),
-        '_shownElementNo -> Some("mortgage-guidance-panel"),
-        '_hiddenElementYes -> Some("mortgage-guidance-panel"))
-        <div id="mortgage-guidance-panel" class="panel-indent js-hidden">
-            <p>
-                @Messages("page.iht.application.assets.property.question.mortgage.text", deceasedName)
-            </p>
+        <div class="form-group">
+            <p id="properties-question-description">@Html(Messages("page.iht.application.assets.properties.question.p1", deceasedName))</p>
         </div>
-        <div id="action-button" class="form-field form-field--submit">
+
+        <div class="form-group">
+            @ihtHelpers.standard.input_yes_no_radio_group(
+            propertiesForm("isOwned"),
+            '_legend -> Html(Messages("page.iht.application.assets.properties.question.question", deceasedName)),
+            '_shownElementNo -> Some("mortgage-guidance-panel"),
+            '_hiddenElementYes -> Some("mortgage-guidance-panel"))
+            <div id="mortgage-guidance-panel" class="panel panel-border-narrow js-hidden">
+                <p>
+                    @Messages("page.iht.application.assets.property.question.mortgage.text", deceasedName)
+                </p>
+            </div>
+        </div>
+        <div id="action-button" class="form-group">
           <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
 

@@ -38,8 +38,8 @@
 
 
 
-    <div id='money-jointly-owned-description'>
-        <p class="lede">@Html(Messages("page.iht.application.assets.money.jointly.owned.guidance.p1", deceasedName))</p>
+    <div id="money-jointly-owned-description" class="form-group">
+        <p>@Html(Messages("page.iht.application.assets.money.jointly.owned.guidance.p1", deceasedName))</p>
         <p>@Html(Messages("page.iht.application.assets.money.jointly.owned.guidance.p2", deceasedName))</p>
         <p>@Html(Messages("page.iht.application.assets.money.jointly.owned.guidance.p3", deceasedName, deceasedName))</p>
     </div>
@@ -55,7 +55,7 @@
       sharableElementForm = moneyJointlyOwned,
       clearTargetInput = Some("shareValue")
     )
-    <div id="action-button" class="form-field form-field--submit">
+    <div id="action-button" class="form-group">
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
     }

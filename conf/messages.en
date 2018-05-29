@@ -648,7 +648,7 @@ page.iht.application.estateOverview.otherDetailsNeeded = Other details needed
 page.iht.application.estateOverview.claimExemptions.link = I want to claim exemptions
 page.iht.application.estateOverview.declaration.allSectionsComplete.guidance.text = You can continue once you are sure you have given all of the details that you need to for this estate report. You should check each section before continuing.
 page.iht.application.estateOverview.declaration.continue.guidance.text = The estate value is over the threshold. Continue when you have given all of the estate details that you know about.
-page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text1 = You have not given enough details to finish this estate report
+page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text1 = You have not given enough details to finish this estate report.
 page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text2 = You must give an answer for every part of the estate report.
 
 page.iht.application.overview.title = Application progress for {0} is now {1}

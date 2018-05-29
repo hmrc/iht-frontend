@@ -43,22 +43,24 @@ headingName = deceasedName
 
     @helpers.form(action = iht.controllers.application.gifts.routes.GivenAwayController.onSubmit,'autoComplete -> "off") {
 
-    <p>@Html(Messages("page.iht.application.gifts.lastYears.givenAway.p1", deceasedNameWrapped))</p>
-    <p>@Html(Messages("page.iht.application.gifts.lastYears.givenAway.p2"))</p>
-
-    <ul>
-    @giftsList.indices.map{index =>
-        @giftsList(index).startDate.map{ startDate =>
-            <li id="tax-year-@{index+1}" class="list list-bullet">
-            <span class="no-wrap">@Dates.formatDate(LocalDate.parse(startDate))</span>
-            @Messages("iht.to")
-            @giftsList(index).endDate.map{ endDate =>
-                <span class="no-wrap">@Dates.formatDate(LocalDate.parse(endDate))</span>
+    <div class="form-group">
+        <p>@Html(Messages("page.iht.application.gifts.lastYears.givenAway.p1", deceasedNameWrapped))</p>
+        <p>@Html(Messages("page.iht.application.gifts.lastYears.givenAway.p2"))</p>
+    
+        <ul>
+        @giftsList.indices.map{index =>
+            @giftsList(index).startDate.map{ startDate =>
+                <li id="tax-year-@{index+1}" class="list list-bullet">
+                <span class="no-wrap">@Dates.formatDate(LocalDate.parse(startDate))</span>
+                @Messages("iht.to")
+                @giftsList(index).endDate.map{ endDate =>
+                    <span class="no-wrap">@Dates.formatDate(LocalDate.parse(endDate))</span>
+                }
+                </li>
             }
-            </li>
         }
-    }
-    </ul>
+        </ul>
+    </div>
 
     @ihtHelpers.standard.input_yes_no_radio_group(
     giftsGivenAwayForm("isGivenAway"),    
@@ -66,7 +68,7 @@ headingName = deceasedName
     '_legend -> Html(Messages("page.iht.application.gifts.lastYears.givenAway.question", deceasedNameWrapped))
 )
 
-    <div id="action-button" class="form-field form-field--submit">
+    <div id="action-button" class="form-group">
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
 

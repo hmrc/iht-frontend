@@ -40,12 +40,12 @@ isFullWidth=false
 ) {
 
 
-    <p class="lede">@Html(Messages("page.iht.application.assets.deceased-permanent-home.description.p1", deceasedName))</p>
+    <p>@Html(Messages("page.iht.application.assets.deceased-permanent-home.description.p1", deceasedName))</p>
     <p>@Html(Messages("page.iht.application.assets.deceased-permanent-home.description.p2",deceasedName))</p>
 
 
 
-<div id="property-table" @if(propertyList.isEmpty){}>
+<div id="property-table" class="form-group" @if(propertyList.isEmpty){}>
         <ul class="tabular-data tabular-data--list">
         @generic_overview_table_item(id = AssetsPropertiesOwnedID,
             questionText = Messages("page.iht.application.assets.properties.question.question",
@@ -61,7 +61,7 @@ isFullWidth=false
         )
         </ul>
 
-        <section class="section">
+        <section>
          @if(propertyList.isEmpty){
           <p id="properties-empty-table-row">@Messages("page.iht.application.assets.deceased-permanent-home.table.emptyRow.text")</p>
           }else{
@@ -107,7 +107,7 @@ isFullWidth=false
 </div>
 
 
-<div class="form-field" id="add-property-link">
+<div class="form-group" id="add-property-link">
     <a id="@AssetsPropertiesAddPropertyID" href="@iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad()"> @Messages("iht.estateReport.assets.propertyAdd") </a>
 </div>
 
