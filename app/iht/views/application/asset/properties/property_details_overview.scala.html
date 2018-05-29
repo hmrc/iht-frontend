@@ -49,129 +49,132 @@ property:Option[Property]=None)(implicit request:Request[_], messages: Messages,
 browserTitle = Some(Messages("iht.estateReport.assets.propertyAdd")),
 isFullWidth = false) {
 
-<ul id="property-details-table" class="tabular-data tabular-data--list">
-    @defining(property.flatMap(_.id))  { propertyId =>
-        @defining(property.flatMap(_.address))  { propertyAddress =>
-            <li id="property-address-question" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
-                <div class="tabular-data__data tabular-data__data--6-12">@Messages("iht.estateReport.assets.property.whatIsAddress.question")</div>
-                <div class="tabular-data__data tabular-data__data--4-12">
-                    @propertyAddress match{
-                        case Some(x) => {
-                            @AddressHelper.addressLayout(x)
+<div class="form-group">
+    <ul id="property-details-table" class="tabular-data tabular-data--list">
+        @defining(property.flatMap(_.id))  { propertyId =>
+            @defining(property.flatMap(_.address))  { propertyAddress =>
+                <li id="property-address-question" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+                    <div class="tabular-data__data tabular-data__data--6-12">@Messages("iht.estateReport.assets.property.whatIsAddress.question")</div>
+                    <div class="tabular-data__data tabular-data__data--4-12">
+                        @propertyAddress match{
+                            case Some(x) => {
+                                @AddressHelper.addressLayout(x)
+                            }
+                            case None => {}
                         }
+                    </div>
+                    <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
+                        <a id="@AssetsPropertiesPropertyAddressID" href='@{propertyId match{
+                                    case Some(id) => PropertyAddressController.onEditPageLoad(id)
+                                    case None => PropertyAddressController.onPageLoad()
+                                }
+                            }'>
+                            @getUpdateElements(
+                                propertyAddress,
+                                Messages("page.iht.application.assets.property.detailsOverview.address.screenReader.link.change"),
+                                Messages("page.iht.application.assets.property.detailsOverview.address.screenReader.link.noValue"))
+                        </a>
+                    </div>
+                </li>
+            }
+            @defining(property.flatMap(_.propertyType))  { propertyType =>
+                <li id="kind-of-property-question" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+                    <div class="tabular-data__data tabular-data__data--6-12">@Messages("iht.estateReport.assets.properties.whatKind.question")</div>
+                    <div class="tabular-data__data tabular-data__data--4-12">
+                        @{propertyType match {
+                        case Some(x) => {FieldMappings.propertyType(messages)(x)}
                         case None => {}
-                    }
-                </div>
-                <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
-                    <a id="@AssetsPropertiesPropertyAddressID" href='@{propertyId match{
-                                case Some(id) => PropertyAddressController.onEditPageLoad(id)
-                                case None => PropertyAddressController.onPageLoad()
-                            }
-                        }'>
-                        @getUpdateElements(
-                            propertyAddress,
-                            Messages("page.iht.application.assets.property.detailsOverview.address.screenReader.link.change"),
-                            Messages("page.iht.application.assets.property.detailsOverview.address.screenReader.link.noValue"))
-                    </a>
-                </div>
-            </li>
-        }
-        @defining(property.flatMap(_.propertyType))  { propertyType =>
-            <li id="kind-of-property-question" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
-                <div class="tabular-data__data tabular-data__data--6-12">@Messages("iht.estateReport.assets.properties.whatKind.question")</div>
-                <div class="tabular-data__data tabular-data__data--4-12">
-                    @{propertyType match {
-                    case Some(x) => {FieldMappings.propertyType(messages)(x)}
-                    case None => {}
-                    }}
-                </div>
-                <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
-                    <a id = "@AssetsPropertiesPropertyKindID" href='@{propertyId match{
-                                case Some(id) => PropertyTypeController.onEditPageLoad(id)
-                                case None => PropertyTypeController.onPageLoad()
-                            }
-                        }'>
-                        @getUpdateElements(
-                            propertyType,
-                            Messages("page.iht.application.assets.property.detailsOverview.kindOfProperty.screenReader.link.change"),
-                            Messages("page.iht.application.assets.property.detailsOverview.kindOfProperty.screenReader.link.noValue"))
-                    </a>
-                </div>
-            </li>
-        }
-        @defining(property.flatMap(_.typeOfOwnership))  { typeOfOwnership =>
-            <li id="type-of-ownership-question" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
-                <div class="tabular-data__data tabular-data__data--6-12">@Html(Messages("iht.estateReport.assets.howOwnedByDeceased", ihtHelpers.custom.name(deceasedName)))</div>
-                <div class="tabular-data__data tabular-data__data--4-12">
-                    @{typeOfOwnership match {
-                    case Some(x) => {FieldMappings.typesOfOwnership(deceasedName)(messages)(x)._1}
-                    case None => {}
-                    }}
-                </div>
-                <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
-                    <a id = "@AssetsPropertiesPropertyOwnershipID" href='@{propertyId match{
-                                    case Some(id) => PropertyOwnershipController.onEditPageLoad(id)
-                                    case None => PropertyOwnershipController.onPageLoad()
+                        }}
+                    </div>
+                    <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
+                        <a id = "@AssetsPropertiesPropertyKindID" href='@{propertyId match{
+                                    case Some(id) => PropertyTypeController.onEditPageLoad(id)
+                                    case None => PropertyTypeController.onPageLoad()
                                 }
                             }'>
-                        @getUpdateElements(
-                            typeOfOwnership,
-                            Messages("page.iht.application.assets.property.detailsOverview.owned.screenReader.link.change", deceasedName),
-                            Messages("page.iht.application.assets.property.detailsOverview.owned.screenReader.link.noValue", deceasedName))
-                    </a>
-                </div>
-            </li>
+                            @getUpdateElements(
+                                propertyType,
+                                Messages("page.iht.application.assets.property.detailsOverview.kindOfProperty.screenReader.link.change"),
+                                Messages("page.iht.application.assets.property.detailsOverview.kindOfProperty.screenReader.link.noValue"))
+                        </a>
+                    </div>
+                </li>
+            }
+            @defining(property.flatMap(_.typeOfOwnership))  { typeOfOwnership =>
+                <li id="type-of-ownership-question" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+                    <div class="tabular-data__data tabular-data__data--6-12">@Html(Messages("iht.estateReport.assets.howOwnedByDeceased", ihtHelpers.custom.name(deceasedName)))</div>
+                    <div class="tabular-data__data tabular-data__data--4-12">
+                        @{typeOfOwnership match {
+                        case Some(x) => {FieldMappings.typesOfOwnership(deceasedName)(messages)(x)._1}
+                        case None => {}
+                        }}
+                    </div>
+                    <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
+                        <a id = "@AssetsPropertiesPropertyOwnershipID" href='@{propertyId match{
+                                        case Some(id) => PropertyOwnershipController.onEditPageLoad(id)
+                                        case None => PropertyOwnershipController.onPageLoad()
+                                    }
+                                }'>
+                            @getUpdateElements(
+                                typeOfOwnership,
+                                Messages("page.iht.application.assets.property.detailsOverview.owned.screenReader.link.change", deceasedName),
+                                Messages("page.iht.application.assets.property.detailsOverview.owned.screenReader.link.noValue", deceasedName))
+                        </a>
+                    </div>
+                </li>
+            }
+            @defining(property.flatMap(_.tenure)) { tenure =>
+                <li id="freehold-leasehold-question" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+                    <div class="tabular-data__data tabular-data__data--6-12">@Messages("iht.estateReport.assets.properties.freeholdOrLeasehold")</div>
+                    <div class="tabular-data__data tabular-data__data--4-12">
+                        @{tenure match {
+                        case Some(x) => {FieldMappings.tenures(deceasedName)(messages)(x)._1}
+                        case None => {}
+                        }}
+                    </div>
+                    <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
+                        <a id="@AssetsPropertiesTenureID" href='@{propertyId match{
+                                        case Some(id) => PropertyTenureController.onEditPageLoad(id)
+                                        case None => PropertyTenureController.onPageLoad()
+                                    }
+                                }'>
+                            @getUpdateElements(
+                                tenure,
+                                Messages("page.iht.application.assets.property.detailsOverview.freeholdLeasehold.screenReader.link.change"),
+                                Messages("page.iht.application.assets.property.detailsOverview.freeholdLeasehold.screenReader.link.noValue"))
+                        </a>
+                    </div>
+                </li>
+            }
+            @defining(property.flatMap(_.value)) { value =>
+                <li id="property-value-question" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+                    <div class="tabular-data__data tabular-data__data--6-12">@Html(Messages("iht.estateReport.assets.properties.value.question", ihtHelpers.custom.name(deceasedName)))</div>
+                    <div class="tabular-data__data tabular-data__data--4-12">
+                        @{value match {
+                        case Some(x) => {"£" + CommonHelper.numberWithCommas(x)}
+                        case None => {}
+                        }}
+                    </div>
+                    <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
+                        <a id="@AssetsPropertiesPropertyValueID" href='@{propertyId match{
+                                        case Some(id) => PropertyValueController.onEditPageLoad(id)
+                                        case None => PropertyValueController.onPageLoad()
+                                    }
+                                }'>
+                            @getUpdateElements(
+                            value,
+                                Messages("page.iht.application.assets.property.detailsOverview.value.screenReader.link.change"),
+                                Messages("page.iht.application.assets.property.detailsOverview.value.screenReader.link.noValue"),
+                                currencyValue = true)
+                        </a>
+                    </div>
+                </li>
+            }
         }
-        @defining(property.flatMap(_.tenure)) { tenure =>
-            <li id="freehold-leasehold-question" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
-                <div class="tabular-data__data tabular-data__data--6-12">@Messages("iht.estateReport.assets.properties.freeholdOrLeasehold")</div>
-                <div class="tabular-data__data tabular-data__data--4-12">
-                    @{tenure match {
-                    case Some(x) => {FieldMappings.tenures(deceasedName)(messages)(x)._1}
-                    case None => {}
-                    }}
-                </div>
-                <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
-                    <a id="@AssetsPropertiesTenureID" href='@{propertyId match{
-                                    case Some(id) => PropertyTenureController.onEditPageLoad(id)
-                                    case None => PropertyTenureController.onPageLoad()
-                                }
-                            }'>
-                        @getUpdateElements(
-                            tenure,
-                            Messages("page.iht.application.assets.property.detailsOverview.freeholdLeasehold.screenReader.link.change"),
-                            Messages("page.iht.application.assets.property.detailsOverview.freeholdLeasehold.screenReader.link.noValue"))
-                    </a>
-                </div>
-            </li>
-        }
-        @defining(property.flatMap(_.value)) { value =>
-            <li id="property-value-question" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
-                <div class="tabular-data__data tabular-data__data--6-12">@Html(Messages("iht.estateReport.assets.properties.value.question", ihtHelpers.custom.name(deceasedName)))</div>
-                <div class="tabular-data__data tabular-data__data--4-12">
-                    @{value match {
-                    case Some(x) => {"£" + CommonHelper.numberWithCommas(x)}
-                    case None => {}
-                    }}
-                </div>
-                <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
-                    <a id="@AssetsPropertiesPropertyValueID" href='@{propertyId match{
-                                    case Some(id) => PropertyValueController.onEditPageLoad(id)
-                                    case None => PropertyValueController.onPageLoad()
-                                }
-                            }'>
-                        @getUpdateElements(
-                        value,
-                            Messages("page.iht.application.assets.property.detailsOverview.value.screenReader.link.change"),
-                            Messages("page.iht.application.assets.property.detailsOverview.value.screenReader.link.noValue"),
-                            currencyValue = true)
-                    </a>
-                </div>
-            </li>
-        }
-    }
-</ul>
-<div class="panel-indent panel-indent--gutter">
+    </ul>
+</div>
+
+<div class="panel panel-border-wide">
     <p>@Messages("page.iht.application.assets.property.detailsOverview.mortgage.text")</p>
 </div>
 

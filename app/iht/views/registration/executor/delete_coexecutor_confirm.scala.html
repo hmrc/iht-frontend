@@ -31,14 +31,14 @@
 
 @helpers.form(action = iht.controllers.registration.executor.routes.DeleteCoExecutorController.onSubmit(coExecutor.id.getOrElse(""))) {
 
-  <div class="panel-indent">
+  <div class="panel panel-border-narrow">
       <p>@ihtHelpers.custom.name(coExecutor.name.toString)</p>
 
       @coExecutor.ukAddress.map { addr =>
         @AddressHelper.addressLayout(addr)
     }
   </div>
-  <div class="form-field form-field--submit">
+  <div class="form-group">
   <input id="confirm-delete" class='button' type='submit' value='@Messages("site.button.confirmDelete")'>
 </div>
   <a id="cancel" href='@iht.controllers.registration.executor.routes.ExecutorOverviewController.onPageLoad()'>@Messages("site.link.cancel")</a>

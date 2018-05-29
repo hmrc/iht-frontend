@@ -47,10 +47,10 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
                 '_divClass -> Some("form-group"),
                 '_legendIsHeading -> true,
                 '_headingClass -> "heading-large",
-                '_extraText -> Html("<p class=\"lede\">" + Messages("page.iht.application.assets.pensions.changed.question") + "</p>")
+                '_extraText -> Html("<p>" + Messages("page.iht.application.assets.pensions.changed.question") + "</p>")
             )
 
-         <div id="action-button" class="form-field form-field--submit">
+         <div id="action-button" class="form-group">
            <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
          </div>
 

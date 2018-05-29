@@ -108,3 +108,13 @@ $gutter-two-thirds: $gutter - $gutter-one-third;
     padding: $gutter-two-thirds $gutter-half $gutter-half;
   }
 }
+
+
+.multiple-choice .block-label {
+  margin: 0;
+}
+
+.multiple-choice:last-child,
+.multiple-choice:last-of-type {
+  margin-bottom: 0;
+}

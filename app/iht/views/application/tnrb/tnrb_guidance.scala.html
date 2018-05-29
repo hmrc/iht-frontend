@@ -29,26 +29,28 @@ systemGenerated: Boolean)(implicit request:Request[_], messages: Messages, ihtFo
 @iht_main_template_application(title = Messages(titleKey),
     browserTitle = Some(Messages(browserTitleKey))){
 
+    <div class="form-group">
         @if(systemGenerated) {
             <p>@Messages("page.iht.application.tnrb.guidance.system.p1", deceasedName)</p>
         } else {
             <p>@Messages("page.iht.application.tnrb.guidance.p1", deceasedName)</p>
-            <div class="panel-indent">
+            <div class="panel panel-border-wide">
                 <p>@Messages("page.iht.application.tnrb.guidance.panelIndent.text")</p>
             </div>
             <p>@Messages("page.iht.application.tnrb.guidance.p2")</p>
             <p>@Messages("page.iht.application.tnrb.guidance.p3")</p>
         }
+    </div>
 
-    @if(systemGenerated){ <div id="action-button" class="form-field form-field--submit"> }
-    <a id ="continue-to-increasing-threshold-link" @if(systemGenerated) { class="button"} href='@url'>
-    @Messages("page.iht.application.tnrb.guidance.continueLink.text")
-    </a>
-    @if(systemGenerated){ </div> }
-    @if(!systemGenerated){ <div id="action-button" class="form-field form-field--submit"> }
-    <a id ="continue-to-estate-overview-button" @if(!systemGenerated) { class="button" } href='@iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference)'>
-    @Messages("iht.estateReport.returnToEstateOverview")
-    </a>
-    @if(!systemGenerated){ </div> }
+    <div @if(systemGenerated) { id="action-button"} class="form-group">
+        <a id ="continue-to-increasing-threshold-link" @if(systemGenerated) { class="button" } href='@url'>
+            @Messages("page.iht.application.tnrb.guidance.continueLink.text")
+        </a>
+    </div>
+    <div @if(!systemGenerated) { id="action-button" } class="form-group">
+        <a id ="continue-to-estate-overview-button" @if(!systemGenerated) { class="button" } href='@iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference)'>
+            @Messages("iht.estateReport.returnToEstateOverview")
+        </a>
+    </div>
 
 }

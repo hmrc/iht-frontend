@@ -38,7 +38,7 @@ browserTitle = Some(Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeat
 
 @helpers.form(action = iht.controllers.application.gifts.routes.SevenYearsGivenInLast7YearsController.onSubmit,'autoComplete -> "off") {
 
-<div id='description'>
+<div id="description" class="form-group">
     <p>@Messages("page.iht.application.gifts.lastYears.description.p1")</p>
     <ul class="bullets">
         <li>@Messages("iht.estateReport.assets.money.lowerCaseInitial")</li>
@@ -57,7 +57,7 @@ browserTitle = Some(Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeat
     '_divClass -> Some("form-group"))
 </div>
 
-<div id="action-button" class="form-field form-field--submit">
+<div id="action-button" class="form-group">
   <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
 </div>
     @registrationDetails.deceasedDetails.map{ dd=>

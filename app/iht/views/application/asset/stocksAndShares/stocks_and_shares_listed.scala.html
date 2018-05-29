@@ -38,30 +38,28 @@ registrationDetails: RegistrationDetails
 
     @helpers.form(action = iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesListedController.onSubmit(),'autoComplete -> "off") {
 
-        <div data-exclude="true">
+        <div data-exclude="true" class="form-group">
             @ihtHelpers.standard.input_yes_no_radio_group(stockAndSharesListed("isListed"),
                 '_legend -> Html(Messages("iht.estateReport.assets.stocksAndShares.listed.question", deceasedName)),
                 '_shownElementNo -> None,
                 '_shownElementYes -> Some("stocks-and-shares-value"),
                 '_hiddenElementYes -> None,
                 '_hiddenElementNo -> Some("stocks-and-shares-value"),
-                '_divClass -> Some("form-group"),
                 '_clearTargetNo -> Some("indeceasednamevalue"),
                 '_mainQuestion -> true)
 
-            <div class="js-hidden panel-indent panel-indent--gutter" id="stocks-and-shares-value">
+            <div class="js-hidden panel panel-border-narrow" id="stocks-and-shares-value">
                 @ihtHelpers.custom.input_estate_value(stockAndSharesListed("valueListed"),
                 '_label -> Messages("iht.estateReport.assets.stocksAndShares.valueOfListed"),
                 '_sectionName -> ("1"),
                 '_currency -> "GBP",
-                '_divClass -> "form-group",
                 '_labelTextClass -> "bold",
                 '_inputClass -> "form-control js-valInput")
             </div>
         </div>
 
 
-    <div id="action-button" class="form-field form-field--submit">
+    <div id="action-button" class="form-group">
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
 }

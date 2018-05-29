@@ -33,7 +33,7 @@ cancelLabel = Some(Messages("site.link.cancel"))
 
 @helpers.form(action = iht.controllers.application.assets.properties.routes.DeletePropertyController.onSubmit(propertyModel.id.getOrElse(""))) {
 
-<div id="address" class="panel-indent">
+<div id="address" class="panel panel-border-narrow">
     <strong>
         @defining(propertyModel.address)  { propertyAddress =>
             @propertyAddress match{
@@ -50,7 +50,7 @@ cancelLabel = Some(Messages("site.link.cancel"))
 @Messages("page.iht.application.assets.main-section.properties.delete.warning")
 </p>
 
-<div class="form-field form-field--submit">
+<div class="form-group">
     <button class="button" id="delete-confirm">@Messages("site.button.confirmDelete")</button>
 </div>
 

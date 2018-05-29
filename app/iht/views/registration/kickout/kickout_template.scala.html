@@ -28,17 +28,19 @@ returnLinkText: String = "")(contentLines: Seq[String])(implicit request:Request
 browserTitle = Some(Messages("iht.notPossibleToUseService")),
 hasTimeOut=true) {
 
-<div class="panel-indent">
-    <p id="kickout-message">@summary</p>
-</div>
+	<div class="panel panel-border-wide">
+	    <p id="kickout-message">@summary</p>
+	</div>
 
-    <h2 class="heading-medium">@Messages("iht.nextSteps")</h2>
-    @contentLines.map { line => <p>@line@if(line == contentLines.last){@Messages("iht.comma")
-    <a id="return-button" href="@returnToUrl">@if(returnLinkText.isEmpty){@Messages("iht.registration.kickout.returnToTheLastPageVisited")}else {@returnLinkText}</a>.}</p> }
+    <div class="form-group">
+    	<h2 class="heading-medium">@Messages("iht.nextSteps")</h2>
+        @contentLines.map { line => <p>@line@if(line == contentLines.last){@Messages("iht.comma")
+        <a id="return-button" href="@returnToUrl">@if(returnLinkText.isEmpty){@Messages("iht.registration.kickout.returnToTheLastPageVisited")}else {@returnLinkText}</a>.}</p> }
+    </div>
 
-<div id="continue-button" class="form-field form-field--submit">
-    @helpers.form(action = iht.controllers.registration.routes.KickoutController.onSubmit) {
-    <input id="finish" class='button' type='submit' value='@Messages("site.button.details.correct.exitToGovK")'>
-    }
-</div>
+	<div id="continue-button">
+	    @helpers.form(action = iht.controllers.registration.routes.KickoutController.onSubmit) {
+	    <input id="finish" class='button' type='submit' value='@Messages("site.button.details.correct.exitToGovK")'>
+	    }
+	</div>
 }

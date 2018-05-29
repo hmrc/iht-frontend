@@ -64,7 +64,7 @@ class OverviewSidebarViewTest extends ViewTestHelper {
 
     "show the correct style class for the date panel" in {
       val datePanel = viewAsDoc.getElementById("estate-report-deadline-date")
-      datePanel.attr("class") shouldBe "panel-indent panel-indent--gutter"
+      datePanel.attr("class") shouldBe "panel panel-border-wide panel-indent--gutter"
     }
 
     "show the correct guidance" in {

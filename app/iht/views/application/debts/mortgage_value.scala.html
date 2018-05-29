@@ -45,7 +45,7 @@ regDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages
 
     @helpers.form(action = submitUrl, 'autoComplete -> "off") {
 
-        <div id="address" class="panel-indent panel-indent--gutter">
+        <div id="address" class="panel panel-border-narrow">
             @property.address match{
                 case Some(x) => {
                     @AddressHelper.addressLayout(x)
@@ -65,7 +65,7 @@ regDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages
             clearTargetInput = Some("value")
         )
 
-        <div id="action-button" class="form-field form-field--submit">
+        <div id="action-button" class="form-group">
           <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
 

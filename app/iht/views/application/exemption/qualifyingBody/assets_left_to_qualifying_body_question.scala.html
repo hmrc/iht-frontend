@@ -27,16 +27,18 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 @helpCopy() = @{
-    <p class="lede">{Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.p1")}</p>
-    <p>{Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.p2")}</p>
-    <p>{Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBody.p3")}</p>
-
-    <details>
-        <summary class="summary">{Messages("iht.estateReport.exemptions.qualifyingBodies.howFindOutQualifies")}</summary>
-        <div id="assets-left-to-gncp-help-text" class="panel-indent panel-indent--gutter">
-            {Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.help.contents")}
-        </div>
-    </details>
+    <div class="form-group">
+        <p>{Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.p1")}</p>
+        <p>{Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.p2")}</p>
+        <p>{Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBody.p3")}</p>
+    
+        <details>
+            <summary class="summary">{Messages("iht.estateReport.exemptions.qualifyingBodies.howFindOutQualifies")}</summary>
+            <div id="assets-left-to-gncp-help-text" class="panel panel-border-wide">
+                {Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.help.contents")}
+            </div>
+        </details>
+    </div>
 }
 
 @iht_main_template_application(
@@ -63,7 +65,7 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 )
 
 
-    <div id="action-button" class="form-field form-field--submit">
+    <div id="action-button" class="form-group">
         <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
 

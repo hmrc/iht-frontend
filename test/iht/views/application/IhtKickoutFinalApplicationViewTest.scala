@@ -53,7 +53,7 @@ class IhtKickoutFinalApplicationViewTest extends ViewTestHelper{
       messagesShouldBePresent(view, messagesApi("page.iht.application.kickout.final.getCopy.title"))
       messagesShouldBePresent(view, messagesApi("page.iht.application.kickout.final.getCopy.guidance1"))
       messagesShouldBePresent(view, messagesApi("page.iht.application.kickout.final.getCopy.guidance2.youShould"))
-      ihtKickOutFinalApplicationView.getElementsByClass("panel-indent").first.text() shouldBe
+      ihtKickOutFinalApplicationView.getElementsByClass("panel").first.text() shouldBe
         (messagesApi("page.iht.application.kickout.final.getCopy.guidance2.youShould") + " " +
           messagesApi("page.iht.application.kickout.final.getCopy.guidance2.saveAndPrint") +
           ".")

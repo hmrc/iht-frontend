@@ -27,16 +27,22 @@
 
   @helpers.form(action = iht.controllers.application.exemptions.routes.ExemptionsGuidanceController.onSubmit(ihtReference)) {
 
-    <p>@Messages("page.iht.application.exemptions.guidance.content1")</p>
-    <p>@Messages("page.iht.application.exemptions.guidance.content2") <a href='@iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference)'>@Messages("page.iht.application.exemptions.guidance.content2.linkText")</a>.</p>
-    <p>@Messages("page.iht.application.exemptions.guidance.content3")</p>
-    <p>@Messages("page.iht.application.exemptions.guidance.content4")</p>
-    <p>@Messages("iht.estateReport.exemptions.guidance.provideAssetsDetails")</p>
-    <p class="panel-indent">@Messages("iht.estateReport.exemptions.guidance.debtsSubtracted")</p>
+    <div class="form-group">
+      <p>@Messages("page.iht.application.exemptions.guidance.content1")</p>
+      <p>@Messages("page.iht.application.exemptions.guidance.content2") <a href='@iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference)'>@Messages("page.iht.application.exemptions.guidance.content2.linkText")</a>.</p>
+      <p>@Messages("page.iht.application.exemptions.guidance.content3")</p>
+      <p>@Messages("page.iht.application.exemptions.guidance.content4")</p>
+      <p>@Messages("iht.estateReport.exemptions.guidance.provideAssetsDetails")</p>
+      <div class="panel panel-border-wide">
+        <p>@Messages("iht.estateReport.exemptions.guidance.debtsSubtracted")</p>
+      </div>
+    </div>
 
-    <a href='@iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()'>@Messages("page.iht.application.exemptions.guidance.link")</a>
+    <div class="form-group">
+      <a href='@iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()'>@Messages("page.iht.application.exemptions.guidance.link")</a>
+    </div>
 
-    <div id="action-button" class="form-field form-field--submit">
+    <div id="action-button" class="form-group">
       <button class="button" id="continue" name="action" value="save">@Messages("iht.estateReport.returnToEstateOverview")</button>
     </div>
   }

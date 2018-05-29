@@ -38,7 +38,7 @@ isFullWidth=false
 ) {
 
 <div id="property-description">
-    <p class="lede">@Html(Messages("page.iht.application.assets.stocksAndShares.overview.guidance", deceasedName))</p>
+    <p>@Html(Messages("page.iht.application.assets.stocksAndShares.overview.guidance", deceasedName))</p>
     <p>@Messages("page.iht.application.assets.stocksAndShares.overview.guidance2")</p>
 </div>
 
@@ -104,13 +104,10 @@ isFullWidth=false
                     )
         }
 
-    <div class="form-field form-field--submit">
+     @ihtHelpers.custom.return_link(
+        Messages("page.iht.application.return.to.assetsOf", deceasedName),
+        Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
+        AppSectionStockAndShareID
+    )
 
-         @ihtHelpers.custom.return_link(
-            Messages("page.iht.application.return.to.assetsOf", deceasedName),
-            Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
-            AppSectionStockAndShareID
-        )
-
-    </div>
 }

@@ -36,7 +36,7 @@
 
     @ihtHelpers.custom.error_summary(deceasedAddressDetailsUKForm)
 
-    <p class="lede">@Messages("page.iht.registration.deceasedDetails.addressheader.uk.hint", deceasedName)</p>
+    <p>@Messages("page.iht.registration.deceasedDetails.addressheader.uk.hint", deceasedName)</p>
 
     @helpers.form(action = actionLocation,'autoComplete -> "off") {
 
@@ -80,7 +80,9 @@
     '_labelTextClass -> "bold ",
     '_label -> Html(Messages("iht.postcode")))
 
-    <p>@ihtHelpers.custom.return_link(Messages("iht.registration.changeAddressToAbroad"),Some(changeNationalityLocation))</p>
+    <div class="form-group">
+        <p>@ihtHelpers.custom.return_link(Messages("iht.registration.changeAddressToAbroad"),Some(changeNationalityLocation))</p>
+    </div>
 
     @ihtHelpers.custom.continue_button()
     }

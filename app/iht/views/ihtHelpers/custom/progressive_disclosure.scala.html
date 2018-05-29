@@ -16,9 +16,9 @@
 
 @(summary: String, content: Seq[String])
 
-<details class="u-mt--3 u--no-print">
-    <summary><span class="summary font-xsmall">@summary</span></summary>
-    <div class="panel-indent">
+<details class="contact-details-help">
+    <summary><span class="summary">@summary</span></summary>
+    <div class="panel panel-border-narrow">
         @for(paragraph <- content){
         <p>@paragraph</p>
         }

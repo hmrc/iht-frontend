@@ -62,7 +62,7 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
       implicit val request = createFakeRequest()
       val view = exemptions_guidance_increasing_threshold("ihtReference").toString
       val doc = asDocument(view)
-      assertContainsMessage(doc, ".panel-indent", "iht.estateReport.exemptions.guidance.debtsSubtracted")
+      assertContainsMessage(doc, ".panel", "iht.estateReport.exemptions.guidance.debtsSubtracted")
     }
 
     "show a url linked to exemptions overview page" in {

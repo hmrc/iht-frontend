@@ -37,7 +37,7 @@
 
     @ihtHelpers.custom.error_summary(form)
 
-    <p class="lede">@Messages("page.iht.registration.applicantAddress.hint")</p>
+    <p>@Messages("page.iht.registration.applicantAddress.hint")</p>
 
     @helpers.form(action = actionCall,'autoComplete -> "off") {
 
@@ -86,9 +86,11 @@
                 )(messages)
             </div>
 
-            <a href="@changeNationalityLocation">
-                @Messages("iht.registration.changeAddressToUK")
-            </a>
+            <div class="form-group">
+                <a href="@changeNationalityLocation">
+                    @Messages("iht.registration.changeAddressToUK")
+                </a>
+            </div>
         } else {
             <div id="ukAddress_postCode-container" class="form-group">
                 @ihtHelpers.standard.input_with_help(form("postCode"),
@@ -99,9 +101,11 @@
                 '_label -> Html(Messages("iht.postcode")))
             </div>
 
-            <a href="@changeNationalityLocation">
-                @Messages("iht.registration.changeAddressToAbroad")
-            </a>
+            <div class="form-group">
+                <a href="@changeNationalityLocation">
+                    @Messages("iht.registration.changeAddressToAbroad")
+                </a>
+            </div>
         }
 
         @ihtHelpers.custom.continue_button()

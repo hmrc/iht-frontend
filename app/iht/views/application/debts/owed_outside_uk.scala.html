@@ -33,8 +33,10 @@
 
     @helpers.form(action = iht.controllers.application.debts.routes.OwedOutsideUKDebtsController.onSubmit, 'autoComplete -> "off") {
 
-        <p class="lede">@Messages("page.iht.application.debts.debtsOutsideUk.description.p1")</p>
-        <p>@Messages("page.iht.application.debts.debtsOutsideUk.description.p2")</p>
+        <div class="form-group">
+            <p>@Messages("page.iht.application.debts.debtsOutsideUk.description.p1")</p>
+            <p>@Messages("page.iht.application.debts.debtsOutsideUk.description.p2")</p>
+        </div>
 
 
         @ihtHelpers.custom.generic_estate_element_assets(
@@ -44,8 +46,8 @@
             sharableElementForm = debtsOutsideUkForm,
             clearTargetInput = Some("value")
         )
-        <div id="action-button" class="form-field form-field--submit">
-                <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
+        <div id="action-button" class="form-group">
+            <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
         @ihtHelpers.custom.return_link(
             Messages("site.link.return.debts"),

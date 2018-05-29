@@ -46,11 +46,11 @@ isFullWidth=false
 ) {
 
 <div id="pensions-description">
-    <p class="lede">@Html(Messages("page.iht.application.assets.pensions.overview.description.p1", deceasedName, deceasedName))</p>
+    <p>@Html(Messages("page.iht.application.assets.pensions.overview.description.p1", deceasedName, deceasedName))</p>
     <p>@Html(Messages("page.iht.application.assets.pensions.overview.description.p2", deceasedName))</p>
 </div>
 
-<section id="pensions-section" class="section">
+<section id="pensions-section" class="form-group">
         <ul class="tabular-data tabular-data--list">
             @{
                 generic_overview_table_item(id = AssetsPensionsOwnedID,

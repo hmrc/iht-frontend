@@ -39,34 +39,35 @@ cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProp
 
 @helpers.form(action = submitUrl,'autoComplete -> "off") {
 
-@ihtHelpers.standard.input_radio_group_with_hints(
-    propertyOwnership("typeOfOwnership"),
-    FieldMappings.typesOfOwnership(deceasedName).toSeq,
-    '_fieldsetId -> "role1",
-    '_groupClass -> "form-group",
-    '_labelClass -> "block-label radio-label",
-    '_labelTextClass -> "bold",
-    '_ariaHintID -> "tenancyHint",
-    '_legend -> Messages("iht.estateReport.assets.howOwnedByDeceased", ihtHelpers.custom.name(deceasedName).toString),
+<div class="form-group">
+    @ihtHelpers.standard.input_radio_group_with_hints(
+        propertyOwnership("typeOfOwnership"),
+        FieldMappings.typesOfOwnership(deceasedName).toSeq,
+        '_fieldsetId -> "role1",
+        '_labelClass -> "block-label radio-label",
+        '_labelTextClass -> "bold",
+        '_labelAfter -> false,
+        '_ariaHintID -> "tenancyHint",
+        '_legend -> Messages("iht.estateReport.assets.howOwnedByDeceased", ihtHelpers.custom.name(deceasedName).toString),
+        '_legendClass -> Some("legend-with-heading"),
+        '_legendIsHeading -> true,
+        '_headingClass -> "heading-large",
+        '_extraText -> Html("<p id=\"property-ownership-guidance-1\">" + Messages("iht.estateReport.assets.property.youCan") +
+                            " <a id=\"land-registry-link\" href=\"" + IhtProperties.linkLandRegistry + "\">" +
+                            Messages("iht.estateReport.assets.property.findOutFromLandRegistry") + "</a> " +
+                            Messages("page.iht.application.assets.property.ownership.guidance1b") + "</p>" +
+                            "<p id=\"property-ownership-guidance-2\">" + Messages("page.iht.application.assets.property.ownership.guidance2") + "</p>"
+                        )
+    )
 
-    '_legendClass -> Some("legend-with-heading"),
-    '_legendIsHeading -> true,
-    '_headingClass -> "heading-large",
-    '_extraText -> Html("<p id=\"property-ownership-guidance-1\">" + Messages("iht.estateReport.assets.property.youCan") +
-                        " <a id=\"land-registry-link\" href=\"" + IhtProperties.linkLandRegistry + "\">" +
-                        Messages("iht.estateReport.assets.property.findOutFromLandRegistry") + "</a> " +
-                        Messages("page.iht.application.assets.property.ownership.guidance1b") + "</p>" +
-                        "<p id=\"property-ownership-guidance-2\">" + Messages("page.iht.application.assets.property.ownership.guidance2") + "</p>"
-                    )
-)
-
-<div id="tenancyHint" class="text js-tenancyHint js-hidden">
-  <div class="panel-indent">
-    <p>@Messages("page.iht.application.assets.deceased-permanent-home.value.input-footer-label", deceasedName)</p>
-  </div>
+    <div id="tenancyHint" class="text js-tenancyHint js-hidden">
+      <div class="panel panel-border-narrow">
+        <p>@Messages("page.iht.application.assets.deceased-permanent-home.value.input-footer-label", deceasedName)</p>
+      </div>
+    </div>
 </div>
 
-<div id="save-ownership-button" class="form-field form-field--submit">
+<div id="save-ownership-button" class="form-group">
     <button class="button" id="save-continue">@Messages("iht.saveAndContinue")</button>
 </div>
 }

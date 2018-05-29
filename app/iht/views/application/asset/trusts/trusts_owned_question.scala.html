@@ -38,9 +38,11 @@ headingClass = "heading-large"){
     @ihtHelpers.custom.error_summary(trustsOwnedQuestionForm)
     @helpers.form(action = iht.controllers.application.assets.trusts.routes.TrustsOwnedQuestionController.onSubmit,'autoComplete -> "off") {
 
-      <p class="lede" id="trusts-question-description1">@Html(Messages("iht.estateReport.assets.trusts.benefittedFromHeldInTrust",deceasedNameWrap))</p>
-      <p id="trusts-question-description2">@Html(Messages("iht.estateReport.assets.trusts.needInclusion",deceasedNameWrap))</p>
-      <p id="trusts-question-description3">@Html(Messages("iht.estateReport.assets.heldInTrust.needInclusion",deceasedNameWrap))</p>
+      <div class="form-group">
+        <p id="trusts-question-description1">@Html(Messages("iht.estateReport.assets.trusts.benefittedFromHeldInTrust",deceasedNameWrap))</p>
+        <p id="trusts-question-description2">@Html(Messages("iht.estateReport.assets.trusts.needInclusion",deceasedNameWrap))</p>
+        <p id="trusts-question-description3">@Html(Messages("iht.estateReport.assets.heldInTrust.needInclusion",deceasedNameWrap))</p>
+      </div>
 
             @ihtHelpers.standard.input_yes_no_radio_group(
             trustsOwnedQuestionForm("isOwned"),
@@ -49,7 +51,7 @@ headingClass = "heading-large"){
             '_hiddenElementYes -> Some("mortgage-guidance-panel"),
       '_divClass -> Some("form-group"))
 
-      <div id="action-button" class="form-field form-field--submit">
+      <div id="action-button" class="form-group">
         <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
       </div>
 

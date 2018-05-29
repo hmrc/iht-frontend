@@ -100,7 +100,7 @@ class TnrbGuidanceViewTest extends ViewTestHelper {
         "iht.estateReport.tnrb.increasingThreshold",
         false).toString
       val doc = asDocument(view)
-      assertContainsMessage(doc, ".panel-indent p", "page.iht.application.tnrb.guidance.panelIndent.text")
+      assertContainsMessage(doc, ".panel p", "page.iht.application.tnrb.guidance.panelIndent.text")
     }
 
     "show a return to estate overview button which has specified iht reference" in {

@@ -39,8 +39,8 @@ isFullWidth=false
 
     @helpers.form(action = iht.controllers.application.assets.routes.NominatedController.onSubmit,'autoComplete -> "off") {
 
-        <div id="nominated-description">
-            <p class="lede">@Html(Messages("page.iht.application.assets.nominated.description.p1",deceasedName))</p>
+        <div id="nominated-description" class="form-group">
+            <p>@Html(Messages("page.iht.application.assets.nominated.description.p1",deceasedName))</p>
             <p>@Messages("page.iht.application.assets.nominated.description.p2")</p>
             <p>@Messages("page.iht.application.assets.nominated.description.p3")</p>
             <p>@Messages("page.iht.application.assets.nominated.description.p4")</p>
@@ -55,7 +55,7 @@ isFullWidth=false
                 )
 
 
-        <div id="action-button" class="form-field form-field--submit">
+        <div id="action-button" class="form-group">
           <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
 

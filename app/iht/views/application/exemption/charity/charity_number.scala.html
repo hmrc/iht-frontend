@@ -43,13 +43,13 @@ isFullWidth=false
                 '_label -> Html(Messages("iht.estateReport.exemptions.charities.charityNo.question")),
                 '_legendIsHeading -> true,
                 '_headingClass -> "heading-large",
-                '_extraText -> Html("<p class=\"lede\">" + Messages("page.iht.application.exemptions.charityNumber.p1") + " " +
+                '_extraText -> Html("<p>" + Messages("page.iht.application.exemptions.charityNumber.p1") + " " +
                                     "<a rel=\"external\" href=\"" + charityLink + "\" id=\"charity-register\">" + Messages("page.iht.application.exemptions.charityNumber.linkText") + "</a> " +
                                     Messages("page.iht.application.exemptions.charityNumber.p2") + "</p>"
                 )
             )
 
-        <div id="action-button" class="form-field form-field--submit">
+        <div id="action-button" class="form-group">
             <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
 

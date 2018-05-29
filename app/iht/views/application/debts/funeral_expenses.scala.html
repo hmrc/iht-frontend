@@ -37,8 +37,10 @@ registrationDetails: RegistrationDetails)(implicit request: Request[_], messages
 
     @helpers.form(action = iht.controllers.application.debts.routes.FuneralExpensesController.onSubmit, 'autoComplete -> "off") {
 
-        <p class="lede">@Messages("page.iht.application.debts.funeralExpenses.description.p1")</p>
-        <p>@Html(Messages("page.iht.application.debts.funeralExpenses.description.p2", DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
+        <div class="form-group">
+            <p>@Messages("page.iht.application.debts.funeralExpenses.description.p1")</p>
+            <p>@Html(Messages("page.iht.application.debts.funeralExpenses.description.p2", DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
+        </div>
 
         @ihtHelpers.custom.generic_estate_element_assets(
             assetType = AssetTypeSingle,
@@ -48,7 +50,7 @@ registrationDetails: RegistrationDetails)(implicit request: Request[_], messages
             clearTargetInput = Some("value")
         )
 
-        <div id="action-button" class="form-field form-field--submit">
+        <div id="action-button" class="form-group">
             <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
 

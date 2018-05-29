@@ -38,16 +38,18 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 
     @helpers.form(action = iht.controllers.application.gifts.routes.WithReservationOfBenefitController.onSubmit,'autoComplete -> "off") {
 
-        <p>@messages("iht.estateReport.gifts.withReservation.p1")</p>
-        <p>@messages("iht.estateReport.gifts.withReservation.p2")</p>
-        <p>@messages("iht.estateReport.gifts.withReservation.p3")</p>
+        <div class="form-group">
+            <p>@messages("iht.estateReport.gifts.withReservation.p1")</p>
+            <p>@messages("iht.estateReport.gifts.withReservation.p2")</p>
+            <p>@messages("iht.estateReport.gifts.withReservation.p3")</p>
+        </div>
 
         @ihtHelpers.standard.input_yes_no_radio_group(
         giftWithReservationFromBenefitForm("reservation.isReservation"),
         '_legend -> Html(Messages("iht.estateReport.gifts.reservation.question", getDeceasedNameOrDefaultString(registrationDetails, true))),        
         '_divClass -> Some("form-group"))
 
-        <div id="action-button" class="form-field form-field--submit">
+        <div id="action-button" class="form-group">
           <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
 

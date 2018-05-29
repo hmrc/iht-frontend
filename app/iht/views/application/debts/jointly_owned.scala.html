@@ -37,7 +37,9 @@
 
     @helpers.form(action = iht.controllers.application.debts.routes.JointlyOwnedDebtsController.onSubmit, 'autoComplete -> "off") {
 
-        <p class="lede">@Html(Messages("page.iht.application.debts.jointlyOwned.description.p1", DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
+        <div class="form-group">
+            <p>@Html(Messages("page.iht.application.debts.jointlyOwned.description.p1", DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
+        </div>
 
         @ihtHelpers.custom.generic_estate_element_assets(
             assetType = AssetTypeSingle,
@@ -48,7 +50,7 @@
             clearTargetInput = Some("value")
         )
 
-        <div id="action-button" class="form-field form-field--submit">
+        <div id="action-button" class="form-group">
             <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
 
