@@ -21,15 +21,14 @@
 
 @()(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
-@iht_main_template_application(title = Messages("iht.signedOut"),
+@iht_main_template_application(title = Messages("iht.timeout.heading"),
 hasSignOut=false,
 hasTimeOut=false) {
 
-<p id="paragraph1">@Messages("iht.timeout.p1", (ApplicationConfig.timeOutSeconds/60))</p>
-<p id="paragraph2">@Messages("page.iht.application.timeout.p2")</p>
+<p id="paragraph1">@Messages("iht.application.timeout.p1")</p>
 
 <div id="login-redirect-button">
-    <p><a class='button' href ='@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url'>@Messages("iht.timeout.signBackToGG")</a></p>
+    <p><a class='button' href ='@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url'>@Messages("iht.iv.signIn")</a></p>
 </div>
 
 }

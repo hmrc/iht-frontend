@@ -34,15 +34,15 @@ class TimeoutRegistrationViewTest extends ViewTestHelper {
     }
 
     "have the correct title" in {
-      titleShouldBeCorrect(viewAsDocument.toString, messagesApi("iht.signedOut"))
+      titleShouldBeCorrect(viewAsDocument.toString, messagesApi("iht.timeout.heading"))
     }
 
     "have the correct first paragraph" in {
-      viewAsDocument.getElementById("paragraph1").text shouldBe messagesApi("iht.timeout.p1", (ApplicationConfig.timeOutSeconds/60))
+      viewAsDocument.getElementById("paragraph1").text shouldBe messagesApi("iht.registration.timeout.p1")
     }
 
-    "have the correct second paragraph" in {
-      viewAsDocument.getElementById("paragraph2").text shouldBe messagesApi("page.iht.registration.timeout.p2")
+    "have a sign in button" in {
+      viewAsDocument.getElementsByClass("button").text shouldBe messagesApi("iht.iv.signIn")
     }
   }
 }

@@ -155,8 +155,9 @@ iht.signedOut = You have been signed out
 iht.signInAgain = Sign back in and return to your Inheritance Tax estate reports page
 iht.start = Start
 iht.startAgain = Start again
-iht.timeout.p1 = For your security, we signed you out because you did not continue the service for {0} minutes or more.
-iht.timeout.signBackToGG = Sign back in to Government Gateway
+iht.timeout.heading = For your security, we signed you out after 30 minutes
+iht.application.timeout.p1 = We saved your progress on the estate report.
+iht.registration.timeout.p1 = We did not save your answers.
 iht.useIHT400PaperForm = You must use an IHT400 paper form
 iht.usePaperForm = You must use a paper form
 iht.viewOrChange = View or change
@@ -1909,9 +1910,6 @@ page.iht.questionnaire.button.submit-and-signout = Send feedback and exit
 
 page.iht.sign-out.p1 = Sign back in through GOV.UK
 page.iht.sign-out.button.gov-uk.text = Explore GOV.UK
-
-page.iht.registration.timeout.p2 = You will need to sign back in to Government Gateway and start to register to use Inheritance Tax Online again.
-page.iht.application.timeout.p2 = You will need to sign back in to Government Gateway and then choose what you want to do next from your Inheritance Tax estate reports page.
 
 #Country names - see also application.conf
 country.AD = Andorra
