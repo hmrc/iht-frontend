@@ -164,7 +164,7 @@ object PdfFormatter {
   private def transformAssets1(currentAllAssets: AllAssets, currentAsset:Asset): Option[AllAssets] = {
     currentAsset.assetCode match {
       case Some("9001") => Some(currentAllAssets copy (money = updateFromAssetShareableBasicEstateElement(currentAsset, currentAllAssets.money)))
-      case Some("9004") => Some(currentAllAssets copy (household = updateFromAssetShareableBasicEstateElement(currentAsset, currentAllAssets.money)))
+      case Some("9004") => Some(currentAllAssets copy (household = updateFromAssetShareableBasicEstateElement(currentAsset, currentAllAssets.household)))
       case Some("9005") => Some(currentAllAssets copy (privatePension = updateFromAssetPrivatePension(currentAsset, currentAllAssets.privatePension)))
       case Some("9008") => Some(currentAllAssets copy (stockAndShare = updateFromAssetStockAndShareListed(currentAsset, currentAllAssets.stockAndShare)))
       case Some("9010") => Some(currentAllAssets copy (stockAndShare = updateFromAssetStockAndShareNotListed(currentAsset, currentAllAssets.stockAndShare)))
