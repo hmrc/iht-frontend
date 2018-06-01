@@ -1110,6 +1110,8 @@ page.iht.application.assets.insurances.coveredbyexemption=A yw''r premiymau wedi
 global.error.InternalServerError500.link.gov-uk-iht.text=Parhau i Prisio ystâd rhywun sydd wedi marw
 error.isAssetForDeceasedPartner.select=Dewiswch ateb ar gyfer os oes unrhyw asedion wedi''u gadael i briod neu bartner sifil yr ymadawedig
 page.iht.home.applicationList.table.guidance.label=Dyma''r holl adroddiadau Treth Etifeddiant ynghylch yr ystâd rydych wedi''u cofrestru.
+error.registration.serviceUnavailable.p1=Arhoswch ychydig o eiliadau ac yna rhowch gynnig arall arni.
+error.estateReport.serviceUnavailable.p3=Os gwelwch y neges hon sawl gwaith, gallwch allgofnodi nawr a rhoi cynnig arall ar gyflwynoch adroddiad nes ymlaen yn <a id="declarationLink" href="{0}">https://www.tax.service.gov.uk/inheritance-tax/estate-report/declaration</a> (dylech gadwr cysylltiad hwn).
 error.assets.nominated.select=Dewiswch ateb ar gyfer a oes unrhyw asedion enwebedig yn yr ystâd
 iht.estateReport.assets.qualifyingBodyAdd=Ychwanegwch gorff cymwys
 iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare=Cyfanswm cyfran {0} o''r holl bolisïau yswiriant yr oedd yn berchen ar y cyd
