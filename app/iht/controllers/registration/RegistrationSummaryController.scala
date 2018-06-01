@@ -30,7 +30,7 @@ import play.api.mvc.{Request, Result}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import uk.gov.hmrc.http.{ConflictException, GatewayTimeoutException, HeaderCarrier}
+import uk.gov.hmrc.http.{BadGatewayException, ConflictException, GatewayTimeoutException, HeaderCarrier}
 
 object RegistrationSummaryController extends RegistrationSummaryController with IhtConnectors {
   def metrics: Metrics = Metrics
@@ -75,6 +75,10 @@ trait RegistrationSummaryController extends RegistrationController {
         case ex: GatewayTimeoutException => {
           Logger.warn("Request has been timed out while submitting registration")
           InternalServerError(iht.views.html.registration.registration_error(ControllerHelper.errorRequestTimeOut))
+        }
+        case ex: BadGatewayException => {
+          Logger.warn("Service Unavailable while submitting registration")
+          ServiceUnavailable(iht.views.html.registration.registration_error_serviceUnavailable())
         }
         case ex: Exception => {
           if (ex.getMessage.contains("Request timed out")) {

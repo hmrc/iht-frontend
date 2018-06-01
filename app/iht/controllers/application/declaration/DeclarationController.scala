@@ -36,8 +36,9 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.ExecutionContext.Implicits._
-import scala.concurrent.Future
-import uk.gov.hmrc.http.{ GatewayTimeoutException, HeaderCarrier }
+import scala.concurrent.duration._
+import scala.concurrent.{Await, Future}
+import uk.gov.hmrc.http.{BadGatewayException, GatewayTimeoutException, HeaderCarrier}
 
 object DeclarationController extends DeclarationController with IhtConnectors {
   lazy val metrics: Metrics = Metrics
@@ -240,6 +241,10 @@ trait DeclarationController extends ApplicationController {
       case ex: GatewayTimeoutException => {
         Logger.debug("Request has been timed out while submitting application")
         ControllerHelper.errorServiceUnavailable
+      }
+      case ex: BadGatewayException => {
+        Logger.debug("Request has been timed out while submitting application")
+        ControllerHelper.errorDESServiceUnavailable
       }
       case ex: Exception => {
         if (ex.getMessage.contains("Request timed out") || ex.getMessage.contains("Connection refused")
