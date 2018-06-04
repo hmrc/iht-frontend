@@ -167,8 +167,10 @@ trait DeclarationController extends ApplicationController {
             case _ => Logger.info("Unable to write to StatsSource metrics repository")
           }
           Logger.info("Processing to get Probate details")
-          getProbateDetails(nino, ihtAppReference, returnId
-            .fold(throw new RuntimeException("Unable to submit application"))(identity).trim)
+          returnId.fold[Future[Option[ProbateDetails]]](throw new RuntimeException("Unable to submit application")) { idVal =>
+            ihtConnector.deleteApplication(nino, ihtAppReference)
+            getProbateDetails(nino, ihtAppReference, idVal.trim)
+          }
         })
         .flatMap {
           case Some(probateObject) =>
