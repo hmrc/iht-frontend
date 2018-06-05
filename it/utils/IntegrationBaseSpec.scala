@@ -1,10 +1,13 @@
+package utils
+
 import akka.util.Timeout
 import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach}
 import org.scalatestplus.play.guice.GuiceOneServerPerSuite
-import play.api.{Application, Configuration}
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.DefaultAwaitTimeout
+import play.api.{Application, Configuration}
 import uk.gov.hmrc.play.test.UnitSpec
+
 import scala.concurrent.duration._
 
 trait IntegrationBaseSpec extends UnitSpec
@@ -27,6 +30,7 @@ trait IntegrationBaseSpec extends UnitSpec
     .configure(Configuration("application.router" -> "testOnlyDoNotUseInAppConf.Routes"))
     .configure(Configuration("microservice.services.iht.port" -> s"${WiremockHelper.wiremockPort}"))
     .configure(Configuration("auditing.consumer.baseUri.port" -> s"${WiremockHelper.wiremockPort}"))
+    .configure(Configuration("metrics.enabled" -> false))
     .configure(Configuration(additionalConfiguration: _*))
     .build()
 
@@ -43,5 +47,4 @@ trait IntegrationBaseSpec extends UnitSpec
     stopWiremock()
     super.afterAll()
   }
-
 }

@@ -83,7 +83,6 @@ trait DeclarationController extends ApplicationController {
   def onSubmit = authorisedForIht {
     implicit user =>
       implicit request => {
-
         withRegistrationDetails { rd =>
           if (rd.coExecutors.nonEmpty) {
             val boundForm = ApplicationForms.declarationForm.bindFromRequest
