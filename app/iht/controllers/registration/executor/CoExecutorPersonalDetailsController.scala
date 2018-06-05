@@ -61,13 +61,13 @@ trait CoExecutorPersonalDetailsController extends RegistrationController {
               throw new Exception("Attempting to add too many co-executors")
             }
             else {
-              coExecutorForms.coExecutorPersonalDetailsForm
+              coExecutorForms.coExecutorPersonalDetailsForm()
             }
           case Some(identifier) =>
             val coExecutor = rd.coExecutors.find(_.id == id)
             coExecutor match {
               case None => throw new Exception(s"Could not find co-executor with id: $identifier")
-              case Some(coExec) => coExecutorForms.coExecutorPersonalDetailsForm.fill(coExec)
+              case Some(coExec) => coExecutorForms.coExecutorPersonalDetailsForm().fill(coExec)
             }
         }
 
@@ -114,9 +114,9 @@ trait CoExecutorPersonalDetailsController extends RegistrationController {
 
         val formType =
           if (mode == Mode.Standard) {
-            coExecutorForms.coExecutorPersonalDetailsForm
+            coExecutorForms.coExecutorPersonalDetailsForm(Some(rd))
           } else {
-            coExecutorForms.coExecutorPersonalDetailsEditForm
+            coExecutorForms.coExecutorPersonalDetailsEditForm(Some(rd))
           }
 
         val boundForm = formType.bindFromRequest()

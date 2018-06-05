@@ -44,11 +44,9 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
       override def cachingConnector = mockCachingConnector
     }
 
-    when(mockCachingConnector.getRegistrationDetails(any(), any())) thenReturn Future.successful(Some(rd))
-
     implicit val request = createFakeRequest()
     implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
-    ihtFormValidator.ninoForCoExecutor("", "", "", coExecutorIDKey)
+    ihtFormValidator.ninoForCoExecutor("", "", "", coExecutorIDKey, Some(rd))
   }
 
   def ninoForDeceasedMapping(rd: RegistrationDetails): FieldMapping[String] = {
@@ -57,11 +55,9 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
       override def cachingConnector = mockCachingConnector
     }
 
-    when(mockCachingConnector.getRegistrationDetails(any(), any())) thenReturn Future.successful(Some(rd))
-
     implicit val request = createFakeRequest()
     implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
-    ihtFormValidator.ninoForDeceased("", "", "")
+    ihtFormValidator.ninoForDeceased("", "", "", Some(rd))
   }
 
   "validateBasicEstateElementLiabilities" must {

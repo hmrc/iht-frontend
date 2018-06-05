@@ -21,7 +21,7 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.IhtProperties._
 import iht.forms.FormTestHelper
 import iht.forms.registration.DeceasedForms._
-import iht.models.{DeceasedDateOfDeath, DeceasedDetails, UkAddress}
+import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails, UkAddress}
 import iht.testhelpers.{CommonBuilder, NinoBuilder}
 import iht.utils.IhtFormValidator
 import org.joda.time.LocalDate
@@ -229,8 +229,9 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
     val mockIhtFormValidator = new IhtFormValidator {
 
       override def cachingConnector: CachingConnector = mock[CachingConnector]
-      override def ninoForDeceased(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String)(
-        implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] = {
+      override def ninoForDeceased(blankMessageKey: String, lengthMessageKey: String,
+                                   formatMessageKey: String, oRegDetails: Option[RegistrationDetails])(
+                                   implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] = {
         val formatter = new Formatter[String] {
           override val format: Option[(String, Seq[Any])] = None
 
@@ -253,7 +254,7 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
     when(formatter.bind(any(), any())).thenReturn(Left(Seq(FormError("nino", "error.nino.alreadyGiven"))))
     val fieldMapping: FieldMapping[String] = Forms.of(formatter)
     val mockIhtFormValidator = mock[IhtFormValidator]
-    when(mockIhtFormValidator.ninoForDeceased(any(), any(), any())(any(), any(), any()))
+    when(mockIhtFormValidator.ninoForDeceased(any(), any(), any(), any())(any(), any(), any()))
       .thenReturn(fieldMapping)
     val deceasedForms = new DeceasedForms {
       override def ihtFormValidator: IhtFormValidator = mockIhtFormValidator
@@ -266,7 +267,7 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
     when(formatter.bind(any(), any())).thenReturn(Right(nino))
     val fieldMapping: FieldMapping[String] = Forms.of(formatter)
     val mockIhtFormValidator = mock[IhtFormValidator]
-    when(mockIhtFormValidator.ninoForDeceased(any(), any(), any())(any(), any(), any()))
+    when(mockIhtFormValidator.ninoForDeceased(any(), any(), any(), any())(any(), any(), any()))
       .thenReturn(fieldMapping)
     val deceasedForms = new DeceasedForms {
       override def ihtFormValidator: IhtFormValidator = mockIhtFormValidator

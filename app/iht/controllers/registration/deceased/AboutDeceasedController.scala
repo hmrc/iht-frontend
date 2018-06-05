@@ -89,7 +89,7 @@ trait AboutDeceasedController extends RegistrationController {
       implicit request =>
         withRegistrationDetailsRedirectOnGuardCondition { (rd: RegistrationDetails) =>
 
-          val formType = deceasedForms.aboutDeceasedForm()
+          val formType = deceasedForms.aboutDeceasedForm(oRegDetails = Some(rd))
 
           val boundForm = formType.bindFromRequest()
 

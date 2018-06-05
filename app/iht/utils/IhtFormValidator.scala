@@ -18,8 +18,7 @@ package iht.utils
 
 import iht.connector.CachingConnector
 import iht.constants.IhtProperties
-import iht.models.{RegistrationDetails, UkAddress}
-import iht.views.html.ihtHelpers.custom.name
+import iht.models.RegistrationDetails
 import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, FormError, Forms}
 import play.api.i18n.{Lang, Messages}
@@ -27,8 +26,7 @@ import play.api.mvc.Request
 
 import scala.collection.immutable.ListMap
 import scala.collection.mutable.ListBuffer
-import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success, Try}
 import uk.gov.hmrc.http.HeaderCarrier
 
@@ -525,22 +523,23 @@ trait IhtFormValidator extends FormValidator {
   val nino: FieldMapping[String] = nino("error.nino.give", "error.nino.giveUsing8Or9Characters", "error.nino.giveUsingOnlyLettersAndNumbers")
 
   private def ninoForCoExecutorFormatter(blankMessageKey: String, lengthMessageKey: String,
-                                         formatMessageKey: String, coExecutorIDKey: String)(
+                                         formatMessageKey: String, coExecutorIDKey: String,
+                                         oRegDetails: Option[RegistrationDetails])(
                                           implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = new Formatter[String] {
 
     def normalize(s: String) = s.replaceAll("\\s", "").toUpperCase
 
-    def ninoIsUnique(nino: String, excludingCoExecutorID: Option[String]): Boolean = {
+    def ninoIsUnique(nino: String, excludingCoExecutorID: Option[String], oRegDetails: Option[RegistrationDetails]): Boolean = {
       val normalizedNino = normalize(nino)
-      val futureOptionRD: Future[Option[RegistrationDetails]] = cachingConnector.getRegistrationDetails
-      val isDifferentFuture = futureOptionRD.map {
-        case None => true
-        case Some(rd) =>
-          rd.applicantDetails.flatMap(_.nino).fold(true)(normalize(_) != normalizedNino) &&
-            rd.deceasedDetails.flatMap(_.nino).fold(true)(normalize(_) != normalizedNino) &&
-            !rd.coExecutors.filter(_.id != excludingCoExecutorID).exists(x => normalize(x.nino) == normalizedNino)
+      oRegDetails.forall {
+        rd => ninoAlreadyInRegDetails(normalizedNino, excludingCoExecutorID, rd)
       }
-      Await.result(isDifferentFuture, Duration.Inf)
+    }
+
+    def ninoAlreadyInRegDetails(nino: String, excludingCoExecutorID: Option[String], rd: RegistrationDetails): Boolean = {
+      rd.applicantDetails.flatMap(_.nino).fold(true)(normalize(_) != nino) &&
+        rd.deceasedDetails.flatMap(_.nino).fold(true)(normalize(_) != nino) &&
+        !rd.coExecutors.filter(_.id != excludingCoExecutorID).exists(x => normalize(x.nino) == nino)
     }
 
     override def bind(key: String, data: Map[String, String]) = {
@@ -549,7 +548,7 @@ trait IhtFormValidator extends FormValidator {
       ninoFormatter(blankMessageKey, lengthMessageKey, formatMessageKey).bind(key, data) match {
         case Right(_) =>
           val coExecutorID: Option[String] = data.get(coExecutorIDKey)
-          if (ninoIsUnique(value, coExecutorID)) {
+          if (ninoIsUnique(value, coExecutorID, oRegDetails)) {
             Right(value)
           } else {
             Left(Seq(FormError(key, "error.nino.alreadyGiven")))
@@ -564,21 +563,18 @@ trait IhtFormValidator extends FormValidator {
   }
 
   private def ninoForDeceasedFormatter(blankMessageKey: String, lengthMessageKey: String,
-                                       formatMessageKey: String)(
+                                       formatMessageKey: String, oRegDetails: Option[RegistrationDetails])(
                                         implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = new Formatter[String] {
 
     def normalize(s: String) = s.replaceAll("\\s", "").toUpperCase
 
     def ninoIsUnique(nino: String): Boolean = {
       val normalizedNino = normalize(nino)
-      val futureOptionRD: Future[Option[RegistrationDetails]] = cachingConnector.getRegistrationDetails
-      val isDifferentFuture = futureOptionRD.map {
-        case None => true
-        case Some(rd) =>
-          val doesNotMatchCoexecNino = if (rd.coExecutors.isEmpty) true else !rd.coExecutors.map(x => normalize(x.nino)).contains(normalizedNino)
-          rd.applicantDetails.flatMap(_.nino).fold(true)(normalize(_) != normalizedNino) && doesNotMatchCoexecNino
+      oRegDetails.forall {
+        rd =>
+          rd.applicantDetails.flatMap(_.nino).fold(true)(normalize(_) != normalizedNino) &&
+          !rd.coExecutors.exists(coExecutor => normalize(coExecutor.nino).contains(normalizedNino))
       }
-      Await.result(isDifferentFuture, Duration.Inf)
     }
 
     override def bind(key: String, data: Map[String, String]) = {
@@ -601,12 +597,14 @@ trait IhtFormValidator extends FormValidator {
   }
 
 
-  def ninoForCoExecutor(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String, coExecutorIDKey: String)(
-    implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] =
-    Forms.of(ninoForCoExecutorFormatter(blankMessageKey, lengthMessageKey, formatMessageKey, coExecutorIDKey))
+  def ninoForCoExecutor(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String,
+                        coExecutorIDKey: String, oRegDetails: Option[RegistrationDetails])(
+                        implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] =
+    Forms.of(ninoForCoExecutorFormatter(blankMessageKey, lengthMessageKey, formatMessageKey, coExecutorIDKey, oRegDetails))
 
-  def ninoForDeceased(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String)(
-    implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] =
-    Forms.of(ninoForDeceasedFormatter(blankMessageKey, lengthMessageKey, formatMessageKey))
+  def ninoForDeceased(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String,
+                      oRegDetails: Option[RegistrationDetails])(
+                      implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] =
+    Forms.of(ninoForDeceasedFormatter(blankMessageKey, lengthMessageKey, formatMessageKey, oRegDetails))
 
 }
