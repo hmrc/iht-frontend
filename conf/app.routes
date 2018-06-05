@@ -1,8 +1,5 @@
 # microservice specific routes
 
-# Remove this once the whitelisting email is no longer being sent
-GET         /assets/resources/151001%20Notes%20to%20help%20you%20fill%20in%20IHT%20online%20-%20final%20-%20for%20DDCN.pdf iht.controllers.pdf.GuidancePDFController.loadPDF
-
 GET         /keep-alive                                              iht.controllers.SessionManagementController.keepAlive
 
 GET         /                                                        iht.controllers.filter.FilterController.redirectPageLoad
@@ -23,8 +20,6 @@ GET         /estate-report/timeout                                   iht.control
 
 GET         /registration/identity-verification-problem              iht.controllers.IVUpliftFailureController.showNotAuthorisedRegistration(journeyId: Option[String])
 GET         /estate-report/identity-verification-problem             iht.controllers.IVUpliftFailureController.showNotAuthorisedApplication(journeyId: Option[String])
-
-GET         /guidancepdf                                             iht.controllers.pdf.GuidancePDFController.loadPDF
 
 GET         /what-do-you-want-to-do                                  iht.controllers.filter.FilterController.onPageLoad
 POST        /what-do-you-want-to-do                                  iht.controllers.filter.FilterController.onSubmit
