@@ -4,6 +4,8 @@
 
 GET         /registration-checklist                             iht.controllers.registration.RegistrationChecklistController.onPageLoad
 
+GET         /test-page                                          iht.controllers.registration.RegistrationChecklistController.test
+
 ## deceased - date of death ##
 
 GET         /date-of-death                                      iht.controllers.registration.deceased.DeceasedDateOfDeathController.onPageLoad

@@ -1960,6 +1960,8 @@ page.iht.questionnaire.button.submit-and-signout = Send feedback and exit
 page.iht.sign-out.p1 = Sign back in through GOV.UK
 page.iht.sign-out.button.gov-uk.text = Explore GOV.UK
 
+page.iht.sign.out = Sign out
+
 #Country names - see also application.conf
 country.AD = Andorra
 country.AE = United Arab Emirates
@@ -2252,6 +2254,12 @@ error.registration.serviceUnavailable.p2 = If you see this message several times
 error.registration.serviceUnavailable.p3 = You can choose to report the estate value using the <a id="paperFormLink" href="{0}">IHT205 paper form</a> instead
 
 error.estateReport.serviceUnavailable.p3 = If you see this message several times you can sign out now and try again later to submit your report at <a id="declarationLink" href="{0}">https://www.tax.service.gov.uk/inheritance-tax/estate-report/declaration</a> (save this link).
+
+error.estateOverview.jsonError.p1 = You cannot complete your estate report online. This is because of an error in our system.
+error.estateOverview.jsonError.p2 = Use the <a id="paperFormLink" href="{0}">IHT205</a> paper form to report the estate value.
+
+error.application.systemError.p1 = Try again later to submit your report at <a id="estateReportLink" href="{0}">https://www.tax.service.gov.uk/inheritance-tax/estate-report</a> (save this link).
+error.registration.systemError.p1 = Try again later to sign in to the service at <a id="checklistLink" href="{0}">https://www.tax.service.gov.uk/inheritance-tax/registration/registration-checklist</a> (save this link).
 
 
 #Errors - Common

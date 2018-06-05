@@ -24,12 +24,20 @@
 @iht_main_template_registration(title = Messages("page.iht.iv.failure.technicalIssue.heading"),
  hasTimeOut=true) {
 
+ <div class="form-group">
  <p>@Messages("error.registration.serviceUnavailable.p1")</p>
  <p>@Html(Messages("error.registration.serviceUnavailable.p2", iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad))</p>
  <p>@Html(Messages("error.registration.serviceUnavailable.p3", linkIHT205PDF))</p>
+ </div>
+
+ <div class="form-group">
+  <a class="button" href="@iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad().url">@Messages("iht.iv.tryAgain")</a>
+ </div>
 
  <div>
-  <a class="button" href="@iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad().url">@Messages("iht.iv.tryAgain")</a>
+  <a href="@iht.controllers.application.routes.ApplicationQuestionnaireController.signOutAndLoadPage.url">
+  @Messages("page.iht.sign.out")
+  </a>
  </div>
 
 }
