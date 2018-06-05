@@ -23,17 +23,19 @@ import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper._
 import iht.utils.RegistrationDetailsHelper._
 import iht.utils.tnrb.TnrbHelper
-import iht.utils.{ApplicationKickOutNonSummaryHelper, ApplicationStatus, EstateNotDeclarableHelper,
-ExemptionsGuidanceHelper, StringHelper, SubmissionDeadlineHelper}
+import iht.utils.{ApplicationKickOutNonSummaryHelper, ApplicationStatus, EstateNotDeclarableHelper, ExemptionsGuidanceHelper, StringHelper, SubmissionDeadlineHelper}
 import iht.viewmodels.application.overview.EstateOverviewViewModel
 import org.joda.time.LocalDate
+import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc._
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 
-import scala.concurrent.Future
-import uk.gov.hmrc.http.HeaderCarrier
+
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, Future}
+import uk.gov.hmrc.http.{BadGatewayException, GatewayTimeoutException, HeaderCarrier, InternalServerException}
 
 object EstateOverviewController extends EstateOverviewController with IhtConnectors
 
@@ -52,6 +54,12 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
   def onPageLoadWithIhtRef(ihtReference: String) = authorisedForIht {
     implicit user =>
       implicit request => {
+        def errorHandler: PartialFunction[Throwable, Result] = {
+          case ex: BadGatewayException if ex.getMessage.contains("JSON validation against schema failed") => {
+              Logger.warn("JSON validation against schema failed. Redirecting to error page")
+              BadGateway(iht.views.html.application.overview.estate_overview_json_error())
+          }
+        }
         val nino = StringHelper.getNino(user)
 
         ihtConnector.getCaseDetails(nino, ihtReference).flatMap {
@@ -76,9 +84,10 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
               }
               case _ => Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
             }
-        }
+        } recover errorHandler
       }
   }
+
 
   /**
     * This method has been mapped to GET type in taxreturn.routes file because it has been called

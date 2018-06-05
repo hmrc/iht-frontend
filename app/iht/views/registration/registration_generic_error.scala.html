@@ -14,23 +14,24 @@
  * limitations under the License.
  *@
 
-@import iht.constants.IhtProperties
+@import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
-@import iht.config.ApplicationConfig
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.constants.IhtProperties.linkIHT205PDF
 
 @()(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
-@iht_main_template_registration(title = Messages("iht.timeout.heading"),
-hasSignOut=false,
-hasTimeOut=false) {
+@iht_main_template_registration(title = Messages("page.iht.iv.failure.technicalIssue.heading"),
+    hasTimeOut=true) {
 
-<div class="form-group">
- <p id="paragraph1">@Messages("iht.registration.timeout.p1")</p>
-</div>
+    <p>@Html(Messages("error.registration.systemError.p1", iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad()))</p>
+    <p>@Messages("page.iht.iv.failure.youCanAlso")</p>
 
-<div id="login-redirect-button">
-    <p><a class='button' href ='@iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad.url'>@Messages("iht.iv.signIn")</a></p>
-</div>
+    <div id="choice-list" class="form-group">
+        <ul class="bullets">
+            <li>@Html(Messages("page.iht.iv.failure.reportWithPaperForm", linkIHT205PDF))</li>
+            <li>@Messages("page.iht.iv.failure.askForHelp")</li>
+        </ul>
+    </div>
 
 }

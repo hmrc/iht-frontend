@@ -14,23 +14,18 @@
  * limitations under the License.
  *@
 
-@import iht.constants.IhtProperties
+@import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
-@import iht.config.ApplicationConfig
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.constants.IhtProperties.linkIHT205PDF
 
-@()(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+@()(implicit request:Request[_],
+        messages: Messages,
+        ihtFormPartialRetriever: FormPartialRetriever)
 
-@iht_main_template_registration(title = Messages("iht.timeout.heading"),
-hasSignOut=false,
-hasTimeOut=false) {
-
-<div class="form-group">
- <p id="paragraph1">@Messages("iht.registration.timeout.p1")</p>
-</div>
-
-<div id="login-redirect-button">
-    <p><a class='button' href ='@iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad.url'>@Messages("iht.iv.signIn")</a></p>
-</div>
-
+@iht_main_template_application(title = Messages("page.iht.iv.failure.technicalIssue.heading"),
+    browserTitle = Some(Messages("page.iht.iv.failure.technicalIssue.heading"))
+) {
+    <p>@Messages("error.estateOverview.jsonError.p1")</p>
+    <p>@Html(Messages("error.estateOverview.jsonError.p2", linkIHT205PDF))</p>
 }

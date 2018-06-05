@@ -42,7 +42,11 @@ object ApplicationGlobal extends DefaultFrontendGlobal with RunMode {
   }
 
   override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: Request[_]): Html =
-    iht.views.html.iht_error_template(pageTitle, heading, message)
+    request.uri match {
+      case s: String if s.contains("/registration/") => iht.views.html.registration.registration_generic_error()
+      case s: String if s.contains("/estate-report/") => iht.views.html.application.application_generic_error()
+      case _ => iht.views.html.iht_error_template(pageTitle, heading, message)
+    }
 
   override def microserviceMetricsConfig(implicit app: Application): Option[Configuration] = app.configuration.getConfig(s"$env.microservice.metrics")
 }
