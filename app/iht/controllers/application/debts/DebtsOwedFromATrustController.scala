@@ -44,7 +44,6 @@ trait DebtsOwedFromATrustController extends EstateController {
 
   def onSubmit = authorisedForIht {
     implicit user => implicit request => {
-      request.path
       val updateApplicationDetails: (ApplicationDetails, Option[String], BasicEstateElementLiabilities) =>
         (ApplicationDetails, Option[String]) =
         (appDetails, _, debtsTrust) => {
