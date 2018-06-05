@@ -18,7 +18,7 @@ package iht.forms.registration
 
 import iht.constants.{FieldMappings, IhtProperties}
 import iht.forms.mappings.DateMapping
-import iht.models.{DeceasedDateOfDeath, DeceasedDetails, UkAddress}
+import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails, UkAddress}
 import iht.utils.IhtFormValidator
 import iht.utils.IhtFormValidator._
 import org.joda.time.LocalDate
@@ -54,8 +54,8 @@ trait DeceasedForms {
     )
   )
 
-  def aboutDeceasedForm(dateOfDeath: LocalDate = LocalDate.now())(implicit messages: Messages, request: Request[_],
-                                                                  hc: HeaderCarrier, ec: ExecutionContext) = Form(
+  def aboutDeceasedForm(dateOfDeath: LocalDate = LocalDate.now(), oRegDetails: Option[RegistrationDetails] = None)
+                       (implicit messages: Messages, request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = Form(
     mapping(
       "firstName" -> ihtNonEmptyText("error.firstName.give")
         .verifying("error.firstName.giveUsingXCharsOrLess", f => f.length <= IhtProperties.validationMaxLengthFirstName)
@@ -64,7 +64,7 @@ trait DeceasedForms {
         .verifying("error.lastName.giveUsingXCharsOrLess", f => f.length <= IhtProperties.validationMaxLengthLastName)
         .verifying("error.lastName.giveUsingOnlyValidChars", f => nameAndAddressRegex.findFirstIn(f).fold(false)(_=>true)),
       "nino" -> ihtFormValidator.ninoForDeceased(
-        "error.nino.give","error.nino.giveUsing8Or9Characters","error.nino.giveUsingOnlyLettersAndNumbers"),
+        "error.nino.give","error.nino.giveUsing8Or9Characters","error.nino.giveUsingOnlyLettersAndNumbers", oRegDetails),
       "dateOfBirth" -> DateMapping.dateOfBirth.verifying("error.deceasedDateOfBirth.giveBeforeDateOfDeath", x => isDobBeforeDod(dateOfDeath, x)),
       "maritalStatus" -> of(radioOptionString("error.deceasedMaritalStatus.select", FieldMappings.maritalStatusMap(messages))))
     (

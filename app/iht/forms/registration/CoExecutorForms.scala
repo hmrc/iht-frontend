@@ -45,7 +45,7 @@ trait CoExecutorForms {
     "countryCode" -> optional(text)
   )(UkAddress.applyInternational)(UkAddress.unapplyInternational)
 
-  val addressMappingCoexecUk = mapping(
+  val addressMappingCoexecUk: Mapping[UkAddress] = mapping(
     "ukAddressLine1" -> of(ihtAddress("ukAddressLine2", "ukAddressLine3",
       "ukAddressLine4", "postCode", "countryCode",
       "error.address.give", "error.address.giveInLine1And2",
@@ -61,7 +61,8 @@ trait CoExecutorForms {
   val coExecutorAddressUkForm = Form(addressMappingCoexecUk)
   def coExecutorAddressAbroadForm(implicit lang: Lang, messages: Messages) = Form(addressMappingCoexecInternational(lang, messages))
 
-  def coExecutorPersonalDetailsForm(implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = Form(
+  def coExecutorPersonalDetailsForm(oRegDetails: Option[RegistrationDetails] = None)
+                                   (implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = Form(
     mapping(
       "id" -> optional(text),
       "firstName" -> ihtNonEmptyText("error.firstName.give")
@@ -87,7 +88,7 @@ trait CoExecutorForms {
       ),
       "nino" -> ihtFormValidator.ninoForCoExecutor(
         "error.nino.give","error.nino.giveUsing8Or9Characters","error.nino.giveUsingOnlyLettersAndNumbers",
-        "id"),
+        "id", oRegDetails),
       "phoneNo" -> mandatoryPhoneNumber(
         "error.phoneNumber.give",
         "error.phoneNumber.giveUsing27CharactersOrLess",
@@ -106,7 +107,8 @@ trait CoExecutorForms {
     )
   )
 
-  def coExecutorPersonalDetailsEditForm(implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = Form(
+  def coExecutorPersonalDetailsEditForm(oRegDetails: Option[RegistrationDetails] = None)
+                                       (implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = Form(
     mapping(
       "id" -> optional(text),
       "firstName" -> ihtNonEmptyText("error.firstName.give")
@@ -132,7 +134,7 @@ trait CoExecutorForms {
       ),
       "nino" -> ihtFormValidator.ninoForCoExecutor(
         "error.nino.give","error.nino.giveUsing8Or9Characters","error.nino.giveUsingOnlyLettersAndNumbers",
-        "id"),
+        "id", oRegDetails),
       "phoneNo" -> mandatoryPhoneNumber(
         "error.phoneNumber.give",
         "error.phoneNumber.giveUsing27CharactersOrLess",

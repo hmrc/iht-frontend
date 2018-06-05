@@ -64,8 +64,9 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
     def deceasedForms: DeceasedForms = {
       val mockIhtFormValidator = new IhtFormValidator {
         override def cachingConnector = mockCachingConnector
-        override def ninoForDeceased(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String)(
-          implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] = {
+        override def ninoForDeceased(blankMessageKey: String, lengthMessageKey: String,
+                                     formatMessageKey: String, oRegDetails: Option[RegistrationDetails])(
+                                     implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] = {
           val formatter = new Formatter[String] {
             override val format: Option[(String, Seq[Any])] = None
 
@@ -90,8 +91,9 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
     def deceasedForms: DeceasedForms = {
       val mockIhtFormValidator = new IhtFormValidator {
         override def cachingConnector = mockCachingConnector
-        override def ninoForDeceased(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String)(
-          implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] = {
+        override def ninoForDeceased(blankMessageKey: String, lengthMessageKey: String,
+                                     formatMessageKey: String, oRegDetails: Option[RegistrationDetails])(
+                                     implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] = {
           val formatter = new Formatter[String] {
             override val format: Option[(String, Seq[Any])] = None
 
