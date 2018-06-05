@@ -46,10 +46,4 @@ trait RegistrationChecklistController extends FrontendController {
       Future.successful(Ok(iht.views.html.registration.registration_checklist()))
     }
   }
-
-  def test = UnauthorisedAction.async {
-    implicit request => {
-      Future.successful(Ok(iht.views.html.registration.registration_error_serviceUnavailable()))
-    }
-  }
 }
