@@ -80,10 +80,21 @@ trait CachingConnector {
   def delete(key: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Any] = {
     SessionHttpCaching.fetch.map {
       case Some(x) =>
-        Await.ready(SessionHttpCaching.remove(), Duration.Inf)
-        val changedCacheData = x.data - key
-        Await.ready(Future.sequence(changedCacheData.map(z => storeData(z._1, z._2))), Duration.Inf)
-      case None => Future.successful(None)
+        SessionHttpCaching.remove().map { response =>
+          response.status match {
+            case 204 =>
+              val changedCacheData = x.data - key
+              for {
+                value <- changedCacheData.map(z => storeData(z._1, z._2))
+              } yield {
+                value
+              }
+            case _ =>
+              Future.successful(None)
+          }
+        }
+      case None =>
+        Future.successful(None)
     }
   }
 
