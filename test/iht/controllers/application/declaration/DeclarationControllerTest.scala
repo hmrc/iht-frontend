@@ -98,7 +98,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
       createMockToGetSingleValueFromCache(mockCachingConnector, same("declarationType"), Some("valueLessThanNilRateBand"))
       createMockToGetSingleValueFromCache(mockCachingConnector, same("isMultipleExecutor"), Some("false"))
-      createMockToGetSingleValueSyncFromCache(mockCachingConnector, same("shouldDisplayRealtimeRiskingMessage"), Some("false"))
+      createMockToGetSingleValueFromCache(mockCachingConnector, same("shouldDisplayRealtimeRiskingMessage"), Some("false"))
       createMockToGetApplicationDetails(mockIhtConnector, Some(CommonBuilder.buildApplicationDetailsWithAllAssets.copy(
         allAssets = Some(CommonBuilder.buildAllAssets.copy(money = None)))))
       createMockToGetRealtimeRiskMessage(mockIhtConnector)

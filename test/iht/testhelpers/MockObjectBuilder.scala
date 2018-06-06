@@ -228,32 +228,6 @@ object MockObjectBuilder {
   }
 
   /**
-    * Create mock to getSingleValueSynv from cache using CachingConnector
-    */
-
-  def createMockToGetSingleValueSyncFromCache(cachingConnector: CachingConnector,
-                                              singleValueFormKey: String = any(),
-                                              singleValueReturn: Option[String]=None
-                                             ) ={
-    when(cachingConnector.getSingleValueSync(singleValueFormKey)(any(), any()))
-      .thenReturn(singleValueReturn)
-  }
-
-  /**
-    * Create mock to storeSingleValueSynv from cache using CachingConnector
-    */
-
-  def createMockToStoreSingleValueSyncInCache(cachingConnector: CachingConnector,
-                                              singleValueFormKey: String = any(),
-                                              singleValueReturn: Option[String]=None
-                                             ) ={
-    when(cachingConnector.storeSingleValueSync(singleValueFormKey, any())(any(), any()))
-      .thenReturn(singleValueReturn)
-  }
-
-
-
-  /**
     * Create mock to getSingleValueSync from cache using CachingConnector
     */
 
@@ -285,7 +259,7 @@ object MockObjectBuilder {
     * Creates mock to doNothing when deleteSingleValue sync from cache using CachingConnector
     */
   def createMockToDoNothingWhenDeleteSingleValueSyncFromCache(cachingConnector: CachingConnector)={
-    doNothing().when(cachingConnector).deleteSingleValueSync(any())(any(),any())
+    doNothing().when(cachingConnector).deleteSingleValue(any())(any(),any())
   }
 
   /**
@@ -335,7 +309,7 @@ object MockObjectBuilder {
     }
 
     if (getSingleValueFromCache) {
-      createMockToGetSingleValueSyncFromCache(cachingConnector, singleValueReturn = singleValue)
+      createMockToGetSingleValueFromCache(cachingConnector, singleValueReturn = singleValue)
     }
   }
 

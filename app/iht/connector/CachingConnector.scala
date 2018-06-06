@@ -114,16 +114,6 @@ trait CachingConnector {
   Future[Option[ProbateDetails]] =
     getChangeData[ProbateDetails](probateDetailsKey)
 
-  def storeSingleValueSync(formKey: String, data: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Option[String] = {
-    val futureOptionString: Future[Option[String]] = Await.ready(storeSingleValue(formKey, data),
-      Duration.Inf)
-    val optionTryOptionString: Option[Try[Option[String]]] = futureOptionString.value
-    optionTryOptionString.fold(throw new RuntimeException("Can't store single value: None returned")) {
-      case Success(x) => x
-      case Failure(x) => throw new RuntimeException("Can't store single value:" + x.getMessage)
-    }
-  }
-
   /**
     * Get from keystore the String value with the specified key. Returns None if the
     * item does not exist in keystore.
@@ -139,16 +129,19 @@ trait CachingConnector {
     }
   }
 
-  def deleteSingleValueSync(key: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Unit =
-    getSingleValueSync(key) match {
-      case None =>
-      case Some(_) =>
-        val futureOptionString = Await.ready(delete(key), Duration.Inf)
-        val optionTryOptionString = futureOptionString.value
-        optionTryOptionString.map {
-          case Success(x) => x
-          case Failure(x) =>
-            throw new RuntimeException("Can't delete single value:" + x.getMessage)
+  def deleteSingleValue(key: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Unit ={
+    getSingleValue(key).map{value =>
+      if(value.isDefined){
+        for{
+          deleteOutcome <- delete(key)
+        } yield {
+          deleteOutcome match {
+            case Success(x) => x
+            case Failure(x) =>
+              throw new RuntimeException("Can't delete single value:" + x.getMessage)
+          }
         }
+      }
     }
+  }
 }
