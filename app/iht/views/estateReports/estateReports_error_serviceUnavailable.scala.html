@@ -24,12 +24,12 @@
 @iht_main_template_registration(title = Messages("page.iht.iv.failure.technicalIssue.heading"),
  hasTimeOut=true) {
  <p>@Messages("iht.application.timeout.p1")</p>
- <p>@Messages("error.registration.serviceUnavailable.p1")</p>
+ <p data-journey="estateReport-service-unavailable:page-view:service-unavailable">@Messages("error.registration.serviceUnavailable.p1")</p>
  <p>@Html(Messages("error.estateReport.serviceUnavailable.p3", iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))</p>
  <p>@Messages("page.iht.iv.failure.youCanAlso")</p>
  <div class="form-group">
  <ul class="list-bullet">
-  <li>@Html(Messages("page.iht.iv.failure.reportWithPaperForm", linkIHT205PDF))</li>
+  <li data-journey="IHT205PDF:download - click:Clicked-on-form-link">@Html(Messages("page.iht.iv.failure.reportWithPaperForm", linkIHT205PDF))</li>
   <li>@Messages("page.iht.iv.failure.askForHelp")</li>
  </ul>
  </div>

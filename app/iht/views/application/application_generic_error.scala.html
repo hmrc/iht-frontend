@@ -25,7 +25,7 @@
     hasTimeOut=true) {
 
     <p>@Html(Messages("error.application.systemError.p1", iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url))</p>
-    <p>@Messages("iht.application.timeout.p1")</p>
+    <p data-journey="error-page:page-view:generic-application-error">@Messages("iht.application.timeout.p1")</p>
     <p>@Messages("page.iht.iv.failure.youCanAlso")</p>
 
     <div id="choice-list" class="form-group">

@@ -26,6 +26,6 @@
 @iht_main_template_application(title = Messages("page.iht.iv.failure.technicalIssue.heading"),
     browserTitle = Some(Messages("page.iht.iv.failure.technicalIssue.heading"))
 ) {
-    <p>@Messages("error.estateOverview.jsonError.p1")</p>
+    <p data-journey="json-error-page:page-view:json-validation-issue">@Messages("error.estateOverview.jsonError.p1")</p>
     <p>@Html(Messages("error.estateOverview.jsonError.p2", linkIHT205PDF))</p>
 }

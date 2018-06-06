@@ -25,7 +25,7 @@
     hasTimeOut=true) {
 
     <p>@Html(Messages("error.registration.systemError.p1", iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad()))</p>
-    <p>@Messages("page.iht.iv.failure.youCanAlso")</p>
+    <p data-journey="error-page:page-view:generic-registration-error">@Messages("page.iht.iv.failure.youCanAlso")</p>
 
     <div id="choice-list" class="form-group">
         <ul class="bullets">
