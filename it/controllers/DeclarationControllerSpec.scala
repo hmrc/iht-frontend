@@ -226,8 +226,6 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
         stubGet("/iht/AA123456A/application/get/ABC1234567890/AAABBBCCC", OK, Json.toJson(testApplicationDetails).toString())
         stubPost("/iht/AA123456A/application/save/AAABBBCCC", OK, Json.toJson(testApplicationDetails).toString())
         stubPost("/iht/AA123456A/ABC1234567890/application/submit", INTERNAL_SERVER_ERROR, "error message")
-        stubGet("/iht/AA123456A/application/delete/ABC1234567890", INTERNAL_SERVER_ERROR, "error message")
-        stubGet("/iht/AA123456A/application/probateDetails/ABC1234567890/XX123456789X", INTERNAL_SERVER_ERROR, "error message")
         controller.onSubmit(fakeRequest)
       }}
 
@@ -279,9 +277,6 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
         stubGet("/iht/AA123456A/home/caseDetails/ABC1234567890", OK, Json.toJson(testRegistrationDetails).toString())
         stubGet("/iht/AA123456A/application/get/ABC1234567890/AAABBBCCC", OK, Json.toJson(testApplicationDetails).toString())
         stubPost("/iht/AA123456A/application/save/AAABBBCCC", INTERNAL_SERVER_ERROR, "")
-        stubPost("/iht/AA123456A/ABC1234567890/application/submit", INTERNAL_SERVER_ERROR, "error message")
-        stubGet("/iht/AA123456A/application/delete/ABC1234567890", INTERNAL_SERVER_ERROR, "error message")
-        stubGet("/iht/AA123456A/application/probateDetails/ABC1234567890/XX123456789X", INTERNAL_SERVER_ERROR, "error message")
         controller.onSubmit(fakeRequest)
       }}
 
@@ -330,10 +325,6 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
         WireMock.configureFor(wiremockHost, wiremockPort)
         stubGet("/iht/AA123456A/home/caseDetails/ABC1234567890", OK, Json.toJson(testRegistrationDetails).toString())
         stubGet("/iht/AA123456A/application/get/ABC1234567890/AAABBBCCC", INTERNAL_SERVER_ERROR, "error message")
-        stubPost("/iht/AA123456A/application/save/AAABBBCCC", INTERNAL_SERVER_ERROR, "error message")
-        stubPost("/iht/AA123456A/ABC1234567890/application/submit", INTERNAL_SERVER_ERROR, "error message")
-        stubGet("/iht/AA123456A/application/delete/ABC1234567890", INTERNAL_SERVER_ERROR, "error message")
-        stubGet("/iht/AA123456A/application/probateDetails/ABC1234567890/XX123456789X", INTERNAL_SERVER_ERROR, "error message")
         controller.onSubmit(fakeRequest)
       }}
 
@@ -379,11 +370,6 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
       def result() = Try { await {
         WireMock.configureFor(wiremockHost, wiremockPort)
         stubGet("/iht/AA123456A/home/caseDetails/ABC1234567890", INTERNAL_SERVER_ERROR, "error message")
-        stubGet("/iht/AA123456A/application/get/ABC1234567890/AAABBBCCC", INTERNAL_SERVER_ERROR, "error message")
-        stubPost("/iht/AA123456A/application/save/AAABBBCCC", INTERNAL_SERVER_ERROR, "error message")
-        stubPost("/iht/AA123456A/ABC1234567890/application/submit", INTERNAL_SERVER_ERROR, "error message")
-        stubGet("/iht/AA123456A/application/delete/ABC1234567890", INTERNAL_SERVER_ERROR, "error message")
-        stubGet("/iht/AA123456A/application/probateDetails/ABC1234567890/XX123456789X", INTERNAL_SERVER_ERROR, "error message")
         controller.onSubmit(fakeRequest)
       }}
 
