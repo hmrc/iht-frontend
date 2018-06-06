@@ -14,6 +14,7 @@ private object AppDependencies {
   private val httpCachingClientVersion = "7.1.0"
   private val jsonSchemaValidatorVersion = "2.2.6"
   private val jsonVersion = "20180130"
+  private val wireMockVersion = "2.9.0"
 
 val compile = Seq(
   ws, cache,
@@ -50,5 +51,26 @@ object Test {
   }.test
 }
 
-  def apply() = compile ++ Test()
+  object IntegrationTest {
+    def apply() = new TestDependencies {
+
+      override lazy val scope: String = "it"
+
+      override lazy val test = Seq(
+        "uk.gov.hmrc" %% "http-caching-client" % httpCachingClientVersion % scope,
+        "uk.gov.hmrc" %% "hmrctest" % "3.0.0" % scope,
+        "org.scalatest" %% "scalatest" % "3.0.0" % scope,
+        "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.0",
+        "org.pegdown" % "pegdown" % "1.6.0" % scope,
+        "org.jsoup" % "jsoup" % "1.10.2" % scope,
+        "com.typesafe.play" %% "play-test" % PlayVersion.current % scope,
+        "org.mockito" % "mockito-core" % "2.13.0" % scope,
+        "com.github.fge" % "json-schema-validator" % jsonSchemaValidatorVersion % scope,
+        "org.json" % "json" % jsonVersion % scope,
+        "com.github.tomakehurst"  %  "wiremock" % wireMockVersion % scope
+      )
+    }.test
+  }
+
+  def apply() = compile ++ Test() ++ IntegrationTest()
 }
