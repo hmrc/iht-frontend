@@ -25,9 +25,9 @@
  hasTimeOut=true) {
 
  <div class="form-group">
- <p>@Messages("error.registration.serviceUnavailable.p1")</p>
+ <p data-journey="registration-service-unavailable:page-view:service-unavailable">@Messages("error.registration.serviceUnavailable.p1")</p>
  <p>@Html(Messages("error.registration.serviceUnavailable.p2", iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad))</p>
- <p>@Html(Messages("error.registration.serviceUnavailable.p3", linkIHT205PDF))</p>
+ <p data-journey="IHT205PDF:download - click:Clicked-on-form-link">@Html(Messages("error.registration.serviceUnavailable.p3", linkIHT205PDF))</p>
  </div>
 
  <div class="form-group">
