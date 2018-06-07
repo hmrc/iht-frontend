@@ -73,9 +73,6 @@ object Constants {
 
   val MaxIterationValueForGiftYears = 8
 
-  val PDFHMRCGuidance: URL = Play.classloader.getResource("pdf/151001 Notes to help you fill in IHT online - final - for DDCN.pdf")
-  val pDFHMRCGuidance: Path = Paths.get(PDFHMRCGuidance.toURI)
-
   val yesAnswer = "Yes"
   val noAnswer = "No"
 
