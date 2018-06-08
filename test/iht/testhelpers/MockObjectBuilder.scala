@@ -258,7 +258,7 @@ object MockObjectBuilder {
   /**
     * Creates mock to doNothing when deleteSingleValue sync from cache using CachingConnector
     */
-  def createMockToDoNothingWhenDeleteSingleValueSyncFromCache(cachingConnector: CachingConnector)={
+  def createMockToDoNothingWhenDeleteSingleValueFromCache(cachingConnector: CachingConnector)={
     doNothing().when(cachingConnector).deleteSingleValue(any())(any(),any())
   }
 

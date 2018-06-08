@@ -17,7 +17,6 @@
 package iht.controllers.application
 
 import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
-import iht.constants.IhtProperties
 import iht.metrics.Metrics
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
@@ -26,7 +25,6 @@ import iht.utils.tnrb._
 import iht.utils.{ApplicationKickOutHelper, CommonHelper, DeceasedInfoHelper, StringHelper, ApplicationStatus => AppStatus}
 import play.api.Logger
 import play.api.Play.current
-import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Request
 import uk.gov.hmrc.http.HeaderCarrier

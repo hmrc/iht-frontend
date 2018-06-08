@@ -65,7 +65,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
         val regDetails = MockObjectBuilder.buildRegistrationDetailsWithDeceasedAndIhtRefDetails
         createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, regDetails)
         createMockToGetApplicationDetails(mockIhtConnector, Some(applicationDetails))
-        createMockToDoNothingWhenDeleteSingleValueSyncFromCache(mockCachingConnector)
+        createMockToDoNothingWhenDeleteSingleValueFromCache(mockCachingConnector)
         createMockToGetSingleValueFromCache(mockCachingConnector, singleValueReturn = None)
 
         val result = kickoutController.onPageLoad(createFakeRequest(isAuthorised = true))
@@ -83,7 +83,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
 
         createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
         createMockToGetApplicationDetails(mockIhtConnector, Some(applicationDetails))
-        createMockToDoNothingWhenDeleteSingleValueSyncFromCache(mockCachingConnector)
+        createMockToDoNothingWhenDeleteSingleValueFromCache(mockCachingConnector)
         createMockToGetSingleValueFromCache(mockCachingConnector, singleValueReturn = None)
 
         val result = kickoutController.onPageLoad(createFakeRequest(isAuthorised = true))
@@ -114,7 +114,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
         createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
         createMockToGetApplicationDetails(mockIhtConnector, Some(applicationDetails))
         createMockToGetApplicationDetailsFromCache(mockCachingConnector, Some(applicationDetails))
-        createMockToDoNothingWhenDeleteSingleValueSyncFromCache(mockCachingConnector)
+        createMockToDoNothingWhenDeleteSingleValueFromCache(mockCachingConnector)
         createMockToGetSingleValueFromCache(mockCachingConnector, singleValueReturn = None)
 
         val result = kickoutController.onPageLoad(createFakeRequest())
@@ -123,7 +123,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
 
     "intercept RuntimeException on page load when there is no application details data in Keystore" in {
         createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
-        createMockToDoNothingWhenDeleteSingleValueSyncFromCache(mockCachingConnector)
+        createMockToDoNothingWhenDeleteSingleValueFromCache(mockCachingConnector)
         createMockToGetSingleValueFromCache(mockCachingConnector, singleValueReturn = None)
         createMockToGetApplicationDetails(mockIhtConnector, None)
 
@@ -137,7 +137,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
     "intercept RuntimeException on page load when there is NOT a valid kickoutReason data in Keystore" in {
         createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
         createMockToGetApplicationDetails(mockIhtConnector)
-        createMockToDoNothingWhenDeleteSingleValueSyncFromCache(mockCachingConnector)
+        createMockToDoNothingWhenDeleteSingleValueFromCache(mockCachingConnector)
         createMockToGetSingleValueFromCache(mockCachingConnector, singleValueReturn = None)
 
         implicit val request = FakeRequest().withSession(SessionKeys.sessionId -> uuid)
@@ -150,7 +150,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
 
     "respond with redirect to deleting estate report page on page submission" in {
         createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
-        createMockToDoNothingWhenDeleteSingleValueSyncFromCache(mockCachingConnector)
+        createMockToDoNothingWhenDeleteSingleValueFromCache(mockCachingConnector)
         createMockToDoNothingWhenDeleteApplication(mockIhtConnector)
         createMockToStoreSingleValueInCache(mockCachingConnector, any(), Some("true"))
         createMockToGetSingleValueFromCache(mockCachingConnector, any(), None)
@@ -163,7 +163,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
 
     "respond with redirect to iht400 page on page submission when first page already seen" in {
         createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
-        createMockToDoNothingWhenDeleteSingleValueSyncFromCache(mockCachingConnector)
+        createMockToDoNothingWhenDeleteSingleValueFromCache(mockCachingConnector)
         createMockToDoNothingWhenDeleteApplication(mockIhtConnector)
         createMockToGetSingleValueFromCache(mockCachingConnector, any(), Some("true"))
         implicit val request = FakeRequest().withSession(SessionKeys.sessionId -> uuid)
@@ -174,7 +174,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
 
     "respond with INTERNAL_SERVER_ERROR on page submission when unable to store value in cache" in {
         createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
-        createMockToDoNothingWhenDeleteSingleValueSyncFromCache(mockCachingConnector)
+        createMockToDoNothingWhenDeleteSingleValueFromCache(mockCachingConnector)
         createMockToDoNothingWhenDeleteApplication(mockIhtConnector)
         createMockToStoreSingleValueInCache(mockCachingConnector, any(), None)
         createMockToGetSingleValueFromCache(mockCachingConnector, any(), None)

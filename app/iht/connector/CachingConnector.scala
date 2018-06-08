@@ -26,9 +26,8 @@ import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.cache.client.SessionCache
 import uk.gov.hmrc.play.config.{AppName, ServicesConfig}
 
-import scala.concurrent.duration._
-import scala.concurrent.{Await, ExecutionContext, Future}
-import scala.util.{Failure, Success, Try}
+import scala.concurrent.{ExecutionContext, Future}
+import scala.util.{Failure, Success}
 
 object SessionHttpCaching extends SessionCache with AppName with ServicesConfig {
   override lazy val http = WSHttp
@@ -124,21 +123,6 @@ trait CachingConnector {
   def getProbateDetails(implicit hc: HeaderCarrier, ec: ExecutionContext):
   Future[Option[ProbateDetails]] =
     getChangeData[ProbateDetails](probateDetailsKey)
-
-  /**
-    * Get from keystore the String value with the specified key. Returns None if the
-    * item does not exist in keystore.
-    */
-  def getSingleValueSync(formKey: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Option[String] = {
-    val futureOptionString: Future[Option[String]] = Await.ready(getSingleValue(formKey),
-      Duration.Inf)
-    val optionTryOptionString: Option[Try[Option[String]]] = futureOptionString.value
-
-    optionTryOptionString.fold(throw new RuntimeException("Can't get single value: None returned")) {
-      case Success(x) => x
-      case Failure(x) => throw new RuntimeException("Can't return single value:" + x.getMessage)
-    }
-  }
 
   def deleteSingleValue(key: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Unit ={
     getSingleValue(key).map{value =>
