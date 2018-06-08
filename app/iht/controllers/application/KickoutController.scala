@@ -17,7 +17,6 @@
 package iht.controllers.application
 
 import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
-import iht.constants.IhtProperties
 import iht.metrics.Metrics
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
@@ -26,9 +25,9 @@ import iht.utils.tnrb._
 import iht.utils.{ApplicationKickOutHelper, CommonHelper, DeceasedInfoHelper, StringHelper, ApplicationStatus => AppStatus}
 import play.api.Logger
 import play.api.Play.current
-import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Request
+import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 
 import scala.concurrent.Future
@@ -51,38 +50,48 @@ trait KickoutController extends ApplicationController {
       implicit request => {
         withRegistrationDetails { regDetails =>
           Logger.info("Retrieving kickout reason")
-          for {
-            applicationDetailsOpt: Option[ApplicationDetails] <- ihtConnector.getApplication(StringHelper.getNino(user),
-              CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-              regDetails.acknowledgmentReference)
-          } yield {
-            val applicationDetails = CommonHelper.getOrExceptionNoApplication(applicationDetailsOpt)
-            (applicationDetails.status, applicationDetails.kickoutReason) match {
-              case (AppStatus.KickOut, Some(kickoutReason)) =>
-                Logger.info(s"Kickout reason: $kickoutReason")
-                val applicationLastSection = cachingConnector.getSingleValueSync(ApplicationKickOutHelper.applicationLastSectionKey)
-                val applicationLastID = cachingConnector.getSingleValueSync(ApplicationKickOutHelper.applicationLastIDKey)
+            fetchAppDetailsFromIHT(user,regDetails)(hc).flatMap { applicationDetailsOpt =>
+              val applicationDetails = CommonHelper.getOrExceptionNoApplication(applicationDetailsOpt)
 
-                cachingConnector.deleteSingleValueSync(ApplicationKickOutHelper.SeenFirstKickoutPageCacheKey)
-                val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
-                lazy val summaryParameter1 = ApplicationKickOutHelper.sources
-                  .find(source => source._1 == kickoutReason && source._2 == KickOutSource.TNRB).map(_ =>
-                  TnrbHelper.previousSpouseOrCivilPartner(
-                    applicationDetails.increaseIhtThreshold,
-                    applicationDetails.widowCheck,
-                    deceasedName
-                  )
-                ).fold(deceasedName)(identity)
+              (applicationDetails.status, applicationDetails.kickoutReason) match {
+                case (AppStatus.KickOut, Some(kickoutReason)) =>
+                  Logger.info(s"Kickout reason: $kickoutReason")
+                  cachingConnector.deleteSingleValue(ApplicationKickOutHelper.SeenFirstKickoutPageCacheKey)
+                  val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
+                  lazy val summaryParameter1 = getKickoutDetails(kickoutReason, deceasedName, applicationDetails)
 
-                Ok(iht.views.html.application.iht_kickout_application(kickoutReason, applicationDetails,
-                  applicationLastSection, applicationLastID, summaryParameter1, deceasedName))
+                  for {
+                    applicationLastSection <- cachingConnector.getSingleValue(ApplicationKickOutHelper.applicationLastSectionKey)
+                    applicationLastID <- cachingConnector.getSingleValue(ApplicationKickOutHelper.applicationLastIDKey)
+                  } yield {
+                    Ok(iht.views.html.application.iht_kickout_application(kickoutReason, applicationDetails,
+                      applicationLastSection, applicationLastID, summaryParameter1, deceasedName))
+                  }
+
               case _ =>
                 val ihtRef = CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference)
-                Redirect(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtRef))
+                Future.successful(Redirect(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtRef)))
             }
           }
         }
       }
+  }
+
+  def fetchAppDetailsFromIHT(user: AuthContext, regDetails: RegistrationDetails)(implicit headerCarrier: HeaderCarrier): Future[Option[ApplicationDetails]] = {
+    ihtConnector.getApplication(StringHelper.getNino(user),
+      CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+      regDetails.acknowledgmentReference)
+  }
+
+  def getKickoutDetails(kickoutReason: String, deceasedName: String, applicationDetails: ApplicationDetails): String ={
+    ApplicationKickOutHelper.sources
+      .find(source => source._1 == kickoutReason && source._2 == KickOutSource.TNRB).map(_ =>
+      TnrbHelper.previousSpouseOrCivilPartner(
+        applicationDetails.increaseIhtThreshold,
+        applicationDetails.widowCheck,
+        deceasedName
+      )
+    ).fold(deceasedName)(identity)
   }
 
   def onSubmit = authorisedForIht {
@@ -103,7 +112,7 @@ trait KickoutController extends ApplicationController {
             emptyCache()
             withRegistrationDetails { regDetails =>
               updateMetrics(regDetails).flatMap(isUpdated => {
-                cachingConnector.deleteSingleValueSync(ApplicationKickOutHelper.SeenFirstKickoutPageCacheKey)
+                cachingConnector.deleteSingleValue(ApplicationKickOutHelper.SeenFirstKickoutPageCacheKey)
                 withRegistrationDetails { regDetails =>
                   ihtConnector.deleteApplication(StringHelper.getNino(user), CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference))
                   if (!isUpdated) {
@@ -135,10 +144,10 @@ trait KickoutController extends ApplicationController {
   }
 
   private def emptyCache()(implicit user: AuthContext, request: Request[_]) = {
-    cachingConnector.getSingleValueSync(ApplicationKickOutHelper.applicationLastSectionKey)
-      .foreach(_ => cachingConnector.deleteSingleValueSync(ApplicationKickOutHelper.applicationLastSectionKey))
-    cachingConnector.getSingleValueSync(ApplicationKickOutHelper.applicationLastIDKey)
-      .foreach(_ => cachingConnector.deleteSingleValueSync(ApplicationKickOutHelper.applicationLastIDKey))
+    cachingConnector.getSingleValue(ApplicationKickOutHelper.applicationLastSectionKey)
+      .map(_ => cachingConnector.deleteSingleValue(ApplicationKickOutHelper.applicationLastSectionKey))
+    cachingConnector.getSingleValue(ApplicationKickOutHelper.applicationLastIDKey)
+      .map(_ => cachingConnector.deleteSingleValue(ApplicationKickOutHelper.applicationLastIDKey))
   }
 
   def onPageLoadDeleting = authorisedForIht {

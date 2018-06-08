@@ -58,7 +58,7 @@ trait GiftsDetailsController extends EstateController {
   def onPageLoad(id: String) = authorisedForIht {
     implicit user =>
       implicit request => {
-        cachingConnector.storeSingleValueSync(cancelLabelKey, cancelLabelKeyValueCancel)
+        cachingConnector.storeSingleValue(cancelLabelKey, cancelLabelKeyValueCancel)
         doPageLoad(id, Some(sevenYearsGiftsRedirectLocation), Some(Messages(cancelLabelKeyValueCancel)))
       }
   }
@@ -66,7 +66,7 @@ trait GiftsDetailsController extends EstateController {
   def onPageLoadForKickout(id: String) = authorisedForIht {
     implicit user =>
       implicit request => {
-        cachingConnector.storeSingleValueSync(cancelLabelKey, cancelLabelKeyValueReturnToGifts)
+        cachingConnector.storeSingleValue(cancelLabelKey, cancelLabelKeyValueReturnToGifts)
         doPageLoad(id, Some(sevenYearsGiftsRedirectLocation), Some(Messages(cancelLabelKeyValueReturnToGifts)))
       }
   }
@@ -102,21 +102,21 @@ trait GiftsDetailsController extends EstateController {
       implicit request => {
         withApplicationDetails { rd => ad =>
           val boundForm = previousYearsGiftsForm.bindFromRequest
-          lazy val cancelLabelKeyValue = cachingConnector
-            .getSingleValueSync(cancelLabelKey).fold(cancelLabelKeyValueReturnToGifts)(identity)
           boundForm.fold(
             formWithErrors => {
-              LogHelper.logFormError(formWithErrors)
-              Future.successful(
-                BadRequest(
-                  iht.views.html.application.gift.gifts_details(
-                    formWithErrors,
-                    rd,
-                    Some(sevenYearsGiftsRedirectLocation),
-                    Some(Messages(cancelLabelKeyValue))
+              for {
+                cancelLabelKeyValue <- cachingConnector.getSingleValue(cancelLabelKey).map(_.fold(cancelLabelKeyValueReturnToGifts)(identity))
+              } yield {
+                LogHelper.logFormError(formWithErrors)
+                  BadRequest(
+                    iht.views.html.application.gift.gifts_details(
+                      formWithErrors,
+                      rd,
+                      Some(sevenYearsGiftsRedirectLocation),
+                      Some(Messages(cancelLabelKeyValue))
+                    )
                   )
-                )
-              )
+              }
             },
             previousYearsGifts => {
               processSubmit(StringHelper.getNino(user), previousYearsGifts, rd, ad)
@@ -151,9 +151,9 @@ trait GiftsDetailsController extends EstateController {
             Redirect(newAD.kickoutReason.fold(CommonHelper.addFragmentIdentifier(
               sevenYearsGiftsRedirectLocation, Some(GiftsValueDetailID + (idToUpdate + 1).toString))) {
               _ => {
-                cachingConnector.storeSingleValueSync(
+                cachingConnector.storeSingleValue(
                   ApplicationKickOutHelper.applicationLastSectionKey, applicationSection.fold("")(identity))
-                cachingConnector.storeSingleValueSync(
+                cachingConnector.storeSingleValue(
                   ApplicationKickOutHelper.applicationLastIDKey, previousYearsGifts.yearId.getOrElse(""))
                 kickoutRedirectLocation
               }

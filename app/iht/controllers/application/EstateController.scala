@@ -242,7 +242,7 @@ trait EstateController extends ApplicationController {
                   Logger.warn("Application Details not found")
                   InternalServerError("Application Details not found")
                 }(_ => {
-                  cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastSectionKey,
+                  cachingConnector.storeSingleValue(ApplicationKickOutHelper.applicationLastSectionKey,
                     applicationSection.fold("")(identity))
                   Redirect(applicationDetails.kickoutReason.fold(redirectLocation(applicationDetails, updatedID))(_ =>
                     kickoutRedirectLocation))

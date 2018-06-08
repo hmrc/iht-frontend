@@ -173,8 +173,8 @@ trait PropertyTenureController extends EstateController {
           case Some(_) => {
             Redirect(ad.kickoutReason.fold(locationAfterSuccessfulSave(propertyID)) {
               _ => {
-                cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastSectionKey, applicationSection.fold("")(identity))
-                cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastIDKey, propertyID)
+                cachingConnector.storeSingleValue(ApplicationKickOutHelper.applicationLastSectionKey, applicationSection.fold("")(identity))
+                cachingConnector.storeSingleValue(ApplicationKickOutHelper.applicationLastIDKey, propertyID)
                 kickoutRedirectLocation
               }
             })
