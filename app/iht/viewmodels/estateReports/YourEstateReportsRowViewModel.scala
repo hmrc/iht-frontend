@@ -18,20 +18,14 @@ package iht.viewmodels.estateReports
 
 import iht.connector.IhtConnector
 import iht.models.application.IhtApplication
-import iht.utils.{CommonHelper, DeceasedInfoHelper, ApplicationStatus => AppStatus}
+import iht.utils.{ApplicationStatus => AppStatus}
 import play.api.i18n.Messages.Implicits._
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Call
 import play.api.{Application, Logger}
 import uk.gov.hmrc.play.language.LanguageUtils.Dates
-
-import scala.concurrent.Await
-import scala.concurrent.duration.Duration
 import uk.gov.hmrc.http.HeaderCarrier
 
-/**
-  * Created by vineet on 26/09/16.
-  */
 case class YourEstateReportsRowViewModel(deceasedName: String,
                                ihtRefNo: String,
                                dateOfDeath: String,

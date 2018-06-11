@@ -32,11 +32,6 @@ import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys, Upstream4xxResponse}
 
 import scala.concurrent.Future
 
-/**
-  *
-  * Created by Vineet Tyagi on 18/06/15.
-  *
-  */
 object YourEstateReportsController extends YourEstateReportsController with IhtConnectors
 
 trait YourEstateReportsController extends ApplicationController {

@@ -16,7 +16,6 @@
 
 package iht.controllers.application.declaration
 
-import iht.config.IhtFormPartialRetriever
 import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.constants.IhtProperties
 import iht.controllers.ControllerHelper
@@ -32,18 +31,14 @@ import iht.viewmodels.application.DeclarationViewModel
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.Result
+import play.api.mvc.{Action, AnyContent, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
-import uk.gov.hmrc.http.{ GatewayTimeoutException, HeaderCarrier }
-
-/**
-  * Created by vineet on 01/12/16.
-  */
+import uk.gov.hmrc.http.{GatewayTimeoutException, HeaderCarrier}
 
 object DeclarationController extends DeclarationController with IhtConnectors {
   lazy val metrics: Metrics = Metrics
@@ -59,26 +54,27 @@ trait DeclarationController extends ApplicationController {
 
   val metrics: Metrics
 
-  def onPageLoad = authorisedForIht {
+
+  def onPageLoad: Action[AnyContent] = authorisedForIht {
     implicit user =>
       implicit request => {
         withRegistrationDetails { regDetails =>
-          for {
-            appDetails <- getApplicationDetails(
-              getOrException(regDetails.ihtReference), regDetails.acknowledgmentReference)
-          } yield {
-
-            Ok(iht.views.html.application.declaration.declaration(
-              DeclarationViewModel(ApplicationForms.declarationForm,
-                appDetails,
-                regDetails,
-                StringHelper.getNino(user),
-                ihtConnector)))
-
+           getApplicationDetails(getOrException(regDetails.ihtReference), regDetails.acknowledgmentReference).flatMap { appDetails =>
+             realTimeRiskingMessage(appDetails, CommonHelper.getOrException(regDetails.ihtReference), StringHelper.getNino(user), ihtConnector).map { optRiskMsg =>
+               Ok(iht.views.html.application.declaration.declaration(
+                 DeclarationViewModel(ApplicationForms.declarationForm,
+                   appDetails,
+                   regDetails,
+                   StringHelper.getNino(user),
+                   ihtConnector,
+                   optRiskMsg
+                 )
+               ))
+             }
+           }
           }
         }
       }
-  }
 
   def onSubmit = authorisedForIht {
     implicit user =>
@@ -89,17 +85,18 @@ trait DeclarationController extends ApplicationController {
             boundForm.fold(
               formWithErrors => {
                 LogHelper.logFormError(formWithErrors)
-                for {
-                  appDetails <- getApplicationDetails(
-                    getOrException(rd.ihtReference), rd.acknowledgmentReference)
-                } yield {
-                  BadRequest(iht.views.html.application.declaration.declaration(
-                    DeclarationViewModel(ApplicationForms.declarationForm,
-                      appDetails,
-                      rd,
-                      StringHelper.getNino(user),
-                      ihtConnector)
-                  ))
+                getApplicationDetails(getOrException(rd.ihtReference), rd.acknowledgmentReference).flatMap { appDetails =>
+                  realTimeRiskingMessage(appDetails, CommonHelper.getOrException(rd.ihtReference), StringHelper.getNino(user), ihtConnector).map{ optRiskMsg =>
+                    BadRequest(iht.views.html.application.declaration.declaration(
+                      DeclarationViewModel(ApplicationForms.declarationForm,
+                        appDetails,
+                        rd,
+                        StringHelper.getNino(user),
+                        ihtConnector,
+                        optRiskMsg
+                      )
+                    ))
+                  }
                 }
               }, {
                 case true =>
@@ -115,6 +112,43 @@ trait DeclarationController extends ApplicationController {
         }
       }
   }
+
+  private def realTimeRiskingMessage(ad: ApplicationDetails,
+                                     ihtAppReference: String,
+                                     nino: String,
+                                     ihtConnector: IhtConnector)(implicit request: Request[_],
+                                                                 hc: HeaderCarrier): Future[Option[String]] = {
+    val moneyValue = for {
+      assets <- ad.allAssets
+      money <- assets.money
+    } yield {
+      money.value.getOrElse(BigDecimal(0)) + money.shareValue.getOrElse(BigDecimal(0))
+    }
+
+    val riskMessage = moneyValue.fold(getRealTimeRiskMessage(ihtConnector, ihtAppReference, nino)) {
+      result =>
+        if (result == 0) {
+          getRealTimeRiskMessage(ihtConnector, ihtAppReference, nino)
+        } else {
+          Logger.debug("Money has a value, hence no need to check for real-time risking message")
+          Future.successful(None)
+        }
+    }
+
+    riskMessage
+  }
+
+  private def getRealTimeRiskMessage(ihtConnector: IhtConnector, ihtAppReference: String, nino: String)
+                                    (implicit hc: HeaderCarrier) = {
+    Logger.debug("Money has no value, hence need to check for real-time risking message")
+    ihtConnector.getRealtimeRiskingMessage(ihtAppReference, nino).recover {
+      case e: Exception => {
+        Logger.warn(s"Problem getting realtime risking message: ${e.getMessage}")
+        None
+      }
+    }
+  }
+
 
   private def processApplicationOrRedirect(implicit request: Request[_],
                                                     hc: HeaderCarrier,
