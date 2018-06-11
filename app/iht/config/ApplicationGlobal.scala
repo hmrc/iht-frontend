@@ -19,15 +19,19 @@ package iht.config
 import com.typesafe.config.Config
 import net.ceedubs.ficus.Ficus._
 import play.api.Play.current
+import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc._
 import play.api.{Application, Configuration, Play}
 import play.twirl.api.Html
 import uk.gov.hmrc.crypto.ApplicationCrypto
+import uk.gov.hmrc.http.Upstream5xxResponse
 import uk.gov.hmrc.play.config.{AppName, ControllerConfig, RunMode}
 import uk.gov.hmrc.play.frontend.bootstrap.DefaultFrontendGlobal
 import uk.gov.hmrc.play.frontend.filters.{FrontendAuditFilter, FrontendLoggingFilter, MicroserviceFilterSupport}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
+import play.api.mvc.Results._
+
 
 object ApplicationGlobal extends DefaultFrontendGlobal with RunMode {
 
@@ -36,17 +40,37 @@ object ApplicationGlobal extends DefaultFrontendGlobal with RunMode {
   override val frontendAuditFilter = IhtAuditFilter
   implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
 
+  private implicit def rhToRequest(rh: RequestHeader): Request[_] = Request(rh, "")
+
   override def onStart(app: Application) {
     super.onStart(app)
     ApplicationCrypto.verifyConfiguration()
   }
 
-  override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: Request[_]): Html =
+  override def internalServerErrorTemplate(implicit request: Request[_]): Html = {
     request.uri match {
       case s: String if s.contains("/registration/") => iht.views.html.registration.registration_generic_error()
       case s: String if s.contains("/estate-report/") => iht.views.html.application.application_generic_error()
-      case _ => iht.views.html.iht_error_template(pageTitle, heading, message)
+      case _ =>     standardErrorTemplate(
+        Messages("global.error.InternalServerError500.title"),
+        Messages("global.error.InternalServerError500.heading"),
+        Messages("global.error.InternalServerError500.message")
+      )
     }
+  }
+
+  override def resolveError(rh: RequestHeader, ex: Throwable): Result =
+    ex match {
+    case e: Upstream5xxResponse if e.upstreamResponseCode == 500 &&
+      e.message.contains("500 response returned from DES") => InternalServerError(internalServerErrorTemplate(rh))
+    case _ => super.resolveError(rh, ex)
+  }
+
+
+
+  override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: Request[_]): Html =
+      iht.views.html.iht_error_template(pageTitle, heading, message)
+
 
   override def microserviceMetricsConfig(implicit app: Application): Option[Configuration] = app.configuration.getConfig(s"$env.microservice.metrics")
 }

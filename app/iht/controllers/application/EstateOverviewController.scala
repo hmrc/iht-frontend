@@ -35,7 +35,7 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
-import uk.gov.hmrc.http.{BadGatewayException, GatewayTimeoutException, HeaderCarrier, InternalServerException}
+import uk.gov.hmrc.http._
 
 object EstateOverviewController extends EstateOverviewController with IhtConnectors
 
@@ -55,9 +55,10 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
     implicit user =>
       implicit request => {
         def errorHandler: PartialFunction[Throwable, Result] = {
-          case ex: BadGatewayException if ex.getMessage.contains("JSON validation against schema failed") => {
-              Logger.warn("JSON validation against schema failed. Redirecting to error page")
-              BadGateway(iht.views.html.application.overview.estate_overview_json_error())
+          case ex: Upstream5xxResponse if ex.upstreamResponseCode == 502 &&
+            ex.getMessage.contains("JSON validation against schema failed") => {
+              Logger.warn("JSON validation against schema failed. Redirecting to error page", ex)
+              InternalServerError(iht.views.html.application.overview.estate_overview_json_error())
           }
         }
         val nino = StringHelper.getNino(user)
