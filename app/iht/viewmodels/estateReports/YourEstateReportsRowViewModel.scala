@@ -41,11 +41,10 @@ case class YourEstateReportsRowViewModel(deceasedName: String,
                                linkScreenreader: String)
 
 object YourEstateReportsRowViewModel {
-  def apply(nino: String, ihtApp: IhtApplication, ihtConnector: IhtConnector)(implicit headerCarrier: HeaderCarrier,
+  def apply(nino: String, ihtApp: IhtApplication, ihtConnector: IhtConnector, currentStatus: String)(implicit headerCarrier: HeaderCarrier,
                                                     lang: Lang, application: Application) = {
 
     implicit val messages: Messages = applicationMessages(lang, application)
-    val currentStatus = getStatus(nino, ihtApp, ihtConnector)
     val ihtRef = ihtApp.ihtRefNo
 
     new YourEstateReportsRowViewModel(deceasedName = s"${ihtApp.firstName} ${ihtApp.lastName}",
@@ -91,50 +90,30 @@ object YourEstateReportsRowViewModel {
     }
   }
 
-    private def getLink(currentStatus: String, ihtRef: String) = {
+  private def getLink(currentStatus: String, ihtRef: String) = {
 
-      currentStatus match {
+    currentStatus match {
 
-        case AppStatus.NotStarted | AppStatus.InProgress | AppStatus.KickOut => {
+       case AppStatus.NotStarted | AppStatus.InProgress | AppStatus.KickOut =>
+         iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtRef)
 
-          iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtRef)
-        }
+       case AppStatus.InReview | AppStatus.UnderEnquiry =>
+         iht.controllers.application.status.routes.ApplicationInReviewController.onPageLoad(ihtRef)
 
-        case AppStatus.InReview | AppStatus.UnderEnquiry =>
-          iht.controllers.application.status.routes.ApplicationInReviewController.onPageLoad(ihtRef)
+       case AppStatus.Closed =>
+         iht.controllers.application.status.routes.ApplicationClosedController.onPageLoad(ihtRef)
 
-        case AppStatus.Closed =>
-          iht.controllers.application.status.routes.ApplicationClosedController.onPageLoad(ihtRef)
+       case AppStatus.ClearanceGranted =>
+         iht.controllers.application.status.routes.ApplicationClosedController.onPageLoad(ihtRef)
 
-        case AppStatus.ClearanceGranted =>
-          iht.controllers.application.status.routes.ApplicationClosedController.onPageLoad(ihtRef)
+       case AppStatus.IneligibleApplication =>
+         Logger.warn("Ineligible Application status found")
+         throw new RuntimeException("Ineligible Application status found")
 
-        case AppStatus.IneligibleApplication => {
-          Logger.warn("Ineligible Application status found")
-          throw new RuntimeException("Ineligible Application status found")
-        }
-        case _ => {
-          Logger.error("Unknown Application status found")
-          throw new RuntimeException("Unknown Application status found")
-        }
+       case _ =>
+         Logger.error("Unknown Application status found")
+         throw new RuntimeException("Unknown Application status found")
 
-      }
-    }
-
-  private def getStatus(nino: String,
-                        ihtApp: IhtApplication,
-                        ihtConnector: IhtConnector)(implicit headerCarrier: HeaderCarrier) = {
-
-    ihtApp.currentStatus match {
-      // For display purposes only, change 'Under Enquiry' to 'In Review'
-      case AppStatus.UnderEnquiry => AppStatus.InReview
-      case AppStatus.Closed => AppStatus.Closed
-      case AppStatus.IneligibleApplication => AppStatus.IneligibleApplication
-      case _ => {
-        val applicationDetails = CommonHelper.getOrExceptionNoApplication(Await.result(ihtConnector
-          .getApplication(nino, ihtApp.ihtRefNo, ihtApp.acknowledgmentReference), Duration.Inf))
-         DeceasedInfoHelper.determineStatusToUse(ihtApp.currentStatus, applicationDetails.status)
-      }
     }
   }
 }

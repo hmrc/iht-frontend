@@ -26,7 +26,7 @@ import iht.utils.{ApplicationKickOutHelper, CommonHelper, DeceasedInfoHelper, St
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.Request
+import play.api.mvc.{Action, AnyContent, Request}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 
@@ -45,7 +45,7 @@ trait KickoutController extends ApplicationController {
 
   def metrics: Metrics
 
-  def onPageLoad = authorisedForIht {
+  def onPageLoad: Action[AnyContent] = authorisedForIht {
     implicit user =>
       implicit request => {
         withRegistrationDetails { regDetails =>
