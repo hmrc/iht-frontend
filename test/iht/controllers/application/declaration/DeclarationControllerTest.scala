@@ -26,16 +26,18 @@ import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.models.application.exemptions.{AllExemptions, PartnerExemption}
 import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.models.enums.StatsSource
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.ApplicationStatus
 import org.mockito.ArgumentMatchers._
 import play.api.http.Status.OK
-import play.api.i18n.Messages
+import org.mockito.Mockito.when
 import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
-import uk.gov.hmrc.http.{ GatewayTimeoutException, HeaderCarrier }
+import uk.gov.hmrc.http.{GatewayTimeoutException, HeaderCarrier}
+
+import scala.concurrent.Future
 
 class DeclarationControllerTest extends ApplicationControllerTest {
 
@@ -81,6 +83,127 @@ class DeclarationControllerTest extends ApplicationControllerTest {
 
   "declaration controller" must {
 
+    "return correct riskMessageFromEdh when there is no money entered" in {
+      val testConnector = mock[IhtConnector]
+      val regDetails = CommonBuilder.buildRegistrationDetails
+      val appDetails = CommonBuilder.buildApplicationDetails
+      createMockToGetRealtimeRiskMessage(testConnector, Option("Risk Message"))
+
+      await(declarationController.realTimeRiskingMessage(appDetails, regDetails.ihtReference.get, "AB123456C", testConnector)) shouldBe Some("Risk Message")
+    }
+
+    "return correct riskMessageFromEdh when there is money value of zero" in {
+      val testConnector = mock[IhtConnector]
+      val regDetails = CommonBuilder.buildRegistrationDetails
+      createMockToGetRealtimeRiskMessage(testConnector, Option("Risk Message"))
+
+      val appDetails = {
+        val allAssets = CommonBuilder.buildAllAssets.copy(
+          money = Some(CommonBuilder.buildShareableBasicElementExtended.copy(
+            Some(BigDecimal(0)), None, Some(true), Some(false)))
+        )
+        CommonBuilder.buildApplicationDetails.copy(allAssets = Some(allAssets))
+      }
+
+      await(declarationController.realTimeRiskingMessage(appDetails, regDetails.ihtReference.get, "AB123456C", testConnector)) shouldBe Some("Risk Message")
+    }
+
+    "return None when there is money value which is non-zero" in {
+      val testConnector = mock[IhtConnector]
+      val regDetails = CommonBuilder.buildRegistrationDetails
+      val riskMessage = Some("Risk Message")
+      createMockToGetRealtimeRiskMessage(testConnector, riskMessage)
+
+      val appDetails = {
+        val allAssets = CommonBuilder.buildAllAssets.copy(
+          money = Some(CommonBuilder.buildShareableBasicElementExtended.copy(
+            Some(BigDecimal(10)), None, Some(true), Some(false)))
+        )
+        CommonBuilder.buildApplicationDetails.copy(allAssets = Some(allAssets))
+      }
+
+      await(declarationController.realTimeRiskingMessage(appDetails, regDetails.ihtReference.get, "AB123456C", testConnector)) shouldBe None
+    }
+
+    "return correct riskMessageFromEdh when there is money value of None" in {
+      val testConnector = mock[IhtConnector]
+      val regDetails = CommonBuilder.buildRegistrationDetails
+      val riskMessage = Some("Risk Message")
+      createMockToGetRealtimeRiskMessage(testConnector, riskMessage)
+
+      val appDetails = {
+        val allAssets = CommonBuilder.buildAllAssets.copy(
+          money = Some(CommonBuilder.buildShareableBasicElementExtended.copy(
+            None, None, Some(true), Some(false)))
+        )
+        CommonBuilder.buildApplicationDetails.copy(allAssets = Some(allAssets))
+      }
+
+      await(declarationController.realTimeRiskingMessage(appDetails, regDetails.ihtReference.get, "AB123456C", testConnector)) shouldBe riskMessage
+    }
+
+    "return None when there is an error in getting risk message" in {
+      val testConnector = mock[IhtConnector]
+      val regDetails = CommonBuilder.buildRegistrationDetails
+      val appDetails = CommonBuilder.buildApplicationDetails
+      val riskMessage = Some("Risk Message")
+      createMockToGetRealtimeRiskMessage(testConnector, riskMessage)
+      when(testConnector.getRealtimeRiskingMessage(any(), any())(any()))
+        .thenThrow(new RuntimeException("error"))
+
+      a[RuntimeException] shouldBe thrownBy{
+        await(declarationController.realTimeRiskingMessage(appDetails, regDetails.ihtReference.get, "AB123456C", testConnector))
+      }
+    }
+
+    "return correct riskMessageFromEdh when the money entered is of value 0 and shared value is None" in {
+      val testConnector = mock[IhtConnector]
+      val regDetails = CommonBuilder.buildRegistrationDetails
+      val appDetails = CommonBuilder.buildApplicationDetails
+      val riskMessage = Some("Risk Message")
+      createMockToGetRealtimeRiskMessage(testConnector, riskMessage)
+
+      val ad = appDetails.copy(allAssets = Some(CommonBuilder.buildAllAssets.copy(
+        money = Some(ShareableBasicEstateElement(
+          value = Some(BigDecimal(0)),
+          shareValue = None,
+          isOwned = None,
+          isOwnedShare = None)))))
+
+      await(declarationController.realTimeRiskingMessage(ad, regDetails.ihtReference.get, "AB123456C", testConnector)) shouldBe riskMessage
+    }
+
+    "return correct riskMessageFromEdh when the money owed and shared value are entered as 0" in {
+      val testConnector = mock[IhtConnector]
+      val regDetails = CommonBuilder.buildRegistrationDetails
+      val appDetails = CommonBuilder.buildApplicationDetails
+      val ad = appDetails.copy(allAssets = Some(CommonBuilder.buildAllAssets.copy(
+        money = Some(ShareableBasicEstateElement(
+          value = Some(BigDecimal(0)),
+          shareValue = Some(BigDecimal(0)),
+          isOwned = None,
+          isOwnedShare = None)))))
+
+      val riskMessage = Some("Risk Message")
+      createMockToGetRealtimeRiskMessage(testConnector, riskMessage)
+
+      await(declarationController.realTimeRiskingMessage(ad, regDetails.ihtReference.get, "AB123456C", testConnector)) shouldBe riskMessage
+    }
+
+    "return riskMessageFromEdh as None when there is non zero money value" in {
+
+      val regDetails = CommonBuilder.buildRegistrationDetails
+      val appDetails = CommonBuilder.buildApplicationDetails
+      val ad = appDetails.copy(allAssets = Some(CommonBuilder.buildAllAssets.copy(
+        money = Some(ShareableBasicEstateElement(
+          value = Some(BigDecimal(100)),
+          shareValue = None,
+          isOwned = None,
+          isOwnedShare = None)))))
+
+      await(declarationController.realTimeRiskingMessage(ad, regDetails.ihtReference.get, "AB123456C", mockIhtConnector)) shouldBe empty
+    }
+
     "redirect to GG login page on PageLoad if the user is not logged in" in {
       val result = declarationController.onPageLoad()(createFakeRequest(isAuthorised = false))
       status(result) should be(SEE_OTHER)
@@ -105,8 +228,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
 
       val result = declarationController.onPageLoad()(createFakeRequest())
 
-      status(result) shouldBe (OK)
-
+      status(result) shouldBe OK
     }
 
 
@@ -129,7 +251,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
       val result = declarationController.onPageLoad()(createFakeRequest())
 
       contentAsString(result) should include(testRiskMessage)
-      status(result) shouldBe (OK)
+      status(result) shouldBe OK
 
     }
 
@@ -154,7 +276,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
       val expectedRiskMessage = messagesApi("iht.application.declaration.risking.money.message.amended", deceasedName)
 
       contentAsString(result) should include(expectedRiskMessage)
-      status(result) shouldBe (OK)
+      status(result) shouldBe OK
 
     }
 
@@ -175,7 +297,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
       implicit val request = createFakeRequest().withFormUrlEncodedBody(applicantDetailsForm1.data.toSeq: _*)
 
       val result = declarationController.onSubmit()(request)
-      status(result) shouldBe (SEE_OTHER)
+      status(result) shouldBe SEE_OTHER
     }
 
     "respond with redirect on page submit for valueLessThanNilRateBand, single executor" in {
@@ -189,7 +311,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
       createMockToGetProbateDetails(mockIhtConnector)
 
       val result = declarationController.onSubmit()(createFakeRequest())
-      status(result) shouldBe (SEE_OTHER)
+      status(result) shouldBe SEE_OTHER
     }
 
     "respond with redirect to Received Declaration page after the successful submission " in {
@@ -204,7 +326,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
       mockForApplicationStatus(ApplicationStatus.AwaitingReturn)
 
       val result = declarationController.onSubmit()(createFakeRequest())
-      status(result) shouldBe (SEE_OTHER)
+      status(result) shouldBe SEE_OTHER
       redirectLocation(result) should be(Some(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad().url))
     }
 

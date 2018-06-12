@@ -113,7 +113,7 @@ trait DeclarationController extends ApplicationController {
       }
   }
 
-  private def realTimeRiskingMessage(ad: ApplicationDetails,
+  private[controllers] def realTimeRiskingMessage(ad: ApplicationDetails,
                                      ihtAppReference: String,
                                      nino: String,
                                      ihtConnector: IhtConnector)(implicit request: Request[_],
@@ -138,7 +138,7 @@ trait DeclarationController extends ApplicationController {
     riskMessage
   }
 
-  private def getRealTimeRiskMessage(ihtConnector: IhtConnector, ihtAppReference: String, nino: String)
+  private[controllers] def getRealTimeRiskMessage(ihtConnector: IhtConnector, ihtAppReference: String, nino: String)
                                     (implicit hc: HeaderCarrier) = {
     Logger.debug("Money has no value, hence need to check for real-time risking message")
     ihtConnector.getRealtimeRiskingMessage(ihtAppReference, nino).recover {
