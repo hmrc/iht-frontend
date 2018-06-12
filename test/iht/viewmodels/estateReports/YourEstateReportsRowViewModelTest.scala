@@ -22,7 +22,6 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.ApplicationStatus
-import iht.viewmodels.estateReports.YourEstateReportsRowViewModel
 import org.joda.time.LocalDate
 import uk.gov.hmrc.http.HeaderCarrier
 
@@ -39,7 +38,7 @@ class YourEstateReportsRowViewModelTest extends ApplicationControllerTest {
   "YourEstateReportsRowViewModel" must {
 
     val ihtApp = CommonBuilder.buildIhtApplication.copy(currentStatus = ApplicationStatus.NotStarted)
-    def viewModel = YourEstateReportsRowViewModel("", ihtApp, mockIhtConnector)
+    def viewModel = YourEstateReportsRowViewModel("", ihtApp, mockIhtConnector, "Not Started")
 
     "should be created from IhtApplication with deceased name" in {
       viewModel.deceasedName shouldBe CommonBuilder.DefaultName
@@ -59,7 +58,7 @@ class YourEstateReportsRowViewModelTest extends ApplicationControllerTest {
 
     "should be created from IhtApplication with status of in progress" in {
       val ihtApp = CommonBuilder.buildIhtApplication.copy(currentStatus = ApplicationStatus.InProgress)
-      def viewModel = YourEstateReportsRowViewModel("", ihtApp, mockIhtConnector)
+      def viewModel = YourEstateReportsRowViewModel("", ihtApp, mockIhtConnector, "In Progress")
       viewModel.currentStatus shouldBe messagesApi("iht.inProgress")
     }
 

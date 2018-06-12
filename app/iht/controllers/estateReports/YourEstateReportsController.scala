@@ -84,7 +84,7 @@ trait YourEstateReportsController extends ApplicationController {
     }
   }
 
-  private def getStatus(nino: String,
+  private[controllers] def getStatus(nino: String,
                         ihtApp: IhtApplication,
                         ihtConnector: IhtConnector)(implicit headerCarrier: HeaderCarrier): Future[String] = {
 
