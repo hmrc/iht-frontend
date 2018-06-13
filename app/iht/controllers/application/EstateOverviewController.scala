@@ -32,8 +32,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.mvc._
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 
-import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, Future}
+import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
 object EstateOverviewController extends EstateOverviewController with IhtConnectors
@@ -87,9 +86,8 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
     *
     * @param ihtReference
     */
-  def onContinueOrDeclarationRedirect(ihtReference: String) = authorisedForIht {
+  def onContinueOrDeclarationRedirect(ihtReference: String): Action[AnyContent] = authorisedForIht {
     implicit user => implicit request => {
-
       val nino = StringHelper.getNino(user)
       withRegistrationDetails { regDetails =>
         for {
@@ -100,9 +98,10 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
             applicationDetails = appDetails), regDetails.acknowledgmentReference)
 
           appDetailWithKickOutUpdated = getOrException(appDetailsWithKickOutUpdatedOpt)
+          result <- getRedirect(regDetails, appDetailWithKickOutUpdated)
 
         } yield {
-          getRedirect(regDetails, appDetailWithKickOutUpdated)
+          result
         }
       }
     }
@@ -126,7 +125,7 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
       tnrb.isDefined && !maritalStatus.equals(statusSingle) && kickOutReason.isEmpty
 
     if (declarableCondition1 || declarableCondition2) {
-      Redirect(checkedEverythingQuestionPage)
+      Future.successful(Redirect(checkedEverythingQuestionPage))
     } else {
       getNotDeclarableRedirect(regDetails, appDetails)
     }
@@ -135,19 +134,20 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
 
   private def getNotDeclarableRedirect(regDetails: RegistrationDetails,
                                         appDetails: ApplicationDetails)
-                                      (implicit headerCarrier: HeaderCarrier): Result ={
+                                      (implicit headerCarrier: HeaderCarrier): Future[Result] ={
 
     if (EstateNotDeclarableHelper.isEstateOverGrossEstateLimit(appDetails)) {
-      Redirect(kickOutPage)
+      Future.successful(Redirect(kickOutPage))
     } else if (EstateNotDeclarableHelper.isEstateValueMoreThanTaxThresholdBeforeExemptionsStarted(appDetails)) {
-      Redirect(getExemptionsLinkUrlForContinueButton(
-        getExemptionsGuidanceRedirect(getOrException(regDetails.ihtReference), appDetails, cachingConnector)))
+      getExemptionsGuidanceRedirect(getOrException(regDetails.ihtReference), appDetails, cachingConnector).map(opCall =>
+        Redirect(getExemptionsLinkUrlForContinueButton(opCall))
+      )
     } else if (EstateNotDeclarableHelper.isEstateValueMoreThanTaxThresholdBeforeTnrbStarted(appDetails, regDetails)) {
-      Redirect(getTnrbLinkUrlForContinueButton(regDetails, appDetails))
+      Future.successful(Redirect(getTnrbLinkUrlForContinueButton(regDetails, appDetails)))
     } else if (EstateNotDeclarableHelper.isEstateValueMoreThanTaxThresholdBeforeTnrbFinished(appDetails, regDetails)) {
-      Redirect(TnrbHelper.getEntryPointForTnrb(regDetails, appDetails))
+      Future.successful(Redirect(TnrbHelper.getEntryPointForTnrb(regDetails, appDetails)))
     } else {
-      Redirect(kickOutPage)
+      Future.successful(Redirect(kickOutPage))
     }
   }
 
@@ -179,10 +179,7 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
   private def getExemptionsGuidanceRedirect(ihtReference: String,
                                  appDetails: ApplicationDetails,
                                  cachingConnector: CachingConnector)
-                                (implicit headerCarrier: HeaderCarrier): Option[Call] = {
-    val result = ExemptionsGuidanceHelper.guidanceRedirect(
-      routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference), appDetails, cachingConnector)
-    Await.result(result, Duration.Inf)
+                                (implicit headerCarrier: HeaderCarrier): Future[Option[Call]] = {
+   ExemptionsGuidanceHelper.guidanceRedirect(routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference), appDetails, cachingConnector)
   }
-
 }

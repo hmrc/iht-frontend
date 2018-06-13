@@ -16,16 +16,11 @@
 
 package iht.utils
 
-import iht.connector.CachingConnector
 import iht.models._
 import iht.views.html._
 import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.Request
-import scala.concurrent.duration.Duration
-import scala.concurrent.{ExecutionContext, Await, Future}
-import scala.concurrent.ExecutionContext.Implicits.global._
 
 object DeceasedInfoHelper {
 
