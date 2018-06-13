@@ -20,25 +20,23 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.{ApplicationDetails, IhtApplication}
 import iht.testhelpers.MockObjectBuilder._
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, TestHelper}
-import iht.utils.CommonHelper
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
+import iht.utils.DeceasedInfoHelper
+import org.joda.time.LocalDate
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
-import play.api.i18n.MessagesApi
-import play.api.i18n.Messages.Implicits._
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
-import uk.gov.hmrc.http.{ HeaderCarrier, Upstream4xxResponse }
-/**
- *
- * Created by Vineet Tyagi on 18/06/15.
- *
- */
+import uk.gov.hmrc.http.{HeaderCarrier, Upstream4xxResponse}
+
+import scala.concurrent.duration.Duration
+
 class YourEstateReportsControllerTest  extends ApplicationControllerTest{
 
   val mockCachingConnector = mock[CachingConnector]
@@ -66,8 +64,36 @@ class YourEstateReportsControllerTest  extends ApplicationControllerTest{
   }
 
   "YourEstateReportsController" must {
+    "return the right status from getStatus" when{
+      "the app status is Under Enquiry" in{
+        val ihtApp = buildIhtApplicationAndSetStatus("Under Enquiry")
+        await(yourEstateReportsController.getStatus(nino = "AB123456C", ihtApp , mockIhtConnector)) shouldBe "In Review"
+      }
 
-    val appDetails = CommonBuilder.buildApplicationDetailsWithAllAssets
+      "the app status is Closed" in{
+        val ihtApp = buildIhtApplicationAndSetStatus("Closed")
+        await(yourEstateReportsController.getStatus(nino = "AB123456C", ihtApp , mockIhtConnector)) shouldBe "Closed"
+      }
+
+      "the app status is Ineligible Application" in{
+        val ihtApp = buildIhtApplicationAndSetStatus("Ineligible Application")
+        await(yourEstateReportsController.getStatus(nino = "AB123456C", ihtApp , mockIhtConnector)) shouldBe "Ineligible Application"
+      }
+
+      "the app status is undefined" in{
+        createMockToGetApplicationDetails(mockIhtConnector)
+
+        val ihtApp = buildIhtApplicationAndSetStatus("")
+        await(yourEstateReportsController.getStatus(nino = "AB123456C", ihtApp , mockIhtConnector)) shouldBe ""
+      }
+
+      "the app status is Awaiting Return" in{
+        createMockToGetApplicationDetails(mockIhtConnector)
+
+        val ihtApp = buildIhtApplicationAndSetStatus("Awaiting Return")
+        await(yourEstateReportsController.getStatus(nino = "AB123456C", ihtApp , mockIhtConnector)) shouldBe "In Progress"
+      }
+    }
 
     "redirect to GG login page on PageLoad if the user is not logged in" in {
       val result = yourEstateReportsControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
@@ -77,10 +103,10 @@ class YourEstateReportsControllerTest  extends ApplicationControllerTest{
 
     "respond with OK on page load" in {
 
-      createCommonMocksForYourEstateReportsController(mockIhtConnector, ihtAppList = prepareDataForPage)
+      createCommonMocksForYourEstateReportsController(mockIhtConnector, ihtAppList = prepareDataForPage())
 
       val result =yourEstateReportsController.onPageLoad (createFakeRequest())
-      status(result) shouldBe (OK)
+      status(result) shouldBe OK
       contentAsString(result) should include(messagesApi("page.iht.home.title"))
       contentAsString(result) should include(messagesApi("page.iht.home.applicationList.table.guidance.label"))
     }
@@ -90,10 +116,10 @@ class YourEstateReportsControllerTest  extends ApplicationControllerTest{
 
       createCommonMocksForYourEstateReportsController(mockIhtConnector,
         appDetails = applicationDetails,
-        ihtAppList = prepareDataForPage1)
+        ihtAppList = prepareDataForPage1())
 
       val result =yourEstateReportsController.onPageLoad (createFakeRequest())
-      status(result) shouldBe (OK)
+      status(result) shouldBe OK
       contentAsString(result) should include(messagesApi("iht.notStarted"))
     }
 
@@ -102,10 +128,10 @@ class YourEstateReportsControllerTest  extends ApplicationControllerTest{
 
       createCommonMocksForYourEstateReportsController(mockIhtConnector,
         appDetails = applicationDetails,
-        ihtAppList = prepareDataForPage1)
+        ihtAppList = prepareDataForPage1())
 
       val result =yourEstateReportsController.onPageLoad (createFakeRequest())
-      status(result) shouldBe (OK)
+      status(result) shouldBe OK
       contentAsString(result) should include(messagesApi("iht.inProgress"))
     }
 
@@ -114,10 +140,10 @@ class YourEstateReportsControllerTest  extends ApplicationControllerTest{
 
       createCommonMocksForYourEstateReportsController(mockIhtConnector,
         appDetails = applicationDetails,
-        ihtAppList = prepareDataForPage2)
+        ihtAppList = prepareDataForPage2())
 
       val result =yourEstateReportsController.onPageLoad (createFakeRequest())
-      status(result) shouldBe (OK)
+      status(result) shouldBe OK
       contentAsString(result) should include(messagesApi("iht.closed"))
     }
 
@@ -126,10 +152,10 @@ class YourEstateReportsControllerTest  extends ApplicationControllerTest{
 
       createCommonMocksForYourEstateReportsController(mockIhtConnector,
         appDetails = applicationDetails,
-        ihtAppList = prepareDataForPage3)
+        ihtAppList = prepareDataForPage3())
 
       val result =yourEstateReportsController.onPageLoad (createFakeRequest())
-      status(result) shouldBe (OK)
+      status(result) shouldBe OK
       contentAsString(result) should include(messagesApi("iht.inReview"))
     }
 
@@ -140,7 +166,7 @@ class YourEstateReportsControllerTest  extends ApplicationControllerTest{
           Future.successful(Nil)
         }})
       val result = yourEstateReportsController.onPageLoad(createFakeRequest())
-      status(result) shouldBe (OK)
+      status(result) shouldBe OK
     }
 
     "respond normally when 404 occurs" in {
@@ -150,9 +176,23 @@ class YourEstateReportsControllerTest  extends ApplicationControllerTest{
             Future.failed(new Upstream4xxResponse("", 404, 404, Map()))
           }})
       val result = yourEstateReportsController.onPageLoad(createFakeRequest())
-      status(result) shouldBe (OK)
+      status(result) shouldBe OK
     }
   }
+
+  private def buildIhtApplicationAndSetStatus(status: String) = IhtApplication(
+    ihtRefNo = "A1234567",
+    firstName = "test",
+    lastName = "test",
+    dateOfBirth = new LocalDate(1992, 12, 11),
+    dateOfDeath = new LocalDate(2015, 12, 11),
+    nino = "AB123456C",
+    entryType = "Free Estate",
+    role = "Lead Executor",
+    registrationDate = new LocalDate(2015, 12, 12),
+    currentStatus = status ,
+    acknowledgmentReference = "test"
+  )
 
   private def prepareDataForPage1():Seq[IhtApplication]={
     Seq(CommonBuilder.buildIhtApplication.copy(currentStatus = TestHelper.AppStatusAwaitingReturn))

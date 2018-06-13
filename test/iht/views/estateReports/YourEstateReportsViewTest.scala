@@ -43,8 +43,8 @@ class YourEstateReportsViewTest extends ViewTestHelper with ApplicationControlle
 
   lazy val ihtApplications = {
     implicit val hc = new HeaderCarrier
-    Seq(YourEstateReportsRowViewModel("", CommonBuilder.buildIhtApplication, mockIhtConnector),
-      YourEstateReportsRowViewModel("", CommonBuilder.buildIhtApplication, mockIhtConnector))
+    Seq(YourEstateReportsRowViewModel("", CommonBuilder.buildIhtApplication, mockIhtConnector, "Not Started"),
+      YourEstateReportsRowViewModel("", CommonBuilder.buildIhtApplication, mockIhtConnector, "Not Started"))
   }
 
   before {
