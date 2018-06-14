@@ -28,6 +28,8 @@ import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
+import scala.concurrent.Future
+
 /**
   *
   * Created by Vineet Tyagi on 14/01/16.
@@ -53,8 +55,8 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
   }
 
   def createMocksForRegistrationAndApplication(rd: RegistrationDetails, ad: ApplicationDetails) = {
-    createMockToGetCaseDetails(mockIhtConnector, rd)
-    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, rd)
+    createMockToGetCaseDetails(mockIhtConnector, Future.successful(rd))
+    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(rd)))
     createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
     createMockToGetApplicationDetails(mockIhtConnector, Some(ad))
     createMockToGetProbateDetails(mockIhtConnector)

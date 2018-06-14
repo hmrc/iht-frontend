@@ -19,7 +19,7 @@ package iht.controllers.application.exemptions.partner
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.testhelpers.MockObjectBuilder._
 import org.joda.time.LocalDate
 import play.api.i18n.Messages
@@ -29,6 +29,8 @@ import play.api.test.Helpers._
 import iht.testhelpers.TestHelper._
 import iht.utils.CommonHelper._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
+
+import scala.concurrent.Future
 
 /**
  * Created by james on 01/08/16.
@@ -149,7 +151,7 @@ class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
     }
 
     "on page load throws exception when no iht ref" in {
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetailsWithNoIhtRef)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetailsWithNoIhtRef)))
 
       a [RuntimeException] shouldBe thrownBy {
         await(partnerDateOfBirthController.onPageLoad(createFakeRequest()))

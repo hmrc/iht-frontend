@@ -21,7 +21,7 @@ import java.util.UUID
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.metrics.Metrics
 import iht.testhelpers.MockObjectBuilder._
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, MockObjectBuilder, TestHelper}
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, MockObjectBuilder, TestHelper}
 import iht.utils.{DeceasedInfoHelper, KickOutReason, ApplicationStatus => AppStatus}
 import org.mockito.ArgumentMatchers._
 import play.api.i18n.Messages.Implicits._
@@ -30,6 +30,8 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.http.SessionKeys
+
+import scala.concurrent.Future
 
 class KickoutControllerTest extends ApplicationControllerTest {
 
@@ -63,7 +65,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
           .copy(kickoutReason = Some(KickOutReason.ForeignAssetsValueMoreThanMax),
             status = AppStatus.KickOut)
         val regDetails = MockObjectBuilder.buildRegistrationDetailsWithDeceasedAndIhtRefDetails
-        createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, regDetails)
+        createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(regDetails)))
         createMockToGetApplicationDetails(mockIhtConnector, Some(applicationDetails))
         createMockToDoNothingWhenDeleteSingleValueFromCache(mockCachingConnector)
         createMockToGetSingleValueFromCache(mockCachingConnector, singleValueReturn = None)

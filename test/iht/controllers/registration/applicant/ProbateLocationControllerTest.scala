@@ -23,7 +23,7 @@ import iht.forms.registration.ApplicantForms._
 import iht.metrics.Metrics
 import iht.models.{ApplicantDetails, DeceasedDateOfDeath, RegistrationDetails}
 import iht.testhelpers.MockObjectBuilder._
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, TestHelper}
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
 import iht.utils.RegistrationKickOutHelper._
 import org.joda.time.LocalDate
 import play.api.i18n.Messages
@@ -31,6 +31,8 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
+
+import scala.concurrent.Future
 
 class ProbateLocationControllerTest
   extends RegistrationApplicantControllerWithEditModeBehaviour[ProbateLocationController] {
@@ -97,7 +99,7 @@ class ProbateLocationControllerTest
       val filledForm = probateLocationForm.fill(applicantDetails)
       val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
@@ -111,7 +113,7 @@ class ProbateLocationControllerTest
       val filledForm = probateLocationForm.fill(applicantDetails)
       val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
@@ -138,7 +140,7 @@ class ProbateLocationControllerTest
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
       val filledForm = probateLocationForm.fill(applicantDetails)
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
@@ -198,7 +200,7 @@ class ProbateLocationControllerTest
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
         data=applicantDetailsForm1.data.toSeq)
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreSingleValueInCache(
@@ -230,7 +232,7 @@ class ProbateLocationControllerTest
       val filledForm = probateLocationForm.fill(applicantDetails)
       val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCacheWithFailure(mockCachingConnector, Some(registrationDetails))
 

@@ -47,7 +47,7 @@ object ApplicationGlobal extends DefaultFrontendGlobal with RunMode {
     ApplicationCrypto.verifyConfiguration()
   }
 
-  override def internalServerErrorTemplate(implicit request: Request[_]): Html = {
+  def desInternalServerErrorTemplate(implicit request: Request[_]): Html = {
     request.uri match {
       case s: String if s.contains("/registration/") => iht.views.html.registration.registration_generic_error()
       case s: String if s.contains("/estate-report/") => iht.views.html.application.application_generic_error()
@@ -62,7 +62,7 @@ object ApplicationGlobal extends DefaultFrontendGlobal with RunMode {
   override def resolveError(rh: RequestHeader, ex: Throwable): Result =
     ex match {
     case e: Upstream5xxResponse if e.upstreamResponseCode == 500 &&
-      e.message.contains("500 response returned from DES") => InternalServerError(internalServerErrorTemplate(rh))
+      e.message.contains("500 response returned from DES") => InternalServerError(desInternalServerErrorTemplate(rh))
     case _ => super.resolveError(rh, ex)
   }
 
