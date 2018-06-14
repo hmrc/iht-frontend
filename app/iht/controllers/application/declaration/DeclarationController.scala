@@ -248,10 +248,6 @@ trait DeclarationController extends ApplicationController {
         Logger.debug("Request has been timed out while submitting application")
         ControllerHelper.errorServiceUnavailable
       }
-      case ex: BadGatewayException => {
-        Logger.debug("Request has been timed out while submitting application")
-        ControllerHelper.errorDESServiceUnavailable
-      }
       case ex: Exception => {
         if (ex.getMessage.contains("Request timed out") || ex.getMessage.contains("Connection refused")
           || ex.getMessage.contains("Service Unavailable") || ex.getMessage.contains(ControllerHelper.desErrorCode503)) {

@@ -16,11 +16,15 @@
 
 package iht.config
 
+import iht.constants.IhtProperties.AppSectionPropertiesID
+import iht.utils.CommonHelper
 import org.jsoup.Jsoup
-import play.api.mvc.{Action, AnyContent}
+import play.api.mvc.{Action, AnyContent, Results}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import uk.gov.hmrc.http.{Upstream4xxResponse, Upstream5xxResponse}
 import uk.gov.hmrc.play.frontend.controller.FrontendController
+import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
@@ -35,10 +39,11 @@ class ApplicationGlobalTest extends UnitSpec with WithFakeApplication {
     }
   }
 
+
   "Rendering internalServerErrorTemplate by causing an error" should {
     "on the registration journey" in {
       val request = fakeRequest("/registration/error")
-      val template = ApplicationGlobal.internalServerErrorTemplate(request)
+      val template = ApplicationGlobal.desInternalServerErrorTemplate(request)
       lazy val doc = Jsoup.parse(template.body)
 
       doc.getElementById("checklistLink").attr("href") shouldBe iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad().url
@@ -47,7 +52,7 @@ class ApplicationGlobalTest extends UnitSpec with WithFakeApplication {
 
     "on the estate-report journey" in {
       val request = fakeRequest("/estate-report/error")
-      val template = ApplicationGlobal.internalServerErrorTemplate(request)
+      val template = ApplicationGlobal.desInternalServerErrorTemplate(request)
       lazy val doc = Jsoup.parse(template.body)
 
       doc.getElementById("estateReportLink").attr("href") shouldBe iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url
@@ -56,13 +61,31 @@ class ApplicationGlobalTest extends UnitSpec with WithFakeApplication {
 
     "on the what-do-you-want-to-do journey" in {
       val request = fakeRequest("/what-do-you-want-to-do/error")
-      val template = ApplicationGlobal.internalServerErrorTemplate(request)
+      val template = ApplicationGlobal.desInternalServerErrorTemplate(request)
       lazy val doc = Jsoup.parse(template.body)
 
       doc.getElementsByClass("button").attr("href") shouldBe "https://www.gov.uk/valuing-estate-of-someone-who-died"
 
     }
 
+  }
+
+  "Error Handler" should {
+    "Upstream5xxResponse something something" in {
+      val exception = new Upstream5xxResponse("test", 500, 500)
+      val result = ApplicationGlobal.resolveError(FakeRequest(), exception)
+
+      result.header.status shouldBe INTERNAL_SERVER_ERROR
+    }
+
+    "Upstream4xxResponse something something" in {
+      val exception = new ApplicationException("test", Results.Redirect(CommonHelper.addFragmentIdentifier(
+        iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
+        Some(AppSectionPropertiesID))), "401")
+      val result = ApplicationGlobal.resolveError(FakeRequest(), exception)
+
+      result.header.status shouldBe SEE_OTHER
+    }
   }
 
 

@@ -21,13 +21,15 @@ import iht.constants.Constants
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.testhelpers.MockObjectBuilder._
 import play.api.i18n.Messages.Implicits._
 import org.mockito.ArgumentMatchers._
 import play.api.mvc.Request
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
+
+import scala.concurrent.Future
 
 class ApplicationStatusControllerTest extends ApplicationControllerTest {
   val mockCachingConnector = mock[CachingConnector]
@@ -47,8 +49,8 @@ class ApplicationStatusControllerTest extends ApplicationControllerTest {
   }
 
   def createMocksForRegistrationAndApplication(rd: RegistrationDetails, ad: ApplicationDetails) = {
-    createMockToGetCaseDetails(mockIhtConnector, rd)
-    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, rd)
+    createMockToGetCaseDetails(mockIhtConnector, Future.successful(rd))
+    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(rd)))
     createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
     createMockToGetApplicationDetails(mockIhtConnector, Some(ad))
     createMockToGetProbateDetails(mockIhtConnector)
