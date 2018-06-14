@@ -97,6 +97,16 @@ if($('[data-enhanced-select]').length > 0){
     var countryCode = new Autobox($('select'));
 }
 
+// =====================================================
+// Handle the IHT progressive disclosure open/close functionality
+// =====================================================
+ $(".u-mt--3").on("click", function(e) {
+    if (document.getElementById("pairDisclosure").open) {
+            document.getElementById("pairDisclosure").open = false;
+   }else{
+            document.getElementById("pairDisclosure").open = true;
+      }
+    });
 
 // =====================================================
 // Submit trigger
@@ -113,7 +123,6 @@ if($('[data-enhanced-select]').length > 0){
 // Handle number inputs
 // =====================================================
   numberInputs();
-
 
 
 // =====================================================

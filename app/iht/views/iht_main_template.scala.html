@@ -203,7 +203,7 @@ optionContentBelowTitle: Option[Html] = None
         <a id="cancel-button" class="" href=@url>@Html(cancelLabel.getOrElse(""))</a>
     }
 
-    @progressive_disclosure(Messages("iht.needHelp"), Seq(Messages("iht.needHelp.guidance")))
+    @progressive_disclosure(request.uri)
 }
 
 
@@ -213,8 +213,6 @@ optionContentBelowTitle: Option[Html] = None
         serviceInfoContent = None)
 }
 
-@getHelpForm = @{uiHelpers.reportAProblemLink(ApplicationConfig.reportAProblemPartialUrl, ApplicationConfig.reportAProblemNonJSUrl)}
-
 @content = {
     @layouts.main_content(
         article = ihtHelpers.standard.article(content = mainContentIht,
@@ -223,7 +221,6 @@ optionContentBelowTitle: Option[Html] = None
                                               currentLang = currentLang),
         mainContentHeader = commonContentHeader,
         serviceInfo = serviceInfo,
-        getHelpForm = getHelpForm,
         sidebar = ihtHelpers.standard.sidebar(sidebarLinks = sidebarLinks,
                                               sidebarClass = Some("sidebar"),
                                               currentLang = currentLang))
