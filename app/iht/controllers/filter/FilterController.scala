@@ -25,11 +25,8 @@ import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
 import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
-import play.api.i18n.Lang
 import uk.gov.hmrc.play.partials.FormPartialRetriever
-
-import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, Future}
+import scala.concurrent.Future
 
 /**
   * Created by adwelly on 21/10/2016.

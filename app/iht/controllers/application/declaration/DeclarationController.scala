@@ -36,9 +36,8 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.ExecutionContext.Implicits._
-import scala.concurrent.duration._
-import scala.concurrent.{Await, Future}
-import uk.gov.hmrc.http.{GatewayTimeoutException, HeaderCarrier}
+import scala.concurrent.Future
+import uk.gov.hmrc.http.{ GatewayTimeoutException, HeaderCarrier }
 
 object DeclarationController extends DeclarationController with IhtConnectors {
   lazy val metrics: Metrics = Metrics
@@ -177,8 +176,7 @@ trait DeclarationController extends ApplicationController {
       val ihtAppReference = regDetails.ihtReference
       val acknowledgement = regDetails.acknowledgmentReference
 
-      val applicationDetails = Await.result(ihtConnector.getApplication(nino, ihtAppReference, acknowledgement),
-        Duration.Inf)
+      ihtConnector.getApplication(nino, ihtAppReference, acknowledgement).flatMap{ applicationDetails =>
 
       val ad1 = CommonHelper.getOrExceptionNoApplication(applicationDetails)
 
@@ -216,6 +214,7 @@ trait DeclarationController extends ApplicationController {
         .map { _ =>
           Redirect(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad())
         } recover errorHandler
+      }
     }
   }
 
