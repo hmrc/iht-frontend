@@ -71,14 +71,14 @@ class ApplicationGlobalTest extends UnitSpec with WithFakeApplication {
   }
 
   "Error Handler" should {
-    "Upstream5xxResponse something something" in {
+    "return INTERNAL_SERVER_ERROR on Upstream5xxResponse" in {
       val exception = new Upstream5xxResponse("test", 500, 500)
       val result = ApplicationGlobal.resolveError(FakeRequest(), exception)
 
       result.header.status shouldBe INTERNAL_SERVER_ERROR
     }
 
-    "Upstream4xxResponse something something" in {
+    "return SEE_OTHER on Upstream4xxResponse" in {
       val exception = new ApplicationException("test", Results.Redirect(CommonHelper.addFragmentIdentifier(
         iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
         Some(AppSectionPropertiesID))), "401")
