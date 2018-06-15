@@ -26,13 +26,68 @@
 )  {
   @helpers.form(action = iht.controllers.application.exemptions.routes.ExemptionsGuidanceIncreasingThresholdController.onSubmit(ihtReference)) {
     <div class="form-group">
-      <p>@Messages("page.iht.application.exemptions.guidance.increasing.threshold.p1")</p>
-      <p>@Messages("page.iht.application.exemptions.guidance.increasing.threshold.p2")</p>
-      <p>@Messages("iht.estateReport.exemptions.guidance.provideAssetsDetails")</p>
-      <div class="panel panel-border-wide">
-        <p>@Messages("iht.estateReport.exemptions.guidance.debtsSubtracted")</p>
-      </div>
+
+     <div id="Section1">
+
+      <p>@Messages("page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.start")
+        <a id="p1Link" href="https://www.tax.service.gov.uk/inheritance-tax/estate-report/estate-overview">@Html(Messages("page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.link")) </a>
+         @Messages("page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.end")
+      </p>
+
+      <p>@Messages("page.iht.application.exemptions.guidance.increasing.threshold.section1.p2")</p>
+
+        <ul class="list-bullet-section1">
+            <li>@Messages("page.iht.appliction.exemptions.guidance.increasing.threshold.section1.bullet1")</li>
+            <li>@Messages("page.iht.appliction.exemptions.guidance.increasing.threshold.section1.bullet2")</li>
+        </ul>
+     </div>
+
+
+     <div class="heading-large" id="Section2">
+        <h2>@Messages("page.iht.appliction.exemptions.guidance.increasing.threshold.section2.exemptionHeader")</h2>
+
+        <p>@Messages("page.iht.application.exemptions.guidance.increasing.threshold.section2.p3")</p>
+
+         <ul class="list-bullet-section2">
+             <li>@Messages("page.iht.appliction.exemptions.guidance.increasing.threshold.section2.bullet3")</li>
+             <li>@Messages("page.iht.appliction.exemptions.guidance.increasing.threshold.section2.bullet4")</li>
+         </ul>
+
+        <p>@Messages("page.iht.application.exemptions.guidance.increasing.threshold.section2.p4")</p>
+
+        <p>@Messages("page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.start")
+          <a id="iht400Link" href="https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400">@Html(Messages("page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.link")) </a>
+           @Messages("page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.end")
+        </p>
+     </div>
+
+     <div class="heading-large" id="Section3">
+        <h2>@Messages("page.iht.appliction.exemptions.guidance.increasing.threshold.section3.raisedHeader")</h2>
+
+        <p>@Messages("page.iht.application.exemptions.guidance.increasing.threshold.section3.p6.start")
+          <a id="transferThresholdLink" href="https://www.gov.uk/guidance/inheritance-tax-transfer-of-threshold">@Html(Messages("page.iht.application.exemptions.guidance.increasing.threshold.section3.p6.link")) </a>
+          @Messages("page.iht.application.exemptions.guidance.increasing.threshold.section3.p6.end")
+        </p>
+
+         <ul class="list-bullet-section3">
+             <li>@Messages("page.iht.appliction.exemptions.guidance.increasing.threshold.section3.bullet5")</li>
+             <li>@Messages("page.iht.appliction.exemptions.guidance.increasing.threshold.section3.bullet6")</li>
+         </ul>
+
+         <p>@Messages("page.iht.application.exemptions.guidance.increasing.threshold.section3.p7.start")
+           <a id="iht400FormLink" href="https://www.gov.uk/guidance/inheritance-tax-transfer-of-threshold">@Html(Messages("page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.link"))</a>.
+         </p>
+     </div>
+
+
+     <div class="heading-large" id="Section4">
+        <h2>@Messages("page.iht.appliction.exemptions.guidance.increasing.threshold.section4.nextStepHeader")</h2>
+        <p>@Messages("page.iht.application.exemptions.guidance.increasing.threshold.section4.p8")</p>
+     </div>
+
+
     </div>
+
     <div class="form-group">
       <a id='exemptions-link' href='@iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()'>
           @Messages("page.iht.application.exemptions.guidance.increasing.threshold.link.text")
