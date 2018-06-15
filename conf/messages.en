@@ -1380,10 +1380,36 @@ page.iht.application.exemptions.guidance.content3 = Some assets might be exempt 
 page.iht.application.exemptions.guidance.content4 = The estate value could become less than the Inheritance Tax threshold by claiming these exemptions.
 page.iht.application.exemptions.guidance.link = Continue to estate exemptions
 
-page.iht.application.exemptions.guidance.increasing.threshold.title = The estate value is above the Inheritance Tax threshold
-page.iht.application.exemptions.guidance.increasing.threshold.p1 = You could bring the estate value below the threshold by claiming any estate exemptions.
-page.iht.application.exemptions.guidance.increasing.threshold.p2 = Some of the deceased’s assets can be claimed as an exemption if they are being passed to a spouse or civil partner, a charity or to another qualifying body.
-page.iht.application.exemptions.guidance.increasing.threshold.link.text = Go to estate exemptions
+page.iht.application.exemptions.guidance.increasing.threshold.title = It looks like the estate value may be over the threshold
+page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.start = The assets and gifts add up to a gross value that is too high for you to use the online service. Go
+page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.link = back to the estate report
+page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.end = if you want to change any values you have entered.
+page.iht.application.exemptions.guidance.increasing.threshold.section1.p2 = Otherwise there are 2 ways that you can continue:
+page.iht.appliction.exemptions.guidance.increasing.threshold.section1.bullet1 = if the estate has exemptions and no tax is payable
+page.iht.appliction.exemptions.guidance.increasing.threshold.section1.bullet2 = if you can raise the threshold and no tax is payable
+
+page.iht.appliction.exemptions.guidance.increasing.threshold.section2.exemptionHeader = If the estate has exemptions
+page.iht.application.exemptions.guidance.increasing.threshold.section2.p3 = The estate has exemptions when any part of the estate has been left to either:
+page.iht.appliction.exemptions.guidance.increasing.threshold.section2.bullet3 = a surviving spouse (by marriage or civil partnership)
+page.iht.appliction.exemptions.guidance.increasing.threshold.section2.bullet4 = a registered charity or other qualifying body like a sports club
+page.iht.application.exemptions.guidance.increasing.threshold.section2.p4 = This means you will only need to show HMRC that the net estate value is below the threshold. The estate's exemptions, debts and mortgages will be subtracted from the value of the estate before it's checked against the threshold. The gross value of the estate must be less than £1 million.
+page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.start = If there are no exemptions, the debts cannot be subtracted at this stage. You will have to submit an
+page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.link = IHT400 form
+page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.end = simply because the gross value of the estate exceeds the threshold.
+
+page.iht.appliction.exemptions.guidance.increasing.threshold.section3.raisedHeader = If the threshold can be raised
+page.iht.application.exemptions.guidance.increasing.threshold.section3.p6.start = If the person who has died was married or in a civil partnership during their lifetime and their spouse or civil partner died first, you may be able to
+page.iht.application.exemptions.guidance.increasing.threshold.section3.p6.link = transfer their basic threshold
+page.iht.application.exemptions.guidance.increasing.threshold.section3.p6.end = and add it to the threshold for this estate. You can still use the online service if both:
+page.iht.appliction.exemptions.guidance.increasing.threshold.section3.bullet5 = the entire estate of the spouse or civil partner passed to the person whose estate you are now reporting on
+page.iht.appliction.exemptions.guidance.increasing.threshold.section3.bullet6 = the gross value of the estate you are reporting on now is less than the total of the two thresholds available
+page.iht.application.exemptions.guidance.increasing.threshold.section3.p7.start = You cannot use or apply to transfer Residence Nil Rate Band for leaving a home to children or other descendants on the online service, for this you will have to submit an
+
+page.iht.appliction.exemptions.guidance.increasing.threshold.section4.nextStepHeader = Next steps
+page.iht.application.exemptions.guidance.increasing.threshold.section4.p8 = If you can add exemptions or transfer basic threshold, you can return to the online service to do this. If you want to transfer threshold but you cannot see how to do it, complete all the sections of the estate report first and then you will get this option at the end if you might be eligible.
+
+page.iht.application.exemptions.guidance.increasing.threshold.link.text = Return to your estate report
+# TO BE REMOVED page.iht.application.exemptions.guidance.increasing.threshold.link.text = Go to estate exemptions
 
 iht.estateReport.exemptions.guidance.claimingEstateExemptions = Claiming estate exemptions
 iht.estateReport.exemptions.guidance.debtsSubtracted = If you claim any exemptions, any debts that are owed from the estate will also be taken off the estate value.
