@@ -30,7 +30,7 @@
      <div id="Section1">
 
       <p>@Messages("page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.start")
-        <a id="p1Link" href="/inheritance-tax/estate-report/estate-overview">@Html(Messages("page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.link"))</a>
+        <a id="p1Link" href="@{iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference)}">@Html(Messages("page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.link"))</a>
          @Messages("page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.end")
       </p>
 
@@ -75,7 +75,7 @@
          </ul>
 
          <p>@Messages("page.iht.application.exemptions.guidance.increasing.threshold.section3.p7.start")
-           <a id="iht400FormLink" href="https://www.gov.uk/guidance/inheritance-tax-transfer-of-threshold">@Html(Messages("page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.link"))</a>.
+           <a id="iht400FormLink" href="https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400">@Html(Messages("page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.link"))</a>.
          </p>
      </div>
 
@@ -88,13 +88,9 @@
 
     </div>
 
-    <div class="form-group">
-      <a id='exemptions-link' href='@iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()'>
-          @Messages("page.iht.application.exemptions.guidance.increasing.threshold.link.text")
-      </a>
-    </div>
+
     <div id="action-button" class="form-group">
-      <button class="button" id="continue" name="action" value="save">@Messages("iht.continue")</button>
+      <a class="button" id="return" name="action" href="@{iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference)}">@Messages("page.iht.application.exemptions.guidance.increasing.threshold.link.text")</a>
     </div>
   }
 }
