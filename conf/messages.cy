@@ -2148,7 +2148,7 @@ page.iht.application.exemptions.guidance.increasing.threshold.section3.p6.end = 
 page.iht.application.exemptions.guidance.increasing.threshold.section3.bullet5 = (PENDING)the entire estate of the spouse or civil partner passed to the person whose estate you are now reporting on
 page.iht.application.exemptions.guidance.increasing.threshold.section3.bullet6 = (PENDING)the gross value of the estate you are reporting on now is less than the total of the two thresholds available
 page.iht.application.exemptions.guidance.increasing.threshold.section3.p7.start = (PENDING)You cannot use or apply to transfer Residence Nil Rate Band for leaving a home to children or other descendants on the online service, for this you will have to submit an
-page.iht.application.exemptions.guidance.increasing.threshold.section4.nextStepHeader = Next steps
+page.iht.application.exemptions.guidance.increasing.threshold.section4.nextStepHeader = (PENDING)Next steps
 page.iht.application.exemptions.guidance.increasing.threshold.section4.p8 = (PENDING)If you can add exemptions or transfer basic threshold, you can return to the online service to do this. If you want to transfer threshold but you cannot see how to do it, complete all the sections of the estate report first and then you will get this option at the end if you might be eligible.
 
 page.iht.application.exemptions.guidance.increasing.threshold.link.text = (PENDING)Return to your estate report
