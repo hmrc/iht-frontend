@@ -18,7 +18,6 @@ site.progressiveDisclosure.application.help = To request amendments or ask about
 site.progressiveDisclosure.application.linkText = estate report page.
 site.progressiveDisclosure.application.contact = If you need more help, call the Inheritance Tax helpline on 0300 123 1072 (+44 (0) 300 123 1072 from outside the UK).
 
-
 site.button.confirm = Confirm
 site.button.save.return.debts = Save and return to debts owed from the estate
 site.button.save.return.mortgages = Save and return to mortgages
@@ -187,8 +186,6 @@ iht.timeoutDialog.seconds = seconds
 iht.timeoutDialog.minutes = minutes
 iht.timeoutDialog.minute = minute
 iht.timeoutDialog.minutes.two = minutes
-iht.needHelp = Need help?
-iht.needHelp.guidance = If you need help with completing this estate report, contact the Inheritance Tax helpline on 0300 123 1072. If you are outside of the UK, call +44 300 123 1072.
 
 iht.theDeceased = The deceased
 

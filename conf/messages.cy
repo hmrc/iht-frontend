@@ -1,3 +1,11 @@
+site.progressiveDisclosure = TEMPORARY TEXT, WILL BE REPLACED WITH WELSH WHEN IT IS RECEIVED! Get help using this service
+site.progressiveDisclosure.registration.contact = TEMPORARY TEXT, WILL BE REPLACED WITH WELSH WHEN IT IS RECEIVED! If you need more help, call the Inheritance Tax helpline on 0300 123 1072 (+44 (0) 300 123 1072 from outside the UK).
+site.progressiveDisclosure.preRegistration.help = TEMPORARY TEXT, WILL BE REPLACED WITH WELSH WHEN IT IS RECEIVED! To get help with signing in or confirming your identity, use the contact form below. If you got a message telling you something was wrong, tell us what it says.
+site.progressiveDisclosure.preRegistration.contact = TEMPORARY TEXT, WILL BE REPLACED WITH WELSH WHEN IT IS RECEIVED! If you need help with Inheritance Tax, use the contact form or call the helpline on 0300 123 1072 (+44 (0) 300 123 1072 from outside the UK).
+site.progressiveDisclosure.application.help = TEMPORARY TEXT, WILL BE REPLACED WITH WELSH WHEN IT IS RECEIVED! To request amendments or ask about how to fill in your estate report, use the contact form below. In the third text box put the surname of the person who has died and the estate reference number, which is on the
+site.progressiveDisclosure.application.linkText = TEMPORARY TEXT, WILL BE REPLACED WITH WELSH WHEN IT IS RECEIVED! estate report page.
+site.progressiveDisclosure.application.contact = TEMPORARY TEXT, WILL BE REPLACED WITH WELSH WHEN IT IS RECEIVED! If you need more help, call the Inheritance Tax helpline on 0300 123 1072 (+44 (0) 300 123 1072 from outside the UK).
+
 page.iht.application.assets.insurance.policies.overview.other.question4.yes.screenReader.link.value=Do, rhoddwyd y polisïau mewn ymddiriedolaeth dros 7 mlynedd cyn y bu {0} farw. Newid yr ateb hwn.
 page.iht.application.assets.property.detailsOverview.address.screenReader.link.noValue=Rhowch fanylion ar gyfer y cyfeiriad
 error.stockAndShare.currencyValue.length.summary=nodwch werth ar gyfer stoc a chyfranddaliadau gan ddefnyddio llai nag 11 rhif
@@ -816,7 +824,6 @@ page.iht.registration.others-applying-for-probate-address.browserTitle=Manylion 
 page.iht.application.exemptions.assetLeftToGncp.screenReader.noValue=Ni roddwyd swm ar gyfer asedion a adawyd i gorff cymwys arall
 page.iht.application.tnrbEligibilty.overview.guidance2=Dylai''r holl fanylion a rowch ar y dudalen hon fod ynghylch {0} a fu farw yn {1}
 site.button.signOut=Cadw ac allgofnodi
-iht.needHelp=Angen help?
 page.iht.registration.notApplyingForProbate.kickout.summary=Y rheswm dros hynny yw nad ydych yn gwneud cais ar gyfer profiant ar gyfer ystâd {0}.
 page.iht.application.assets.property.ownership.browserTitle=Beth oedd perchnogaeth yr eiddo
 page.iht.application.assets.pensions.hint=Bydd y darparwr pensiwn yn gallu rhoi gwybod i chi faint sy''n cael ei dalu i''r ystad.
@@ -1404,7 +1411,6 @@ iht.viewOrChange=Gweld neu newid
 page.iht.application.assets.propertyType.otherResidential.label=Adeilad preswyl arall
 site.button.save.return.properties=Cadw ac yn ôl i eiddo, adeiladau a thir yr ydych yn berchen arnynt
 page.iht.application.TnrbEligibilty.partnerName.label=Enw''r {0}
-iht.needHelp.guidance=Os oes angen help arnoch i lenwi''r adroddiad hwn ynghylch yr ystâd, ffoniwch y llinell gymorth Treth Etifeddiant ar 0300 123 1072. Os ydych y tu allan i''r DU, ffoniwch +44 300 123 1072.
 page.iht.application.assets.deceased-permanent-home.editOrDelete.screenReader=y cyfeiriad ar gyfer {0} {1}
 site.link.go.to.giftsGivenAwaySection=Ewch i''r adran rhoddion a roddwyd i ffwrdd
 iht.ineligibleApplication=Cais anghymwys

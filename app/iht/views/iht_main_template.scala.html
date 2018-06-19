@@ -202,10 +202,7 @@ optionContentBelowTitle: Option[Html] = None
     @cancelUrl.map{ url =>
         <a id="cancel-button" class="" href=@url>@Html(cancelLabel.getOrElse(""))</a>
     }
-
-    @progressive_disclosure(request.uri)
 }
-
 
 @serviceInfo = {
     @ihtHelpers.standard.serviceInfo(
@@ -221,6 +218,7 @@ optionContentBelowTitle: Option[Html] = None
                                               currentLang = currentLang),
         mainContentHeader = commonContentHeader,
         serviceInfo = serviceInfo,
+        getHelpForm = progressive_disclosure(request.uri),
         sidebar = ihtHelpers.standard.sidebar(sidebarLinks = sidebarLinks,
                                               sidebarClass = Some("sidebar"),
                                               currentLang = currentLang))

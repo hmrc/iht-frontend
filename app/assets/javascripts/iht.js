@@ -100,7 +100,7 @@ if($('[data-enhanced-select]').length > 0){
 // =====================================================
 // Handle the IHT progressive disclosure open/close functionality
 // =====================================================
- $(".u-mt--3").on("click", function(e) {
+ $(".report-error__toggle").on("click", function(e) {
     if (document.getElementById("pairDisclosure").open) {
             document.getElementById("pairDisclosure").open = false;
    }else{
