@@ -87,6 +87,8 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
       implicit val request = createFakeRequest()
       val view = exemptions_guidance_increasing_threshold("ihtReference").toString
       val doc = asDocument(view)
+      val bullets: Elements = doc.select("article li")
+      bullets.size() shouldBe 6
       doc.select("div#Section1 ul").first().text() should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section1.bullet1"))
       doc.select("div#Section1 ul").last().text() should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section1.bullet2"))
       doc.select("div#Section2 ul").first().text() should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section2.bullet3"))
@@ -113,6 +115,17 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
 
       assertRenderedById(doc, "iht400Link")
       val link = doc.getElementById("iht400Link")
+      link.text shouldBe messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.link")
+      link.attr("href") shouldBe "https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400"
+    }
+
+    "shows a second url linked to IHT400 page" in {
+      implicit val request = createFakeRequest()
+      val view = exemptions_guidance_increasing_threshold("ihtReference").toString
+      val doc = asDocument(view)
+
+      assertRenderedById(doc, "iht400FormLink")
+      val link = doc.getElementById("iht400FormLink")
       link.text shouldBe messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.link")
       link.attr("href") shouldBe "https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400"
     }
