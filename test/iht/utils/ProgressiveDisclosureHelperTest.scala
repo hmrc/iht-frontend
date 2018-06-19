@@ -22,36 +22,36 @@ class ProgressiveDisclosureHelperTest extends UnitSpec {
 
   "The ProgressiveDisclosure Helper" should{
     "return an empty string" when{
-      "given an uri that is too short for getContactInfo" in{
-        ProgressiveDisclosureHelper.getContactInfo("") shouldBe ""
-      }
-
-      "given an uri that is too short for getHelpInfo" in{
-        ProgressiveDisclosureHelper.getHelpInfo("") shouldBe Seq()
+      "given an uri that is too short for getDisclosureInfo" in{
+        ProgressiveDisclosureHelper.getDisclosureInfo("") shouldBe ("", Seq())
       }
     }
 
     "return the right messages key" when{
-      "given a valid uri for getContactInfo" in{
-        ProgressiveDisclosureHelper.getContactInfo("test/test/estate-report") shouldBe "site.progressiveDisclosure.application.contact"
-        ProgressiveDisclosureHelper.getContactInfo("test/test/registration") shouldBe "site.progressiveDisclosure.registration.contact"
-        ProgressiveDisclosureHelper.getContactInfo("test/test/default") shouldBe "site.progressiveDisclosure.preRegistration.contact"
-      }
-
-      "given a valid uri for getHelpInfo" in{
-        ProgressiveDisclosureHelper.getHelpInfo("test/test/estate-report") shouldBe Seq("site.progressiveDisclosure.application.help", "site.progressiveDisclosure.application.linkText")
-        ProgressiveDisclosureHelper.getHelpInfo("test/test/registration") shouldBe Seq()
-        ProgressiveDisclosureHelper.getHelpInfo("test/test/default") shouldBe Seq("site.progressiveDisclosure.preRegistration.help")
+      "given a valid uri for getDisclosureInfo" in{
+        ProgressiveDisclosureHelper.getDisclosureInfo("test/test/estate-report") shouldBe ("site.progressiveDisclosure.application.contact", Seq("site.progressiveDisclosure.application.help", "site.progressiveDisclosure.application.linkText"))
+        ProgressiveDisclosureHelper.getDisclosureInfo("test/test/registration") shouldBe ("site.progressiveDisclosure.registration.contact", Seq())
+        ProgressiveDisclosureHelper.getDisclosureInfo("test/test/default") shouldBe ("site.progressiveDisclosure.preRegistration.contact", Seq("site.progressiveDisclosure.preRegistration.help"))
       }
     }
 
     "return the right boolean" when{
-      "given a location that is too short" in{
+      "given a location uri that is too short" in{
         ProgressiveDisclosureHelper.checkLocationLength("test") shouldBe false
       }
 
       "given a location uri that is greater than 2" in{
         ProgressiveDisclosureHelper.checkLocationLength("test/test/example") shouldBe true
+      }
+
+      "given a location uri that is not an error page" in{
+        ProgressiveDisclosureHelper.checkIfError("test") shouldBe false
+      }
+
+      "given a location uri that is an error page" in{
+        ProgressiveDisclosureHelper.checkIfError("/registration/identity-verification-problem") shouldBe true
+        ProgressiveDisclosureHelper.checkIfError("/estate-report/identity-verification-problem") shouldBe true
+        ProgressiveDisclosureHelper.checkIfError("test/test/timeout") shouldBe true
       }
     }
   }

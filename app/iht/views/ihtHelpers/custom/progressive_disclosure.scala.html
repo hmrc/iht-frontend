@@ -23,9 +23,9 @@
 <details id="pairDisclosure" class="u-mt--3 u--no-print form-group column-two-thirds">
     <summary><a class="report-error__toggle" href="@ApplicationConfig.reportAProblemPartialUrl">@messages("site.progressiveDisclosure")</a></summary>
      <div class="panel-indent">
-            @if(getHelpInfo(location).nonEmpty){
+            @if(getDisclosureInfo(location)._2.nonEmpty){
                 <div class="form-group">
-                    @for(msg <- getHelpInfo(location)){
+                    @for(msg <- getDisclosureInfo(location)._2){
                         @if(msg.contains("link")){
                             <a href = "@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()"> @messages(msg)</a>
                         }else{
@@ -42,7 +42,7 @@
         </div>
 
         <div class="form-group">
-            @messages(getContactInfo(location))
+            @messages(getDisclosureInfo(location)._1)
         </div>
 
     </div>

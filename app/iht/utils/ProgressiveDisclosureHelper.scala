@@ -17,27 +17,19 @@
 package iht.utils
 
 object ProgressiveDisclosureHelper {
+  def getDisclosureInfo(location: String): (String, Seq[String]) = {
+    if (checkIfError(location)) {
+        ("site.progressiveDisclosure.preRegistration.contact", Seq("site.progressiveDisclosure.preRegistration.help"))
+    }else if (checkLocationLength(location)) {
+        location.split("/").take(3).last match {
+          case "estate-report" => ("site.progressiveDisclosure.application.contact", Seq("site.progressiveDisclosure.application.help", "site.progressiveDisclosure.application.linkText"))
+          case "registration" => ("site.progressiveDisclosure.registration.contact", Seq())
+          case _ => ("site.progressiveDisclosure.preRegistration.contact", Seq("site.progressiveDisclosure.preRegistration.help"))
+        }
+      } else {("", Seq())}
+    }
 
-  def getContactInfo(location: String): String = {
-    if (checkLocationLength(location)) {
-      location.split("/").take(3).last match {
-        case "estate-report" => "site.progressiveDisclosure.application.contact"
-        case "registration" => "site.progressiveDisclosure.registration.contact"
-        case _ => "site.progressiveDisclosure.preRegistration.contact"
-      }
-    } else { "" }
-  }
-
-
-  def getHelpInfo(location: String): Seq[String] = {
-    if (checkLocationLength(location)) {
-      location.split("/").take(3).last match {
-        case "estate-report" => Seq("site.progressiveDisclosure.application.help", "site.progressiveDisclosure.application.linkText")
-        case "registration" => Seq()
-        case _ => Seq("site.progressiveDisclosure.preRegistration.help")
-      }
-    } else { Seq() }
-  }
+  def checkIfError(location: String): Boolean = location.contains("timeout") || location.contains("identity-verification-problem")
 
   def checkLocationLength(location: String): Boolean = location.split("/").length > 2
 }
