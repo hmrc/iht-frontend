@@ -14,15 +14,13 @@
  * limitations under the License.
  *@
 
-@(panelTitle: String,
-linkText: String,
+@(linkText: String,
 linkUrl: String,
 externalLinkWarning: Option[String]
 )(implicit messages: Messages)
 
-<div class="banner-panel__title">@panelTitle</div>
     <a href="@linkUrl"
        data-sso="false"
        data-journey-click="other-global:Click:Feedback"
        target="_blank"
-    >@linkText</a>@externalLinkWarning.map{ extLinkText => <p class="banner-panel__small-copy">@extLinkText</p> }
+    >@linkText</a>@externalLinkWarning.map{ extLinkText => <p class="banner-panel__small-copy form-group">@extLinkText</p> }
