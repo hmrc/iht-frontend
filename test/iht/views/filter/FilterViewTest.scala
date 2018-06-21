@@ -139,7 +139,6 @@ class FilterViewTest extends ViewTestHelper {
     "contain content related to user research" in {
       val result = filter_view(filterForm)(fakeRequest, applicationMessages, formPartialRetriever)
       val content = contentAsString(result)
-      content should include(messagesApi("site.userResearchLink.title"))
       content should include(messagesApi("site.userResearchLink.link"))
       content should include(messagesApi("site.userResearchLink.text"))
     }
