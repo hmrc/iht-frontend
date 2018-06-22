@@ -88,6 +88,7 @@ error.isGiftMadeBeforeDeath.select=Dewiswch ateb ar gyfer os roddodd priod neu b
 iht.estateReport.assets.stocksAndShares=Stociau a chyfranddaliadau
 error.problem=Mae problem wedi codi
 page.iht.questionnaire.feelingAboutExperience.neither=Ddim yn fodlon nac yn anfodlon
+page.iht.questionnaire.improve_service = Rydym yn defnyddio''ch adborth i wella ein gwasanaethau.
 page.iht.registration.deceasedDetails.maritalStatus.widowed.hint=Bu farw ei briod neu ei bartner sifil cyn yr ymadawedig, ac ni wnaeth ailbriodi.
 page.iht.application.estateOverview.noValue=Dim gwerth wedi''i roi
 error.foreign.currencyValue.summary=nodwch werth ar gyfer asedion o dramor gan ddefnyddio rhifau''n unig

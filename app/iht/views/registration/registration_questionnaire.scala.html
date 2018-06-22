@@ -33,6 +33,9 @@
     </a>
 </div>
     <h2 class="heading-large">@Messages("page.iht.questionnaire.completeSurvey")</h2>
+    <div class="form-group">
+        <p>@Messages("page.iht.questionnaire.improve_service")</p>
+    </div>
    @ihtHelpers.custom.questionnaire_form(
         form = form,
         postRoute = iht.controllers.registration.routes.RegistrationQuestionnaireController.onSubmit,
