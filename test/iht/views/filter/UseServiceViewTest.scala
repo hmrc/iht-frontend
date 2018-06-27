@@ -173,7 +173,7 @@ class UseServiceViewTest extends ViewTestHelper with UseService {
       val result = use_service(between325000and1million, false, "")(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val rows = doc.getElementsByAttributeValue("id","estimate-row")
-      rows.size() shouldEqual 0
+      rows.size() shouldEqual 1
     }
 
     "contain a 'Change' link to go back to the estimate page" in {
