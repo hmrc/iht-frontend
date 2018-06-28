@@ -36,8 +36,9 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.ExecutionContext.Implicits._
-import scala.concurrent.Future
-import uk.gov.hmrc.http.{ GatewayTimeoutException, HeaderCarrier }
+import scala.concurrent.duration._
+import scala.concurrent.{Await, Future}
+import uk.gov.hmrc.http.{BadGatewayException, GatewayTimeoutException, HeaderCarrier, Upstream5xxResponse}
 
 object DeclarationController extends DeclarationController with IhtConnectors {
   lazy val metrics: Metrics = Metrics
@@ -108,6 +109,12 @@ trait DeclarationController extends ApplicationController {
           } else {
             processApplicationOrRedirect
           }
+        } recover {
+          case ex: Upstream5xxResponse if ex.upstreamResponseCode == 502 &&
+            ex.message.contains("Service Unavailable") => {
+              Logger.warn("Service Unavailable while submitting application", ex)
+              InternalServerError(iht.views.html.estateReports.estateReports_error_serviceUnavailable())
+            }
         }
       }
   }

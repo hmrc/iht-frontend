@@ -27,6 +27,8 @@ import iht.utils.pdf.XmlFoToPDF
 import org.mockito.ArgumentMatchers._
 import play.api.test.Helpers._
 
+import scala.concurrent.Future
+
 /**
   * Created by david-beer on 21/11/16.
   */
@@ -49,7 +51,7 @@ class PDFControllerTest extends ApplicationControllerTest {
       returns = Seq(CommonBuilder.buildReturnDetails))
 
 
-    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, regDetails)
+    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(regDetails)))
     createMockToGetCaseDetails(mockIhtConnector, regDetails)
     createMockToGetSubmittedApplicationDetails(mockIhtConnector)
     createMockToGetApplicationDetails(mockIhtConnector)
@@ -90,7 +92,7 @@ class PDFControllerTest extends ApplicationControllerTest {
       val regDetails: RegistrationDetails = CommonBuilder.buildRegistrationDetails1.copy(ihtReference = Some(ihtRef),
         returns = Seq(CommonBuilder.buildReturnDetails))
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, regDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(regDetails)))
       createMockToGetCaseDetails(mockIhtConnector, regDetails)
       createMockToGetSubmittedApplicationDetails(mockIhtConnector)
       createMockToGetApplicationDetails(mockIhtConnector)

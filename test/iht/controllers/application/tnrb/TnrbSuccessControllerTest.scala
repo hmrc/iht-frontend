@@ -18,7 +18,7 @@ package iht.controllers.application.tnrb
 
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.testhelpers.MockObjectBuilder._
 import play.api.i18n.MessagesApi
 import play.api.i18n.Messages.Implicits._
@@ -26,6 +26,8 @@ import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.http.HeaderCarrier
+
+import scala.concurrent.Future
 
 /**
  * Created by Vineet Tyagi on 21/04/15.
@@ -81,7 +83,7 @@ class TnrbSuccessControllerTest extends ApplicationControllerTest {
       val applicationDetails = CommonBuilder.buildApplicationDetails copy (widowCheck= Some(buildWidowCheck),
                                 increaseIhtThreshold = Some(buildTnrbModel))
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetApplicationDetails(mockIhtConnector, Some(applicationDetails))
 
       val result = tnrbSuccessController.onPageLoad()(createFakeRequest())

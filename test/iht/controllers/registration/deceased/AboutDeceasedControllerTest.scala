@@ -21,7 +21,7 @@ import iht.constants.IhtProperties
 import iht.controllers.registration.RegistrationControllerTest
 import iht.forms.registration.DeceasedForms
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails}
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.IhtFormValidator
 import org.joda.time.LocalDate
@@ -32,7 +32,7 @@ import play.api.mvc.Request
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.ExecutionContext.Implicits.global
 import uk.gov.hmrc.http.HeaderCarrier
 
@@ -223,7 +223,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
       implicit val hc = new HeaderCarrier()
       val form: Form[DeceasedDetails] = deceasedDetailsForm1.aboutDeceasedForm().fill(deceasedDetails)
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
@@ -248,7 +248,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
         data=form.data.toSeq)
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(RegistrationDetails(None,None,
         Some(deceasedDetails))))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
@@ -270,7 +270,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
         data=form.data.toSeq)
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCacheWithFailure(mockCachingConnector, Some(registrationDetails))
 
@@ -290,7 +290,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
         data=form.data.toSeq)
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
@@ -312,7 +312,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
         data=form.data.toSeq)
 
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, None)
 
       val result = await(controller(deceasedForms).onEditSubmit()(request))

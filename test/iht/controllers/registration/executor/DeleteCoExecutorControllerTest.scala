@@ -21,7 +21,7 @@ import iht.constants.IhtProperties
 import iht.controllers.registration.RegistrationControllerTest
 import iht.forms.registration.CoExecutorForms._
 import iht.models.UkAddress
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.testhelpers.MockObjectBuilder._
 import org.scalatest.BeforeAndAfter
 import play.api.i18n.Messages
@@ -30,6 +30,8 @@ import play.api.Play.current
 import play.api.test.Helpers._
 import iht.utils._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
+
+import scala.concurrent.Future
 
 class DeleteCoExecutorControllerTest extends RegistrationControllerTest with BeforeAndAfter {
 
@@ -74,7 +76,7 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
     "if the registration details does not have areOthersApplying set then respond with an error" in {
       val rd = CommonBuilder.buildRegistrationDetailsWithCoExecutors copy (areOthersApplyingForProbate = Some(false))
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, rd)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(rd)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
 
@@ -85,7 +87,7 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
     "if the registration details does not have more than one coExecutor set then respond with an error" in {
       val rd = CommonBuilder.buildRegistrationDetailsWithCoExecutors copy (areOthersApplyingForProbate = Some(true), coExecutors = Seq())
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, rd)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(rd)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
 
@@ -94,7 +96,7 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
     }
 
     "if the coexecutor with given id does not exist - respond with a server error" in {
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, CommonBuilder.buildRegistrationDetailsWithCoExecutors)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
 
@@ -104,7 +106,7 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
     }
 
     "if the coexecutor with given id exists - respond with an OK" in {
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, CommonBuilder.buildRegistrationDetailsWithCoExecutors)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
 
@@ -114,7 +116,7 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
     }
 
     "if the coexecutor with given id exists - the instruction must be visible" in {
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, CommonBuilder.buildRegistrationDetailsWithCoExecutors)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
 
@@ -125,7 +127,7 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
     }
 
     "if the coexecutor with given id exists - the confirm or delete button must be visible" in {
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, CommonBuilder.buildRegistrationDetailsWithCoExecutors)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
 
@@ -136,7 +138,7 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
     }
 
     "if the coexecutor with given id exists - a cancel link must be visible" in {
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, CommonBuilder.buildRegistrationDetailsWithCoExecutors)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
 
@@ -148,7 +150,7 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
     }
 
     "if the coexecutor with given id exists - the name of the coexecutor must be visible" in {
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, CommonBuilder.buildRegistrationDetailsWithCoExecutors)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
 
@@ -159,7 +161,7 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
     }
 
     "if the coexecutor with given id exists - the first line of the address of the coexecutor must be visible" in {
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, CommonBuilder.buildRegistrationDetailsWithCoExecutors)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
 
@@ -170,7 +172,7 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
     }
 
     "if the coexecutor with given id exists - the second line of the address of the coexecutor must be visible" in {
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, CommonBuilder.buildRegistrationDetailsWithCoExecutors)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
 
@@ -181,7 +183,7 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
     }
 
     "if the coexecutor with given id exists - and the third line of the address exists the third line of the address of the coexecutor must be visible" in {
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, CommonBuilder.buildRegistrationDetailsWithCoExecutors)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
 
@@ -197,7 +199,7 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       val coExecutor = CommonBuilder.buildCoExecutor copy (ukAddress = Some(ukAddressWithNoThirdLine))
       val rd = CommonBuilder.buildRegistrationDetails copy (areOthersApplyingForProbate = Some(true), coExecutors = Seq(coExecutor))
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, rd)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(rd)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
 
@@ -211,7 +213,7 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       val coExecutor = CommonBuilder.buildCoExecutor copy (ukAddress = Some(ukAddressWithNoFourthLine))
       val rd = CommonBuilder.buildRegistrationDetails copy (areOthersApplyingForProbate = Some(true), coExecutors = Seq(coExecutor))
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, rd)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(rd)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
 
@@ -227,7 +229,7 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       val coExecutor = CommonBuilder.buildCoExecutor copy (ukAddress = Some(ukAddressWithNoFourthLine))
       val rd = CommonBuilder.buildRegistrationDetails copy (areOthersApplyingForProbate = Some(true), coExecutors = Seq(coExecutor))
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, rd)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(rd)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
 
@@ -242,7 +244,7 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       val coExecutor = CommonBuilder.buildCoExecutor copy (ukAddress = Some(ukAddressWithNoFourthLine))
       val rd = CommonBuilder.buildRegistrationDetails copy (areOthersApplyingForProbate = Some(true), coExecutors = Seq(coExecutor))
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, rd)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(rd)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
 
@@ -257,7 +259,7 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       val coExecutor = CommonBuilder.buildCoExecutor copy (ukAddress = Some(ukAddressWithNoFourthLine))
       val rd = CommonBuilder.buildRegistrationDetails copy (areOthersApplyingForProbate = Some(true), coExecutors = Seq(coExecutor))
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, rd)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(rd)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
 
@@ -273,7 +275,7 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       val coExecutor = CommonBuilder.buildCoExecutor copy (ukAddress = Some(ukAddressWithGBCountryCode))
       val rd = CommonBuilder.buildRegistrationDetails copy (areOthersApplyingForProbate = Some(true), coExecutors = Seq(coExecutor))
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, rd)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(rd)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
 
@@ -289,7 +291,7 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       val coExecutor = CommonBuilder.buildCoExecutor copy (ukAddress = Some(ukAddressWithInternationalCountryCode))
       val rd = CommonBuilder.buildRegistrationDetails copy (areOthersApplyingForProbate = Some(true), coExecutors = Seq(coExecutor))
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, rd)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(rd)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
 
@@ -303,7 +305,7 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       val rd = CommonBuilder.buildRegistrationDetailsWithCoExecutors
       val confirmForm = deleteConfirmationForm.fill(None)
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, rd)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(rd)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
 
@@ -323,7 +325,7 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       val rdWithCoExecs = rd copy (coExecutors = Seq(existingCoExec0, existingCoExec1))
       val confirmForm = deleteConfirmationForm.fill(None)
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, rdWithCoExecs)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(rdWithCoExecs)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithCoExecs))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rdWithCoExecs))
 
@@ -346,7 +348,7 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       val rdWithCoExecs = rd copy (coExecutors = Seq(existingCoExec0, existingCoExec1))
       val confirmForm = deleteConfirmationForm.fill(None)
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, rdWithCoExecs)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(rdWithCoExecs)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithCoExecs))
       createMockToStoreRegDetailsInCacheWithFailure(mockCachingConnector, Some(rdWithCoExecs))
 

@@ -30,7 +30,7 @@ import play.api.mvc.{Request, Result}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import uk.gov.hmrc.http.{ConflictException, GatewayTimeoutException, HeaderCarrier}
+import uk.gov.hmrc.http._
 
 object RegistrationSummaryController extends RegistrationSummaryController with IhtConnectors {
   def metrics: Metrics = Metrics
@@ -73,15 +73,20 @@ trait RegistrationSummaryController extends RegistrationController {
     implicit user => implicit request => {
       def errorHandler: PartialFunction[Throwable, Result] = {
         case ex: GatewayTimeoutException => {
-          Logger.warn("Request has been timed out while submitting registration")
+          Logger.warn("Request has been timed out while submitting registration", ex)
           InternalServerError(iht.views.html.registration.registration_error(ControllerHelper.errorRequestTimeOut))
+        }
+        case ex: Upstream5xxResponse if ex.upstreamResponseCode == 502 &&
+          ex.message.contains("Service Unavailable") => {
+          Logger.warn("Service Unavailable while submitting registration", ex)
+          InternalServerError(iht.views.html.registration.registration_error_serviceUnavailable())
         }
         case ex: Exception => {
           if (ex.getMessage.contains("Request timed out")) {
-            Logger.warn("Request has been timed out while submitting registration")
+            Logger.warn("Request has been timed out while submitting registration", ex)
             InternalServerError(iht.views.html.registration.registration_error(ControllerHelper.errorRequestTimeOut))
           } else {
-            Logger.warn("System error while submitting registration")
+            Logger.warn("System error while submitting registration", ex)
             InternalServerError(iht.views.html.registration.registration_error(ControllerHelper.errorSystem))
           }
         }

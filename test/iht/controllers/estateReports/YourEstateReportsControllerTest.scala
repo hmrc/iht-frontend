@@ -224,7 +224,7 @@ class YourEstateReportsControllerTest  extends ApplicationControllerTest{
                                                     getAppDetails: Boolean = true) = {
 
     createMockToGetCaseList(ihtConnector, ihtAppList)
-    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, CommonBuilder.buildRegistrationDetails)
+    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(CommonBuilder.buildRegistrationDetails)))
 
     if(getAppDetails) {
       createMockToGetApplicationDetails(ihtConnector, appDetails)

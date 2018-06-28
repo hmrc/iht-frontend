@@ -25,7 +25,7 @@ import iht.metrics.Metrics
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.debts._
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, ContentChecker}
+import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.StringHelper
 import iht.utils.CommonHelper._
@@ -42,7 +42,7 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
-import uk.gov.hmrc.http.{ ConflictException, GatewayTimeoutException }
+import uk.gov.hmrc.http.{ConflictException, GatewayTimeoutException, Upstream5xxResponse}
 
 class RegistrationSummaryControllerTest extends RegistrationControllerTest{
 
@@ -185,6 +185,58 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       status(result) should be(INTERNAL_SERVER_ERROR)
 
       contentAsString(result) should include(messagesApi("error.cannotSend"))
+    }
+
+    "onSubmit Upstream5xxResponse" in {
+      val deceasedDateOfDeath = new DeceasedDateOfDeath(new LocalDate(2001,11, 11))
+      val applicantDetails = CommonBuilder.buildApplicantDetails
+      val deceasedDetails = CommonBuilder.buildDeceasedDetails
+      val coExec1 = CommonBuilder.buildCoExecutor copy (firstName=CommonBuilder.firstNameGenerator,
+        lastName=CommonBuilder.surnameGenerator)
+      val coExec2 = CommonBuilder.buildCoExecutor copy (firstName=CommonBuilder.firstNameGenerator,
+        lastName=CommonBuilder.surnameGenerator)
+      val registrationDetails = RegistrationDetails(Some(deceasedDateOfDeath), Some(applicantDetails),
+        Some(deceasedDetails), Seq(coExec1, coExec2))
+
+      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
+      createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
+      createMockToSubmitRegistration(mockIhtConnector)
+
+      when(mockIhtConnector.saveApplication(any(), any(), any())(any(), any()))
+        .thenAnswer(new Answer[Future[Option[ApplicationDetails]]] {
+          override def answer(invocation: InvocationOnMock): Future[Option[ApplicationDetails]] = {
+            Future.failed(new Upstream5xxResponse("Service Unavailable", 502, 502))
+          }})
+
+      val result = controller.onSubmit(createFakeRequest())
+      status(result) should be(INTERNAL_SERVER_ERROR)
+
+      contentAsString(result) should include(messagesApi("error.registration.serviceUnavailable.p1"))
+    }
+
+    "onSubmit Upstream5xxResponse 502" in {
+      val deceasedDateOfDeath = new DeceasedDateOfDeath(new LocalDate(2001,11, 11))
+      val applicantDetails = CommonBuilder.buildApplicantDetails
+      val deceasedDetails = CommonBuilder.buildDeceasedDetails
+      val coExec1 = CommonBuilder.buildCoExecutor copy (firstName=CommonBuilder.firstNameGenerator,
+        lastName=CommonBuilder.surnameGenerator)
+      val coExec2 = CommonBuilder.buildCoExecutor copy (firstName=CommonBuilder.firstNameGenerator,
+        lastName=CommonBuilder.surnameGenerator)
+      val registrationDetails = RegistrationDetails(Some(deceasedDateOfDeath), Some(applicantDetails),
+        Some(deceasedDetails), Seq(coExec1, coExec2))
+
+      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
+      createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
+      createMockToSubmitRegistration(mockIhtConnector)
+
+      when(mockIhtConnector.saveApplication(any(), any(), any())(any(), any()))
+        .thenAnswer(new Answer[Future[Option[ApplicationDetails]]] {
+          override def answer(invocation: InvocationOnMock): Future[Option[ApplicationDetails]] = {
+            Future.failed(new Upstream5xxResponse("test", 502, 502))
+          }})
+
+      val result = controller.onSubmit(createFakeRequest())
+      status(result) should be(500)
     }
 
     "redirect to the estate report page if the RegistrationDetails does not contain deceased's date of death" in {

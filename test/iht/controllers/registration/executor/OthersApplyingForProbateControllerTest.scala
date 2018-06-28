@@ -21,7 +21,7 @@ import iht.controllers.registration.{RegistrationControllerTest, routes => regis
 import iht.forms.registration.CoExecutorForms._
 import iht.metrics.Metrics
 import iht.models.{DeceasedDateOfDeath, RegistrationDetails}
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.testhelpers.MockObjectBuilder._
 import org.joda.time.LocalDate
 import play.api.i18n.Messages
@@ -30,6 +30,8 @@ import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
 import uk.gov.hmrc.play.partials.FormPartialRetriever
+
+import scala.concurrent.Future
 
 class OthersApplyingForProbateControllerTest extends RegistrationControllerTest {
 
@@ -97,7 +99,7 @@ class OthersApplyingForProbateControllerTest extends RegistrationControllerTest 
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
         data=probateForm.data.toSeq)
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
@@ -112,7 +114,7 @@ class OthersApplyingForProbateControllerTest extends RegistrationControllerTest 
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
         data=probateForm.data.toSeq)
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
@@ -126,7 +128,7 @@ class OthersApplyingForProbateControllerTest extends RegistrationControllerTest 
       val probateForm = othersApplyingForProbateForm.fill(Some(true))
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=probateForm.data.toSeq)
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
@@ -142,7 +144,7 @@ class OthersApplyingForProbateControllerTest extends RegistrationControllerTest 
       val probateForm = othersApplyingForProbateForm.fill(Some(false))
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=probateForm.data.toSeq)
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
@@ -179,7 +181,7 @@ class OthersApplyingForProbateControllerTest extends RegistrationControllerTest 
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
         data=probateForm.data.toSeq)
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCacheWithFailure(mockCachingConnector, Some(registrationDetails))
 

@@ -33,7 +33,7 @@ import uk.gov.hmrc.play.http._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import uk.gov.hmrc.http.{ BadRequestException, ConflictException, GatewayTimeoutException, HeaderCarrier, HttpDelete, HttpGet, HttpPost, HttpPut, HttpResponse, NotFoundException, Upstream4xxResponse, Upstream5xxResponse }
+import uk.gov.hmrc.http.{BadRequestException, ConflictException, GatewayTimeoutException, HeaderCarrier, HttpDelete, HttpGet, HttpPost, HttpPut, HttpResponse, NotFoundException, Upstream4xxResponse, Upstream5xxResponse}
 
 trait IhtConnector {
 

@@ -20,7 +20,7 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.assets.Property
 import iht.models.application.debts._
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.testhelpers.MockObjectBuilder._
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
@@ -28,7 +28,7 @@ import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-import scala.concurrent.Await
+import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
 import uk.gov.hmrc.http.HeaderCarrier
 
@@ -133,7 +133,7 @@ class MortgagesOverviewControllerTest extends ApplicationControllerTest {
         ihtReference = None
         )
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
 
       a[RuntimeException] shouldBe thrownBy {
         await(mortgagesOverviewController.onPageLoad()(createFakeRequest()))
