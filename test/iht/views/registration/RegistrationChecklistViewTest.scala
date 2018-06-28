@@ -16,102 +16,108 @@
 
 package iht.views.registration
 
+import iht.testhelpers.viewSpecshelper.registration.RegistrationChecklistMessages
 import iht.views.ViewTestHelper
-import iht.views.html.registration.registration_checklist
 import play.api.i18n.Messages.Implicits._
+import iht.views.html.registration.{registration_checklist => views}
+import org.jsoup.Jsoup
 
-class RegistrationChecklistViewTest extends ViewTestHelper {
+class RegistrationChecklistViewTest extends ViewTestHelper with RegistrationChecklistMessages {
 
-  "RegistrationChecklistView" must {
+  "RegistrationChecklistView" should {
 
-    "have no message keys in html" in {
-      val view = registration_checklist()(createFakeRequest(), applicationMessages, formPartialRetriever).toString
-      noMessageKeysShouldBePresent(view)
+    lazy val view = views()(createFakeRequest(), applicationMessages, formPartialRetriever)
+    lazy val doc = Jsoup.parse(view.body)
+
+    "have the correct title" in {
+      doc.title() shouldBe pageIhtRegistrationChecklistTitle
     }
 
-    "contain the correct page heading and contents for first paragraph of guidance" in {
-
-      val view = registration_checklist()(createFakeRequest(), applicationMessages, formPartialRetriever).toString
-
-      view should include (messagesApi("page.iht.registration.checklist.title"))
-      view should include (messagesApi("page.iht.registration.checklist.label1"))
-      view should include (messagesApi("page.iht.registration.checklist.label2"))
-      view should include (messagesApi("page.iht.registration.checklist.label3"))
+    "have h1 tage with page title" in {
+      doc.select("h1").text() shouldBe pageIhtRegistrationChecklistTitle
     }
 
-    "contain the required contents for the deceased guidance section" in {
-      val view = registration_checklist()(createFakeRequest(), applicationMessages, formPartialRetriever).toString
-
-      view should include (messagesApi("iht.name.lowerCaseInitial"))
-      view should include (messagesApi("iht.registration.checklist.dateOfBirth"))
-      view should include (messagesApi("page.iht.registration.checklist.deceased.label3"))
-      view should include (messagesApi("iht.nationalInsuranceNo"))
-      view should include (messagesApi("page.iht.registration.checklist.deceased.label5"))
-      view should include (messagesApi("page.iht.registration.checklist.deceased.label6"))
-      view should include (messagesApi("page.iht.registration.checklist.deceased.label7"))
-
-
-      view should include (messagesApi("page.iht.registration.checklist.deceased.reveal.label1"))
-      view should include (messagesApi("page.iht.registration.checklist.deceased.reveal.label2"))
-      view should include (messagesApi("iht.registration.ninoNotOnPayslip"))
-      view should include (messagesApi("page.iht.registration.checklist.deceased.reveal.label4"))
+    "have introduction paragraphs" in {
+      doc.select("p").get(2).text() shouldBe pageIhtRegistrationChecklistLabel1
+      doc.select("p").get(3).text() shouldBe pageIhtRegistrationChecklistLabel2
     }
 
-    "contain the required contents for the Applicant guidance section" in {
+    "have bullet points for user details required" in {
+      doc.select("li").get(0).text() shouldBe ihtRegistrationChecklistYourNino
+      doc.select("li").get(1).text() shouldBe ihtRegistrationChecklist2FA
+      doc.select("li").get(2).text() shouldBe ihtRegistrationChecklistPassport
+      doc.select("li").get(3).text() shouldBe ihtRegistrationChecklistPayslip
+      doc.select("li").get(4).text() shouldBe ihtRegistrationChecklistTaxCredit
+    }
 
-      val view = registration_checklist()(createFakeRequest(), applicationMessages, formPartialRetriever).toString
+    "have a h2 tag" in {
+      doc.select("h2").text() shouldBe ihtRegistrationDetailsNeededTitle
+    }
 
-      view should include (messagesApi("iht.address.lowerCaseInitial"))
-      view should include (messagesApi("iht.nationalInsuranceNo"))
-      view should include (messagesApi("iht.registration.checklist.phoneNo.lowerCaseInitial"))
-      view should include (messagesApi("page.iht.registration.checklist.applicant.label4"))
-      view should include (messagesApi("page.iht.registration.checklist.applicant.label5"))
-
-      view should include (messagesApi("page.iht.registration.checklist.applicant.reveal.label1"))
-      view should include (messagesApi("page.iht.registration.checklist.applicant.reveal.label2"))
-      view should include (messagesApi("page.iht.registration.checklist.applicant.reveal.label3"))
-      view should include (messagesApi("page.iht.registration.checklist.applicant.reveal.label4"))
+    "have a details needed paragraphs" in {
+      doc.select("p").get(4).text() shouldBe ihtRegistrationDetailsNeededLabel1
+      doc.select("p").get(5).text() shouldBe ihtRegistrationDetailsNeededLabel2
 
     }
 
-    "contain the required contents for the grant of representation guidance section" in {
-
-      val view = registration_checklist()(createFakeRequest(), applicationMessages, formPartialRetriever).toString
-
-      view should include (messagesApi("iht.name.lowerCaseInitial"))
-      view should include (messagesApi("iht.registration.checklist.dateOfBirth"))
-      view should include (messagesApi("iht.nationalInsuranceNo"))
-      view should include (messagesApi("iht.address.lowerCaseInitial"))
-      view should include (messagesApi("iht.registration.checklist.phoneNo.lowerCaseInitial"))
-
-      view should include (messagesApi("page.iht.registration.checklist.exec.reveal.label1"))
-      view should include (messagesApi("page.iht.registration.checklist.exec.reveal.label2"))
-      view should include (messagesApi("page.iht.registration.checklist.exec.reveal.label3"))
+    "have bullet points for deceased details required" in {
+      doc.select("li").get(5).text() shouldBe ihtRegistrationDetailsNeededOname
+      doc.select("li").get(6).text() shouldBe ihtRegistrationChecklistDateOfBirth
+      doc.select("li").get(7).text() shouldBe pageIhtRegistrationChecklistDeceasedLabel3
+      doc.select("li").get(8).text() shouldBe ihtNationalInsuranceNo
+      doc.select("li").get(9).text() shouldBe pageIhtRegistrationChecklistDeceasedLabel5
+      doc.select("li").get(10).text() shouldBe pageIhtRegistrationChecklistDeceasedLabel7
 
     }
 
-    "contain Start registration button with target as deceased date of death page" in {
-
-      val view = registration_checklist()(createFakeRequest(), applicationMessages, formPartialRetriever).toString
-      val doc = asDocument(view)
-
-      view should include (messagesApi("page.iht.registration.checklist.startRegistrationButton"))
-
-      val link = doc.getElementById("start-registration")
-      link.text shouldBe messagesApi("page.iht.registration.checklist.startRegistrationButton")
-      link.attr("href") shouldBe iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad.url
-
+    "have a progressive disclosure relating to deceased details" should  {
+      "have a reveal text in" in {
+        doc.getElementById("application-details-reveal").select("summary").text() shouldBe pageIhtRegistrationChecklistRevealText
+      }
+      "have information relating to deceased details required" in {
+        doc.getElementById("application-details-reveal").select("p").get(0).text() shouldBe pageIhtRegistrationChecklistApplicantRevealLabel1
+        doc.getElementById("application-details-reveal").select("p").get(1).text() shouldBe pageIhtRegistrationChecklistApplicantRevealLabel2
+        doc.getElementById("application-details-reveal").select("p").get(2).text() shouldBe pageIhtRegistrationChecklistApplicantRevealLabel3
+        doc.getElementById("application-details-reveal").select("p").get(3).text() shouldBe pageIhtRegistrationChecklistApplicantRevealLabel4
+      }
     }
 
-    "contain Leave this page to get all the details you need link and has a target as what you want to do page" in {
-
-      val view = registration_checklist()(createFakeRequest(), applicationMessages, formPartialRetriever).toString
-      val doc = asDocument(view)
-
-      val link = doc.getElementById("leave-page")
-      link.text shouldBe messagesApi("page.iht.registration.checklist.leaveLink")
-      link.attr("href") shouldBe iht.controllers.filter.routes.FilterController.onPageLoad.url
-
+    "have paragraphs relating additional information about deceased details" in {
+      doc.getElementById("applicant-details-list").select("p").get(6).text() shouldBe ihtRegistrationDetailsNeededLabel3
+      doc.getElementById("applicant-details-list").select("p").get(7).text() shouldBe ihtRegistrationDetailsNeededLabel4
+      doc.getElementById("applicant-details-list").select("p").get(8).text() shouldBe ihtRegistrationDetailsNeededLabel5
     }
+
+    "executor details section" should {
+      "have a introduction text" in {
+        doc.getElementById("co-execs-details-list").select("p").get(0).text() shouldBe ihtRegistrationExecutorLabel1
+      }
+      "have a list of bullet points" in {
+        doc.getElementById("co-execs-details-list").select("li").get(0).text() shouldBe ihtRegistrationDetailsNeededOname
+        doc.getElementById("co-execs-details-list").select("li").get(1).text() shouldBe ihtNationalInsuranceNo
+        doc.getElementById("co-execs-details-list").select("li").get(2).text() shouldBe ihtRegistrationChecklistDateOfBirth
+        doc.getElementById("co-execs-details-list").select("li").get(3).text() shouldBe ihtRegistrationExecutorAddress
+        doc.getElementById("co-execs-details-list").select("li").get(4).text() shouldBe ihtRegistrationChecklistPhoneNoLowerCaseInitial
+      }
+      "additional information relating to the details required" in {
+        doc.getElementById("co-execs-details-list").select("p").get(4).text() shouldBe ihtRegistrationExecutorLabel2
+        doc.getElementById("co-execs-details-list").select("p").get(5).text() shouldBe ihtRegistrationExecutorLabel3
+      }
+    }
+
+    "have a continue button" in {
+      doc.getElementById("start-registration").text() shouldBe pageIhtRegistrationChecklistContinueButton
+      doc.getElementById("start-registration").attr("href") shouldBe iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad().url
+    }
+
+    "have a leave this page text link" in {
+      doc.getElementById("leave-page").text() shouldBe pageIhtRegistrationChecklistLeaveLink
+      doc.getElementById("leave-page").attr("href") shouldBe iht.controllers.filter.routes.FilterController.onPageLoad().url
+    }
+
+    "have a save link text" in {
+      doc.select("p").get(19).text() shouldBe pageIhtRegistrationChecklistSaveLink
+    }
+
   }
 }
