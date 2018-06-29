@@ -1,0 +1,56 @@
+/*
+ * Copyright 2018 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package iht.testhelpers.viewSpecshelper.registration
+
+trait RegistrationChecklistMessages {
+
+  val pageIhtRegistrationChecklistTitle                 = "Before you start registration"
+  val pageIhtRegistrationChecklistLabel1                = "Only start once you have everything you will need, because there is no way to save an incomplete registration."
+  val pageIhtRegistrationChecklistLabel2                = "To register the estate you will need to sign in to your Government Gateway account (or you will need to create one). You may also be asked some questions to confirm who you are. Details about yourself you may need include:"
+  val ihtRegistrationChecklistYourNino                  = "your National Insurance number"
+  val ihtRegistrationChecklist2FA                       = "mobile or landline phone number for 2-step verification"
+  val ihtRegistrationChecklistPassport                  = "valid UK passport details or if you do not have a passport, your:"
+  val ihtRegistrationChecklistPayslip                   = "recent payslips or last P60"
+  val ihtRegistrationChecklistTaxCredit                 = "tax credits or pension payment amounts"
+  val ihtRegistrationDetailsNeededTitle                 = "Details you will need to register the estate "
+  val ihtRegistrationDetailsNeededLabel1                = "You will not be able to change these details later on."
+  val ihtRegistrationDetailsNeededLabel2                = "You will need the person who died’s:"
+  val ihtRegistrationDetailsNeededOname                 = "official name"
+  val ihtRegistrationChecklistDateOfBirth               = "date of birth"
+  val pageIhtRegistrationChecklistDeceasedLabel3        = "date of death"
+  val ihtNationalInsuranceNo                            = "National Insurance number"
+  val pageIhtRegistrationChecklistDeceasedLabel5        = "last known contact address"
+  val pageIhtRegistrationChecklistDeceasedLabel7        = "relationship status"
+  val pageIhtRegistrationChecklistApplicantRevealLabel1 = "The location where you are planning to apply to the Probate Service is where you are sending your PA1 - Probate application form. There are different places throughout the UK but you can only use this service if you are planning to apply in England or Wales."
+  val pageIhtRegistrationChecklistApplicantRevealLabel2 = "If the person who has died left a will then you will know if you are an executor of their estate as you will be named in it. If there is no will, the court will have named you as an administrator."
+  val pageIhtRegistrationChecklistApplicantRevealLabel3 = "The phone number you give is one that HMRC can contact you on. This might happen after you have finished the estate report and it is being reviewed."
+  val pageIhtRegistrationChecklistApplicantRevealLabel4 = "You can find your National Insurance number on a payslip, a P45 or a P60 form."
+  val pageIhtRegistrationChecklistRevealText            = "How to find these details"
+  val ihtRegistrationDetailsNeededLabel3                = "The person’s first and last name will be on the death certificate. Their last known contact address is where they had their post sent before they died. This could be to a home that they owned or where they last lived."
+  val ihtRegistrationDetailsNeededLabel4                = "If the person did not have a National Insurance number, you will need to submit an IHT205 paper form instead."
+  val ihtRegistrationDetailsNeededLabel5                = "The person who has died’s relationship status is their actual situation when they died, not what they, or someone else, might have thought it to be. If the person who has died was married at some time in their life and then divorced, you should select divorced."
+  val ihtRegistrationExecutorLabel1                     = "For all the executors or administrators listed on your probate application, you will need their:"
+  val ihtRegistrationExecutorAddress                    = "address"
+  val ihtRegistrationChecklistPhoneNoLowerCaseInitial   = "phone number"
+  val ihtRegistrationExecutorLabel2                     = "All names should be as they appear on a passport or other official document. They might be different to the names that you know people by."
+  val ihtRegistrationExecutorLabel3                     = "The phone number is so that HMRC can contact this person. This might happen after you have finished the estate report and it is being reviewed."
+  val pageIhtRegistrationChecklistContinueButton        = "Continue"
+  val pageIhtRegistrationChecklistLeaveLink             = "Leave this page to get all of the details you need"
+  val pageIhtRegistrationChecklistSaveLink              = "Save the link to this page or add it to your favourites."
+
+
+}

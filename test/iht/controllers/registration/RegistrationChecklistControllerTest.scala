@@ -57,7 +57,6 @@ class RegistrationChecklistControllerTest extends RegistrationControllerTest {
       status(result) should be (OK)
       contentAsString(result) should include (messagesApi("page.iht.registration.checklist.label1"))
       contentAsString(result) should include (messagesApi("page.iht.registration.checklist.label2"))
-      contentAsString(result) should include (messagesApi("page.iht.registration.checklist.label3"))
     }
 
     "display at least one click and reveal link on the page" in {
@@ -69,7 +68,7 @@ class RegistrationChecklistControllerTest extends RegistrationControllerTest {
     "display start registration button on page" in {
       val result = registrationChecklistController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (messagesApi("page.iht.registration.checklist.startRegistrationButton"))
+      contentAsString(result) should include (messagesApi("page.iht.registration.checklist.continueButton"))
     }
 
     "display a return link on page" in {
