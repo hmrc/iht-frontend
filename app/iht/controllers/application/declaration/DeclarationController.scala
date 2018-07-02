@@ -176,9 +176,6 @@ trait DeclarationController extends ApplicationController {
                                                         hc: HeaderCarrier,
                                                         user: AuthContext,
                                                         ihtFormPartialRetriever: FormPartialRetriever): Future[Result] = {
-    val errorHandler: PartialFunction[Throwable, Result] = {
-      case ex: Throwable => InternalServerError(iht.views.html.application.application_error(submissionException(ex))(request, applicationMessages, ihtFormPartialRetriever))
-    }
     withRegistrationDetails { regDetails =>
       val ihtAppReference = regDetails.ihtReference
       val acknowledgement = regDetails.acknowledgmentReference
@@ -220,7 +217,7 @@ trait DeclarationController extends ApplicationController {
         }
         .map { _ =>
           Redirect(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad())
-        } recover errorHandler
+        }
       }
     }
   }
