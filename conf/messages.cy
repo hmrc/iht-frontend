@@ -1,10 +1,10 @@
-site.progressiveDisclosure = TEMPORARY TEXT, WILL BE REPLACED WITH WELSH WHEN IT IS RECEIVED! Get help using this service
-site.progressiveDisclosure.registration.contact = TEMPORARY TEXT, WILL BE REPLACED WITH WELSH WHEN IT IS RECEIVED! If you need more help, call the Inheritance Tax helpline on 0300 123 1072 (+44 (0) 300 123 1072 from outside the UK).
-site.progressiveDisclosure.preRegistration.help = TEMPORARY TEXT, WILL BE REPLACED WITH WELSH WHEN IT IS RECEIVED! To get help with signing in or confirming your identity, use the contact form below. If you got a message telling you something was wrong, tell us what it says.
-site.progressiveDisclosure.preRegistration.contact = TEMPORARY TEXT, WILL BE REPLACED WITH WELSH WHEN IT IS RECEIVED! If you need help with Inheritance Tax, use the contact form or call the helpline on 0300 123 1072 (+44 (0) 300 123 1072 from outside the UK).
-site.progressiveDisclosure.application.help = TEMPORARY TEXT, WILL BE REPLACED WITH WELSH WHEN IT IS RECEIVED! To request amendments or ask about how to fill in your estate report, use the contact form below. In the third text box put the surname of the person who has died and the estate reference number, which is on the
-site.progressiveDisclosure.application.linkText = TEMPORARY TEXT, WILL BE REPLACED WITH WELSH WHEN IT IS RECEIVED! estate report page.
-site.progressiveDisclosure.application.contact = TEMPORARY TEXT, WILL BE REPLACED WITH WELSH WHEN IT IS RECEIVED! If you need more help, call the Inheritance Tax helpline on 0300 123 1072 (+44 (0) 300 123 1072 from outside the UK).
+site.progressiveDisclosure = Help i ddefnyddio’r gwasanaeth hwn
+site.progressiveDisclosure.registration.contact = Os oes angen rhagor o help arnoch, ffoniwch Wasanaeth Cwsmeriaid Cymraeg CThEM ar 0300 200 1900.
+site.progressiveDisclosure.preRegistration.help = I gael help gyda mewngofnodi neu gyda chadarnhau pwy ydych, defnyddiwch y ffurflen gyswllt isod. Os cawsoch neges yn rhoi gwybod i chi bod rhywbeth o’i le, rhowch wybod i ni beth mae’n ei ddweud.
+site.progressiveDisclosure.preRegistration.contact = Os oes angen rhagor o help gyda Threth Etifeddiant arnoch, defnyddiwch y ffurflen gyswllt, neu ffoniwch Wasanaeth Cwsmeriaid Cymraeg CThEM ar 0300 200 1900.
+site.progressiveDisclosure.application.help = Defnyddiwch y ffurflen gyswllt isod er mwyn gwneud cais am ddiwygiadau, neu i ymholi ynghylch llenwi eich adroddiad ynghylch yr ystâd. Rhowch gyfenw’r sawl sydd wedi marw, a chyfeirnod yr ystâd, yn y drydydd blwch testun. Mae hyn ar y
+site.progressiveDisclosure.application.linkText = dudalen adroddiad ynghylch yr ystâd.
+site.progressiveDisclosure.application.contact = Os oes angen rhagor o help arnoch, ffoniwch Wasanaeth Cwsmeriaid Cymraeg CThEM ar 0300 200 1900.
 
 page.iht.application.assets.insurance.policies.overview.other.question4.yes.screenReader.link.value=Do, rhoddwyd y polisïau mewn ymddiriedolaeth dros 7 mlynedd cyn y bu {0} farw. Newid yr ateb hwn.
 page.iht.application.assets.property.detailsOverview.address.screenReader.link.noValue=Rhowch fanylion ar gyfer y cyfeiriad
