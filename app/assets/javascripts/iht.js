@@ -100,13 +100,16 @@ if($('[data-enhanced-select]').length > 0){
 // =====================================================
 // Handle the IHT progressive disclosure open/close functionality
 // =====================================================
- $(".report-error__toggle").on("click", function(e) {
-    if (document.getElementById("pairDisclosure").open) {
-            document.getElementById("pairDisclosure").open = false;
-   }else{
-            document.getElementById("pairDisclosure").open = true;
-      }
+ $("#getHelpDisclosure").on("click", function() {
+    if (document.getElementById("getHelpDisclosure").open) {
+    //do nothing
+    }else{
+        $.ajax({url: reportProblemAjaxUrl, success: function(result){
+             $("#getHelpForm").html(result);
+          }});
+        }
     });
+
 
 // =====================================================
 // Submit trigger
