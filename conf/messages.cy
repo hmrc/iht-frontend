@@ -1,3 +1,11 @@
+site.progressiveDisclosure = Help i ddefnyddio’r gwasanaeth hwn
+site.progressiveDisclosure.registration.contact = Os oes angen rhagor o help arnoch, ffoniwch Wasanaeth Cwsmeriaid Cymraeg CThEM ar 0300 200 1900.
+site.progressiveDisclosure.preRegistration.help = I gael help gyda mewngofnodi neu gyda chadarnhau pwy ydych, defnyddiwch y ffurflen gyswllt isod. Os cawsoch neges yn rhoi gwybod i chi bod rhywbeth o’i le, rhowch wybod i ni beth mae’n ei ddweud.
+site.progressiveDisclosure.preRegistration.contact = Os oes angen rhagor o help gyda Threth Etifeddiant arnoch, defnyddiwch y ffurflen gyswllt, neu ffoniwch Wasanaeth Cwsmeriaid Cymraeg CThEM ar 0300 200 1900.
+site.progressiveDisclosure.application.help = Defnyddiwch y ffurflen gyswllt isod er mwyn gwneud cais am ddiwygiadau, neu i ymholi ynghylch llenwi eich adroddiad ynghylch yr ystâd. Rhowch gyfenw’r sawl sydd wedi marw, a chyfeirnod yr ystâd, yn y drydydd blwch testun. Mae hyn ar y
+site.progressiveDisclosure.application.linkText = dudalen adroddiad ynghylch yr ystâd.
+site.progressiveDisclosure.application.contact = Os oes angen rhagor o help arnoch, ffoniwch Wasanaeth Cwsmeriaid Cymraeg CThEM ar 0300 200 1900.
+
 page.iht.application.assets.insurance.policies.overview.other.question4.yes.screenReader.link.value=Do, rhoddwyd y polisïau mewn ymddiriedolaeth dros 7 mlynedd cyn y bu {0} farw. Newid yr ateb hwn.
 page.iht.application.assets.property.detailsOverview.address.screenReader.link.noValue=Rhowch fanylion ar gyfer y cyfeiriad
 error.stockAndShare.currencyValue.length.summary=nodwch werth ar gyfer stoc a chyfranddaliadau gan ddefnyddio llai nag 11 rhif
@@ -816,7 +824,6 @@ page.iht.registration.others-applying-for-probate-address.browserTitle=Manylion 
 page.iht.application.exemptions.assetLeftToGncp.screenReader.noValue=Ni roddwyd swm ar gyfer asedion a adawyd i gorff cymwys arall
 page.iht.application.tnrbEligibilty.overview.guidance2=Dylai''r holl fanylion a rowch ar y dudalen hon fod ynghylch {0} a fu farw yn {1}
 site.button.signOut=Cadw ac allgofnodi
-iht.needHelp=Angen help?
 page.iht.registration.notApplyingForProbate.kickout.summary=Y rheswm dros hynny yw nad ydych yn gwneud cais ar gyfer profiant ar gyfer ystâd {0}.
 page.iht.application.assets.property.ownership.browserTitle=Beth oedd perchnogaeth yr eiddo
 page.iht.application.assets.pensions.hint=Bydd y darparwr pensiwn yn gallu rhoi gwybod i chi faint sy''n cael ei dalu i''r ystad.
@@ -1404,7 +1411,6 @@ iht.viewOrChange=Gweld neu newid
 page.iht.application.assets.propertyType.otherResidential.label=Adeilad preswyl arall
 site.button.save.return.properties=Cadw ac yn ôl i eiddo, adeiladau a thir yr ydych yn berchen arnynt
 page.iht.application.TnrbEligibilty.partnerName.label=Enw''r {0}
-iht.needHelp.guidance=Os oes angen help arnoch i lenwi''r adroddiad hwn ynghylch yr ystâd, ffoniwch y llinell gymorth Treth Etifeddiant ar 0300 123 1072. Os ydych y tu allan i''r DU, ffoniwch +44 300 123 1072.
 page.iht.application.assets.deceased-permanent-home.editOrDelete.screenReader=y cyfeiriad ar gyfer {0} {1}
 site.link.go.to.giftsGivenAwaySection=Ewch i''r adran rhoddion a roddwyd i ffwrdd
 iht.ineligibleApplication=Cais anghymwys

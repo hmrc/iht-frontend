@@ -37,7 +37,7 @@ headingName = deceasedName
 
 <p class="lede">@Messages("page.iht.application.exemptions.qualifyingBodyOverview.lede")</p>
 
-@progressive_disclosure(Messages("iht.estateReport.exemptions.qualifyingBodies.howFindOutQualifies"), Seq(Messages("iht.estateReport.exemptions.qualifyingBodies.assetLeftToQualifyingBody.helptext")))
+@progressive_disclosure(request.uri)
 
     <section id="qualifyingBody-table">
         <ul class="tabular-data tabular-data--list">
