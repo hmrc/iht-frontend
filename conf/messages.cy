@@ -2125,31 +2125,31 @@ page.iht.iv.failure.2fa.p1 = Bydd angen i chi sefydlu''r Dull Gwirio 2-Gam er mw
 page.iht.application.exemptions.guidance.increasing.threshold.title=Mae gwerth yr ystâd yn uwch na''r trothwy Treth Etifeddiant
 
 
-page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.start = (PENDING)The assets and gifts add up to a gross value that is too high for you to use the online service. Go
-page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.link = (PENDING)back to the estate report
-page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.end = (PENDING)if you want to change any values you have entered.
-page.iht.application.exemptions.guidance.increasing.threshold.section1.p2 = (PENDING)Otherwise there are 2 ways that you can continue:
-page.iht.application.exemptions.guidance.increasing.threshold.section1.bullet1 = (PENDING)if the estate has exemptions and no tax is payable
-page.iht.application.exemptions.guidance.increasing.threshold.section1.bullet2 = (PENDING)if you can raise the threshold and no tax is payable
+page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.start = Wrth ychwanegu’r asedion a’r rhoddion at ei gilydd maent yn cyrraedd swm gros sy’n rhy uchel i chi ddefnyddio’r gwasanaeth ar-lein. Ewch
+page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.link = yn ôl i’r adroddiad ynghylch yr ystâd
+page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.end = os ydych am newid unrhyw werthoedd rydych wedi’u nodi.
+page.iht.application.exemptions.guidance.increasing.threshold.section1.p2 = Fel arall mae yna ddwy ffordd y gallwch fynd yn eich blaen:
+page.iht.application.exemptions.guidance.increasing.threshold.section1.bullet1 = os oes gan yr ystâd eithriadau ac nid oes treth yn daladwy
+page.iht.application.exemptions.guidance.increasing.threshold.section1.bullet2 = os gallwch gynyddu’r trothwy ac nid oes treth yn daladwy
 
-page.iht.application.exemptions.guidance.increasing.threshold.section2.exemptionHeader = (PENDING)If the estate has exemptions
-page.iht.application.exemptions.guidance.increasing.threshold.section2.p3 = (PENDING)The estate has exemptions when any part of the estate has been left to either:
-page.iht.application.exemptions.guidance.increasing.threshold.section2.bullet3 = (PENDING)a surviving spouse (by marriage or civil partnership)
-page.iht.application.exemptions.guidance.increasing.threshold.section2.bullet4 = (PENDING)a registered charity or other qualifying body like a sports club
-page.iht.application.exemptions.guidance.increasing.threshold.section2.p4 = (PENDING)This means you will only need to show HMRC that the net estate value is below the threshold. The estate''s exemptions, debts and mortgages will be subtracted from the value of the estate before it''s checked against the threshold. The gross value of the estate must be less than £1 million.
-page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.start = (PENDING)If there are no exemptions, the debts cannot be subtracted at this stage. You will have to submit an
-page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.link = (PENDING)IHT400 form
-page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.end = (PENDING)simply because the gross value of the estate exceeds the threshold.
+page.iht.application.exemptions.guidance.increasing.threshold.section2.exemptionHeader = Os oes gan yr ystâd eithriadau
+page.iht.application.exemptions.guidance.increasing.threshold.section2.p3 = Mae gan yr ystâd eithriadau pan fo unrhyw ran o’r ystâd wedi’i gadael i un o’r canlynol:
+page.iht.application.exemptions.guidance.increasing.threshold.section2.bullet3 = priod sy’n goroesi (drwy briodas neu bartneriaeth sifil)
+page.iht.application.exemptions.guidance.increasing.threshold.section2.bullet4 = elusen gofrestredig neu gorff cymwys arall megis clwb chwaraeon
+page.iht.application.exemptions.guidance.increasing.threshold.section2.p4 = Mae hyn yn golygu y bydd ond angen i chi ddangos i CThEM fod gwerth net yr ystâd yn is na’r trothwy. Caiff eithriadau, dyledion a morgeisi’r ystâd eu tynnu o werth yr ystâd cyn iddi gael ei gwirio yn erbyn y trothwy.  Mae’n rhaid i werth gros yr ystâd fod yn llai na £1 miliwn.
+page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.start = Os nad oes eithriadau, ni ellir didynnu’r dyledion ar y cam hwn. Bydd yn rhaid i chi gyflwyno
+page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.link = ffurflen IHT400
+page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.end = am y rheswm syml fod gwerth gros yr ystâd yn fwy na’r trothwy.
 
-page.iht.application.exemptions.guidance.increasing.threshold.section3.raisedHeader = (PENDING)If the threshold can be raised
-page.iht.application.exemptions.guidance.increasing.threshold.section3.p6.start = (PENDING)If the person who has died was married or in a civil partnership during their lifetime and their spouse or civil partner died first, you may be able to
-page.iht.application.exemptions.guidance.increasing.threshold.section3.p6.link = (PENDING)transfer their basic threshold
-page.iht.application.exemptions.guidance.increasing.threshold.section3.p6.end = (PENDING)and add it to the threshold for this estate. You can still use the online service if both:
-page.iht.application.exemptions.guidance.increasing.threshold.section3.bullet5 = (PENDING)the entire estate of the spouse or civil partner passed to the person whose estate you are now reporting on
-page.iht.application.exemptions.guidance.increasing.threshold.section3.bullet6 = (PENDING)the gross value of the estate you are reporting on now is less than the total of the two thresholds available
-page.iht.application.exemptions.guidance.increasing.threshold.section3.p7.start = (PENDING)You cannot use or apply to transfer Residence Nil Rate Band for leaving a home to children or other descendants on the online service, for this you will have to submit an
-page.iht.application.exemptions.guidance.increasing.threshold.section4.nextStepHeader = (PENDING)Next steps
-page.iht.application.exemptions.guidance.increasing.threshold.section4.p8 = (PENDING)If you can add exemptions or transfer basic threshold, you can return to the online service to do this. If you want to transfer threshold but you cannot see how to do it, complete all the sections of the estate report first and then you will get this option at the end if you might be eligible.
+page.iht.application.exemptions.guidance.increasing.threshold.section3.raisedHeader = Os gellir cynyddu’r trothwy
+page.iht.application.exemptions.guidance.increasing.threshold.section3.p6.start = Os oedd y person a fu farw’n briod neu mewn partneriaeth sifil yn ystod ei oes a bu farw ei briod neu bartner sifil yn gyntaf, efallai y gallwch
+page.iht.application.exemptions.guidance.increasing.threshold.section3.p6.link = drosglwyddo’i drothwy sylfaenol
+page.iht.application.exemptions.guidance.increasing.threshold.section3.p6.end =  a’i ychwanegu at y trothwy ar gyfer yr ystâd hon. Gallwch ddal i ddefnyddio’r gwasanaeth ar-lein os yw’r canlynol yn wir:
+page.iht.application.exemptions.guidance.increasing.threshold.section3.bullet5 = trosglwyddwyd ystâd gyfan y priod neu’r partner sifil i’r person rydych yn rhoi gwybod am ei ystâd nawr
+page.iht.application.exemptions.guidance.increasing.threshold.section3.bullet6 = mae gwerth gros yr ystâd rydych yn rhoi gwybod amdani nawr yn llai na chyfanswm y ddau drothwy sydd ar gael
+page.iht.application.exemptions.guidance.increasing.threshold.section3.p7.start = Ni allwch ddefnyddio’r gwasanaeth ar-lein er mwyn defnyddio’r Haen Cyfradd Sero ar gyfer Cartrefi neu i wneud cais am ei throsglwyddo, er mwyn gadael cartref i blant neu ddisgynyddion eraill. Bydd yn rhaid i chi gyflwyno
+page.iht.application.exemptions.guidance.increasing.threshold.section4.nextStepHeader = Camau nesaf
+page.iht.application.exemptions.guidance.increasing.threshold.section4.p8 = Os gallwch ychwanegu eithriadau neu drosglwyddo’r trothwy sylfaenol, gallwch fynd yn ôl i’r gwasanaeth ar-lein i wneud hyn. Os ydych am drosglwyddo’r trothwy ond ni allwch weld sut i’w wneud, dylech lenwi pob adran yn yr adroddiad ynghylch yr ystâd yn gyntaf, ac yna os yw’n bosibl y byddwch yn gymwys, cewch yr opsiwn hwn ar y diwedd.
 
-page.iht.application.exemptions.guidance.increasing.threshold.link.text = (PENDING)Return to your estate report
+page.iht.application.exemptions.guidance.increasing.threshold.link.text = Yn ôl i’r adroddiadau ynghylch eich ystâd
 
