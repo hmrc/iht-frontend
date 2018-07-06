@@ -55,7 +55,7 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
     implicit user =>
       implicit request => {
         def errorHandler: PartialFunction[Throwable, Result] = {
-          case ex: Upstream5xxResponse if ex.upstreamResponseCode == 502 &&
+          case ex: Upstream5xxResponse if ex.upstreamResponseCode == 500 &&
             ex.getMessage.contains("JSON validation against schema failed") => {
             Logger.warn("JSON validation against schema failed. Redirecting to error page", ex)
             InternalServerError(iht.views.html.application.overview.estate_overview_json_error())

@@ -149,7 +149,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
 
     "respond with INTERNAL_SERVER_ERROR when exception contains 'JSON validation against schema failed'" in {
       createMocksForRegistrationAndApplication(
-        Future.failed(Upstream5xxResponse("JSON validation against schema failed", 502, 502)),
+        Future.failed(Upstream5xxResponse("JSON validation against schema failed", 500, 502)),
         CommonBuilder.buildApplicationDetails copy (ihtRef = Some(ref)))
       MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
 

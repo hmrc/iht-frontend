@@ -72,16 +72,17 @@ trait RegistrationSummaryController extends RegistrationController {
   def onSubmit = authorisedForIht {
     implicit user => implicit request => {
       def errorHandler: PartialFunction[Throwable, Result] = {
-        case ex: GatewayTimeoutException => {
+        case ex: GatewayTimeoutException =>
           Logger.warn("Request has been timed out while submitting registration", ex)
           InternalServerError(iht.views.html.registration.registration_error(ControllerHelper.errorRequestTimeOut))
-        }
         case ex: Upstream5xxResponse if ex.upstreamResponseCode == 502 &&
-          ex.message.contains("Service Unavailable") => {
+          ex.message.contains("Service Unavailable") =>
           Logger.warn("Service Unavailable while submitting registration", ex)
           InternalServerError(iht.views.html.registration.registration_error_serviceUnavailable())
-        }
-        case ex: Exception => {
+        case ex: Upstream5xxResponse if ex.upstreamResponseCode == 500 &&
+          ex.message.contains("500 response returned from DES") =>
+          throw ex
+        case ex: Exception =>
           if (ex.getMessage.contains("Request timed out")) {
             Logger.warn("Request has been timed out while submitting registration", ex)
             InternalServerError(iht.views.html.registration.registration_error(ControllerHelper.errorRequestTimeOut))
@@ -89,7 +90,7 @@ trait RegistrationSummaryController extends RegistrationController {
             Logger.warn("System error while submitting registration", ex)
             InternalServerError(iht.views.html.registration.registration_error(ControllerHelper.errorSystem))
           }
-        }
+
       }
 
       // In order to set up stub data correctly,

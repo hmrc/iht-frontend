@@ -112,6 +112,10 @@ object IhtConnector extends IhtConnector with ServicesConfig {
         Logger.warn("5xx Response returned : " + ex.getMessage)
         Future.failed(new GatewayTimeoutException(ex.getMessage))
       }
+      case ex : Upstream5xxResponse => {
+        Logger.warn("5xx Response returned : " + ex.getMessage)
+        Future.failed(ex)
+      }
       case ex => {
         Logger.warn("5xx Response returned : " + ex.getMessage)
         Future.failed(Upstream5xxResponse(ex.getMessage, INTERNAL_SERVER_ERROR, INTERNAL_SERVER_ERROR))
