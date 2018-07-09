@@ -130,17 +130,17 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
       link.attr("href") shouldBe "https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400"
     }
 
-    "show button with Return to your estate report as the title" in {
+    "show button with Continue as the title" in {
       implicit val request = createFakeRequest()
       val view = exemptions_guidance_increasing_threshold("ihtReference").toString
       val doc = asDocument(view)
-      val button: Element = doc.getElementById("return")
+      val button: Element = doc.getElementById("continue")
 
-      assertRenderedById(doc, "return")
+      assertRenderedById(doc, "continue")
 
 
-      button.text() shouldBe messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.link.text")
-      button.attr("href") shouldBe iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef("ihtReference").url
+      button.text() shouldBe messagesApi("iht.continue")
+      button.attr("name") shouldBe "action"
     }
   }
 }
