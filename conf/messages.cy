@@ -161,7 +161,6 @@ iht.estateReport.assets.stocksAndSharesListed=Stociau a chyfranddaliadau wedi''u
 page.iht.application.overview.assets.screenReader.moreDetails.link=Rhowch ragor o fanylion ar gyfer asedion yn yr ystâd
 page.iht.application.gifts.lastYears.question=A roddodd {0} unrhyw beth arall i ffwrdd cyn marw nad oedd yn arian, eitemau i''r tŷ ac eitemau personol, cerbydau modur, stociau a chyfranddaliadau, neu dŷ, adeilad neu dir?
 iht.closed=Wedi cau
-page.iht.application.exemptions.guidance.increasing.threshold.p1=Gallech leihau gwerth yr ystâd yn is na''r trothwy drwy wneud cais am unrhyw eithriadau''r ystâd.
 page.iht.application.assets.household.sectionName=tŷ
 page.iht.registration.applicantDetails.role.agent.hint=Rhywun a huriwyd i weithredu ar ran ysgutor neu weinyddwr.
 site.link.giveName=Rhowch enw
@@ -314,7 +313,6 @@ page.iht.application.assets.typeOfOwnership.inCommon.hint=Roedd {0} yn berchen a
 page.iht.application.assets.insurance.policies.overview.guidance.bullet4=unrhyw bolisïau ar fywyd person arall a fyddai''n talu i {0}
 page.iht.application.debts.overview.mortgages.screenReader.link.noValue=Rhowch swm ar gyfer morgeisi
 page.iht.application.overview.helptext.part2=. Dylech wneud hynny dim ond os yw''r asedion hynny''n cynyddu gwerth yr ystâd dros y trothwy ar gyfer Treth Etifeddiant.
-page.iht.application.exemptions.guidance.increasing.threshold.title=Mae gwerth yr ystâd yn uwch na''r trothwy Treth Etifeddiant
 error.dateOfDeath.giveCorrectDateUsingOnlyNumbers=Rhowch ddyddiad cywir ar gyfer y farwolaeth gan ddefnyddio rhifau''n unig
 page.iht.registration.checklist.revealText=Sut i ddod o hyd i''r manylion hyn
 iht.estateReport.declaration.correctAndComplete=mae''r wybodaeth a roddwyd gennych, yn cynnwys yr holl brisiadau, yn gywir ac yn gyflawn hyd eithaf eich gwybodaeth a''ch cred
@@ -761,7 +759,6 @@ error.phoneNumber.giveUsingOnlyLettersAndNumbers=Rhowch rif ffôn gan ddefnyddio
 iht.estateReport.gifts.totalOverSevenYears=Cyfanswm dros 7 mlynedd
 error.hasCheckedEverything.select=Dewiswch ateb ar gyfer a ydych wedi gorffen dod i wybod am yr ystâd
 page.iht.application.assets.insurance.policies.overview.joint.giveAnswer.screenReader.link.value=Rhowch ateb ar gyfer a oedd gan {0} unrhyw bolisïau yswiriant a ddaliwyd ar y cyd â rhywun arall?
-page.iht.application.exemptions.guidance.increasing.threshold.link.text=Ewch i eithriadau''r ystâd
 
 page.iht.application.return.to.exemptionsOf=Yn ôl i eithriadau ystâd {0}
 page.iht.application.assets.kickout.insuranceMoreThanMax.summary=Y rheswm dros hynny yw bod gwerth y premiymau yswiriant a dalwyd gan {0} ar gyfer polisi nad oedd yn talu i''w ystâd, yn fwy na £3,000 yn ystod unrhyw flwyddyn.
@@ -1086,7 +1083,6 @@ site.link.return.assets=Yn ôl i asedion yn yr ystâd
 page.iht.registration.registrationSummary.coExecutorTable.phoneNumber.data.screenReader=Rhif ffôn {0} yw {1}
 page.iht.application.declaration_received.subheading2=Cael eich tystysgrif rhyddhau statudol (statutory certificate of discharge)
 page.iht.application.debts.overview.funeralExpenses.screenReader.link.noValue=Rhowch swm ar gyfer treuliau angladd
-page.iht.application.exemptions.guidance.increasing.threshold.p2=Gellir gwneud cais am eithriad ar gyfer rhai o asedion yr ymadawedig os ydynt yn cael eu trosglwyddo i briod neu bartner sifil, elusen neu i gorff cymwys arall.
 error.isStateClaimAnyBusiness.select=Dewiswch ateb ar gyfer a wnaeth yr ystâd gais am unrhyw ryddhad busnes neu ryddhad amaethyddol
 page.iht.registration.notApplyingForProbate.kickout.p2=Os ydych am newid eich ateb, gallwch ddychwelyd i''r dudalen ddiwethaf y gwnaethoch ymweld â hi
 error.dateOfMarriage.giveCorrectDayForMonth=Rhowch y dyddiad cywir ar gyfer priodi gan ddefnyddio''r nifer cywir o ddyddiau ar gyfer y mis hwnnw
@@ -2124,3 +2120,36 @@ page.iht.iv.failure.technicalIssue.tryAgain = Gallwch roi cynnig arall arni mewn
 
 page.iht.iv.failure.2fa.heading = Nid ydych wedi''ch mewngofnodi
 page.iht.iv.failure.2fa.p1 = Bydd angen i chi sefydlu''r Dull Gwirio 2-Gam er mwyn gallu mewngofnodi''n ddiogel.
+
+#threshold limits - consider-estate-exemptions
+page.iht.application.exemptions.guidance.increasing.threshold.title=Mae gwerth yr ystâd yn uwch na''r trothwy Treth Etifeddiant
+
+
+page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.start = Wrth ychwanegu’r asedion a’r rhoddion at ei gilydd maent yn cyrraedd swm gros sy’n rhy uchel i chi ddefnyddio’r gwasanaeth ar-lein. Ewch
+page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.link = yn ôl i’r adroddiad ynghylch yr ystâd
+page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.end = os ydych am newid unrhyw werthoedd rydych wedi’u nodi.
+page.iht.application.exemptions.guidance.increasing.threshold.section1.p2 = Fel arall mae yna ddwy ffordd y gallwch fynd yn eich blaen:
+page.iht.application.exemptions.guidance.increasing.threshold.section1.bullet1 = os oes gan yr ystâd eithriadau ac nid oes treth yn daladwy
+page.iht.application.exemptions.guidance.increasing.threshold.section1.bullet2 = os gallwch gynyddu’r trothwy ac nid oes treth yn daladwy
+
+page.iht.application.exemptions.guidance.increasing.threshold.section2.exemptionHeader = Os oes gan yr ystâd eithriadau
+page.iht.application.exemptions.guidance.increasing.threshold.section2.p3 = Mae gan yr ystâd eithriadau pan fo unrhyw ran o’r ystâd wedi’i gadael i un o’r canlynol:
+page.iht.application.exemptions.guidance.increasing.threshold.section2.bullet3 = priod sy’n goroesi (drwy briodas neu bartneriaeth sifil)
+page.iht.application.exemptions.guidance.increasing.threshold.section2.bullet4 = elusen gofrestredig neu gorff cymwys arall megis clwb chwaraeon
+page.iht.application.exemptions.guidance.increasing.threshold.section2.p4 = Mae hyn yn golygu y bydd ond angen i chi ddangos i CThEM fod gwerth net yr ystâd yn is na’r trothwy. Caiff eithriadau, dyledion a morgeisi’r ystâd eu tynnu o werth yr ystâd cyn iddi gael ei gwirio yn erbyn y trothwy.  Mae’n rhaid i werth gros yr ystâd fod yn llai na £1 miliwn.
+page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.start = Os nad oes eithriadau, ni ellir didynnu’r dyledion ar y cam hwn. Bydd yn rhaid i chi gyflwyno
+page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.link = ffurflen IHT400
+page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.end = am y rheswm syml fod gwerth gros yr ystâd yn fwy na’r trothwy.
+
+page.iht.application.exemptions.guidance.increasing.threshold.section3.raisedHeader = Os gellir cynyddu’r trothwy
+page.iht.application.exemptions.guidance.increasing.threshold.section3.p6.start = Os oedd y person a fu farw’n briod neu mewn partneriaeth sifil yn ystod ei oes a bu farw ei briod neu bartner sifil yn gyntaf, efallai y gallwch
+page.iht.application.exemptions.guidance.increasing.threshold.section3.p6.link = drosglwyddo’i drothwy sylfaenol
+page.iht.application.exemptions.guidance.increasing.threshold.section3.p6.end =  a’i ychwanegu at y trothwy ar gyfer yr ystâd hon. Gallwch ddal i ddefnyddio’r gwasanaeth ar-lein os yw’r canlynol yn wir:
+page.iht.application.exemptions.guidance.increasing.threshold.section3.bullet5 = trosglwyddwyd ystâd gyfan y priod neu’r partner sifil i’r person rydych yn rhoi gwybod am ei ystâd nawr
+page.iht.application.exemptions.guidance.increasing.threshold.section3.bullet6 = mae gwerth gros yr ystâd rydych yn rhoi gwybod amdani nawr yn llai na chyfanswm y ddau drothwy sydd ar gael
+page.iht.application.exemptions.guidance.increasing.threshold.section3.p7.start = Ni allwch ddefnyddio’r gwasanaeth ar-lein er mwyn defnyddio’r Haen Cyfradd Sero ar gyfer Cartrefi neu i wneud cais am ei throsglwyddo, er mwyn gadael cartref i blant neu ddisgynyddion eraill. Bydd yn rhaid i chi gyflwyno
+page.iht.application.exemptions.guidance.increasing.threshold.section4.nextStepHeader = Camau nesaf
+page.iht.application.exemptions.guidance.increasing.threshold.section4.p8 = Os gallwch ychwanegu eithriadau neu drosglwyddo’r trothwy sylfaenol, gallwch fynd yn ôl i’r gwasanaeth ar-lein i wneud hyn. Os ydych am drosglwyddo’r trothwy ond ni allwch weld sut i’w wneud, dylech lenwi pob adran yn yr adroddiad ynghylch yr ystâd yn gyntaf, ac yna os yw’n bosibl y byddwch yn gymwys, cewch yr opsiwn hwn ar y diwedd.
+
+page.iht.application.exemptions.guidance.increasing.threshold.link.text = Yn ôl i’r adroddiadau ynghylch eich ystâd
+
