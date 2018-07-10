@@ -21,7 +21,7 @@
 
 @()(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
-@iht_main_template_registration(title = Messages("page.iht.iv.failure.technicalIssue.heading"),
+@iht_main_template_application(title = Messages("page.iht.iv.failure.technicalIssue.heading"),
  hasTimeOut=true) {
  <p>@Messages("iht.application.timeout.p1")</p>
  <p data-journey="estateReport-service-unavailable:page-view:service-unavailable">@Messages("error.registration.serviceUnavailable.p1")</p>

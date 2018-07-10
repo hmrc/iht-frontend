@@ -19,10 +19,10 @@ package iht.config
 import com.typesafe.config.Config
 import net.ceedubs.ficus.Ficus._
 import play.api.Play.current
-import play.api.i18n.Messages
+import play.api.i18n.{Lang, Messages}
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc._
-import play.api.{Application, Configuration, Play}
+import play.api.{Application, Configuration, Logger, Play}
 import play.twirl.api.Html
 import uk.gov.hmrc.crypto.ApplicationCrypto
 import uk.gov.hmrc.http.Upstream5xxResponse
@@ -61,7 +61,7 @@ object ApplicationGlobal extends DefaultFrontendGlobal with RunMode {
 
   override def resolveError(rh: RequestHeader, ex: Throwable): Result =
     ex match {
-    case e: Upstream5xxResponse if e.upstreamResponseCode == 500 &&
+    case e: Upstream5xxResponse if e.upstreamResponseCode == 502 &&
       e.message.contains("500 response returned from DES") => InternalServerError(desInternalServerErrorTemplate(rh))
     case _ => super.resolveError(rh, ex)
   }

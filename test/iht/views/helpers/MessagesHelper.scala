@@ -35,7 +35,7 @@ trait MessagesHelper {
 
 
   val errorRegistrationServiceUnavailablep2 = "If you see this message several times, you will need to sign out and register again later at https://www.tax.service.gov.uk/inheritance-tax/registration/registration-checklist (save this link)."
-  val errorRegistrationServiceUnavailablep3 = "You can choose to report the estate value using the IHT205 paper form instead"
+  val errorRegistrationServiceUnavailablep3 = "You can choose to report the estate value using the IHT205 paper form instead."
   val ihtIVTryAgain                         = "Try again"
   val ihtIVTryAgainLink                     = "/inheritance-tax/registration/check-your-answers"
 

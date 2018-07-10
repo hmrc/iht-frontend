@@ -148,12 +148,6 @@ object MockObjectBuilder {
     * Creates mock to getCaseDetails using IhtConnector
     */
 
-//  def createMockToGetCaseDetails(ihtConnector: IhtConnector,
-//                regDetails: RegistrationDetails = buildRegistrationDetailsWithDeceasedAndIhtRefDetails)  = {
-//    when(ihtConnector.getCaseDetails(any(), any())(any()))
-//      .thenReturn(Future.successful(regDetails))
-//  }
-
   def createMockToGetCaseDetails(ihtConnector: IhtConnector,
                                  regDetails: Future[RegistrationDetails] = Future.successful(buildRegistrationDetailsWithDeceasedAndIhtRefDetails))  = {
     when(ihtConnector.getCaseDetails(any(), any())(any()))

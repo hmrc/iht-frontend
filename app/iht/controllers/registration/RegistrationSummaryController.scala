@@ -79,7 +79,7 @@ trait RegistrationSummaryController extends RegistrationController {
           ex.message.contains("Service Unavailable") =>
           Logger.warn("Service Unavailable while submitting registration", ex)
           InternalServerError(iht.views.html.registration.registration_error_serviceUnavailable())
-        case ex: Upstream5xxResponse if ex.upstreamResponseCode == 500 &&
+        case ex: Upstream5xxResponse if ex.upstreamResponseCode == 502 &&
           ex.message.contains("500 response returned from DES") =>
           throw ex
         case ex: Exception =>
