@@ -1145,7 +1145,7 @@ page.iht.registration.checklist.deceased.label5=y cyfeiriad hysbys diwethaf ar g
 iht.estateReport.declaration.dontTellHMRC=ddim yn rhoi gwybod i CThEM, o fewn 6 mis, am unrhyw newidiadau i''r ystâd sy''n cynyddu''r gwerth dros y trothwy ar gyfer Treth Etifeddiant
 page.iht.application.assets.household.overview.deceased.value.screenreader.link.change=Newid yr ateb ar gyfer gwerth yr eitemau i''r tŷ ac eitemau personol sydd yn enw {0}
 page.iht.questionnaire.easy-to-use.easy=Hawdd
-error.registration.systemError.p1=Gallwch roi cynnig arall ar fewngofnodi i''r gwasanaeth nes ymlaen yn <a id="estateReportLink" data-journey="IHT205PDF:download - click:Clicked-on-form-link" href="https://www.tax.service.gov.uk/inheritance-tax/registration/registration-checklist">https://www.tax.service.gov.uk/inheritance-tax/estate-report</a> (dylech gadw''r cysylltiad hwn).
+error.registration.systemError.p1=Gallwch roi cynnig arall ar fewngofnodi i''r gwasanaeth nes ymlaen yn <a id="registrationCheckList" data-journey="IHT205PDF:download - click:Clicked-on-form-link" href="https://www.tax.service.gov.uk/inheritance-tax/registration/registration-checklist">https://www.tax.service.gov.uk/registration/registration-checklist</a> (dylech gadw''r cysylltiad hwn).
 page.iht.application.property.value.browserTitle=Gwerth yr eiddo
 page.iht.application.tnrb.giftsWithReservationOfBenefit.browserTitle=Math o roddion a roddwyd i ffwrdd
 page.iht.application.overview.title=Mae''r broses o wneud cais ar gyfer {0} nawr yn {1}
