@@ -19,7 +19,7 @@ package iht.views.helpers
 trait MessagesHelper {
 
   val pageIhtIVFailureTechnicalIssueHeading = "Sorry, there is a problem with the service"
-  val errorApplicationSystemErrorp1         = "Try again later to submit your report at https://www.tax.service.gov.uk/inheritance-tax/estate-report (save this link)."
+  val errorApplicationSystemErrorp1         = "Try again later to sign in to the service at https://www.tax.service.gov.uk/inheritance-tax/estate-report (save this link)."
   val ihtApplicationTimeoutp1               = "We saved your progress on the estate report."
   val pageIhtIVFailureYouCanAlso            = "You can also:"
   val pageIhtIVFailureReportWithPaperForm   = "report the estate value using the IHT205 paper form instead"

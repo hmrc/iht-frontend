@@ -48,6 +48,8 @@ object ApplicationGlobal extends DefaultFrontendGlobal with RunMode {
   }
 
   def desInternalServerErrorTemplate(implicit request: Request[_]): Html = {
+    Logger.error("\n\n\n\n\n" + request.cookies + "\n\n\n\n\n")
+    implicit val lang: Lang = new Lang(s"${request.cookies.get("PLAY_LANG").map(_.value).getOrElse("en")}")
     request.uri match {
       case s: String if s.contains("/registration/") => iht.views.html.registration.registration_generic_error()
       case s: String if s.contains("/estate-report/") => iht.views.html.application.application_generic_error()

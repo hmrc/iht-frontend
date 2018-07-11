@@ -1133,7 +1133,7 @@ error.isAssetForDeceasedPartner.select=Dewiswch ateb ar gyfer os oes unrhyw ased
 page.iht.home.applicationList.table.guidance.label=Dyma''r holl adroddiadau Treth Etifeddiant ynghylch yr ystâd rydych wedi''u cofrestru.
 error.registration.serviceUnavailable.p1=Arhoswch ychydig o eiliadau ac yna rhowch gynnig arall arni.
 error.estateOverview.jsonError.p1=Ni allwch lenwi''ch adroddiad ynghylch yr ystâd ar-lein. Mae hyn oherwydd gwall yn ein system.
-error.estateOverview.jsonError.p2=Defnyddiwch y <a id="paperFormLink" href="{0}">ffurflen bapur IHT205</a> i roi gwybod am werth yr ystâd yn lle hynny.
+error.estateOverview.jsonError.p2=Defnyddiwch y <a id="paperFormLink" data-journey="IHT205PDF:download - click:Clicked-on-form-link" href="{0}">ffurflen bapur IHT205</a> i roi gwybod am werth yr ystâd yn lle hynny.
 error.estateReport.serviceUnavailable.p3=Os gwelwch y neges hon sawl gwaith, gallwch allgofnodi nawr a rhoi cynnig arall ar gyflwynoch adroddiad nes ymlaen yn <a id="declarationLink" href="{0}">https://www.tax.service.gov.uk/inheritance-tax/estate-report/declaration</a> (dylech gadw''r cysylltiad hwn).
 error.assets.nominated.select=Dewiswch ateb ar gyfer a oes unrhyw asedion enwebedig yn yr ystâd
 iht.estateReport.assets.qualifyingBodyAdd=Ychwanegwch gorff cymwys
@@ -1145,14 +1145,14 @@ page.iht.registration.checklist.deceased.label5=y cyfeiriad hysbys diwethaf ar g
 iht.estateReport.declaration.dontTellHMRC=ddim yn rhoi gwybod i CThEM, o fewn 6 mis, am unrhyw newidiadau i''r ystâd sy''n cynyddu''r gwerth dros y trothwy ar gyfer Treth Etifeddiant
 page.iht.application.assets.household.overview.deceased.value.screenreader.link.change=Newid yr ateb ar gyfer gwerth yr eitemau i''r tŷ ac eitemau personol sydd yn enw {0}
 page.iht.questionnaire.easy-to-use.easy=Hawdd
-error.registration.systemError.p1=Gallwch roi cynnig arall ar fewngofnodi i''r gwasanaeth nes ymlaen yn <a id="estateReportLink" href="https://www.tax.service.gov.uk/inheritance-tax/estate-report">https://www.tax.service.gov.uk/inheritance-tax/estate-report</a> (dylech gadw''r cysylltiad hwn).
+error.registration.systemError.p1=Gallwch roi cynnig arall ar fewngofnodi i''r gwasanaeth nes ymlaen yn <a id="estateReportLink" data-journey="IHT205PDF:download - click:Clicked-on-form-link" href="https://www.tax.service.gov.uk/inheritance-tax/estate-report">https://www.tax.service.gov.uk/inheritance-tax/estate-report</a> (dylech gadw''r cysylltiad hwn).
 page.iht.application.property.value.browserTitle=Gwerth yr eiddo
 page.iht.application.tnrb.giftsWithReservationOfBenefit.browserTitle=Math o roddion a roddwyd i ffwrdd
 page.iht.application.overview.title=Mae''r broses o wneud cais ar gyfer {0} nawr yn {1}
 iht.gov.url=https://www.gov.uk/inheritance-tax
 page.iht.sign.out=Allgofnodi
 error.registration.serviceUnavailable.p2=Os gwelwch y neges hon sawl gwaith, bydd yn rhaid i chi allgofnodi a chofrestru eto nes ymlaen yn <a id="registrationChecklistLink" href="{0}">https://www.tax.service.gov.uk/inheritance-tax/registration/registration-checklist</a> (dylech gadw''r cysylltiad hwn).
-error.registration.serviceUnavailable.p3=Gallwch ddewis rhoi gwybod am werth yr ystâd gan ddefnyddio''r ffurflen <a id="registrationChecklistLink" https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/459774/IHT205_2011__Cymraeg.pdf">bapur IHT205</a> yn lle hynny.
+error.registration.serviceUnavailable.p3=Gallwch ddewis rhoi gwybod am werth yr ystâd gan ddefnyddio''r ffurflen <a data-journey="IHT205PDF:download - click:Clicked-on-form-link" id="registrationChecklistLink" https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/459774/IHT205_2011__Cymraeg.pdf">bapur IHT205</a> yn lle hynny.
 error.dateOfBirth.giveCorrectDateUsingOnlyNumbers=Rhowch ddyddiad geni cywir gan ddefnyddio rhifau''n unig
 page.iht.application.assets.tenure.freehold.hint=Roedd {0} yn berchen ar yr eiddo a''r tir y mae''n sefyll arno.
 page.iht.application.exemptions.qualifyingBodyDelete.browserTitle=Dilëwch gorff cymwys
@@ -1174,7 +1174,7 @@ page.iht.application.insurance.policies.section7.guidance=Roedd y premiymau yswi
 iht.estateReport.exemptions.guidance.provideAssetsDetails=Bydd rhaid i chi roi manylion yr asedion hyn yn yr adran ynghylch eithriadau''r ystâd. Gallwch gadw''r manylion yr ydych wedi eu nodi a dychwelyd iddynt ar unrhyw adeg drwy''r dudalen drosolwg ar gyfer yr ystâd.
 page.iht.application.assets.overview.privatePension.screenReader.noValue=Nid ydych wedi rhoi gwerth ar gyfer pensiynau preifat
 page.iht.application.return.to.assetsOf=Yn ôl i asedion {0}
-error.application.systemError.p1=Gallwch roi cynnig arall ar fewngofnodi i'r gwasanaeth nes ymlaen yn <a id="declarationLink" href="https://www.tax.service.gov.uk/inheritance-tax/estate-report">https://www.tax.service.gov.uk/inheritance-tax/estate-report</a> (dylech gadw'r cysylltiad hwn).
+error.application.systemError.p1=Gallwch roi cynnig arall ar fewngofnodi i''r gwasanaeth nes ymlaen yn <a id="declarationLink" data-journey="IHT205PDF:download - click:Clicked-on-form-link" href="https://www.tax.service.gov.uk/inheritance-tax/estate-report">https://www.tax.service.gov.uk/inheritance-tax/estate-report</a> (dylech gadw'r cysylltiad hwn).
 page.iht.application.assets.property.ownership.guidance1b=beth oedd perchnogaeth eiddo, adeilad neu dir.
 page.iht.application.assets.insurance.policies.overview.other.question3.none.screenReader.link.value=Rhowch ateb ar gyfer a oedd yna bolisi yswiriant a dalodd {0} amdano y cafodd ei roi mewn ymddiriedolaeth yn y 7 mlynedd cyn y bu farw?
 page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.data.screenReader=Dyddiad geni''r ymadawedig yw {0}
@@ -2101,7 +2101,7 @@ iht.iv.signIn = Mewngofnodi
 page.iht.iv.failure.cannotConfirmIdentity = Ni allwn gadarnhau pwy ydych
 page.iht.iv.failure.tryAgainOr = Gallwch roi cynnig arall arni neu:
 page.iht.iv.failure.youCanAlso = Gallwch wneud y canlynol:
-page.iht.iv.failure.reportWithPaperForm = rhoi gwybod am werth yr ystâd gan ddefnyddio''r <a href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/459774/IHT205_2011__Cymraeg.pdf">ffurflen bapur IHT205</a> yn lle hynny
+page.iht.iv.failure.reportWithPaperForm = rhoi gwybod am werth yr ystâd gan ddefnyddio''r <a data-journey="IHT205PDF:download - click:Clicked-on-form-link" href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/459774/IHT205_2011__Cymraeg.pdf">ffurflen bapur IHT205</a> yn lle hynny
 page.iht.iv.failure.askForHelp = gofyn am help drwy e-bost gan ddefnyddio''r cysylltiad ''Cael cymorth gyda''r dudalen hon'' isod
 
 page.iht.iv.failure.failedMatching.failureReason = Nid yw''r wybodaeth yr ydych wedi''i rhoi''n cyd-fynd â''r hyn sydd gennym yn ein cofnodion.

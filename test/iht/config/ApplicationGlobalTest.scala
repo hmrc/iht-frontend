@@ -19,7 +19,7 @@ package iht.config
 import iht.constants.IhtProperties.AppSectionPropertiesID
 import iht.utils.CommonHelper
 import org.jsoup.Jsoup
-import play.api.mvc.{Action, AnyContent, Results}
+import play.api.mvc._
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.{Upstream4xxResponse, Upstream5xxResponse}
@@ -42,9 +42,10 @@ class ApplicationGlobalTest extends UnitSpec with WithFakeApplication {
 
   "Rendering internalServerErrorTemplate by causing an error" should {
     "on the registration journey" in {
-      val request = fakeRequest("/registration/error")
-      val template = ApplicationGlobal.desInternalServerErrorTemplate(request)
+      val request = fakeRequest("/registration/error").withCookies(new Cookie("PLAY_LANG", "en", Some(1), "", Some(""), true, true))
+      lazy val template = ApplicationGlobal.desInternalServerErrorTemplate(request)
       lazy val doc = Jsoup.parse(template.body)
+
 
       doc.getElementById("checklistLink").attr("href") shouldBe iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad().url
 
@@ -72,7 +73,7 @@ class ApplicationGlobalTest extends UnitSpec with WithFakeApplication {
 
   "Error Handler" should {
     "return INTERNAL_SERVER_ERROR on Upstream5xxResponse" in {
-      val exception = new Upstream5xxResponse("test", 500, 500)
+      val exception = new Upstream5xxResponse("test", 502, 500)
       val result = ApplicationGlobal.resolveError(FakeRequest(), exception)
 
       result.header.status shouldBe INTERNAL_SERVER_ERROR
