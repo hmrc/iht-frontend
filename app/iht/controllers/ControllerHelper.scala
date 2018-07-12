@@ -70,6 +70,7 @@ object ControllerHelper {
   val errorRequestTimeOut = "requestTimeOut"
   val errorSystem = "systemError"
   val errorServiceUnavailable = "serviceUnavailable"
+  val errorDESServiceUnavailable = "desServiceUnavailable"
 
   val desErrorCode502 = "des_error_code_502"
   val desErrorCode503 = "des_error_code_503"

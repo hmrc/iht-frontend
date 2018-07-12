@@ -17,12 +17,18 @@
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.constants.IhtProperties.linkIHT205PDF
 
-@(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+@()(implicit request:Request[_],
+        messages: Messages,
+        ihtFormPartialRetriever: FormPartialRetriever)
 
-<p><Strong>@Messages("error.cannotSend")</Strong></p>
-<p>@Messages("error.signOutLater")</p>
-
-<div id="continue-button">
- <a class="button" href="@iht.controllers.routes.SessionManagementController.signOut.url">@Messages("site.button.signOut")</a>
-</div>
+@iht_main_template_application(title = Messages("page.iht.iv.failure.technicalIssue.heading"),
+    browserTitle = Some(Messages("page.iht.iv.failure.technicalIssue.heading"))
+) {
+    <p data-journey="json-error-page:page-view:json-validation-issue">@Messages("error.estateOverview.jsonError.p1")</p>
+    <p class="ga-track-anchor-click"
+       data-ga-event-category="click"
+       data-ga-event-action='Clicked-on-form-link'
+       data-ga-event-label='IHT205PDF'>@Html(Messages("error.estateOverview.jsonError.p2", linkIHT205PDF))</p>
+}

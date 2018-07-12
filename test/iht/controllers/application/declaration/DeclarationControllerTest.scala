@@ -35,7 +35,7 @@ import org.mockito.Mockito.when
 import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
-import uk.gov.hmrc.http.{GatewayTimeoutException, HeaderCarrier}
+import uk.gov.hmrc.http.{GatewayTimeoutException, HeaderCarrier, Upstream5xxResponse}
 
 import scala.concurrent.Future
 
@@ -74,7 +74,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
       status = requiredStatus
     )
 
-    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, regDetails)
+    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(regDetails)))
     createMockToGetCaseDetails(mockIhtConnector, regDetails)
     createMockToGetRegDetailsFromCache(mockCachingConnector, Some(regDetails))
   }
@@ -236,7 +236,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
 
       val testRiskMessage = "Risk message is present"
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, CommonBuilder.buildRegistrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(CommonBuilder.buildRegistrationDetails)))
       createMockToGetSingleValueFromCache(mockCachingConnector, same("declarationType"), Some("valueLessThanNilRateBand"))
       createMockToGetSingleValueFromCache(mockCachingConnector, same("isMultipleExecutor"), Some("false"))
       createMockToGetApplicationDetails(mockIhtConnector, Some(CommonBuilder.buildApplicationDetailsWithAllAssets.copy(
@@ -259,7 +259,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
 
       val testRiskMessage = messagesApi("iht.application.declaration.risking.money.message")
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, CommonBuilder.buildRegistrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(CommonBuilder.buildRegistrationDetails)))
       createMockToGetSingleValueFromCache(mockCachingConnector, same("declarationType"), Some("valueLessThanNilRateBand"))
       createMockToGetSingleValueFromCache(mockCachingConnector, same("isMultipleExecutor"), Some("false"))
       createMockToGetApplicationDetails(mockIhtConnector, Some(CommonBuilder.buildApplicationDetailsWithAllAssets.copy(
@@ -314,6 +314,13 @@ class DeclarationControllerTest extends ApplicationControllerTest {
       status(result) shouldBe SEE_OTHER
     }
 
+    "respond with INTERNAL_SERVER_ERROR when exception contains 'Service Unavailable' and upstreamResponseCode 502" in {
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.failed(Upstream5xxResponse("Service Unavailable", 502, 502)))
+
+      val result = declarationController.onSubmit()(createFakeRequest())
+      status(result) shouldBe INTERNAL_SERVER_ERROR
+    }
+
     "respond with redirect to Received Declaration page after the successful submission " in {
 
       createMockToGetSingleValueFromCache(mockCachingConnector, same("declarationType"), Some("valueLessThanNilRateBand"))
@@ -335,7 +342,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
         coExecutors = Seq(CommonBuilder.buildCoExecutor,
           CommonBuilder.buildCoExecutor))
 
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, regDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(regDetails)))
       createMockToGetSingleValueFromCache(mockCachingConnector, same("declarationType"), Some("valueLessThanNilRateBand"))
       createMockToGetSingleValueFromCache(mockCachingConnector, same("isMultipleExecutor"), Some("true"))
       createMockToGetApplicationDetails(mockIhtConnector)

@@ -23,14 +23,17 @@ import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.models.application.exemptions.BasicExemptionElement
 import iht.models.RegistrationDetails
 import iht.testhelpers.MockObjectBuilder._
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, MockObjectBuilder, TestHelper}
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, MockObjectBuilder, TestHelper}
 import iht.views.HtmlSpec
 import org.mockito.ArgumentMatchers._
 import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
-import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.{HeaderCarrier, Upstream5xxResponse}
+
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSpec {
 
@@ -70,10 +73,10 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def createMocksForRegistrationAndApplication(rd: RegistrationDetails, ad: ApplicationDetails) = {
-    createMockToGetCaseDetails(mockIhtConnector, rd)
+  def createMocksForRegistrationAndApplication(rd: Future[Option[RegistrationDetails]], ad: ApplicationDetails) = {
+    createMockToGetCaseDetails(mockIhtConnector, rd.map(_.get))
     createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, rd)
-    createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
+    createMockToStoreRegDetailsInCache(mockCachingConnector, rd)
     createMockToGetApplicationDetails(mockIhtConnector, Some(ad))
     createMockToGetProbateDetails(mockIhtConnector)
     createMockToGetProbateDetailsFromCache(mockCachingConnector)
@@ -109,7 +112,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
 
     "respond with OK on page load" in {
       createMocksForRegistrationAndApplication(
-        CommonBuilder.buildRegistrationDetails1,
+        Future.successful(Some(CommonBuilder.buildRegistrationDetails1)),
         CommonBuilder.buildApplicationDetails copy (ihtRef = Some(ref)))
       MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
 
@@ -134,7 +137,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
 
     "redirect to List of Cases page if the case status is other than Awaiting Return" in {
       createMocksForRegistrationAndApplication(
-        CommonBuilder.buildRegistrationDetails1.copy(status = "In Review"),
+        Future.successful(Some(CommonBuilder.buildRegistrationDetails1.copy(status = "In Review"))),
         CommonBuilder.buildApplicationDetails copy (ihtRef = Some(ref)))
       MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
 
@@ -144,12 +147,22 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
         Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url))
     }
 
+    "respond with INTERNAL_SERVER_ERROR when exception contains 'JSON validation against schema failed'" in {
+      createMocksForRegistrationAndApplication(
+        Future.failed(Upstream5xxResponse("JSON validation against schema failed", 500, 502)),
+        CommonBuilder.buildApplicationDetails copy (ihtRef = Some(ref)))
+      MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
+
+      val result = controller.onPageLoadWithIhtRef(ref)(createFakeRequest())
+      status(result) shouldBe INTERNAL_SERVER_ERROR
+    }
+
 
     "respond with REDIRECT when the estate exceeds the TNRB threashold" in {
       MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
 
       createMocksForRegistrationAndApplication(
-        CommonBuilder.buildRegistrationDetails1,
+        Future.successful(Some(CommonBuilder.buildRegistrationDetails1)),
         CommonBuilder.buildApplicationDetailsOverLowerThresholdAndGuidanceSeenFlagNotSet(ref))
 
       val result = controller.onPageLoadWithIhtRef(ref)(createFakeRequest())
@@ -173,7 +186,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
         )
 
         MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
-        createMocksForRegistrationAndApplication(registrationDetails, completeAppDetails)
+        createMocksForRegistrationAndApplication(Future.successful(Some(registrationDetails)), completeAppDetails)
 
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
         status(result) shouldBe SEE_OTHER
@@ -196,7 +209,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
         )
 
         MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
-        createMocksForRegistrationAndApplication(registrationDetails, completeAppDetails)
+        createMocksForRegistrationAndApplication(Future.successful(Some(registrationDetails)), completeAppDetails)
 
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
         status(result) shouldBe SEE_OTHER
@@ -223,7 +236,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
         )
 
         MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
-        createMocksForRegistrationAndApplication(registrationDetails, completeAppDetails)
+        createMocksForRegistrationAndApplication(Future.successful(Some(registrationDetails)), completeAppDetails)
 
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
         status(result) shouldBe SEE_OTHER
@@ -241,7 +254,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
           )))
 
         MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
-        createMocksForRegistrationAndApplication(registrationDetails, completeAppDetails)
+        createMocksForRegistrationAndApplication(Future.successful(Some(registrationDetails)), completeAppDetails)
 
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
         status(result) shouldBe SEE_OTHER
@@ -265,7 +278,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
             Some("1"),Some("testCharity"),Some("123456"), Some(BigDecimal(80000)))))
 
         MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
-        createMocksForRegistrationAndApplication(regDetailsDeceasedSingle, completeAppDetails)
+        createMocksForRegistrationAndApplication(Future.successful(Some(regDetailsDeceasedSingle)), completeAppDetails)
 
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
         status(result) shouldBe SEE_OTHER
@@ -288,7 +301,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
         )
 
         MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
-        createMocksForRegistrationAndApplication(registrationDetails, completeAppDetails)
+        createMocksForRegistrationAndApplication(Future.successful(Some(registrationDetails)), completeAppDetails)
 
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
         status(result) shouldBe SEE_OTHER
@@ -313,7 +326,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
             Some("1"),Some("testCharity"),Some("123456"), Some(BigDecimal(40000)))))
 
         MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
-        createMocksForRegistrationAndApplication(registrationDetails, completeAppDetails)
+        createMocksForRegistrationAndApplication(Future.successful(Some(registrationDetails)), completeAppDetails)
 
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
         status(result) shouldBe SEE_OTHER
@@ -329,7 +342,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
 
 
         MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
-        createMocksForRegistrationAndApplication(registrationDetails, completeAppDetails)
+        createMocksForRegistrationAndApplication(Future.successful(Some(registrationDetails)), completeAppDetails)
 
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
         status(result) shouldBe SEE_OTHER
@@ -363,7 +376,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
 
 
         MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
-        createMocksForRegistrationAndApplication(registrationDetails, completeAppDetails)
+        createMocksForRegistrationAndApplication(Future.successful(Some(registrationDetails)), completeAppDetails)
 
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
         status(result) shouldBe SEE_OTHER

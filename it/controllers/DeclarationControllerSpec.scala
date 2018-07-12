@@ -1,5 +1,6 @@
 package controllers
 
+import akka.actor.FSM.Failure
 import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.client.WireMock._
 import iht.connector.{CachingConnector, IhtConnector}
@@ -225,7 +226,7 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
         stubGet("/iht/AA123456A/home/caseDetails/ABC1234567890", OK, Json.toJson(testRegistrationDetails).toString())
         stubGet("/iht/AA123456A/application/get/ABC1234567890/AAABBBCCC", OK, Json.toJson(testApplicationDetails).toString())
         stubPost("/iht/AA123456A/application/save/AAABBBCCC", OK, Json.toJson(testApplicationDetails).toString())
-        stubPost("/iht/AA123456A/ABC1234567890/application/submit", INTERNAL_SERVER_ERROR, "error message")
+        stubPost("/iht/AA123456A/ABC1234567890/application/submit", INTERNAL_SERVER_ERROR, "500 response returned from DES")
         controller.onSubmit(fakeRequest)
       }}
 
@@ -265,8 +266,11 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
         wireMockServer.countRequestsMatching(getRequestedFor(urlEqualTo("/iht/AA123456A/application/probateDetails/ABC1234567890/XX123456789X")).build()).getCount shouldBe 0
       }
 
-      "return the correct result" in {
-        status(result().get) shouldBe INTERNAL_SERVER_ERROR
+      "throw correct error to trigger correct onError response" in {
+        val error = result().failed.get
+        error shouldBe an[Upstream5xxResponse]
+        error.getMessage should include("500 response returned from DES")
+        error.asInstanceOf[Upstream5xxResponse].upstreamResponseCode shouldBe 500
       }
     }
 
@@ -314,8 +318,11 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
         wireMockServer.countRequestsMatching(getRequestedFor(urlEqualTo("/iht/AA123456A/application/probateDetails/ABC1234567890/XX123456789X")).build()).getCount shouldBe 0
       }
 
-      "return the correct result" in {
-        status(result().get) shouldBe INTERNAL_SERVER_ERROR
+      "throw error to not trigger des custom response" in {
+        val error = result().failed.get
+        error shouldBe an[Upstream5xxResponse]
+        error.asInstanceOf[Upstream5xxResponse].upstreamResponseCode shouldBe 500
+        error.getMessage shouldNot include("500 response returned from DES")
       }
     }
 

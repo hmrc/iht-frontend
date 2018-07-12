@@ -21,10 +21,12 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.MockObjectBuilder._
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, MockObjectBuilder, TestHelper}
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, MockObjectBuilder, TestHelper}
 import org.mockito.ArgumentMatchers._
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
+
+import scala.concurrent.Future
 
 /**
  *
@@ -50,7 +52,7 @@ class AssetsOverviewControllerTest extends ApplicationControllerTest {
 
   def createMocksForRegistrationAndApplication(rd: RegistrationDetails, ad: ApplicationDetails) = {
     createMockToGetCaseDetails(mockIhtConnector, rd)
-    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, rd)
+    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(rd)))
     createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
     createMockToGetApplicationDetails(mockIhtConnector, Some(ad))
     createMockToGetProbateDetails(mockIhtConnector)
