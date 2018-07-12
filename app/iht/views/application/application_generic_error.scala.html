@@ -30,7 +30,10 @@
 
     <div id="choice-list" class="form-group">
         <ul class="bullets">
-            <li>@Html(Messages("page.iht.iv.failure.reportWithPaperForm", linkIHT205PDF))</li>
+            <li class="ga-track-anchor-click"
+            data-ga-event-category="click"
+            data-ga-event-action='Clicked-on-form-link'
+            data-ga-event-label='IHT205PDF'>@Html(Messages("page.iht.iv.failure.reportWithPaperForm", linkIHT205PDF))</li>
             <li>@Messages("page.iht.iv.failure.askForHelp")</li>
         </ul>
     </div>

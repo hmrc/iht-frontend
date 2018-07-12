@@ -2221,7 +2221,7 @@ iht.iv.signIn = Sign in
 page.iht.iv.failure.cannotConfirmIdentity = We cannot confirm who you are
 page.iht.iv.failure.tryAgainOr = You can try again or:
 page.iht.iv.failure.youCanAlso = You can also:
-page.iht.iv.failure.reportWithPaperForm = report the estate value using the <a id="paperFormLink" data-journey="IHT205PDF:download - click:Clicked-on-form-link" href="{0}">IHT205 paper form</a> instead
+page.iht.iv.failure.reportWithPaperForm = report the estate value using the <a id="paperFormLink" href="{0}">IHT205 paper form</a> instead
 page.iht.iv.failure.askForHelp = ask for help by email using ''Get help with this page'' below
 
 page.iht.iv.failure.failedMatching.failureReason = The information you have provided does not match what we hold.
@@ -2251,15 +2251,15 @@ page.iht.iv.failure.2fa.p1 = You need to set up 2-step verification so you can s
 
 error.registration.serviceUnavailable.p1 = Wait a few seconds and try again.
 error.registration.serviceUnavailable.p2 = If you see this message several times, you will need to sign out and register again later at <a id="registrationChecklistLink" href="{0}">https://www.tax.service.gov.uk/inheritance-tax/registration/registration-checklist</a> (save this link).
-error.registration.serviceUnavailable.p3 = You can choose to report the estate value using the <a id="paperFormLink" data-journey="IHT205PDF:download - click:Clicked-on-form-link" href="{0}">IHT205 paper form</a> instead.
+error.registration.serviceUnavailable.p3 = You can choose to report the estate value using the <a id="paperFormLink"  href="{0}">IHT205 paper form</a> instead.
 
 error.estateReport.serviceUnavailable.p3 = If you see this message several times you can sign out now and try again later to submit your report at <a id="declarationLink" href="{0}">https://www.tax.service.gov.uk/inheritance-tax/estate-report/declaration</a> (save this link).
 
 error.estateOverview.jsonError.p1 = You cannot complete your estate report online. This is because of an error in our system.
-error.estateOverview.jsonError.p2 = Use the <a id="paperFormLink" data-journey="IHT205PDF:download - click:Clicked-on-form-link" href="{0}">IHT205 paper form</a> to report the estate value.
+error.estateOverview.jsonError.p2 = Use the <a id="paperFormLink" href="{0}">IHT205 paper form</a> to report the estate value.
 
-error.application.systemError.p1 = Try again later to sign in to the service at <a id="estateReportLink" data-journey="IHT205PDF:download - click:Clicked-on-form-link" href="{0}">https://www.tax.service.gov.uk/inheritance-tax/estate-report</a> (save this link).
-error.registration.systemError.p1 = Try again later to sign in to the service at <a id="checklistLink" data-journey="IHT205PDF:download - click:Clicked-on-form-link" href="{0}">https://www.tax.service.gov.uk/inheritance-tax/registration/registration-checklist</a> (save this link).
+error.application.systemError.p1 = Try again later to sign in to the service at <a id="estateReportLink" href="{0}">https://www.tax.service.gov.uk/inheritance-tax/estate-report</a> (save this link).
+error.registration.systemError.p1 = Try again later to sign in to the service at <a id="checklistLink" href="{0}">https://www.tax.service.gov.uk/inheritance-tax/registration/registration-checklist</a> (save this link).
 
 
 #Errors - Common

@@ -27,5 +27,8 @@
     browserTitle = Some(Messages("page.iht.iv.failure.technicalIssue.heading"))
 ) {
     <p data-journey="json-error-page:page-view:json-validation-issue">@Messages("error.estateOverview.jsonError.p1")</p>
-    <p>@Html(Messages("error.estateOverview.jsonError.p2", linkIHT205PDF))</p>
+    <p class="ga-track-anchor-click"
+       data-ga-event-category="click"
+       data-ga-event-action='Clicked-on-form-link'
+       data-ga-event-label='IHT205PDF'>@Html(Messages("error.estateOverview.jsonError.p2", linkIHT205PDF))</p>
 }

@@ -27,7 +27,10 @@
  <div class="form-group">
  <p data-journey="registration-service-unavailable:page-view:service-unavailable">@Messages("error.registration.serviceUnavailable.p1")</p>
  <p>@Html(Messages("error.registration.serviceUnavailable.p2", iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad))</p>
- <p>@Html(Messages("error.registration.serviceUnavailable.p3", linkIHT205PDF))</p>
+ <p class="ga-track-anchor-click"
+    data-ga-event-category="click"
+    data-ga-event-action='Clicked-on-form-link'
+    data-ga-event-label='IHT205PDF'>@Html(Messages("error.registration.serviceUnavailable.p3", linkIHT205PDF))</p>
  </div>
 
  <div class="form-group">
