@@ -202,6 +202,8 @@ optionContentBelowTitle: Option[Html] = None
     @cancelUrl.map{ url =>
         <a id="cancel-button" class="" href=@url>@Html(cancelLabel.getOrElse(""))</a>
     }
+
+    @progressive_disclosure(Messages("iht.needHelp"), Seq(Messages("iht.needHelp.guidance")))
 }
 
 @serviceInfo = {
@@ -209,6 +211,8 @@ optionContentBelowTitle: Option[Html] = None
         includeGridWrapper = false,
         serviceInfoContent = None)
 }
+
+@getHelpForm = @{uiHelpers.reportAProblemLink(ApplicationConfig.reportAProblemPartialUrl, ApplicationConfig.reportAProblemNonJSUrl)}
 
 @content = {
     @layouts.main_content(
@@ -218,7 +222,7 @@ optionContentBelowTitle: Option[Html] = None
                                               currentLang = currentLang),
         mainContentHeader = commonContentHeader,
         serviceInfo = serviceInfo,
-        getHelpForm = progressive_disclosure(request.uri),
+        getHelpForm = getHelpForm,
         sidebar = ihtHelpers.standard.sidebar(sidebarLinks = sidebarLinks,
                                               sidebarClass = Some("sidebar"),
                                               currentLang = currentLang))

@@ -34,8 +34,8 @@ trait QualifyingBodiesOverviewViewBehaviour extends GenericNonSubmittablePageBeh
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
 
   override def guidanceParagraphs = Set(
-    messagesApi(""),
-    messagesApi("")
+    messagesApi("page.iht.application.exemptions.qualifyingBodyOverview.lede"),
+    messagesApi("iht.estateReport.exemptions.qualifyingBodies.howFindOutQualifies")
   )
 
   override def pageTitle = messagesApi("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title", deceasedName)
