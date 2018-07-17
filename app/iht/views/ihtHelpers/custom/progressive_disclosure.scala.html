@@ -14,32 +14,13 @@
  * limitations under the License.
  *@
 
-@import iht.utils.ProgressiveDisclosureHelper._
-@import iht.config.ApplicationConfig
-@(location: String)(implicit messages: Messages)
+@(summary: String, content: Seq[String])
 
-<script type="text/javascript">var reportProblemAjaxUrl = "@{Html(ApplicationConfig.reportAProblemPartialUrl)}"</script>
-
-<details id="getHelpDisclosure" class="u-mt--3 u--no-print form-group column-two-thirds">
-    <summary>@messages("site.progressiveDisclosure")</summary>
-     <div class="panel-indent">
-            @if(getDisclosureInfo(location)._2.nonEmpty){
-                <div class="form-group">
-                    @for(msg <- getDisclosureInfo(location)._2){
-                        @if(msg.contains("link")){
-                            <a href = "@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()"> @messages(msg)</a>
-                        }else{
-                            @messages(msg)
-                        }
-                    }
-                </div>
-            }
-
-         <div id="getHelpForm"></div>
-
-        <div class="form-group">
-            @messages(getDisclosureInfo(location)._1)
-        </div>
-
+<details class="contact-details-help">
+    <summary><span class="summary">@summary</span></summary>
+    <div class="panel panel-border-narrow">
+        @for(paragraph <- content){
+            <p>@paragraph</p>
+        }
     </div>
 </details>

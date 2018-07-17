@@ -98,20 +98,6 @@ if($('[data-enhanced-select]').length > 0){
 }
 
 // =====================================================
-// Handle the IHT progressive disclosure open/close functionality
-// =====================================================
- $("#getHelpDisclosure").on("click", function() {
-    if (document.getElementById("getHelpDisclosure").open) {
-    //do nothing
-    }else{
-        $.ajax({url: reportProblemAjaxUrl, success: function(result){
-             $("#getHelpForm").html(result);
-          }});
-        }
-    });
-
-
-// =====================================================
 // Submit trigger
 // Used on Gifts section
 // Should be replaced by links without the POST through

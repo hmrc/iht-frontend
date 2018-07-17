@@ -40,7 +40,8 @@ class IhtMainTemplateTest extends ViewTestHelper {
       val signOutUrl = "localhost"
       val view = iht_main_template(title = "", signOutText = "", signOutUrl = Some(Call("GET", signOutUrl)), headerTitle = None)(HtmlFormat.empty)
         .toString
-      view should include (messagesApi("site.progressiveDisclosure"))
+      view should include (messagesApi("iht.needHelp"))
+      view should include (messagesApi("iht.needHelp.guidance"))
     }
   }
 }
