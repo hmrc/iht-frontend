@@ -75,17 +75,10 @@ class RegistrationChecklistViewTest extends ViewTestHelper with RegistrationChec
         doc.getElementById("application-details-reveal").select("summary").text() shouldBe pageIhtRegistrationChecklistRevealText
       }
       "have information relating to deceased details required" in {
-        doc.getElementById("application-details-reveal").select("p").get(0).text() shouldBe pageIhtRegistrationChecklistApplicantRevealLabel1
-        doc.getElementById("application-details-reveal").select("p").get(1).text() shouldBe pageIhtRegistrationChecklistApplicantRevealLabel2
-        doc.getElementById("application-details-reveal").select("p").get(2).text() shouldBe pageIhtRegistrationChecklistApplicantRevealLabel3
-        doc.getElementById("application-details-reveal").select("p").get(3).text() shouldBe pageIhtRegistrationChecklistApplicantRevealLabel4
+        doc.getElementById("application-details-reveal").select("p").get(0).text() shouldBe ihtRegistrationDetailsNeededLabel3
+        doc.getElementById("application-details-reveal").select("p").get(1).text() shouldBe ihtRegistrationDetailsNeededLabel4
+        doc.getElementById("application-details-reveal").select("p").get(2).text() shouldBe ihtRegistrationDetailsNeededLabel5
       }
-    }
-
-    "have paragraphs relating additional information about deceased details" in {
-      doc.getElementById("applicant-details-list").select("p").get(6).text() shouldBe ihtRegistrationDetailsNeededLabel3
-      doc.getElementById("applicant-details-list").select("p").get(7).text() shouldBe ihtRegistrationDetailsNeededLabel4
-      doc.getElementById("applicant-details-list").select("p").get(8).text() shouldBe ihtRegistrationDetailsNeededLabel5
     }
 
     "executor details section" should {
@@ -99,9 +92,15 @@ class RegistrationChecklistViewTest extends ViewTestHelper with RegistrationChec
         doc.getElementById("co-execs-details-list").select("li").get(3).text() shouldBe ihtRegistrationExecutorAddress
         doc.getElementById("co-execs-details-list").select("li").get(4).text() shouldBe ihtRegistrationChecklistPhoneNoLowerCaseInitial
       }
-      "additional information relating to the details required" in {
-        doc.getElementById("co-execs-details-list").select("p").get(4).text() shouldBe ihtRegistrationExecutorLabel2
-        doc.getElementById("co-execs-details-list").select("p").get(5).text() shouldBe ihtRegistrationExecutorLabel3
+
+      "have a progressive disclosure relating to executor details" should  {
+        "have a reveal text in" in {
+          doc.getElementById("co-execs-details-reveal").select("summary").text() shouldBe pageIhtRegistrationChecklistRevealText
+        }
+        "have information relating to executor details required" in {
+          doc.getElementById("co-execs-details-reveal").select("p").get(0).text() shouldBe ihtRegistrationExecutorLabel2
+          doc.getElementById("co-execs-details-reveal").select("p").get(1).text() shouldBe ihtRegistrationExecutorLabel3
+        }
       }
     }
 
@@ -116,7 +115,7 @@ class RegistrationChecklistViewTest extends ViewTestHelper with RegistrationChec
     }
 
     "have a save link text" in {
-      doc.select("p").get(19).text() shouldBe pageIhtRegistrationChecklistSaveLink
+      doc.select("p").get(12).text() shouldBe pageIhtRegistrationChecklistSaveLink
     }
 
   }
