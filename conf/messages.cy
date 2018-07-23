@@ -765,7 +765,6 @@ site.nameDetails=Manylion {0}
 page.iht.registration.co-executor-personal-details.title=Manylion personol ar gyfer yr ysgutor arall
 iht.estateReport.exemptions.title=Eithriadau''r ystâd
 iht.estateReport.exemptions.charities.assetsLeftToACharity.title=Asedion a adawyd i elusen
-page.iht.application.timeout.p2=Bydd angen i chi fewngofnodi eto i Borth y Llywodraeth ac yna dewis yr hyn yr ydych am ei wneud nesaf o''ch tudalen adroddiad Treth Etifeddiant ynghylch ystâd.
 error.isJointAssetPassed.select=Dewiswch ateb ar gyfer os trosglwyddwyd yr asedion mewn perchnogaeth ar y cyd o''r ystâd i gyd i''r ymadawedig
 pdf.exemption.otherQualifyingBodies=Cyrff cymwys eraill
 error.funeralExpenses.currencyValue.summary=nodwch werth ar gyfer costau angladd gan ddefnyddio rhifau''n unig
