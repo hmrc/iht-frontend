@@ -23,7 +23,7 @@ trait RegistrationChecklistMessages {
   val pageIhtRegistrationChecklistLabel2                = "To register the estate you will need to sign in to your Government Gateway account (or you will need to create one). You may also be asked some questions to confirm who you are. Details about yourself you may need include:"
   val ihtRegistrationChecklistYourNino                  = "your National Insurance number"
   val ihtRegistrationChecklist2FA                       = "mobile or landline phone number for 2-step verification"
-  val ihtRegistrationChecklistPassport                  = "valid UK passport details or if you do not have a passport, your:"
+  val ihtRegistrationChecklistPassport                  = "valid UK passport details"
   val ihtRegistrationChecklistPayslip                   = "recent payslips or last P60"
   val ihtRegistrationChecklistTaxCredit                 = "tax credits or pension payment amounts"
   val ihtRegistrationDetailsNeededTitle                 = "Details you will need to register the estate "
