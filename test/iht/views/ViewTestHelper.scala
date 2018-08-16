@@ -38,8 +38,9 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
     * found in generated HTML should not cause the message key detection unit test to fail :-
     *   GOV.UK: Displayed in browser titles
     *   U.S: The United States
+    *   www.tax.service.gov.uk: Base URL.
     */
-  val messageKeyExclusions = Set("GOV.UK", "U.S")
+  val messageKeyExclusions = Set("GOV.UK", "U.S", "www.tax.service.gov.uk")
   val messageKeysDelimiter = ", "
 
   implicit override val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]

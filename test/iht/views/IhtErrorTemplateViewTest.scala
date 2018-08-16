@@ -20,12 +20,13 @@ import iht.views.html.iht_error_template
 import play.api.i18n.Messages.Implicits._
 
 class IhtErrorTemplateViewTest extends ViewTestHelper {
-  val title = "1"
-  val heading = "2"
-  val message = "3"
-  def view: String = iht_error_template(title, heading, message)(createFakeRequest(),
-                                                                 applicationMessages,
-                                                                 formPartialRetriever).toString
+  val title = "Sorry, there is a problem with the service"
+  val messages1 = "Try again later to sign in to the service at https://www.tax.service.gov.uk/inheritance-tax/estate-report (save this link)."
+  val messages2 = "We saved your progress on the estate report."
+  val messages3 = "If you see this message several times, you can choose to report the estate value using the IHT205 paper form instead."
+  def view: String = iht_error_template()(createFakeRequest(),
+                                         applicationMessages,
+                                         formPartialRetriever).toString
 
   "Application error template" must {
     "have no message keys in html" in {
@@ -35,19 +36,18 @@ class IhtErrorTemplateViewTest extends ViewTestHelper {
     "have the correct title" in {
       val doc = asDocument(view)
       val headers = doc.getElementsByTag("h1")
-      headers.size shouldBe 2
-      headers.get(1).text() shouldBe title
+      headers.size shouldBe 1
+      headers.first.text() shouldBe title
     }
 
-    "have the correct heading" in {
+    "have the correct messages" in {
       val doc = asDocument(view)
-      val headers = doc.getElementsByTag("h1")
-      headers.size shouldBe 2
-      headers.first.text() shouldBe heading
-    }
-
-    "have the correct message" in {
-      messagesShouldBePresent(view, message)
+      val message1 = doc.select("#content > article > p:nth-child(2)")
+      val message2 = doc.select("#content > article > p:nth-child(3)")
+      val message3 = doc.select("#content > article > p:nth-child(4)")
+      message1.text() shouldBe messages1
+      message2.text() shouldBe messages2
+      message3.text() shouldBe messages3
     }
   }
 }

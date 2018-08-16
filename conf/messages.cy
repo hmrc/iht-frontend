@@ -1041,7 +1041,7 @@ error.address.blank=Nodwch gyfeiriad
 error.length.giftsDetails.value=Nodwch werth gan ddefnyddio llai nag 11 rhif
 site.noCharityNameGiven=Ni roddwyd enw elusen
 page.iht.registration.applicantAddress.title=Eich cyfeiriad
-global.error.InternalServerError500.title=Rydym yn profi anawsterau technegol
+global.error.InternalServerError500.title=Mae''n ddrwg gennym - mae problem gyda''r gwasanaeth
 page.iht.registration.co-executor-personal-details.isAddressInUk=A yw ei gyfeiriad yn y DU?
 page.iht.application.overview.timeScale.guidance.months=Os na fyddwch yn anfon yr adroddiad ynghylch yr ystâd erbyn yr adeg hon, caiff ei ddileu a bydd yn rhaid i chi ddechrau o''r newydd.
 page.iht.application.tnrb.threshold.screenReader=Y trothwy Treth Etifeddiant yw £{0}
@@ -2147,4 +2147,6 @@ page.iht.application.exemptions.guidance.increasing.threshold.section4.nextStepH
 page.iht.application.exemptions.guidance.increasing.threshold.section4.p8 = Os gallwch ychwanegu eithriadau neu drosglwyddo’r trothwy sylfaenol, gallwch fynd yn ôl i’r gwasanaeth ar-lein i wneud hyn. Os ydych am drosglwyddo’r trothwy ond ni allwch weld sut i’w wneud, dylech lenwi pob adran yn yr adroddiad ynghylch yr ystâd yn gyntaf, ac yna os yw’n bosibl y byddwch yn gymwys, cewch yr opsiwn hwn ar y diwedd.
 
 page.iht.application.exemptions.guidance.increasing.threshold.link.text = Yn ôl i’r adroddiadau ynghylch eich ystâd
+
+global.error.InternalServerError500.message1 = Os gwelwch y neges hon sawl gwaith, gallwch ddewis rhoi gwybod am werth yr ystâd gan ddefnyddio <a id="paperFormLink" href="{0}">ffurflen bapur IHT205</a>
 

@@ -69,8 +69,10 @@ object ApplicationGlobal extends DefaultFrontendGlobal with RunMode {
 
 
 
-  override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: Request[_]): Html =
-      iht.views.html.iht_error_template(pageTitle, heading, message)
+  override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: Request[_]): Html = {
+    implicit val lang: Lang = new Lang(s"${request.cookies.get("PLAY_LANG").map(_.value).getOrElse("en")}")
+    iht.views.html.iht_error_template()
+  }
 
 
   override def microserviceMetricsConfig(implicit app: Application): Option[Configuration] = app.configuration.getConfig(s"$env.microservice.metrics")

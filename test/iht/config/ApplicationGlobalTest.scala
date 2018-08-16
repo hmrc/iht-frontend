@@ -65,7 +65,7 @@ class ApplicationGlobalTest extends UnitSpec with WithFakeApplication {
       val template = ApplicationGlobal.desInternalServerErrorTemplate(request)
       lazy val doc = Jsoup.parse(template.body)
 
-      doc.getElementsByClass("button").attr("href") shouldBe "https://www.gov.uk/valuing-estate-of-someone-who-died"
+      doc.select("article > div > p > a").attr("href") shouldBe "https://www.gov.uk/valuing-estate-of-someone-who-died"
 
     }
 
