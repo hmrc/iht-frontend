@@ -2301,7 +2301,7 @@ global.error.pageNotFound404.message=Please check that you have entered the corr
 global.error.InternalServerError500.title = Sorry, there is a problem with the service
 global.error.InternalServerError500.heading = Sorry, we are experiencing technical difficulties
 global.error.InternalServerError500.message = Please try again in a few moments.
-global.error.InternalServerError500.message1 = If you see this message several times, you can choose to report the estate value using the <a id="paperFormLink" href="{0}">IHT205 paper form</a> instead.
+global.error.InternalServerError500.message1 = If you see this message several times, you can choose to report the estate value using the <a id="paperFormLink" href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/459092/IHT205_2011_.pdf">IHT205 paper form</a> instead.
 
 
 # end of frontend-bootstrap error messages
