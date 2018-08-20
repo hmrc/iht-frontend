@@ -2148,5 +2148,5 @@ page.iht.application.exemptions.guidance.increasing.threshold.section4.p8 = Os g
 
 page.iht.application.exemptions.guidance.increasing.threshold.link.text = Yn ôl i’r adroddiadau ynghylch eich ystâd
 
-global.error.InternalServerError500.message1 = Os gwelwch y neges hon sawl gwaith, gallwch ddewis rhoi gwybod am werth yr ystâd gan ddefnyddio <a id="paperFormLink" href="{0}">ffurflen bapur IHT205</a>
+global.error.InternalServerError500.message1 = Os gwelwch y neges hon sawl gwaith, gallwch ddewis rhoi gwybod am werth yr ystâd gan ddefnyddio <a id="paperFormLink" href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/459774/IHT205_2011__Cymraeg.pdf">ffurflen bapur IHT205</a>
 
