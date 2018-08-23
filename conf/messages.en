@@ -1950,6 +1950,22 @@ page.iht.sign-out.button.gov-uk.text = Explore GOV.UK
 
 page.iht.sign.out = Sign out
 
+#IV Wayfinder
+
+#Verification Pass
+page.iht.iv.wayfinder.verificationPass.title = We have confirmed who you are
+page.iht.iv.wayfinder.verificationPass.p1 = Check that you <a id="registrationCheck" href="{0}">have the details you need to register the estate (opens in a new window).</a> Only start once you have everything you need because there is no way to save an incomplete registration.
+page.iht.iv.wayfinder.verificationPass.p2 = If you stay on one page for more than 30 minutes you will be signed out for your security.
+
+#Login Pass
+page.iht.iv.wayfinder.loginPass.title = We have signed you in
+page.iht.iv.wayfinder.loginPass.p1 = Check that you <a id="registrationCheck" href="{0}">have the details you need to register the estate (opens in a new window).</a> Only start once you have everything you need because there is no way to save an incomplete registration.
+page.iht.iv.wayfinder.loginPass.p2 = If you stay on one page for more than 30 minutes you will be signed out for your security.
+
+page.iht.iv.wayfinder.start = <a id="startRegistration" href="{0}">Start registration</a>
+page.iht.iv.wayfinder.leavePage = <a id="ivLeavePage" href="{0}">Leave this page to get all the details you need</a>
+
+
 #Country names - see also application.conf
 country.AD = Andorra
 country.AE = United Arab Emirates
