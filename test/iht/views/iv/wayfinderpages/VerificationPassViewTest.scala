@@ -56,21 +56,21 @@ class VerificationPassViewTest extends ViewTestHelper with MessagesHelper {
 
     "Continue button" must {
       "continue to next page url" in {
-        doc.select("button a").attr("href") shouldBe WayfinderStartUrl
+        doc.select("a").eq(4).attr("href") shouldBe WayfinderStartUrl
       }
 
       "continue to next page link" in {
-        doc.select("button").text shouldBe WayfinderStartLink
+        doc.select("div").text shouldBe WayfinderStartLink
       }
     }
 
     "Leave link" must {
       "have a way of leaving page url" in {
-        doc.select("p a").eq(4).attr("href") shouldBe WayfinderLeaveUrl
+        doc.select("p a").eq(5).attr("href") shouldBe WayfinderLeaveUrl
       }
 
       "have a way of leaving page link" in {
-        doc.select("p").eq(4).text shouldBe WayfinderLeaveLink
+        doc.select("p").eq(5).text shouldBe WayfinderLeaveLink
       }
     }
   }

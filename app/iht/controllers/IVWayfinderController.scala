@@ -23,13 +23,14 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.utils.IhtSection
 import play.api.mvc.{Action, AnyContent}
+import uk.gov.hmrc.play.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 object IVWayfinderController extends IVWayfinderController with IhtConnectors
 
-trait IVWayfinderController extends IhtActions {
+trait IVWayfinderController extends IhtActions with FrontendController {
   override val ihtSection: IhtSection.Value = IhtSection.Registration
 
   implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
