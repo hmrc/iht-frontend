@@ -57,21 +57,25 @@ class LoginPassViewTest extends ViewTestHelper with MessagesHelper {
 
     "Continue button" must {
       "continue to next page url" in {
-        doc.select("button a").attr("href") shouldBe WayfinderStartUrl
+        doc.select("div div a").eq(4).attr("href") shouldBe WayfinderStartUrl
       }
 
       "continue to next page link" in {
-        doc.select("button").text shouldBe WayfinderStartLink
+        doc.select("div div a").eq(4).text shouldBe WayfinderStartLink
+      }
+
+      "have a class of button" in {
+        doc.select("div div a").eq(4).attr("class") shouldBe "button"
       }
     }
 
     "Leave link" must {
       "have a way of leaving page url" in {
-        doc.select("p a").eq(4).attr("href") shouldBe WayfinderLeaveUrl
+        doc.select("div a").eq(8).attr("href") shouldBe WayfinderLeaveUrl
       }
 
       "have a way of leaving page link" in {
-        doc.select("p").eq(4).text shouldBe WayfinderLeaveLink
+        doc.select("div a").eq(8).text shouldBe WayfinderLeaveLink
       }
     }
   }
