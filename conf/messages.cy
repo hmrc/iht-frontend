@@ -2121,12 +2121,12 @@ page.iht.iv.failure.2fa.p1 = Bydd angen i chi sefydlu''r Dull Gwirio 2-Gam er mw
 
 #Verification Pass
 page.iht.iv.wayfinder.verificationPass.title = Rydym wedi cadarnhau pwy ydych
-page.iht.iv.wayfinder.verificationPass.p1 = <a id="registrationCheck" href="{0}">Gwnewch yn siŵr fod gennych y manylion sydd eu hangen arnoch i gofrestru’r ystâd (yn agor ffenestr newydd).</a> Peidiwch â dechrau hyd nes bod gennych bopeth sydd ei angen arnoch, oherwydd does dim modd cadw cofrestriad anghyflawn.
+page.iht.iv.wayfinder.verificationPass.p1 = <a id="registrationCheck" target="_blank" href="{0}">Gwnewch yn siŵr fod gennych y manylion sydd eu hangen arnoch i gofrestru''r ystâd (yn agor ffenestr newydd).</a> Peidiwch â dechrau hyd nes bod gennych bopeth sydd ei angen arnoch, oherwydd does dim modd cadw cofrestriad anghyflawn.
 page.iht.iv.wayfinder.verificationPass.p2 = Os arhoswch ar un dudalen am fwy na 30 munud, cewch eich allgofnodi er eich diogelwch.
 
 #Login Pass
-page.iht.iv.wayfinder.loginPass.title = Rydym wedi’ch mewngofnodi
-page.iht.iv.wayfinder.loginPass.p1 = <a id="registrationCheck" href="{0}">Gwnewch yn siŵr fod gennych y manylion sydd eu hangen arnoch i gofrestru’r ystâd (yn agor ffenestr newydd).</a> Peidiwch â dechrau hyd nes bod gennych bopeth sydd ei angen arnoch, oherwydd does dim modd cadw cofrestriad anghyflawn.
+page.iht.iv.wayfinder.loginPass.title = Rydym wedi''ch mewngofnodi
+page.iht.iv.wayfinder.loginPass.p1 = <a id="registrationCheck" target="_blank" href="{0}">Gwnewch yn siŵr fod gennych y manylion sydd eu hangen arnoch i gofrestru''r ystâd (yn agor ffenestr newydd).</a> Peidiwch â dechrau hyd nes bod gennych bopeth sydd ei angen arnoch, oherwydd does dim modd cadw cofrestriad anghyflawn.
 page.iht.iv.wayfinder.loginPass.p2 = Os arhoswch ar un dudalen am fwy na 30 munud, cewch eich allgofnodi er eich diogelwch.
 
 page.iht.iv.wayfinder.start = <a id="startRegistration" href="{0}">Dechreuwch y broses gofrestru</a>

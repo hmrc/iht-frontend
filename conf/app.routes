@@ -52,6 +52,3 @@ GET         /joint-assets-use-service-over-325000                    iht.control
 
 GET         /deadlines-to-pay-inheritance-tax                        iht.controllers.DeadlinesController.onPageLoadRegistration
 GET         /deadlines-for-paying-inheritance-tax                    iht.controllers.DeadlinesController.onPageLoadApplication
-
-GET         /login-pass                                              iht.controllers.IVWayfinderController.loginPass
-GET         /verification-pass                                       iht.controllers.IVWayfinderController.verificationPass

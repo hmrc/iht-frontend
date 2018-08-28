@@ -39,6 +39,14 @@ isFullWidth=false)  {
     </button>
 </div>
 
+<div id="start-registration-button" class="form-group">
+    <a id="start-registration" class="button">
+        @Html(Messages("page.iht.iv.wayfinder.start",
+        iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad))
+    </a>
+</div>
+
+
 <p>@Html(Messages("page.iht.iv.wayfinder.leavePage", iht.controllers.filter.routes.FilterController.onPageLoad))</p>
 
 }
