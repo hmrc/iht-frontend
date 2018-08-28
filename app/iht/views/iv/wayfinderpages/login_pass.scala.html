@@ -31,14 +31,12 @@ isFullWidth=false)  {
     </div>
 </div>
 
-
-<div id="action-button" class="form-group">
-    <button class="button" id="continue" name="action" value="save">
-        @Html(Messages("page.iht.iv.wayfinder.start",
-        iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad))
-    </button>
+<div id="start-registration-button" class="form-group">
+    <a href="@iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad()" class="button">
+        @Messages("page.iht.iv.wayfinder.start")
+    </a>
 </div>
 
-<p>@Html(Messages("page.iht.iv.wayfinder.leavePage", iht.controllers.filter.routes.FilterController.onPageLoad))</p>
+<a href="@iht.controllers.filter.routes.FilterController.onPageLoad">@Messages("page.iht.iv.wayfinder.leavePage")</a>
 
 }

@@ -2129,8 +2129,8 @@ page.iht.iv.wayfinder.loginPass.title = Rydym wedi''ch mewngofnodi
 page.iht.iv.wayfinder.loginPass.p1 = <a id="registrationCheck" target="_blank" href="{0}">Gwnewch yn siŵr fod gennych y manylion sydd eu hangen arnoch i gofrestru''r ystâd (yn agor ffenestr newydd).</a> Peidiwch â dechrau hyd nes bod gennych bopeth sydd ei angen arnoch, oherwydd does dim modd cadw cofrestriad anghyflawn.
 page.iht.iv.wayfinder.loginPass.p2 = Os arhoswch ar un dudalen am fwy na 30 munud, cewch eich allgofnodi er eich diogelwch.
 
-page.iht.iv.wayfinder.start = <a id="startRegistration" href="{0}">Dechreuwch y broses gofrestru</a>
-page.iht.iv.wayfinder.leavePage = <a id="ivLeavePage" href="{0}">Gadewch y dudalen hon er mwyn cael yr holl fanylion sydd eu hangen arnoch</a>
+page.iht.iv.wayfinder.start = Dechreuwch y broses gofrestru
+page.iht.iv.wayfinder.leavePage = Gadewch y dudalen hon er mwyn cael yr holl fanylion sydd eu hangen arnoch
 
 #threshold limits - consider-estate-exemptions
 page.iht.application.exemptions.guidance.increasing.threshold.title=Mae gwerth yr ystâd yn uwch na''r trothwy Treth Etifeddiant

@@ -1962,8 +1962,8 @@ page.iht.iv.wayfinder.loginPass.title = We have signed you in
 page.iht.iv.wayfinder.loginPass.p1 = Check that you <a id="registrationCheck" target="_blank" href="{0}">have the details you need to register the estate (opens in a new window).</a> Only start once you have everything you need because there is no way to save an incomplete registration.
 page.iht.iv.wayfinder.loginPass.p2 = If you stay on one page for more than 30 minutes you will be signed out for your security.
 
-page.iht.iv.wayfinder.start = <a id="startRegistration" href="{0}">Start registration</a>
-page.iht.iv.wayfinder.leavePage = <a id="ivLeavePage" href="{0}">Leave this page to get all the details you need</a>
+page.iht.iv.wayfinder.start = Start registration
+page.iht.iv.wayfinder.leavePage = Leave this page to get all the details you need
 
 
 #Country names - see also application.conf
