@@ -15,6 +15,7 @@ import uk.gov.hmrc.versioning.SbtGitVersioning
 trait MicroService {
 
   import uk.gov.hmrc._
+  import DefaultBuildSettings._
 
   val appName: String
 
@@ -63,5 +64,6 @@ trait MicroService {
     )
     .configs(IntegrationTest)
     .settings(inConfig(IntegrationTest)(Defaults.itSettings): _*)
+    .settings(integrationTestSettings())
     .settings(resolvers ++= Seq(Resolver.bintrayRepo("hmrc", "releases"), Resolver.jcenterRepo))
 }
