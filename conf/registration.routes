@@ -4,6 +4,12 @@
 
 GET         /registration-checklist                             iht.controllers.registration.RegistrationChecklistController.onPageLoad
 
+## IV Wayfinder
+
+GET         /login-pass                                         iht.controllers.IVWayfinderController.loginPass
+GET         /verification-pass                                  iht.controllers.IVWayfinderController.verificationPass
+
+
 ## deceased - date of death ##
 
 GET         /date-of-death                                      iht.controllers.registration.deceased.DeceasedDateOfDeathController.onPageLoad
