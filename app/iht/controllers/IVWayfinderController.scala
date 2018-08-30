@@ -28,12 +28,16 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-object IVWayfinderController extends IVWayfinderController with IhtConnectors
-
-trait IVWayfinderController extends IhtActions with FrontendController {
-  override val ihtSection: IhtSection.Value = IhtSection.Registration
+object IVWayfinderController extends IVWayfinderController with IhtConnectors {
+  val ihtSection: IhtSection.Value = IhtSection.Registration
 
   implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
+}
+
+trait IVWayfinderController extends IhtActions with FrontendController {
+  override val ihtSection: IhtSection.Value
+
+  implicit val formPartialRetriever: FormPartialRetriever
 
   def loginPass: Action[AnyContent] = authorisedForIht {
     implicit user =>
