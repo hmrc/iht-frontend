@@ -25,7 +25,7 @@ import play.api.i18n.Messages.Implicits._
 class VerificationPassViewTest extends ViewTestHelper with MessagesHelper {
 
   implicit lazy val fakeRequest = FakeRequest()
-  lazy val view = iht.views.html.iv.wayfinderpages.verifcation_pass()
+  lazy val view = iht.views.html.iv.wayfinderpages.verification_pass()
   lazy val doc = Jsoup.parse(view.body)
 
   "Verification Pass" must {
