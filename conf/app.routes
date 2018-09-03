@@ -4,7 +4,9 @@ GET         /keep-alive                                              iht.control
 
 GET         /                                                        iht.controllers.filter.FilterController.redirectPageLoad
 
-GET         /assets/*file                                             controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file                                            controllers.Assets.versioned(path="/public", file: Asset)
+
+GET         /language/:lang                                          iht.controllers.CustomLanguageController.switchToLanguage(lang: String)
 
 ->          /template                                                template.Routes
 ->          /estate-report                                           taxreturn.Routes
@@ -40,8 +42,6 @@ GET         /agent-no-change                                         iht.control
 GET         /use-iht400                                              iht.controllers.filter.UseIHT400Controller.onPageLoadWithoutJointAssets
 GET         /joint-assets-use-iht400                                 iht.controllers.filter.UseIHT400Controller.onPageLoadWithJointAssets
 
-GET         /language/:lang                                          @iht.controllers.CustomLanguageController.switchToLanguage(lang: String)
-
 GET         /transition-scotland                                     iht.controllers.filter.TransitionController.onPageLoadScotland
 GET         /transition-northern-ireland                             iht.controllers.filter.TransitionController.onPageLoadNorthernIreland
 GET         /transition-other                                        iht.controllers.filter.TransitionController.onPageLoadOtherCountry
@@ -52,3 +52,8 @@ GET         /joint-assets-use-service-over-325000                    iht.control
 
 GET         /deadlines-to-pay-inheritance-tax                        iht.controllers.DeadlinesController.onPageLoadRegistration
 GET         /deadlines-for-paying-inheritance-tax                    iht.controllers.DeadlinesController.onPageLoadApplication
+
+## IV Wayfinder
+
+GET         /registration/login-pass                                 iht.controllers.IVWayfinderController.loginPass
+GET         /registration/verification-pass                          iht.controllers.IVWayfinderController.verificationPass

@@ -58,11 +58,11 @@ object AuthHelper {
   def getIhtCompositePageVisibilityPredicate(ihtSection: IhtSection.Value) =
     ihtSection match {
     case IhtSection.Registration => getCompositePageVisibilityPredicate(
-      ApplicationConfig.postSignInRedirectUrlRegistration,
+      ApplicationConfig.postIVRedirectUrlRegistration,
       ApplicationConfig.notAuthorisedRedirectUrlRegistration,
       ApplicationConfig.ivUpliftConfidenceLevel)
     case IhtSection.Application => getCompositePageVisibilityPredicate(
-      ApplicationConfig.postSignInRedirectUrlApplication,
+      ApplicationConfig.postIVRedirectUrlApplication,
       ApplicationConfig.notAuthorisedRedirectUrlApplication,
       ApplicationConfig.ivUpliftConfidenceLevel)
     case _ => throw new RuntimeException("Could not figure out composite page visibility predicate")
