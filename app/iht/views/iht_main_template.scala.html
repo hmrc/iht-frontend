@@ -54,7 +54,6 @@ highlightBoxClass:Option[String] = None,
 optionContentBelowTitle: Option[Html] = None
 )(mainContent: Html)(implicit  request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
-@lc = @{Application.instanceCache[CustomLanguageController].apply(current) }
 @currentLang = @{LanguageUtils.getCurrentLang.language}
 
 @headingClassName() = @{
@@ -147,8 +146,8 @@ optionContentBelowTitle: Option[Html] = None
     @if(ApplicationConfig.isWelshEnabled){
         @{
             ihtHelpers.standard.language_selection(
-                lc.languageMap,
-                lc.langToCall,
+                CustomLanguageController.languageMap,
+                CustomLanguageController.langToCall,
                 Some("translate u-align--right u--no-print")
             )
         }

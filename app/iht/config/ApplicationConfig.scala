@@ -31,8 +31,10 @@ trait AppConfig {
   val timeOutCountdownSeconds: Int
   val enableRefresh : Boolean
   val postSignInRedirectUrlRegistration: String
+  val postIVRedirectUrlRegistration: String
   val notAuthorisedRedirectUrlRegistration:String
   val postSignInRedirectUrlApplication: String
+  val postIVRedirectUrlApplication: String
   val notAuthorisedRedirectUrlApplication:String
   val ivUpliftConfidenceLevel: Int
   val ivUrl: String
@@ -47,12 +49,12 @@ trait AppConfig {
 
 object ApplicationConfig extends AppConfig with ServicesConfig {
 
-  def readFromConfig(key: String) = configuration.getString(key).getOrElse(throw new Exception(s"Missing key: $key")).toString.trim
+  def readFromConfig(key: String): String = configuration.getString(key).getOrElse(throw new Exception(s"Missing key: $key")).toString.trim
 
   /**
     *This method is used where the environment is not Local and separate host and port values are not needed
     */
-  def readOrEmpty(key: String) = configuration.getString(key).getOrElse("")
+  def readOrEmpty(key: String): String = configuration.getString(key).getOrElse("")
 
   override lazy val analyticsToken: Option[String] = configuration.getString("google-analytics.token")
   override lazy val analyticsHost: String = configuration.getString("google-analytics.host").getOrElse("auto")
@@ -65,16 +67,18 @@ object ApplicationConfig extends AppConfig with ServicesConfig {
 
   override val runningEnvironment: String =  configuration.getString("current-environment").getOrElse("local")
 
-  override lazy val timeOutSeconds = configuration.getString("session.timeoutSeconds").getOrElse("900").toInt
-  override lazy val timeOutCountdownSeconds = configuration.getString("session.time-out-countdown-seconds").getOrElse("300").toInt
-  override lazy val refreshInterval = timeOutSeconds + 10
-  override lazy val enableRefresh = configuration.getBoolean("enableRefresh").getOrElse(true)
+  override lazy val timeOutSeconds: Int = configuration.getString("session.timeoutSeconds").getOrElse("900").toInt
+  override lazy val timeOutCountdownSeconds: Int = configuration.getString("session.time-out-countdown-seconds").getOrElse("300").toInt
+  override lazy val refreshInterval: Int = timeOutSeconds + 10
+  override lazy val enableRefresh: Boolean = configuration.getBoolean("enableRefresh").getOrElse(true)
 
   //IV redirect urls.
-  override lazy val postSignInRedirectUrlRegistration = readFromConfig(s"$env.microservice.iv.login-callback.registration.url")
-  override lazy val notAuthorisedRedirectUrlRegistration = readFromConfig(s"$env.microservice.iv.not-authorised-callback.registration.url")
-  override lazy val postSignInRedirectUrlApplication = readFromConfig(s"$env.microservice.iv.login-callback.application.url")
-  override lazy val notAuthorisedRedirectUrlApplication = readFromConfig(s"$env.microservice.iv.not-authorised-callback.application.url")
+  override lazy val postSignInRedirectUrlRegistration: String = readFromConfig(s"$env.microservice.iv.login-pass.registration.url")
+  override lazy val postIVRedirectUrlRegistration: String = readFromConfig(s"$env.microservice.iv.verification-pass.registration.url")
+  override lazy val notAuthorisedRedirectUrlRegistration: String = readFromConfig(s"$env.microservice.iv.not-authorised-callback.registration.url")
+  override lazy val postSignInRedirectUrlApplication: String = readFromConfig(s"$env.microservice.iv.login-pass.application.url")
+  override lazy val postIVRedirectUrlApplication: String = readFromConfig(s"$env.microservice.iv.verification-pass.application.url")
+  override lazy val notAuthorisedRedirectUrlApplication: String = readFromConfig(s"$env.microservice.iv.not-authorised-callback.application.url")
 
   //IV hosts.
   override val ivUrlJourney:String = baseUrl("identity-verification") + "/mdtp/journey/journeyId/"
