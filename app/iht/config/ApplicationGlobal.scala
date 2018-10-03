@@ -75,7 +75,7 @@ object ApplicationGlobal extends DefaultFrontendGlobal with RunMode {
   }
 
 
-  override def microserviceMetricsConfig(implicit app: Application): Option[Configuration] = app.configuration.getConfig(s"$env.microservice.metrics")
+  override def microserviceMetricsConfig(implicit app: Application): Option[Configuration] = app.configuration.getConfig("microservice.metrics")
 }
 
 object ControllerConfiguration extends ControllerConfig {
