@@ -33,7 +33,7 @@ object WsAllMethods extends WSHttp with HttpAuditing with AppName with RunMode {
 }
 
 object IhtAuditConnector extends AuditConnector with RunMode {
-  override lazy val auditingConfig = LoadAuditingConfig(s"$env.auditing")
+  override lazy val auditingConfig = LoadAuditingConfig("auditing")
 }
 
 trait Hooks extends HttpHooks with HttpAuditing {

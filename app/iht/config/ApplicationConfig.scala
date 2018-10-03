@@ -60,7 +60,7 @@ object ApplicationConfig extends AppConfig with ServicesConfig {
   override lazy val analyticsHost: String = configuration.getString("google-analytics.host").getOrElse("auto")
 
   private lazy val contactFrontendService = baseUrl("contact-frontend")
-  private lazy val contactFrontendHost = configuration.getString(s"$env.microservice.services.contact-frontend.host").getOrElse("")
+  private lazy val contactFrontendHost = configuration.getString("microservice.services.contact-frontend.host").getOrElse("")
 
   override lazy val reportAProblemPartialUrl = s"$contactFrontendHost/contact/problem_reports_ajax?service=iht"
   override lazy val reportAProblemNonJSUrl = s"$contactFrontendHost/contact/problem_reports_nonjs?service=iht"
@@ -73,18 +73,18 @@ object ApplicationConfig extends AppConfig with ServicesConfig {
   override lazy val enableRefresh: Boolean = configuration.getBoolean("enableRefresh").getOrElse(true)
 
   //IV redirect urls.
-  override lazy val postSignInRedirectUrlRegistration: String = readFromConfig(s"$env.microservice.iv.login-pass.registration.url")
-  override lazy val postIVRedirectUrlRegistration: String = readFromConfig(s"$env.microservice.iv.verification-pass.registration.url")
-  override lazy val notAuthorisedRedirectUrlRegistration: String = readFromConfig(s"$env.microservice.iv.not-authorised-callback.registration.url")
-  override lazy val postSignInRedirectUrlApplication: String = readFromConfig(s"$env.microservice.iv.login-pass.application.url")
-  override lazy val postIVRedirectUrlApplication: String = readFromConfig(s"$env.microservice.iv.verification-pass.application.url")
-  override lazy val notAuthorisedRedirectUrlApplication: String = readFromConfig(s"$env.microservice.iv.not-authorised-callback.application.url")
+  override lazy val postSignInRedirectUrlRegistration: String = readFromConfig("microservice.iv.login-pass.registration.url")
+  override lazy val postIVRedirectUrlRegistration: String = readFromConfig("microservice.iv.verification-pass.registration.url")
+  override lazy val notAuthorisedRedirectUrlRegistration: String = readFromConfig("microservice.iv.not-authorised-callback.registration.url")
+  override lazy val postSignInRedirectUrlApplication: String = readFromConfig("microservice.iv.login-pass.application.url")
+  override lazy val postIVRedirectUrlApplication: String = readFromConfig("microservice.iv.verification-pass.application.url")
+  override lazy val notAuthorisedRedirectUrlApplication: String = readFromConfig("microservice.iv.not-authorised-callback.application.url")
 
   //IV hosts.
   override val ivUrlJourney:String = baseUrl("identity-verification") + "/mdtp/journey/journeyId/"
-  override val ivUrl: String =  readOrEmpty(s"$env.microservice.iv.identity-verification-frontend.host")
+  override val ivUrl: String =  readOrEmpty("microservice.iv.identity-verification-frontend.host")
   override val ivUrlUplift:String = s"$ivUrl/mdtp/uplift?origin=IHT&"
-  override val ggSignInUrl: String = readFromConfig(s"$env.microservice.iv.government-gateway-sign-in.host")
+  override val ggSignInUrl: String = readFromConfig("microservice.iv.government-gateway-sign-in.host")
   override val ggSignInFullUrlRegistration: String = s"$ggSignInUrl?" +
     s"continue=${URLEncoder.encode(postSignInRedirectUrlRegistration, "UTF-8")}&origin=iht-frontend&accountType=individual"
   override val ggSignInFullUrlApplication: String = s"$ggSignInUrl?" +

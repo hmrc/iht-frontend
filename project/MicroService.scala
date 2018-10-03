@@ -4,6 +4,7 @@ import sbt._
 import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin
 import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin._
 import play.sbt.routes.RoutesKeys.routesGenerator
+import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
 
 // imports for Asset Pipeline
 import com.typesafe.sbt.digest.Import._
@@ -20,7 +21,13 @@ trait MicroService {
   val appName: String
 
   lazy val appDependencies : Seq[ModuleID] = ???
-  lazy val plugins : Seq[Plugins] = Seq()
+  lazy val plugins : Seq[Plugins] = Seq(
+    play.sbt.PlayScala,
+    SbtAutoBuildPlugin,
+    SbtGitVersioning,
+    SbtDistributablesPlugin,
+    SbtArtifactory
+  )
   lazy val playSettings : Seq[Setting[_]] = Seq.empty
 
   lazy val scoverageSettings = {
@@ -37,7 +44,7 @@ trait MicroService {
 
 
   lazy val microservice = Project(appName, file("."))
-    .enablePlugins(Seq(play.sbt.PlayScala, SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin) ++ plugins : _*)
+    .enablePlugins(plugins : _*)
     .settings(playSettings ++ scoverageSettings : _*)
 //    .settings(scalaSettings: _*)
     .settings(publishingSettings: _*)
@@ -66,4 +73,5 @@ trait MicroService {
     .settings(inConfig(IntegrationTest)(Defaults.itSettings): _*)
     .settings(integrationTestSettings())
     .settings(resolvers ++= Seq(Resolver.bintrayRepo("hmrc", "releases"), Resolver.jcenterRepo))
+    .settings(majorVersion := 6)
 }
