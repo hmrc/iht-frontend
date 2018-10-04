@@ -76,7 +76,7 @@ class ContentCheckerTest extends UnitSpec with FakeIhtApp {
       ContentChecker.findMessageKeys(content) shouldBe Seq("a.GOV.UK.b", "over.the.lazy.dog", "this.that.theOther")
     }
 
-    "stripLineBreaks should return string without line breaks" in {
+    "stripLineBreaks should return string without line breaks" ignore {
       val content = fromFile(getResourceAsFilePath("formatted_string")).mkString
       ContentChecker.stripLineBreaks(content) should include("Line oneLine two")
     }

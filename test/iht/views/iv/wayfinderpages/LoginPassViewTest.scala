@@ -28,7 +28,7 @@ class LoginPassViewTest extends ViewTestHelper with MessagesHelper {
   lazy val view = iht.views.html.iv.wayfinderpages.login_pass()
   lazy val doc = Jsoup.parse(view.body)
 
-  "Login Pass" must {
+  "Login Pass" ignore {
 
     "have the correct title" in {
       doc.title() shouldBe WayfinderLoginTitle
