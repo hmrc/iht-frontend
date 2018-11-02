@@ -21,12 +21,14 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.{ApplicationDetails, IhtApplication}
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
-import iht.utils.DeceasedInfoHelper
+import iht.utils.{ApplicationStatus => Status}
+import iht.viewmodels.estateReports.YourEstateReportsRowViewModel
 import org.joda.time.LocalDate
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
+import play.api.mvc.Call
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
@@ -177,6 +179,43 @@ class YourEstateReportsControllerTest  extends ApplicationControllerTest{
           }})
       val result = yourEstateReportsController.onPageLoad(createFakeRequest())
       status(result) shouldBe OK
+    }
+  }
+
+  "showGuidance" should {
+    def estateReportWithStatus(s: String)= YourEstateReportsRowViewModel(
+      deceasedName = "test",
+      ihtRefNo = "testNo",
+      dateOfDeath = "testDate",
+      currentStatus = s,
+      linkLabel = "label",
+      link = Call("t", "es", "t"),
+      linkScreenreader = "test"
+    )
+
+    "return true (and therefore show amendments guidance)" in {
+      Set(
+        List(estateReportWithStatus(Status.InProgress), estateReportWithStatus(Status.Closed)),
+        List(estateReportWithStatus(Status.InProgress), estateReportWithStatus("Wedi cau")),
+        List(estateReportWithStatus(Status.InProgress), estateReportWithStatus(Status.InReview)),
+        List(estateReportWithStatus(Status.InProgress), estateReportWithStatus("O dan adolygiad")),
+        List(estateReportWithStatus("o dan adolygiad"), estateReportWithStatus("wedi cau")),
+        List(estateReportWithStatus(Status.Closed)),
+        List(estateReportWithStatus(Status.Closed), estateReportWithStatus(Status.InReview)),
+        List(estateReportWithStatus(Status.Closed.toLowerCase), estateReportWithStatus(Status.InReview.toLowerCase))
+      ) foreach { testCase =>
+        yourEstateReportsController.showGuidance(testCase) shouldBe true
+      }
+    }
+
+    "return false (and therefore NOT show amendments guidance)" in {
+      Set(
+        List(),
+        List(estateReportWithStatus(Status.InProgress), estateReportWithStatus(Status.NotStarted)),
+        List(estateReportWithStatus("I'm not a real Status ¯\\_(ツ)_/¯"))
+      ) foreach { testCase =>
+        yourEstateReportsController.showGuidance(testCase) shouldBe false
+      }
     }
   }
 

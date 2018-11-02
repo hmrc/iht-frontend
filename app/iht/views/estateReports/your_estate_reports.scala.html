@@ -16,37 +16,70 @@
 
 @import iht.viewmodels.estateReports.YourEstateReportsRowViewModel
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
-
-@(applications:Seq[YourEstateReportsRowViewModel])(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
-
+@(applications:Seq[YourEstateReportsRowViewModel], showGuidance: Boolean)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
 
-@iht_main_template_application(title = Messages("page.iht.home.title"),
-browserTitle=Some(Messages("page.iht.home.browserTitle")),
-isFullWidth=true) {
+    @personalDetailsReveal = {
+        <details id="personal-details-reveal">
+            <summary>
+                <span class="summary">@Messages("iht.estateReport.personalDetails.error.title")</span>
+            </summary>
+            <div class="panel panel-border-narrow">
+                <p>@Messages("iht.estateReport.personalDetails.error.p1")</p>
+                <p>@Messages("iht.estateReport.personalDetails.error.p2")</p>
+                <p>@Messages("iht.estateReport.personalDetails.error.p3")</p>
+            </div>
+        </details>
+        <details id="estate-value-reveal">
+            <summary>
+                <span class="summary">@Messages("iht.estateReport.estateValue.error.title")</span>
+            </summary>
+            <div class="panel panel-border-narrow">
+                <p>@Messages("iht.estateReport.estateValue.error.p1")</p>
+                <a id="estate-value-error" href="@iht.controllers.filter.routes.DomicileController.onPageLoad().url">
+                    @Messages("iht.estateReport.estateValue.error.link")
+                </a>
+                <p>@Messages("iht.estateReport.estateValue.error.p2")</p>
+            </div>
+        </details>
+    }
+    @personalDetailsSubmittedReveal = {
+        <details id="personal-details-submitted-reveal">
+            <summary>
+                <span class="summary">@Messages("iht.estateReport.personalDetails.error.title")</span>
+            </summary>
+            <div class="panel panel-border-narrow">
+                <p>@Messages("iht.estateReport.personalDetails.submitted.error.p1")</p>
+                <p>@Messages("iht.estateReport.personalDetails.submitted.error.p2")</p>
+                <p>@Messages("iht.estateReport.personalDetails.submitted.error.p3")</p>
+            </div>
+        </details>
+    }
 
-@if(applications.isEmpty){
+    @iht_main_template_application(title = Messages("page.iht.home.title"),
+    browserTitle=Some(Messages("page.iht.home.browserTitle")),
+    isFullWidth=true) {
 
-	<p class="grid-2-3">@Messages("page.iht.home.applicationList.table.guidance.label.empty")</p>
+    @if(applications.isEmpty){
+        <p class="grid-2-3">@Messages("page.iht.home.applicationList.table.guidance.label.empty")</p>
+        <div class="panel panel-border-wide grid-2-3">
+            <p>@Messages("page.iht.home.text")</p>
+        </div>
+    } else {
+        <p class="grid-2-3">@Messages("page.iht.home.applicationList.table.guidance.label")</p>
+        <div class="panel panel-border-wide grid-2-3">
+            <p>@Messages("page.iht.home.text")</p>
+        </div>
+    @your_estate_reports_application_table(applications)
+    }
 
-	<div class="panel panel-border-wide grid-2-3">
-	    <p>@Messages("page.iht.home.text")</p>
-	</div>
-
-} else {
-	<p class="grid-2-3">@Messages("page.iht.home.applicationList.table.guidance.label")</p>
-
-	<div class="panel panel-border-wide grid-2-3">
-	    <p>@Messages("page.iht.home.text")</p>
-	</div>
-
-   @your_estate_reports_application_table(applications)
-}
 <a id="start-new-registration" href="@iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad()">@Messages("site.link.startNewRegistration")</a>
+<h3>@Messages("iht.estateReport.help")</h3>
 
-@if(applications.isEmpty){
-   <p class="grid-2-3">@Messages("page.iht.home.applicationList.table.guidance.p2.empty")</p>
-}
+    @if(showGuidance) { @personalDetailsReveal } else { @personalDetailsSubmittedReveal }
 
+    @if(applications.isEmpty){
+        <p class="grid-2-3">@Messages("page.iht.home.applicationList.table.guidance.p2.empty")</p>
+    }
 }

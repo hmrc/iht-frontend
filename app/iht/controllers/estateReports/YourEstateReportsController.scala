@@ -65,17 +65,17 @@ trait YourEstateReportsController extends ApplicationController {
             })
 
             futureViewModels.map(seqOfModels =>
-              Ok(iht.views.html.estateReports.your_estate_reports(seqOfModels))
+              Ok(iht.views.html.estateReports.your_estate_reports(seqOfModels, showGuidance(seqOfModels)))
                 .withSession(request.session + (SessionKeys.sessionId -> s"session-${UUID.randomUUID}") + (Constants.NINO -> nino)))
           }
 
           case _ =>
-            Future.successful(Ok(iht.views.html.estateReports.your_estate_reports(Nil)).withSession(
+            Future.successful(Ok(iht.views.html.estateReports.your_estate_reports(Nil, false)).withSession(
               SessionHelper.ensureSessionHasNino(request.session, user) +
                 (SessionKeys.sessionId -> s"session-${UUID.randomUUID}")))
         } recover {
           case e: Upstream4xxResponse if e.upstreamResponseCode == 404 =>
-            Ok(iht.views.html.estateReports.your_estate_reports(Nil)).withSession(
+            Ok(iht.views.html.estateReports.your_estate_reports(Nil, false)).withSession(
               SessionHelper.ensureSessionHasNino(request.session, user) +
                 (SessionKeys.sessionId -> s"session-${UUID.randomUUID}")
             )
@@ -99,5 +99,10 @@ trait YourEstateReportsController extends ApplicationController {
         DeceasedInfoHelper.determineStatusToUse(ihtApp.currentStatus, CommonHelper.getOrExceptionNoApplication(appDetails).status)
       }
     }
+  }
+
+  def showGuidance(applications: Seq[YourEstateReportsRowViewModel]): Boolean = {
+    val targetStatuses = Set(AppStatus.InReview.toLowerCase , AppStatus.Closed.toLowerCase, "o dan adolygiad", "wedi cau")
+    applications map (_.currentStatus.toLowerCase) exists targetStatuses
   }
 }
