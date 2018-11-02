@@ -601,6 +601,22 @@ iht.estateReport.ihtThreshold = Inheritance Tax threshold
 iht.estateReport.noInheritanceTaxPayable = no Inheritance Tax is payable
 iht.inheritanceTaxEstateReport = Inheritance Tax estate report
 
+#Estate Report - Get Help
+iht.estateReport.help = Help with your estate reports
+iht.estateReport.personalDetails.error.title = If you made errors in personal details
+iht.estateReport.personalDetails.submitted.error.p1 = You do not need to inform HMRC of any changes or errors in names, numbers, addresses or dates, or the removal or addition of executors.
+iht.estateReport.personalDetails.submitted.error.p2 = You must ensure the executors are listed correctly on the probate application.
+iht.estateReport.personalDetails.submitted.error.p3 = If you personally need an estate report with amended personal details you will need to register the estate again.
+
+iht.estateReport.personalDetails.error.p1 = Once your report is in review or closed, you cannot re-open it or start a new one.
+iht.estateReport.personalDetails.error.p2 = You do not need to inform HMRC of any changes or errors in names, numbers, addresses or dates, or the removal or addition of executors.
+iht.estateReport.personalDetails.error.p3 = You must ensure the executors are listed correctly on the probate application.
+
+iht.estateReport.estateValue.error.title = If you made errors in estate value
+iht.estateReport.estateValue.error.p1 = You do not need to report any changes in estate value to HMRC unless you think you might need to submit a full return (IHT400). If a full return is needed and you do not make one, you may get a penalty.
+iht.estateReport.estateValue.error.link = Check if the estate needs a full return.
+iht.estateReport.estateValue.error.p2 = You must in all cases report the amended estate value (gross and net) to the Probate Service until the time you get the Grant of Probate.
+
 #Estate report - IhtHome
 page.iht.home.title = Your Inheritance Tax estate reports
 page.iht.home.text = Save the link to this page or add it to your favourites. You’ll then be able to return to add or edit details before you submit the completed report to HMRC.
@@ -624,7 +640,6 @@ page.iht.exit.title = Save your estate report
 page.iht.exit.text = Save this link to your estate report so you can access it when you are ready to add details to it.
 page.iht.exit.button = Exit
 page.iht.exit.link = https://www.tax.service.gov.uk/inheritance-tax/estate-report
-
 
 #Estate report - Application Status - In Review
 page.iht.application.overview.inreview.title = We are reviewing {0}’s estate report

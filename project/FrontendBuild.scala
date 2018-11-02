@@ -11,16 +11,16 @@ private object AppDependencies {
   import play.sbt.PlayImport._
   import play.core.PlayVersion
 
-  private val httpCachingClientVersion = "7.1.0"
+  private val httpCachingClientVersion = "7.2.0"
   private val jsonSchemaValidatorVersion = "2.2.6"
   private val jsonVersion = "20180130"
   private val wireMockVersion = "2.9.0"
 
 val compile = Seq(
   ws, cache,
-  "uk.gov.hmrc" %% "url-builder" % "2.1.0",
+  "uk.gov.hmrc" %% "url-builder" % "3.0.0",
   "uk.gov.hmrc" %% "http-caching-client" % httpCachingClientVersion,
-  "uk.gov.hmrc" %% "frontend-bootstrap" % "10.3.0",
+  "uk.gov.hmrc" %% "frontend-bootstrap" % "10.7.0",
   "uk.gov.hmrc" %% "play-partials" % "6.1.0",
   "uk.gov.hmrc" %% "domain" % "5.2.0",
   "uk.gov.hmrc" %% "play-language" % "3.4.0",
@@ -38,7 +38,7 @@ object Test {
   def apply() = new TestDependencies {
     override lazy val test = Seq(
       "uk.gov.hmrc" %% "http-caching-client" % httpCachingClientVersion % scope,
-      "uk.gov.hmrc" %% "hmrctest" % "3.0.0" % scope,
+      "uk.gov.hmrc" %% "hmrctest" % "3.2.0" % scope,
       "org.scalatest" %% "scalatest" % "3.0.0" % scope,
       "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.0",
       "org.pegdown" % "pegdown" % "1.6.0" % scope,

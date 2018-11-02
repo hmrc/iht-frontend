@@ -2166,3 +2166,19 @@ page.iht.application.exemptions.guidance.increasing.threshold.link.text = Yn ôl
 
 global.error.InternalServerError500.message1 = Os gwelwch y neges hon sawl gwaith, gallwch ddewis rhoi gwybod am werth yr ystâd gan ddefnyddio <a id="paperFormLink" href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/459774/IHT205_2011__Cymraeg.pdf">ffurflen bapur IHT205</a>
 
+#Estate Report - Get Help
+iht.estateReport.help = Help gyda’ch adroddiadau ynghylch yr ystâd
+
+iht.estateReport.personalDetails.error.title = Os ydych wedi gwneud camgymeriadau o ran manylion personol
+iht.estateReport.personalDetails.submitted.error.p1 = Nid oes rhaid i chi roi gwybod i CThEM am unrhyw newidiadau neu gamgymeriadau o ran enwau, rhifau, cyfeiriadau neu ddyddiadau, neu ddileu neu ychwanegu ysgutorion.
+iht.estateReport.personalDetails.submitted.error.p2 = Rhaid i chi sicrhau bod yr ysgutorion wedi’u rhestru’n gywir ar y cais ar gyfer profiant.
+iht.estateReport.personalDetails.submitted.error.p3 = Os oes angen adroddiad arnoch yn bersonol ynghylch yr ystâd, gyda manylion personol wedi’u diwygio, bydd angen i chi gofrestru’r ystâd eto.
+
+iht.estateReport.personalDetails.error.p1 = Pan fo’ch adroddiad o dan adolygiad neu wedi’i gau, ni allwch ei ailagor na dechrau un newydd.
+iht.estateReport.personalDetails.error.p2 = Nid oes rhaid i chi roi gwybod i CThEM am unrhyw newidiadau neu gamgymeriadau o ran enwau, rhifau, cyfeiriadau neu ddyddiadau, neu ddileu neu ychwanegu ysgutorion.
+iht.estateReport.personalDetails.error.p3 = Rhaid i chi sicrhau bod yr ysgutorion wedi’u rhestru’n gywir ar y cais ar gyfer profiant.
+
+iht.estateReport.estateValue.error.title = Os ydych wedi gwneud camgymeriadau o ran gwerth yr ystâd
+iht.estateReport.estateValue.error.p1 = Nid oes rhaid i chi roi gwybod i CThEM am unrhyw newidiadau o ran gwerth yr ystâd oni bai eich bod o’r farn y gallai fod angen i chi gyflwyno Ffurflen Dreth lawn (IHT400). Os oes angen Ffurflen Dreth lawn, ac nid ydych yn cyflwyno un, mae’n bosibl y codir cosb arnoch.
+iht.estateReport.estateValue.error.link = Ewch ati i gadarnhau a oes angen Ffurflen Dreth lawn ar yr ystâd.
+iht.estateReport.estateValue.error.p2 = Mae’n rhaid i chi, ym mhob achos, roi gwybod i’r Gwasanaeth Profiant am werth yr ystâd wedi’i ddiwygio (gros a net) hyd nes eich bod yn cael y Grant Profiant.
