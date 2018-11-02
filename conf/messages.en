@@ -10,6 +10,16 @@ site.nino.hint = For example, VO 12 34 56 D
 site.phoneNo.hint = This can be a mobile or a landline. HMRC might need to contact them about any of the details you provide.
 site.fullName = Full name
 
+site.progressiveDisclosure = Get help using this service
+site.progressiveDisclosure.registration.contact = If you need more help, call the Inheritance Tax helpline on 0300 123 1072 (+44 300 123 1072 from outside the UK).
+site.progressiveDisclosure.preRegistration.help = To get help with signing in or confirming your identity, use the contact form below. If you got a message telling you something was wrong, tell us what it says.
+site.progressiveDisclosure.preRegistration.contact = If you need help with Inheritance Tax, use the contact form or call the helpline on 0300 123 1072 (+44 (0) 300 123 1072 from outside the UK).
+site.progressiveDisclosure.application.help.start = To ask about how to fill in your estate report correctly, use the contact form below. See the
+site.progressiveDisclosure.application.linkText = estate report page
+site.progressiveDisclosure.application.help.end = for what to do about amendments.
+
+site.progressiveDisclosure.application.contact = If you need more help, call the Inheritance Tax helpline on 0300 123 1072 (+44 300 123 1072 from outside the UK).
+
 site.button.confirm = Confirm
 site.button.save.return.debts = Save and return to debts owed from the estate
 site.button.save.return.mortgages = Save and return to mortgages
@@ -181,9 +191,6 @@ iht.timeoutDialog.minute = minute
 iht.timeoutDialog.minutes.two = minutes
 
 iht.theDeceased = The deceased
-
-iht.needHelp = Need help?
-iht.needHelp.guidance = If you need help with completing this estate report, contact the Inheritance Tax helpline on 0300 123 1072. If you are outside of the UK, call +44 300 123 1072.
 
 #Pre registration filtering
 page.iht.filter.agent.content = There is no change to how agents report estate values to HMRC. You must continue to use either an IHT205 or an IHT400 paper form.
