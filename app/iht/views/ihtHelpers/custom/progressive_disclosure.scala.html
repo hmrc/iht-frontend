@@ -23,13 +23,16 @@
 var reportProblemAjaxUrl = "@{Html(ApplicationConfig.reportAProblemPartialUrl)}"
 </script>
 
-<a class="u-mt--3 u--no-print form-group column-two-thirds js-hidden" href="@ApplicationConfig.reportAProblemNonJSUrl">@messages("site.progressiveDisclosure")</a>
+<div class = "form-group">
+    <a class="u-mt--3 u--no-print form-group column-two-thirds js-hidden" href="@ApplicationConfig.reportAProblemNonJSUrl">@messages("site.progressiveDisclosure")</a>
+</div>
 
-<details id="get-help" class="u-mt--3 u--no-print form-group column-two-thirds js-visible">
+<details id="get-help" class="form-group js-visible">
     <summary>@messages("site.progressiveDisclosure")</summary>
-    <div class="panel-indent">
+    <div class="panel-indent column-two-thirds">
             @if(getDisclosureInfo(location)._2.nonEmpty){
-                <div class="form-group">
+            <br>
+            <div class="form-group">
                     @for(msg <- getDisclosureInfo(location)._2){
                         @if(msg.contains("link")){
                             <a href = "@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()"> @messages(msg)</a>
