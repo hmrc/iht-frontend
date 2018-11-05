@@ -28,7 +28,11 @@ var reportProblemAjaxUrl = "@{Html(ApplicationConfig.reportAProblemPartialUrl)}"
 </div>
 
 <details id="get-help" class="form-group js-visible">
-    <summary>@messages("site.progressiveDisclosure")</summary>
+    <summary>
+        <span class="summary">
+            @messages("site.progressiveDisclosure")
+        </span>
+    </summary>
     <div class="panel-indent column-two-thirds">
             @if(getDisclosureInfo(location)._2.nonEmpty){
             <br>
