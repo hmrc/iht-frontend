@@ -14,13 +14,42 @@
  * limitations under the License.
  *@
 
-@(summary: String, content: Seq[String])
+@import iht.utils.ProgressiveDisclosureHelper._
+@import iht.config.ApplicationConfig
+@import views.html.helper._
+@(location: String)(implicit request:Request[_], messages: Messages)
 
-<details class="contact-details-help">
-    <summary><span class="summary">@summary</span></summary>
-    <div class="panel panel-border-narrow">
-        @for(paragraph <- content){
-            <p>@paragraph</p>
-        }
+<script type="text/javascript">
+var reportProblemAjaxUrl = "@{Html(ApplicationConfig.reportAProblemPartialUrl)}"
+</script>
+
+<div class = "form-group">
+    <a class="u-mt--3 u--no-print form-group column-two-thirds js-hidden" href="@ApplicationConfig.reportAProblemNonJSUrl">@messages("site.progressiveDisclosure")</a>
+</div>
+
+<details id="get-help" class="form-group js-visible">
+    <summary>@messages("site.progressiveDisclosure")</summary>
+    <div class="panel-indent column-two-thirds">
+            @if(getDisclosureInfo(location)._2.nonEmpty){
+            <br>
+            <div class="form-group">
+                    @for(msg <- getDisclosureInfo(location)._2){
+                        @if(msg.contains("link")){
+                            <a href = "@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()"> @messages(msg)</a>
+                        }else{
+                            @messages(msg)
+                        }
+                    }
+                </div>
+            }
+
+            <a class="report-error__toggle" id="get-help-action" href="form-label" hidden></a>
+            <div id="report-error-partial-form" class="report-error__content hidden form-group">
+                <div class="report-error__loading"></div>
+            </div>
+
+        <div class="form-group">
+            @messages(getDisclosureInfo(location)._1)
+        </div>
     </div>
 </details>

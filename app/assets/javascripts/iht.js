@@ -98,6 +98,14 @@ if($('[data-enhanced-select]').length > 0){
 }
 
 // =====================================================
+// Handle the IHT progressive disclosure open/close functionality
+// =====================================================
+ $("#get-help").one("click", function() {
+    $("#get-help-action").click();
+ });
+
+// =====================================================
+
 // Submit trigger
 // Used on Gifts section
 // Should be replaced by links without the POST through
