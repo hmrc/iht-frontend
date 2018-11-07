@@ -24,6 +24,8 @@ import uk.gov.hmrc.play.config.ServicesConfig
 trait AppConfig {
   val analyticsToken: Option[String]
   val analyticsHost: String
+  val contactFormServiceIdentifier: String
+  val contactFrontendPartialBaseUrl: String
   val reportAProblemPartialUrl: String
   val reportAProblemNonJSUrl: String
   val refreshInterval: Int
@@ -45,6 +47,7 @@ trait AppConfig {
   val ivUrlUplift:String
   val runningEnvironment: String
   val isWelshEnabled: Boolean
+  val feedbackSurvey: String
 }
 
 object ApplicationConfig extends AppConfig with ServicesConfig {
@@ -62,8 +65,11 @@ object ApplicationConfig extends AppConfig with ServicesConfig {
   private lazy val contactFrontendService = baseUrl("contact-frontend")
   private lazy val contactFrontendHost = configuration.getString("microservice.services.contact-frontend.host").getOrElse("")
 
-  override lazy val reportAProblemPartialUrl = s"$contactFrontendHost/contact/problem_reports_ajax?service=iht"
-  override lazy val reportAProblemNonJSUrl = s"$contactFrontendHost/contact/problem_reports_nonjs?service=iht"
+  override val contactFormServiceIdentifier = "IHT"
+  override lazy val contactFrontendPartialBaseUrl = s"$contactFrontendService"
+  override lazy val reportAProblemPartialUrl = s"$contactFrontendHost/contact/problem_reports_ajax?service=$contactFormServiceIdentifier"
+  override lazy val reportAProblemNonJSUrl = s"$contactFrontendHost/contact/problem_reports_nonjs?service=$contactFormServiceIdentifier"
+  override val feedbackSurvey: String = readFromConfig(s"feedback-survey-frontend.url")
 
   override val runningEnvironment: String =  configuration.getString("current-environment").getOrElse("local")
 

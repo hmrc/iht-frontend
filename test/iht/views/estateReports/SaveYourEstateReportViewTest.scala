@@ -68,7 +68,7 @@ class SaveYourEstateReportViewTest extends ViewTestHelper {
         lazy val view = save_your_estate_report()
         lazy val doc = Jsoup.parse(view.body)
 
-        doc.getElementById("exit-button").attr("href") shouldBe "/inheritance-tax/estate-report/questionnaire-application-sign-out"
+        doc.getElementById("exit-button").attr("href") shouldBe "/inheritance-tax/feedback-survey"
       }
 
       "have a class of button" in {

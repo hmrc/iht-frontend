@@ -57,3 +57,6 @@ GET         /deadlines-for-paying-inheritance-tax                    iht.control
 
 GET         /registration/login-pass                                 iht.controllers.IVWayfinderController.loginPass
 GET         /registration/verification-pass                          iht.controllers.IVWayfinderController.verificationPass
+
+#feedback Survey Routes
+GET         /feedback-survey                                         iht.controllers.FeedbackSurveyController.redirectExitSurvey
