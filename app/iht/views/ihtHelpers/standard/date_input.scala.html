@@ -34,7 +34,8 @@
 
 
 
-<div class="form-group @if(field.id.contains("year")) {form-group-year}   @if( elements.args.get('_divClass) ){ @elements.args.get('_divClass) }">
+<div class="form-group
+    @if(field.id.contains("year")) {form-group-year} @if(field.id.contains("month")) {form-group-month} @if(field.id.contains("day")) {form-group-day} @if( elements.args.get('_divClass) ){ @elements.args.get('_divClass) }">
 
     <label for="@elements.field.name" class="
         @if( elements.args.get('_labelClass) ){ @elements.args.get('_labelClass) }
@@ -64,7 +65,6 @@
     @if( elements.args.get('_autoComplete) ){ autocomplete="@elements.args.get('_autoComplete)" }
     @if( elements.args.get('_placeholder) ){ placeholder="@elements.args.get('_placeholder)" }
     @if(elements.args.contains('_dataAttributes) ){ @elements.args.get('_dataAttributes)}
-    @if(elements.args.contains('_lengthMax) ){ minlength="1" pattern=".{1,@elements.args.get('_lengthMax)}" maxlength = "@elements.args.get('_lengthMax)"}
     @if(elements.args.contains('_hint)) {aria-describedby="@elements.args.get('_hint)"}
     name="@elements.field.name"
     id="@elements.field.name"

@@ -25,7 +25,7 @@ actionLocation: Call,
 cancelLocation:Option[Call]=None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_registration(
-    title = "",
+    title = Messages("page.iht.registration.deceasedDateOfDeath.title"),
     browserTitle = Some(Messages("iht.dateOfDeath")),
     cancelUrl=cancelLocation,
     hasTimeOut=true
@@ -42,11 +42,9 @@ cancelLocation:Option[Call]=None)(implicit request:Request[_], messages: Message
             '_hintId -> "dodHint",
             '_groupId -> "responsibleFromDateFieldSet",
             '_groupClass -> "",
-            '_labelTextClass -> "bold",
-            '_legend -> Messages("page.iht.registration.deceasedDateOfDeath.title"),
-            '_legendClass -> "legend-with-heading",
+            '_legend -> "",
             '_fieldsetId -> "date-of-death",
-            '_legendIsHeading -> true
+            '_legendIsHeading -> false
             )
             @ihtHelpers.custom.continue_button()
     }
