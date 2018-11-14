@@ -377,12 +377,3 @@ GET         /delete-estate-report                                               
 GET         /inheritance-tax-estate-report                                                      @iht.controllers.application.pdf.PDFController.onPreSubmissionPDF
 GET         /clearance-certificate                                                              @iht.controllers.application.pdf.PDFController.onClearancePDF
 GET         /completed-estate-report                                                            @iht.controllers.application.pdf.PDFController.onPostSubmissionPDF
-
-GET         /questionnaire-application                                                          iht.controllers.application.ApplicationQuestionnaireController.onPageLoad
-POST        /questionnaire-application                                                          iht.controllers.application.ApplicationQuestionnaireController.onSubmit
-
-GET         /questionnaire-overview                                                             iht.controllers.application.OverviewQuestionnaireController.onPageLoad
-POST        /questionnaire-overview                                                             iht.controllers.application.OverviewQuestionnaireController.onSubmit
-GET         /questionnaire-overview-sign-out                                                    iht.controllers.application.OverviewQuestionnaireController.signOutAndLoadPage
-
-GET         /questionnaire-application-sign-out                                                 iht.controllers.application.ApplicationQuestionnaireController.signOutAndLoadPage

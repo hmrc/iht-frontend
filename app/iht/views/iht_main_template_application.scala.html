@@ -16,6 +16,7 @@
 
 @import play.api.i18n._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.controllers.routes.FeedbackSurveyController
 
 @(title: String,
 browserTitle: Option[String] = None,
@@ -31,7 +32,7 @@ headingClass: String = "",
 headingName: String = "",
 highlightBoxClass:Option[String] = None,
 optionContentBelowTitle: Option[Html] = None,
-signOutCall: Option[Call] = Some(iht.controllers.application.routes.ApplicationQuestionnaireController.signOutAndLoadPage())
+signOutCall: Option[Call] = Some(iht.controllers.routes.FeedbackSurveyController.redirectExitSurvey)
 )(mainContent: Html)(implicit  request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template(

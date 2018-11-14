@@ -148,8 +148,3 @@ POST        /not-possible-to-use-service                        iht.controllers.
 
 GET         /change-who-is-applying-for-probate                 iht.controllers.registration.executor.ExecutorOverviewController.onEditPageLoad
 POST        /change-who-is-applying-for-probate                 iht.controllers.registration.executor.ExecutorOverviewController.onEditSubmit
-
-GET         /questionnaire-registration                         iht.controllers.registration.RegistrationQuestionnaireController.onPageLoad
-POST        /questionnaire-registration                         iht.controllers.registration.RegistrationQuestionnaireController.onSubmit
-
-GET         /questionnaire-registration-sign-out                iht.controllers.registration.RegistrationQuestionnaireController.signOutAndLoadPage

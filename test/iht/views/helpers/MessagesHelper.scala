@@ -40,7 +40,7 @@ trait MessagesHelper {
   val ihtIVTryAgainLink = "/inheritance-tax/registration/check-your-answers"
 
   val pageIHTSignOut = "Sign out"
-  val pageIHTSignOutLink = "/inheritance-tax/estate-report/questionnaire-application-sign-out"
+  val pageIHTSignOutLink = "/inheritance-tax/feedback-survey"
 
 
   //IV Wayfinder

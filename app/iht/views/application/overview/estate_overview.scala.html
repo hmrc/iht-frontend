@@ -20,6 +20,7 @@
 @import play.twirl.api.Html
 @import iht.constants.IhtProperties
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.controllers.routes.FeedbackSurveyController
 
 @(model: EstateOverviewViewModel)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
@@ -40,7 +41,7 @@
     sidebarLinks = iht.views.html.application.overview.overview_sidebar(model.submissionDeadline, model.submissionMonthsLeft),
     headingClass = if(checkNameSize(model.deceasedName)){"heading-large"} else {"heading-xlarge"},
     headingName = model.deceasedName,
-    signOutCall = Some(iht.controllers.application.routes.OverviewQuestionnaireController.signOutAndLoadPage())
+    signOutCall = Some(iht.controllers.routes.FeedbackSurveyController.redirectExitSurvey)
 ){
 
   <p id="estate-overview-guidance" aria-describedby="estate-report-deadline-date" role="heading" aria-level="2">@Messages("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text2")</p>

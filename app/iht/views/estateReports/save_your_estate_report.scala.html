@@ -19,6 +19,8 @@
 @import iht.views.html._
 @import iht.controllers.ControllerHelper
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.controllers.routes.FeedbackSurveyController
+
 
 @()(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
@@ -30,7 +32,7 @@
     <a id="estate-report-link" href="@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url">@Messages("page.iht.exit.link")</a>
 </div>
 <section class="section">
-    <a id="exit-button" class="button" href="@iht.controllers.application.routes.ApplicationQuestionnaireController.signOutAndLoadPage.url">
+    <a id="exit-button" class="button" href="@iht.controllers.routes.FeedbackSurveyController.redirectExitSurvey.url">
         @Messages("page.iht.exit.button")
     </a>
 </section>

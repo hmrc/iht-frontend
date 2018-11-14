@@ -16,6 +16,7 @@
 
 @import play.api.i18n._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.controllers.routes.FeedbackSurveyController
 
 @(title: String,
 browserTitle: Option[String] = None,
@@ -45,7 +46,7 @@ optionContentBelowTitle: Option[Html] = None
     cancelLabel = Some(Messages("site.link.cancel")),
     hasTimeOut = hasTimeOut,
     sidebarLinks = sidebarLinks,
-    signOutUrl = if (hasSignOut) Some(iht.controllers.registration.routes.RegistrationQuestionnaireController.signOutAndLoadPage()) else None,
+    signOutUrl = if (hasSignOut) Some(iht.controllers.routes.FeedbackSurveyController.redirectExitSurvey) else None,
     headerTitle = Some(Messages("site.registration.title")),
     headingClass = headingClass,
     headingName = headingName,
