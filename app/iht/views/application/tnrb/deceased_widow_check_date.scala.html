@@ -45,14 +45,18 @@ cancelLinkText:String)(implicit request:Request[_], messages: Messages, ihtFormP
     cancelLabel=Some(cancelLinkText)
 ){
 
-@ihtHelpers.custom.error_summary(deceasedWidowCheckDateForm, Some(
-    Map(
-      "error.predeceasedDateOfDeath.afterMarriage" -> "error.dateOfDeath.incorrect.summary"
-    )
-  )
-)
 
 @helpers.form(action = iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onSubmit,'autoComplete -> "off") {
+
+
+@ihtHelpers.custom.error_summary(deceasedWidowCheckDateForm, Some(
+    Map(
+        "error.predeceasedDateOfDeath.afterMarriage" -> "error.dateOfDeath.incorrect.summary"
+        )
+ )
+)
+
+<h1 class = heading-xlarge>@Html(Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question", spouseLabel))</h1>
 
 @ihtHelpers.standard.date_fields(
     deceasedWidowCheckDateForm,
@@ -63,10 +67,11 @@ cancelLinkText:String)(implicit request:Request[_], messages: Messages, ihtFormP
     '_hintId -> "dodHint",
     '_labelTextClass -> "bold",
     '_groupId -> "responsibleFromDateFieldSet",
-    '_legend -> Html(Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question", spouseLabel)),
+    '_legend -> "",
     '_legendClass -> Some("legend-with-heading"),
     '_headingClass -> "heading-large",
-    '_legendIsHeading -> true
+    '_fieldsetId -> "date-of-death-partner",
+    '_legendIsHeading -> false
 )
 <div id="action-button" class="form-group">
   <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>

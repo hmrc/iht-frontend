@@ -39,19 +39,24 @@
         cancelUrl = Some(cancelUrl)
     ) {
 
-        @ihtHelpers.custom.error_summary(dateOfMarriageForm, Some(
-                Map(
-                    "error.predeceasedDateOfMarriage.beforeDateOfDeath" -> "error.dateOfMarriage.incorrect.summary"
-                )
-            )
-        )
+
 
         @helpers.form(action = iht.controllers.application.tnrb.routes.DateOfMarriageController.onSubmit, 'autoComplete -> "off") {
+
+
+            @ihtHelpers.custom.error_summary(dateOfMarriageForm, Some(
+                Map(
+            "error.predeceasedDateOfMarriage.beforeDateOfDeath" -> "error.dateOfMarriage.incorrect.summary"
+                 )
+                )
+            )
+
+            <h1 class = heading-xlarge>@pageTitle</h1>
 
             @ihtHelpers.standard.date_fields(
                 dateOfMarriageForm,
                 "dateOfMarriage",
-                pageTitle,
+                "",
                 None,
                 '_extraText -> Html("<p>" + Messages("iht.estateReport.tnrb.dateOfMarriage.hint",
                     TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel),
@@ -60,9 +65,10 @@
                 '_hintText -> Messages("iht.dateExample2"),
                 '_hintId -> "domHint",
                 '_groupId -> "responsibleFromDateFieldSet",
-                '_legend -> pageTitle,
+                '_legend -> "",
                 '_legendClass -> Some("legend-with-heading"),
-                '_legendIsHeading -> true
+                '_fieldsetId -> "date-of-marriage",
+                '_legendIsHeading -> false
             )
             <div id="action-button" class="form-group">
                 <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>

@@ -30,9 +30,14 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
     isFullWidth=false
 ) {
 
-    @ihtHelpers.custom.error_summary(spouseDateOfBirthForm)
+
     @helpers.form(action = iht.controllers.application.exemptions.partner.routes.PartnerDateOfBirthController.onSubmit,
         'autoComplete -> "off") {
+
+        @ihtHelpers.custom.error_summary(spouseDateOfBirthForm)
+
+        <h1 class="heading-xlarge">@messages("page.iht.application.exemptions.partner.dateOfBirth.question.title")</h1>
+
         @ihtHelpers.standard.date_fields(
             spouseDateOfBirthForm,
             "dateOfBirth",
@@ -41,9 +46,10 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
             '_hintText -> Messages("iht.dateExample"),
             '_hintId -> "dobHint",
             '_groupId -> "responsibleFromDateFieldSet",
-            '_legend -> Messages("page.iht.application.exemptions.partner.dateOfBirth.question.title"),
+            '_legend -> "",
             '_legendClass -> Some("legend-with-heading"),
-            '_legendIsHeading -> true
+            '_fieldsetId -> "date-of-birth",
+            '_legendIsHeading -> false
         )
 
     <div id="action-button" class="form-group">

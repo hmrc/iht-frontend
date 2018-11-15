@@ -30,9 +30,14 @@ cancelLocation:Option[Call]=None)(implicit request:Request[_], messages: Message
     cancelUrl=cancelLocation,
     hasTimeOut=true
 ) {
-        @ihtHelpers.custom.error_summary(deceasedDateOfDeath)
+
 
         @helpers.form(action = actionLocation, 'autoComplete -> "off") {
+
+        @ihtHelpers.custom.error_summary(deceasedDateOfDeath)
+
+        <h1 class = heading-xlarge>@messages("page.iht.registration.deceasedDateOfDeath.title")</h1>
+
         @ihtHelpers.standard.date_fields(
             deceasedDateOfDeath,
             "dateOfDeath",
@@ -42,11 +47,9 @@ cancelLocation:Option[Call]=None)(implicit request:Request[_], messages: Message
             '_hintId -> "dodHint",
             '_groupId -> "responsibleFromDateFieldSet",
             '_groupClass -> "",
-            '_labelTextClass -> "bold",
-            '_legend -> Messages("page.iht.registration.deceasedDateOfDeath.title"),
-            '_legendClass -> "legend-with-heading",
+            '_legend -> "",
             '_fieldsetId -> "date-of-death",
-            '_legendIsHeading -> true
+            '_legendIsHeading -> false
             )
             @ihtHelpers.custom.continue_button()
     }
