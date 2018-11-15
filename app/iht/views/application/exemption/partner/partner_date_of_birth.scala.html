@@ -25,7 +25,7 @@
 @(spouseDateOfBirthForm: Form[PartnerExemption],
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 @iht_main_template_application(
-    title = "",
+    title = Messages("page.iht.application.exemptions.partner.dateOfBirth.question.title"),
     browserTitle=Some(Messages("page.iht.application.exemptions.partner.dateOfBirth.browserTitle")),
     isFullWidth=false
 ) {
@@ -41,9 +41,10 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
             '_hintText -> Messages("iht.dateExample"),
             '_hintId -> "dobHint",
             '_groupId -> "responsibleFromDateFieldSet",
-            '_legend -> Messages("page.iht.application.exemptions.partner.dateOfBirth.question.title"),
+            '_legend -> "",
             '_legendClass -> Some("legend-with-heading"),
-            '_legendIsHeading -> true
+            '_fieldsetId -> "date-of-birth",
+            '_legendIsHeading -> false
         )
 
     <div id="action-button" class="form-group">
