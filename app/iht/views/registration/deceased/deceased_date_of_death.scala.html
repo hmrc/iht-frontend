@@ -25,14 +25,19 @@ actionLocation: Call,
 cancelLocation:Option[Call]=None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_registration(
-    title = Messages("page.iht.registration.deceasedDateOfDeath.title"),
+    title = "",
     browserTitle = Some(Messages("iht.dateOfDeath")),
     cancelUrl=cancelLocation,
     hasTimeOut=true
 ) {
-        @ihtHelpers.custom.error_summary(deceasedDateOfDeath)
+
 
         @helpers.form(action = actionLocation, 'autoComplete -> "off") {
+
+        @ihtHelpers.custom.error_summary(deceasedDateOfDeath)
+
+        <h1 class = heading-xlarge>@messages("page.iht.registration.deceasedDateOfDeath.title")</h1>
+
         @ihtHelpers.standard.date_fields(
             deceasedDateOfDeath,
             "dateOfDeath",
