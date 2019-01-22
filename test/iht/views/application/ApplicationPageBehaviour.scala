@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,7 +69,7 @@ trait ApplicationPageBehaviour extends ViewTestHelper {
     }
 
     "does not incude any message strings" in {
-      view should not include("iht.");
+      view must not include("iht.");
     }
 
     "have the correct browser title" in {
@@ -85,9 +85,9 @@ trait ApplicationPageBehaviour extends ViewTestHelper {
     if (formTarget.isDefined) {
       "show the Save/Continue button with the correct target" in {
         formTarget.foreach { target =>
-          doc.getElementsByTag("form").attr("action") shouldBe target.url
+          doc.getElementsByTag("form").attr("action") mustBe target.url
         }
-        doc.getElementById(continueId).text shouldBe messagesApi(continueContent)
+        doc.getElementById(continueId).text mustBe messagesApi(continueContent)
       }
     }
 
@@ -95,8 +95,8 @@ trait ApplicationPageBehaviour extends ViewTestHelper {
       "show the return link with the correct target and text" in {
         cancelComponent.foreach { attrib =>
           val cancelButton = doc.getElementById(cancelId)
-          cancelButton.attr("href") shouldBe addFragmentIdentifierToUrl(attrib.target.url, attrib.hash)
-          cancelButton.text() shouldBe attrib.content
+          cancelButton.attr("href") mustBe addFragmentIdentifierToUrl(attrib.target.url, attrib.hash)
+          cancelButton.text() mustBe attrib.content
         }
       }
     }
@@ -111,15 +111,15 @@ trait ApplicationPageBehaviour extends ViewTestHelper {
                   titleExpectedValueParam: Option[String] = None) = {
     s"contain $testTitle radio button with correct title" in {
       titleExpectedValueParam match {
-        case Some(x) => doc.getElementById(titleId).text shouldBe messagesApi(titleExpectedValue, x)
-        case _ => doc.getElementById(titleId).text shouldBe messagesApi(titleExpectedValue)
+        case Some(x) => doc.getElementById(titleId).text mustBe messagesApi(titleExpectedValue, x)
+        case _ => doc.getElementById(titleId).text mustBe messagesApi(titleExpectedValue)
       }
     }
     if (hintId.nonEmpty) {
       s"contain $testTitle radio buton with correct hint text" in {
         hintExpectedValueParam match {
-          case Some(x) => doc.getElementById(hintId).text shouldBe messagesApi(hintExpectedValue, x)
-          case _ => doc.getElementById(hintId).text shouldBe messagesApi(hintExpectedValue)
+          case Some(x) => doc.getElementById(hintId).text mustBe messagesApi(hintExpectedValue, x)
+          case _ => doc.getElementById(hintId).text mustBe messagesApi(hintExpectedValue)
         }
       }
     }

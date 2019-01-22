@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,7 +53,7 @@ class IhtKickoutFinalApplicationViewTest extends ViewTestHelper{
       messagesShouldBePresent(view, messagesApi("page.iht.application.kickout.final.getCopy.title"))
       messagesShouldBePresent(view, messagesApi("page.iht.application.kickout.final.getCopy.guidance1"))
       messagesShouldBePresent(view, messagesApi("page.iht.application.kickout.final.getCopy.guidance2.youShould"))
-      ihtKickOutFinalApplicationView.getElementsByClass("panel").first.text() shouldBe
+      ihtKickOutFinalApplicationView.getElementsByClass("panel").first.text() mustBe
         (messagesApi("page.iht.application.kickout.final.getCopy.guidance2.youShould") + " " +
           messagesApi("page.iht.application.kickout.final.getCopy.guidance2.saveAndPrint") +
           ".")
@@ -64,8 +64,8 @@ class IhtKickoutFinalApplicationViewTest extends ViewTestHelper{
     "have save and print link with correct text " in {
       val view = ihtKickOutFinalApplicationView
       val returnButton = view.getElementById("save-and-print")
-      returnButton.text() shouldBe messagesApi("page.iht.application.kickout.final.getCopy.guidance2.saveAndPrint")
-      returnButton.attr("href") shouldBe
+      returnButton.text() mustBe messagesApi("page.iht.application.kickout.final.getCopy.guidance2.saveAndPrint")
+      returnButton.attr("href") mustBe
         iht.controllers.application.pdf.routes.PDFController.onPreSubmissionPDF.url
     }
 
@@ -73,8 +73,8 @@ class IhtKickoutFinalApplicationViewTest extends ViewTestHelper{
       val view = ihtKickOutFinalApplicationView
 
       val returnButton = view.getElementById("return-button")
-      returnButton.text() shouldBe messagesApi("iht.estateReport.returnToEstateOverview")
-      returnButton.attr("href") shouldBe
+      returnButton.text() mustBe messagesApi("iht.estateReport.returnToEstateOverview")
+      returnButton.attr("href") mustBe
         iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtRef).url
     }
 
@@ -82,7 +82,7 @@ class IhtKickoutFinalApplicationViewTest extends ViewTestHelper{
       val view = ihtKickOutFinalApplicationView
 
       val finishButton = view.getElementById("finish")
-      finishButton.attr("value") shouldBe messagesApi("iht.finishAndDeleteThisEstateReport")
+      finishButton.attr("value") mustBe messagesApi("iht.finishAndDeleteThisEstateReport")
     }
   }
 

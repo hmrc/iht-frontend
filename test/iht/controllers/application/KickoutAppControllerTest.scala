@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,30 +27,27 @@ import org.mockito.ArgumentMatchers._
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.{status => playStatus, _}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.http.SessionKeys
 
 import scala.concurrent.Future
 
-class KickoutControllerTest extends ApplicationControllerTest {
+class KickoutAppControllerTest extends ApplicationControllerTest {
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
-
-  def kickoutController = new KickoutController {
+  def kickoutController = new KickoutAppController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val ihtConnector = mockIhtConnector
+    override val authConnector = mockAuthConnector
 
     override lazy val metrics:Metrics = mock[Metrics]
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def kickoutControllerNotAuthorised = new KickoutController {
+  def kickoutControllerNotAuthorised = new KickoutAppController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val ihtConnector = mockIhtConnector
+    override val authConnector = mockAuthConnector
 
     override lazy val metrics:Metrics = mock[Metrics]
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -71,8 +68,8 @@ class KickoutControllerTest extends ApplicationControllerTest {
         createMockToGetSingleValueFromCache(mockCachingConnector, singleValueReturn = None)
 
         val result = kickoutController.onPageLoad(createFakeRequest(isAuthorised = true))
-        status(result) should be(OK)
-        contentAsString(result) should include(messagesApi("page.iht.application.assets.kickout.foreignAssetsValueMoreThanMax.summary",
+        playStatus(result) must be(OK)
+        contentAsString(result) must include(messagesApi("page.iht.application.assets.kickout.foreignAssetsValueMoreThanMax.summary",
                                                 DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
 
@@ -89,22 +86,22 @@ class KickoutControllerTest extends ApplicationControllerTest {
         createMockToGetSingleValueFromCache(mockCachingConnector, singleValueReturn = None)
 
         val result = kickoutController.onPageLoad(createFakeRequest(isAuthorised = true))
-        status(result) should be(OK)
-        contentAsString(result) should include(messagesApi("page.iht.application.tnrb.kickout.estateValueNotInLimit.summary"))
+        playStatus(result) must be(OK)
+        contentAsString(result) must include(messagesApi("page.iht.application.tnrb.kickout.estateValueNotInLimit.summary"))
     }
   }
 
   "onPageLoad method" must {
     "redirect to ida login page on ApplicationPageLoad if the user is not logged in" in {
         val result = kickoutControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
-        status(result) should be(SEE_OTHER)
-        redirectLocation(result) should be(Some(loginUrl))
+        playStatus(result) must be(SEE_OTHER)
+        redirectLocation(result) must be(Some(loginUrl))
     }
 
     "redirect to ida login page on Submit if the user is not logged in" in {
         val result = kickoutControllerNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
-        status(result) should be(SEE_OTHER)
-        redirectLocation(result) should be (Some(loginUrl))
+        playStatus(result) must be(SEE_OTHER)
+        redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load when there is a valid kickout Reason data in Keystore" in {
@@ -120,7 +117,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
         createMockToGetSingleValueFromCache(mockCachingConnector, singleValueReturn = None)
 
         val result = kickoutController.onPageLoad(createFakeRequest())
-        status(result) shouldBe OK
+        playStatus(result) mustBe OK
     }
 
     "intercept RuntimeException on page load when there is no application details data in Keystore" in {
@@ -132,7 +129,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
         implicit val request = FakeRequest().withSession(SessionKeys.sessionId -> uuid)
         intercept[RuntimeException] {
           val result = kickoutController.onPageLoad(createFakeRequest())
-          status(result) shouldBe INTERNAL_SERVER_ERROR
+          playStatus(result) mustBe INTERNAL_SERVER_ERROR
       }
     }
 
@@ -146,7 +143,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
 
         intercept[RuntimeException] {
           val result = kickoutController.onPageLoad(createFakeRequest())
-          status(result) shouldBe INTERNAL_SERVER_ERROR
+          playStatus(result) mustBe INTERNAL_SERVER_ERROR
       }
     }
 
@@ -158,9 +155,9 @@ class KickoutControllerTest extends ApplicationControllerTest {
         createMockToGetSingleValueFromCache(mockCachingConnector, any(), None)
         implicit val request = FakeRequest().withSession(SessionKeys.sessionId -> uuid)
         val result = kickoutController.onSubmit(createFakeRequest())
-        status(result) shouldBe SEE_OTHER
-        redirectLocation(result) should be (Some(
-          iht.controllers.application.routes.KickoutController.onPageLoadDeleting().url))
+        playStatus(result) mustBe SEE_OTHER
+        redirectLocation(result) must be (Some(
+          iht.controllers.application.routes.KickoutAppController.onPageLoadDeleting().url))
     }
 
     "respond with redirect to iht400 page on page submission when first page already seen" in {
@@ -168,10 +165,11 @@ class KickoutControllerTest extends ApplicationControllerTest {
         createMockToDoNothingWhenDeleteSingleValueFromCache(mockCachingConnector)
         createMockToDoNothingWhenDeleteApplication(mockIhtConnector)
         createMockToGetSingleValueFromCache(mockCachingConnector, any(), Some("true"))
+        createMockToGetApplicationDetails(mockIhtConnector)
         implicit val request = FakeRequest().withSession(SessionKeys.sessionId -> uuid)
         val result = kickoutController.onSubmit(createFakeRequest())
-        status(result) shouldBe SEE_OTHER
-        redirectLocation(result) should be (Some(iht.controllers.routes.DeadlinesController.onPageLoadApplication().url))
+        playStatus(result) mustBe SEE_OTHER
+        redirectLocation(result) must be (Some(iht.controllers.routes.DeadlinesController.onPageLoadApplication().url))
     }
 
     "respond with INTERNAL_SERVER_ERROR on page submission when unable to store value in cache" in {
@@ -182,14 +180,14 @@ class KickoutControllerTest extends ApplicationControllerTest {
         createMockToGetSingleValueFromCache(mockCachingConnector, any(), None)
         implicit val request = FakeRequest().withSession(SessionKeys.sessionId -> uuid)
         val result = kickoutController.onSubmit(createFakeRequest())
-        status(result) shouldBe INTERNAL_SERVER_ERROR
+        playStatus(result) mustBe INTERNAL_SERVER_ERROR
     }
 
     "respond with redirect to application overview when no registration details found in cache" in {
         createMockToGetRegDetailsFromCache(mockCachingConnector, None)
         val result = kickoutController.onPageLoad(createFakeRequest())
-        status(result) should be(SEE_OTHER)
-        redirectLocation(result) shouldBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url)
+        playStatus(result) must be(SEE_OTHER)
+        redirectLocation(result) mustBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url)
     }
   }
 }

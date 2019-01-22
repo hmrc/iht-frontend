@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,10 +27,11 @@ import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, MockObjectBuild
 import iht.views.HtmlSpec
 import org.mockito.ArgumentMatchers._
 import play.api.i18n.MessagesApi
-import play.api.test.Helpers._
+import play.api.test.Helpers.{status => playStatus, _}
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.http.{HeaderCarrier, Upstream5xxResponse}
+
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -41,8 +42,6 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
   implicit val headerCarrier = FakeHeaders()
   implicit val request = FakeRequest()
   implicit val hc = new HeaderCarrier
-  var mockCachingConnector = mock[CachingConnector]
-  var mockIhtConnector = mock[IhtConnector]
 
   val ref = "A1912233"
   val finalDestinationURL = "url"
@@ -60,7 +59,8 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
   def controller = new EstateOverviewController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+//    override val authConnector = mockAuthConnector
+    override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
@@ -68,7 +68,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
   def controllerNotAuthorised = new EstateOverviewController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
@@ -98,16 +98,11 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
     MockObjectBuilder.createMockToDeleteKeyFromCache(mockCachingConnector, Constants.ExemptionsGuidanceContinueUrlKey)
   }
 
-  before {
-    mockCachingConnector = mock[CachingConnector]
-    mockIhtConnector = mock[IhtConnector]
-  }
-
   "EstateOverviewController" must {
     "redirect to GG login page on PageLoadWithIhtRef if the user is not logged in" in {
       val result = controllerNotAuthorised.onPageLoadWithIhtRef(ref)(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(loginUrl))
+      playStatus(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(loginUrl))
     }
 
     "respond with OK on page load" in {
@@ -117,7 +112,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
       MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
 
       val result = controller.onPageLoadWithIhtRef(ref)(createFakeRequest())
-      status(result) shouldBe OK
+      playStatus(result) mustBe OK
       val content = contentAsString(result)
       val doc = asDocument(content)
 
@@ -142,8 +137,8 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
       MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
 
       val result = controller.onPageLoadWithIhtRef(ref)(createFakeRequest())
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be(
+      playStatus(result) mustBe SEE_OTHER
+      redirectLocation(result) must be(
         Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url))
     }
 
@@ -154,7 +149,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
       MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
 
       val result = controller.onPageLoadWithIhtRef(ref)(createFakeRequest())
-      status(result) shouldBe INTERNAL_SERVER_ERROR
+      playStatus(result) mustBe INTERNAL_SERVER_ERROR
     }
 
 
@@ -166,8 +161,8 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
         CommonBuilder.buildApplicationDetailsOverLowerThresholdAndGuidanceSeenFlagNotSet(ref))
 
       val result = controller.onPageLoadWithIhtRef(ref)(createFakeRequest())
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be (
+      playStatus(result) mustBe SEE_OTHER
+      redirectLocation(result) must be (
         Some(
           iht.controllers.application.exemptions.routes.ExemptionsGuidanceIncreasingThresholdController.onPageLoad(ref).url))
     }
@@ -189,8 +184,8 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
         createMocksForRegistrationAndApplication(Future.successful(Some(registrationDetails)), completeAppDetails)
 
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
-        status(result) shouldBe SEE_OTHER
-        redirectLocation(result) should be(
+        playStatus(result) mustBe SEE_OTHER
+        redirectLocation(result) must be(
           Some(
             iht.controllers.application.exemptions.routes.ExemptionsGuidanceIncreasingThresholdController.onPageLoad(ref).url)
         )
@@ -212,9 +207,9 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
         createMocksForRegistrationAndApplication(Future.successful(Some(registrationDetails)), completeAppDetails)
 
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
-        status(result) shouldBe SEE_OTHER
-        redirectLocation(result) should be(
-          Some(iht.controllers.application.routes.KickoutController.onPageLoad().url))
+        playStatus(result) mustBe SEE_OTHER
+        redirectLocation(result) must be(
+          Some(iht.controllers.application.routes.KickoutAppController.onPageLoad().url))
 
       }
     }
@@ -239,9 +234,9 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
         createMocksForRegistrationAndApplication(Future.successful(Some(registrationDetails)), completeAppDetails)
 
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
-        status(result) shouldBe SEE_OTHER
-        redirectLocation(result) should be(
-          Some(iht.controllers.application.routes.KickoutController.onPageLoad().url))
+        playStatus(result) mustBe SEE_OTHER
+        redirectLocation(result) must be(
+          Some(iht.controllers.application.routes.KickoutAppController.onPageLoad().url))
 
       }
     }
@@ -257,9 +252,9 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
         createMocksForRegistrationAndApplication(Future.successful(Some(registrationDetails)), completeAppDetails)
 
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
-        status(result) shouldBe SEE_OTHER
-        redirectLocation(result) should be(
-          Some(iht.controllers.application.routes.KickoutController.onPageLoad().url))
+        playStatus(result) mustBe SEE_OTHER
+        redirectLocation(result) must be(
+          Some(iht.controllers.application.routes.KickoutAppController.onPageLoad().url))
       }
     }
 
@@ -281,9 +276,9 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
         createMocksForRegistrationAndApplication(Future.successful(Some(regDetailsDeceasedSingle)), completeAppDetails)
 
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
-        status(result) shouldBe SEE_OTHER
-        redirectLocation(result) should be(
-          Some(iht.controllers.application.routes.KickoutController.onPageLoad().url))
+        playStatus(result) mustBe SEE_OTHER
+        redirectLocation(result) must be(
+          Some(iht.controllers.application.routes.KickoutAppController.onPageLoad().url))
 
       }
     }
@@ -304,9 +299,9 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
         createMocksForRegistrationAndApplication(Future.successful(Some(registrationDetails)), completeAppDetails)
 
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
-        status(result) shouldBe SEE_OTHER
-        redirectLocation(result) should be(
-          Some(iht.controllers.application.routes.KickoutController.onPageLoad().url))
+        playStatus(result) mustBe SEE_OTHER
+        redirectLocation(result) must be(
+          Some(iht.controllers.application.routes.KickoutAppController.onPageLoad().url))
 
       }
     }
@@ -329,8 +324,8 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
         createMocksForRegistrationAndApplication(Future.successful(Some(registrationDetails)), completeAppDetails)
 
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
-        status(result) shouldBe SEE_OTHER
-        redirectLocation(result) should be(
+        playStatus(result) mustBe SEE_OTHER
+        redirectLocation(result) must be(
           Some(iht.controllers.application.tnrb.routes.TnrbGuidanceController.onSystemPageLoad().url))
 
       }
@@ -345,8 +340,8 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
         createMocksForRegistrationAndApplication(Future.successful(Some(registrationDetails)), completeAppDetails)
 
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
-        status(result) shouldBe SEE_OTHER
-        redirectLocation(result) should be(
+        playStatus(result) mustBe SEE_OTHER
+        redirectLocation(result) must be(
           Some(iht.controllers.application.declaration.routes.CheckedEverythingQuestionController.onPageLoad().url))
 
       }
@@ -379,8 +374,8 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
         createMocksForRegistrationAndApplication(Future.successful(Some(registrationDetails)), completeAppDetails)
 
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
-        status(result) shouldBe SEE_OTHER
-        redirectLocation(result) should be(
+        playStatus(result) mustBe SEE_OTHER
+        redirectLocation(result) must be(
           Some(iht.controllers.application.declaration.routes.CheckedEverythingQuestionController.onPageLoad().url))
 
       }

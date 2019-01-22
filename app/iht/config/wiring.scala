@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,13 @@
 
 package iht.config
 
+import javax.inject.Inject
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 import uk.gov.hmrc.http._
 import uk.gov.hmrc.http.hooks.HttpHooks
 import uk.gov.hmrc.play.audit.http.HttpAuditing
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 import uk.gov.hmrc.play.config.{AppName, RunMode, ServicesConfig}
-import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
 import uk.gov.hmrc.play.frontend.config.LoadAuditingConfig
 import uk.gov.hmrc.play.frontend.filters.SessionCookieCryptoFilter
 import uk.gov.hmrc.play.http.ws._
@@ -52,11 +53,7 @@ object IhtFormPartialRetriever extends FormPartialRetriever {
   override val httpGet = WsAllMethods
 }
 
-trait FrontendAuthConnector extends AuthConnector with ServicesConfig with WSHttp {
-  val serviceUrl: String
+object FrontendAuthConnector extends PlayAuthConnector with ServicesConfig with WSHttp {
+  val serviceUrl: String = baseUrl("auth")
   lazy val http = WSHttp
-}
-
-object FrontendAuthConnector extends FrontendAuthConnector {
-  override val serviceUrl = baseUrl("auth")
 }

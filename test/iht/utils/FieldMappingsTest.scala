@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import org.scalatest.mock.MockitoSugar
 import play.api.i18n.{MessagesApi, Messages}
 import uk.gov.hmrc.play.test.UnitSpec
 
-class FieldMappingsTest extends UnitSpec with FakeIhtApp with MockitoSugar {
+class FieldMappingsTest extends FakeIhtApp with MockitoSugar {
 
   "FieldMappings" must {
     "create type of ownership with correct data" in {
@@ -40,12 +40,12 @@ class FieldMappingsTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val commonOwnershipLabel = ownership.get("In common").fold("")( _._1)
       val commonOwnershipHint = ownership.get("In common").fold(Some(""))( _._2)
 
-      deceasedOnlyLabel shouldBe messagesApi("page.iht.application.assets.typeOfOwnership.deceasedOnly.label", deceasedName)
-      jointOwnershipLabel shouldBe messagesApi("page.iht.application.assets.typeOfOwnership.joint.label")
-      commonOwnershipLabel shouldBe messagesApi("page.iht.application.assets.typeOfOwnership.inCommon.label")
-      deceasedOnlyLabelHint shouldBe Some(messagesApi("page.iht.application.assets.typeOfOwnership.deceasedOnly.hint", deceasedName))
-      jointOwnershipHint shouldBe Some(messagesApi("page.iht.application.assets.typeOfOwnership.joint.hint", deceasedName))
-      commonOwnershipHint shouldBe Some(messagesApi("page.iht.application.assets.typeOfOwnership.inCommon.hint", deceasedName))
+      deceasedOnlyLabel mustBe messagesApi("page.iht.application.assets.typeOfOwnership.deceasedOnly.label", deceasedName)
+      jointOwnershipLabel mustBe messagesApi("page.iht.application.assets.typeOfOwnership.joint.label")
+      commonOwnershipLabel mustBe messagesApi("page.iht.application.assets.typeOfOwnership.inCommon.label")
+      deceasedOnlyLabelHint mustBe Some(messagesApi("page.iht.application.assets.typeOfOwnership.deceasedOnly.hint", deceasedName))
+      jointOwnershipHint mustBe Some(messagesApi("page.iht.application.assets.typeOfOwnership.joint.hint", deceasedName))
+      commonOwnershipHint mustBe Some(messagesApi("page.iht.application.assets.typeOfOwnership.inCommon.hint", deceasedName))
     }
 
     "create tenures with correct data" in {
@@ -59,8 +59,8 @@ class FieldMappingsTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val freeHoldLabelHint = tenures.get("Freehold").fold(Some(""))( _._2)
       val leaseHoldLabelHint = tenures.get("Leasehold").fold(Some(""))( _._2)
 
-      freeHoldLabelHint shouldBe Some(messagesApi("page.iht.application.assets.tenure.freehold.hint", deceasedName))
-      leaseHoldLabelHint shouldBe Some(messagesApi("page.iht.application.assets.tenure.leasehold.hint", deceasedName))
+      freeHoldLabelHint mustBe Some(messagesApi("page.iht.application.assets.tenure.freehold.hint", deceasedName))
+      leaseHoldLabelHint mustBe Some(messagesApi("page.iht.application.assets.tenure.leasehold.hint", deceasedName))
     }
   }
 }

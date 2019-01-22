@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -86,7 +86,7 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
   "Deceased Date of Death form" must {
 
     "not give an error for a valid date" in {
-      deceasedDateOfDeathForm.bind(completeDateOfDeath).get shouldBe DeceasedDateOfDeath(new LocalDate(2015, 1, 1))
+      deceasedDateOfDeathForm.bind(completeDateOfDeath).get mustBe DeceasedDateOfDeath(new LocalDate(2015, 1, 1))
     }
 
     "give an error when the day is blank" in {
@@ -197,7 +197,7 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
 
     "not give an error for a valid answer" in {
       val data = permanentHome(domicileEnglandOrWales)
-      deceasedPermanentHomeForm(messages).bind(data).get shouldBe DeceasedDetails(domicile = Some(domicileEnglandOrWales))
+      deceasedPermanentHomeForm(messages).bind(data).get mustBe DeceasedDetails(domicile = Some(domicileEnglandOrWales))
     }
 
     "give an error when a blank value is supplied" in {
@@ -287,7 +287,7 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
         formsWithIhtFormValidatorMockedToSucceed(nino).aboutDeceasedForm().bind(map)
       }
 
-      bindFormEdit(completeAboutDeceased).get shouldBe
+      bindFormEdit(completeAboutDeceased).get mustBe
         DeceasedDetails(firstName = Some(firstName),
           middleName = None,
           lastName = Some(surname),
@@ -401,12 +401,12 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
 
     "not give an error when answered Yes" in {
       val data = deceasedAddressQuestion("true")
-      deceasedAddressQuestionForm.bind(data).get shouldBe DeceasedDetails(isAddressInUK = Some(true))
+      deceasedAddressQuestionForm.bind(data).get mustBe DeceasedDetails(isAddressInUK = Some(true))
     }
 
     "not give an error when answered No" in {
       val data = deceasedAddressQuestion("false")
-      deceasedAddressQuestionForm.bind(data).get shouldBe DeceasedDetails(isAddressInUK = Some(false))
+      deceasedAddressQuestionForm.bind(data).get mustBe DeceasedDetails(isAddressInUK = Some(false))
     }
 
     "give an error when the question is not answered" in {
@@ -430,14 +430,14 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
   "Deceased Address Details (in the UK) form" must {
 
     "not give an error for valid data" in {
-      deceasedAddressDetailsUKForm.bind(completeUkAddress).get shouldBe
+      deceasedAddressDetailsUKForm.bind(completeUkAddress).get mustBe
         DeceasedDetails(ukAddress = Some(UkAddress("Line 1", "Line 2", Some("Line 3"), Some("Line 4"), "AA111AA", "GB")))
     }
 
     "not give an error when lines 2 and 3 are omitted" in {
       val data = completeUkAddress - "ukAddress.ukAddressLine3" - "ukAddress.ukAddressLine4"
 
-      deceasedAddressDetailsUKForm.bind(data).get shouldBe
+      deceasedAddressDetailsUKForm.bind(data).get mustBe
         DeceasedDetails(ukAddress = Some(UkAddress("Line 1", "Line 2", None, None, "AA111AA", "GB")))
     }
 
@@ -545,14 +545,14 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
   "Deceased Address Details (abroad) form" must {
 
     "not give an error for valid data" in {
-      deceasedAddressDetailsOutsideUKForm.bind(completeAddressAbroad).get shouldBe
+      deceasedAddressDetailsOutsideUKForm.bind(completeAddressAbroad).get mustBe
         DeceasedDetails(ukAddress = Some(UkAddress("Line 1", "Line 2", Some("Line 3"), Some("Line 4"), "", "AU")))
     }
 
     "not give an error when lines 2 and 3 are omitted" in {
       val data = completeAddressAbroad - "ukAddress.ukAddressLine3" - "ukAddress.ukAddressLine4"
 
-      deceasedAddressDetailsOutsideUKForm.bind(data).get shouldBe
+      deceasedAddressDetailsOutsideUKForm.bind(data).get mustBe
         DeceasedDetails(ukAddress = Some(UkAddress("Line 1", "Line 2", None, None, "", "AU")))
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,11 +38,11 @@ class TimeoutRegistrationViewTest extends ViewTestHelper {
     }
 
     "have the correct first paragraph" in {
-      viewAsDocument.getElementById("paragraph1").text shouldBe messagesApi("iht.registration.timeout.p1")
+      viewAsDocument.getElementById("paragraph1").text mustBe messagesApi("iht.registration.timeout.p1")
     }
 
     "have a sign in button" in {
-      viewAsDocument.getElementsByClass("button").text shouldBe messagesApi("iht.iv.signIn")
+      viewAsDocument.getElementsByClass("button").text mustBe messagesApi("iht.iv.signIn")
     }
   }
 }

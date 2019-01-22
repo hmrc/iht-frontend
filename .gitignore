@@ -19,7 +19,6 @@ lib
 lib_managed
 log
 logs
-modules
 node_modules
 /out
 precompiled

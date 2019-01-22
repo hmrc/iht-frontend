@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 package iht.controllers.registration
 
-import iht.config.IhtFormPartialRetriever
+import iht.config.{AppConfig, IhtFormPartialRetriever}
 import iht.connector.CachingConnector
 import iht.constants.IhtProperties
 import iht.connector.IhtConnectors
@@ -25,20 +25,23 @@ import iht.models.enums.KickOutSource
 import iht.utils.{CommonHelper, DeceasedInfoHelper}
 import iht.utils.RegistrationKickOutHelper._
 import iht.views.html.registration.kickout._
+import javax.inject.Inject
 import play.api.i18n.Messages
 import play.api.mvc.Request
 import play.twirl.api.HtmlFormat
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-object KickoutController extends KickoutController with IhtConnectors {
+class KickoutRegControllerImpl @Inject()() extends KickoutRegController with IhtConnectors {
   lazy val metrics: Metrics = Metrics
 }
 
-trait KickoutController extends RegistrationController {
+trait KickoutRegController extends RegistrationController {
   def cachingConnector: CachingConnector
 
   override def guardConditions: Set[Predicate] = Set.empty
@@ -47,10 +50,10 @@ trait KickoutController extends RegistrationController {
 
   override implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
 
-  val applicantProbateLocationPageLoad = iht.controllers.registration.applicant.routes.ProbateLocationController.onPageLoad()
-  val deceasedPermHomePageLoad = iht.controllers.registration.deceased.routes.DeceasedPermanentHomeController.onPageLoad()
-  val deceasedDateOfDeathPageLoad = iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad()
-  val applicantApplyingForProbatePageLoad = iht.controllers.registration.applicant.routes.ApplyingForProbateController.onPageLoad()
+  lazy val applicantProbateLocationPageLoad = iht.controllers.registration.applicant.routes.ProbateLocationController.onPageLoad()
+  lazy val deceasedPermHomePageLoad = iht.controllers.registration.deceased.routes.DeceasedPermanentHomeController.onPageLoad()
+  lazy val deceasedDateOfDeathPageLoad = iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad()
+  lazy val applicantApplyingForProbatePageLoad = iht.controllers.registration.applicant.routes.ApplyingForProbateController.onPageLoad()
 
   def probateKickoutView(contentLines: Seq[String])(implicit request: Request[_], messages:Messages) =
     kickout_template(messages("page.iht.registration.applicantDetails.kickout.probate.summary"),
@@ -117,7 +120,7 @@ trait KickoutController extends RegistrationController {
       ))(request, messages, deceasedName)))
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
+    implicit request => {
       withRegistrationDetails { regDetails =>
         cachingConnector.getSingleValue(RegistrationKickoutReasonCachingKey) map { reason => {
           val messages = Messages.Implicits.applicationMessages
@@ -130,7 +133,7 @@ trait KickoutController extends RegistrationController {
   }
 
   def onSubmit = authorisedForIht {
-    implicit user => implicit request =>
+    implicit request =>
       metrics.kickOutCounter(KickOutSource.REGISTRATION)
       Future.successful(Redirect(IhtProperties.linkRegistrationKickOut))
   }

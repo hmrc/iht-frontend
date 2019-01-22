@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,17 +16,23 @@
 
 package iht.controllers.registration
 
-import iht.connector.CachingConnector
+import iht.connector.{CachingConnector, IhtConnector}
 import iht.utils.IhtSection
 import iht.{FakeIhtApp, TestUtils}
-import org.scalatest.BeforeAndAfter
-import org.scalatest.mock.MockitoSugar
+import org.mockito.ArgumentMatchers.any
+import org.scalatest.BeforeAndAfterEach
 import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.test.FakeHeaders
+import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.play.test.UnitSpec
 import uk.gov.hmrc.http.HeaderCarrier
+import org.mockito.Mockito._
+import org.scalatest.mockito.MockitoSugar
+import play.api.mvc.AnyContentAsEmpty
+import uk.gov.hmrc.auth.core.{AuthConnector, AuthenticateHeaderParser, PlayAuthConnector}
 
-trait RegistrationControllerTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter with I18nSupport {
+import scala.concurrent.Future
+
+trait RegistrationControllerTest extends FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfterEach with I18nSupport {
 
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   def loginUrl = buildLoginUrl(IhtSection.Registration)
@@ -36,7 +42,30 @@ trait RegistrationControllerTest extends UnitSpec with FakeIhtApp with MockitoSu
   val referrerURL = "http://localhost:9070/inheritance-tax/registration/addExecutor"
   val host = "localhost:9070"
 
-  var mockCachingConnector: CachingConnector = null
+  val mockCachingConnector: CachingConnector = mock[CachingConnector]
+  val mockAuthConnector: PlayAuthConnector = mock[PlayAuthConnector]
+  val mockIhtConnector: IhtConnector = mock[IhtConnector]
+
+  override def beforeEach(): Unit = {
+    reset(mockCachingConnector)
+    reset(mockAuthConnector)
+    reset(mockIhtConnector)
+    super.beforeEach()
+  }
+
+  override def createFakeRequest(isAuthorised: Boolean = true, referer: Option[String] = None, authRetrieveNino: Boolean = true): FakeRequest[AnyContentAsEmpty.type] = {
+    if (isAuthorised) {
+      if (authRetrieveNino) {
+        when(mockAuthConnector.authorise[Option[String]](any(), any())(any(), any())).thenReturn(Future.successful(Some(fakeNino)))
+      } else {
+        when(mockAuthConnector.authorise[Unit](any(), any())(any(), any())).thenReturn(Future.successful())
+      }
+    } else {
+      when(mockAuthConnector.authorise(any(), any())(any(), any())).thenReturn(Future.failed(AuthenticateHeaderParser.parse(Map())))
+    }
+
+    super.createFakeRequest(isAuthorised, referer, authRetrieveNino)
+  }
 
   def request = createFakeRequest(isAuthorised = true)
   def unauthorisedRequest = createFakeRequest(isAuthorised = false)

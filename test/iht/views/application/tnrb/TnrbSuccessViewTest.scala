@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,9 +59,9 @@ class TnrbSuccessViewTest extends ViewTestHelper {
 
 
       val button: Element = doc.getElementById("continue-to-estate-overview")
-      button.text() shouldBe messagesApi("iht.estateReport.returnToEstateOverview")
-      button.className() shouldBe "button"
-      button.attr("href") shouldBe
+      button.text() mustBe messagesApi("iht.estateReport.returnToEstateOverview")
+      button.className() mustBe "button"
+      button.attr("href") mustBe
         iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference).url
    }
 
@@ -70,8 +70,8 @@ class TnrbSuccessViewTest extends ViewTestHelper {
       val doc = asDocument(view)
 
       val link = doc.getElementById("return-button")
-      link.text() shouldBe messagesApi("page.iht.application.tnrbEligibilty.returnToTnrbEligibilty")
-      link.attr("href") shouldBe routes.TnrbOverviewController.onPageLoad().url
+      link.text() mustBe messagesApi("page.iht.application.tnrbEligibilty.returnToTnrbEligibilty")
+      link.attr("href") mustBe routes.TnrbOverviewController.onPageLoad().url
     }
 
   }

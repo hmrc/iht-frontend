@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,51 +31,51 @@ class LoginPassViewTest extends ViewTestHelper with MessagesHelper {
   "Login Pass" ignore {
 
     "have the correct title" in {
-      doc.title() shouldBe WayfinderLoginTitle
+      doc.title() mustBe WayfinderLoginTitle
     }
 
     "First paragraph" must {
       "have correct first paragraph text" in {
-        doc.select("p").eq(2).text shouldBe WayfinderLoginP1
+        doc.select("p").eq(2).text mustBe WayfinderLoginP1
       }
 
       "have correct first paragraph link" in {
-        doc.select("p a").eq(3).text shouldBe WayfinderLoginP1Link
+        doc.select("p a").eq(3).text mustBe WayfinderLoginP1Link
       }
 
       "have correct first paragraph url" in {
-        doc.select("p a").eq(3).attr("href") shouldBe WayfinderLoginP1Url
+        doc.select("p a").eq(3).attr("href") mustBe WayfinderLoginP1Url
       }
     }
 
     "Second paragraph" must {
       "have correct second paragraph" in {
-        doc.select("p").eq(3).text shouldBe WayfinderLoginP2
+        doc.select("p").eq(3).text mustBe WayfinderLoginP2
       }
 
     }
 
     "Continue button" must {
       "continue to next page url" in {
-        doc.select("div div a").eq(4).attr("href") shouldBe WayfinderStartUrl
+        doc.select("div div a").eq(4).attr("href") mustBe WayfinderStartUrl
       }
 
       "continue to next page link" in {
-        doc.select("div div a").eq(4).text shouldBe WayfinderStartLink
+        doc.select("div div a").eq(4).text mustBe WayfinderStartLink
       }
 
       "have a class of button" in {
-        doc.select("div div a").eq(4).attr("class") shouldBe "button"
+        doc.select("div div a").eq(4).attr("class") mustBe "button"
       }
     }
 
     "Leave link" must {
       "have a way of leaving page url" in {
-        doc.select("div a").eq(8).attr("href") shouldBe WayfinderLeaveUrl
+        doc.select("div a").eq(8).attr("href") mustBe WayfinderLeaveUrl
       }
 
       "have a way of leaving page link" in {
-        doc.select("div a").eq(8).text shouldBe WayfinderLeaveLink
+        doc.select("div a").eq(8).text mustBe WayfinderLeaveLink
       }
     }
   }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.application.assets.pensions
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
@@ -29,24 +30,30 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.utils.CommonHelper
 import iht.constants.IhtProperties._
+import javax.inject.Inject
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-object PensionsChangedQuestionController extends PensionsChangedQuestionController with IhtConnectors {
+
+class PensionsChangedQuestionControllerImpl @Inject()() extends PensionsChangedQuestionController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait PensionsChangedQuestionController extends EstateController {
 
-  val submitUrl = CommonHelper.addFragmentIdentifier(
+
+  lazy val submitUrl = CommonHelper.addFragmentIdentifier(
     iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad(), Some(AssetsPensionChangesID))
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsPensions)
 
-  def onPageLoad = authorisedForIht {
-    implicit user => implicit request =>
-      estateElementOnPageLoad[PrivatePension](pensionsChangedQuestionForm, pensions_changed_question.apply, _.allAssets.flatMap(_.privatePension))
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request =>
+      estateElementOnPageLoad[PrivatePension](pensionsChangedQuestionForm, pensions_changed_question.apply, _.allAssets.flatMap(_.privatePension), userNino)
   }
 
-  def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
       val updateApplicationDetails: (ApplicationDetails, Option[String], PrivatePension) =>
         (ApplicationDetails, Option[String]) =
         (appDetails, _, privatePension) => {
@@ -65,7 +72,8 @@ trait PensionsChangedQuestionController extends EstateController {
         pensionsChangedQuestionForm,
         pensions_changed_question.apply,
         updateApplicationDetails,
-        submitUrl
+        submitUrl,
+        userNino
       )
     }
   }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,12 +41,11 @@ class DeletePropertyControllerTest extends ApplicationControllerTest {
   implicit val hc = new HeaderCarrier
 
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def deletePropertyController = new DeletePropertyController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -54,7 +53,7 @@ class DeletePropertyControllerTest extends ApplicationControllerTest {
 
   def deletePropertyControllerNotAuthorised = new DeletePropertyController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -64,14 +63,14 @@ class DeletePropertyControllerTest extends ApplicationControllerTest {
 
     "redirect to GG login page on PageLoad if the user is not logged in" in {
       val result = deletePropertyControllerNotAuthorised.onPageLoad("1")(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to GG login page on Submit if the user is not logged in" in {
       val result = deletePropertyControllerNotAuthorised.onSubmit("1")(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
@@ -86,8 +85,8 @@ class DeletePropertyControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = deletePropertyController.onPageLoad("1")(createFakeRequest())
-      status(result) should be (OK)
-      contentAsString(result) should include(messagesApi("page.iht.application.propertyDetails.deleteProperty.title"))
+      status(result) must be (OK)
+      contentAsString(result) must include(messagesApi("page.iht.application.propertyDetails.deleteProperty.title"))
     }
 
     "respond with error if property not found" in {
@@ -102,7 +101,7 @@ class DeletePropertyControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = deletePropertyController.onPageLoad("") (createFakeRequest())
-      status(result) should be (INTERNAL_SERVER_ERROR)
+      status(result) must be (INTERNAL_SERVER_ERROR)
     }
 
     "delete the chosen property successfully and return to exemptions page" in {
@@ -117,8 +116,8 @@ class DeletePropertyControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = deletePropertyController.onSubmit(firstProperty.id.getOrElse("1"))(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertiesOverviewController.onPageLoad().url,TestHelper.AssetsPropertiesAddPropertyID)))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertiesOverviewController.onPageLoad().url,TestHelper.AssetsPropertiesAddPropertyID)))
     }
 
     "respond with error if there is a problem performing the delete, cannot save deletion" in {
@@ -134,7 +133,7 @@ class DeletePropertyControllerTest extends ApplicationControllerTest {
         saveAppDetailsObject = None)
 
       val result = deletePropertyController.onSubmit(firstProperty.id.getOrElse("1"))(createFakeRequest())
-      status(result) should be (INTERNAL_SERVER_ERROR)
+      status(result) must be (INTERNAL_SERVER_ERROR)
     }
 
     "intercept RuntimeException if there is a problem performing the delete, cannot load original data" in {
@@ -151,7 +150,7 @@ class DeletePropertyControllerTest extends ApplicationControllerTest {
 
       intercept[RuntimeException] {
         val result = deletePropertyController.onSubmit(firstProperty.id.getOrElse("1"))(createFakeRequest())
-        status(result) should be (INTERNAL_SERVER_ERROR)
+        status(result) must be (INTERNAL_SERVER_ERROR)
       }
     }
   }

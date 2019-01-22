@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import uk.gov.hmrc.play.test.UnitSpec
  * Created by Vineet Tyagi on 01/09/15.
  *
  */
-class RegistrationTest extends UnitSpec with FakeIhtApp with MockitoSugar {
+class RegistrationTest extends FakeIhtApp with MockitoSugar {
 
   val registrationDetailsWithValues = tempDetails.registrationDetailsWithValues()
   val emptyRegistrationDetails = tempDetails.emptyRegistrationDetails()
@@ -41,32 +41,32 @@ class RegistrationTest extends UnitSpec with FakeIhtApp with MockitoSugar {
 
     "throw exception if returns contains more than one record" in {
 
-      an [RuntimeException] shouldBe thrownBy (CommonBuilder.buildRegistrationDetails.copy(returns = Seq(CommonBuilder.buildReturnDetails,
+      an [RuntimeException] mustBe thrownBy (CommonBuilder.buildRegistrationDetails.copy(returns = Seq(CommonBuilder.buildReturnDetails,
         CommonBuilder.buildReturnDetails)).updatedReturnId)
       }
 
     "throw exception if returns have no record" in {
 
-      an [RuntimeException] shouldBe thrownBy (CommonBuilder.buildRegistrationDetails.updatedReturnId)
+      an [RuntimeException] mustBe thrownBy (CommonBuilder.buildRegistrationDetails.updatedReturnId)
     }
    }
 
   "Deceased details" must {
     "respond correctly when isCompleted is called for completed object" in {
       val dd = CommonBuilder.buildDeceasedDetails
-      dd.isCompleted shouldBe true
+      dd.isCompleted mustBe true
     }
     "respond correctly when isCompleted is called for non-completed object" in {
       val dd = CommonBuilder.buildDeceasedDetails copy(firstName=None)
-      dd.isCompleted shouldBe false
+      dd.isCompleted mustBe false
     }
     "respond correctly when ninoFormatted is called" in {
       val dd = CommonBuilder.buildDeceasedDetails
-      dd.ninoFormatted shouldBe StringHelper.ninoFormat(dd.nino.getOrElse(""))
+      dd.ninoFormatted mustBe StringHelper.ninoFormat(dd.nino.getOrElse(""))
     }
     "respond correctly when ninoFormatted is called with nino of None" in {
       val dd = CommonBuilder.buildDeceasedDetails copy(nino = None)
-      dd.ninoFormatted shouldBe ""
+      dd.ninoFormatted mustBe ""
     }
   }
 }

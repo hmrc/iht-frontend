@@ -14,10 +14,10 @@ import play.api.data.Form
 import play.api.libs.json.Json
 import play.api.mvc.AnyContentAsFormUrlEncoded
 import play.api.test.FakeRequest
-import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
 import utils.WiremockHelper.{wiremockHost, wiremockPort}
 import utils.{IntegrationBaseSpec, TestDataUtil}
 import play.api.test.Helpers._
+import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.http.Upstream5xxResponse
 
 import scala.concurrent.Future
@@ -39,7 +39,7 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
 
       override val metrics: Metrics = mock[Metrics]
 
-      override protected def authConnector: AuthConnector = mockAuthConnector
+      override def authConnector: AuthConnector = mockAuthConnector
     }
 
     when(mockCachingConnector.getRegistrationDetails(any(), any()))

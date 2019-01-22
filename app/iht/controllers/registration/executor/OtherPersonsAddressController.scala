@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.registration.executor
 
+import iht.config.AppConfig
 import iht.connector.CachingConnector
 import iht.constants.IhtProperties
 import iht.connector.IhtConnectors
@@ -25,13 +26,17 @@ import iht.metrics.Metrics
 import iht.models.UkAddress
 import iht.utils.CommonHelper._
 import iht.views.html.registration.{executor => views}
+import javax.inject.Inject
 import play.api.mvc.Call
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+
 import scala.concurrent.Future
 
 
-object OtherPersonsAddressController extends OtherPersonsAddressController with IhtConnectors {
+class OtherPersonsAddressControllerImpl @Inject()() extends OtherPersonsAddressController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
@@ -73,7 +78,7 @@ trait OtherPersonsAddressController extends RegistrationController {
 
   def onPageLoad(id: String, isInternational: Boolean, actionCall: Call, changeNationalityCall: Call,
                  cancelCall: Option[Call] = None) = authorisedForIht {
-    implicit user => implicit request => {
+    implicit request => {
       withRegistrationDetailsRedirectOnGuardCondition { rd =>
         val formType = if (isInternational) coExecutorAddressAbroadForm else coExecutorAddressUkForm
         findExecutor(id, rd.coExecutors) match {
@@ -107,7 +112,7 @@ trait OtherPersonsAddressController extends RegistrationController {
                     changeNationalityCall: Call,
                     cancelCall: Option[Call] = None) = {
     authorisedForIht {
-      implicit user => implicit request => {
+      implicit request => {
         withRegistrationDetails {
           rd => {
             val formType = if (isInternational) coExecutorAddressAbroadForm else coExecutorAddressUkForm

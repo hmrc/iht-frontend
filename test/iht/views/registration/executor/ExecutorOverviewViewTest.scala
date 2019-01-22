@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,19 +53,19 @@ class ExecutorOverviewViewTest extends YesNoQuestionViewBehaviour[Option[Boolean
 
   def checkForDeleteExecutorLink(id:String, coExecutor: CoExecutor) = {
     val deleteLink = doc.getElementById("delete-executor-" + id)
-    deleteLink.attr("href") shouldBe
+    deleteLink.attr("href") mustBe
       iht.controllers.registration.executor.routes.DeleteCoExecutorController
         .onPageLoad(coExecutor.id.getOrElse("")).url
-    deleteLink.text() shouldBe messagesApi("iht.delete") +
+    deleteLink.text() mustBe messagesApi("iht.delete") +
       messagesApi("page.iht.registration.executor-overview.executor.delete.screenReader",
         coExecutor.name)
   }
 
   def checkForChangeExecutorLink(id:String, coExecutor: CoExecutor) = {
     val changeLink = doc.getElementById("change-executor-" + id)
-    changeLink.attr("href") shouldBe
+    changeLink.attr("href") mustBe
       iht.controllers.registration.executor.routes.CoExecutorPersonalDetailsController.onPageLoad(coExecutor.id).url
-    changeLink.text() shouldBe messagesApi("iht.change") +
+    changeLink.text() mustBe messagesApi("iht.change") +
       messagesApi("page.iht.registration.executor-overview.executor.change.screenReader",
         coExecutor.name)
   }
@@ -77,12 +77,12 @@ class ExecutorOverviewViewTest extends YesNoQuestionViewBehaviour[Option[Boolean
 
     "Display a change link for other people applying for probate" in {
       val othersApplyingLink = doc.getElementById("edit-others-applying-for-probate")
-      othersApplyingLink.attr("href") shouldBe iht.controllers.registration.executor.routes.OthersApplyingForProbateController.onPageLoadFromOverview().url
-      othersApplyingLink.text() shouldBe messagesApi("iht.change") + messagesApi("iht.registration.coExecutors.changeIfOthers")
+      othersApplyingLink.attr("href") mustBe iht.controllers.registration.executor.routes.OthersApplyingForProbateController.onPageLoadFromOverview().url
+      othersApplyingLink.text() mustBe messagesApi("iht.change") + messagesApi("iht.registration.coExecutors.changeIfOthers")
     }
 
     "Display executor 1 name in table" in {
-      ihtHelpers.custom.name(CommonBuilder.DefaultCoExecutor1.name.toString).toString should
+      ihtHelpers.custom.name(CommonBuilder.DefaultCoExecutor1.name.toString).toString must
         include(doc.getElementById("executorName-1").text)
     }
 
@@ -96,7 +96,7 @@ class ExecutorOverviewViewTest extends YesNoQuestionViewBehaviour[Option[Boolean
 
     "Display executor 2 name in table" in {
       doc.getElementById("executorName-2").text
-      ihtHelpers.custom.name(CommonBuilder.DefaultCoExecutor2.name.toString).toString should
+      ihtHelpers.custom.name(CommonBuilder.DefaultCoExecutor2.name.toString).toString must
         include(doc.getElementById("executorName-2").text)
     }
 
@@ -112,11 +112,11 @@ class ExecutorOverviewViewTest extends YesNoQuestionViewBehaviour[Option[Boolean
       val doc = editModeViewAsDocument
 
       val continueLink = doc.getElementById("continue-button")
-      continueLink.attr("value") shouldBe messagesApi("iht.continue")
+      continueLink.attr("value") mustBe messagesApi("iht.continue")
 
       val cancelLink = doc.getElementById("cancel-button")
-      cancelLink.attr("href") shouldBe CommonBuilder.DefaultCall2.url
-      cancelLink.text() shouldBe messagesApi("site.link.cancel")
+      cancelLink.attr("href") mustBe CommonBuilder.DefaultCall2.url
+      cancelLink.text() mustBe messagesApi("site.link.cancel")
     }
   }
 }

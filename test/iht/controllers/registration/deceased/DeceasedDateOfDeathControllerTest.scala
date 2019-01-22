@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,10 +41,6 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
   lazy val defaultReferrerURL="http://localhost:9070/inheritance-tax"
   lazy val defaultHost="localhost:9070"
 
-  before {
-    mockCachingConnector = mock[CachingConnector]
-  }
-
   def setupMocks = {
     val deceasedDateOfDeath = DeceasedDateOfDeath(new LocalDate(2001,11, 11))
     val deceasedDateOfDeathChanged = DeceasedDateOfDeath(new LocalDate(2011,11, 11))
@@ -68,14 +64,14 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
 
   def controller = new DeceasedDateOfDeathController {
     override lazy val cachingConnector = mockCachingConnector
-    override lazy val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override lazy val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new DeceasedDateOfDeathController {
     override lazy val cachingConnector = mockCachingConnector
-    override lazy val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override lazy val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
@@ -84,26 +80,26 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
 
     "redirect to GG login page on PageLoad if the user is not logged in" in{
       val result = controllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to GG login page on EditPageLoad if the user is not logged in" in{
       val result = controllerNotAuthorised.onEditPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to GG login page on Submit if the user is not logged in" in{
       val result = controllerNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to GG login page on EditSubmit if the user is not logged in" in{
       val result = controllerNotAuthorised.onEditSubmit(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "persist CoExecutor details on change of date of death" in {
@@ -128,13 +124,13 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(newRegistrationDetails))
 
       val form = deceasedDateOfDeathForm.fill(deceasedDateOfDeathChanged)
-      val request = createFakeRequest(isAuthorised = true).withFormUrlEncodedBody(form.data.toSeq: _*)
+      val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(form.data.toSeq: _*)
 
       val result = controller.onEditSubmit()(request)
 
-      status(result) shouldBe(SEE_OTHER)
+      status(result) mustBe(SEE_OTHER)
 
-      redirectLocation(result) should be (
+      redirectLocation(result) must be (
         Some(iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad().url))
 
     }
@@ -142,8 +138,8 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
     "Load the DeceasedDateOfDeath page without sessionId" in {
       setupMocks
       val result = controller.onPageLoad()(createFakeRequest(true))
-      status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("page.iht.registration.deceasedDateOfDeath.title"))
+      status(result) must be(OK)
+      contentAsString(result) must include(messagesApi("page.iht.registration.deceasedDateOfDeath.title"))
     }
 
     "Load the DeceasedDateOfDeath page when there is Id" in {
@@ -158,8 +154,8 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
 
       val result = controller.onPageLoad()(
         createFakeRequestWithReferrer(referrerURL=defaultReferrerURL,host=defaultHost))
-      status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("page.iht.registration.deceasedDateOfDeath.title"))
+      status(result) must be(OK)
+      contentAsString(result) must include(messagesApi("page.iht.registration.deceasedDateOfDeath.title"))
     }
 
     "respond with OK" in {
@@ -170,13 +166,13 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
         Some(deceasedDetails))
 
       var form = deceasedDateOfDeathForm.fill(deceasedDateOfDeath)
-      implicit val request = FakeRequest().withFormUrlEncodedBody(form.data.toSeq: _*)
+      implicit val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(form.data.toSeq: _*)
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
       val result = controller.onSubmit()(request)
-      status(result) shouldBe(303)
+      status(result) mustBe(303)
     }
 
     "return to Reg Summary Page after submit when ApplicantDetails are edited from " +
@@ -195,14 +191,14 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
 
       val form = deceasedDateOfDeathForm.fill(deceasedDateOfDeath)
       val requestWithHeadersWithBody = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,
-        host=host, data=form.data.toSeq )
+        host=host, data=form.data.toSeq, authRetrieveNino = false)
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
       val result = controller.onEditSubmit()(requestWithHeadersWithBody)
-      status(result) shouldBe(SEE_OTHER)
-      redirectLocation(result) should be (
+      status(result) mustBe(SEE_OTHER)
+      redirectLocation(result) must be (
         Some(iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad().url))
 
     }
@@ -216,13 +212,13 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
 
       var form = deceasedDateOfDeathForm.fill(new DeceasedDateOfDeath(new LocalDate(20011,11, 11)))
       implicit val request = createFakeRequestWithReferrer(referrerURL=defaultReferrerURL,
-        host=defaultHost).withFormUrlEncodedBody(form.data.toSeq: _*)
+        host=defaultHost, authRetrieveNino = false).withFormUrlEncodedBody(form.data.toSeq: _*)
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
       val result = controller.onSubmit()(request)
-      status(result) shouldBe(400)
+      status(result) mustBe(400)
     }
 
     "redirect when store registration return empty elements" in {
@@ -233,13 +229,14 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
         Some(deceasedDetails))
 
       var form = deceasedDateOfDeathForm.fill(deceasedDateOfDeath)
-      implicit val request = FakeRequest().withFormUrlEncodedBody(form.data.toSeq: _*)
+      implicit val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(form.data.toSeq: _*)
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, None)
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
+      createMockToStoreSingleValueInCache(mockCachingConnector, singleValueReturn = Some("some value"))
 
       val result = controller.onSubmit()(request)
-      status(result) shouldBe SEE_OTHER
+      status(result) mustBe SEE_OTHER
     }
 
     "redirect to DeceasedDetals when there is no prefilled data" in {
@@ -247,13 +244,14 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
       val registrationDetails = RegistrationDetails(Some(deceasedDateOfDeath), None, None)
 
       var form = deceasedDateOfDeathForm.fill(deceasedDateOfDeath)
-      implicit val request = FakeRequest().withFormUrlEncodedBody(form.data.toSeq: _*)
+      implicit val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(form.data.toSeq: _*)
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
+      createMockToStoreSingleValueInCache(mockCachingConnector, singleValueReturn = Some("some value"))
 
       val result = controller.onSubmit()(request)
-      status(result) shouldBe SEE_OTHER
+      status(result) mustBe SEE_OTHER
     }
 
     "respond when incorrect date" in {
@@ -261,7 +259,7 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
       val registrationDetails = RegistrationDetails(Some(deceasedDateOfDeath), None, None)
       val form = deceasedDateOfDeathForm.fill(deceasedDateOfDeath)
 
-      val request = createFakeRequest(isAuthorised = true).withFormUrlEncodedBody(
+      val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(
         form.data.toSeq: _*)
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -272,7 +270,7 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
         Some(RegistrationKickOutHelper.KickoutDeceasedDateOfDeathDateCapitalTax))
 
       val result = controller.onSubmit()(request)
-      status(result) shouldBe(SEE_OTHER)
+      status(result) mustBe(SEE_OTHER)
     }
 
     "onEditSubmit" in {
@@ -299,12 +297,12 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
 
       val form = deceasedDateOfDeathForm.fill(
         deceasedDateOfDeathChanged)
-      val request = createFakeRequest(isAuthorised = true).withFormUrlEncodedBody(
+      val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(
         form.data.toSeq: _*)
       val result = controller.onEditSubmit()(request)
 
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result).get should be (iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad().url)
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result).get must be (iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad().url)
     }
 
     "onEditSubmit where date of birth comes after date of death " +
@@ -331,10 +329,10 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(newRegistrationDetails))
 
       val form = deceasedDateOfDeathForm.fill(deceasedDateOfDeathChanged)
-      val request = createFakeRequest(isAuthorised = true).withFormUrlEncodedBody(form.data.toSeq: _*)
+      val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(form.data.toSeq: _*)
       val result = controller.onEditSubmit()(request)
 
-      status(result) shouldBe BAD_REQUEST
+      status(result) mustBe BAD_REQUEST
     }
 
     "compareDateOfBirthToDateOfDeath compares correctly" in {
@@ -343,7 +341,7 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
       val result = controller.compareDateOfBirthToDateOfDeath(form,
         new LocalDate( 2012,2,2 ))
       val formError = result.error("dateOfDeath")
-      formError shouldBe Some(FormError("dateOfDeath", "error.dateOfDeath.giveAfterDateOfBirth"))
+      formError mustBe Some(FormError("dateOfDeath", "error.dateOfDeath.giveAfterDateOfBirth"))
     }
 
     def ensureRedirectOnKickout(dateOfDeath: LocalDate, kickoutReasonKey: String, action: Action[AnyContent]) = {
@@ -352,7 +350,7 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
       val registrationDetails = RegistrationDetails(Some(deceasedDateOfDeath), None, Some(deceasedDetails))
       val deceasedDateOfDeathForm1 = deceasedDateOfDeathForm.fill(deceasedDateOfDeath)
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-        data=deceasedDateOfDeathForm1.data.toSeq)
+        data=deceasedDateOfDeathForm1.data.toSeq, authRetrieveNino = false)
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -362,13 +360,13 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
         singleValueReturn=Some(kickoutReasonKey))
 
       val result = await(action(request))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (
-        Some(iht.controllers.registration.routes.KickoutController.onPageLoad().url))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (
+        Some(iht.controllers.registration.routes.KickoutRegController.onPageLoad().url))
       verifyAndReturnStoredSingleValue(mockCachingConnector) match {
         case (cachedKey, cachedValue) =>
-          cachedKey shouldBe RegistrationKickoutReasonCachingKey
-          cachedValue shouldBe kickoutReasonKey
+          cachedKey mustBe RegistrationKickoutReasonCachingKey
+          cachedValue mustBe kickoutReasonKey
       }
     }
 

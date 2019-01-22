@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,19 +59,19 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
 
   def addressWithDeleteAndModify(rowNo: Int, expectedValue: String) = {
     s"show address number ${rowNo + 1}" in {
-      tableCell(doc, addressTableId, 0, rowNo).ownText shouldBe expectedValue
+      tableCell(doc, addressTableId, 0, rowNo).ownText mustBe expectedValue
     }
 
     s"show address number ${rowNo + 1} delete link" in {
       val deleteDiv = tableCell(doc, addressTableId, 3, rowNo)
       val anchor = deleteDiv.getElementsByTag("a").first
-      getVisibleText(anchor) shouldBe messagesApi("iht.delete")
+      getVisibleText(anchor) mustBe messagesApi("iht.delete")
     }
 
     s"show address number ${rowNo + 1} give details link" in {
       val deleteDiv = tableCell(doc, addressTableId, 4, rowNo)
       val anchor = deleteDiv.getElementsByTag("a").first
-      getVisibleText(anchor) shouldBe messagesApi("iht.change")
+      getVisibleText(anchor) mustBe messagesApi("iht.change")
     }
   }
 
@@ -103,7 +103,7 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
         Some(Properties(isOwned = Some(true))),
         registrationDetails).toString()
       val doc = asDocument(view)
-      doc.getElementById("properties-empty-table-row").text shouldBe
+      doc.getElementById("properties-empty-table-row").text mustBe
         messagesApi("page.iht.application.assets.deceased-permanent-home.table.emptyRow.text")
 
     }

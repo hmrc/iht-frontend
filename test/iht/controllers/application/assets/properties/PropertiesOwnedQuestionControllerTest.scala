@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,8 +30,8 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+//  val mockCachingConnector = mock[CachingConnector]
+//  val mockIhtConnector = mock[IhtConnector]
 
   def setUpTests(applicationDetails: Option[ApplicationDetails] = None) = {
     createMocksForApplication(mockCachingConnector,
@@ -43,14 +43,15 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
   }
 
   def propertiesOwnedQuestionController = new PropertiesOwnedQuestionController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def propertiesOwnedQuestionControllerNotAuthorised = new PropertiesOwnedQuestionController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
+//    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -60,14 +61,14 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
 
     "redirect to login page on PageLoad if the user is not logged in" in {
       val result = propertiesOwnedQuestionControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to login page on Submit if the user is not logged in" in {
       val result = propertiesOwnedQuestionController.onSubmit(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
@@ -76,7 +77,7 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
       setUpTests(Some(applicationDetails))
 
       val result = propertiesOwnedQuestionController.onPageLoad (createFakeRequest())
-      status(result) shouldBe (OK)
+      status(result) mustBe (OK)
     }
 
     "save application and go to Asset Overview page on submit" in {
@@ -89,17 +90,18 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPropertiesForm.data.toSeq: _*)
 
       val result = propertiesOwnedQuestionController.onSubmit (request)
-      status(result) shouldBe (SEE_OTHER)
-      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(AssetsOverviewController.onPageLoad().url,TestHelper.AppSectionPropertiesID)))
+      status(result) mustBe (SEE_OTHER)
+      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(AssetsOverviewController.onPageLoad().url,TestHelper.AppSectionPropertiesID)))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
 
-     createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
+      createMockToGetApplicationDetails(mockIhtConnector)
 
       val result = propertiesOwnedQuestionController.onSubmit (fakePostRequest)
-      status(result) shouldBe BAD_REQUEST
+      status(result) mustBe BAD_REQUEST
     }
 
     "save application and go to Property list page on submit where no assets previously saved" in {
@@ -111,8 +113,8 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPropertiesForm.data.toSeq: _*)
 
       val result = propertiesOwnedQuestionController.onSubmit (request)
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be (Some(routes.PropertyDetailsOverviewController.onPageLoad().url))
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) must be (Some(routes.PropertyDetailsOverviewController.onPageLoad().url))
     }
 
     "save application and go to Property list page on submit where kickout outstanding" in {
@@ -126,8 +128,8 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPropertiesForm.data.toSeq: _*)
 
       val result = propertiesOwnedQuestionController.onSubmit (request)
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be (Some(iht.controllers.application.routes.KickoutController.onPageLoad().url))
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) must be (Some(iht.controllers.application.routes.KickoutAppController.onPageLoad().url))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

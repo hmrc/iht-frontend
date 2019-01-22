@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import uk.gov.hmrc.play.test.UnitSpec
 import iht.testhelpers.TestHelper._
 
 class OtherDetailsSectionViewModelTest
-  extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
+  extends FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
 
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
@@ -43,37 +43,37 @@ class OtherDetailsSectionViewModelTest
 
     "have an id of 'debts' for the debts row" in {
       val viewModel = OtherDetailsSectionViewModel(applicationDetailsGuidanceNotSeen, ihtRef)
-      viewModel.debtRow.id shouldBe EstateDebtsID
+      viewModel.debtRow.id mustBe EstateDebtsID
     }
 
     "have the correct caption for the debts row" in {
       val viewModel = OtherDetailsSectionViewModel(applicationDetailsGuidanceNotSeen, ihtRef)
-      viewModel.debtRow.label shouldBe messagesApi("iht.estateReport.debts.owedFromEstate")
+      viewModel.debtRow.label mustBe messagesApi("iht.estateReport.debts.owedFromEstate")
     }
 
     "have a blank value for debts when there are no debts" in {
       val viewModel = OtherDetailsSectionViewModel(applicationDetailsGuidanceNotSeen, ihtRef)
-      viewModel.debtRow.value shouldBe ""
+      viewModel.debtRow.value mustBe ""
     }
 
     "have a blank value for debts when there are debts but no values have been given" in {
       val appDetails = applicationDetailsGuidanceNotSeen copy (allLiabilities = Some(buildEveryLiabilityWithNoValues))
       val viewModel = OtherDetailsSectionViewModel(appDetails, ihtRef)
-      viewModel.debtRow.value shouldBe ""
+      viewModel.debtRow.value mustBe ""
     }
 
     "have the correct value with a pound sign for debts where there are some debts" in {
       val appDetails = applicationDetailsGuidanceNotSeen copy (allLiabilities = Some(buildEveryLiability))
       val viewModel = OtherDetailsSectionViewModel(appDetails, ihtRef)
 
-      viewModel.debtRow.value shouldBe "£500.00"
+      viewModel.debtRow.value mustBe "£500.00"
     }
 
     "have the correct text when all answers to the debts questions are 'No'" in {
       val appDetails = applicationDetailsGuidanceNotSeen copy (allLiabilities = Some(CommonBuilder.buildAllLiabilitiesAnsweredNo))
       val viewModel = OtherDetailsSectionViewModel(appDetails, ihtRef)
 
-      viewModel.debtRow.value shouldBe messagesApi("site.noDebts")
+      viewModel.debtRow.value mustBe messagesApi("site.noDebts")
     }
 
     "show View or Change when all debts are completed" in {
@@ -82,12 +82,12 @@ class OtherDetailsSectionViewModelTest
 
       val viewModel = OtherDetailsSectionViewModel(appDetails, ihtRef)
 
-      viewModel.debtRow.linkText shouldBe messagesApi("iht.viewOrChange")
+      viewModel.debtRow.linkText mustBe messagesApi("iht.viewOrChange")
     }
 
     "show Start when no debts questions have been answered" in {
       val viewModel = OtherDetailsSectionViewModel(applicationDetailsGuidanceNotSeen, ihtRef)
-      viewModel.debtRow.linkText shouldBe messagesApi("iht.start")
+      viewModel.debtRow.linkText mustBe messagesApi("iht.start")
     }
 
     "show Give more details when some debts questions have been answered" in {
@@ -95,24 +95,24 @@ class OtherDetailsSectionViewModelTest
 
       val viewModel = OtherDetailsSectionViewModel(appDetails, ihtRef)
 
-      viewModel.debtRow.linkText shouldBe messagesApi("iht.giveMoreDetails")
+      viewModel.debtRow.linkText mustBe messagesApi("iht.giveMoreDetails")
     }
 
     "have the correct URL for the debts link" in {
       val viewModel = OtherDetailsSectionViewModel(applicationDetailsGuidanceNotSeen, ihtRef)
-      viewModel.debtRow.linkUrl shouldBe iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()
+      viewModel.debtRow.linkUrl mustBe iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()
     }
 
     //endregion
 
     "not show the claim exemption link when exemptions are unlocked" in {
       val viewModel = OtherDetailsSectionViewModel(applicationDetailsGuidanceSeen, ihtRef)
-      viewModel.showClaimExemptionLink shouldBe false
+      viewModel.showClaimExemptionLink mustBe false
     }
 
     "show the claim exemption link when exemptions are not unlocked" in {
       val viewModel = OtherDetailsSectionViewModel(applicationDetailsGuidanceNotSeen, ihtRef)
-      viewModel.showClaimExemptionLink shouldBe true
+      viewModel.showClaimExemptionLink mustBe true
     }
 
     lazy val buildEveryLiability = AllLiabilities(

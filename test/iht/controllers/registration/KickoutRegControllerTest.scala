@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,18 +30,14 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-class KickoutControllerTest extends RegistrationControllerTest {
-
-  before {
-    mockCachingConnector = mock[CachingConnector]
-  }
+class KickoutRegControllerTest extends RegistrationControllerTest {
 
   "RegistrationKickoutControllerTest" must {
     "respond suitably to onPageLoad" in {
-      val request = createFakeRequest(isAuthorised = true)
+      val request = createFakeRequest(isAuthorised = true, authRetrieveNino = false)
 
-      def controller = new KickoutController{
-        override val authConnector = createFakeAuthConnector(isAuthorised=true)
+      def controller = new KickoutRegController{
+        override val authConnector = mockAuthConnector
         override lazy val metrics:Metrics = mock[Metrics]
         override val cachingConnector = mockCachingConnector
         override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -65,22 +61,22 @@ class KickoutControllerTest extends RegistrationControllerTest {
       ).foreach{kickout=>
         createMockToGetSingleValueFromCache(mockCachingConnector, any(), Some(kickout._1))
         val result: Future[Result] = controller.onPageLoad(request)
-        status(result) should be(OK)
-        contentAsString(result).contains(messagesApi(kickout._2)) should be (true)
+        status(result) must be(OK)
+        contentAsString(result).contains(messagesApi(kickout._2)) must be (true)
       }
     }
 
     "redirect to homepage on submit" in {
-      val request = createFakeRequest(isAuthorised = true)
-      def controller = new KickoutController{
-        override val authConnector = createFakeAuthConnector(isAuthorised=true)
+      val request = createFakeRequest(isAuthorised = true, authRetrieveNino = false)
+      def controller = new KickoutRegController{
+        override val authConnector = mockAuthConnector
         override lazy val metrics:Metrics = mock[Metrics]
         override val cachingConnector = mockCachingConnector
       }
 
       val result: Future[Result] = controller.onSubmit(request)
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result).get should be("https://www.gov.uk/inheritance-tax")
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result).get must be("https://www.gov.uk/inheritance-tax")
     }
   }
 }

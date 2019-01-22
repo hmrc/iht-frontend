@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,9 +21,9 @@ import org.joda.time.LocalDate
 import play.api.data.{FormError, Mapping}
 import uk.gov.hmrc.play.test.UnitSpec
 
-class DateMappingTest extends UnitSpec with FakeIhtApp {
+class DateMappingTest extends FakeIhtApp {
   def assertError(mapping: Mapping[LocalDate], data: Map[String, String], errorMessage: String) = {
-    mapping.bind(data).left.get shouldBe Seq(FormError("", errorMessage))
+    mapping.bind(data).left.get mustBe Seq(FormError("", errorMessage))
   }
 
   def createDateMapping(errorBlankFieldKey: String = "",
@@ -54,7 +54,7 @@ class DateMappingTest extends UnitSpec with FakeIhtApp {
 
   "DateMapping generated from old apply constructor" must {
     "correctly validate a valid date tuple" in {
-      DateMapping().bind(Map("day" -> "1", "month" -> "1", "year" -> "1980")).right.get shouldBe new LocalDate(1980, 1, 1)
+      DateMapping().bind(Map("day" -> "1", "month" -> "1", "year" -> "1980")).right.get mustBe new LocalDate(1980, 1, 1)
     }
 
     "return a blank field error when one of the date tuple fields is blank" in {
@@ -96,17 +96,17 @@ class DateMappingTest extends UnitSpec with FakeIhtApp {
   "DateMapping generated from new apply constructor" must {
     "correctly validate a valid date tuple with month having no leading zero" in {
       createDateMapping()
-        .bind(Map("day" -> "1", "month" -> "1", "year" -> "1980")).right.get shouldBe new LocalDate(1980, 1, 1)
+        .bind(Map("day" -> "1", "month" -> "1", "year" -> "1980")).right.get mustBe new LocalDate(1980, 1, 1)
     }
 
     "correctly validate a valid date tuple with month having leading zero" in {
       createDateMapping()
-        .bind(Map("day" -> "1", "month" -> "01", "year" -> "1980")).right.get shouldBe new LocalDate(1980, 1, 1)
+        .bind(Map("day" -> "1", "month" -> "01", "year" -> "1980")).right.get mustBe new LocalDate(1980, 1, 1)
     }
 
     "correctly validate a valid date tuple with month where leapyear and 29th Feb" in {
       createDateMapping()
-        .bind(Map("day" -> "29", "month" -> "2", "year" -> "2016")).right.get shouldBe new LocalDate(2016, 2, 29)
+        .bind(Map("day" -> "29", "month" -> "2", "year" -> "2016")).right.get mustBe new LocalDate(2016, 2, 29)
     }
 
     "return a blank field error when one of the date tuple fields is blank" in {

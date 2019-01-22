@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import uk.gov.hmrc.play.test.UnitSpec
 /**
   * Created by vineet on 21/11/16.
   */
-class XSLScalaBridgeTest extends UnitSpec with FakeIhtApp with MockitoSugar with I18nSupport {
+class XSLScalaBridgeTest extends FakeIhtApp with MockitoSugar with I18nSupport {
 
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit val request = FakeRequest()
@@ -37,7 +37,7 @@ class XSLScalaBridgeTest extends UnitSpec with FakeIhtApp with MockitoSugar with
 
       val result = XSLScalaBridge(messages).getMessagesText("iht.the.deceased")
 
-      result shouldBe  messagesApi("iht.the.deceased")
+      result mustBe  messagesApi("iht.the.deceased")
     }
   }
 
@@ -48,7 +48,7 @@ class XSLScalaBridgeTest extends UnitSpec with FakeIhtApp with MockitoSugar with
 
       val result = XSLScalaBridge(messages).getMessagesTextWithParameter("iht.estateReport.assets.moneyOwned", name)
 
-      result shouldBe  messagesApi("iht.estateReport.assets.moneyOwned", name)
+      result mustBe  messagesApi("iht.estateReport.assets.moneyOwned", name)
     }
   }
 
@@ -60,7 +60,7 @@ class XSLScalaBridgeTest extends UnitSpec with FakeIhtApp with MockitoSugar with
       val result = XSLScalaBridge(messages).getMessagesTextWithParameters("pdf.inheritance.tax.application.summary.p1",
         name1, name2)
 
-      result shouldBe  messagesApi("pdf.inheritance.tax.application.summary.p1", name1, name2)
+      result mustBe  messagesApi("pdf.inheritance.tax.application.summary.p1", name1, name2)
     }
 
     "return the correct string with 3 parameters" in {
@@ -71,19 +71,19 @@ class XSLScalaBridgeTest extends UnitSpec with FakeIhtApp with MockitoSugar with
       val result = XSLScalaBridge(messages).getMessagesTextWithParameters("iht.estateReport.tnrb.partner.married",
         parameter1, parameter2, parameter3)
 
-      result shouldBe  messagesApi("iht.estateReport.tnrb.partner.married", parameter1, parameter2, parameter3)
+      result mustBe  messagesApi("iht.estateReport.tnrb.partner.married", parameter1, parameter2, parameter3)
     }
   }
 
   "getDateForDisplay" must {
     "return correctly formatted date" in {
       val result = XSLScalaBridge(messages).getDateForDisplay("2000-12-12")
-      result shouldBe "12 December 2000"
+      result mustBe "12 December 2000"
     }
 
     "return empty string when there is no date passed to be formatted" in {
       val result = XSLScalaBridge(messages).getDateForDisplay("")
-      result shouldBe ""
+      result mustBe ""
     }
   }
 }

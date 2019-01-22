@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ class ProbateLocationViewTest extends RegistrationPageBehaviour[ApplicantDetails
 
     "have radio button" which {
       "has a fieldset with the Id 'country'" in {
-        doc.getElementsByTag("fieldset").first.id shouldBe "country"
+        doc.getElementsByTag("fieldset").first.id mustBe "country"
       }
 
       "includes england or wales" in {

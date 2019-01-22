@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import iht.views.html.ihtHelpers.standard.{article, sidebar}
 import play.twirl.api.Html
 import uk.gov.hmrc.play.test.UnitSpec
 
-class ArticleTest extends UnitSpec with FakeIhtApp with HtmlSpec {
+class ArticleTest extends FakeIhtApp with HtmlSpec {
 
   "article" must {
 
@@ -31,9 +31,9 @@ class ArticleTest extends UnitSpec with FakeIhtApp with HtmlSpec {
       val doc = asDocument(result)
 
       val tag = doc.getElementsByTag("article")
-      tag.attr("articleClasses") shouldBe empty
-      tag.attr("lang") shouldBe empty
-      tag.html() shouldBe "test"
+      tag.attr("articleClasses") mustBe empty
+      tag.attr("lang") mustBe empty
+      tag.html() mustBe "test"
     }
 
     "display the lang attribute when currentLang is Welsh " in {
@@ -41,9 +41,9 @@ class ArticleTest extends UnitSpec with FakeIhtApp with HtmlSpec {
       val doc = asDocument(result)
 
       val tag = doc.getElementsByTag("article")
-      tag.attr("articleClasses") shouldBe empty
-      tag.attr("lang") shouldBe "cy"
-      tag.html() shouldBe "test"
+      tag.attr("articleClasses") mustBe empty
+      tag.attr("lang") mustBe "cy"
+      tag.html() mustBe "test"
     }
 
   }

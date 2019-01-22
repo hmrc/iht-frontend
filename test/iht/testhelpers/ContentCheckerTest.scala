@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import uk.gov.hmrc.play.test.UnitSpec
 import iht.utils.CommonHelper
 import scala.io.Source._
 
-class ContentCheckerTest extends UnitSpec with FakeIhtApp {
+class ContentCheckerTest extends FakeIhtApp {
 
   def getResourceAsFilePath(filePath: String) = {
     val url = CommonHelper.getOrException(Play.resource(filePath),
@@ -34,51 +34,51 @@ class ContentCheckerTest extends UnitSpec with FakeIhtApp {
     "find no dotted strings in content if there are no dotted strings in the content" in {
       val content = "the quick brown fox jumped over the lazy dog"
 
-      ContentChecker.findMessageKeys(content) shouldBe Nil
+      ContentChecker.findMessageKeys(content) mustBe Nil
     }
 
     "find a dotted strings in content if there is dotted strings in the content" in {
       val content = "the.quick brown fox jumped over.the.lazy.dog so there."
 
-      ContentChecker.findMessageKeys(content) shouldBe Seq("the.quick", "over.the.lazy.dog")
+      ContentChecker.findMessageKeys(content) mustBe Seq("the.quick", "over.the.lazy.dog")
     }
 
     "find a dotted strings in content if there is dotted strings in the content excluding GOV.UK elements" in {
       val content = "the.quick brown fox GOV.UK over.the.lazy.dog so there."
 
-      ContentChecker.findMessageKeys(content) shouldBe Seq("the.quick", "over.the.lazy.dog")
+      ContentChecker.findMessageKeys(content) mustBe Seq("the.quick", "over.the.lazy.dog")
     }
 
     "find a dotted strings in content if there is dotted strings in the content including elements that include but are " +
       "not GOV.UK" in {
       val content = "the.quick brown fox a.GOV.UK.b over.the.lazy.dog so there."
 
-      ContentChecker.findMessageKeys(content) shouldBe Seq("the.quick", "a.GOV.UK.b", "over.the.lazy.dog")
+      ContentChecker.findMessageKeys(content) mustBe Seq("the.quick", "a.GOV.UK.b", "over.the.lazy.dog")
     }
 
     "find dotted strings in content excluding monetary values" in {
       val content = "the.quick brown fox a.GOV.UK.b over.the.lazy.dog £12.00 there."
 
-      ContentChecker.findMessageKeys(content) shouldBe Seq("the.quick", "a.GOV.UK.b", "over.the.lazy.dog")
+      ContentChecker.findMessageKeys(content) mustBe Seq("the.quick", "a.GOV.UK.b", "over.the.lazy.dog")
     }
 
     "find dotted strings excluding emails" in {
       val content = "the.quick brown fox a.GOV.UK.b over.the.lazy.dog £12.00 there. some.one@example.com " +
         "someone.else@example.com this.that.theOther some.one@example.com"
 
-      ContentChecker.findMessageKeys(content) shouldBe Seq("the.quick", "a.GOV.UK.b", "over.the.lazy.dog", "this.that.theOther")
+      ContentChecker.findMessageKeys(content) mustBe Seq("the.quick", "a.GOV.UK.b", "over.the.lazy.dog", "this.that.theOther")
     }
 
     "find dotted strings excluding forward slashes" in {
       val content = "//the.quick brown fox a.GOV.UK.b over.the.lazy.dog £12.00 there. /someone/example.com " +
         "someone.else@example.com this.that.theOther some.one@example.com"
 
-      ContentChecker.findMessageKeys(content) shouldBe Seq("a.GOV.UK.b", "over.the.lazy.dog", "this.that.theOther")
+      ContentChecker.findMessageKeys(content) mustBe Seq("a.GOV.UK.b", "over.the.lazy.dog", "this.that.theOther")
     }
 
     "stripLineBreaks should return string without line breaks" ignore {
       val content = fromFile(getResourceAsFilePath("formatted_string")).mkString
-      ContentChecker.stripLineBreaks(content) should include("Line oneLine two")
+      ContentChecker.stripLineBreaks(content) must include("Line oneLine two")
     }
   }
 }

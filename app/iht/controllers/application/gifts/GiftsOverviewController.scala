@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.application.gifts
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.IhtConnectors
 import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
@@ -27,17 +28,23 @@ import iht.utils.CommonHelper._
 import iht.utils.ExemptionsGuidanceHelper._
 import iht.utils.OverviewHelper._
 import iht.utils._
+import javax.inject.Inject
 import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
 import scala.concurrent.Future
 
-object GiftsOverviewController extends GiftsOverviewController with IhtConnectors {
+class GiftsOverviewControllerImpl @Inject()() extends GiftsOverviewController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait GiftsOverviewController extends EstateController {
+
+
   private def givenAwayYesNoItems(allGifts: AllGifts, rd: RegistrationDetails) = {
     Seq[QuestionAnswer](
       QuestionAnswer(allGifts.isGivenAway, routes.GivenAwayController.onPageLoad(),
@@ -75,12 +82,12 @@ trait GiftsOverviewController extends EstateController {
     )
   }
 
-  def onPageLoad = authorisedForIht {
-    implicit user =>
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+
       implicit request => {
         withRegistrationDetails { regDetails =>
           val applicationDetailsFuture: Future[Option[ApplicationDetails]] = ihtConnector
-            .getApplication(StringHelper.getNino(user), getOrExceptionNoIHTRef(regDetails.ihtReference),
+            .getApplication(StringHelper.getNino(userNino), getOrExceptionNoIHTRef(regDetails.ihtReference),
               regDetails.acknowledgmentReference)
 
           applicationDetailsFuture.flatMap { optionApplicationDetails =>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -94,23 +94,23 @@ class SevenYearsGiftValuesViewTest extends GenericNonSubmittablePageBehaviour {
     val displayRowNo = rowNo + 1
     s"show row $displayRowNo dates" in {
       getVisibleText(tableCell(doc, giftsTableId, 0, rowNo, elementTypeTH),
-        ariaContainingElementType, includeTextOfChildElements = true) shouldBe expectedHeading
+        ariaContainingElementType, includeTextOfChildElements = true) mustBe expectedHeading
     }
     s"show row $displayRowNo gifts value" in {
-      getVisibleText(tableCell(doc, giftsTableId, 0, rowNo, elementTypeTD), ariaContainingElementType) shouldBe expectedGiftsValue
+      getVisibleText(tableCell(doc, giftsTableId, 0, rowNo, elementTypeTD), ariaContainingElementType) mustBe expectedGiftsValue
     }
     s"show row $displayRowNo exemptions value" in {
-      getVisibleText(tableCell(doc, giftsTableId, 1, rowNo, elementTypeTD), ariaContainingElementType) shouldBe expectedExemptionsValue
+      getVisibleText(tableCell(doc, giftsTableId, 1, rowNo, elementTypeTD), ariaContainingElementType) mustBe expectedExemptionsValue
     }
     s"show row $displayRowNo amount added to estate value" in {
-      getVisibleText(tableCell(doc, giftsTableId, 2, rowNo, elementTypeTD), ariaContainingElementType) shouldBe expectedAmountAdded
+      getVisibleText(tableCell(doc, giftsTableId, 2, rowNo, elementTypeTD), ariaContainingElementType) mustBe expectedAmountAdded
     }
     if (isChangeLink) {
       s"show row $displayRowNo change link with correct text and target" in {
         val cellContents = tableCell(doc, giftsTableId, 3, rowNo, elementTypeTD)
         val anchor = cellContents.getElementsByTag("a").first
-        getVisibleText(anchor) shouldBe messagesApi("iht.change")
-        anchor.attr("href") shouldBe iht.controllers.application.gifts.routes.GiftsDetailsController.onPageLoad(s"$rowNo").url
+        getVisibleText(anchor) mustBe messagesApi("iht.change")
+        anchor.attr("href") mustBe iht.controllers.application.gifts.routes.GiftsDetailsController.onPageLoad(s"$rowNo").url
       }
     }
   }
@@ -119,15 +119,15 @@ class SevenYearsGiftValuesViewTest extends GenericNonSubmittablePageBehaviour {
     behave like nonSubmittablePage()
 
     "contain gifts value heading" in {
-      tableHeading(doc, 0) shouldBe messagesApi("page.iht.application.gifts.lastYears.tableTitle1")
+      tableHeading(doc, 0) mustBe messagesApi("page.iht.application.gifts.lastYears.tableTitle1")
     }
 
     "contain exemptions value heading" in {
-      tableHeading(doc, 1) shouldBe messagesApi("page.iht.exemptions.title")
+      tableHeading(doc, 1) mustBe messagesApi("page.iht.exemptions.title")
     }
 
     "contain amount added to estate heading" in {
-      tableHeading(doc, 2) shouldBe messagesApi("page.iht.application.gifts.lastYears.tableTitle3")
+      tableHeading(doc, 2) mustBe messagesApi("page.iht.application.gifts.lastYears.tableTitle3")
     }
 
     behave like valuesWithChangeLink(1, "6 April 2014 to 12 December 2014", "£1,000.00", "£33.00", "£967.00", isChangeLink = true, "span")

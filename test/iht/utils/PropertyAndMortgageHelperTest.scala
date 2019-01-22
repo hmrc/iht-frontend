@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import org.scalatest.mock.MockitoSugar
 import play.api.mvc.Results
 import uk.gov.hmrc.play.test.UnitSpec
 
-class PropertyAndMortgageHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
+class PropertyAndMortgageHelperTest extends FakeIhtApp with MockitoSugar {
 
   "PropertyAndMortgagesHelper" when {
 
@@ -48,13 +48,13 @@ class PropertyAndMortgageHelperTest extends UnitSpec with FakeIhtApp with Mockit
 
       "return an empty list if there are no properties owned" in {
         val result = helper.updatePropertyList(propertiesNo, appDetailsWithoutProperties)
-        result shouldBe Nil
+        result mustBe Nil
       }
 
       "return a list of existing properties if there are properties owned" in {
         val appDetails = appDetailsWithProperties.copy(propertyList = propertyList)
         val result = helper.updatePropertyList(propertiesYes, appDetails)
-        result shouldBe propertyList
+        result mustBe propertyList
       }
 
     }
@@ -64,12 +64,12 @@ class PropertyAndMortgageHelperTest extends UnitSpec with FakeIhtApp with Mockit
       "return true if there are more mortgages than properties" in {
         val result = helper.isMortgagesLargerThanProperties(appDetailsWithoutProperties.copy(
           allLiabilities = Some(CommonBuilder.buildAllLiabilitiesWithAllSectionsFilled)))
-        result shouldBe true
+        result mustBe true
       }
 
       "return false if there are not more mortgages than properties" in {
         val result = helper.isMortgagesLargerThanProperties(appDetailsWithProperties.copy(propertyList = propertyList))
-        result shouldBe false
+        result mustBe false
       }
 
     }
@@ -79,21 +79,21 @@ class PropertyAndMortgageHelperTest extends UnitSpec with FakeIhtApp with Mockit
       "return 0 mortgages when there are 0 properties" in {
         val result = helper.reduceMortgagesToMatchProperties(appDetailsWithoutProperties.copy(
           allLiabilities = Some(CommonBuilder.buildAllLiabilitiesWithAllSectionsFilled)))
-        result shouldBe Nil
+        result mustBe Nil
       }
 
       "return 1 mortgage when there is 1 property and 2 mortgages" in {
         val result = helper.reduceMortgagesToMatchProperties(appDetailsWithoutProperties.copy(
           propertyList = List(CommonBuilder.property),
           allLiabilities = Some(CommonBuilder.buildAllLiabilitiesWithAllSectionsFilled)))
-        result.size shouldBe 1
+        result.size mustBe 1
       }
 
       "return 2 mortgages when there are 2 properties and 2 mortgages" in {
         val result = helper.reduceMortgagesToMatchProperties(appDetailsWithoutProperties.copy(
           propertyList = List(CommonBuilder.property, CommonBuilder.property2),
           allLiabilities = Some(CommonBuilder.buildAllLiabilitiesWithAllSectionsFilled)))
-        result.size shouldBe 2
+        result.size mustBe 2
       }
 
       "return 2 mortgages when there are 3 properties and 2 mortgages" in {
@@ -102,7 +102,7 @@ class PropertyAndMortgageHelperTest extends UnitSpec with FakeIhtApp with Mockit
             CommonBuilder.property2,
             CommonBuilder.property2.copy(id = Some("3"))),
           allLiabilities = Some(CommonBuilder.buildAllLiabilitiesWithAllSectionsFilled)))
-        result.size shouldBe 2
+        result.size mustBe 2
       }
 
     }
@@ -111,12 +111,12 @@ class PropertyAndMortgageHelperTest extends UnitSpec with FakeIhtApp with Mockit
 
       "return a None if there are no properties owned" in {
         val result = helper.updateMortgages(propertiesNo, appDetailsWithProperties)
-        result shouldBe None
+        result mustBe None
       }
 
       "return the a MortgageEstateElement if there are properties owned" in {
         val result = helper.updateMortgages(propertiesYes, appDetailsWithProperties.copy(propertyList = propertyList))
-        result shouldBe Some(MortgageEstateElement(Some(true), mortgageList))
+        result mustBe Some(MortgageEstateElement(Some(true), mortgageList))
       }
 
     }
@@ -125,18 +125,18 @@ class PropertyAndMortgageHelperTest extends UnitSpec with FakeIhtApp with Mockit
 
       "return true if properties owned" in {
         val result = helper.previousValueOfIsPropertyOwned(appDetailsWithProperties)
-        result shouldBe Some(true)
+        result mustBe Some(true)
       }
 
       "return false if properties not owned" in {
         val result = helper.previousValueOfIsPropertyOwned(appDetailsWithoutProperties.copy(
           allAssets = Some(CommonBuilder.buildAllAssetsAnsweredNo)))
-        result shouldBe Some(false)
+        result mustBe Some(false)
       }
 
       "return None if no answer given to properties owned" in {
         val result = helper.previousValueOfIsPropertyOwned(appDetailsWithoutProperties)
-        result shouldBe None
+        result mustBe None
       }
 
     }
@@ -145,12 +145,12 @@ class PropertyAndMortgageHelperTest extends UnitSpec with FakeIhtApp with Mockit
 
       "return true if property details have been provided" in {
         val result = helper.doesPropertyListContainProperties(appDetailsWithProperties.copy(propertyList = propertyList))
-        result shouldBe true
+        result mustBe true
       }
 
       "return false if no property details have been provided" in {
         val result = helper.doesPropertyListContainProperties(appDetailsWithoutProperties)
-        result shouldBe false
+        result mustBe false
       }
 
     }
@@ -159,14 +159,14 @@ class PropertyAndMortgageHelperTest extends UnitSpec with FakeIhtApp with Mockit
 
       "return a redirect to Assets Overview when properties is owned answered no " in {
         val result = helper.determineRedirectLocationForPropertiesOwnedQuestion(propertiesNo, appDetailsWithoutProperties)
-        result shouldBe Results.Redirect(CommonHelper.addFragmentIdentifier(
+        result mustBe Results.Redirect(CommonHelper.addFragmentIdentifier(
           iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
           Some(AppSectionPropertiesID)))
       }
 
       "return a redirect to Property Details Overview when properties owned is answered yes for the first time" in {
         val result = helper.determineRedirectLocationForPropertiesOwnedQuestion(propertiesYes, appDetailsWithoutProperties)
-        result shouldBe Results.Redirect(
+        result mustBe Results.Redirect(
           iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad())
       }
 
@@ -174,7 +174,7 @@ class PropertyAndMortgageHelperTest extends UnitSpec with FakeIhtApp with Mockit
         "and was previously answered yes and there are no properties in the property list" in {
         val result = helper.determineRedirectLocationForPropertiesOwnedQuestion(propertiesYes,
           appDetailsWithoutProperties)
-        result shouldBe Results.Redirect(
+        result mustBe Results.Redirect(
           iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad())
       }
 
@@ -182,7 +182,7 @@ class PropertyAndMortgageHelperTest extends UnitSpec with FakeIhtApp with Mockit
         "and was previously answered yes and there are properties in the property list" in {
         val result = helper.determineRedirectLocationForPropertiesOwnedQuestion(propertiesYes,
           appDetailsWithProperties.copy(propertyList = propertyList))
-        result shouldBe Results.Redirect(CommonHelper.addFragmentIdentifier(
+        result mustBe Results.Redirect(CommonHelper.addFragmentIdentifier(
           iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad(),
           Some(AssetsPropertiesOwnedID)))
       }

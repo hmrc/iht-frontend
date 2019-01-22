@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,36 +31,36 @@ class RegistrationErrorServiceUnavailable extends ViewTestHelper with MessagesHe
   "EstateReportsErrorServiceUnavailable" must {
 
     "have the correct title" in {
-      doc.title() shouldBe pageIhtIVFailureTechnicalIssueHeading
+      doc.title() mustBe pageIhtIVFailureTechnicalIssueHeading
 
     }
     "have the correct first paragraph" in {
-      doc.select("p").eq(2).text shouldBe errorRegistrationServiceUnavailablep1
+      doc.select("p").eq(2).text mustBe errorRegistrationServiceUnavailablep1
     }
 
     "have the correct second paragraph" in {
-      doc.select("p").eq(3).text shouldBe errorRegistrationServiceUnavailablep2
+      doc.select("p").eq(3).text mustBe errorRegistrationServiceUnavailablep2
     }
 
     "have the correct third paragraph" in {
-      doc.select("p").eq(4).text shouldBe errorRegistrationServiceUnavailablep3
+      doc.select("p").eq(4).text mustBe errorRegistrationServiceUnavailablep3
     }
 
     "have a try again button" should {
       "that has a text" in {
-        doc.getElementsByClass("button").text() shouldBe ihtIVTryAgain
+        doc.getElementsByClass("button").text() mustBe ihtIVTryAgain
       }
       "that has a href" in {
-        doc.getElementsByClass("button").attr("href") shouldBe ihtIVTryAgainLink
+        doc.getElementsByClass("button").attr("href") mustBe ihtIVTryAgainLink
       }
     }
 
     "have a sign out link" should {
       "that has a text" in {
-        doc.select("div > a").eq(3).text() shouldBe pageIHTSignOut
+        doc.select("div > a").eq(3).text() mustBe pageIHTSignOut
       }
       "that has a href" in {
-        doc.select("div > a").eq(3).attr("href") shouldBe pageIHTSignOutLink
+        doc.select("div > a").eq(3).attr("href") mustBe pageIHTSignOutLink
       }
     }
   }

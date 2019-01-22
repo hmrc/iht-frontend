@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,7 +84,7 @@ class EstateOverviewViewTest extends ViewTestHelper{
 
       val view = estate_overview(dummyViewModel).toString
       val doc = asDocument(view)
-      view should include(messagesApi("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text2"))
+      view must include(messagesApi("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text2"))
     }
 
     "contain the assets and gifts section" in {
@@ -99,15 +99,15 @@ class EstateOverviewViewTest extends ViewTestHelper{
       implicit val request = createFakeRequest()
 
       val view = estate_overview(dummyViewModel).toString
-      view should include(messagesApi("page.iht.application.overview.timeScale.guidance"))
-      view should include("01 Apr 2016")
+      view must include(messagesApi("page.iht.application.overview.timeScale.guidance"))
+      view must include("01 Apr 2016")
     }
 
     "contain a sidebar with the 'Go to your Inheritance Tax estate reports' link" in {
       implicit val request = createFakeRequest()
 
       val view = estate_overview(dummyViewModel).toString
-      view should include(messagesApi("iht.estateReport.goToEstateReports"))
+      view must include(messagesApi("iht.estateReport.goToEstateReports"))
     }
 
     "show the correct 'Go to your Inheritance Tax estate reports' link" in {
@@ -117,8 +117,8 @@ class EstateOverviewViewTest extends ViewTestHelper{
       val doc = asDocument(view)
       assertRenderedById(doc, "return-to-estate-report-link")
       val link: Element = doc.getElementById("return-to-estate-report-link")
-      link.text() shouldBe messagesApi("iht.estateReport.goToEstateReports")
-      link.attr("href") shouldBe expectedUrl
+      link.text() mustBe messagesApi("iht.estateReport.goToEstateReports")
+      link.attr("href") mustBe expectedUrl
     }
 
     "contain the threshold section" in {

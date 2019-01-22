@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,35 +35,31 @@ class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest w
   //Create controller object and pass in mock.
   def deceasedAddressQuestionController = new DeceasedAddressQuestionController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def deceasedAddressQuestionControllerNotAuthorised = new DeceasedAddressQuestionController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
-  }
-
-  before {
-    mockCachingConnector = mock[CachingConnector]
   }
 
   "DeceasedAddressQuestionController" must {
     "redirect to GG login page on PageLoad if the user is not logged in" in {
       val result = deceasedAddressQuestionControllerNotAuthorised.onPageLoad(
         createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(loginUrl))
     }
 
     "redirect to GG login page on Submit if the user is not logged in" in {
       val result = deceasedAddressQuestionControllerNotAuthorised.onSubmit(
         createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(loginUrl))
     }
 
     "contain Continue button when Page is loaded in normal mode" in {
@@ -75,25 +71,25 @@ class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest w
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
-      val result = deceasedAddressQuestionController.onPageLoad()(createFakeRequestWithReferrer(referrerURL = referrerURL, host = host))
-      status(result) shouldBe (OK)
+      val result = deceasedAddressQuestionController.onPageLoad()(createFakeRequestWithReferrer(referrerURL = referrerURL, host = host, authRetrieveNino = false))
+      status(result) mustBe (OK)
 
-      contentAsString(result) should include(messagesApi("iht.continue"))
+      contentAsString(result) must include(messagesApi("iht.continue"))
     }
 
     "redirect to UK address page when question is answered yes" in {
       val deceasedDetails = CommonBuilder.buildDeceasedDetails copy (isAddressInUK = Some(true))
       val registrationDetails = RegistrationDetails(None, None, Some(deceasedDetails))
       val deceasedDetailsForm1 = deceasedAddressQuestionForm.fill(deceasedDetails)
-      val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host, data = deceasedDetailsForm1.data.toSeq)
+      val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host, data = deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
       val result = deceasedAddressQuestionController.onSubmit()(request)
-      status(result) shouldBe (SEE_OTHER)
-      redirectLocation(result) should be(
+      status(result) mustBe (SEE_OTHER)
+      redirectLocation(result) must be(
         Some(iht.controllers.registration.deceased.routes.DeceasedAddressDetailsUKController.onPageLoad().url))
 
     }
@@ -103,15 +99,15 @@ class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest w
       val registrationDetails = RegistrationDetails(None, None, Some(deceasedDetails))
       val deceasedDetailsForm1 = deceasedAddressQuestionForm.fill(deceasedDetails)
       val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
-        data = deceasedDetailsForm1.data.toSeq)
+        data = deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
       val result = deceasedAddressQuestionController.onSubmit()(request)
-      status(result) shouldBe (SEE_OTHER)
-      redirectLocation(result) should be(
+      status(result) mustBe (SEE_OTHER)
+      redirectLocation(result) must be(
         Some(iht.controllers.registration.deceased.routes.DeceasedAddressDetailsOutsideUKController.onPageLoad().url))
     }
 
@@ -121,13 +117,13 @@ class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest w
       val registrationDetails = RegistrationDetails(None, None, Some(existingDeceasedDetails))
       val deceasedDetailsForm1 = deceasedAddressQuestionForm.fill(deceasedDetails)
       val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
-        data = deceasedDetailsForm1.data.toSeq)
+        data = deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
       val result = await(deceasedAddressQuestionController.onSubmit()(request))
-      status(result) shouldBe (BAD_REQUEST)
+      status(result) mustBe (BAD_REQUEST)
     }
 
     "save valid data correctly" in {
@@ -139,7 +135,7 @@ class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest w
       val form = deceasedAddressQuestionForm.fill(newDeceasedDetails)
 
       val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
-        data = form.data.toSeq)
+        data = form.data.toSeq, authRetrieveNino = false)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
@@ -147,21 +143,21 @@ class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest w
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val expectedDeceasedDetails = deceasedDetails copy (isAddressInUK = newDeceasedDetails.isAddressInUK)
-      capturedValue.deceasedDetails shouldBe Some(expectedDeceasedDetails)
+      capturedValue.deceasedDetails mustBe Some(expectedDeceasedDetails)
     }
 
     "return a server error to UK address page when question is answered yes but the storage fails" in {
       val deceasedDetails = CommonBuilder.buildDeceasedDetails copy (isAddressInUK = Some(true))
       val registrationDetails = RegistrationDetails(None, None, Some(deceasedDetails))
       val deceasedDetailsForm1 = deceasedAddressQuestionForm.fill(deceasedDetails)
-      val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host, data = deceasedDetailsForm1.data.toSeq)
+      val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host, data = deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCacheWithFailure(mockCachingConnector, Some(registrationDetails))
 
       val result = deceasedAddressQuestionController.onSubmit()(request)
-      status(result) shouldBe (INTERNAL_SERVER_ERROR)
+      status(result) mustBe (INTERNAL_SERVER_ERROR)
     }
 
     "return a server error to non-UK address page when question is answered no but the storage fails" in {
@@ -169,20 +165,20 @@ class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest w
       val registrationDetails = RegistrationDetails(None, None, Some(deceasedDetails))
       val deceasedDetailsForm1 = deceasedAddressQuestionForm.fill(deceasedDetails)
       val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
-        data = deceasedDetailsForm1.data.toSeq)
+        data = deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCacheWithFailure(mockCachingConnector, Some(registrationDetails))
 
       val result = deceasedAddressQuestionController.onSubmit()(request)
-      status(result) shouldBe (INTERNAL_SERVER_ERROR)
+      status(result) mustBe (INTERNAL_SERVER_ERROR)
     }
 
     "use form when deceased details is empty" in {
       val rd = CommonBuilder.buildRegistrationDetails
       val result: Form[DeceasedDetails] = deceasedAddressQuestionController.fillForm(rd)
-      result shouldBe deceasedAddressQuestionForm
+      result mustBe deceasedAddressQuestionForm
 
     }
   }

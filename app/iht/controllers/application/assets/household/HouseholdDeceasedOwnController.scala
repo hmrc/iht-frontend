@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.application.assets.household
 
+import iht.config.FrontendAuthConnector
 import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
@@ -29,25 +30,30 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.utils.CommonHelper
 import iht.constants.IhtProperties._
+import javax.inject.Inject
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-object HouseholdDeceasedOwnController extends HouseholdDeceasedOwnController with IhtConnectors {
+class HouseholdDeceasedOwnControllerImpl @Inject()() extends HouseholdDeceasedOwnController with IhtConnectors {
   def metrics : Metrics = Metrics
 }
 
 trait HouseholdDeceasedOwnController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsHouseholdDeceasedOwned)
 
-  val submitUrl = CommonHelper.addFragmentIdentifier(
+
+  lazy val submitUrl = CommonHelper.addFragmentIdentifier(
     iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad(), Some(AssetsHouseholdOwnID))
 
-  def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      estateElementOnPageLoad[ShareableBasicEstateElement](householdFormOwn, household_deceased_own.apply,_.allAssets.flatMap(_.household))
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      estateElementOnPageLoad[ShareableBasicEstateElement](householdFormOwn, household_deceased_own.apply,_.allAssets.flatMap(_.household), userNino)
     }
   }
 
-  def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
       val updateApplicationDetails: (ApplicationDetails, Option[String], ShareableBasicEstateElement) => (ApplicationDetails,Option[String]) =
         (appDetails, _, household) => {
           val existingShareValue = appDetails.allAssets.flatMap(_.household.flatMap(_.shareValue))
@@ -70,7 +76,8 @@ trait HouseholdDeceasedOwnController extends EstateController {
         householdFormOwn,
         household_deceased_own.apply,
         updateApplicationDetails,
-        submitUrl
+        submitUrl,
+        userNino
       )
     }
   }

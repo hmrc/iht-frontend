@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,29 +36,29 @@ class TransitionControllerTest extends ApplicationControllerTest with HtmlSpec {
 
     "show the Use Paper Form page when access by an unauthorised person for Scotland" in {
       val result = controller.onPageLoadScotland()(createFakeRequest(isAuthorised = false))
-      status(result) should be(OK)
+      status(result) must be(OK)
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() should be(messagesApi("iht.usePaperForm"))
+      titleElement.text() must be(messagesApi("iht.usePaperForm"))
     }
 
     "show the Use Paper Form page when access by an unauthorised person for Northern Ireland" in {
       val result = controller.onPageLoadNorthernIreland()(createFakeRequest(isAuthorised = false))
-      status(result) should be(OK)
+      status(result) must be(OK)
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() should be(messagesApi("iht.usePaperForm"))
+      titleElement.text() must be(messagesApi("iht.usePaperForm"))
     }
 
     "show the Use Paper Form page when access by an unauthorised person for another country" in {
       val result = controller.onPageLoadOtherCountry()(createFakeRequest(isAuthorised = false))
-      status(result) should be(OK)
+      status(result) must be(OK)
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() should be(messagesApi("iht.usePaperForm"))
+      titleElement.text() must be(messagesApi("iht.usePaperForm"))
     }
   }
 }

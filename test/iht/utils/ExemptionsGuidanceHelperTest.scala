@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,12 +27,13 @@ import org.scalatest.mockito.MockitoSugar
 import play.api.i18n.MessagesApi
 import play.api.mvc.Call
 import play.api.test.{FakeHeaders, FakeRequest}
+import play.api.test.Helpers.{await, defaultAwaitTimeout}
 import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import uk.gov.hmrc.http.HeaderCarrier
 
-class ExemptionsGuidanceHelperTest extends UnitSpec with MockitoSugar with FakeIhtApp with TestUtils with BeforeAndAfter {
+class ExemptionsGuidanceHelperTest extends FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
 
   var mockCachingConnector = mock[CachingConnector]
 
@@ -57,7 +58,7 @@ class ExemptionsGuidanceHelperTest extends UnitSpec with MockitoSugar with FakeI
 
       val result = await(ExemptionsGuidanceHelper.guidanceRedirect(Call("",""),
         CommonBuilder.buildApplicationDetailsUnderLowerThreshold(ihtRef), mockCachingConnector))
-      result shouldBe None
+      result mustBe None
     }
 
     "return None when the estate value is over the current lower threshold but the guidance seen flag is set" in {
@@ -65,7 +66,7 @@ class ExemptionsGuidanceHelperTest extends UnitSpec with MockitoSugar with FakeI
 
       val result = await(ExemptionsGuidanceHelper.guidanceRedirect(Call("",""),
         CommonBuilder.buildApplicationDetailsOverLowerThresholdAndGuidanceSeenFlagSet(ihtRef), mockCachingConnector))
-      result shouldBe None
+      result mustBe None
     }
 
     "return None when the estate value is over the current lower threshold and the guidance seen flag is not set but " +
@@ -77,7 +78,7 @@ class ExemptionsGuidanceHelperTest extends UnitSpec with MockitoSugar with FakeI
 
       val result = await(ExemptionsGuidanceHelper.guidanceRedirect(Call("",""),
         CommonBuilder.buildApplicationDetailsOverLowerThresholdAndGuidanceSeenFlagNotSet(ihtRef), mockCachingConnector))
-      result shouldBe None
+      result mustBe None
     }
 
     "return guidance page call when " + GuidanceAppropriateMessage in {
@@ -87,7 +88,7 @@ class ExemptionsGuidanceHelperTest extends UnitSpec with MockitoSugar with FakeI
 
       val result = await(ExemptionsGuidanceHelper.guidanceRedirect(Call("",""),
         CommonBuilder.buildApplicationDetailsOverLowerThresholdAndGuidanceSeenFlagNotSet(ihtRef), mockCachingConnector))
-      result shouldBe Some(guidancePage)
+      result mustBe Some(guidancePage)
     }
 
     "set the final destination url in keystore when " + GuidanceAppropriateMessage in {
@@ -97,8 +98,8 @@ class ExemptionsGuidanceHelperTest extends UnitSpec with MockitoSugar with FakeI
         CommonBuilder.buildApplicationDetailsOverLowerThresholdAndGuidanceSeenFlagNotSet(ihtRef), mockCachingConnector))
 
       val storeResult = verifyAndReturnStoredSingleValue(mockCachingConnector)
-      storeResult._1 shouldBe Constants.ExemptionsGuidanceContinueUrlKey
-      storeResult._2 shouldBe finalDestinationURL
+      storeResult._1 mustBe Constants.ExemptionsGuidanceContinueUrlKey
+      storeResult._2 mustBe finalDestinationURL
     }
 
     "clear the final destination url from the keystore when returning None" in {
@@ -108,7 +109,7 @@ class ExemptionsGuidanceHelperTest extends UnitSpec with MockitoSugar with FakeI
 
       val deleteResult  = await(verifyDeleteKeyFromStore(mockCachingConnector))
 
-      deleteResult shouldBe Constants.ExemptionsGuidanceContinueUrlKey
+      deleteResult mustBe Constants.ExemptionsGuidanceContinueUrlKey
     }
   }
 
@@ -117,14 +118,14 @@ class ExemptionsGuidanceHelperTest extends UnitSpec with MockitoSugar with FakeI
       MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
       val expectedResult = iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtRef)
       val result = await(ExemptionsGuidanceHelper.finalDestination(ihtRef, mockCachingConnector))
-      result shouldBe expectedResult
+      result mustBe expectedResult
     }
 
     "return final-destination-url as a call when it is stored in the key store" in {
       MockObjectBuilder.createMockToGetSingleValueFromCache(mockCachingConnector,
         same(Constants.ExemptionsGuidanceContinueUrlKey), Some(finalDestinationURL))
       val result = await(ExemptionsGuidanceHelper.finalDestination(ihtRef, mockCachingConnector))
-      result shouldBe Call(Constants.GET, finalDestinationURL)
+      result mustBe Call(Constants.GET, finalDestinationURL)
     }
   }
 }

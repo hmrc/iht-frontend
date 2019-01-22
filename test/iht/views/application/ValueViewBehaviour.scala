@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ trait ValueViewBehaviour[A] extends SubmittableApplicationPageBehaviour[A] {
     applicationPageWithErrorSummaryBox()
 
     s"have an input field with an ID of $value_id" in {
-      Option(doc.getElementById(value_id)).isDefined shouldBe true
+      Option(doc.getElementById(value_id)).isDefined mustBe true
     }
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -72,8 +72,8 @@ class IhtKickoutApplicationViewTest extends ViewTestHelper{
                                           CommonBuilder.firstNameGenerator)
 
       val headers = view.getElementsByTag("h2")
-      headers.size should be > 1
-      headers.first.text() shouldBe messagesApi("iht.nextSteps")
+      headers.size must be > 1
+      headers.first.text() mustBe messagesApi("iht.nextSteps")
     }
 
     "have details are correct button " in {
@@ -85,7 +85,7 @@ class IhtKickoutApplicationViewTest extends ViewTestHelper{
                                           CommonBuilder.firstNameGenerator)
 
       val detailsAreCorrectButton = view.getElementById("finish")
-      detailsAreCorrectButton.attr("value") shouldBe messagesApi("site.button.details.correct")
+      detailsAreCorrectButton.attr("value") mustBe messagesApi("site.button.details.correct")
     }
   }
 
@@ -105,8 +105,8 @@ class IhtKickoutApplicationViewTest extends ViewTestHelper{
       messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.kickout.returnToEstateOverview"))
 
       val returnLink = view.getElementById("back-button")
-      returnLink.text shouldBe messagesApi("iht.estateReport.kickout.returnToEstateOverview.linkText")
-      returnLink.attr("href") shouldBe
+      returnLink.text mustBe messagesApi("iht.estateReport.kickout.returnToEstateOverview.linkText")
+      returnLink.attr("href") mustBe
         iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef("").url
 
     }
@@ -127,8 +127,8 @@ class IhtKickoutApplicationViewTest extends ViewTestHelper{
     messagesShouldBePresent(view.toString, CommonBuilder.escapePound(messagesApi("page.iht.application.overview.value")))
 
     val returnLink = view.getElementById("back-button")
-    returnLink.text shouldBe messagesApi("iht.estateReport.kickout.returnToEstateOverview.linkText")
-    returnLink.attr("href") shouldBe
+    returnLink.text mustBe messagesApi("iht.estateReport.kickout.returnToEstateOverview.linkText")
+    returnLink.attr("href") mustBe
       iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef("").url
 
   }

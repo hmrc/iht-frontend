@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,11 +17,12 @@
 package iht.controllers.registration.applicant
 
 import iht.controllers.registration.RegistrationControllerTest
+import org.scalatestplus.play.PlaySpec
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.test.UnitSpec
 
 trait RegistrationApplicantControllerWithEditModeBehaviour[T <: RegistrationApplicantControllerWithEditMode]
-  extends RegistrationControllerTest { this: UnitSpec =>
+  extends RegistrationControllerTest { this: PlaySpec =>
 
   def controller: T
 
@@ -30,26 +31,26 @@ trait RegistrationApplicantControllerWithEditModeBehaviour[T <: RegistrationAppl
   def securedRegistrationApplicantController() = {
     "redirect to GG login page on PageLoad if the user is not logged in" in {
       val result = controllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to GG login page on Submit if the user is not logged in" in {
       val result = controllerNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to GG login page on PageLoad in edit mode if the user is not logged in" in {
       val result = controllerNotAuthorised.onEditPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to GG login page on Submit in edit mode if the user is not logged in" in {
       val result = controllerNotAuthorised.onEditSubmit(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
   }
 }

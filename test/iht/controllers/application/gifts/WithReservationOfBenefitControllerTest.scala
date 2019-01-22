@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,18 +31,17 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
  */
 class WithReservationOfBenefitControllerTest  extends ApplicationControllerTest{
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def withReservationOfBenefitController = new WithReservationOfBenefitController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def withReservationOfBenefitControllerNotAuthorised = new WithReservationOfBenefitController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -55,14 +54,14 @@ class WithReservationOfBenefitControllerTest  extends ApplicationControllerTest{
 
     "redirect to login page onPageLoad if the user is not logged in" in {
       val result = withReservationOfBenefitController.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to ida login page on Submit if the user is not logged in" in {
       val result = withReservationOfBenefitControllerNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
@@ -76,7 +75,7 @@ class WithReservationOfBenefitControllerTest  extends ApplicationControllerTest{
         saveAppDetails = true)
 
       val result = withReservationOfBenefitController.onPageLoad (createFakeRequest())
-      status(result) shouldBe OK
+      status(result) mustBe OK
     }
 
     "save application and go to Gifts Overview page on submit" in {
@@ -95,7 +94,7 @@ class WithReservationOfBenefitControllerTest  extends ApplicationControllerTest{
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledBusinessInterestsForm.data.toSeq: _*)
 
       val result = withReservationOfBenefitController.onSubmit (request)
-      status(result) shouldBe SEE_OTHER
+      status(result) mustBe SEE_OTHER
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,18 +37,17 @@ import scala.concurrent.Future
   */
 class GiftsOverviewControllerTest extends ApplicationControllerTest {
 
-  var mockCachingConnector = mock[CachingConnector]
-  var mockIhtConnector = mock[IhtConnector]
+
 
   def giftsOverviewController = new GiftsOverviewController {
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def giftsOverviewControllerNotAuthorised = new GiftsOverviewController {
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -72,18 +71,15 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
   val finalDestinationURL = "url"
   val ref = "A1912233"
 
-  before {
-    mockCachingConnector = mock[CachingConnector]
-    mockIhtConnector = mock[IhtConnector]
-  }
+
 
 
   "GiftsOverviewController" must {
 
     "redirect to login page onPageLoad if the user is not logged in" in {
-      val result = giftsOverviewControllerNotAuthorised.onPageLoad()(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(loginUrl))
+      val result = giftsOverviewControllerNotAuthorised.onPageLoad()(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(loginUrl))
     }
 
     val allGiftsQ1Yes = CommonBuilder.buildAllGifts copy (isGivenAway = Some(true))
@@ -102,7 +98,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
 
       val result = giftsOverviewController.onPageLoad(createFakeRequest())
 
-      status(result) should be(OK)
+      status(result) must be(OK)
     }
 
     "respond with error on page load when there are no ApplicationDetails" in {
@@ -128,8 +124,8 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
 
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) shouldBe Some(iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad().url)
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) mustBe Some(iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad().url)
     }
 
     "display NO on page when there is no reservation of benefit" in {
@@ -146,8 +142,8 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
 
-      status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("iht.no"))
+      status(result) must be(OK)
+      contentAsString(result) must include(messagesApi("iht.no"))
     }
 
     "display YES on page when there is no reservation of benefit" in {
@@ -164,8 +160,8 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
 
-      status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("iht.yes"))
+      status(result) must be(OK)
+      contentAsString(result) must include(messagesApi("iht.yes"))
     }
 
     "display return to estate overview link on page" in {
@@ -182,8 +178,8 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
 
-      status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("iht.estateReport.returnToEstateOverview"))
+      status(result) must be(OK)
+      contentAsString(result) must include(messagesApi("iht.estateReport.returnToEstateOverview"))
     }
 
     "display gift guidance on page" in {
@@ -202,8 +198,8 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("page.iht.application.gifts.overview.guidance1",
+      status(result) must be(OK)
+      ContentChecker.stripLineBreaks(contentAsString(result)) must include(messagesApi("page.iht.application.gifts.overview.guidance1",
                                                        DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails),
                                                        DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
@@ -222,9 +218,9 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("page.iht.application.gifts.overview.value.question1"))
-      contentAsString(result) should include("£0")
+      status(result) must be(OK)
+      contentAsString(result) must include(messagesApi("page.iht.application.gifts.overview.value.question1"))
+      contentAsString(result) must include("£0")
     }
 
     "not display any gift value on page when value is not entered" in {
@@ -242,8 +238,8 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
-      contentAsString(result) should not include messagesApi("page.iht.application.gifts.overview.value.question1")
+      status(result) must be(OK)
+      contentAsString(result) must not include messagesApi("page.iht.application.gifts.overview.value.question1")
     }
 
     "not display 'value of gifts given away' question when initial question answered 'No'" in {
@@ -259,8 +255,8 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
-      contentAsString(result) should not include messagesApi("iht.estateReport.gifts.valueOfGiftsGivenAway")
+      status(result) must be(OK)
+      contentAsString(result) must not include messagesApi("iht.estateReport.gifts.valueOfGiftsGivenAway")
     }
 
     "display 'value of gifts given away' question when initial question answered 'Yes'" in {
@@ -276,8 +272,8 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("iht.estateReport.gifts.valueOfGiftsGivenAway"))
+      status(result) must be(OK)
+      contentAsString(result) must include(messagesApi("iht.estateReport.gifts.valueOfGiftsGivenAway"))
     }
 
 
@@ -297,8 +293,8 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("page.iht.application.gifts.trust.question",
+      status(result) must be (OK)
+      ContentChecker.stripLineBreaks(contentAsString(result)) must include (messagesApi("page.iht.application.gifts.trust.question",
         deceasedName))
     }
 
@@ -315,8 +311,8 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
-      contentAsString(result) shouldNot include (messagesApi("page.iht.application.gifts.trust.question"))
+      status(result) must be (OK)
+      contentAsString(result) mustNot include (messagesApi("page.iht.application.gifts.trust.question"))
     }
 
 
@@ -331,8 +327,8 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
       )
 
       val result = giftsOverviewController.onPageLoad(createFakeRequest())
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be(Some(
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) must be(Some(
         iht.controllers.application.exemptions.routes.ExemptionsGuidanceIncreasingThresholdController.onPageLoad(ref).url))
     }
 

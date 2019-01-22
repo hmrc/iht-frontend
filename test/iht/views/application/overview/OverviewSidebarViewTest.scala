@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,7 +64,7 @@ class OverviewSidebarViewTest extends ViewTestHelper {
 
     "show the correct style class for the date panel" in {
       val datePanel = viewAsDoc.getElementById("estate-report-deadline-date")
-      datePanel.attr("class") shouldBe "panel panel-border-wide panel-indent--gutter"
+      datePanel.attr("class") mustBe "panel panel-border-wide panel-indent--gutter"
     }
 
     "show the correct guidance" in {
@@ -75,8 +75,8 @@ class OverviewSidebarViewTest extends ViewTestHelper {
 
     "show the return link with correct text" in {
       val link = viewAsDoc.getElementById("return-to-estate-report-link")
-      link.text shouldBe messagesApi("iht.estateReport.goToEstateReports")
-      link.attr("href") shouldBe iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url
+      link.text mustBe messagesApi("iht.estateReport.goToEstateReports")
+      link.attr("href") mustBe iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url
     }
   }
 

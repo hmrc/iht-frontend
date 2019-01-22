@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,13 +39,13 @@ class MortgagesFormTest extends FormTestHelper with FakeIhtApp {
     "not give an error when answered Yes" in {
       val mortgageModel = defaultMortgageModel.copy(id= "", isOwned = Some(true), value = None)
 
-      formWithNoError(mortgagesForm, dataAsJson(mortgageModel)) shouldBe mortgageModel
+      formWithNoError(mortgagesForm, dataAsJson(mortgageModel)) mustBe mortgageModel
     }
 
     "not give an error when answered No" in {
       val mortgageModel = defaultMortgageModel.copy(id= "", isOwned = Some(false), value = None)
 
-      formWithNoError(mortgagesForm, dataAsJson(mortgageModel)) shouldBe mortgageModel
+      formWithNoError(mortgagesForm, dataAsJson(mortgageModel)) mustBe mortgageModel
     }
 
     behave like currencyValue[Mortgage]("value", mortgagesForm)

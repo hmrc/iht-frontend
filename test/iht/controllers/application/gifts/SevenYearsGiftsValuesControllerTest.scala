@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,12 +40,11 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
 
   override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit val hc = new HeaderCarrier()
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def sevenYearsGiftsValuesController = new SevenYearsGiftsValuesController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -53,7 +52,7 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
 
   def sevenYearsGiftsValuesControllerNotAuthorised = new SevenYearsGiftsValuesController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -79,13 +78,13 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
         storeAppDetailsInCache = true)
 
       val result = sevenYearsGiftsValuesController.onPageLoad()(createFakeRequest(isAuthorised = true))
-      status(result) should be(OK)
+      status(result) must be(OK)
     }
 
     "redirect to ida login page on PageLoad if the user is not logged in" in {
       val result = sevenYearsGiftsValuesControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(loginUrl))
     }
 
     "page loads when there are no gifts in persist storage" in {
@@ -101,7 +100,7 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
         storeAppDetailsInCache = true)
 
       val result = sevenYearsGiftsValuesController.onPageLoad()(createFakeRequest(isAuthorised = true))
-      status(result) should be(OK)
+      status(result) must be(OK)
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
@@ -112,7 +111,7 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
     val yearLink = doc.getElementById(s"edit-gift-$yearId")
     assertEqualsValue(doc, s"a#edit-gift-$yearId span",
       messagesApi("iht.change"))
-    yearLink.attr("href") shouldBe
+    yearLink.attr("href") mustBe
       routes.GiftsDetailsController.onPageLoad(yearId).url
   }
 }

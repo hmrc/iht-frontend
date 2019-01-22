@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ class AssetsOverviewViewTest extends ViewTestHelper  {
     def assertPensionOvervewLinkPointsToCorrectPage(hasPension: Option[Boolean], url: String) = {
       implicit val request = createFakeRequest()
       val assets = AllAssets(privatePension = Some(PrivatePension(isChanged = None, value = None, isOwned = hasPension)))
-      assets_overview(ApplicationDetails(allAssets = Some(assets)), assets, "", "").toString() should include(url)
+      assets_overview(ApplicationDetails(allAssets = Some(assets)), assets, "", "").toString() must include(url)
     }
 
     "link to the pension Yes/No screen when the user has not indicated that they have a private pension" in {

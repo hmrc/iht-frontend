@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,17 +56,17 @@ trait QualifyingBodyDetailsOverviewViewBehaviour extends GenericNonSubmittablePa
                                           expectedAttributeValue: => String,
                                           expectedLinkText: => String) = {
     s"show attribute number ${rowNo + 1} name" in {
-      tableCell(doc, propertyAttributesTableId, 0, rowNo).text shouldBe expectedAttributeName
+      tableCell(doc, propertyAttributesTableId, 0, rowNo).text mustBe expectedAttributeName
     }
 
     s"show attribute number ${rowNo + 1} value" in {
-      tableCell(doc, propertyAttributesTableId, 1, rowNo).text shouldBe expectedAttributeValue
+      tableCell(doc, propertyAttributesTableId, 1, rowNo).text mustBe expectedAttributeValue
     }
 
     s"show attribute number ${rowNo + 1} change link" in {
       val changeDiv = tableCell(doc, propertyAttributesTableId, 2, rowNo)
       val anchor = changeDiv.getElementsByTag("a").first
-      getVisibleText(anchor) shouldBe messagesApi(expectedLinkText)
+      getVisibleText(anchor) mustBe messagesApi(expectedLinkText)
     }
   }
 }
@@ -80,13 +80,13 @@ class QualifyingBodyDetailsOverviewViewTest extends QualifyingBodyDetailsOvervie
 
     behave like propertyAttributeWithValueAndChange(0,
       messagesApi("iht.estateReport.qualifyingBodies.qualifyingBodyName"),
-      CommonBuilder.qualifyingBody.map(_.name).fold("")(identity),
+      CommonBuilder.qualifyingBody.name.fold("")(identity),
       messagesApi("iht.change")
     )
 
     behave like propertyAttributeWithValueAndChange(1,
       messagesApi("page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.value.title"),
-      CommonBuilder.currencyValue(getOrException(CommonBuilder.qualifyingBody.map(_.totalValue))),
+      CommonBuilder.currencyValue(getOrException(CommonBuilder.qualifyingBody.totalValue)),
       messagesApi("iht.change")
     )
   }

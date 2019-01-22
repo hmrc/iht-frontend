@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,24 +16,30 @@
 
 package iht.controllers.application.declaration
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms
 import iht.forms.ApplicationForms._
 import iht.metrics.Metrics
 import iht.utils.{CommonHelper, LogHelper}
+import javax.inject.Inject
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+
 import scala.concurrent.Future
 
-object CheckedEverythingQuestionController extends CheckedEverythingQuestionController with IhtConnectors {
+class CheckedEverythingQuestionControllerImpl @Inject()() extends CheckedEverythingQuestionController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait CheckedEverythingQuestionController extends EstateController {
 
+
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request =>
+    implicit request =>
       withRegistrationDetails { rd =>
         Future.successful(Ok(iht.views.html.application.declaration.checked_everything_question(checkedEverythingQuestionForm, rd)))
       }
@@ -41,7 +47,7 @@ trait CheckedEverythingQuestionController extends EstateController {
 
 
   def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
+    implicit request => {
       val boundForm = ApplicationForms.checkedEverythingQuestionForm.bindFromRequest
       withRegistrationDetails { rd =>
         boundForm.fold(

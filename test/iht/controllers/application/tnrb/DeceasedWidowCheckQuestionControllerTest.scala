@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,39 +42,36 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest with HtmlSpec {
 
   override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-  val mockCachingConnector = mock[CachingConnector]
-  var mockIhtConnector = mock[IhtConnector]
+
 
   def deceasedWidowCheckQuestionController = new DeceasedWidowCheckQuestionController {
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def deceasedWidowCheckQuestionControllerNotAuthorised = new DeceasedWidowCheckQuestionController {
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  before {
-    mockIhtConnector = mock[IhtConnector]
-  }
+
 
   "DeceasedWidowCheckQuestionController" must {
 
     "redirect to login page onPageLoad if the user is not logged in" in {
       val result = deceasedWidowCheckQuestionController.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(loginUrl))
     }
 
     "redirect to ida login page on Submit if the user is not logged in" in {
       val result = deceasedWidowCheckQuestionController.onSubmit(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(loginUrl))
     }
   }
 
@@ -95,8 +92,8 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*)
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be(Some(routes.DeceasedWidowCheckDateController.onPageLoad().url))
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) must be(Some(routes.DeceasedWidowCheckDateController.onPageLoad().url))
     }
 
     "show errors if invalid fields" in {
@@ -118,7 +115,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       implicit val request = createFakeRequest().withFormUrlEncodedBody(("widowed", ""), ("shareValue", "233"))
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
-      status(result) shouldBe BAD_REQUEST
+      status(result) mustBe BAD_REQUEST
     }
 
     "give internal server error if no app details" in {
@@ -135,7 +132,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       implicit val request = createFakeRequest().withFormUrlEncodedBody(("widowed", ""), ("shareValue", "233"))
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
-      status(result) shouldBe INTERNAL_SERVER_ERROR
+      status(result) mustBe INTERNAL_SERVER_ERROR
     }
 
     "save application and go to Widow check date page on submit if WidowCheck section is not completed" in {
@@ -154,8 +151,8 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*)
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be(Some(routes.DeceasedWidowCheckDateController.onPageLoad().url))
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) must be(Some(routes.DeceasedWidowCheckDateController.onPageLoad().url))
     }
 
     "go to estate overview page on submit when the deceased is not widowed" in {
@@ -174,8 +171,8 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*)
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be(Some(iht.controllers.application.routes.EstateOverviewController
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) must be(Some(iht.controllers.application.routes.EstateOverviewController
         .onPageLoadWithIhtRef(ihtRef).url))
     }
 
@@ -198,8 +195,8 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*)
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be(Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad().url + "#" + TnrbSpouseMartialStatusID))
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) must be(Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad().url + "#" + TnrbSpouseMartialStatusID))
     }
 
     "wipe out the WidowCheck date and tnrb eligibility data, go to estate overview page on submit " +
@@ -223,8 +220,8 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*)
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be(Some(iht.controllers.application.routes.EstateOverviewController
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) must be(Some(iht.controllers.application.routes.EstateOverviewController
         .onPageLoadWithIhtRef(ihtRef).url))
 
       val capturedValue = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
@@ -234,7 +231,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
         increaseIhtThreshold = None
       )
 
-      capturedValue shouldBe expectedAppDetails
+      capturedValue mustBe expectedAppDetails
     }
   }
 
@@ -250,7 +247,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
         saveAppDetails = true)
 
       val result = deceasedWidowCheckQuestionController.onPageLoad(createFakeRequest())
-      status(result) shouldBe OK
+      status(result) mustBe OK
     }
 
     "respond with OK when widow check is None" in {
@@ -264,7 +261,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
         saveAppDetails = true)
 
       val result = deceasedWidowCheckQuestionController.onPageLoad(createFakeRequest())
-      status(result) shouldBe OK
+      status(result) mustBe OK
     }
 
     "respond with internal server error when no app details" in {
@@ -275,7 +272,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
         saveAppDetails = true)
 
       val result = deceasedWidowCheckQuestionController.onPageLoad(createFakeRequest())
-      status(result) shouldBe INTERNAL_SERVER_ERROR
+      status(result) mustBe INTERNAL_SERVER_ERROR
     }
 
     def setupMocksForTitleTests = {
@@ -308,13 +305,13 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       val expectedUrl = iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtRef).url
 
       val result = deceasedWidowCheckQuestionController.onPageLoad(createFakeRequest())
-      status(result) shouldBe OK
+      status(result) mustBe OK
       val doc = asDocument(contentAsString(result))
       assertRenderedById(doc, "cancel-button")
 
       val link = doc.getElementById("cancel-button")
-      link.text() shouldBe messagesApi("iht.estateReport.returnToEstateOverview")
-      link.attr("href") shouldBe expectedUrl
+      link.text() mustBe messagesApi("iht.estateReport.returnToEstateOverview")
+      link.attr("href") mustBe expectedUrl
     }
 
     "return html containing link which points to tnrb overview when widow check date is not empty" in {
@@ -331,13 +328,13 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       val expectedUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad.url + "#" + TnrbSpouseMartialStatusID
 
       val result = deceasedWidowCheckQuestionController.onPageLoad(createFakeRequest())
-      status(result) shouldBe OK
+      status(result) mustBe OK
       val doc = asDocument(contentAsString(result))
       assertRenderedById(doc, "cancel-button")
 
       val link = doc.getElementById("cancel-button")
-      link.text() shouldBe messagesApi("page.iht.application.tnrb.returnToIncreasingThreshold")
-      link.attr("href") shouldBe expectedUrl
+      link.text() mustBe messagesApi("page.iht.application.tnrb.returnToIncreasingThreshold")
+      link.attr("href") mustBe expectedUrl
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

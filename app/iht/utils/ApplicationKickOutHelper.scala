@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -185,7 +185,7 @@ object ApplicationKickOutHelper {
     displayEstateValueAndThreshold.contains(kickOutReason)
   }
 
-  private val unParameterizedSectionCalls = ListMap[String, Option[Call]](
+  private lazy val unParameterizedSectionCalls = ListMap[String, Option[Call]](
     ApplicationSectionAssetsMoneyOwed -> Some(iht.controllers.application.assets.routes.MoneyOwedController.onPageLoad()),
     ApplicationSectionAssetsMoneyDeceasedOwned ->
       Some(iht.controllers.application.assets.money.routes.MoneyDeceasedOwnController.onPageLoad()),

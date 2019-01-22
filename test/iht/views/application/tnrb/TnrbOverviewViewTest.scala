@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,8 +41,8 @@ class TnrbOverviewViewTest extends ViewTestHelper {
       val view = tnrb_overview(regDetails, widowCheckModel, tnrbModel, ihtReference).toString
       val doc = asDocument(view)
       val headers: Elements = doc.getElementsByTag("h1")
-      headers.size() shouldBe 1
-      headers.first().text() shouldBe messagesApi("iht.estateReport.tnrb.increasingIHTThreshold")
+      headers.size() mustBe 1
+      headers.first().text() mustBe messagesApi("iht.estateReport.tnrb.increasingIHTThreshold")
     }
 
     "show the correct browser title" in {
@@ -56,13 +56,13 @@ class TnrbOverviewViewTest extends ViewTestHelper {
     "show the correct guidance paragraphs" in {
       implicit val request = createFakeRequest()
       val view = ContentChecker.stripLineBreaks(tnrb_overview(regDetails, widowCheckModel, tnrbModel, ihtReference).toString)
-      view should include(messagesApi("page.iht.application.tnrbEligibilty.overview.guidance1"))
-      view should include(messagesApi("page.iht.application.tnrbEligibilty.overview.guidance2",
+      view must include(messagesApi("page.iht.application.tnrbEligibilty.overview.guidance1"))
+      view must include(messagesApi("page.iht.application.tnrbEligibilty.overview.guidance2",
                             TnrbHelper.spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheckModel,
                              messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
                                         DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails))),
                              CommonHelper.getOrException(widowCheckModel.dateOfPreDeceased).getYear.toString ))
-      view should include(messagesApi("iht.estateReport.completeEverySection"))
+      view must include(messagesApi("iht.estateReport.completeEverySection"))
 
     }
 
@@ -138,47 +138,47 @@ class TnrbOverviewViewTest extends ViewTestHelper {
       val doc = asDocument(view)
 
       val homeInTheUKQuestion = doc.getElementById(TnrbSpousePermanentHomeInUKID)
-      homeInTheUKQuestion.attr("href") shouldBe
+      homeInTheUKQuestion.attr("href") mustBe
         iht.controllers.application.tnrb.routes.PermanentHomeController.onPageLoad.url
 
       val giftsGivenAwayQuestion = doc.getElementById(TnrbGiftsGivenAwayID)
-      giftsGivenAwayQuestion.attr("href") shouldBe
+      giftsGivenAwayQuestion.attr("href") mustBe
         iht.controllers.application.tnrb.routes.GiftsMadeBeforeDeathController.onPageLoad.url
 
       val giftsWithReservationQuestion = doc.getElementById(TnrbGiftsWithReservationID)
-      giftsWithReservationQuestion.attr("href") shouldBe
+      giftsWithReservationQuestion.attr("href") mustBe
         iht.controllers.application.tnrb.routes.GiftsWithReservationOfBenefitController.onPageLoad.url
 
       val claimAnyBusinessUKQuestion = doc.getElementById(TnrbEstateReliefID)
-      claimAnyBusinessUKQuestion.attr("href") shouldBe
+      claimAnyBusinessUKQuestion.attr("href") mustBe
         iht.controllers.application.tnrb.routes.EstateClaimController.onPageLoad.url
 
       val partnerBenefitFromTrustQuestion = doc.getElementById(TnrbSpouseBenefitFromTrustID)
-      partnerBenefitFromTrustQuestion.attr("href") shouldBe
+      partnerBenefitFromTrustQuestion.attr("href") mustBe
         iht.controllers.application.tnrb.routes.BenefitFromTrustController.onPageLoad.url
 
       val estatePassedToCharityKQuestion = doc.getElementById(TnrbEstatePassedToDeceasedID)
-      estatePassedToCharityKQuestion.attr("href") shouldBe
+      estatePassedToCharityKQuestion.attr("href") mustBe
         iht.controllers.application.tnrb.routes.EstatePassedToDeceasedOrCharityController.onPageLoad.url
 
       val jointAssetsPassedQuestion = doc.getElementById(TnrbJointAssetsPassedToDeceasedID)
-      jointAssetsPassedQuestion.attr("href") shouldBe
+      jointAssetsPassedQuestion.attr("href") mustBe
         iht.controllers.application.tnrb.routes.JointlyOwnedAssetsController.onPageLoad.url
 
       val partnerMaritalStatusQuestion = doc.getElementById(TnrbSpouseMartialStatusID)
-      partnerMaritalStatusQuestion.attr("href") shouldBe
+      partnerMaritalStatusQuestion.attr("href") mustBe
         iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad.url
 
       val dateOfPreDeceasedQuestion = doc.getElementById(TnrbSpouseDateOfDeathID)
-      dateOfPreDeceasedQuestion.attr("href") shouldBe
+      dateOfPreDeceasedQuestion.attr("href") mustBe
         iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad.url
 
       val partnerNameQuestion = doc.getElementById(TnrbSpouseNameID)
-      partnerNameQuestion.attr("href") shouldBe
+      partnerNameQuestion.attr("href") mustBe
         iht.controllers.application.tnrb.routes.PartnerNameController.onPageLoad.url
 
       val dateOfMarriageQuestion = doc.getElementById(TnrbSpouseDateOfMarriageID)
-      dateOfMarriageQuestion.attr("href") shouldBe
+      dateOfMarriageQuestion.attr("href") mustBe
         iht.controllers.application.tnrb.routes.DateOfMarriageController.onPageLoad.url
 
 
@@ -189,9 +189,9 @@ class TnrbOverviewViewTest extends ViewTestHelper {
       val view = tnrb_overview(regDetails, widowCheckModel, tnrbModel, ihtReference).toString
       val doc = asDocument(view)
       val button: Element = doc.getElementById("return-button")
-      button.text() shouldBe messagesApi("iht.estateReport.returnToEstateOverview")
-      button.className() shouldBe "button"
-      button.attr("href") shouldBe
+      button.text() mustBe messagesApi("iht.estateReport.returnToEstateOverview")
+      button.className() mustBe "button"
+      button.attr("href") mustBe
         CommonHelper.addFragmentIdentifierToUrl(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference).url, EstateIncreasingID)
    }
 

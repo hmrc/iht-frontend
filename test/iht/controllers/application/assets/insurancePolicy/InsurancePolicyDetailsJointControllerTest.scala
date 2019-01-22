@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,18 +42,17 @@ import scala.concurrent.Future
  */
 class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTest {
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def insurancePolicyDetailsJointController = new InsurancePolicyDetailsJointController {
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def insurancePolicyDetailsJointControllerNotAuthorised = new InsurancePolicyDetailsJointController {
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -110,7 +109,7 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsJointController.onSubmit(request)
-      status(result) shouldBe (SEE_OTHER)
+      status(result) mustBe (SEE_OTHER)
     }
 
     "save application and go to Insurance Overview page on submit where no assets previously saved" in {
@@ -128,7 +127,7 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsJointController.onSubmit(request)
-      status(result) shouldBe (SEE_OTHER)
+      status(result) mustBe (SEE_OTHER)
     }
 
     "save application and go to Insurance Overview page on submit where answer as no" in {
@@ -146,7 +145,7 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsJointController.onSubmit(request)
-      status(result) shouldBe (SEE_OTHER)
+      status(result) mustBe (SEE_OTHER)
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
@@ -156,19 +155,19 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = insurancePolicyDetailsJointController.onSubmit(fakePostRequest)
-      status(result) shouldBe (BAD_REQUEST)
+      status(result) mustBe (BAD_REQUEST)
     }
 
     "redirect to login page onPageLoad if the user is not logged in" in {
-      val result = insurancePolicyDetailsJointControllerNotAuthorised.onPageLoad(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result).get should be(loginUrl)
+      val result = insurancePolicyDetailsJointControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result).get must be(loginUrl)
     }
 
     "respond with OK on page load" in {
       createMocks(applicationDetails)
       val result = insurancePolicyDetailsJointController.onPageLoad(createFakeRequest())
-      status(result) should be(OK)
+      status(result) must be(OK)
     }
 
     "redirect to correct page on submit" in {
@@ -178,7 +177,7 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsJointController.onSubmit(request)
-      redirectLocation(result) should be(Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad().url + "#" + InsuranceJointlyHeldYesNoID))
+      redirectLocation(result) must be(Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad().url + "#" + InsuranceJointlyHeldYesNoID))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

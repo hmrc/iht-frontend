@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import uk.gov.hmrc.play.test.UnitSpec
 /**
   * Created by david-beer on 27/10/16.
   */
-class FopURIResolverTest extends UnitSpec with FakeIhtApp with MockitoSugar {
+class FopURIResolverTest extends FakeIhtApp with MockitoSugar {
 
   "Must return a valid Resource" in {
 
@@ -34,7 +34,7 @@ class FopURIResolverTest extends UnitSpec with FakeIhtApp with MockitoSugar {
     val fopURIResolver = new FopURIResolver
     val result = fopURIResolver.getResource(inputResource)
 
-    result shouldBe a[Resource]
+    result mustBe a[Resource]
   }
 
   "Must throw an exception if Resource is not valid" in {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,21 +18,26 @@ package iht.controllers.estateReports
 
 import java.util.UUID
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.constants.Constants
 import iht.controllers.application.ApplicationController
 import iht.models.application.IhtApplication
 import iht.utils.{CommonHelper, DeceasedInfoHelper, SessionHelper, StringHelper, ApplicationStatus => AppStatus}
 import iht.viewmodels.estateReports.YourEstateReportsRowViewModel
+import javax.inject.Inject
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent}
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys, Upstream4xxResponse}
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
 import scala.concurrent.Future
 
-object YourEstateReportsController extends YourEstateReportsController with IhtConnectors
+class YourEstateReportsControllerImpl @Inject()() extends YourEstateReportsController with IhtConnectors
 
 trait YourEstateReportsController extends ApplicationController {
 
@@ -40,10 +45,10 @@ trait YourEstateReportsController extends ApplicationController {
 
   def ihtConnector: IhtConnector
 
-  def onPageLoad: Action[AnyContent] = authorisedForIht {
-    implicit user => {
+  def onPageLoad: Action[AnyContent] = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    {
       implicit request => {
-        val nino = StringHelper.getNino(user)
+        val nino = StringHelper.getNino(userNino)
 
         ihtConnector.getCaseList(nino).flatMap {
           case listOfCases if listOfCases.nonEmpty => {
@@ -71,12 +76,12 @@ trait YourEstateReportsController extends ApplicationController {
 
           case _ =>
             Future.successful(Ok(iht.views.html.estateReports.your_estate_reports(Nil, false)).withSession(
-              SessionHelper.ensureSessionHasNino(request.session, user) +
+              SessionHelper.ensureSessionHasNino(request.session, userNino) +
                 (SessionKeys.sessionId -> s"session-${UUID.randomUUID}")))
         } recover {
           case e: Upstream4xxResponse if e.upstreamResponseCode == 404 =>
             Ok(iht.views.html.estateReports.your_estate_reports(Nil, false)).withSession(
-              SessionHelper.ensureSessionHasNino(request.session, user) +
+              SessionHelper.ensureSessionHasNino(request.session, userNino) +
                 (SessionKeys.sessionId -> s"session-${UUID.randomUUID}")
             )
         }

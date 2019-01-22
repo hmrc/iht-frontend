@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,15 +27,15 @@ import uk.gov.hmrc.play.test.UnitSpec
 /**
  * Created by jennygj on 28/10/16.
  */
-class InputRadioGroupWithHintsTest extends UnitSpec with FakeIhtApp with HtmlSpec {
+class InputRadioGroupWithHintsTest extends FakeIhtApp with HtmlSpec {
 
   "input radio group with hints" must {
 
     "display the correct data-target attribute based on field mappings" in {
       val form = Form("testing" -> optional(text))
       val field = form("testing")
-      val radio = ("test", ("testing", Some("testing"), Some(true))) // should contain a populated data-target attr
-      val radio2 = ("test", ("testing", Some("testing"), Some(false))) // should contain a blank data-target attr
+      val radio = ("test", ("testing", Some("testing"), Some(true))) // must contain a populated data-target attr
+      val radio2 = ("test", ("testing", Some("testing"), Some(false))) // must contain a blank data-target attr
       val radios = Seq(radio, radio, radio2)
 
       val result = input_radio_group_with_hints(field, radios, '_ariaHintID -> "testID2")
@@ -43,8 +43,8 @@ class InputRadioGroupWithHintsTest extends UnitSpec with FakeIhtApp with HtmlSpe
       val label = doc.getElementsByTag("label").first
       val label2 = doc.getElementsByTag("label").last()
 
-      label.attr("data-target") should be ("testID2")
-      label2.attr("data-target") should be ("")
+      label.attr("data-target") must be ("testID2")
+      label2.attr("data-target") must be ("")
     }
 
   }

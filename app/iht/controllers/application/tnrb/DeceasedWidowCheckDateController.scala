@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,30 +26,34 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.tnrb.TnrbHelper._
-import iht.utils.{ApplicationKickOutNonSummaryHelper, ApplicationKickOutHelper, CommonHelper, DateHelper, StringHelper}
+import iht.utils.{ApplicationKickOutHelper, ApplicationKickOutNonSummaryHelper, CommonHelper, DateHelper, StringHelper}
+import javax.inject.Inject
 import org.joda.time.LocalDate
 import play.api.Logger
 import play.api.Play.current
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Request, Result}
-
-import scala.concurrent.Future
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
 
-object DeceasedWidowCheckDateController extends DeceasedWidowCheckDateController with IhtConnectors {
+import scala.concurrent.Future
+
+class DeceasedWidowCheckDateControllerImpl @Inject()() extends DeceasedWidowCheckDateController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait DeceasedWidowCheckDateController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
 
-  def onPageLoad = authorisedForIht {
-    implicit user =>
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+
       implicit request => {
         withRegistrationDetails { registrationDetails =>
           for {
-            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(user),
+            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
               CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
               registrationDetails.acknowledgmentReference)
           } yield {
@@ -74,11 +78,11 @@ trait DeceasedWidowCheckDateController extends EstateController {
       }
   }
 
-  def onSubmit = authorisedForIht {
-    implicit user =>
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+
       implicit request => {
         withRegistrationDetails { regDetails =>
-          val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(user),
+          val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(userNino),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
@@ -97,7 +101,7 @@ trait DeceasedWidowCheckDateController extends EstateController {
                     cancelLinkTextForWidowCheckPages(appDetails))))
                 },
                 widowModel => {
-                  saveApplication(StringHelper.getNino(user), widowModel, appDetails, regDetails)
+                  saveApplication(StringHelper.getNino(userNino), widowModel, appDetails, regDetails)
                 }
               )
             }
@@ -153,7 +157,7 @@ trait DeceasedWidowCheckDateController extends EstateController {
         InternalServerError
       } { _ =>
         updatedAppDetailsWithKickOutReason.kickoutReason match {
-          case Some(reason) => Redirect(iht.controllers.application.routes.KickoutController.onPageLoad())
+          case Some(reason) => Redirect(iht.controllers.application.routes.KickoutAppController.onPageLoad())
           case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(TnrbSpouseDateOfDeathID))
         }
       }

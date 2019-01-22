@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,8 +36,8 @@ class IhtErrorTemplateViewTest extends ViewTestHelper {
     "have the correct title" in {
       val doc = asDocument(view)
       val headers = doc.getElementsByTag("h1")
-      headers.size shouldBe 1
-      headers.first.text() shouldBe title
+      headers.size mustBe 1
+      headers.first.text() mustBe title
     }
 
     "have the correct messages" in {
@@ -45,9 +45,9 @@ class IhtErrorTemplateViewTest extends ViewTestHelper {
       val message1 = doc.select("#content > article > p:nth-child(2)")
       val message2 = doc.select("#content > article > p:nth-child(3)")
       val message3 = doc.select("#content > article > p:nth-child(4)")
-      message1.text() shouldBe messages1
-      message2.text() shouldBe messages2
-      message3.text() shouldBe messages3
+      message1.text() mustBe messages1
+      message2.text() mustBe messages2
+      message3.text() mustBe messages3
     }
   }
 }

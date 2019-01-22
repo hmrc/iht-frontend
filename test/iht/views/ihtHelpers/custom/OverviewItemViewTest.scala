@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,8 +76,8 @@ class OverviewItemViewTest extends ViewTestHelper {
       val doc = asDocument(view)
 
       val link = doc.getElementById(EstateAssetsID)
-      link.text shouldBe messagesApi("iht.start")
-      link.attr("href") shouldBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url
+      link.text mustBe messagesApi("iht.start")
+      link.attr("href") mustBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url
       assertRenderedById(doc, EstateAssetsID + "-status")
       assertContainsText(doc, messagesApi("iht.notStarted"))
     }
@@ -94,8 +94,8 @@ class OverviewItemViewTest extends ViewTestHelper {
       val doc = asDocument(view)
 
       val link = doc.getElementById(EstateAssetsID)
-      link.text shouldBe messagesApi("iht.giveMoreDetails")
-      link.attr("href") shouldBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url
+      link.text mustBe messagesApi("iht.giveMoreDetails")
+      link.attr("href") mustBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url
       assertRenderedById(doc, EstateAssetsID + "-status")
       assertContainsText(doc, messagesApi("iht.inComplete"))
     }
@@ -112,8 +112,8 @@ class OverviewItemViewTest extends ViewTestHelper {
       val doc = asDocument(view)
 
       val link = doc.getElementById(EstateAssetsID)
-      link.text shouldBe messagesApi("iht.viewOrChange")
-      link.attr("href") shouldBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url
+      link.text mustBe messagesApi("iht.viewOrChange")
+      link.attr("href") mustBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url
       assertRenderedById(doc, EstateAssetsID + "-status")
       assertContainsText(doc, messagesApi("iht.complete"))
     }

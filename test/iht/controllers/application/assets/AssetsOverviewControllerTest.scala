@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,11 +35,8 @@ import scala.concurrent.Future
  */
 class AssetsOverviewControllerTest extends ApplicationControllerTest {
 
-  var mockCachingConnector: CachingConnector = mock[CachingConnector]
-  var mockIhtConnector: IhtConnector = mock[IhtConnector]
-
   def assetsOverviewController = new AssetsOverviewController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -65,17 +62,12 @@ class AssetsOverviewControllerTest extends ApplicationControllerTest {
       singleValueReturn = Some("true"))
   }
 
-  before {
-    mockCachingConnector = mock[CachingConnector]
-    mockIhtConnector = mock[IhtConnector]
-  }
-
   "AssetsOverviewController" must {
 
     "redirect to login page onPageLoad if the user is not logged in" in {
       val result = assetsOverviewController.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load where assets exist" in {
@@ -87,7 +79,7 @@ class AssetsOverviewControllerTest extends ApplicationControllerTest {
         getAppDetails = true)
 
       val result = assetsOverviewController.onPageLoad (createFakeRequest())
-      status(result) shouldBe (OK)
+      status(result) mustBe (OK)
     }
 
     "respond with OK on page load where no assets" in {
@@ -100,7 +92,7 @@ class AssetsOverviewControllerTest extends ApplicationControllerTest {
         getAppDetails = true)
 
       val result = assetsOverviewController.onPageLoad (createFakeRequest())
-      status(result) shouldBe (OK)
+      status(result) mustBe (OK)
     }
 
     "respond with error on page load when there is no ApplicationDetails" in {
@@ -110,7 +102,7 @@ class AssetsOverviewControllerTest extends ApplicationControllerTest {
         appDetails= None,
         getAppDetails = true)
 
-      a[RuntimeException] shouldBe thrownBy {
+      a[RuntimeException] mustBe thrownBy {
         await(assetsOverviewController.onPageLoad (createFakeRequest()))
       }
     }
@@ -123,8 +115,8 @@ class AssetsOverviewControllerTest extends ApplicationControllerTest {
         CommonBuilder.buildApplicationDetailsOverLowerThresholdAndGuidanceSeenFlagNotSet(ref))
 
       val result = assetsOverviewController.onPageLoad(createFakeRequest())
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be (Some(iht.controllers.application.exemptions.routes.ExemptionsGuidanceIncreasingThresholdController.onPageLoad(ref).url))
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) must be (Some(iht.controllers.application.exemptions.routes.ExemptionsGuidanceIncreasingThresholdController.onPageLoad(ref).url))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

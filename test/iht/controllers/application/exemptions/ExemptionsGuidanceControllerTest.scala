@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,14 +34,12 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 class ExemptionsGuidanceControllerTest extends ApplicationControllerTest with HtmlSpec with BeforeAndAfter {
 
   override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-  var mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
 
   // Create controller object and pass in mock.
   def exemptionsGuidanceController = new ExemptionsGuidanceController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
@@ -49,7 +47,7 @@ class ExemptionsGuidanceControllerTest extends ApplicationControllerTest with Ht
   def exemptionsGuidanceControllerNotAuthorised = new ExemptionsGuidanceController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
@@ -71,62 +69,60 @@ class ExemptionsGuidanceControllerTest extends ApplicationControllerTest with Ht
     ihtReference = Some("ABC123")
     )
 
-  before {
-    mockCachingConnector = mock[CachingConnector]
-  }
+
 
   "Exemptions Guidance Controller" must {
 
     "redirect to ida login page on page load when user is not logged in" in {
       setupMocks
 
-      val result = exemptionsGuidanceControllerNotAuthorised.onPageLoad("anIhtReference")(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      val result = exemptionsGuidanceControllerNotAuthorised.onPageLoad("anIhtReference")(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to ida login page on submit when user is not logged in" in {
       setupMocks
 
-      val result = exemptionsGuidanceControllerNotAuthorised.onSubmit("")(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      val result = exemptionsGuidanceControllerNotAuthorised.onSubmit("")(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
       setupMocks
 
-      val result = exemptionsGuidanceController.onPageLoad("anIhtReference")(createFakeRequest())
-      status(result) should be(OK)
+      val result = exemptionsGuidanceController.onPageLoad("anIhtReference")(createFakeRequest(authRetrieveNino = false))
+      status(result) must be(OK)
     }
 
     "respond with correct content on page load" in {
       setupMocks
 
-      val result = exemptionsGuidanceController.onPageLoad("anIhtReference")(createFakeRequest())
-      status(result) should be(OK)
+      val result = exemptionsGuidanceController.onPageLoad("anIhtReference")(createFakeRequest(authRetrieveNino = false))
+      status(result) must be(OK)
 
       val resultContent = contentAsString(result)
 
-      resultContent should include(messagesApi("page.iht.application.exemptions.guidance.content1"))
-      resultContent should include(messagesApi("page.iht.application.exemptions.guidance.content2"))
-      resultContent should include(messagesApi("page.iht.application.exemptions.guidance.content2.linkText"))
-      resultContent should include(messagesApi("page.iht.application.exemptions.guidance.content3"))
-      resultContent should include(messagesApi("page.iht.application.exemptions.guidance.content4"))
-      resultContent should include(messagesApi("iht.estateReport.exemptions.guidance.provideAssetsDetails"))
-      resultContent should include(messagesApi("iht.estateReport.exemptions.guidance.debtsSubtracted"))
+      resultContent must include(messagesApi("page.iht.application.exemptions.guidance.content1"))
+      resultContent must include(messagesApi("page.iht.application.exemptions.guidance.content2"))
+      resultContent must include(messagesApi("page.iht.application.exemptions.guidance.content2.linkText"))
+      resultContent must include(messagesApi("page.iht.application.exemptions.guidance.content3"))
+      resultContent must include(messagesApi("page.iht.application.exemptions.guidance.content4"))
+      resultContent must include(messagesApi("iht.estateReport.exemptions.guidance.provideAssetsDetails"))
+      resultContent must include(messagesApi("iht.estateReport.exemptions.guidance.debtsSubtracted"))
     }
   }
 
   "respond with correct url on form action" in {
     setupMocks
 
-    val result = exemptionsGuidanceController.onPageLoad("anIhtReference")(createFakeRequest())
-    status(result) should be(OK)
+    val result = exemptionsGuidanceController.onPageLoad("anIhtReference")(createFakeRequest(authRetrieveNino = false))
+    status(result) must be(OK)
     val doc = asDocument(contentAsString(result))
     val formElement: Element = doc.getElementsByTag("form").first
     val url = formElement.attr("action")
 
-    url shouldBe iht.controllers.application.exemptions.routes.ExemptionsGuidanceController.onSubmit("anIhtReference").url
+    url mustBe iht.controllers.application.exemptions.routes.ExemptionsGuidanceController.onSubmit("anIhtReference").url
   }
 }

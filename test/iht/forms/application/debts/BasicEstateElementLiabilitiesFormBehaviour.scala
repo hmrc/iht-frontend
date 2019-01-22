@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,13 +45,13 @@ trait BasicEstateElementLiabilitiesFormBehaviour extends FormTestHelper with Fak
     "not give an error when answered Yes" in {
       val basicEstateElementLiabilityModel = defaultModel.copy(isOwned = Some(true), value = None)
 
-      formWithNoError(form, dataAsJson(basicEstateElementLiabilityModel)) shouldBe basicEstateElementLiabilityModel
+      formWithNoError(form, dataAsJson(basicEstateElementLiabilityModel)) mustBe basicEstateElementLiabilityModel
     }
 
     "not give an error when answered No" in {
       val basicEstateElementLiabilityModel = defaultModel.copy(isOwned = Some(false), value = None)
 
-      formWithNoError(form, dataAsJson(basicEstateElementLiabilityModel)) shouldBe basicEstateElementLiabilityModel
+      formWithNoError(form, dataAsJson(basicEstateElementLiabilityModel)) mustBe basicEstateElementLiabilityModel
     }
 
     behave like currencyValue[BasicEstateElementLiabilities]("value", form)

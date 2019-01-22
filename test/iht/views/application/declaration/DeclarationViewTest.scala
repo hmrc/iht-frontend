@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -109,7 +109,7 @@ class DeclarationViewTest extends ViewTestHelper {
     assertLinkHasValue(doc, "pdf-summary-link", iht.controllers.application.pdf.routes.PDFController.onPreSubmissionPDF.url)
 
     val pdfLink = doc.getElementById("pdf-summary-link")
-    pdfLink.text() shouldBe messagesApi("iht.estateReport.copyOfTheEstateReportAndPrint")
+    pdfLink.text() mustBe messagesApi("iht.estateReport.copyOfTheEstateReportAndPrint")
   }
 
   "Declaration Page" must {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.application.exemptions.partner
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
@@ -25,51 +26,52 @@ import iht.models.application.exemptions._
 import iht.utils.CommonHelper._
 import iht.utils.{ApplicationKickOutNonSummaryHelper, StringHelper}
 import iht.views.html.application.exemption.partner.partner_date_of_birth
+import javax.inject.Inject
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Request, Result}
-import uk.gov.hmrc.play.frontend.auth.AuthContext
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
 /**
   * Created by james on 01/08/16.
   */
-object PartnerDateOfBirthController extends PartnerDateOfBirthController with IhtConnectors
+class PartnerDateOfBirthControllerImpl @Inject()() extends PartnerDateOfBirthController with IhtConnectors
 
 trait PartnerDateOfBirthController extends EstateController {
+
 
   def cachingConnector: CachingConnector
 
   def ihtConnector: IhtConnector
 
-  def onPageLoad = authorisedForIht {
-    implicit user =>
-      implicit request =>
-        estateElementOnPageLoad[PartnerExemption](spouseDateOfBirthForm, partner_date_of_birth.apply, _.allExemptions.flatMap(_.partner))
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request =>
+      estateElementOnPageLoad[PartnerExemption](spouseDateOfBirthForm, partner_date_of_birth.apply, _.allExemptions.flatMap(_.partner), userNino)
   }
 
-  def onSubmit = authorisedForIht {
-    implicit user =>
-      implicit request => {
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
 
-        withRegistrationDetails { regDetails =>
-          val boundForm = spouseDateOfBirthForm.bindFromRequest
+      withRegistrationDetails { regDetails =>
+        val boundForm = spouseDateOfBirthForm.bindFromRequest
 
-          boundForm.fold(
-            formWithErrors =>
-              Future.successful(Ok(iht.views.html.application.exemption.partner.partner_date_of_birth(formWithErrors, regDetails))),
-            pe => saveApplication(StringHelper.getNino(user), pe, regDetails)
-          )
-        }
+        boundForm.fold(
+          formWithErrors =>
+            Future.successful(Ok(iht.views.html.application.exemption.partner.partner_date_of_birth(formWithErrors, regDetails))),
+          pe => saveApplication(StringHelper.getNino(userNino), pe, regDetails)
+        )
       }
+    }
   }
 
   def saveApplication(nino: String, pe: PartnerExemption, regDetails: RegistrationDetails)(implicit request: Request[_],
-                                                                                           hc: HeaderCarrier,
-                                                                                           authContext: AuthContext): Future[Result] = {
-    withApplicationDetails { rd =>
+                                                                                           hc: HeaderCarrier): Future[Result] = {
+    withApplicationDetails(Some(nino)) { rd =>
       ad =>
         lazy val existingOptionPartnerExemption = ad.allExemptions.flatMap(_.partner)
         val updatedAllExemptions = ad.allExemptions.fold(new AllExemptions(partner = Some(pe)))(

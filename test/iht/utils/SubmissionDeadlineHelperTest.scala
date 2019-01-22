@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ import uk.gov.hmrc.play.test.UnitSpec
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
-class SubmissionDeadlineHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter with ScalaFutures {
+class SubmissionDeadlineHelperTest extends FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter with ScalaFutures {
 
   var mockIhtConnector = mock[IhtConnector]
 
@@ -62,7 +62,7 @@ class SubmissionDeadlineHelperTest extends UnitSpec with FakeIhtApp with Mockito
       val result: Future[LocalDate] = SubmissionDeadlineHelper(fakeNino, CommonBuilder.DefaultIhtRefNo, mockIhtConnector, headerCarrier)
 
       whenReady(result){ r =>
-        r should equal (registrationDate plusMonths(13) minusDays(1))
+        r must equal (registrationDate plusMonths(13) minusDays(1))
       }
     }
 
@@ -72,7 +72,7 @@ class SubmissionDeadlineHelperTest extends UnitSpec with FakeIhtApp with Mockito
       createMockToGetCaseList(mockIhtConnector, Nil)
 
       val result = SubmissionDeadlineHelper(fakeNino, CommonBuilder.DefaultIhtRefNo, mockIhtConnector, headerCarrier)
-      result.failed.futureValue shouldBe a[RuntimeException]
+      result.failed.futureValue mustBe a[RuntimeException]
     }
   }
 

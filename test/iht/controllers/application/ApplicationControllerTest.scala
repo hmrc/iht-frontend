@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,17 +16,25 @@
 
 package iht.controllers.application
 
-import iht.connector.CachingConnector
+import iht.connector.{CachingConnector, IhtConnector}
+import iht.constants.Constants
 import iht.testhelpers.MockObjectBuilder.createMockToGetRegDetailsFromCache
+import iht.testhelpers.NinoBuilder
 import iht.utils.IhtSection
 import iht.views.ViewTestHelper
-import play.api.mvc.{Request, Result}
-import play.api.test.Helpers.{SEE_OTHER, redirectLocation}
-import play.api.test.Helpers.{contentAsString, _}
+import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito._
+import play.api.http.HeaderNames
+import play.api.mvc.{AnyContentAsEmpty, Result}
+import play.api.test.{DefaultAwaitTimeout, FakeRequest}
+import play.api.test.Helpers.{SEE_OTHER, redirectLocation, status => playStatus}
+import uk.gov.hmrc.auth.core.retrieve.Retrieval
+import uk.gov.hmrc.auth.core.{AuthConnector, AuthenticateHeaderParser}
+import uk.gov.hmrc.http.SessionKeys
 
 import scala.concurrent.Future
 
-trait ApplicationControllerTest extends ViewTestHelper {
+trait ApplicationControllerTest extends ViewTestHelper with DefaultAwaitTimeout {
   def loginUrl = buildLoginUrl(IhtSection.Application)
 
   def controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector: => CachingConnector,
@@ -34,8 +42,33 @@ trait ApplicationControllerTest extends ViewTestHelper {
     "respond with redirect to application overview when no registration details found in cache" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, None)
       val result = func
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) shouldBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url)
+      playStatus(result) must be(SEE_OTHER)
+      redirectLocation(result) mustBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url)
     }
+  }
+
+  val mockCachingConnector: CachingConnector = mock[CachingConnector]
+  val mockIhtConnector: IhtConnector = mock[IhtConnector]
+  val mockAuthConnector: AuthConnector = mock[AuthConnector]
+
+  override def createFakeRequest(isAuthorised: Boolean = true, referer: Option[String] = None, authRetrieveNino: Boolean = true): FakeRequest[AnyContentAsEmpty.type] = {
+    if (isAuthorised) {
+      if (authRetrieveNino) {
+        when(mockAuthConnector.authorise[Option[String]](any(), any())(any(), any())).thenReturn(Future.successful(Some(fakeNino)))
+      } else {
+        when(mockAuthConnector.authorise[Unit](any(), any())(any(), any())).thenReturn(Future.successful())
+      }
+    } else {
+      when(mockAuthConnector.authorise(any(), any())(any(), any())).thenReturn(Future.failed(AuthenticateHeaderParser.parse(Map())))
+    }
+
+    super.createFakeRequest(isAuthorised, referer, authRetrieveNino)
+  }
+
+  override def beforeEach(): Unit = {
+    reset(mockCachingConnector)
+    reset(mockIhtConnector)
+    reset(mockAuthConnector)
+    super.beforeEach()
   }
 }

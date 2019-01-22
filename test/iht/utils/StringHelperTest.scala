@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,13 +24,13 @@ import uk.gov.hmrc.play.frontend.auth.connectors.domain.{Accounts, ConfidenceLev
 import uk.gov.hmrc.play.frontend.auth.{AuthContext, LoggedInUser, Principal}
 import uk.gov.hmrc.play.test.UnitSpec
 
-class StringHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
+class StringHelperTest extends FakeIhtApp with MockitoSugar {
   "parseAssignmentsToSeqTuples" must {
     "parse correctly a valid seq of 2 assignments with spaces before or after key values" in {
       val result = StringHelper.parseAssignmentsToSeqTuples(
         "aaa  =bbb,ccc=  ddd"
       )
-      result shouldBe Seq(
+      result mustBe Seq(
         ("aaa", "bbb"),
         ("ccc", "ddd")
       )
@@ -40,7 +40,7 @@ class StringHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val result = StringHelper.parseAssignmentsToSeqTuples(
         "aaa  =   bbb"
       )
-      result shouldBe Seq(
+      result mustBe Seq(
         ("aaa", "bbb")
       )
     }
@@ -49,17 +49,17 @@ class StringHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val result = StringHelper.parseAssignmentsToSeqTuples(
         ""
       )
-      result shouldBe Seq()
+      result mustBe Seq()
     }
 
     "throw an exception if invalid assignments are given (no equals symbols)" in {
-      a[RuntimeException] shouldBe thrownBy {
+      a[RuntimeException] mustBe thrownBy {
         StringHelper.parseAssignmentsToSeqTuples("aaa,bbb")
       }
     }
 
     "throw an exception if invalid assignments are given (too many equals symbols)" in {
-      a[RuntimeException] shouldBe thrownBy {
+      a[RuntimeException] mustBe thrownBy {
         StringHelper.parseAssignmentsToSeqTuples("aaa=bbb=ccc")
       }
     }
@@ -77,7 +77,7 @@ class StringHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
         "seven" -> None
       )
       val result: Seq[(String, Option[Char])] = StringHelper.split("one two three-four five six-seven", Seq(' ', '-'))
-      result shouldBe expectedResult
+      result mustBe expectedResult
     }
 
     "return portions and delimiters where ends with -" in {
@@ -91,13 +91,13 @@ class StringHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
         "" -> None
       )
       val result: Seq[(String, Option[Char])] = StringHelper.split("one two three-four five six-", Seq(' ', '-'))
-      result shouldBe expectedResult
+      result mustBe expectedResult
     }
 
     "return empty Seq where empty string" in {
       val expectedResult = Seq.empty
       val result: Seq[(String, Option[Char])] = StringHelper.split("", Seq(' ', '-'))
-      result shouldBe expectedResult
+      result mustBe expectedResult
     }
 
     "return portions and delimiters where one space only" in {
@@ -106,7 +106,7 @@ class StringHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
         "" -> None
       )
       val result: Seq[(String, Option[Char])] = StringHelper.split(" ", Seq(' ', '-'))
-      result shouldBe expectedResult
+      result mustBe expectedResult
     }
 
     "return portions and delimiters where one space and one -" in {
@@ -116,7 +116,7 @@ class StringHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
         "" -> None
       )
       val result: Seq[(String, Option[Char])] = StringHelper.split(" -", Seq(' ', '-'))
-      result shouldBe expectedResult
+      result mustBe expectedResult
     }
   }
 
@@ -124,61 +124,61 @@ class StringHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
     "map elements using space and dash as delimiters" in {
       val expectedResult = "xxx two xxx-three xxx four xxx-xxx five xxx six"
       val result = StringHelper.splitAndMapElements("one two one-three one four one-one five one six", Seq(' ', '-'), x => if (x == "one") "xxx" else x)
-      result shouldBe expectedResult
+      result mustBe expectedResult
     }
   }
 
   "parseOldAndNewDatesFormats" must {
     "return the string passed in if in YYYY-MM-DD format" in {
-      StringHelper.parseOldAndNewDatesFormats("2000-11-13") shouldBe "2000-11-13"
+      StringHelper.parseOldAndNewDatesFormats("2000-11-13") mustBe "2000-11-13"
     }
     "return the string passed in if in YYYY-M-DD format" in {
-      StringHelper.parseOldAndNewDatesFormats("2000-1-13") shouldBe "2000-1-13"
+      StringHelper.parseOldAndNewDatesFormats("2000-1-13") mustBe "2000-1-13"
     }
     "give exception in if in YYYY- -DD format" in {
-      a[RuntimeException] shouldBe thrownBy {
+      a[RuntimeException] mustBe thrownBy {
         StringHelper.parseOldAndNewDatesFormats("2000- -13")
       }
     }
     "return the string converted to new format if date is in old format DD Month YYYY" in {
-      StringHelper.parseOldAndNewDatesFormats("5 April 2008") shouldBe "2008-04-05"
+      StringHelper.parseOldAndNewDatesFormats("5 April 2008") mustBe "2008-04-05"
     }
     "return the string converted to new format if date is in old format D MMM YYYY" in {
-      StringHelper.parseOldAndNewDatesFormats("5 Apr 2008") shouldBe "2008-04-05"
+      StringHelper.parseOldAndNewDatesFormats("5 Apr 2008") mustBe "2008-04-05"
     }
     "return the string converted to new format if date is in old format DD MMM YYYY" in {
-      StringHelper.parseOldAndNewDatesFormats("05 Apr 2008") shouldBe "2008-04-05"
+      StringHelper.parseOldAndNewDatesFormats("05 Apr 2008") mustBe "2008-04-05"
     }
   }
 
   "trimAndUpperCaseNino should return correctly formatted nino" in {
     val nino = CommonBuilder.DefaultNino
     val result = StringHelper.trimAndUpperCaseNino(" " + nino.toLowerCase + " ")
-    result shouldBe nino
+    result mustBe nino
   }
 
   "generateAcknowledgeReference should not contain a dash" in {
     val result = StringHelper.generateAcknowledgeReference
-    result shouldNot contain("-")
+    result mustNot contain("-")
   }
 
   "getNino should throw a RuntimeException when user account could not be retrieved" in {
 
     val loggedInUser = new LoggedInUser(CommonBuilder.firstNameGenerator, None, None, None, CredentialStrength.Strong, ConfidenceLevel.L300, "")
     val ac = new AuthContext(loggedInUser, Principal(None, Accounts()), None, None, None, None)
-    a[RuntimeException] shouldBe thrownBy {
+    a[RuntimeException] mustBe thrownBy {
       StringHelper.getNino(ac)
     }
   }
 
   "booleanToYesNo should return Yes as a String" in {
     val result = StringHelper.booleanToYesNo(boolean = true)
-    result should be("Yes")
+    result must be("Yes")
   }
 
   "booleanToYesNo should return No as a String" in {
     val result = StringHelper.booleanToYesNo(boolean = false)
-    result should be("No")
+    result must be("No")
   }
 
   /*

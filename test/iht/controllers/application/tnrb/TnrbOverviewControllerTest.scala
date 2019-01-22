@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,13 +50,12 @@ class TnrbOverviewControllerTest extends ApplicationControllerTest {
     )
 
   // Mock the CachingConnector
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def tnrbOverviewController = new TnrbOverviewController {
     override val cachingConnector = mockCachingConnector
 	  override val ihtConnector = mockIhtConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
@@ -64,7 +63,7 @@ class TnrbOverviewControllerTest extends ApplicationControllerTest {
   def tnrbOverviewControllerNotAuthorised = new TnrbOverviewController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
@@ -73,8 +72,8 @@ class TnrbOverviewControllerTest extends ApplicationControllerTest {
 
     "redirect to GG login page on PageLoad if the user is not logged in" in {
       val result = tnrbOverviewControllerNotAuthorised.onPageLoad()(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
@@ -87,7 +86,7 @@ class TnrbOverviewControllerTest extends ApplicationControllerTest {
       createMockToGetApplicationDetails(mockIhtConnector, Some(applicationDetails))
 
       val result = tnrbOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
+      status(result) must be (OK)
     }
 
     "respond with OK on page load when the user lands on the page first time" in {
@@ -98,7 +97,7 @@ class TnrbOverviewControllerTest extends ApplicationControllerTest {
       createMockToGetApplicationDetails(mockIhtConnector, Some(applicationDetails))
 
       val result = tnrbOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
+      status(result) must be (OK)
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

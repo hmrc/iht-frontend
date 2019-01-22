@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,12 +46,10 @@ import uk.gov.hmrc.http.{ConflictException, GatewayTimeoutException, Upstream5xx
 
 class RegistrationSummaryControllerTest extends RegistrationControllerTest{
 
-  val mockIhtConnector = mock[IhtConnector]
-
   def controller = new RegistrationSummaryController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val metrics:Metrics = mock[Metrics]
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -60,7 +58,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
   def controllerNotAuthorised = new RegistrationSummaryController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
     override val metrics:Metrics = mock[Metrics]
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -76,22 +74,18 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
     RegistrationDetails(Some(testDod), Some(testAd), Some(testDd), areOthersApplyingForProbate = Some(false))
   }
 
-  before {
-    mockCachingConnector = mock[CachingConnector]
-  }
-
   "Summary controller" must {
 
     "redirect to GG login page on PageLoad if the user is not logged in" in {
       val result = controllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to GG login page on Submit if the user is not logged in" in {
       val result = controllerNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "Load the RegistrationSummary page with title" in {
@@ -103,11 +97,11 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
-      val result = controller.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
+      val result = controller.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      status(result) must be(OK)
       val content = ContentChecker.stripLineBreaks(contentAsString(result))
 
-      content should include(messagesApi("iht.registration.checkYourAnswers"))
+      content must include(messagesApi("iht.registration.checkYourAnswers"))
     }
 
     "onSubmit for valid input should redirect to completed registration" in {
@@ -126,17 +120,17 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       createMockToSaveApplicationDetails(mockIhtConnector)
       createMockToSubmitRegistration(mockIhtConnector)
 
-      val result = controller.onSubmit(createFakeRequest())
-      redirectLocation(result) shouldBe
+      val result = controller.onSubmit(createFakeRequest(authRetrieveNino = false))
+      redirectLocation(result) mustBe
         Some(iht.controllers.registration.routes.CompletedRegistrationController.onPageLoad().url)
-      status(result) should be(SEE_OTHER)
+      status(result) must be(SEE_OTHER)
     }
 
     "onSubmit for valid input where no registration details should throw exception" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, None)
 
-      a[RuntimeException] shouldBe thrownBy {
-        Await.result(controller.onSubmit(createFakeRequest()), Duration.Inf)
+      a[RuntimeException] mustBe thrownBy {
+        Await.result(controller.onSubmit(createFakeRequest(authRetrieveNino = false)), Duration.Inf)
       }
     }
 
@@ -155,9 +149,9 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
       createMockToSubmitRegistration(mockIhtConnector, "")
 
-      val result = controller.onSubmit(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) shouldBe Some(routes.DuplicateRegistrationController.onPageLoad("IHT Reference").url)
+      val result = controller.onSubmit(createFakeRequest(authRetrieveNino = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) mustBe Some(routes.DuplicateRegistrationController.onPageLoad("IHT Reference").url)
     }
 
     "onSubmit GatewayTimeoutException" in {
@@ -181,10 +175,10 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
             Future.failed(new GatewayTimeoutException("test"))
           }})
 
-      val result = controller.onSubmit(createFakeRequest())
-      status(result) should be(INTERNAL_SERVER_ERROR)
+      val result = controller.onSubmit(createFakeRequest(authRetrieveNino = false))
+      status(result) must be(INTERNAL_SERVER_ERROR)
 
-      contentAsString(result) should include(messagesApi("error.cannotSend"))
+      contentAsString(result) must include(messagesApi("error.cannotSend"))
     }
 
     "onSubmit Upstream5xxResponse" in {
@@ -208,10 +202,10 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
             Future.failed(new Upstream5xxResponse("Service Unavailable", 502, 502))
           }})
 
-      val result = controller.onSubmit(createFakeRequest())
-      status(result) should be(INTERNAL_SERVER_ERROR)
+      val result = controller.onSubmit(createFakeRequest(authRetrieveNino = false))
+      status(result) must be(INTERNAL_SERVER_ERROR)
 
-      contentAsString(result) should include(messagesApi("error.registration.serviceUnavailable.p1"))
+      contentAsString(result) must include(messagesApi("error.registration.serviceUnavailable.p1"))
     }
 
     "onSubmit Upstream5xxResponse 502" in {
@@ -235,16 +229,16 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
             Future.failed(new Upstream5xxResponse("test", 502, 502))
           }})
 
-      val result = controller.onSubmit(createFakeRequest())
-      status(result) should be(500)
+      val result = controller.onSubmit(createFakeRequest(authRetrieveNino = false))
+      status(result) must be(500)
     }
 
     "redirect to the estate report page if the RegistrationDetails does not contain deceased's date of death" in {
       val rd = fullyCompletedRegistrationDetails copy (deceasedDateOfDeath = None)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
 
-      val result = await(controller.onPageLoad(createFakeRequest()))
-      status(result) shouldBe SEE_OTHER
+      val result = await(controller.onPageLoad(createFakeRequest(authRetrieveNino = false)))
+      status(result) mustBe SEE_OTHER
     }
 
     "redirect to the estate report page if the RegistrationDetails does not contain the deceased's name" in {
@@ -252,8 +246,8 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val rd = RegistrationDetails(Some(testDod), Some(testAd), Some(dd), areOthersApplyingForProbate = Some(false))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
 
-      val result = await(controller.onPageLoad(createFakeRequest()))
-      status(result) shouldBe SEE_OTHER
+      val result = await(controller.onPageLoad(createFakeRequest(authRetrieveNino = false)))
+      status(result) mustBe SEE_OTHER
     }
 
     "redirect to the estate report page if the RegistrationDetails does not contain the deceased's address location" in {
@@ -261,8 +255,8 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val rd = RegistrationDetails(Some(testDod), Some(testAd), Some(dd), areOthersApplyingForProbate = Some(false))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
 
-      val result = await(controller.onPageLoad(createFakeRequest()))
-      status(result) shouldBe SEE_OTHER
+      val result = await(controller.onPageLoad(createFakeRequest(authRetrieveNino = false)))
+      status(result) mustBe SEE_OTHER
     }
 
     "redirect to the estate report page if the RegistrationDetails does not contain the deceased's address" in {
@@ -270,8 +264,8 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val rd = RegistrationDetails(Some(testDod), Some(testAd), Some(dd), areOthersApplyingForProbate = Some(false))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
 
-      val result = await(controller.onPageLoad(createFakeRequest()))
-      status(result) shouldBe SEE_OTHER
+      val result = await(controller.onPageLoad(createFakeRequest(authRetrieveNino = false)))
+      status(result) mustBe SEE_OTHER
     }
 
     "redirect to the estate report page if the RegistrationDetails does not contain an answer to 'applying for probate' question" in {
@@ -279,8 +273,8 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val rd = RegistrationDetails(Some(testDod), Some(ad), Some(testDd), areOthersApplyingForProbate = Some(false))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
 
-      val result = await(controller.onPageLoad(createFakeRequest()))
-      status(result) shouldBe SEE_OTHER
+      val result = await(controller.onPageLoad(createFakeRequest(authRetrieveNino = false)))
+      status(result) mustBe SEE_OTHER
     }
 
     "redirect to the estate report page if the RegistrationDetails does not contain the probate location" in {
@@ -288,9 +282,9 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val rd = RegistrationDetails(Some(testDod), Some(ad), Some(testDd), areOthersApplyingForProbate = Some(false))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
 
-      val result = await(controller.onPageLoad(createFakeRequest()))
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) shouldBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url)
+      val result = await(controller.onPageLoad(createFakeRequest(authRetrieveNino = false)))
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) mustBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url)
     }
 
     "redirect to the estate report page if the RegistrationDetails does not contain contact number" in {
@@ -298,8 +292,8 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val rd = RegistrationDetails(Some(testDod), Some(ad), Some(testDd), areOthersApplyingForProbate = Some(false))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
 
-      val result = await(controller.onPageLoad(createFakeRequest()))
-      status(result) shouldBe SEE_OTHER
+      val result = await(controller.onPageLoad(createFakeRequest(authRetrieveNino = false)))
+      status(result) mustBe SEE_OTHER
     }
 
     "redirect to the estate report page if the RegistrationDetails does not contain an address" in {
@@ -307,16 +301,16 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val rd = RegistrationDetails(Some(testDod), Some(ad), Some(testDd), areOthersApplyingForProbate = Some(false))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
 
-      val result = await(controller.onPageLoad(createFakeRequest()))
-      status(result) shouldBe SEE_OTHER
+      val result = await(controller.onPageLoad(createFakeRequest(authRetrieveNino = false)))
+      status(result) mustBe SEE_OTHER
     }
 
     "redirect to the estate report page if the RegistrationDetails does not contain an answer to 'are others applying for probate' question" in {
       val rd = RegistrationDetails(Some(testDod), Some(testAd), Some(testDd), areOthersApplyingForProbate = None)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
 
-      val result = await(controller.onPageLoad(createFakeRequest()))
-      status(result) shouldBe SEE_OTHER
+      val result = await(controller.onPageLoad(createFakeRequest(authRetrieveNino = false)))
+      status(result) mustBe SEE_OTHER
 
     }
 
@@ -341,10 +335,10 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
             Future.failed(new RuntimeException("Request timed out"))
           }})
 
-      val result = controller.onSubmit(createFakeRequest())
-      status(result) should be(INTERNAL_SERVER_ERROR)
+      val result = controller.onSubmit(createFakeRequest(authRetrieveNino = false))
+      status(result) must be(INTERNAL_SERVER_ERROR)
 
-      contentAsString(result) should include(messagesApi("error.cannotSend"))
+      contentAsString(result) must include(messagesApi("error.cannotSend"))
     }
 
     "onSubmit RuntimeException not timeout" in {
@@ -368,10 +362,10 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
             Future.failed(new RuntimeException("testing"))
           }})
 
-      val result = controller.onSubmit(createFakeRequest())
-      status(result) should be(INTERNAL_SERVER_ERROR)
+      val result = controller.onSubmit(createFakeRequest(authRetrieveNino = false))
+      status(result) must be(INTERNAL_SERVER_ERROR)
 
-      contentAsString(result) should include(messagesApi("error.cannotSend"))
+      contentAsString(result) must include(messagesApi("error.cannotSend"))
     }
 
     "onSubmit for valid input should produce an internal server error if the storage fails" in {
@@ -390,8 +384,8 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       createMockToSaveApplicationDetails(mockIhtConnector)
       createMockToSubmitRegistration(mockIhtConnector)
 
-      val result = controller.onSubmit(createFakeRequest())
-      status(result) should be(INTERNAL_SERVER_ERROR)
+      val result = controller.onSubmit(createFakeRequest(authRetrieveNino = false))
+      status(result) must be(INTERNAL_SERVER_ERROR)
     }
   }
 }

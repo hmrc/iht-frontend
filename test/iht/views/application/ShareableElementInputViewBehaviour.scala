@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,7 +64,7 @@ trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
 
     "show the correct Yes/No question" in {
       val legend = doc.getElementsByTag("legend").first
-      legend.text shouldBe questionTitle
+      legend.text mustBe questionTitle
     }
 
     "have yes and no radio buttons" in {
@@ -92,14 +92,14 @@ trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
 
     "show a return link" in {
       val link = doc.getElementById("return-button")
-      link.text shouldBe returnLinkText
-      link.attr("href") shouldBe addFragmentIdentifierToUrl(returnLinkUrl, linkHash)
+      link.text mustBe returnLinkText
+      link.attr("href") mustBe addFragmentIdentifierToUrl(returnLinkUrl, linkHash)
     }
 
     if (formTarget.isDefined) {
       "have the Save/Continue button with the correct target" in {
         formTarget.foreach { target =>
-          doc.getElementsByTag("form").attr("action") shouldBe target.url
+          doc.getElementsByTag("form").attr("action") mustBe target.url
         }
       }
     }
@@ -112,7 +112,7 @@ trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
     "display the 'There's a problem' box if there's an error" in {
       val newForm = form.withError(FormError("field", "error message"))
       val document = asDocument(formToView(newForm).toString)
-      document.getElementById("errors").children.first.text shouldBe messagesApi("error.problem")
+      document.getElementById("errors").children.first.text mustBe messagesApi("error.problem")
     }
   }
 
@@ -123,7 +123,7 @@ trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
     "display the 'There's a problem' box if there's an error" in {
       val newForm = form.withError(FormError("field", "error message"))
       val document = asDocument(formToView(newForm).toString)
-      document.getElementById("errors").children.first.text shouldBe messagesApi("error.problem")
+      document.getElementById("errors").children.first.text mustBe messagesApi("error.problem")
     }
   }
 }

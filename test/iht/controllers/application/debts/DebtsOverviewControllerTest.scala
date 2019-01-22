@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,16 +23,16 @@ import iht.testhelpers.MockObjectBuilder._
 import play.api.http.Status._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.http.HeaderCarrier
+import play.api.test.Helpers.{status => playStatus, await}
 
 class DebtsOverviewControllerTest extends ApplicationControllerTest {
 
   implicit val hc = new HeaderCarrier()
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def debtsOverviewController = new DebtsOverviewController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -51,7 +51,7 @@ class DebtsOverviewControllerTest extends ApplicationControllerTest {
         getAppDetails = true)
 
       val result = debtsOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
+      playStatus(result) must be (OK)
     }
 
     "return Bad Request on internal server error" in {
@@ -65,7 +65,7 @@ class DebtsOverviewControllerTest extends ApplicationControllerTest {
         appDetails = None,
         getAppDetails = true)
 
-      a[RuntimeException] shouldBe thrownBy {
+      a[RuntimeException] mustBe thrownBy {
         await(debtsOverviewController.onPageLoad()(createFakeRequest()))
       }
     }

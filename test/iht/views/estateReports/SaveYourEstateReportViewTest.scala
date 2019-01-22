@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,28 +32,28 @@ class SaveYourEstateReportViewTest extends ViewTestHelper {
       lazy val view = save_your_estate_report()
       lazy val doc = Jsoup.parse(view.body)
 
-      doc.select("h1").text() shouldBe messagesApi("page.iht.exit.title")
+      doc.select("h1").text() mustBe messagesApi("page.iht.exit.title")
     }
 
     "have some introductory text" in {
       lazy val view = save_your_estate_report()
       lazy val doc = Jsoup.parse(view.body)
 
-      doc.select("div p").get(2).text() shouldBe messagesApi("page.iht.exit.text")
+      doc.select("div p").get(2).text() mustBe messagesApi("page.iht.exit.text")
     }
 
     "have a link for users to save" ignore {
       lazy val view = save_your_estate_report()
       lazy val doc = Jsoup.parse(view.body)
 
-      doc.select("div a").get(6).text() shouldBe messagesApi("page.iht.exit.link")
+      doc.select("div a").get(6).text() mustBe messagesApi("page.iht.exit.link")
     }
 
     "have a link with href" ignore {
       lazy val view = save_your_estate_report()
       lazy val doc = Jsoup.parse(view.body)
 
-      doc.select("div a").get(6).attr("href") shouldBe "/inheritance-tax/estate-report"
+      doc.select("div a").get(6).attr("href") mustBe "/inheritance-tax/estate-report"
     }
 
     "have a button that" should {
@@ -61,21 +61,21 @@ class SaveYourEstateReportViewTest extends ViewTestHelper {
         lazy val view = save_your_estate_report()
         lazy val doc = Jsoup.parse(view.body)
 
-        doc.getElementById("exit-button").text() shouldBe messagesApi("page.iht.exit.button")
+        doc.getElementById("exit-button").text() mustBe messagesApi("page.iht.exit.button")
       }
 
       "have href of...." in {
         lazy val view = save_your_estate_report()
         lazy val doc = Jsoup.parse(view.body)
 
-        doc.getElementById("exit-button").attr("href") shouldBe "/inheritance-tax/feedback-survey"
+        doc.getElementById("exit-button").attr("href") mustBe "/inheritance-tax/feedback-survey"
       }
 
       "have a class of button" in {
         lazy val view = save_your_estate_report()
         lazy val doc = Jsoup.parse(view.body)
 
-        doc.getElementById("exit-button").hasClass("button") shouldBe true
+        doc.getElementById("exit-button").hasClass("button") mustBe true
       }
     }
   }

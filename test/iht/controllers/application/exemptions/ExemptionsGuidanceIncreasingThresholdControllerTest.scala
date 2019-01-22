@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,14 +32,13 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class ExemptionsGuidanceIncreasingThresholdControllerTest extends ApplicationControllerTest {
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   // Create controller object and pass in mock.
   def controller = new ExemptionsGuidanceIncreasingThresholdController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
@@ -47,7 +46,7 @@ class ExemptionsGuidanceIncreasingThresholdControllerTest extends ApplicationCon
   def controllerNotAuthorised = new ExemptionsGuidanceIncreasingThresholdController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
@@ -80,33 +79,33 @@ class ExemptionsGuidanceIncreasingThresholdControllerTest extends ApplicationCon
     "redirect to ida login page on page load when user is not logged in" in {
       setupMocks
 
-      val result = controllerNotAuthorised.onPageLoad("anIhtReference")(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(loginUrl))
+      val result = controllerNotAuthorised.onPageLoad("anIhtReference")(createFakeRequest(isAuthorised = false, authRetrieveNino = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(loginUrl))
     }
 
     "redirect to ida login page on submit when user is not logged in" in {
       setupMocks
 
-      val result = controllerNotAuthorised.onSubmit("")(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(loginUrl))
+      val result = controllerNotAuthorised.onSubmit("")(createFakeRequest(isAuthorised = false, authRetrieveNino = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(loginUrl))
     }
 
     "respond with OK on page load and the correct page is loaded" in {
       setupMocks
 
-      val result = controller.onPageLoad("anIhtReference")(createFakeRequest())
-      status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.title"))
+      val result = controller.onPageLoad("anIhtReference")(createFakeRequest(authRetrieveNino = false))
+      status(result) must be(OK)
+      contentAsString(result) must include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.title"))
     }
 
     "redirect to whatever page it comes from on submit" in {
       setupMocks
 
-      val result = controller.onSubmit("")(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(finalDestinationUrl))
+      val result = controller.onSubmit("")(createFakeRequest(authRetrieveNino = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(finalDestinationUrl))
     }
   }
 }

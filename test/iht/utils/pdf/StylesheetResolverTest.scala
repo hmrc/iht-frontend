@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,14 +25,14 @@ import uk.gov.hmrc.play.test.UnitSpec
 /**
   * Created by david-beer on 28/10/16.
   */
-class StylesheetResolverTest extends UnitSpec with FakeIhtApp with MockitoSugar {
+class StylesheetResolverTest extends FakeIhtApp with MockitoSugar {
 
   "Must return a valid StreamSource" in {
     val inputResource = "/pdf/templates/postsubmission/iht-return.xsl"
     val result = new StylesheetResolver().resolve(inputResource, "")
 
-    result shouldBe a[StreamSource]
-    result shouldNot equal(null)
+    result mustBe a[StreamSource]
+    result mustNot equal(null)
   }
 
   "Must throw exception if Resource is not valid" in {

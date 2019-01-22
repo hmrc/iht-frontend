@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,18 +26,17 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class PensionsValueControllerTest extends ApplicationControllerTest{
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def pensionsValueController = new PensionsValueController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def pensionsValueControllerNotAuthorised = new PensionsValueController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -47,14 +46,14 @@ class PensionsValueControllerTest extends ApplicationControllerTest{
 
     "redirect to login page on PageLoad if the user is not logged in" in {
       val result = pensionsValueControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to login page on Submit if the user is not logged in" in {
       val result = pensionsValueController.onSubmit(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
@@ -68,7 +67,7 @@ class PensionsValueControllerTest extends ApplicationControllerTest{
         storeAppDetailsInCache = true)
 
       val result = pensionsValueController.onPageLoad (createFakeRequest())
-      status(result) shouldBe (OK)
+      status(result) mustBe (OK)
     }
 
     "save application and go to Pensions overview page on submit after entering the value" in {
@@ -87,8 +86,8 @@ class PensionsValueControllerTest extends ApplicationControllerTest{
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPensionsValueForm.data.toSeq: _*)
 
       val result = pensionsValueController.onSubmit (request)
-      status(result) shouldBe (SEE_OTHER)
-      redirectLocation(result) should be
+      status(result) mustBe (SEE_OTHER)
+      redirectLocation(result) must be
           (Some(routes.PensionsOverviewController.onPageLoad().url))
     }
 
@@ -98,7 +97,7 @@ class PensionsValueControllerTest extends ApplicationControllerTest{
      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = pensionsValueController.onSubmit (fakePostRequest)
-      status(result) shouldBe (BAD_REQUEST)
+      status(result) mustBe (BAD_REQUEST)
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,24 +16,28 @@
 
 package iht.controllers
 
-import iht.config.IhtFormPartialRetriever
+import iht.config.{AppConfig, FrontendAuthConnector, IhtFormPartialRetriever}
 import iht.connector.IhtConnectors
-import iht.controllers.auth.IhtActions
+import iht.controllers.auth.IhtBaseController
 import iht.utils.IhtSection
+import javax.inject.Inject
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
-import uk.gov.hmrc.play.frontend.controller.{UnauthorisedAction, FrontendController}
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 /**
  * Created by yasar on 7/6/15.
  */
-object SessionManagementController extends SessionManagementController
+class SessionManagementControllerImpl @Inject()() extends SessionManagementController
 
-trait SessionManagementController extends FrontendController with IhtActions with IhtConnectors {
+trait SessionManagementController extends IhtBaseController with IhtConnectors {
   override lazy val ihtSection = IhtSection.Application
+
   implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
 
   def signOut = UnauthorisedAction.async {
@@ -43,10 +47,8 @@ trait SessionManagementController extends FrontendController with IhtActions wit
   }
 
   def keepAlive = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        Future.successful(Ok("OK"))
-      }
-
+    implicit request => {
+      Future.successful(Ok("OK"))
+    }
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.registration.executor
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnectors}
 import iht.controllers.registration.{RegistrationController, routes => registrationRoutes}
 import iht.forms.registration.CoExecutorForms._
@@ -23,13 +24,16 @@ import iht.metrics.Metrics
 import iht.models.RegistrationDetails
 import iht.utils.AddressHelper._
 import iht.utils.CommonHelper._
+import javax.inject.Inject
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Call, Result}
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
 import scala.concurrent.Future
 
-object OthersApplyingForProbateController extends OthersApplyingForProbateController with IhtConnectors {
+class OthersApplyingForProbateControllerImpl @Inject()() extends OthersApplyingForProbateController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
@@ -54,7 +58,6 @@ trait OthersApplyingForProbateController extends RegistrationController {
   def onEditPageLoad() = pageLoad(arrivedFromOverview = false, cancelToRegSummary)
 
   private def pageLoad(arrivedFromOverview: Boolean, cancelCall: Option[Call] = None) = authorisedForIht {
-    implicit user =>
       implicit request =>
         withRegistrationDetailsRedirectOnGuardCondition { rd =>
           Future.successful(Ok(iht.views.html.registration.executor.others_applying_for_probate(
@@ -79,7 +82,6 @@ trait OthersApplyingForProbateController extends RegistrationController {
   }
 
   def submit(arrivedFromOverview: Boolean, cancelCall: Option[Call] = None) = authorisedForIht {
-    implicit user =>
       implicit request => {
         withRegistrationDetails { (rd: RegistrationDetails) =>
           val boundForm = othersApplyingForProbateForm.bindFromRequest

@@ -1,10 +1,10 @@
 # microservice specific routes
 
-GET         /keep-alive                                              iht.controllers.SessionManagementController.keepAlive
+GET         /keep-alive                                              @iht.controllers.SessionManagementController.keepAlive
 
 GET         /                                                        iht.controllers.filter.FilterController.redirectPageLoad
 
-GET         /assets/*file                                            controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file                                            @controllers.Assets.versioned(path="/public", file: Asset)
 
 GET         /language/:lang                                          iht.controllers.CustomLanguageController.switchToLanguage(lang: String)
 
@@ -12,9 +12,9 @@ GET         /language/:lang                                          iht.control
 ->          /estate-report                                           taxreturn.Routes
 ->          /registration                                            registration.Routes
 
-GET         /estate-report                                           iht.controllers.estateReports.YourEstateReportsController.onPageLoad
+GET         /estate-report                                           @iht.controllers.estateReports.YourEstateReportsController.onPageLoad
 
-GET         /signout                                                 iht.controllers.SessionManagementController.signOut
+GET         /signout                                                 @iht.controllers.SessionManagementController.signOut
 GET         /save-and-exit                                           iht.controllers.SessionTimeoutController.onSaveAndExitPageLoad
 
 GET         /register/timeout                                        iht.controllers.SessionTimeoutController.onRegistrationPageLoad
@@ -55,8 +55,8 @@ GET         /deadlines-for-paying-inheritance-tax                    iht.control
 
 ## IV Wayfinder
 
-GET         /registration/login-pass                                 iht.controllers.IVWayfinderController.loginPass
-GET         /registration/verification-pass                          iht.controllers.IVWayfinderController.verificationPass
+GET         /registration/login-pass                                 @iht.controllers.IVWayfinderController.loginPass
+GET         /registration/verification-pass                          @iht.controllers.IVWayfinderController.verificationPass
 
 #feedback Survey Routes
 GET         /feedback-survey                                         iht.controllers.FeedbackSurveyController.redirectExitSurvey

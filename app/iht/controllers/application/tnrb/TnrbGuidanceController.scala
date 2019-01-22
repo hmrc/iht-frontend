@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,26 +16,30 @@
 
 package iht.controllers.application.tnrb
 
+import iht.config.AppConfig
 import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.metrics.Metrics
 import iht.utils._
 import iht.utils.tnrb.TnrbHelper
 import iht.views.html.application.tnrb.tnrb_guidance
+import javax.inject.Inject
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent}
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
 import scala.concurrent.Future
 
-object TnrbGuidanceController extends TnrbGuidanceController with IhtConnectors {
+class TnrbGuidanceControllerImpl @Inject()() extends TnrbGuidanceController with IhtConnectors {
   def metrics : Metrics = Metrics
 }
 
 trait TnrbGuidanceController extends EstateController{
 
   def onPageLoad: Action[AnyContent] = authorisedForIht {
-    implicit user => implicit request => {
+    implicit request => {
       withRegistrationDetails { rd =>
           val ihtReference = CommonHelper.getOrException(rd.ihtReference)
           val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd)
@@ -54,7 +58,7 @@ trait TnrbGuidanceController extends EstateController{
   }
 
   def onSystemPageLoad: Action[AnyContent] = authorisedForIht {
-    implicit user =>
+
       implicit request => {
         withRegistrationDetails { rd =>
           val ihtReference = CommonHelper.getOrException(rd.ihtReference)

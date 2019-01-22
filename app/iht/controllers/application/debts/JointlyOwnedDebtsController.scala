@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.application.debts
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
@@ -29,20 +30,26 @@ import play.api.Play.current
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
 import iht.utils.CommonHelper
+import javax.inject.Inject
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-object JointlyOwnedDebtsController extends JointlyOwnedDebtsController with IhtConnectors {
+class JointlyOwnedDebtsControllerImpl @Inject()() extends JointlyOwnedDebtsController with IhtConnectors {
   def metrics : Metrics = Metrics
 }
 
 trait JointlyOwnedDebtsController extends EstateController {
-  def onPageLoad = authorisedForIht {
-    implicit user => implicit request =>
+
+
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request =>
       estateElementOnPageLoad[BasicEstateElementLiabilities](jointlyOwnedDebts,
-        jointly_owned.apply, _.allLiabilities.flatMap(_.jointlyOwned))
+        jointly_owned.apply, _.allLiabilities.flatMap(_.jointlyOwned), userNino)
   }
 
-  def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
       val updateApplicationDetails: (ApplicationDetails, Option[String], BasicEstateElementLiabilities) =>
         (ApplicationDetails, Option[String]) =
         (appDetails, _, jointlyOwnedDebts) => {
@@ -61,7 +68,8 @@ trait JointlyOwnedDebtsController extends EstateController {
         jointlyOwnedDebts,
         jointly_owned.apply,
         updateApplicationDetails,
-        CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(DebtsOwedJointlyID))
+        CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(DebtsOwedJointlyID)),
+        userNino
       )
     }
   }

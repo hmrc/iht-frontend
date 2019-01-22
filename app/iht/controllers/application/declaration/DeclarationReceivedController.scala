@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,16 @@
 package iht.controllers.application.declaration
 
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.{CachingConnector, IhtConnectors}
 import iht.constants.Constants
 import iht.controllers.application.ApplicationController
 import iht.utils.CommonHelper
+import javax.inject.Inject
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
 import scala.concurrent.Future
 
@@ -30,13 +34,15 @@ import scala.concurrent.Future
   * Created by vineet on 01/12/16.
   */
 
-object DeclarationReceivedController extends DeclarationReceivedController with IhtConnectors
+class DeclarationReceivedControllerImpl @Inject()() extends DeclarationReceivedController with IhtConnectors
 
 trait DeclarationReceivedController extends ApplicationController {
+
+
   def cachingConnector: CachingConnector
 
   def onPageLoad = authorisedForIht {
-    implicit user =>
+
       implicit request => {
         withRegistrationDetails { rd =>
           val ihtReference = CommonHelper.getOrException(rd.ihtReference)

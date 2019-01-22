@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,22 +59,22 @@ class IhtKickoutTemplateViewTest extends ViewTestHelper{
       val view = ihtKickOutTemplateView
       val headers = view.getElementsByTag("h2")
 
-      headers.first.text() shouldBe messagesApi("iht.nextSteps")
+      headers.first.text() mustBe messagesApi("iht.nextSteps")
     }
 
     "have details are correct button " in {
       val view = ihtKickOutTemplateView
 
       val detailsAreCorrectButton = view.getElementById("finish")
-      detailsAreCorrectButton.attr("value") shouldBe messagesApi("site.button.details.correct.exitToGovK")
+      detailsAreCorrectButton.attr("value") mustBe messagesApi("site.button.details.correct.exitToGovK")
     }
 
     "have return link with correct text" in {
       val view = ihtKickOutTemplateView
 
       val detailsAreCorrectButton = view.getElementById("return-button")
-      detailsAreCorrectButton.attr("href") shouldBe returnLinkUrl.url
-      detailsAreCorrectButton.text shouldBe messagesApi("iht.registration.kickout.message.returnToLast")
+      detailsAreCorrectButton.attr("href") mustBe returnLinkUrl.url
+      detailsAreCorrectButton.text mustBe messagesApi("iht.registration.kickout.message.returnToLast")
     }
   }
 

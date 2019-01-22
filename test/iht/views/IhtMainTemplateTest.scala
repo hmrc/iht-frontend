@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ class IhtMainTemplateTest extends ViewTestHelper {
       implicit val request = createFakeRequest()
       val signOutUrl = "localhost"
       iht_main_template(title = "", signOutText = "", signOutUrl = Some(Call("GET", signOutUrl)), headerTitle = None)(HtmlFormat.empty)
-        .toString should include (signOutUrl)
+        .toString must include (signOutUrl)
     }
 
     "contain the correct text for need help accordion component" in {
@@ -40,7 +40,7 @@ class IhtMainTemplateTest extends ViewTestHelper {
       val signOutUrl = "localhost"
       val view = iht_main_template(title = "", signOutText = "", signOutUrl = Some(Call("GET", signOutUrl)), headerTitle = None)(HtmlFormat.empty)
         .toString
-      view should include (messagesApi("site.progressiveDisclosure"))
+      view must include (messagesApi("site.progressiveDisclosure"))
     }
   }
 }

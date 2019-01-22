@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ class OtherDetailsSectionViewTest extends ViewTestHelper {
       val doc = asDocument(view)
       val assetsSection = doc.getElementById("other-details-section")
       val header = assetsSection.getElementsByTag("h2")
-      header.text() shouldBe messagesApi("page.iht.application.estateOverview.otherDetailsNeeded")
+      header.text() mustBe messagesApi("page.iht.application.estateOverview.otherDetailsNeeded")
     }
 
     "contain the Debts row" in {
@@ -57,8 +57,8 @@ class OtherDetailsSectionViewTest extends ViewTestHelper {
       val view = other_details_section(viewModel)
       val doc = asDocument(view)
       val link = doc.getElementById("exemptions-link")
-      link.text shouldBe messagesApi("page.iht.application.estateOverview.claimExemptions.link")
-      link.attr("href") shouldBe iht.controllers.application.exemptions.routes.ExemptionsGuidanceController.onPageLoad("123").url
+      link.text mustBe messagesApi("page.iht.application.estateOverview.claimExemptions.link")
+      link.attr("href") mustBe iht.controllers.application.exemptions.routes.ExemptionsGuidanceController.onPageLoad("123").url
     }
 
     "not show the exemptions link when asked not to" in {

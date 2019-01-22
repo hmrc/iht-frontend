@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ class CharityDeleteConfirmViewTest extends GenericNonSubmittablePageBehaviour {
     )
   )
 
-  val nameOfCharity = CommonBuilder.charity.map(_.name).fold("")(identity)
+  val nameOfCharity = CommonBuilder.charity.name.fold("")(identity)
 
   def view = charity_delete_confirm(CommonBuilder.charity, CommonBuilder.DefaultCall1).toString
 
@@ -52,14 +52,14 @@ class CharityDeleteConfirmViewTest extends GenericNonSubmittablePageBehaviour {
     behave like nonSubmittablePage()
 
     "show submit button with correct target and text" in {
-      doc.getElementsByTag("form").attr("action") shouldBe CommonBuilder.DefaultCall1.url
+      doc.getElementsByTag("form").attr("action") mustBe CommonBuilder.DefaultCall1.url
       val submitButton = doc.getElementById("confirm-delete")
-      submitButton.text() shouldBe messagesApi("site.button.confirmDelete")
+      submitButton.text() mustBe messagesApi("site.button.confirmDelete")
     }
 
     "show the name of the charity" in {
       val nameParagraph = doc.getElementById("charity-name")
-      nameParagraph.text shouldBe nameOfCharity
+      nameParagraph.text mustBe nameOfCharity
     }
   }
 }

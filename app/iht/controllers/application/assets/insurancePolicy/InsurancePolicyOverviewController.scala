@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.application.assets.insurancePolicy
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.IhtConnectors
 import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
@@ -26,17 +27,23 @@ import iht.models.application.assets._
 import iht.utils.CommonHelper._
 import iht.utils.OverviewHelper._
 import iht.utils.{DeceasedInfoHelper, StringHelper}
+import javax.inject.Inject
 import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
 import scala.concurrent.Future
 
-object InsurancePolicyOverviewController extends InsurancePolicyOverviewController with IhtConnectors {
+class InsurancePolicyOverviewControllerImpl @Inject()() extends InsurancePolicyOverviewController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait InsurancePolicyOverviewController extends EstateController {
+
+
   private val q1: ApplicationDetails => Option[Boolean] = ad => ad.allAssets.flatMap(_.insurancePolicy).flatMap(_.isInsurancePremiumsPayedForSomeoneElse)
   private val q2: ApplicationDetails => Option[Boolean] = ad => ad.allAssets.flatMap(_.insurancePolicy).flatMap(_.moreThanMaxValue)
   private val q3: ApplicationDetails => Option[Boolean] = ad => ad.allAssets.flatMap(_.insurancePolicy).flatMap(_.isAnnuitiesBought)
@@ -191,30 +198,29 @@ trait InsurancePolicyOverviewController extends EstateController {
     )
   }
 
-  def onPageLoad = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        withRegistrationDetails { regDetails =>
-          val applicationDetailsFuture: Future[Option[ApplicationDetails]] = ihtConnector
-            .getApplication(StringHelper.getNino(user), getOrExceptionNoIHTRef(regDetails.ihtReference),
-              regDetails.acknowledgmentReference)
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      withRegistrationDetails { regDetails =>
+        val applicationDetailsFuture: Future[Option[ApplicationDetails]] = ihtConnector
+          .getApplication(StringHelper.getNino(userNino), getOrExceptionNoIHTRef(regDetails.ihtReference),
+            regDetails.acknowledgmentReference)
 
-          applicationDetailsFuture.map { optionApplicationDetails =>
-            val ad = getOrExceptionNoApplication(optionApplicationDetails)
-            val optionInsurancePolicy: Option[InsurancePolicy] = ad.allAssets.flatMap(allAssets => allAssets.insurancePolicy)
-            val insurancePolicy: InsurancePolicy = optionInsurancePolicy
-              .fold[InsurancePolicy](new InsurancePolicy(None, None, None, None, None, None, None, None, None, None))(identity)
+        applicationDetailsFuture.map { optionApplicationDetails =>
+          val ad = getOrExceptionNoApplication(optionApplicationDetails)
+          val optionInsurancePolicy: Option[InsurancePolicy] = ad.allAssets.flatMap(allAssets => allAssets.insurancePolicy)
+          val insurancePolicy: InsurancePolicy = optionInsurancePolicy
+            .fold[InsurancePolicy](new InsurancePolicy(None, None, None, None, None, None, None, None, None, None))(identity)
 
-            val seqSection1 = createSection1(regDetails, insurancePolicy)
-            val seqSection2 = createSection2(regDetails, insurancePolicy)
-            val seqSection3 = createSection3(regDetails, ad, insurancePolicy)
+          val seqSection1 = createSection1(regDetails, insurancePolicy)
+          val seqSection2 = createSection2(regDetails, insurancePolicy)
+          val seqSection3 = createSection3(regDetails, ad, insurancePolicy)
 
-            Ok(iht.views.html.application.asset.insurancePolicy.insurance_policies_overview(regDetails,
-              Seq(seqSection1, seqSection2, seqSection3),
-              Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
-              "page.iht.application.return.to.assetsOf"))
-          }
+          Ok(iht.views.html.application.asset.insurancePolicy.insurance_policies_overview(regDetails,
+            Seq(seqSection1, seqSection2, seqSection3),
+            Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
+            "page.iht.application.return.to.assetsOf"))
         }
       }
+    }
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,8 +32,7 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 class AgentControllerTest extends ApplicationControllerTest with HtmlSpec {
 
   override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def controller = new AgentController {
     override val cachingConnector = mockCachingConnector
@@ -44,11 +43,11 @@ class AgentControllerTest extends ApplicationControllerTest with HtmlSpec {
   "AgentController" must {
     "show the 'no change' page when accessed by an unauthorized person" in {
       val result = controller.onPageLoad()(createFakeRequest(isAuthorised = false))
-      status(result) should be(OK)
+      status(result) must be(OK)
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() should be(messagesApi("iht.noChangeToHowReportToHMRC"))
+      titleElement.text() must be(messagesApi("iht.noChangeToHowReportToHMRC"))
     }
   }
 }

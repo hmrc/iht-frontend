@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,45 +22,45 @@ import org.scalatest.mock.MockitoSugar
 import uk.gov.hmrc.play.test.UnitSpec
 
 
-class ApplicantHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
+class ApplicantHelperTest extends FakeIhtApp with MockitoSugar {
 
   "Predicate isApplicantApplyingForProbateQuestionAnswered returns true when applicant probate " +
     "question answered" in {
     ApplicantHelper.isApplicantApplyingForProbateQuestionAnswered(CommonBuilder.buildRegistrationDetails copy(
         applicantDetails = Some(CommonBuilder.buildApplicantDetails)
-      ), "") shouldBe true
+      ), "") mustBe true
   }
 
   "Predicate isApplicantApplyingForProbateQuestionAnswered returns false when applicant probate " +
     "question is not answered" in {
     ApplicantHelper.isApplicantApplyingForProbateQuestionAnswered(CommonBuilder.buildRegistrationDetails copy(
       applicantDetails = Some(CommonBuilder.buildApplicantDetails.copy(isApplyingForProbate = None))
-      ), "") shouldBe false
+      ), "") mustBe false
   }
 
   "Predicate isThereAnApplicantProbateLocation returns true when there is an applicant probate location " in {
     ApplicantHelper.isThereAnApplicantProbateLocation(CommonBuilder.buildRegistrationDetails copy(
       applicantDetails = Some(CommonBuilder.buildApplicantDetails)
-      ), "") shouldBe true
+      ), "") mustBe true
   }
 
   "Predicate isThereAnApplicantProbateLocation returns false when there is no applicant probate" +
     " location selected " in {
     ApplicantHelper.isThereAnApplicantProbateLocation(CommonBuilder.buildRegistrationDetails copy(
       applicantDetails = Some(CommonBuilder.buildApplicantDetails.copy(country = None))
-      ), "") shouldBe false
+      ), "") mustBe false
   }
 
   "Predicate isThereAnApplicantPhoneNo returns true when there is an applicant phone no " in {
     ApplicantHelper.isThereAnApplicantPhoneNo(CommonBuilder.buildRegistrationDetails copy(
       applicantDetails = Some(CommonBuilder.buildApplicantDetails)
-      ), "") shouldBe true
+      ), "") mustBe true
   }
 
   "Predicate isThereAnApplicantPhoneNo returns false when there is no applicant phone no " in {
     ApplicantHelper.isThereAnApplicantPhoneNo(CommonBuilder.buildRegistrationDetails copy(
       applicantDetails = Some(CommonBuilder.buildApplicantDetails.copy(phoneNo = None))
-      ), "") shouldBe false
+      ), "") mustBe false
   }
 
   "Predicate isApplicantOthersApplyingForProbateQuestionAnsweredYes returns true when" +
@@ -68,7 +68,7 @@ class ApplicantHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
     ApplicantHelper.isApplicantOthersApplyingForProbateQuestionAnsweredYes(
       CommonBuilder.buildRegistrationDetails copy(
       areOthersApplyingForProbate = Some(true)
-      ), "") shouldBe true
+      ), "") mustBe true
   }
 
   "Predicate isApplicantOthersApplyingForProbateQuestionAnsweredYes returns false when" +
@@ -76,7 +76,7 @@ class ApplicantHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
     ApplicantHelper.isApplicantOthersApplyingForProbateQuestionAnsweredYes(
       CommonBuilder.buildRegistrationDetails copy(
       areOthersApplyingForProbate = None
-      ), "") shouldBe false
+      ), "") mustBe false
   }
 
   "Predicate isApplicantOthersApplyingForProbateQuestionAnsweredYes returns false when" +
@@ -84,6 +84,6 @@ class ApplicantHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
     ApplicantHelper.isApplicantOthersApplyingForProbateQuestionAnsweredYes(
       CommonBuilder.buildRegistrationDetails copy(
       areOthersApplyingForProbate = Some(false)
-      ), "") shouldBe false
+      ), "") mustBe false
   }
 }

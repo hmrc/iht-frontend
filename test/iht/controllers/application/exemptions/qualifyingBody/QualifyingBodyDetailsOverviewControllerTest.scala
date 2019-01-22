@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,12 +29,11 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.http.HeaderCarrier
 
 class QualifyingBodyDetailsOverviewControllerTest extends ApplicationControllerTest {
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def qualifyingBodyDetailsOverviewController = new QualifyingBodyDetailsOverviewController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -42,7 +41,7 @@ class QualifyingBodyDetailsOverviewControllerTest extends ApplicationControllerT
 
   def qualifyingBodyDetailsOverviewControllerNotAuthorised = new QualifyingBodyDetailsOverviewController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -65,13 +64,21 @@ class QualifyingBodyDetailsOverviewControllerTest extends ApplicationControllerT
         storeAppDetailsInCache = true)
 
       val result = qualifyingBodyDetailsOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
+      status(result) must be(OK)
     }
 
     "display the page title on page load" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = Some(applicationDetails),
+        getAppDetails = true,
+        saveAppDetails = true,
+        storeAppDetailsInCache = true)
+
       val result = qualifyingBodyDetailsOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
-      contentAsString(result) should include(
+      status(result) must be(OK)
+      contentAsString(result) must include(
         messagesApi("iht.estateReport.assets.qualifyingBodyAdd"))
     }
 
@@ -87,7 +94,7 @@ class QualifyingBodyDetailsOverviewControllerTest extends ApplicationControllerT
         storeAppDetailsInCache = true)
 
       val result = qualifyingBodyDetailsOverviewController.onEditPageLoad("1")(createFakeRequest())
-      status(result) should be(OK)
+      status(result) must be(OK)
     }
 
     "respond with Internal Server Error where application details could not be retrieved" in {
@@ -100,7 +107,7 @@ class QualifyingBodyDetailsOverviewControllerTest extends ApplicationControllerT
         storeAppDetailsInCache = true)
 
         val result = qualifyingBodyDetailsOverviewController.onEditPageLoad("2")(createFakeRequest())
-        status(result) should be (INTERNAL_SERVER_ERROR)
+        status(result) must be (INTERNAL_SERVER_ERROR)
 
     }
 
@@ -117,7 +124,7 @@ class QualifyingBodyDetailsOverviewControllerTest extends ApplicationControllerT
 
       intercept[RuntimeException] {
         val result = qualifyingBodyDetailsOverviewController.onEditPageLoad("2")(createFakeRequest())
-        status(result) should be (INTERNAL_SERVER_ERROR)
+        status(result) must be (INTERNAL_SERVER_ERROR)
       }
     }
   }

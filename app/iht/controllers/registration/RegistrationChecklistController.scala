@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,11 @@
 
 package iht.controllers.registration
 
-import iht.config.{IhtFormPartialRetriever, FrontendAuthConnector}
+import iht.config.IhtFormPartialRetriever
 import iht.connector.{CachingConnector, IhtConnector}
-import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
-import uk.gov.hmrc.play.frontend.controller.{UnauthorisedAction, FrontendController}
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -32,7 +31,6 @@ import scala.concurrent.Future
 object RegistrationChecklistController extends RegistrationChecklistController {
   lazy val cachingConnector = CachingConnector
   lazy val ihtConnector = IhtConnector
-  lazy val authConnector: AuthConnector = FrontendAuthConnector
 }
 
 trait RegistrationChecklistController extends FrontendController {

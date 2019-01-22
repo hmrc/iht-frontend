@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -98,7 +98,7 @@ class DeceasedWidowCheckDateViewTest extends ViewTestHelper {
         returnLinkTargetUrl, returnLinkText).toString
 
       val saveAndContinueButton = asDocument(view).getElementById("save-continue")
-      saveAndContinueButton.text() shouldBe messagesApi("iht.saveAndContinue")
+      saveAndContinueButton.text() mustBe messagesApi("iht.saveAndContinue")
     }
 
     "show the correct return link with text" in {
@@ -109,8 +109,8 @@ class DeceasedWidowCheckDateViewTest extends ViewTestHelper {
         returnLinkTargetUrl, returnLinkText).toString
 
       val returnLink = asDocument(view).getElementById(returnLinkId)
-      returnLink.attr("href") shouldBe returnLinkTargetUrl.url
-      returnLink.text() shouldBe returnLinkText
+      returnLink.attr("href") mustBe returnLinkTargetUrl.url
+      returnLink.text() mustBe returnLinkText
     }
   }
 

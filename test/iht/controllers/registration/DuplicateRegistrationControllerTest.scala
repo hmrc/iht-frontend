@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,14 +24,14 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 class DuplicateRegistrationControllerTest extends RegistrationControllerTest{
   // Create controller object and pass in mock.
   def duplicateRegistrationController = new DuplicateRegistrationController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
 
     override val cachingConnector = mock[CachingConnector]
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def duplicateRegistrationControllerNotAuthorised = new DuplicateRegistrationController {
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
 
     override val cachingConnector = mock[CachingConnector]
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -43,31 +43,31 @@ class DuplicateRegistrationControllerTest extends RegistrationControllerTest{
 
     "redirect to GG login page on PageLoad if the user is not logged in" in {
       val result = duplicateRegistrationControllerNotAuthorised.onPageLoad(ihtReference)(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
-      val result = duplicateRegistrationController.onPageLoad(ihtReference)(createFakeRequest())
-      status(result) shouldBe(200)
+      val result = duplicateRegistrationController.onPageLoad(ihtReference)(createFakeRequest(authRetrieveNino = false))
+      status(result) mustBe(200)
     }
 
     "respond with correct page" in {
       import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
-      val result = duplicateRegistrationController.onPageLoad(ihtReference)(createFakeRequest())
-      contentAsString(result) should include(messagesApi("page.iht.registration.duplicateRegistration.title"))
+      val result = duplicateRegistrationController.onPageLoad(ihtReference)(createFakeRequest(authRetrieveNino = false))
+      contentAsString(result) must include(messagesApi("page.iht.registration.duplicateRegistration.title"))
     }
 
     "respond with a reference number" in {
-      val result = duplicateRegistrationController.onPageLoad(ihtReference)(createFakeRequest())
+      val result = duplicateRegistrationController.onPageLoad(ihtReference)(createFakeRequest(authRetrieveNino = false))
     }
 
     "respond with not implemented" in {
-      val result = duplicateRegistrationController.onSubmit(createFakeRequest())
-      status(result) shouldBe(SEE_OTHER)
-      redirectLocation(result) should be(Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url))
+      val result = duplicateRegistrationController.onSubmit(createFakeRequest(authRetrieveNino = false))
+      status(result) mustBe(SEE_OTHER)
+      redirectLocation(result) must be(Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url))
     }
   }
 }

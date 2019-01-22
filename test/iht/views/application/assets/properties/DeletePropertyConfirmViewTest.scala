@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,20 +45,20 @@ class DeletePropertyConfirmViewTest extends GenericNonSubmittablePageBehaviour {
     behave like nonSubmittablePage()
 
     "show submit button with correct target and text" in {
-      doc.getElementsByTag("form").attr("action") shouldBe iht.controllers.application.assets.properties.routes.DeletePropertyController.onSubmit("1").url
+      doc.getElementsByTag("form").attr("action") mustBe iht.controllers.application.assets.properties.routes.DeletePropertyController.onSubmit("1").url
       val submitButton = doc.getElementById("delete-confirm")
-      submitButton.text() shouldBe messagesApi("site.button.confirmDelete")
+      submitButton.text() mustBe messagesApi("site.button.confirmDelete")
     }
 
     "show cancel link with correct target and text" in {
       val submitButton = doc.getElementById("cancel-button")
-      submitButton.attr("href") shouldBe CommonHelper.addFragmentIdentifierToUrl(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad().url, TestHelper.AssetsPropertiesDeleteID + "1")
-      submitButton.text() shouldBe messagesApi("site.link.cancel")
+      submitButton.attr("href") mustBe CommonHelper.addFragmentIdentifierToUrl(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad().url, TestHelper.AssetsPropertiesDeleteID + "1")
+      submitButton.text() mustBe messagesApi("site.link.cancel")
     }
 
     "show the address" in {
       val addressDiv = doc.getElementById("address")
-      addressDiv.text shouldBe formatAddressForDisplay(CommonBuilder.DefaultUkAddress)
+      addressDiv.text mustBe formatAddressForDisplay(CommonBuilder.DefaultUkAddress)
     }
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,18 +36,17 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class PartnerPermanentHomeQuestionControllerTest extends ApplicationControllerTest{
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def partnerPermanentHomeQuestionController = new PartnerPermanentHomeQuestionController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def partnerPermanentHomeQuestionControllerNotAuthorised = new PartnerPermanentHomeQuestionController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -56,15 +55,15 @@ class PartnerPermanentHomeQuestionControllerTest extends ApplicationControllerTe
   "PartnerPermanentHomeQuestionController" must {
 
     "redirect to login page on PageLoad if the user is not logged in" in {
-      val result = partnerPermanentHomeQuestionControllerNotAuthorised.onPageLoad(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      val result = partnerPermanentHomeQuestionControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to login page on Submit if the user is not logged in" in {
-      val result = partnerPermanentHomeQuestionControllerNotAuthorised.onSubmit(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      val result = partnerPermanentHomeQuestionControllerNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load, page contains Return link and Save button" in {
@@ -78,8 +77,8 @@ class PartnerPermanentHomeQuestionControllerTest extends ApplicationControllerTe
         storeAppDetailsInCache = true)
 
       val result = partnerPermanentHomeQuestionController.onPageLoad (createFakeRequest())
-      status(result) shouldBe (OK)
-      contentAsString(result) should include (messagesApi("iht.saveAndContinue"))
+      status(result) mustBe (OK)
+      contentAsString(result) must include (messagesApi("iht.saveAndContinue"))
 
     }
 
@@ -102,8 +101,8 @@ class PartnerPermanentHomeQuestionControllerTest extends ApplicationControllerTe
         .toSeq: _*)
 
       val result = partnerPermanentHomeQuestionController.onSubmit(request)
-      status(result) shouldBe (SEE_OTHER)
-      redirectLocation(result) should be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerHomeID)))
+      status(result) mustBe (SEE_OTHER)
+      redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerHomeID)))
     }
 
     "display validation message when incomplete form is submitted" in {
@@ -124,8 +123,8 @@ class PartnerPermanentHomeQuestionControllerTest extends ApplicationControllerTe
         storeAppDetailsInCache = true)
 
       val result = partnerPermanentHomeQuestionController.onSubmit()(request)
-      status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include (messagesApi("error.problem"))
+      status(result) must be (BAD_REQUEST)
+      contentAsString(result) must include (messagesApi("error.problem"))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

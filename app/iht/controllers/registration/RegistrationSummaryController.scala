@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.registration
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.controllers.ControllerHelper
 import iht.metrics.Metrics
@@ -23,16 +24,19 @@ import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.enums.StatsSource
 import iht.utils._
+import javax.inject.Inject
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Request, Result}
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import uk.gov.hmrc.http._
 
-object RegistrationSummaryController extends RegistrationSummaryController with IhtConnectors {
+class RegistrationSummaryControllerImpl @Inject()() extends RegistrationSummaryController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
@@ -46,7 +50,7 @@ trait RegistrationSummaryController extends RegistrationController {
   def ihtConnector: IhtConnector
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
+    implicit request => {
       withRegistrationDetailsRedirectOnGuardCondition { rd =>
         Future.successful(Ok(iht.views.html.registration.registration_summary(rd, additionalApplicantType(rd.applicantDetails.get.role))))
       }
@@ -70,7 +74,7 @@ trait RegistrationSummaryController extends RegistrationController {
   }
 
   def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
+    implicit request => {
       def errorHandler: PartialFunction[Throwable, Result] = {
         case ex: GatewayTimeoutException =>
           Logger.warn("Request has been timed out while submitting registration", ex)

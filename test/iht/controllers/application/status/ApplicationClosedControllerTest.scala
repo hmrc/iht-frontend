@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,11 +21,13 @@ import iht.testhelpers.CommonBuilder
 import iht.views.HtmlSpec
 
 class ApplicationClosedControllerTest extends ApplicationControllerTest with HtmlSpec {
+  val applicationClosedController = new ApplicationClosedControllerImpl
+
   "ApplicationClosedController" must {
     "implement a view" in {
       val deceasedName = "Xyz"
       val request = createFakeRequest()
-      val pageContent = ApplicationClosedController.getView("",deceasedName,CommonBuilder.buildProbateDetails)(request, formPartialRetriever).toString
+      val pageContent = applicationClosedController.getView("",deceasedName,CommonBuilder.buildProbateDetails)(request, formPartialRetriever).toString
       titleShouldBeCorrect(pageContent, messagesApi("page.iht.application.overview.closed.title", deceasedName))
     }
   }

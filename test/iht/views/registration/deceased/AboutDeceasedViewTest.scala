@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -127,11 +127,11 @@ class AboutDeceasedViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
       val doc = editModeViewAsDocument
 
       val continueLink = doc.getElementById("continue-button")
-      continueLink.attr("value") shouldBe messagesApi("iht.continue")
+      continueLink.attr("value") mustBe messagesApi("iht.continue")
 
       val cancelLink = doc.getElementById("cancel-button")
-      cancelLink.attr("href") shouldBe CommonBuilder.DefaultCall2.url
-      cancelLink.text() shouldBe messagesApi("site.link.cancel")
+      cancelLink.attr("href") mustBe CommonBuilder.DefaultCall2.url
+      cancelLink.text() mustBe messagesApi("site.link.cancel")
     }
   }
 }

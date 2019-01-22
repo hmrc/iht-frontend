@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +18,10 @@ package iht.utils
 
 import java.net.{URI, URLEncoder}
 
-import iht.config.ApplicationConfig
-import iht.controllers.auth.{IhtRegimeForApplication, IhtRegimeForRegistration}
+import iht.config.{AppConfig, ApplicationConfig}
 import play.api.mvc.Results._
 import play.api.mvc.{AnyContent, Request}
+import uk.gov.hmrc.play.config.AppName
 import uk.gov.hmrc.play.frontend.auth._
 import uk.gov.hmrc.play.frontend.auth.connectors.domain.{ConfidenceLevel, CredentialStrength}
 
@@ -31,40 +31,63 @@ object IhtSection extends Enumeration {
   val Registration, Application = Value
 }
 
-object AuthHelper {
+trait AuthHelper extends AppName {
+//  private def getCompositePageVisibilityPredicate(postSignInUrl: String, notAuthorisedUrl: String, requiredConfidenceLevel: Int) = {
+//    new CompositePageVisibilityPredicate {
+//      private val ivUpliftURI: URI =
+//        new URI(ApplicationConfig.ivUrlUplift +
+//          s"completionURL=${URLEncoder.encode(postSignInUrl, "UTF-8")}&" +
+//          s"failureURL=${URLEncoder.encode(notAuthorisedUrl, "UTF-8")}" +
+//          s"&confidenceLevel=$requiredConfidenceLevel")
+//
+//      override def children: Seq[PageVisibilityPredicate] = Seq(
+//        new UpliftingIdentityConfidencePredicate(ConfidenceLevel.fromInt(requiredConfidenceLevel), ivUpliftURI)
+//      )
+//    }
+//  }
+//
+//  def getIhtTaxRegime(ihtSection: IhtSection.Value) = ihtSection match {
+//    case IhtSection.Registration =>
+//      IhtRegimeForRegistration
+//    case IhtSection.Application =>
+//      IhtRegimeForApplication
+//    case _ => throw new RuntimeException("Could not figure out tax regime")
+//  }
 
-  private def getCompositePageVisibilityPredicate(postSignInUrl: String, notAuthorisedUrl: String, requiredConfidenceLevel: Int) = {
-    new CompositePageVisibilityPredicate {
-      private val ivUpliftURI: URI =
-        new URI(ApplicationConfig.ivUrlUplift +
-          s"completionURL=${URLEncoder.encode(postSignInUrl, "UTF-8")}&" +
-          s"failureURL=${URLEncoder.encode(notAuthorisedUrl, "UTF-8")}" +
-          s"&confidenceLevel=$requiredConfidenceLevel")
+  def getIVUrlForFailedConfidenceLevel(ihtSection: IhtSection.Value, requiredConfidenceLevel: Int): String = {
+    lazy val ivUpliftUrl = ApplicationConfig.ivUrlUplift
 
-      override def children: Seq[PageVisibilityPredicate] = Seq(
-        new UpliftingIdentityConfidencePredicate(ConfidenceLevel.fromInt(requiredConfidenceLevel), ivUpliftURI)
-      )
+    val (postSignInUrl, notAuthorisedUrl) = ihtSection match {
+      case IhtSection.Registration => (ApplicationConfig.postIVRedirectUrlRegistration, ApplicationConfig.notAuthorisedRedirectUrlRegistration)
+      case IhtSection.Application => (ApplicationConfig.postIVRedirectUrlApplication, ApplicationConfig.notAuthorisedRedirectUrlApplication)
+      case _ => throw new RuntimeException("Could not figure out composite page visibility predicate")
     }
+
+    ivUpliftUrl +
+      s"completionURL=${URLEncoder.encode(postSignInUrl, "UTF-8")}" +
+      s"&failureURL=${URLEncoder.encode(notAuthorisedUrl, "UTF-8")}" +
+      s"&confidenceLevel=$requiredConfidenceLevel"
   }
 
-  def getIhtTaxRegime(ihtSection: IhtSection.Value) = ihtSection match {
-    case IhtSection.Registration =>
-      IhtRegimeForRegistration
-    case IhtSection.Application =>
-      IhtRegimeForApplication
+
+  def getIhtSignInUrl: String = ApplicationConfig.ggSignInUrl
+
+  def getIhtContinueUrl(ihtSection: IhtSection.Value): String = ihtSection match {
+    case IhtSection.Registration => ApplicationConfig.postSignInRedirectUrlRegistration
+    case IhtSection.Application => ApplicationConfig.postSignInRedirectUrlApplication
     case _ => throw new RuntimeException("Could not figure out tax regime")
   }
 
-  def getIhtCompositePageVisibilityPredicate(ihtSection: IhtSection.Value) =
-    ihtSection match {
-    case IhtSection.Registration => getCompositePageVisibilityPredicate(
-      ApplicationConfig.postIVRedirectUrlRegistration,
-      ApplicationConfig.notAuthorisedRedirectUrlRegistration,
-      ApplicationConfig.ivUpliftConfidenceLevel)
-    case IhtSection.Application => getCompositePageVisibilityPredicate(
-      ApplicationConfig.postIVRedirectUrlApplication,
-      ApplicationConfig.notAuthorisedRedirectUrlApplication,
-      ApplicationConfig.ivUpliftConfidenceLevel)
-    case _ => throw new RuntimeException("Could not figure out composite page visibility predicate")
-  }
+//  def getIhtCompositePageVisibilityPredicate(ihtSection: IhtSection.Value) =
+//    ihtSection match {
+//    case IhtSection.Registration => getCompositePageVisibilityPredicate(
+//      ApplicationConfig.postIVRedirectUrlRegistration,
+//      ApplicationConfig.notAuthorisedRedirectUrlRegistration,
+//      ApplicationConfig.ivUpliftConfidenceLevel)
+//    case IhtSection.Application => getCompositePageVisibilityPredicate(
+//      ApplicationConfig.postIVRedirectUrlApplication,
+//      ApplicationConfig.notAuthorisedRedirectUrlApplication,
+//      ApplicationConfig.ivUpliftConfidenceLevel)
+//    case _ => throw new RuntimeException("Could not figure out composite page visibility predicate")
+//  }
 }

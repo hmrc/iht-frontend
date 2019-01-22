@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ class RegistrationSummaryCoExecutorPanelTest extends ViewTestHelper with TestUti
       implicit val messages: MessagesApi = app.injector.instanceOf[MessagesApi]
       implicit val lang = Lang.defaultLang
 
-      registration_summary_coexecutor_panel(Seq())(request, applicationMessages, lang).toString should include
+      registration_summary_coexecutor_panel(Seq())(request, applicationMessages, lang).toString must include
       (OthersApplyingForProbateController.onPageLoadFromOverview().url)
     }
   }

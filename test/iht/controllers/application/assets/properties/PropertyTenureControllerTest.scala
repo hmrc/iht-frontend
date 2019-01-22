@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,8 +36,7 @@ import uk.gov.hmrc.http.HeaderCarrier
  */
 class PropertyTenureControllerTest extends ApplicationControllerTest {
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def setUpTests(applicationDetails: Option[ApplicationDetails] = None) = {
     createMocksForApplication(mockCachingConnector,
@@ -50,7 +49,7 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
 
   def propertyTenureController = new PropertyTenureController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -58,7 +57,7 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
 
   def propertyTenureControllerNotAuthorised = new PropertyTenureController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -71,14 +70,14 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
 
     "redirect to ida login page on PageLoad if the user is not logged in" in {
       val result = propertyTenureControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to ida login page on Submit if the user is not logged in" in {
       val result = propertyTenureControllerNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond ok on page load" in {
@@ -87,14 +86,16 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
 
       setUpTests(Some(applicationDetails))
       
-      val result = propertyTenureController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
+      val result = propertyTenureController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      status(result) must be (OK)
     }
 
     "display the correct title on page" in {
-      val result = propertyTenureController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.freeholdOrLeasehold"))
+      createMockToGetRegDetailsFromCache(mockCachingConnector)
+
+      val result = propertyTenureController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      status(result) must be (OK)
+      contentAsString(result) must include (messagesApi("iht.estateReport.assets.properties.freeholdOrLeasehold"))
     }
 
     "display the correct title on page in edit mode" in {
@@ -104,8 +105,8 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
       setUpTests(Some(applicationDetails))
 
       val result = propertyTenureController.onEditPageLoad("1")(createFakeRequest())
-      status(result) should be (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.freeholdOrLeasehold"))
+      status(result) must be (OK)
+      contentAsString(result) must include (messagesApi("iht.estateReport.assets.properties.freeholdOrLeasehold"))
     }
 
     "respond with RuntimeException on edit page load if propery is not found in propertyList" in {
@@ -123,7 +124,7 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
       setUpTests()
 
       val result = propertyTenureController.onEditPageLoad("1")(createFakeRequest())
-      status(result) should be (INTERNAL_SERVER_ERROR)
+      status(result) must be (INTERNAL_SERVER_ERROR)
     }
 
     "respond with BAD_RQUEST on submit when request is malformed" in {
@@ -135,7 +136,7 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
       setUpTests(Some(applicationDetails))
 
       val result = propertyTenureController.onSubmit()(request)
-      status(result) should be (BAD_REQUEST)
+      status(result) must be (BAD_REQUEST)
     }
 
     "redirect to PropertyDetails overview page on submit" in {
@@ -150,8 +151,8 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
 
       val result = propertyTenureController.onSubmit()(request)
 
-      status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertyDetailsOverviewController.onEditPageLoad("1").url, TestHelper.AssetsPropertiesTenureID)))
+      status(result) must be (SEE_OTHER)
+      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertyDetailsOverviewController.onEditPageLoad("1").url, TestHelper.AssetsPropertiesTenureID)))
     }
 
     "redirect to PropertyDetails overview page on submit in edit mode" in {
@@ -170,8 +171,8 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
 
       val result = propertyTenureController.onEditSubmit(propertyId)(request)
 
-      status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertyDetailsOverviewController.onEditPageLoad(propertyId).url, TestHelper.AssetsPropertiesTenureID)))
+      status(result) must be (SEE_OTHER)
+      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertyDetailsOverviewController.onEditPageLoad(propertyId).url, TestHelper.AssetsPropertiesTenureID)))
     }
   }
 }

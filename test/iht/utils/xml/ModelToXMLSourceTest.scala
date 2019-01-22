@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,16 +16,17 @@
 
 package iht.utils.xml
 
+import iht.FakeIhtApp
 import iht.resources.{IhtReturn, RegistrationDetailsReturn}
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.IHTReturnTestHelper._
 import org.joda.time.LocalDate
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.xml.XML
 
-class ModelToXMLSourceTest extends UnitSpec with MockitoSugar with iht.FakeIhtApp {
+class ModelToXMLSourceTest extends FakeIhtApp with MockitoSugar {
   "getXMLSource" must {
 
     "return correct XML corresponding to a fully completed IHT Return object" in {
@@ -40,7 +41,7 @@ class ModelToXMLSourceTest extends UnitSpec with MockitoSugar with iht.FakeIhtAp
         survivingSpouse.mainAddress.get.postalCode, survivingSpouse.nino.get, deceasedSpouse.firstName.get,
         deceasedSpouse.lastName.get, deceasedSpouse.mainAddress.get.postalCode, deceasedSpouse.nino.get).data))
 
-      xmlActual shouldBe xmlExpected
+      xmlActual mustBe xmlExpected
     }
 
     "return correct XML corresponding to a fully completed RegistrationDetails object" in {
@@ -52,7 +53,7 @@ class ModelToXMLSourceTest extends UnitSpec with MockitoSugar with iht.FakeIhtAp
       val xmlExpected = printer.format(XML.loadString(RegistrationDetailsReturn(regDetails.applicantDetails.get,
         regDetails.deceasedDetails.get, regDetails.coExecutors, CommonBuilder.DefaultAcknowledgmentReference).data))
 
-      xmlActual shouldBe xmlExpected
+      xmlActual mustBe xmlExpected
     }
 
     "return correct XML corresponding to a fully completed RegistrationDetails object concatenated to iht return object" in {
@@ -60,7 +61,7 @@ class ModelToXMLSourceTest extends UnitSpec with MockitoSugar with iht.FakeIhtAp
       val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
       val appDetails = CommonBuilder.buildApplicationDetails2
       val result: Array[Byte] = ModelToXMLSource.getPostSubmissionDetailsXMLSource(regDetails, ihtReturn, appDetails)
-      result.length > 13000 shouldBe true
+      result.length > 13000 mustBe true
     }
 
   }

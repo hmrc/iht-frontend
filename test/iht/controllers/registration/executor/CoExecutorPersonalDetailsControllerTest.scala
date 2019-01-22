@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,14 +36,10 @@ import uk.gov.hmrc.http.HeaderCarrier
 
 class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest with BeforeAndAfter {
 
-  before {
-    mockCachingConnector = mock[CachingConnector]
-  }
-
   // Create controller object and pass in mock.
   def controller(coExecutorForms2:CoExecutorForms) = new CoExecutorPersonalDetailsController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
 
     override def coExecutorForms = coExecutorForms2
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -51,7 +47,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
   def controllerNotAuthorised = new CoExecutorPersonalDetailsController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
 
     override def coExecutorForms = CoExecutorForms
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -79,7 +75,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
         override def ihtFormValidator: IhtFormValidator = mockIhtFormValidator
       }
     }
-    implicit val request = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
+    implicit val request = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host, authRetrieveNino = false)
     implicit val hc = new HeaderCarrier()
     coExecutorForms
   }
@@ -106,7 +102,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
         override def ihtFormValidator: IhtFormValidator = mockIhtFormValidator
       }
     }
-    implicit val request = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
+    implicit val request = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host, authRetrieveNino = false)
     implicit val hc = new HeaderCarrier()
     coExecutorForms
     //coExecutorForms.coExecutorPersonalDetailsForm.fill(coExecutor)
@@ -116,26 +112,26 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
     "redirect to GG login page on PageLoad if the user is not logged in" in {
       val result = controllerNotAuthorised.onPageLoad(None)(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to GG login page on Submit if the user is not logged in" in {
       val result = controllerNotAuthorised.onSubmit(None)(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to GG login page on PageLoad in edit mode if the user is not logged in" in {
       val result = controllerNotAuthorised.onEditPageLoad("1")(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to GG login page on Submit in edit mode if the user is not logged in" in {
       val result = controllerNotAuthorised.onEditSubmit("1")(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "load when no prior co-executors are saved" in {
@@ -144,10 +140,10 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidationNoCoExecutor(mockCachingConnector)
 
-      val result = controller(coExecutorForms).onPageLoad(None)(createFakeRequest())
+      val result = controller(coExecutorForms).onPageLoad(None)(createFakeRequest(authRetrieveNino = false))
 
-      status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("page.iht.registration.co-executor-personal-details.title"))
+      status(result) must be(OK)
+      contentAsString(result) must include(messagesApi("page.iht.registration.co-executor-personal-details.title"))
     }
 
     "contain Continue button when Page is loaded in normal mode" in {
@@ -156,11 +152,11 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidationNoCoExecutor(mockCachingConnector)
 
-      val result = controller(coExecutorForms).onPageLoad(None)(createFakeRequest())
-      status(result) shouldBe OK
+      val result = controller(coExecutorForms).onPageLoad(None)(createFakeRequest(authRetrieveNino = false))
+      status(result) mustBe OK
 
-      contentAsString(result) should include(messagesApi("iht.continue"))
-      contentAsString(result) should not include messagesApi("site.link.cancel")
+      contentAsString(result) must include(messagesApi("iht.continue"))
+      contentAsString(result) must not include messagesApi("site.link.cancel")
     }
 
     "contain Continue and Cancel buttons when Page is loaded in edit mode" in {
@@ -172,11 +168,11 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidationNoCoExecutor(mockCachingConnector)
 
-      val result = controller(coExecutorForms).onEditPageLoad("1")(createFakeRequest())
-      status(result) shouldBe OK
+      val result = controller(coExecutorForms).onEditPageLoad("1")(createFakeRequest(authRetrieveNino = false))
+      status(result) mustBe OK
 
-      contentAsString(result) should include(messagesApi("iht.continue"))
-      contentAsString(result) should include(messagesApi("site.link.cancel"))
+      contentAsString(result) must include(messagesApi("iht.continue"))
+      contentAsString(result) must include(messagesApi("site.link.cancel"))
     }
 
     "not contain the 'Do you live in the UK' question when loaded in edit mode" in {
@@ -188,10 +184,10 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidationNoCoExecutor(mockCachingConnector)
 
-      val result = controller(coExecutorForms).onEditPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL,host=host))
-      status(result) shouldBe OK
+      val result = controller(coExecutorForms).onEditPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL,host=host, authRetrieveNino = false))
+      status(result) mustBe OK
 
-      contentAsString(result) should not include messagesApi("page.iht.registration.co-executor-personal-details.isAddressInUk")
+      contentAsString(result) must not include messagesApi("page.iht.registration.co-executor-personal-details.isAddressInUk")
     }
 
 
@@ -205,12 +201,12 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidationNoCoExecutor(mockCachingConnector)
 
-      val result = controller(coExecutorForms).onPageLoad(Some("1"))(createFakeRequest())
+      val result = controller(coExecutorForms).onPageLoad(Some("1"))(createFakeRequest(authRetrieveNino = false))
 
-      status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("page.iht.registration.co-executor-personal-details.title"))
-      contentAsString(result) should include(firstName)
-      contentAsString(result) should include(surname)
+      status(result) must be(OK)
+      contentAsString(result) must include(messagesApi("page.iht.registration.co-executor-personal-details.title"))
+      contentAsString(result) must include(firstName)
+      contentAsString(result) must include(surname)
     }
 
     "load when creating a new co-executor and another already exists" in {
@@ -222,12 +218,12 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidationNoCoExecutor(mockCachingConnector)
-      val result = controller(coExecutorForms).onPageLoad(None)(createFakeRequest())
+      val result = controller(coExecutorForms).onPageLoad(None)(createFakeRequest(authRetrieveNino = false))
 
-      status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("page.iht.registration.co-executor-personal-details.title"))
-      contentAsString(result) should not include firstName
-      contentAsString(result) should not include surname
+      status(result) must be(OK)
+      contentAsString(result) must include(messagesApi("page.iht.registration.co-executor-personal-details.title"))
+      contentAsString(result) must not include firstName
+      contentAsString(result) must not include surname
     }
 
     "raise an error when accessed for a non-existant co-executor" in {
@@ -240,7 +236,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
         val coExecutorForms: CoExecutorForms = formWithMockedNinoValidationNoCoExecutor(mockCachingConnector)
 
       intercept[Exception] {
-        val result = controller(coExecutorForms).onPageLoad(Some("2"))(createFakeRequest())
+        val result = controller(coExecutorForms).onPageLoad(Some("2"))(createFakeRequest(authRetrieveNino = false))
         status(result)
       }
     }
@@ -260,7 +256,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       intercept[Exception] {
         val coExecutorForms: CoExecutorForms = formWithMockedNinoValidationNoCoExecutor(mockCachingConnector)
 
-        val result = controller(coExecutorForms).onPageLoad(None)(createFakeRequest())
+        val result = controller(coExecutorForms).onPageLoad(None)(createFakeRequest(authRetrieveNino = false))
         status(result)
       }
     }
@@ -270,8 +266,8 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
         val coExecutorForms: CoExecutorForms = formWithMockedNinoValidationNoCoExecutor(mockCachingConnector)
 
-        val result = controller(coExecutorForms).onPageLoad(None)(createFakeRequest())
-        status(result) shouldBe SEE_OTHER
+        val result = controller(coExecutorForms).onPageLoad(None)(createFakeRequest(authRetrieveNino = false))
+        status(result) mustBe SEE_OTHER
     }
 
     "redirect estate report if trying to add a co-executor but others applying for probate is answered false" in {
@@ -280,8 +276,8 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
         val coExecutorForms: CoExecutorForms = formWithMockedNinoValidationNoCoExecutor(mockCachingConnector)
 
-        val result = controller(coExecutorForms).onPageLoad(None)(createFakeRequest())
-        status(result) shouldBe SEE_OTHER
+        val result = controller(coExecutorForms).onPageLoad(None)(createFakeRequest(authRetrieveNino = false))
+        status(result) mustBe SEE_OTHER
     }
 
 
@@ -296,12 +292,12 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidation(coExecutor, mockCachingConnector)
 
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
+      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host, authRetrieveNino = false)
       implicit val hc = new HeaderCarrier()
       val form: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm().fill(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
-        host = host, data = form.data.toSeq)
+        host = host, data = form.data.toSeq, authRetrieveNino = false)
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector,
@@ -309,16 +305,16 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
       val result = controller(coExecutorForms).onSubmit(None)(request)
 
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(
         Some(iht.controllers.registration.executor.routes.OtherPersonsAddressController.onPageLoadUK("1").url))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
 
-      capturedValue.coExecutors.length shouldBe 1
-      capturedValue.coExecutors.head shouldBe CommonBuilder.buildCoExecutorPersonalDetails(Some("1"))
-      capturedValue.deceasedDetails shouldBe Some(deceasedDetails)
-      capturedValue.applicantDetails shouldBe Some(applicantDetails)
+      capturedValue.coExecutors.length mustBe 1
+      capturedValue.coExecutors.head mustBe CommonBuilder.buildCoExecutorPersonalDetails(Some("1"))
+      capturedValue.deceasedDetails mustBe Some(deceasedDetails)
+      capturedValue.applicantDetails mustBe Some(applicantDetails)
     }
 
     "save a valid new co-executor located outside of the uk" in {
@@ -330,20 +326,20 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       val coExecutor = CommonBuilder.buildCoExecutorPersonalDetails() copy (isAddressInUk = Some(false))
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidation(coExecutor, mockCachingConnector)
 
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
+      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host, authRetrieveNino = false)
       implicit val hc = new HeaderCarrier()
       val form: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm().fill(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
-        host = host, data = form.data.toSeq)
+        host = host, data = form.data.toSeq, authRetrieveNino = false)
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(
         CommonBuilder.buildRegistrationDetailsWithOthersApplyingForProbate))
 
       val result = controller(coExecutorForms).onSubmit(None)(request)
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(
         Some(iht.controllers.registration.executor.routes.OtherPersonsAddressController.onPageLoadAbroad("1").url))
     }
 
@@ -357,27 +353,27 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       val coExecutor = CommonBuilder.buildCoExecutorPersonalDetails(None)
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidation(coExecutor, mockCachingConnector)
 
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
+      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host, authRetrieveNino = false)
       implicit val hc = new HeaderCarrier()
       val form: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm().fill(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
-        data = form.data.toSeq)
+        data = form.data.toSeq, authRetrieveNino = false)
 
       createMockToStoreRegDetailsInCache(mockCachingConnector,
         Some(CommonBuilder.buildRegistrationDetailsWithOthersApplyingForProbate))
 
       val result = controller(coExecutorForms).onSubmit(None)(request)
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(
         Some(iht.controllers.registration.executor.routes.OtherPersonsAddressController.onPageLoadUK("2").url))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val expectedCoExecutor = CommonBuilder.buildCoExecutorPersonalDetails(Some("2"))
 
-      capturedValue.coExecutors.length shouldBe 2
-      capturedValue.coExecutors.head shouldBe coExec1
-      capturedValue.coExecutors(1) shouldBe expectedCoExecutor
+      capturedValue.coExecutors.length mustBe 2
+      capturedValue.coExecutors.head mustBe coExec1
+      capturedValue.coExecutors(1) mustBe expectedCoExecutor
     }
 
     "update an existing co-executor with valid data" in {
@@ -394,25 +390,25 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidation(coExecutor, mockCachingConnector)
 
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
+      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host, authRetrieveNino = false)
       implicit val hc = new HeaderCarrier()
       val form: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm().fill(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
-        data = form.data.toSeq)
+        data = form.data.toSeq, authRetrieveNino = false)
 
       createMockToStoreRegDetailsInCache(mockCachingConnector,
         Some(CommonBuilder.buildRegistrationDetailsWithOthersApplyingForProbate))
 
       val result = controller(coExecutorForms).onSubmit(Some("1"))(request)
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(
         Some(iht.controllers.registration.executor.routes.OtherPersonsAddressController.onPageLoadUK("1").url))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val expectedCoExecutor = coExec1 copy (firstName = firstName, lastName = surname)
-      capturedValue.coExecutors.length shouldBe 1
-      capturedValue.coExecutors.head shouldBe expectedCoExecutor
+      capturedValue.coExecutors.length mustBe 1
+      capturedValue.coExecutors.head mustBe expectedCoExecutor
     }
 
     "update an existing co-executor in edit mode with valid data" in {
@@ -430,25 +426,25 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidation(coExecutor, mockCachingConnector)
 
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
+      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host, authRetrieveNino = false)
       implicit val hc = new HeaderCarrier()
       val form: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm().fill(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
-        data = form.data.toSeq)
+        data = form.data.toSeq, authRetrieveNino = false)
 
       createMockToStoreRegDetailsInCache(mockCachingConnector,
         Some(CommonBuilder.buildRegistrationDetailsWithOthersApplyingForProbate))
 
       val result = controller(coExecutorForms).onEditSubmit("1")(request)
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(
         Some(iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad().url))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val expectedCoExecutor = coExec1 copy (firstName = firstName, lastName = surname, isAddressInUk = Some(true))
-      capturedValue.coExecutors.length shouldBe 1
-      capturedValue.coExecutors.head shouldBe expectedCoExecutor
+      capturedValue.coExecutors.length mustBe 1
+      capturedValue.coExecutors.head mustBe expectedCoExecutor
     }
 
     "raise an error when trying to save for a non-existant co-executor" in {
@@ -458,17 +454,17 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       val coExecutor = CommonBuilder.buildCoExecutor
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidation(coExecutor, mockCachingConnector)
 
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
+      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host, authRetrieveNino = false)
       implicit val hc = new HeaderCarrier()
       val form: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm().fill(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
-        host = host, data = form.data.toSeq)
+        host = host, data = form.data.toSeq, authRetrieveNino = false)
 
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
         val result = controller(coExecutorForms).onSubmit(Some("1"))(request)
-        redirectLocation(result) should be(
+        redirectLocation(result) must be(
         Some(iht.controllers.registration.executor.routes.ExecutorOverviewController.onPageLoad().url))
     }
 
@@ -482,12 +478,12 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidation(coExecutor, mockCachingConnector)
 
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
+      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host, authRetrieveNino = false)
       implicit val hc = new HeaderCarrier()
       val form: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm().fill(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
-        data = form.data.toSeq)
+        data = form.data.toSeq, authRetrieveNino = false)
 
       createMockToStoreRegDetailsInCache(mockCachingConnector,
         Some(CommonBuilder.buildRegistrationDetailsWithOthersApplyingForProbate))
@@ -505,17 +501,17 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       val coExecutor = CommonBuilder.buildCoExecutor
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidation(coExecutor, mockCachingConnector)
 
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
+      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host, authRetrieveNino = false)
       implicit val hc = new HeaderCarrier()
       val form: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm().fill(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
-        host = host, data = form.data.toSeq)
+        host = host, data = form.data.toSeq, authRetrieveNino = false)
 
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
         val result = controller(coExecutorForms).onSubmit(None)(request)
-      status(result) shouldBe SEE_OTHER
+      status(result) mustBe SEE_OTHER
     }
 
     "raise an error when trying to submit a co-executor but others are not applying for probate" in {
@@ -526,17 +522,17 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       val coExecutor = CommonBuilder.buildCoExecutor
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidation(coExecutor, mockCachingConnector)
 
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
+      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host, authRetrieveNino = false)
       implicit val hc = new HeaderCarrier()
       val form: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm().fill(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
-        host = host, data = form.data.toSeq)
+        host = host, data = form.data.toSeq, authRetrieveNino = false)
 
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
         val result = controller(coExecutorForms).onSubmit(None)(request)
-      status(result) shouldBe SEE_OTHER
+      status(result) mustBe SEE_OTHER
     }
 
     "show an error when some data is invalid" in {
@@ -553,7 +549,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       val coExecutor = CommonBuilder.buildCoExecutorPersonalDetails(None)
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidation(coExecutor, mockCachingConnector)
 
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
+      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host, authRetrieveNino = false)
       implicit val hc = new HeaderCarrier()
       val form: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm().fill(coExecutor)
 
@@ -562,10 +558,10 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
         Some(CommonBuilder.buildRegistrationDetailsWithOthersApplyingForProbate))
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
-        host = host, data = form.data.toSeq)
+        host = host, data = form.data.toSeq, authRetrieveNino = false)
 
       val result = controller(coExecutorForms).onSubmit(None)(request)
-      status(result) should be(INTERNAL_SERVER_ERROR)
+      status(result) must be(INTERNAL_SERVER_ERROR)
     }
 //
     "when update an existing co-executor with valid data return an internal server error if the storage fails" in {
@@ -580,36 +576,36 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidation(coExecutor, mockCachingConnector)
 
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
+      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host, authRetrieveNino = false)
       implicit val hc = new HeaderCarrier()
       val form: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm().fill(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
-        data = form.data.toSeq)
+        data = form.data.toSeq, authRetrieveNino = false)
 
       createMockToStoreRegDetailsInCacheWithFailure(mockCachingConnector,
         Some(CommonBuilder.buildRegistrationDetailsWithOthersApplyingForProbate))
 
       val result = controller(coExecutorForms).onSubmit(Some("1"))(request)
-      status(result) should be(INTERNAL_SERVER_ERROR)
+      status(result) must be(INTERNAL_SERVER_ERROR)
     }
 
     def checkForErrorOnSubmission(detailsToSubmit: Seq[(String, String)], expectedError: String): Unit = {
       val result = submitCoExecutorPersonalDetails(
         CommonBuilder.buildRegistrationDetailsWithOthersApplyingForProbate, detailsToSubmit, None)
-      status(result) should be(BAD_REQUEST)
-      contentAsString(result) should include(messagesApi(expectedError))
+      status(result) must be(BAD_REQUEST)
+      contentAsString(result) must include(messagesApi(expectedError))
     }
 
     def checkForErrorOnSubmissionOfModel(coExecutor: CoExecutor,expectedError: String): Unit = {
       val result = submitCoExecutorPersonalDetailsModel(
         CommonBuilder.buildRegistrationDetailsWithOthersApplyingForProbate, coExecutor, None)
-      status(result) should be(BAD_REQUEST)
-      contentAsString(result) should include(messagesApi(expectedError))
+      status(result) must be(BAD_REQUEST)
+      contentAsString(result) must include(messagesApi(expectedError))
     }
 
     def prepareForm(coExecutor: CoExecutor): Form[CoExecutor] = {
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
+      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host, authRetrieveNino = false)
       implicit val hc = new HeaderCarrier()
       formWithMockedNinoValidation(coExecutor, mockCachingConnector).coExecutorPersonalDetailsForm().fill(coExecutor)
     }
@@ -629,7 +625,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
         host = host, data = detailsToSubmit)
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidationNoCoExecutor(mockCachingConnector)
 
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
+      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host, authRetrieveNino = false)
       implicit val hc = new HeaderCarrier()
       controller(coExecutorForms).onSubmit(submissionId)(request)
     }

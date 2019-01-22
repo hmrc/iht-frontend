@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,8 +33,7 @@ import iht.testhelpers.UseService
 class UseServiceControllerTest extends ApplicationControllerTest with HtmlSpec with UseService {
 
   override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def controller = new UseServiceController {
     override val cachingConnector = mockCachingConnector
@@ -45,29 +44,29 @@ class UseServiceControllerTest extends ApplicationControllerTest with HtmlSpec w
   "UseServiceController" must {
     "show the 'no change' page when accessed by an unauthorized person" in {
       val result = controller.onPageLoadUnder()(createFakeRequest(isAuthorised = false))
-      status(result) should be(OK)
+      status(result) must be(OK)
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() should be(messagesApi("iht.shouldUseOnlineService"))
+      titleElement.text() must be(messagesApi("iht.shouldUseOnlineService"))
     }
 
     "show paragraph 0 for the under 325000 estimate" in {
       val result = controller.onPageLoadUnder()(createFakeRequest(isAuthorised = false))
-      status(result) should be(OK)
+      status(result) must be(OK)
 
       val doc = asDocument(contentAsString(result))
       val paragraph0 = doc.getElementById("paragraph0")
-      paragraph0.text() should be(messagesApi("page.iht.filter.useService.under325000.paragraph0"))
+      paragraph0.text() must be(messagesApi("page.iht.filter.useService.under325000.paragraph0"))
     }
 
     "show paragraph 0 for the between estimate" in {
       val result = controller.onPageLoadOver()(createFakeRequest(isAuthorised = false))
-      status(result) should be(OK)
+      status(result) must be(OK)
 
       val doc = asDocument(contentAsString(result))
       val paragraph0 = doc.getElementById("paragraph0")
-      paragraph0.text() shouldBe pageIHTFilterUseServiceBetween325000And1MillionParagraph0
+      paragraph0.text() mustBe pageIHTFilterUseServiceBetween325000And1MillionParagraph0
     }
 
   }

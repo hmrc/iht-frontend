@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ import play.api.i18n.{Messages, MessagesApi}
  *
  * This Class contains the Unit Tests for iht.utils.tnrb.TnrbHelper
  */
-class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
+class TnrbHelperTest extends FakeIhtApp with MockitoSugar {
 
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   lazy val spouseOrCivilPartnerFirstName = CommonBuilder.firstNameGenerator
@@ -51,50 +51,50 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val tnrbModel = CommonBuilder.buildTnrbEligibility
       val widowCheck = CommonBuilder.buildWidowedCheck copy (dateOfPreDeceased = Some(civilPartnershipExclusionDatePlusOne))
       val result = TnrbHelper.previousSpouseOrCivilPartner(Some(tnrbModel), Some(widowCheck), deceasedName)
-      result should be(tnrbModel.Name.toString)
+      result must be(tnrbModel.Name.toString)
     }
 
     "return \"dd's previous spouse or civil partner\" when no name exists and date after cp date" in {
       val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = None, lastName = None)
       val widowCheck = CommonBuilder.buildWidowedCheck copy (dateOfPreDeceased = Some(civilPartnershipExclusionDatePlusOne))
       val result = TnrbHelper.previousSpouseOrCivilPartner(Some(tnrbModel), Some(widowCheck), deceasedName)
-      result should be(s"$deceasedName’s previous spouse or civil partner")
+      result must be(s"$deceasedName’s previous spouse or civil partner")
     }
 
     "return \"dd's previous spouse\" when no name exists and date before cp date" in {
       val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = None, lastName = None)
       val widowCheck = CommonBuilder.buildWidowedCheck copy (dateOfPreDeceased = Some(civilPartnershipExclusionDateMinusOne))
       val result = TnrbHelper.previousSpouseOrCivilPartner(Some(tnrbModel), Some(widowCheck), deceasedName)
-      result should be(s"$deceasedName’s previous spouse")
+      result must be(s"$deceasedName’s previous spouse")
     }
   }
 
   "mutateContent" must {
     "not mutate when english" in {
       val content = "abc gan priod ghi"
-      TnrbHelper.mutateContent(content, "en") shouldBe content
+      TnrbHelper.mutateContent(content, "en") mustBe content
     }
 
     "mutate when welsh" in {
       val content = "abc gan priod ghi"
-      TnrbHelper.mutateContent(content, "cy") shouldBe "abc gan briod ghi"
+      TnrbHelper.mutateContent(content, "cy") mustBe "abc gan briod ghi"
     }
   }
 
   "vowelConsciousAnd" must {
 
     "always return 'and' when English language is selected" in {
-      TnrbHelper.vowelConsciousAnd("John Smith", "en") shouldBe "page.iht.application.tnrbEligibilty.partner.additional.label.and"
+      TnrbHelper.vowelConsciousAnd("John Smith", "en") mustBe "page.iht.application.tnrbEligibilty.partner.additional.label.and"
     }
 
     "return 'ac' when Welsh language is selected and the predeceased name starts with a vowel" in {
-      TnrbHelper.vowelConsciousAnd("Anne Smith", "cy") shouldBe "page.iht.application.tnrbEligibilty.partner.additional.label.andAfterVowel"
-      TnrbHelper.vowelConsciousAnd("Yvonne Smith", "cy") shouldBe "page.iht.application.tnrbEligibilty.partner.additional.label.andAfterVowel"
+      TnrbHelper.vowelConsciousAnd("Anne Smith", "cy") mustBe "page.iht.application.tnrbEligibilty.partner.additional.label.andAfterVowel"
+      TnrbHelper.vowelConsciousAnd("Yvonne Smith", "cy") mustBe "page.iht.application.tnrbEligibilty.partner.additional.label.andAfterVowel"
     }
 
     "return 'a' when Welsh language is selected and the predeceased name starts with a consonant" in {
-      TnrbHelper.vowelConsciousAnd("John Smith", "cy") shouldBe "page.iht.application.tnrbEligibilty.partner.additional.label.andAfterConsonant"
-      TnrbHelper.vowelConsciousAnd("Sarah Smith", "cy") shouldBe "page.iht.application.tnrbEligibilty.partner.additional.label.andAfterConsonant"
+      TnrbHelper.vowelConsciousAnd("John Smith", "cy") mustBe "page.iht.application.tnrbEligibilty.partner.additional.label.andAfterConsonant"
+      TnrbHelper.vowelConsciousAnd("Sarah Smith", "cy") mustBe "page.iht.application.tnrbEligibilty.partner.additional.label.andAfterConsonant"
     }
 
   }
@@ -104,7 +104,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = Some(spouseOrCivilPartnerFirstName), lastName = Some(spouseOrCivilPartnerLastName))
       val widowCheck = CommonBuilder.buildWidowedCheck copy (dateOfPreDeceased = Some(civilPartnershipExclusionDatePlusOne))
       val result = TnrbHelper.spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheck)
-      result should be(spouseOrCivilPartnerFirstName + " " + spouseOrCivilPartnerLastName)
+      result must be(spouseOrCivilPartnerFirstName + " " + spouseOrCivilPartnerLastName)
     }
 
     "return prefix plus spouse or CivilPartner message when name has not been entered and date of death is after " +
@@ -112,7 +112,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = None, lastName = None)
       val widowCheck = CommonBuilder.buildWidowedCheck copy (dateOfPreDeceased = Some(civilPartnershipExclusionDatePlusOne))
       val result = TnrbHelper.spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheck, "prefix")
-      result should be("prefix’s " + messagesApi(spouseOrCivilPartnerMessageKey))
+      result must be("prefix’s " + messagesApi(spouseOrCivilPartnerMessageKey))
     }
 
     "return prefix plus spouse message when name has not been entered and date of death is before " +
@@ -120,7 +120,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = None, lastName = None)
       val widowCheck = CommonBuilder.buildWidowedCheck copy (dateOfPreDeceased = Some(civilPartnershipExclusionDateMinusOne))
       val result = TnrbHelper.spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheck, "prefix")
-      result should be("prefix’s " + messagesApi(spouseMessageKey))
+      result must be("prefix’s " + messagesApi(spouseMessageKey))
     }
   }
 
@@ -129,7 +129,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = Some(spouseOrCivilPartnerFirstName), lastName = Some(spouseOrCivilPartnerLastName))
       val widowCheck = CommonBuilder.buildWidowedCheck copy (dateOfPreDeceased = Some(civilPartnershipExclusionDatePlusOne))
       val result = TnrbHelper.spouseOrCivilPartnerNameLabel(tnrbModel, widowCheck)
-      result should be(messagesApi("iht.name.upperCaseInitial"))
+      result must be(messagesApi("iht.name.upperCaseInitial"))
     }
 
     "return prefix plus spouse or CivilPartner message when name has not been entered and date of death is after " +
@@ -137,7 +137,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = None, lastName = None)
       val widowCheck = CommonBuilder.buildWidowedCheck copy (dateOfPreDeceased = Some(civilPartnershipExclusionDatePlusOne))
       val result = TnrbHelper.spouseOrCivilPartnerNameLabel(tnrbModel, widowCheck, "prefix")
-      result should be("prefix " + messagesApi(spouseOrCivilPartnerMessageKey))
+      result must be("prefix " + messagesApi(spouseOrCivilPartnerMessageKey))
     }
 
     "return prefix plus spouse message when name has not been entered and date of death is before " +
@@ -145,7 +145,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = None, lastName = None)
       val widowCheck = CommonBuilder.buildWidowedCheck copy (dateOfPreDeceased = Some(civilPartnershipExclusionDateMinusOne))
       val result = TnrbHelper.spouseOrCivilPartnerNameLabel(tnrbModel, widowCheck, "prefix")
-      result should be("prefix " + messagesApi(spouseMessageKey))
+      result must be("prefix " + messagesApi(spouseMessageKey))
     }
   }
 
@@ -154,7 +154,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = Some(spouseOrCivilPartnerFirstName), lastName = Some(spouseOrCivilPartnerLastName))
       val widowCheck = CommonBuilder.buildWidowedCheck copy (dateOfPreDeceased = Some(civilPartnershipExclusionDatePlusOne))
       val result = TnrbHelper.preDeceasedMaritalStatusLabel(tnrbModel, widowCheck)
-      result should be(spouseOrCivilPartnerFirstName + " " + spouseOrCivilPartnerLastName + " " + messagesApi(marriedMessageKey))
+      result must be(spouseOrCivilPartnerFirstName + " " + spouseOrCivilPartnerLastName + " " + messagesApi(marriedMessageKey))
     }
 
     "return prefix plus spouse or CivilPartner message when name has not been entered and date of death is after " +
@@ -162,7 +162,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = None, lastName = None)
       val widowCheck = CommonBuilder.buildWidowedCheck copy (dateOfPreDeceased = Some(civilPartnershipExclusionDatePlusOne))
       val result = TnrbHelper.preDeceasedMaritalStatusLabel(tnrbModel, widowCheck)
-      result should be(messagesApi("iht.the.deceased") + " " + messagesApi(marriedOrInCivilPartnershipMessageKey))
+      result must be(messagesApi("iht.the.deceased") + " " + messagesApi(marriedOrInCivilPartnershipMessageKey))
     }
 
     "return prefix plus spouse message when name has not been entered and date of death is before " +
@@ -170,7 +170,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = None, lastName = None)
       val widowCheck = CommonBuilder.buildWidowedCheck copy (dateOfPreDeceased = Some(civilPartnershipExclusionDateMinusOne))
       val result = TnrbHelper.preDeceasedMaritalStatusLabel(tnrbModel, widowCheck)
-      result should be(messagesApi("iht.the.deceased") + " " +
+      result must be(messagesApi("iht.the.deceased") + " " +
         messagesApi(marriedMessageKey))
     }
   }
@@ -178,51 +178,51 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
   "spouseOrCivilPartnerMessage" must {
     "return spouse message as the date is before Civil Partnership Inclusion date" in {
       val result = TnrbHelper.spouseOrCivilPartnerMessage(Some(civilPartnershipExclusionDateMinusOne))
-      result should be("spouse")
+      result must be("spouse")
     }
 
     "return spouse or CivilPartner message as the date is equal to Civil Partnership Inclusion date" in {
       val result = TnrbHelper.spouseOrCivilPartnerMessage(Some(civilPartnershipExclusionDate))
-      result should be("spouse or civil partner")
+      result must be("spouse or civil partner")
     }
 
     "return spouse or CivilPartner message as the date is after Civil Partnership Inclusion date" in {
       val result = TnrbHelper.spouseOrCivilPartnerMessage(Some(civilPartnershipExclusionDatePlusOne))
-      result should be("spouse or civil partner")
+      result must be("spouse or civil partner")
     }
   }
 
   "preDeceasedMaritalStatusSubLabel" must {
     "return spouse message as the date is before Civil Partnership Inclusion date" in {
       val result = TnrbHelper.preDeceasedMaritalStatusSubLabel(Some(civilPartnershipExclusionDateMinusOne))
-      result should be("married")
+      result must be("married")
     }
 
     "return spouse or CivilPartner message as the date is equal to Civil Partnership Inclusion date" in {
       val result = TnrbHelper.preDeceasedMaritalStatusSubLabel(Some(civilPartnershipExclusionDate))
-      result should be("married or in a civil partnership")
+      result must be("married or in a civil partnership")
     }
 
     "return spouse or CivilPartner message as the date is after Civil Partnership Inclusion date" in {
       val result = TnrbHelper.preDeceasedMaritalStatusSubLabel(Some(civilPartnershipExclusionDatePlusOne))
-      result should be("married or in a civil partnership")
+      result must be("married or in a civil partnership")
     }
   }
 
   "marriageOrCivilPartnerShipLabelForPdf" must {
     "return spouse message as the date is before Civil Partnership Inclusion date" in {
       val result = TnrbHelper.marriageOrCivilPartnerShipLabelForPdf(Some(civilPartnershipExclusionDateMinusOne))
-      result should be(messagesApi("page.iht.application.tnrbEligibilty.partner.marriage.label"))
+      result must be(messagesApi("page.iht.application.tnrbEligibilty.partner.marriage.label"))
     }
 
     "return spouse or CivilPartner message as the date is equal to Civil Partnership Inclusion date" in {
       val result = TnrbHelper.marriageOrCivilPartnerShipLabelForPdf(Some(civilPartnershipExclusionDate))
-      result should be(messagesApi("page.iht.application.tnrbEligibilty.partner.marriageOrCivilPartnership.label"))
+      result must be(messagesApi("page.iht.application.tnrbEligibilty.partner.marriageOrCivilPartnership.label"))
     }
 
     "return spouse or CivilPartner message as the date is after Civil Partnership Inclusion date" in {
       val result = TnrbHelper.marriageOrCivilPartnerShipLabelForPdf(Some(civilPartnershipExclusionDatePlusOne))
-      result should be(messagesApi("page.iht.application.tnrbEligibilty.partner.marriageOrCivilPartnership.label"))
+      result must be(messagesApi("page.iht.application.tnrbEligibilty.partner.marriageOrCivilPartnership.label"))
     }
   }
 
@@ -235,7 +235,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val result = TnrbHelper.successfulTnrbRedirect(applicationDetails)
       val actualResult: Option[String] = redirectLocation(result)
       val expectedResult: Option[String] = Some(routes.TnrbSuccessController.onPageLoad().url)
-      actualResult should be(expectedResult)
+      actualResult must be(expectedResult)
     }
 
     "redirect to Tnrb overview page if it does not match the happy path" in {
@@ -247,7 +247,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
 
       val actualResult: Option[String] = redirectLocation(result)
       val expectedResult: Option[String] = Some(routes.TnrbOverviewController.onPageLoad().url)
-      actualResult should be(expectedResult)
+      actualResult must be(expectedResult)
     }
   }
 
@@ -258,7 +258,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
         widowCheck= Some(CommonBuilder.buildWidowedCheck copy(dateOfPreDeceased=None)))
       val expectedResult = iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtRef)
       val result = TnrbHelper.cancelLinkUrlForWidowCheckPages(ad)
-      result shouldBe expectedResult
+      result mustBe expectedResult
     }
 
     "return Call to TnrbOverviewController if widow check date is not empty" in {
@@ -267,7 +267,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
         widowCheck= Some(CommonBuilder.buildWidowedCheck copy(dateOfPreDeceased=Some(LocalDate.now()))))
       val expectedResult = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad
       val result = TnrbHelper.cancelLinkUrlForWidowCheckPages(ad)
-      result shouldBe expectedResult
+      result mustBe expectedResult
     }
   }
 
@@ -278,7 +278,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
         widowCheck= Some(CommonBuilder.buildWidowedCheck copy(dateOfPreDeceased=None)))
       val expectedResult = messagesApi("iht.estateReport.returnToEstateOverview")
       val result = TnrbHelper.cancelLinkTextForWidowCheckPages(ad)
-      result shouldBe expectedResult
+      result mustBe expectedResult
     }
 
     "return \"Return to increasing the threshold\" if widow check date is not empty" in {
@@ -287,7 +287,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
         widowCheck= Some(CommonBuilder.buildWidowedCheck copy(dateOfPreDeceased=Some(LocalDate.now()))))
       val expectedResult = messagesApi("page.iht.application.tnrb.returnToIncreasingThreshold")
       val result = TnrbHelper.cancelLinkTextForWidowCheckPages(ad)
-      result shouldBe expectedResult
+      result mustBe expectedResult
     }
   }
 
@@ -299,7 +299,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
 
       val appDetails = CommonBuilder.buildApplicationDetails
 
-      TnrbHelper.getEntryPointForTnrb(regDetailsDeceasedMarried, appDetails) shouldBe
+      TnrbHelper.getEntryPointForTnrb(regDetailsDeceasedMarried, appDetails) mustBe
         iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad()
 
     }
@@ -314,7 +314,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
 
       val appDetails = CommonBuilder.buildApplicationDetails.copy(widowCheck = Some(CommonBuilder.buildWidowedCheck))
 
-      TnrbHelper.getEntryPointForTnrb(regDetailsDeceasedMarried, appDetails) shouldBe
+      TnrbHelper.getEntryPointForTnrb(regDetailsDeceasedMarried, appDetails) mustBe
         iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
     }
@@ -329,7 +329,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
 
       val appDetails = CommonBuilder.buildApplicationDetails
 
-      TnrbHelper.getEntryPointForTnrb(regDetailsDeceasedWidowed, appDetails) shouldBe
+      TnrbHelper.getEntryPointForTnrb(regDetailsDeceasedWidowed, appDetails) mustBe
         iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad()
 
     }
@@ -351,7 +351,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
   "urlForIncreasingThreshold" must {
     "return deceasedWidowCheckDatePage if Marital status is widowed" in {
 
-     TnrbHelper.urlForIncreasingThreshold(IhtProperties.statusWidowed) should be
+     TnrbHelper.urlForIncreasingThreshold(IhtProperties.statusWidowed) must be
       iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad()
     }
   }
@@ -359,7 +359,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
   "urlForIncreasingThreshold" must {
     "return deceasedWidowCheckDatePage if Marital status is either Divorced or Married" in {
 
-      TnrbHelper.urlForIncreasingThreshold(IhtProperties.statusWidowed) should be
+      TnrbHelper.urlForIncreasingThreshold(IhtProperties.statusWidowed) must be
       iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad()
     }
   }
@@ -379,13 +379,13 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = Some(spouseOrCivilPartnerFirstName),
                                                               lastName = Some(spouseOrCivilPartnerLastName))
 
-      ContentChecker.stripLineBreaks(TnrbHelper.spouseOrCivilPartnerName(tnrbModel, "pretext")) shouldBe
+      ContentChecker.stripLineBreaks(TnrbHelper.spouseOrCivilPartnerName(tnrbModel, "pretext")) mustBe
                       spouseOrCivilPartnerFirstName+" "+spouseOrCivilPartnerLastName
     }
     "return the pretext string when there is no spouse name" in {
       val tnrbModel = CommonBuilder.buildTnrbEligibility.copy(firstName = None, lastName = None)
 
-      TnrbHelper.spouseOrCivilPartnerName(tnrbModel, "pretext") shouldBe "pretext"
+      TnrbHelper.spouseOrCivilPartnerName(tnrbModel, "pretext") mustBe "pretext"
     }
   }
 

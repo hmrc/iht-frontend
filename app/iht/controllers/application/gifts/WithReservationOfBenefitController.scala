@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.application.gifts
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.controllers.ControllerHelper
@@ -30,25 +31,31 @@ import play.api.Play.current
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
 import iht.utils.CommonHelper
+import javax.inject.Inject
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+
 /**
  *
  * Created by Vineet Tyagi on 14/01/16.
  *
  */
-object WithReservationOfBenefitController extends WithReservationOfBenefitController with IhtConnectors {
+class WithReservationOfBenefitControllerImpl @Inject()() extends WithReservationOfBenefitController with IhtConnectors {
   def metrics : Metrics = Metrics
 }
 
 trait WithReservationOfBenefitController extends EstateController{
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
 
-  def onPageLoad = authorisedForIht {
-    implicit user => implicit request =>
-      estateElementOnPageLoad[AllGifts](giftWithReservationFromBenefitForm, with_reservation_of_benefit.apply, _.allGifts)
+
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request =>
+      estateElementOnPageLoad[AllGifts](giftWithReservationFromBenefitForm, with_reservation_of_benefit.apply, _.allGifts, userNino)
   }
 
-  def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
       val updateApplicationDetails: (ApplicationDetails, Option[String], AllGifts) =>
         (ApplicationDetails, Option[String]) =
         (appDetails, _, gifts) => {
@@ -60,7 +67,8 @@ trait WithReservationOfBenefitController extends EstateController{
       estateElementOnSubmit[AllGifts](giftWithReservationFromBenefitForm,
         with_reservation_of_benefit.apply,
         updateApplicationDetails,
-        CommonHelper.addFragmentIdentifier(giftsRedirectLocation, Some(GiftsReservationBenefitQuestionID))
+        CommonHelper.addFragmentIdentifier(giftsRedirectLocation, Some(GiftsReservationBenefitQuestionID)),
+        userNino
       )
     }
   }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,18 +24,18 @@ class CheckedEverythingFormsTest extends FormTestHelper {
   "not give an error when answered Yes" in {
     val data = formData("hasChecked", "true")
     val form: Form[Option[Boolean]] = checkedEverythingQuestionForm.bind(data)
-    form.hasErrors shouldBe false
+    form.hasErrors mustBe false
   }
 
   "not give an error when answered No" in {
     val data = formData("hasChecked", "false")
     val form: Form[Option[Boolean]] = checkedEverythingQuestionForm.bind(data)
-    form.hasErrors shouldBe false
+    form.hasErrors mustBe false
   }
 
   "give an error when the question is not answered" in {
     val data = Map[String, String]()
     val form: Form[Option[Boolean]] = checkedEverythingQuestionForm.bind(data)
-    form.hasErrors shouldBe true
+    form.hasErrors mustBe true
   }
 }

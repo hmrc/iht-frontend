@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ class ReducingEstateValueSectionViewTest extends ViewTestHelper {
       val view = reducing_estate_value_section(viewModel)
       val doc = asDocument(view)
       val header = doc.getElementsByTag("h2")
-      header.text() should include(messagesApi("page.iht.application.overview.reducingTheEstateValue.total"))
+      header.text() must include(messagesApi("page.iht.application.overview.reducingTheEstateValue.total"))
     }
 
     "contain the Exemptions row" in {

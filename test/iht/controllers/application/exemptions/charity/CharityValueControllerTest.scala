@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,24 +33,21 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class CharityValueControllerTest extends ApplicationControllerTest with BeforeAndAfter {
 
-  val mockCachingConnector = mock[CachingConnector]
-  var mockIhtConnector = mock[IhtConnector]
+
   val defaultCharity = Charity(Some("1"), Some("A Charity 1"), Some("7866667X"), None)
   val referrerURL = "localhost:9070"
 
-  before {
-    mockIhtConnector = mock[IhtConnector]
-  }
+
 
   def assetsLeftToCharityValueController = new CharityValueController {
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def assetsLeftToCharityValueControllerNotAuthorised = new CharityValueController {
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -68,45 +65,45 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
 
   "AssetsLeftToCharityValueController" must {
     "redirect to login page on PageLoad if the user is not logged in when loading" in {
-      val result = assetsLeftToCharityValueControllerNotAuthorised.onEditPageLoad("1")(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(loginUrl))
+      val result = assetsLeftToCharityValueControllerNotAuthorised.onEditPageLoad("1")(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(loginUrl))
     }
 
     "redirect to login page on PageLoad if the user is not logged on page submission" in {
-      val result = assetsLeftToCharityValueControllerNotAuthorised.onEditSubmit("1")(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(loginUrl))
+      val result = assetsLeftToCharityValueControllerNotAuthorised.onEditSubmit("1")(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(loginUrl))
     }
 
     "redirect to login page on Submit if the user is not logged in" in {
-      val result = assetsLeftToCharityValueControllerNotAuthorised.onEditSubmit("1")(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(loginUrl))
+      val result = assetsLeftToCharityValueControllerNotAuthorised.onEditSubmit("1")(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(loginUrl))
     }
 
     "return a view containing the section title on edit page load" in {
       createMocksForApplicationWithCharity
 
       val result = assetsLeftToCharityValueController.onEditPageLoad("1")(createFakeRequest())
-      status(result) should be(OK)
-      contentAsString(result) should include(
+      status(result) must be(OK)
+      contentAsString(result) must include(
         messagesApi("page.iht.application.exemptions.charityValue.sectionTitle"))
     }
 
     "return a view containing the section title on page load" in {
       createMocksForApplicationWithCharity
 
-      val result = assetsLeftToCharityValueController.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
-      contentAsString(result) should include(
+      val result = assetsLeftToCharityValueController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      status(result) must be(OK)
+      contentAsString(result) must include(
         messagesApi("page.iht.application.exemptions.charityValue.sectionTitle"))
     }
 
     "if the charity with given id does not exist - load should respond with a server error" in {
       createMocksForApplicationWithCharity
 
-      a[RuntimeException] shouldBe thrownBy {
+      a[RuntimeException] mustBe thrownBy {
         await(assetsLeftToCharityValueController.onEditPageLoad("897776")(createFakeRequest()))
       }
     }
@@ -121,8 +118,8 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
         storeAppDetailsInCache = true)
 
       val result = assetsLeftToCharityValueController.onEditPageLoad("1")(createFakeRequest())
-      status(result) shouldBe (OK)
-      contentAsString(result) should include("1000")
+      status(result) mustBe (OK)
+      contentAsString(result) must include("1000")
     }
 
     "when given a valid charity id and a value by the user on the form, " +
@@ -135,7 +132,7 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
 
       val result = assetsLeftToCharityValueController.onEditSubmit("1")(request)
 
-      status(result) shouldBe(SEE_OTHER)
+      status(result) mustBe(SEE_OTHER)
     }
 
     "when given a valid charity id and a value by the user on the form, " +
@@ -148,11 +145,11 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
 
       val result = assetsLeftToCharityValueController.onSubmit()(request)
 
-      status(result) shouldBe(SEE_OTHER)
+      status(result) mustBe(SEE_OTHER)
     }
 
     "when given a valid charity id and a value by the user on the form, " +
-      "the application details should be updated on submission" in {
+      "the application details must be updated on submission" in {
       createMocksForApplicationWithCharity
       val valueForm = assetsLeftToCharityValueForm.fill(defaultCharity copy (totalValue = Some(1000)))
       val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
@@ -161,14 +158,14 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
 
       val result = assetsLeftToCharityValueController.onEditSubmit("1")(request)
 
-      status(result) shouldBe(SEE_OTHER)
+      status(result) mustBe(SEE_OTHER)
       val capturedValue = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
-      capturedValue.charities.length shouldBe 1
-      capturedValue.charities(0).totalValue shouldBe Some(1000)
+      capturedValue.charities.length mustBe 1
+      capturedValue.charities(0).totalValue mustBe Some(1000)
     }
 
     "when given a valid charity id and a value by the user on the form, " +
-      "the charity name and number should not be updated on submission" in {
+      "the charity name and number must not be updated on submission" in {
       createMocksForApplicationWithCharity
       val valueForm = assetsLeftToCharityValueForm.fill(defaultCharity copy (totalValue = Some(1000)))
       val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
@@ -177,13 +174,13 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
 
       val result = assetsLeftToCharityValueController.onEditSubmit("1")(request)
 
-      status(result) shouldBe(SEE_OTHER)
+      status(result) mustBe(SEE_OTHER)
       val capturedValue = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
-      capturedValue.charities(0).name shouldBe defaultCharity.name
-      capturedValue.charities(0).number shouldBe defaultCharity.number
+      capturedValue.charities(0).name mustBe defaultCharity.name
+      capturedValue.charities(0).number mustBe defaultCharity.number
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
-      assetsLeftToCharityValueController.onPageLoad(createFakeRequest()))
+      assetsLeftToCharityValueController.onPageLoad(createFakeRequest(authRetrieveNino = false)))
   }
 }

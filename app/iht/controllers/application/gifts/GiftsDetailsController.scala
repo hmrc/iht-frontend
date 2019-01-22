@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ package iht.controllers.application.gifts
  * Created by xavierzanatta on 8/5/15.
  */
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
@@ -31,20 +32,24 @@ import iht.models.application.gifts.PreviousYearsGifts
 import iht.utils.CommonHelper._
 import iht.utils.GiftsHelper._
 import iht.utils.{ApplicationKickOutHelper, CommonHelper, LogHelper, StringHelper}
+import javax.inject.Inject
 import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Call, Request, Result}
-import uk.gov.hmrc.play.frontend.auth.AuthContext
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-object GiftsDetailsController extends GiftsDetailsController with IhtConnectors {
+class GiftsDetailsControllerImpl @Inject()() extends GiftsDetailsController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait GiftsDetailsController extends EstateController {
+
   override val applicationSection: Option[String] = Some(ApplicationKickOutHelper.ApplicationSectionGiftDetails)
   private lazy val cancelLabelKey = "GiftsDetailsCancelLabel"
   private lazy val sevenYearsGiftsRedirectLocation = iht.controllers.application.gifts.routes.SevenYearsGiftsValuesController.onPageLoad()
@@ -55,25 +60,22 @@ trait GiftsDetailsController extends EstateController {
 
   def ihtConnector: IhtConnector
 
-  def onPageLoad(id: String) = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        cachingConnector.storeSingleValue(cancelLabelKey, cancelLabelKeyValueCancel)
-        doPageLoad(id, Some(sevenYearsGiftsRedirectLocation), Some(Messages(cancelLabelKeyValueCancel)))
-      }
+  def onPageLoad(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      cachingConnector.storeSingleValue(cancelLabelKey, cancelLabelKeyValueCancel)
+      doPageLoad(id, Some(sevenYearsGiftsRedirectLocation), Some(Messages(cancelLabelKeyValueCancel)), userNino)
+    }
   }
 
-  def onPageLoadForKickout(id: String) = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        cachingConnector.storeSingleValue(cancelLabelKey, cancelLabelKeyValueReturnToGifts)
-        doPageLoad(id, Some(sevenYearsGiftsRedirectLocation), Some(Messages(cancelLabelKeyValueReturnToGifts)))
-      }
+  def onPageLoadForKickout(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      cachingConnector.storeSingleValue(cancelLabelKey, cancelLabelKeyValueReturnToGifts)
+      doPageLoad(id, Some(sevenYearsGiftsRedirectLocation), Some(Messages(cancelLabelKeyValueReturnToGifts)), userNino)
+    }
   }
 
-  private def doPageLoad(id: String, cancelUrl: Option[Call], cancelLabel: => Option[String])(implicit request:
-  Request[_], user: AuthContext) = {
-    withApplicationDetails { rd => ad =>
+  private def doPageLoad(id: String, cancelUrl: Option[Call], cancelLabel: => Option[String], userNino: Option[String])(implicit request: Request[_]) = {
+    withApplicationDetails(userNino) { rd => ad =>
       val result = getOrException(rd.deceasedDateOfDeath.map { ddod =>
         withValue {
           val prevYearsGifts = ad.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
@@ -97,33 +99,32 @@ trait GiftsDetailsController extends EstateController {
     }
   }
 
-  def onSubmit = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        withApplicationDetails { rd => ad =>
-          val boundForm = previousYearsGiftsForm.bindFromRequest
-          boundForm.fold(
-            formWithErrors => {
-              for {
-                cancelLabelKeyValue <- cachingConnector.getSingleValue(cancelLabelKey).map(_.fold(cancelLabelKeyValueReturnToGifts)(identity))
-              } yield {
-                LogHelper.logFormError(formWithErrors)
-                  BadRequest(
-                    iht.views.html.application.gift.gifts_details(
-                      formWithErrors,
-                      rd,
-                      Some(sevenYearsGiftsRedirectLocation),
-                      Some(Messages(cancelLabelKeyValue))
-                    )
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      withApplicationDetails(userNino) { rd => ad =>
+        val boundForm = previousYearsGiftsForm.bindFromRequest
+        boundForm.fold(
+          formWithErrors => {
+            for {
+              cancelLabelKeyValue <- cachingConnector.getSingleValue(cancelLabelKey).map(_.fold(cancelLabelKeyValueReturnToGifts)(identity))
+            } yield {
+              LogHelper.logFormError(formWithErrors)
+                BadRequest(
+                  iht.views.html.application.gift.gifts_details(
+                    formWithErrors,
+                    rd,
+                    Some(sevenYearsGiftsRedirectLocation),
+                    Some(Messages(cancelLabelKeyValue))
                   )
-              }
-            },
-            previousYearsGifts => {
-              processSubmit(StringHelper.getNino(user), previousYearsGifts, rd, ad)
+                )
             }
-          )
-        }
+          },
+          previousYearsGifts => {
+            processSubmit(StringHelper.getNino(userNino), previousYearsGifts, rd, ad)
+          }
+        )
       }
+    }
   }
 
   private def processSubmit(nino: String, previousYearsGifts: PreviousYearsGifts,

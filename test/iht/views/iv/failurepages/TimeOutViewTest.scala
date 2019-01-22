@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,8 +46,8 @@ class TimeOutViewTest extends GenericNonSubmittablePageBehaviour {
     "show the 'your answers have been saved' message" when {
       "the user is completing their application" in {
         val applicationView = timeout("/estate-report")(createFakeRequest(), applicationMessages, formPartialRetriever).toString
-        applicationView should include(messagesApi("page.iht.iv.failure.timeout.saved"))
-        applicationView should not include messagesApi("page.iht.iv.failure.timeout.notSaved")
+        applicationView must include(messagesApi("page.iht.iv.failure.timeout.saved"))
+        applicationView must not include messagesApi("page.iht.iv.failure.timeout.notSaved")
       }
     }
   }

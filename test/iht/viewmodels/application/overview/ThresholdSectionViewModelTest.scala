@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import play.api.Play.current
 import uk.gov.hmrc.play.test.UnitSpec
 import iht.testhelpers.TestHelper._
 
-class ThresholdSectionViewModelTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter with I18nSupport {
+class ThresholdSectionViewModelTest extends FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter with I18nSupport {
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val dodWithInClaimDate = LocalDate.now().minusYears(1)
   val deceasedDateOfDeath = CommonBuilder.buildDeceasedDateOfDeath.copy(dodWithInClaimDate)
@@ -46,31 +46,31 @@ class ThresholdSectionViewModelTest extends UnitSpec with FakeIhtApp with Mockit
    "have an id of 'threshold' for the increase threshold row" in {
       val viewModel = ThresholdSectionViewModel(regDetailsSingle, applicationDetails)
 
-      viewModel.thresholdRow.id shouldBe EstateIncreasingID
+      viewModel.thresholdRow.id mustBe EstateIncreasingID
     }
 
     "have the correct caption for the threshold row" in {
       val viewModel = ThresholdSectionViewModel(regDetailsSingle, applicationDetails)
 
-      viewModel.thresholdRow.label shouldBe messagesApi("iht.estateReport.ihtThreshold")
+      viewModel.thresholdRow.label mustBe messagesApi("iht.estateReport.ihtThreshold")
     }
 
     "have the correct value for the threshold row when it has not been increased" in {
       val viewModel = ThresholdSectionViewModel(regDetailsSingle, applicationDetails)
 
-      viewModel.thresholdRow.value shouldBe "£325,000.00"
+      viewModel.thresholdRow.value mustBe "£325,000.00"
     }
 
     "have the correct value for the threshold row when it has been increased" in {
       val viewModel = ThresholdSectionViewModel(regDetailsSingle, appDetailsTnrbComplete)
 
-      viewModel.thresholdRow.value shouldBe "£650,000.00"
+      viewModel.thresholdRow.value mustBe "£650,000.00"
     }
 
     "show the threshold as a normal row when it has not been increased" in {
       val viewModel = ThresholdSectionViewModel(regDetailsSingle, applicationDetails)
 
-      viewModel.thresholdRow.renderAsTotalRow shouldBe false
+      viewModel.thresholdRow.renderAsTotalRow mustBe false
     }
 
     "show the threshold as a total row when it has been increased" in {
@@ -78,13 +78,13 @@ class ThresholdSectionViewModelTest extends UnitSpec with FakeIhtApp with Mockit
         widowCheck = Some(CommonBuilder.buildWidowedCheck))
       val viewModel = ThresholdSectionViewModel(regDetailsSingle, appDetails)
 
-      viewModel.thresholdRow.renderAsTotalRow shouldBe true
+      viewModel.thresholdRow.renderAsTotalRow mustBe true
     }
 
     "not show the Increasing the Threshold link if the deceased was Single" in {
       val viewModel = ThresholdSectionViewModel(regDetailsSingle, applicationDetails)
 
-      viewModel.showIncreaseThresholdLink shouldBe false
+      viewModel.showIncreaseThresholdLink mustBe false
     }
 
     "show the Increasing the Threshold link if the deceased was Married and the transfer section has not been accessed" in {
@@ -94,7 +94,7 @@ class ThresholdSectionViewModelTest extends UnitSpec with FakeIhtApp with Mockit
       val viewModel = ThresholdSectionViewModel(regDetailsMarried.copy(
         deceasedDateOfDeath = Some(deceasedDateOfDeath)), applicationDetails)
 
-      viewModel.showIncreaseThresholdLink shouldBe true
+      viewModel.showIncreaseThresholdLink mustBe true
     }
 
     "not show the Increasing the Threshold link if the deceased was Married and the transfer section has been accessed" in {
@@ -103,13 +103,13 @@ class ThresholdSectionViewModelTest extends UnitSpec with FakeIhtApp with Mockit
 
       val viewModel = ThresholdSectionViewModel(regDetailsMarried.copy(
         deceasedDateOfDeath = Some(deceasedDateOfDeath)), appDetailsTnrbUnlocked)
-      viewModel.showIncreaseThresholdLink shouldBe false
+      viewModel.showIncreaseThresholdLink mustBe false
     }
 
     "not show the Increasing the Threshold row if the deceased was Single" in {
       val viewModel = ThresholdSectionViewModel(regDetailsSingle, applicationDetails)
 
-      viewModel.increasingThresholdRow.isEmpty shouldBe true
+      viewModel.increasingThresholdRow.isEmpty mustBe true
     }
 
     "not show the Increasing the Threshold link if the claim date is after 2 years of  " +
@@ -120,78 +120,78 @@ class ThresholdSectionViewModelTest extends UnitSpec with FakeIhtApp with Mockit
 
       val viewModel = ThresholdSectionViewModel(regDetailsMarried.copy(
         deceasedDateOfDeath = Some(deceasedDateOfDeath)), appDetailsTnrbUnlocked)
-      viewModel.showIncreaseThresholdLink shouldBe false
+      viewModel.showIncreaseThresholdLink mustBe false
     }
 
     "not show the Increasing the Threshold row if the deceased was Married and the transfer section has not been accessed" in {
       val viewModel = ThresholdSectionViewModel(regDetailsMarried, applicationDetails)
 
-      viewModel.increasingThresholdRow.isEmpty shouldBe true
+      viewModel.increasingThresholdRow.isEmpty mustBe true
     }
 
     "show the Increasing the Threshold row if the section has been accessed" in {
       val viewModel = ThresholdSectionViewModel(regDetailsMarried, appDetailsTnrbUnlocked)
-      viewModel.increasingThresholdRow.isDefined shouldBe true
+      viewModel.increasingThresholdRow.isDefined mustBe true
     }
 
     "have the id 'increasing-threshold' for the Increasing the Threshold row" in {
       val viewModel = ThresholdSectionViewModel(regDetailsMarried, appDetailsTnrbUnlocked)
-      viewModel.increasingThresholdRow.get.id shouldBe EstateIncreasingID
+      viewModel.increasingThresholdRow.get.id mustBe EstateIncreasingID
     }
 
     "have the correct caption for the Increasing the Threshold row" in {
       val viewModel = ThresholdSectionViewModel(regDetailsMarried, appDetailsTnrbUnlocked)
-      viewModel.increasingThresholdRow.get.label shouldBe messagesApi("iht.estateReport.tnrb.increasingThreshold")
+      viewModel.increasingThresholdRow.get.label mustBe messagesApi("iht.estateReport.tnrb.increasingThreshold")
     }
 
     "not show a value in the Increasing the Threshold row if the section is incomplete" in {
       val viewModel = ThresholdSectionViewModel(regDetailsMarried, appDetailsTnrbUnlocked)
-      viewModel.increasingThresholdRow.get.value shouldBe ""
+      viewModel.increasingThresholdRow.get.value mustBe ""
     }
 
     "show link text of Give more details in the Increasing the Threshold row if the section is incomplete" in {
       val viewModel = ThresholdSectionViewModel(regDetailsMarried, appDetailsTnrbUnlocked)
-      viewModel.increasingThresholdRow.get.linkText shouldBe messagesApi("iht.giveMoreDetails")
+      viewModel.increasingThresholdRow.get.linkText mustBe messagesApi("iht.giveMoreDetails")
     }
 
     "show 'Increased' as the value in the Increasing the Threshold row if the section is complete" in {
       val viewModel = ThresholdSectionViewModel(regDetailsSingle, appDetailsTnrbComplete)
-      viewModel.increasingThresholdRow.get.value shouldBe messagesApi("page.iht.application.estateOverview.increaseThreshold.increased")
+      viewModel.increasingThresholdRow.get.value mustBe messagesApi("page.iht.application.estateOverview.increaseThreshold.increased")
     }
 
     "show link text of View or change in the Increasing the Threshold row if the section is complete" in {
       val viewModel = ThresholdSectionViewModel(regDetailsMarried, appDetailsTnrbComplete)
-      viewModel.increasingThresholdRow.get.linkText shouldBe messagesApi("iht.viewOrChange")
+      viewModel.increasingThresholdRow.get.linkText mustBe messagesApi("iht.viewOrChange")
     }
 
     "show 'Not available' as the value in the Increasing the Threshold row if the Widow Check was answered No'" in {
       val viewModel = ThresholdSectionViewModel(regDetailsMarried, appDetailsTnrbNotAvailable)
-      viewModel.increasingThresholdRow.get.value shouldBe messagesApi("page.iht.application.estateOverview.increaseThreshold.notAvailable")
+      viewModel.increasingThresholdRow.get.value mustBe messagesApi("page.iht.application.estateOverview.increaseThreshold.notAvailable")
     }
 
     "show link text of View or change in the Increasing the Threshold row if the Widow Check was answered No'" in {
       val viewModel = ThresholdSectionViewModel(regDetailsMarried, appDetailsTnrbNotAvailable)
-      viewModel.increasingThresholdRow.get.linkText shouldBe messagesApi("iht.viewOrChange")
+      viewModel.increasingThresholdRow.get.linkText mustBe messagesApi("iht.viewOrChange")
     }
 
     "have target link for Widowed check question page in the Increasing the Threshold row if predeceased date has not been saved" +
       "and marital status is married'" in {
       val viewModel = ThresholdSectionViewModel(regDetailsMarried, appDetailsTnrbNotAvailable.copy(widowCheck = Some(WidowCheck(Some(true), None))))
-      viewModel.increasingThresholdRow.get.linkUrl.toString shouldBe
+      viewModel.increasingThresholdRow.get.linkUrl.toString mustBe
         iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad().url
     }
 
     "have target link for Widowed date of death page in the Increasing the Threshold row if predeceased date has not been saved" +
       "and marital status is Widowed'" in {
       val viewModel = ThresholdSectionViewModel(regDetailsWidowed, appDetailsTnrbNotAvailable.copy(widowCheck = Some(WidowCheck(Some(true), None))))
-      viewModel.increasingThresholdRow.get.linkUrl.toString shouldBe
+      viewModel.increasingThresholdRow.get.linkUrl.toString mustBe
         iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad().url
     }
 
     "have target link for Tnrb overview page in the Increasing the Threshold row if predeceased date of death has been saved'" in {
       val viewModel = ThresholdSectionViewModel(regDetailsMarried,
                         appDetailsTnrbNotAvailable.copy(widowCheck = Some(WidowCheck(Some(true), Some(new LocalDate(1998, 12, 12))))))
-      viewModel.increasingThresholdRow.get.linkUrl.toString shouldBe
+      viewModel.increasingThresholdRow.get.linkUrl.toString mustBe
         iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad().url
     }
   }

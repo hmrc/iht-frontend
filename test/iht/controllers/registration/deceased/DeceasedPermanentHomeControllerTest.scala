@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,20 +46,16 @@ class DeceasedPermanentHomeControllerTest
  //Create controller object and pass in mock.
  def controller = new DeceasedPermanentHomeController {
    override val cachingConnector = mockCachingConnector
-   override val authConnector = createFakeAuthConnector(isAuthorised=true)
+   override val authConnector = mockAuthConnector
 
    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
  }
 
   def controllerNotAuthorised = new DeceasedPermanentHomeController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
-  }
-
-  before {
-    mockCachingConnector = mock[CachingConnector]
   }
 
   // Perform tests.
@@ -75,7 +71,7 @@ class DeceasedPermanentHomeControllerTest
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
       val result: Form[DeceasedDetails] = controller.fillForm(registrationDetails)
-      result shouldBe a[Form[_]]
+      result mustBe a[Form[_]]
     }
 
     "contain Continue button when Page is loaded in normal mode" in {
@@ -88,10 +84,10 @@ class DeceasedPermanentHomeControllerTest
 
       val result = controller.onPageLoad()(createFakeRequestWithReferrer(
         referrerURL=referrerURL,host=host))
-      status(result) shouldBe(OK)
+      status(result) mustBe(OK)
 
-      contentAsString(result) should include(messagesApi("iht.continue"))
-      contentAsString(result) should not include(messagesApi("site.link.cancel"))
+      contentAsString(result) must include(messagesApi("iht.continue"))
+      contentAsString(result) must not include(messagesApi("site.link.cancel"))
     }
 
     "contain Continue and Cancel buttons when page is loaded in edit mode" in {
@@ -102,10 +98,10 @@ class DeceasedPermanentHomeControllerTest
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
       val result = controller.onEditPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,host=host))
-      status(result) shouldBe(OK)
+      status(result) mustBe(OK)
 
-      contentAsString(result) should include(messagesApi("iht.continue"))
-      contentAsString(result) should include(messagesApi("site.link.cancel"))
+      contentAsString(result) must include(messagesApi("iht.continue"))
+      contentAsString(result) must include(messagesApi("site.link.cancel"))
     }
 
     "respond appropriately to a submit with valid values in all fields" in  {
@@ -113,15 +109,15 @@ class DeceasedPermanentHomeControllerTest
       val registrationDetails = RegistrationDetails(defaultDod, None, Some(deceasedDetails))
       val deceasedDetailsForm1 = deceasedPermanentHomeForm.fill(deceasedDetails)
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-        data=deceasedDetailsForm1.data.toSeq)
+        data=deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
       val result = controller.onSubmit()(request)
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (
         Some(iht.controllers.registration.deceased.routes.AboutDeceasedController.onPageLoad().url))
     }
 
@@ -130,41 +126,41 @@ class DeceasedPermanentHomeControllerTest
       val registrationDetails = RegistrationDetails(defaultDod, None, Some(deceasedDetails))
       val deceasedDetailsForm1 = deceasedPermanentHomeForm.fill(deceasedDetails)
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-        data=deceasedDetailsForm1.data.toSeq)
+        data=deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
       val result = await(controller.onSubmit()(request))
-      status(result) shouldBe(BAD_REQUEST)
+      status(result) mustBe(BAD_REQUEST)
     }
 
     "respond appropriately to a submit in edit mode with valid values in all fields" in {
       val deceasedDetails = CommonBuilder.buildDeceasedDetails
       val registrationDetails = RegistrationDetails(defaultDod, None, Some(deceasedDetails))
       val deceasedDetailsForm1 = deceasedPermanentHomeForm.fill(deceasedDetails)
-      val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=deceasedDetailsForm1.data.toSeq)
+      val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
       val result = controller.onEditSubmit()(request)
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad().url))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad().url))
     }
 
     "respond appropriately to an invalid submit in edit mode: Missing mandatory fields" in {
       val deceasedDetails = DeceasedDetails(None, None, None, None, None, None, None, None, None)
       val registrationDetails = RegistrationDetails(defaultDod, None, Some(deceasedDetails))
       val deceasedDetailsForm1 = deceasedPermanentHomeForm.fill(deceasedDetails)
-      val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=deceasedDetailsForm1.data.toSeq)
+      val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
       val result = await(controller.onEditSubmit()(request))
-      status(result) shouldBe(BAD_REQUEST)
+      status(result) mustBe(BAD_REQUEST)
     }
 
     "save valid data correctly when coming to this screen for the first time" in {
@@ -176,24 +172,24 @@ class DeceasedPermanentHomeControllerTest
 
       val form = deceasedPermanentHomeForm.fill(deceasedDetails)
 
-      val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq)
+      val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq, authRetrieveNino = false)
 
       val result = controller.onSubmit()(request)
-      status(result) should be (SEE_OTHER)
+      status(result) must be (SEE_OTHER)
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
-      capturedValue.deceasedDetails shouldBe Some(deceasedDetails)
+      capturedValue.deceasedDetails mustBe Some(deceasedDetails)
     }
 
     "return true if the guard conditions are true" in {
       val rd = CommonBuilder.buildRegistrationDetails copy (
         deceasedDateOfDeath = Some(DeceasedDateOfDeath(LocalDate.now)))
-      controller.checkGuardCondition(rd, "") shouldBe true
+      controller.checkGuardCondition(rd, "") mustBe true
     }
 
     "return false if the guard conditions are false" in {
       val rd = CommonBuilder.buildRegistrationDetails copy (deceasedDateOfDeath = None)
-      controller.checkGuardCondition(rd, "") shouldBe false
+      controller.checkGuardCondition(rd, "") mustBe false
     }
 
     def ensureRedirectOnKickout(domicile: String, kickoutReasonKey: String, mode: Mode.Value) = {
@@ -201,7 +197,7 @@ class DeceasedPermanentHomeControllerTest
       val registrationDetails = RegistrationDetails(defaultDod, None, Some(deceasedDetails))
       val deceasedDetailsForm1 = deceasedPermanentHomeForm.fill(deceasedDetails)
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-        data=deceasedDetailsForm1.data.toSeq)
+        data=deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -214,13 +210,13 @@ class DeceasedPermanentHomeControllerTest
         if (mode == Mode.Standard) await(controller.onSubmit()(request))
         else await(controller.onEditSubmit()(request))
 
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (
-        Some(iht.controllers.registration.routes.KickoutController.onPageLoad().url))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (
+        Some(iht.controllers.registration.routes.KickoutRegController.onPageLoad().url))
       verifyAndReturnStoredSingleValue(mockCachingConnector) match {
         case (cachedKey, cachedValue) =>
-          cachedKey shouldBe RegistrationKickoutReasonCachingKey
-          cachedValue shouldBe kickoutReasonKey
+          cachedKey mustBe RegistrationKickoutReasonCachingKey
+          cachedValue mustBe kickoutReasonKey
       }
     }
 

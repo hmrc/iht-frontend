@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.registration.applicant
 
+import iht.config.AppConfig
 import iht.controllers.ControllerHelper.Mode
 import iht.connector.IhtConnectors
 import iht.forms.registration.ApplicantForms._
@@ -23,12 +24,15 @@ import iht.metrics.Metrics
 import iht.models.{ApplicantDetails, RegistrationDetails}
 import iht.utils.{DeceasedInfoHelper, RegistrationKickOutHelper}
 import iht.views.html.registration.{applicant => views}
+import javax.inject.Inject
 import play.api.data.Form
 import play.api.mvc.{AnyContent, Request}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
-object ApplyingForProbateController extends ApplyingForProbateController with IhtConnectors {
+class ApplyingForProbateControllerImpl @Inject()() extends ApplyingForProbateController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 

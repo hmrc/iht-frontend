@@ -1,6 +1,5 @@
 package utils
 
-import iht.config.FrontendAuthConnector
 import iht.constants.Constants
 import iht.models.RegistrationDetails
 import iht.models.application.{ApplicationDetails, ProbateDetails}
@@ -8,6 +7,10 @@ import iht.utils.ApplicationStatus
 import play.api.http.HeaderNames
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
+import uk.gov.hmrc.auth.core.authorise.Predicate
+import uk.gov.hmrc.auth.core.retrieve.Retrieval
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals
+import uk.gov.hmrc.auth.core.{AuthConnector, PlayAuthConnector}
 import uk.gov.hmrc.domain.{Nino, SaUtr}
 import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys}
 import uk.gov.hmrc.play.frontend.auth.connectors.domain._
@@ -28,12 +31,15 @@ trait TestDataUtil {
     }
   }
 
-  def createFakeAuthConnector(isAuthorised: Boolean = true): FrontendAuthConnector = new FrontendAuthConnector {
+  def createFakeAuthConnector(isAuthorised: Boolean = true, defaultAuthNino: String = "AA123456A"): AuthConnector = new PlayAuthConnector {
     override val serviceUrl: String = null
     override lazy val http = null
 
-    override def currentAuthority(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[Authority]] = {
-      Future.successful(Some(createFakeAuthority(isAuthorised)))
+    override def authorise[A](predicate: Predicate, retrieval: Retrieval[A])(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[A] = {
+      retrieval match {
+        case Retrievals.nino => Future.successful(Some(defaultAuthNino).asInstanceOf[A])
+        case _ => super.authorise(predicate, retrieval)
+      }
     }
   }
 

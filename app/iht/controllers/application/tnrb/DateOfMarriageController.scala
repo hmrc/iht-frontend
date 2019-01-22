@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.application.tnrb
 
+import iht.config.AppConfig
 import iht.connector.IhtConnectors
 import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
@@ -26,23 +27,28 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.{ApplicationKickOutHelper, CommonHelper, DateHelper, StringHelper}
+import javax.inject.Inject
 import org.joda.time.LocalDate
 import play.api.Play.current
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Request, Result}
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-object DateOfMarriageController extends DateOfMarriageController with IhtConnectors {
+
+class DateOfMarriageControllerImpl @Inject()() extends DateOfMarriageController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait DateOfMarriageController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
-  val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
+  lazy val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
   private def predeceasedName(appDetails: ApplicationDetails)(implicit messages: Messages) = {
     TnrbHelper.spouseOrCivilPartnerLabelPossessive(
@@ -53,14 +59,14 @@ trait DateOfMarriageController extends EstateController {
       wrapName = true)(messages)
   }
 
-  def onPageLoad = authorisedForIht {
-    implicit user =>
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+
       implicit request => {
         withRegistrationDetails { registrationDetails =>
           val deceasedName = CommonHelper.getOrException(registrationDetails.deceasedDetails).name
 
           for {
-            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(user),
+            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
               CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
               registrationDetails.acknowledgmentReference)
           } yield {
@@ -84,13 +90,13 @@ trait DateOfMarriageController extends EstateController {
       }
   }
 
-  def onSubmit = authorisedForIht {
-    implicit user =>
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+
       implicit request => {
         withRegistrationDetails { regDetails =>
           val deceasedName = CommonHelper.getOrException(regDetails.deceasedDetails).name
 
-          val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(user),
+          val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(userNino),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
@@ -110,7 +116,7 @@ trait DateOfMarriageController extends EstateController {
                   )))
                 },
                 tnrbModel => {
-                  saveApplication(StringHelper.getNino(user), tnrbModel, appDetails, regDetails)
+                  saveApplication(StringHelper.getNino(userNino), tnrbModel, appDetails, regDetails)
                 }
               )
             case _ => Future.successful(InternalServerError("Application details not found"))

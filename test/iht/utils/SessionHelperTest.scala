@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ package iht.utils
 import iht.FakeIhtApp
 import iht.constants.Constants
 import iht.testhelpers._
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import play.api.mvc.Session
 import play.api.test.FakeRequest
 import uk.gov.hmrc.domain.Nino
@@ -28,18 +28,18 @@ import uk.gov.hmrc.play.frontend.auth.{AuthContext, LoggedInUser, Principal}
 import uk.gov.hmrc.play.test.UnitSpec
 
 
-class SessionHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
+class SessionHelperTest extends FakeIhtApp with MockitoSugar {
 
   "getNinoFromSession" must {
     "return the nino when it is present in the session" in {
       val nino = "CSXXXXX"
       val request = FakeRequest().withSession(Constants.NINO -> nino)
-      SessionHelper.getNinoFromSession(request) shouldBe Some(nino)
+      SessionHelper.getNinoFromSession(request) mustBe Some(nino)
     }
 
     "return the empty string when nino is not present in the session" in {
       val request = FakeRequest().withSession()
-      SessionHelper.getNinoFromSession(request) shouldBe empty
+      SessionHelper.getNinoFromSession(request) mustBe empty
     }
   }
 
@@ -54,30 +54,30 @@ class SessionHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
   "ensureSessionHasNino" must {
     "throw an exception if the authcontext contains no nino" in {
       val nino = NinoBuilder.randomNino
-      a[RuntimeException] shouldBe thrownBy {
-        SessionHelper.ensureSessionHasNino(new Session(), CommonBuilder.buildAuthContext())
+      a[RuntimeException] mustBe thrownBy {
+        SessionHelper.ensureSessionHasNino(new Session(), None)
       }
     }
 
     "add the nino if it is not present in the session" in {
       val nino = NinoBuilder.randomNino
-      val result = SessionHelper.ensureSessionHasNino(new Session(), buildAuthContext(nino))
-      result.get(Constants.NINO) shouldBe Some(nino.nino)
+      val result = SessionHelper.ensureSessionHasNino(new Session(), Some(nino.toString))
+      result.get(Constants.NINO) mustBe Some(nino.nino)
     }
 
     "retrieve the nino if the same nino is present in the session" in {
       val nino = NinoBuilder.randomNino
       val session = new Session() + (Constants.NINO -> nino.name)
-      val result = SessionHelper.ensureSessionHasNino(session, buildAuthContext(nino))
-      result.get(Constants.NINO) shouldBe Some(nino.nino)
+      val result = SessionHelper.ensureSessionHasNino(session, Some(nino.toString))
+      result.get(Constants.NINO) mustBe Some(nino.nino)
     }
 
     "replace the nino if a different nino is present in the session" in {
       val nino = NinoBuilder.randomNino
       val newNino = NinoBuilder.randomNino
       val session = new Session() + (Constants.NINO -> nino.name)
-      val result = SessionHelper.ensureSessionHasNino(session, buildAuthContext(newNino))
-      result.get(Constants.NINO) shouldBe Some(newNino.nino)
+      val result = SessionHelper.ensureSessionHasNino(session, Some(newNino.toString))
+      result.get(Constants.NINO) mustBe Some(newNino.nino)
     }
   }
 }

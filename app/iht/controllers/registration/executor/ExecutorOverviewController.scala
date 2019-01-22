@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,17 +16,22 @@
 
 package iht.controllers.registration.executor
 
+import iht.config.AppConfig
 import iht.connector.CachingConnector
 import iht.connector.IhtConnectors
 import iht.controllers.registration.{RegistrationController, routes => registrationRoutes}
 import iht.forms.registration.CoExecutorForms._
 import iht.metrics.Metrics
 import iht.models.RegistrationDetails
+import javax.inject.Inject
 import play.api.data.Form
 import play.api.mvc.{AnyContent, Call, Request}
+
 import scala.concurrent.Future
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
 trait ExecutorOverviewController extends RegistrationController {
 
@@ -66,7 +71,7 @@ trait ExecutorOverviewController extends RegistrationController {
   def onEditPageLoad = pageLoad(showCancelRoute = true, editSubmitRoute)
 
   private def pageLoad(showCancelRoute: Boolean, route: Call) = authorisedForIht {
-    implicit user => implicit request =>
+    implicit request =>
       withRegistrationDetailsRedirectOnGuardCondition { goodRequest(_, route, showCancelRoute, request) }
   }
 
@@ -75,7 +80,7 @@ trait ExecutorOverviewController extends RegistrationController {
   def onEditSubmit = submit(showCancelRoute = true, editSubmitRoute)
 
   private def submit(showCancelRoute: Boolean, route: Call) = authorisedForIht {
-    implicit user => implicit request =>
+    implicit request =>
       withRegistrationDetailsRedirectOnGuardCondition { rd =>
         val boundForm = executorOverviewForm.bindFromRequest
         boundForm.fold(formWithErrors => badRequest(rd, route, showCancelRoute, formWithErrors, request), {addMore =>
@@ -93,6 +98,6 @@ trait ExecutorOverviewController extends RegistrationController {
   }
 }
 
-object ExecutorOverviewController extends ExecutorOverviewController with IhtConnectors {
+class ExecutorOverviewControllerImpl @Inject()() extends ExecutorOverviewController with IhtConnectors {
   def metrics: Metrics = Metrics
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -106,7 +106,7 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
 
     "not give an error when given valid data" in {
       val data = othersApplyingForProbate("true")
-      othersApplyingForProbateForm.bind(data).get shouldBe Some(true)
+      othersApplyingForProbateForm.bind(data).get mustBe Some(true)
     }
 
     "give an error when supplied a blank value" in {
@@ -197,7 +197,7 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
         coExecutorFormsWithIhtFormValidatorMockedToSucceed(nino).coExecutorPersonalDetailsForm().bind(map)
       }
 
-      bindForm(completePersonalDetails).get shouldBe
+      bindForm(completePersonalDetails).get mustBe
         CoExecutor(id = Some("1"),
           firstName = CommonBuilder.DefaultFirstName,
           lastName = CommonBuilder.DefaultLastName,
@@ -272,7 +272,7 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
       implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
       val result: Form[CoExecutor] = coExecutorFormsWithIhtFormValidatorMockedToSucceed("")
         .coExecutorPersonalDetailsForm().bind(completePersonalDetails)
-      result.hasErrors shouldBe false
+      result.hasErrors mustBe false
     }
 
     "give an error when the day is blank" in {
@@ -435,7 +435,7 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
         coExecutorFormsWithIhtFormValidatorMockedToSucceed(nino).coExecutorPersonalDetailsEditForm().bind(map)
       }
 
-      bindFormEdit(completePersonalDetailsEditMode).get shouldBe
+      bindFormEdit(completePersonalDetailsEditMode).get mustBe
         CoExecutor(id = Some("1"),
           firstName = CommonBuilder.DefaultFirstName,
           lastName = CommonBuilder.DefaultLastName,
@@ -618,7 +618,7 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
     "ignore the 'Is Address in UK' field if supplied" in {
       // This is a test that over-posting does not occur.  The data we supply contains the isAddressInUk field,
       // and we test that the outcome has that field set to None - i.e. the supplied value isn't used.
-      bindFormEdit(completePersonalDetails).get.isAddressInUk shouldBe None
+      bindFormEdit(completePersonalDetails).get.isAddressInUk mustBe None
 
     }
   }
@@ -630,14 +630,14 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
   "CoExecutor Address Details (in the UK)" must {
 
     "not give an error for valid data" in {
-      coExecutorAddressUkForm.bind(completeUkAddress).get shouldBe
+      coExecutorAddressUkForm.bind(completeUkAddress).get mustBe
         UkAddress("Line 1", "Line 2", Some("Line 3"), Some("Line 4"), "AA111AA", "GB")
     }
 
     "not give an error when lines 2 and 3 are omitted" in {
       val data = completeUkAddress - "ukAddressLine3" - "ukAddressLine4"
 
-      coExecutorAddressUkForm.bind(data).get shouldBe UkAddress("Line 1", "Line 2", None, None, "AA111AA", "GB")
+      coExecutorAddressUkForm.bind(data).get mustBe UkAddress("Line 1", "Line 2", None, None, "AA111AA", "GB")
     }
 
     "give an error when line 1 is blank" in {
@@ -745,14 +745,14 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
   "Deceased Address Details (abroad) form" must {
 
     "not give an error for valid data" in {
-      coExecutorAddressAbroadForm.bind(completeAddressAbroad).get shouldBe
+      coExecutorAddressAbroadForm.bind(completeAddressAbroad).get mustBe
         UkAddress("Line 1", "Line 2", Some("Line 3"), Some("Line 4"), "", "AU")
     }
 
     "not give an error when lines 2 and 3 are omitted" in {
       val data = completeAddressAbroad - "ukAddressLine3" - "ukAddressLine4"
 
-      coExecutorAddressAbroadForm.bind(data).get shouldBe UkAddress("Line 1", "Line 2", None, None, "", "AU")
+      coExecutorAddressAbroadForm.bind(data).get mustBe UkAddress("Line 1", "Line 2", None, None, "", "AU")
     }
 
     "give an error when line 1 is blank" in {
@@ -851,7 +851,7 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
   "CoExecutor Overview form" must {
     "not give an error when given valid data" in {
       val data = coExecutorSummary("true")
-      executorOverviewForm.bind(data).get shouldBe Some(true)
+      executorOverviewForm.bind(data).get mustBe Some(true)
     }
 
     "give an error when supplied a blank value" in {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.application.gifts
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.IhtConnectors
 import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
@@ -26,74 +27,77 @@ import iht.models.application.gifts.AllGifts
 import iht.utils.GiftsHelper.createPreviousYearsGiftsLists
 import iht.utils.{CommonHelper, StringHelper, ApplicationStatus => AppStatus}
 import iht.views.html.application.gift.given_away
+import javax.inject.Inject
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
 import scala.concurrent.Future
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
 /**
   *
   * Created by Vineet Tyagi on 14/01/16.
   *
   */
-object GivenAwayController extends GivenAwayController with IhtConnectors {
+class GivenAwayControllerImpl @Inject()() extends GivenAwayController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait GivenAwayController extends EstateController {
 
-  def onPageLoad = authorisedForIht {
-    implicit user =>
-      implicit request =>
-        withApplicationDetails { regDetails =>
-          appDetails =>
-            val fm = appDetails.allGifts.fold(giftsGivenAwayForm)(giftsGivenAwayForm.fill)
 
-            CommonHelper.getOrException(regDetails.deceasedDateOfDeath.map { ddod =>
-              val giftsList = appDetails.giftsList
-                .fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request =>
+      withApplicationDetails(userNino) { regDetails =>
+        appDetails =>
+          val fm = appDetails.allGifts.fold(giftsGivenAwayForm)(giftsGivenAwayForm.fill)
 
-              Future.successful(Ok(given_away(fm, regDetails, giftsList)))
-            })
-        }
+          CommonHelper.getOrException(regDetails.deceasedDateOfDeath.map { ddod =>
+            val giftsList = appDetails.giftsList
+              .fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
+
+            Future.successful(Ok(given_away(fm, regDetails, giftsList)))
+          })
+      }
   }
 
 
-  def onSubmit = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        withApplicationDetails { regDetails =>
-          appDetails =>
-            val updateApplicationDetails: (ApplicationDetails, Option[String], AllGifts) =>
-              (ApplicationDetails, Option[String]) =
-              (appDetails, _, gifts) => {
-                val updatedAllDetails = appDetails.copy(status = AppStatus.InProgress, allGifts = Some(appDetails.allGifts.fold
-                (new AllGifts(isGivenAway = gifts.isGivenAway, None, None, None, None))
-                (_.copy(isGivenAway = gifts.isGivenAway))))
-                (updateApplicationDetailsWithUpdatedAllGifts(updatedAllDetails), None)
-              }
-            val boundForm = giftsGivenAwayForm.bindFromRequest
-            boundForm.fold(
-              formWithErrors => {
-                CommonHelper.getOrException(regDetails.deceasedDateOfDeath.map { ddod =>
-                  val giftsList = appDetails.giftsList
-                    .fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
-                    .reverse
-                  Future.successful(BadRequest(given_away(formWithErrors, regDetails, giftsList)))
-                })
-              },
-              estateElementModel => {
-                estatesSaveApplication(StringHelper.getNino(user),
-                  estateElementModel,
-                  regDetails,
-                  updateApplicationDetails,
-                  redirectLocation = (_, _) => CommonHelper.addFragmentIdentifier(giftsRedirectLocation, Some(GiftsGivenAwayQuestionID)),
-                  None
-                )
-              }
-            )
-        }
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      withApplicationDetails(userNino) { regDetails =>
+        appDetails =>
+          val updateApplicationDetails: (ApplicationDetails, Option[String], AllGifts) =>
+            (ApplicationDetails, Option[String]) =
+            (appDetails, _, gifts) => {
+              val updatedAllDetails = appDetails.copy(status = AppStatus.InProgress, allGifts = Some(appDetails.allGifts.fold
+              (new AllGifts(isGivenAway = gifts.isGivenAway, None, None, None, None))
+              (_.copy(isGivenAway = gifts.isGivenAway))))
+              (updateApplicationDetailsWithUpdatedAllGifts(updatedAllDetails), None)
+            }
+          val boundForm = giftsGivenAwayForm.bindFromRequest
+          boundForm.fold(
+            formWithErrors => {
+              CommonHelper.getOrException(regDetails.deceasedDateOfDeath.map { ddod =>
+                val giftsList = appDetails.giftsList
+                  .fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
+                  .reverse
+                Future.successful(BadRequest(given_away(formWithErrors, regDetails, giftsList)))
+              })
+            },
+            estateElementModel => {
+              estatesSaveApplication(StringHelper.getNino(userNino),
+                estateElementModel,
+                regDetails,
+                updateApplicationDetails,
+                redirectLocation = (_, _) => CommonHelper.addFragmentIdentifier(giftsRedirectLocation, Some(GiftsGivenAwayQuestionID)),
+                None
+              )
+            }
+          )
       }
+    }
   }
 
   /**

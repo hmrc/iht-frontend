@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.UnitSpec
 
 
-class GenericOverviewItemTest extends UnitSpec with FakeIhtApp with HtmlSpec {
+class GenericOverviewItemTest extends FakeIhtApp with HtmlSpec {
 
   "GenericOverviewItem helper" must {
 //    implicit val request = createFakeRequest()
@@ -63,7 +63,7 @@ class GenericOverviewItemTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     "have the correct link with text" in {
       val doc = asDocument(genericOverviewItemView)
       val link = doc.getElementById(s"$id")
-      link.attr("href") shouldBe linkUrl.url
+      link.attr("href") mustBe linkUrl.url
       assertEqualsValue(doc, s"a#$id span", "Change")
     }
 

@@ -1,4 +1,5 @@
 import play.routes.compiler.StaticRoutesGenerator
+import play.routes.compiler.InjectedRoutesGenerator
 import sbt.Keys._
 import sbt._
 import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin

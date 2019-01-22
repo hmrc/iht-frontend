@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,7 +81,7 @@ class DateOfMarriageViewTest extends ViewTestHelper {
       val view = date_of_marriage(dateOfMarriageForm, widowCheckModel, deceasedName, predeceasedName, returnLinkTargetUrl).toString
 
       val saveAndContinueButton = asDocument(view).getElementById("save-continue")
-      saveAndContinueButton.text() shouldBe messagesApi("iht.saveAndContinue")
+      saveAndContinueButton.text() mustBe messagesApi("iht.saveAndContinue")
     }
 
     "show the correct return link with text" in {
@@ -90,8 +90,8 @@ class DateOfMarriageViewTest extends ViewTestHelper {
       val view = date_of_marriage(dateOfMarriageForm, widowCheckModel, deceasedName, predeceasedName, CommonHelper.addFragmentIdentifier(returnLinkTargetUrl, Some(TnrbSpouseDateOfMarriageID))).toString
 
       val returnLink = asDocument(view).getElementById(returnLinkId)
-      returnLink.attr("href") shouldBe returnLinkTargetUrl.url + "#" + TnrbSpouseDateOfMarriageID
-      returnLink.text() shouldBe returnLinkText
+      returnLink.attr("href") mustBe returnLinkTargetUrl.url + "#" + TnrbSpouseDateOfMarriageID
+      returnLink.text() mustBe returnLinkText
     }
   }
 }

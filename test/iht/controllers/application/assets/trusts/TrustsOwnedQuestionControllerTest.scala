@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,18 +31,17 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 class TrustsOwnedQuestionControllerTest extends ApplicationControllerTest{
 
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def trustsOwnedQuestionController = new TrustsOwnedQuestionController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def trustsOwnedQuestionControllerNotAuthorised = new TrustsOwnedQuestionController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -52,14 +51,14 @@ class TrustsOwnedQuestionControllerTest extends ApplicationControllerTest{
 
     "redirect to login page on PageLoad if the user is not logged in" in {
       val result = trustsOwnedQuestionControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to login page on Submit if the user is not logged in" in {
       val result = trustsOwnedQuestionController.onSubmit(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
@@ -73,7 +72,7 @@ class TrustsOwnedQuestionControllerTest extends ApplicationControllerTest{
         storeAppDetailsInCache = true)
 
       val result = trustsOwnedQuestionController.onPageLoad (createFakeRequest())
-      status(result) shouldBe (OK)
+      status(result) mustBe (OK)
     }
 
     "save application and go to held in trust overview page on submit when No chosen" in {
@@ -91,8 +90,8 @@ class TrustsOwnedQuestionControllerTest extends ApplicationControllerTest{
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledHeldInTrustForm.data.toSeq: _*)
 
       val result = trustsOwnedQuestionController.onSubmit (request)
-      status(result) shouldBe (SEE_OTHER)
-      //redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.AssetsOverviewController.onPageLoad().url, AppSectionHeldInTrustID)))
+      status(result) mustBe (SEE_OTHER)
+      //redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.AssetsOverviewController.onPageLoad().url, AppSectionHeldInTrustID)))
     }
 
     "save application and go to held in trust next page page on submit when Yes chosen" in {
@@ -110,8 +109,8 @@ class TrustsOwnedQuestionControllerTest extends ApplicationControllerTest{
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledHeldInTrustForm.data.toSeq: _*)
 
       val result = trustsOwnedQuestionController.onSubmit (request)
-      status(result) shouldBe (SEE_OTHER)
-      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.TrustsOverviewController.onPageLoad.url, AssetsTrustsBenefitedID)))
+      status(result) mustBe (SEE_OTHER)
+      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.TrustsOverviewController.onPageLoad.url, AssetsTrustsBenefitedID)))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
@@ -120,7 +119,7 @@ class TrustsOwnedQuestionControllerTest extends ApplicationControllerTest{
      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = trustsOwnedQuestionController.onSubmit (fakePostRequest)
-      status(result) shouldBe (BAD_REQUEST)
+      status(result) mustBe (BAD_REQUEST)
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

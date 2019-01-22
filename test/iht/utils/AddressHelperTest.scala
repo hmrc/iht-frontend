@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,17 +21,17 @@ import iht.testhelpers._
 import org.scalatest.mock.MockitoSugar
 import uk.gov.hmrc.play.test.UnitSpec
 
-class AddressHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
+class AddressHelperTest extends FakeIhtApp with MockitoSugar {
 
   "Predicate isThereAnApplicantAddress returns true when there is an applicant address " in {
     AddressHelper.isThereAnApplicantAddress(CommonBuilder.buildRegistrationDetails copy(
       applicantDetails = Some(CommonBuilder.buildApplicantDetails)
-      ), "") shouldBe true
+      ), "") mustBe true
   }
 
   "Predicate isThereAnApplicantAddress returns false when there is no applicant address " in {
     AddressHelper.isThereAnApplicantAddress(CommonBuilder.buildRegistrationDetails copy(
       applicantDetails = Some(CommonBuilder.buildApplicantDetails.copy(ukAddress = None))
-      ), "") shouldBe false
+      ), "") mustBe false
   }
 }

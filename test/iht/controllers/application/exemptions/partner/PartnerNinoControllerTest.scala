@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,18 +36,17 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class PartnerNinoControllerTest extends ApplicationControllerTest{
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def partnerNinoController = new PartnerNinoController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def partnerNinoControllerNotAuthorised = new PartnerNinoController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -56,15 +55,15 @@ class PartnerNinoControllerTest extends ApplicationControllerTest{
   "PartnerNinoController" must {
 
     "redirect to login page on PageLoad if the user is not logged in" in {
-      val result = partnerNinoControllerNotAuthorised.onPageLoad(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      val result = partnerNinoControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to login page on Submit if the user is not logged in" in {
-      val result = partnerNinoControllerNotAuthorised.onSubmit(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      val result = partnerNinoControllerNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load, page contains Return link and Save button" in {
@@ -79,9 +78,9 @@ class PartnerNinoControllerTest extends ApplicationControllerTest{
         storeAppDetailsInCache = true)
 
       val result = partnerNinoController.onPageLoad (createFakeRequest())
-      status(result) shouldBe (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"))
-      contentAsString(result) should include (messagesApi("iht.saveAndContinue"))
+      status(result) mustBe (OK)
+      contentAsString(result) must include (messagesApi("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"))
+      contentAsString(result) must include (messagesApi("iht.saveAndContinue"))
 
     }
 
@@ -104,8 +103,8 @@ class PartnerNinoControllerTest extends ApplicationControllerTest{
         .toSeq: _*)
 
       val result = partnerNinoController.onSubmit(request)
-      status(result) shouldBe (SEE_OTHER)
-      redirectLocation(result) should be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerNinoID)))
+      status(result) mustBe (SEE_OTHER)
+      redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerNinoID)))
     }
 
     "display error validation message when incomplete form is submitted" in {
@@ -126,8 +125,8 @@ class PartnerNinoControllerTest extends ApplicationControllerTest{
         storeAppDetailsInCache = true)
 
       val result = partnerNinoController.onSubmit()(request)
-      status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include("a problem")
+      status(result) must be (BAD_REQUEST)
+      contentAsString(result) must include("a problem")
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

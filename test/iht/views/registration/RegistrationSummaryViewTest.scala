@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -259,7 +259,7 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
     }
 
     "have a Confirm details button" in {
-      doc.getElementsByClass("button").first.attr("value") shouldBe messagesApi("page.iht.registration.registrationSummary.button")
+      doc.getElementsByClass("button").first.attr("value") mustBe messagesApi("page.iht.registration.registrationSummary.button")
     }
 
     "have text paragraphs" in {
@@ -291,19 +291,19 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
     "display the correct values in the table of entered details where all UK addresses" in {
       val tableHTMLElements: Elements = doc.select("li.tabular-data__entry")
       val setRows = tableHTMLElements.map(element => SharableOverviewRow.apply(element)).toSet
-      setRows shouldBe expectedSetRowsAllUKAddresses
+      setRows mustBe expectedSetRowsAllUKAddresses
     }
 
     "display the correct values in the table of entered details where all foreign addresses" in {
       val tableHTMLElements: Elements = docForeign.select("li.tabular-data__entry")
       val setRows = tableHTMLElements.map(element => SharableOverviewRow.apply(element)).toSet
-      setRows shouldBe expectedSetRowsAllForeignAddresses
+      setRows mustBe expectedSetRowsAllForeignAddresses
     }
 
     "have a link to add or delete an executor" in {
       val anchor = doc.getElementById("coexecutors-summary")
-      anchor.text shouldBe messagesApi("page.iht.registration.registrationSummary.coExecutorTable.changeOthersApplying.link")
-      anchor.attr("href") shouldBe iht.controllers.registration.executor.routes.ExecutorOverviewController.onPageLoad().url
+      anchor.text mustBe messagesApi("page.iht.registration.registrationSummary.coExecutorTable.changeOthersApplying.link")
+      anchor.attr("href") mustBe iht.controllers.registration.executor.routes.ExecutorOverviewController.onPageLoad().url
     }
   }
 }

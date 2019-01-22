@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,7 +51,7 @@ class AssetsAndGiftsSectionViewTest extends ViewTestHelper {
       val view = assets_and_gifts_section(viewModel).toString
       val doc = asDocument(view)
       val header = doc.getElementsByTag("h2")
-      header.text() should include(messagesApi("page.iht.application.estateOverview.totalAddedToTheEstateValue"))
+      header.text() must include(messagesApi("page.iht.application.estateOverview.totalAddedToTheEstateValue"))
     }
 
     "not show a title when asked not to" in {
@@ -74,7 +74,7 @@ class AssetsAndGiftsSectionViewTest extends ViewTestHelper {
 
       val view = assets_and_gifts_section(viewModel).toString
       val doc = asDocument(view)
-      view should include(messagesApi("iht.estateReport.assets.inEstate"))
+      view must include(messagesApi("iht.estateReport.assets.inEstate"))
       assertRenderedById(doc, "assets-row")
     }
 
@@ -91,7 +91,7 @@ class AssetsAndGiftsSectionViewTest extends ViewTestHelper {
 
       val view = assets_and_gifts_section(viewModel).toString
       val doc = asDocument(view)
-      view should include(messagesApi("iht.estateReport.gifts.givenAway.title"))
+      view must include(messagesApi("iht.estateReport.gifts.givenAway.title"))
       assertRenderedById(doc, "gifts-row")
     }
 
@@ -106,7 +106,7 @@ class AssetsAndGiftsSectionViewTest extends ViewTestHelper {
         )
 
       val view = assets_and_gifts_section(viewModel).toString()
-      view should include(messagesApi("£1,234.56"))
+      view must include(messagesApi("£1,234.56"))
     }
   }
 }

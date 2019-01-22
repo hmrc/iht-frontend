@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.application.exemptions.qualifyingBody
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
@@ -28,27 +29,33 @@ import play.api.mvc.Call
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.IhtProperties._
+import javax.inject.Inject
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
 /**
  * Created by james on 17/08/16.
  */
-object AssetsLeftToQualifyingBodyQuestionController extends AssetsLeftToQualifyingBodyQuestionController with IhtConnectors {
+class AssetsLeftToQualifyingBodyQuestionControllerImpl @Inject()() extends AssetsLeftToQualifyingBodyQuestionController with IhtConnectors {
   def metrics : Metrics = Metrics
 }
 
 trait AssetsLeftToQualifyingBodyQuestionController extends EstateController {
-  val exemptionsOverviewPage: Call = CommonHelper.addFragmentIdentifier(
+
+
+  lazy val exemptionsOverviewPage: Call = CommonHelper.addFragmentIdentifier(
     iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsOtherID))
-  val qualifyingBodyOverviewPage: Call =
+  lazy val qualifyingBodyOverviewPage: Call =
     CommonHelper.addFragmentIdentifier(
       iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad(), Some(ExemptionsOtherAssetsID))
-  val qualifyingBodyDetailsOverviewPage: Call =
+  lazy val qualifyingBodyDetailsOverviewPage: Call =
     iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onPageLoad()
 
-  def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
       estateElementOnPageLoad[BasicExemptionElement](assetsLeftToQualifyingBodyQuestionForm,
-        assets_left_to_qualifying_body_question.apply, _.allExemptions.flatMap(_.qualifyingBody))
+        assets_left_to_qualifying_body_question.apply, _.allExemptions.flatMap(_.qualifyingBody), userNino)
     }
   }
 
@@ -71,8 +78,8 @@ trait AssetsLeftToQualifyingBodyQuestionController extends EstateController {
       ), None)
     }
 
-  def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
       estateElementOnSubmitConditionalRedirect[BasicExemptionElement](
         assetsLeftToQualifyingBodyQuestionForm,
         assets_left_to_qualifying_body_question.apply,
@@ -86,7 +93,8 @@ trait AssetsLeftToQualifyingBodyQuestionController extends EstateController {
             case (true, true) => qualifyingBodyOverviewPage
             case (true, false) => qualifyingBodyDetailsOverviewPage
           }
-        }
+        },
+        userNino
       )
     }
   }

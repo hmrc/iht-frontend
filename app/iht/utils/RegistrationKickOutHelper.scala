@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -86,7 +86,7 @@ object RegistrationKickOutHelper {
       case Some(_) =>
         getKickoutReason.apply(rd).fold(Future.successful(Redirect(nextPage))) { kickoutReason =>
           cachingConnector.storeSingleValue(RegistrationKickoutReasonCachingKey, kickoutReason).flatMap(_ =>
-            Future.successful(Redirect(iht.controllers.registration.routes.KickoutController.onPageLoad())))}
+            Future.successful(Redirect(iht.controllers.registration.routes.KickoutRegController.onPageLoad())))}
 
         case None =>
           Logger.warn(failMessage)

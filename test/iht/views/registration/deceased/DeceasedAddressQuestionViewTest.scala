@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,14 +46,14 @@ class DeceasedAddressQuestionViewTest extends YesNoQuestionViewBehaviour[Decease
     }
 
     "show the correct answer text" in {
-      doc.getElementById("isAddressInUk-true-label").text shouldBe messagesApi("page.iht.registration.deceasedAddressAnswerInUk")
-      doc.getElementById("isAddressInUk-false-label").text shouldBe messagesApi("page.iht.registration.deceasedAddressAnswerAbroad")
+      doc.getElementById("isAddressInUk-true-label").text mustBe messagesApi("page.iht.registration.deceasedAddressAnswerInUk")
+      doc.getElementById("isAddressInUk-false-label").text mustBe messagesApi("page.iht.registration.deceasedAddressAnswerAbroad")
     }
 
     "show the Continue button with the correct target" in {
       val continueButton = doc.getElementById("continue-button")
-      continueButton.`val` shouldBe messagesApi("iht.continue")
-      doc.getElementsByTag("form").attr("action") shouldBe CommonBuilder.DefaultCall1.url
+      continueButton.`val` mustBe messagesApi("iht.continue")
+      doc.getElementsByTag("form").attr("action") mustBe CommonBuilder.DefaultCall1.url
     }
   }
 }

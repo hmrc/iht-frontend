@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import uk.gov.hmrc.play.test.UnitSpec
  *
  * This Class contains the Unit Tests for iht.utils.CommonHelper
  */
-class MessagesHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I18nSupport {
+class MessagesHelperTest extends FakeIhtApp with MockitoSugar with I18nSupport {
 
   val msg = Map("en" -> Map("a.a"->"a"), "cy" -> Map("a.a" -> "w"))
   implicit val messagesApi: MessagesApi = mock[MessagesApi]
@@ -39,33 +39,33 @@ class MessagesHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with
   "translateToPreferredLanguage" must {
     "return content when language same" in {
       when(messagesApi.messages).thenReturn(msg)
-      MessagesHelper.translateToPreferredLanguage("a", messages, "en") shouldBe "a"
+      MessagesHelper.translateToPreferredLanguage("a", messages, "en") mustBe "a"
     }
     "return content translated when language different" in {
       when(messagesApi.messages).thenReturn(msg)
-      MessagesHelper.translateToPreferredLanguage("a", messages, "cy") shouldBe "w"
+      MessagesHelper.translateToPreferredLanguage("a", messages, "cy") mustBe "w"
     }
   }
 
   "messagesForLang" must {
     "return english messages file when language in en" in {
       when(messagesApi.messages).thenReturn(msg)
-      MessagesHelper.messagesForLang(messages, "en").lang shouldBe Lang("en")
+      MessagesHelper.messagesForLang(messages, "en").lang mustBe Lang("en")
     }
     "return welsh messages file when language in cy" in {
       when(messagesApi.messages).thenReturn(msg)
-      MessagesHelper.messagesForLang(messages, "cy").lang shouldBe Lang("cy")
+      MessagesHelper.messagesForLang(messages, "cy").lang mustBe Lang("cy")
     }
   }
 
   "englishMessages" must {
     "return item from englishMessages when the key exists" in {
       when(messagesApi.messages).thenReturn(msg)
-      MessagesHelper.englishMessages("a.a", messages) shouldBe Some("a")
+      MessagesHelper.englishMessages("a.a", messages) mustBe Some("a")
     }
     "return None from englishMessages when the key does not exist" in {
       when(messagesApi.messages).thenReturn(msg)
-      MessagesHelper.englishMessages("x.a", messages) shouldBe None
+      MessagesHelper.englishMessages("x.a", messages) mustBe None
     }
   }
 }

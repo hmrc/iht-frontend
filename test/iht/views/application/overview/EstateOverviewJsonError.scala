@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,11 +31,11 @@ class EstateOverviewJsonError  extends ViewTestHelper with MessagesHelper {
   "EstateOverviewJsonError" must {
 
     "have the correct first paragraph" in {
-      doc.select("p").eq(2).text shouldBe errorEstateOverviewJsonErrorp1
+      doc.select("p").eq(2).text mustBe errorEstateOverviewJsonErrorp1
     }
 
     "have the correct second paragraph" in {
-      doc.select("p").eq(3).text shouldBe errorEstateOverviewJsonErrorp2
+      doc.select("p").eq(3).text mustBe errorEstateOverviewJsonErrorp2
     }
   }
 

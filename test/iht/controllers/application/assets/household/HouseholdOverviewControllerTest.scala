@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,11 +33,8 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
   */
 class HouseholdOverviewControllerTest extends ApplicationControllerTest{
 
-  val mockCachingConnector: CachingConnector = mock[CachingConnector]
-  val mockIhtConnector: IhtConnector = mock[IhtConnector]
-
   def householdOverviewController = new HouseholdOverviewController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -50,8 +47,8 @@ class HouseholdOverviewControllerTest extends ApplicationControllerTest{
 
     "redirect to login page onPageLoad if the user is not logged in" in {
       val result = householdOverviewController.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
@@ -62,8 +59,8 @@ class HouseholdOverviewControllerTest extends ApplicationControllerTest{
         getAppDetails = true)
 
       val result = householdOverviewController.onPageLoad (createFakeRequest())
-      status(result) shouldBe (OK)
-      contentAsString(result) should include(messagesApi("iht.estateReport.assets.householdAndPersonalItems.title"))
+      status(result) mustBe (OK)
+      contentAsString(result) must include(messagesApi("iht.estateReport.assets.householdAndPersonalItems.title"))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

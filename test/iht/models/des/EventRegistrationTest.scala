@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,27 +21,27 @@ import iht.testhelpers.CommonBuilder
 import org.scalatest.mock.MockitoSugar
 import uk.gov.hmrc.play.test.UnitSpec
 
-class EventRegistrationTest extends UnitSpec with FakeIhtApp with MockitoSugar {
+class EventRegistrationTest extends FakeIhtApp with MockitoSugar {
   "EventRegistration" must {
     "convert all fields from registration details to event registration where there are co-executors" in {
       val rd1 = CommonBuilder.buildRegistrationDetails1
       val er1 = CommonBuilder.buildEventRegistration1
       val er2 = EventRegistration.fromRegistrationDetails(rd1)
-      er2 shouldBe (er1.copy(acknowledgmentReference = er2.acknowledgmentReference))
+      er2 mustBe (er1.copy(acknowledgmentReference = er2.acknowledgmentReference))
     }
 
     "convert all fields from registration details to event registration where there are NO co-executors" in {
       val rd1 = CommonBuilder.buildRegistrationDetails2
       val er1 = CommonBuilder.buildEventRegistration2
       val er2 = EventRegistration.fromRegistrationDetails(rd1)
-      er2 shouldBe (er1.copy(acknowledgmentReference = er2.acknowledgmentReference))
+      er2 mustBe (er1.copy(acknowledgmentReference = er2.acknowledgmentReference))
     }
 
     "convert all fields from registration details to event registration where the nino has spaces" in {
       val rd1 = CommonBuilder.buildRegistrationDetails3
       val er1 = CommonBuilder.buildEventRegistration3
       val er2 = EventRegistration.fromRegistrationDetails(rd1)
-      er2 shouldBe (er1.copy(acknowledgmentReference = er2.acknowledgmentReference))
+      er2 mustBe (er1.copy(acknowledgmentReference = er2.acknowledgmentReference))
     }
 
     "convert all fields from registration details to event registration where the marital status is " +
@@ -49,7 +49,7 @@ class EventRegistrationTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val rd1 = CommonBuilder.buildRegistrationDetails4
       val er1 = CommonBuilder.buildEventRegistration4
       val er2 = EventRegistration.fromRegistrationDetails(rd1)
-      er2 shouldBe (er1.copy(acknowledgmentReference = er2.acknowledgmentReference))
+      er2 mustBe (er1.copy(acknowledgmentReference = er2.acknowledgmentReference))
     }
 
     "convert all fields from registration details to event registration where the marital status is " +
@@ -57,14 +57,14 @@ class EventRegistrationTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val rd1 = CommonBuilder.buildRegistrationDetails5
       val er1 = CommonBuilder.buildEventRegistration5
       val er2 = EventRegistration.fromRegistrationDetails(rd1)
-      er2 shouldBe (er1.copy(acknowledgmentReference = er2.acknowledgmentReference))
+      er2 mustBe (er1.copy(acknowledgmentReference = er2.acknowledgmentReference))
     }
 
     "convert all fields from registration details to event registration where the marital status is Single" in {
       val rd1 = CommonBuilder.buildRegistrationDetails6
       val er1 = CommonBuilder.buildEventRegistration6
       val er2 = EventRegistration.fromRegistrationDetails(rd1)
-      er2 shouldBe (er1.copy(acknowledgmentReference = er2.acknowledgmentReference))
+      er2 mustBe (er1.copy(acknowledgmentReference = er2.acknowledgmentReference))
     }
 
     "convert all fields from registration details to event registration where the marital status is " +
@@ -72,7 +72,7 @@ class EventRegistrationTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val rd1 = CommonBuilder.buildRegistrationDetails7
       val er1 = CommonBuilder.buildEventRegistration7
       val er2 = EventRegistration.fromRegistrationDetails(rd1)
-      er2 shouldBe (er1.copy(acknowledgmentReference = er2.acknowledgmentReference))
+      er2 mustBe (er1.copy(acknowledgmentReference = er2.acknowledgmentReference))
     }
 
   }

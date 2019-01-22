@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,40 +16,45 @@
 
 package iht.controllers.application.assets.household
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.controllers.application.ApplicationController
 import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.utils.{CommonHelper, StringHelper}
+import javax.inject.Inject
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-object HouseholdOverviewController extends HouseholdOverviewController with IhtConnectors {
+class HouseholdOverviewControllerImpl @Inject()() extends HouseholdOverviewController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait HouseholdOverviewController extends ApplicationController {
 
+
   def cachingConnector: CachingConnector
 
   def ihtConnector: IhtConnector
 
-  def onPageLoad = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        withRegistrationDetails { registrationDetails =>
-          for {
-            applicationDetails: Option[ApplicationDetails] <- ihtConnector.getApplication(
-              StringHelper.getNino(user),
-              CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-              registrationDetails.acknowledgmentReference
-            )
-            household: Option[ShareableBasicEstateElement] = applicationDetails.flatMap(_.allAssets.flatMap(_.household))
-          } yield {
-            Ok(iht.views.html.application.asset.household.household_overview(household, registrationDetails))
-          }
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      withRegistrationDetails { registrationDetails =>
+        for {
+          applicationDetails: Option[ApplicationDetails] <- ihtConnector.getApplication(
+            StringHelper.getNino(userNino),
+            CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+            registrationDetails.acknowledgmentReference
+          )
+          household: Option[ShareableBasicEstateElement] = applicationDetails.flatMap(_.allAssets.flatMap(_.household))
+        } yield {
+          Ok(iht.views.html.application.asset.household.household_overview(household, registrationDetails))
         }
       }
+    }
   }
 }

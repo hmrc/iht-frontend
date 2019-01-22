@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,8 +36,7 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
  */
 class PartnerValueControllerTest extends ApplicationControllerTest{
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def setUpTests(applicationDetails: ApplicationDetails) = {
     createMocksForApplication(mockCachingConnector,
@@ -49,14 +48,14 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
   }
 
   def partnerValueController = new PartnerValueController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def partnerValueControllerNotAuthorised = new PartnerValueController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -66,15 +65,15 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
 
 
     "redirect to log in page if user is not logged in on page load" in {
-      val result = partnerValueControllerNotAuthorised.onPageLoad(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      val result = partnerValueControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to log in page if user is not logged in on submit" in {
-      val result = partnerValueControllerNotAuthorised.onSubmit(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      val result = partnerValueControllerNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "return an OK on page load" in {
@@ -83,9 +82,9 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
       setUpTests(applicationDetails)
 
       val result = partnerValueController.onPageLoad (createFakeRequest())
-      status(result) shouldBe (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"))
-      contentAsString(result) should include (messagesApi("iht.saveAndContinue"))
+      status(result) mustBe (OK)
+      contentAsString(result) must include (messagesApi("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"))
+      contentAsString(result) must include (messagesApi("iht.saveAndContinue"))
     }
 
     "save and return to parent page if no value is entered and page is submitted" in {
@@ -101,13 +100,16 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
       setUpTests(applicationDetails)
 
       val result = partnerValueController.onSubmit()(request)
-      status(result) should be (BAD_REQUEST)
+      status(result) must be (BAD_REQUEST)
     }
 
     "display the correct title on page" in {
+      createMockToGetRegDetailsFromCache(mockCachingConnector)
+      createMockToGetApplicationDetails(mockIhtConnector)
+
       val result = partnerValueController.onPageLoad (createFakeRequest())
-      status(result) shouldBe OK
-      contentAsString(result) should include (messagesApi("page.iht.application.exemptions.partner.totalAssets.label"))
+      status(result) mustBe OK
+      contentAsString(result) must include (messagesApi("page.iht.application.exemptions.partner.totalAssets.label"))
     }
 
     "redirect to overview page when save and continue is clicked" in {
@@ -124,8 +126,8 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
         .toSeq: _*)
 
       val result = partnerValueController.onSubmit(request)
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerValueID)))
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerValueID)))
     }
 
     "redirect to overview page on submit when there is no exemptions present" in {
@@ -139,8 +141,8 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
         .toSeq: _*)
 
       val result = partnerValueController.onSubmit(request)
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerValueID)))
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerValueID)))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,8 +31,7 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
  */
 class UseIHT400ControllerTest extends ApplicationControllerTest with HtmlSpec {
   override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def controller = new UseIHT400Controller {
     override val cachingConnector = mockCachingConnector
@@ -44,11 +43,11 @@ class UseIHT400ControllerTest extends ApplicationControllerTest with HtmlSpec {
 
     "show the 'you should use an IHT-400 paper form' page when accessed by an unauthorized person" in {
       val result = controller.onPageLoadWithoutJointAssets()(createFakeRequest(isAuthorised = false))
-      status(result) should be(OK)
+      status(result) must be(OK)
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() should be(messagesApi("iht.useIHT400PaperForm"))
+      titleElement.text() must be(messagesApi("iht.useIHT400PaperForm"))
     }
   }
 }

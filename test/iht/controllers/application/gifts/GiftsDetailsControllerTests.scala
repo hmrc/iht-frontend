@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import play.api.http.Status._
 import play.api.i18n.Messages.Implicits._
-import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout, redirectLocation}
+import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout, redirectLocation, await, status => playStatus}
 import play.api.test.{FakeHeaders, FakeRequest}
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
@@ -39,8 +39,7 @@ import uk.gov.hmrc.http.HeaderCarrier
 
 class GiftsDetailsControllerTests extends ApplicationControllerTest {
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   val registrationDetails = CommonBuilder.buildRegistrationDetails copy (
     deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath),
@@ -52,7 +51,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
   def giftsDetailsController = new GiftsDetailsController {
     def metrics : Metrics = Metrics
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -61,7 +60,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
   def giftsDetailsControllerNotAuthorised = new GiftsDetailsController {
     def metrics : Metrics = Metrics
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -83,9 +82,9 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
         Some(applicationDetails),
         getAppDetails = true)
 
-      val result = giftsDetailsControllerNotAuthorised.onPageLoad("1")(createFakeRequest())
+      val result = giftsDetailsControllerNotAuthorised.onPageLoad("1")(createFakeRequest(isAuthorised = false))
 
-      redirectLocation(result) should be (Some(loginUrl))
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "On PageLoad if Gift found then display gift details" in {
@@ -99,8 +98,8 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
         getAppDetails = true)
 
       val result = giftsDetailsController.onPageLoad("1")(createFakeRequest())
-      status(result) should be(OK)
-      contentAsString(result) should include(BigDecimal(1000000000).toString())
+      playStatus(result) must be(OK)
+      contentAsString(result) must include(BigDecimal(1000000000).toString())
     }
 
     "On PageLoad if no Gift found then displays no gift details" in {
@@ -115,18 +114,20 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
         getAppDetails = true)
 
       val result = giftsDetailsController.onPageLoad("0")(createFakeRequest())
-      status(result) should be(OK)
-      contentAsString(result) should not include(BigDecimal(1000000000).toString)
+      playStatus(result) must be(OK)
+      contentAsString(result) must not include(BigDecimal(1000000000).toString)
     }
 
-    "On PageLoad if no Application Details found then displays no gift details" in {
+    "On PageLoad if no Application Details found then throw a RuntimeException" in {
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
         registrationDetails,
-        None)
+        None,
+        getAppDetails = true)
 
-      val result = giftsDetailsController.onPageLoad("1")(createFakeRequest())
-      status(result) should be(OK)
+      intercept[RuntimeException] {
+        await(giftsDetailsController.onPageLoad("1")(createFakeRequest()))
+      }
     }
 
     "On processSubmit if Gift found then redirect" in {
@@ -146,8 +147,8 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
         saveAppDetails = true)
 
       val result = giftsDetailsController.onSubmit()(request)
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(routes.SevenYearsGiftsValuesController.onPageLoad().url + "#" + GiftsValueDetailID + "1"))
+      playStatus(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(routes.SevenYearsGiftsValuesController.onPageLoad().url + "#" + GiftsValueDetailID + "1"))
     }
 
     "On processSubmit if no Gift found then redirect" in {
@@ -165,8 +166,8 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
         getAppDetails = true)
 
       val result = giftsDetailsController.onSubmit()(request)
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(routes.SevenYearsGiftsValuesController.onPageLoad().url))
+      playStatus(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(routes.SevenYearsGiftsValuesController.onPageLoad().url))
     }
 
     "On processSubmit display correct error message if exemptions more than value" in {
@@ -188,8 +189,8 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
         getSingleValueFromCache = true)
 
       val result = giftsDetailsController.onSubmit()(request)
-      status(result) should be(BAD_REQUEST)
-      contentAsString(result) should include(messagesApi("error.giftsDetails.exceedsGivenAway"))
+      playStatus(result) must be(BAD_REQUEST)
+      contentAsString(result) must include(messagesApi("error.giftsDetails.exceedsGivenAway"))
     }
 
     "On processSubmit display correct error message if exemptions entered but not value" in {
@@ -211,8 +212,8 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
         getSingleValueFromCache = true)
 
       val result = giftsDetailsController.onSubmit()(request)
-      status(result) should be(BAD_REQUEST)
-      contentAsString(result) should include(messagesApi("error.giftsDetails.noValue"))
+      playStatus(result) must be(BAD_REQUEST)
+      contentAsString(result) must include(messagesApi("error.giftsDetails.noValue"))
     }
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,102 +16,97 @@
 
 package iht.controllers.application.pdf
 
-import javax.inject.{Inject, Singleton}
-
-import iht.config.FrontendAuthConnector
-import iht.connector.{CachingConnector, IhtConnector}
+import iht.config.AppConfig
+import iht.connector.IhtConnectors
 import iht.constants.{Constants, IhtProperties}
 import iht.controllers.application.ApplicationController
-import iht.controllers.auth.IhtActions
 import iht.models.RegistrationDetails
 import iht.models.des.ihtReturn.IHTReturn
 import iht.utils.pdf._
 import iht.utils.{CommonHelper, DeclarationHelper, StringHelper}
+import javax.inject.{Inject, Singleton}
 import play.api.Logger
 import play.api.i18n.{I18nSupport, Messages, MessagesApi}
-import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.Future
-import uk.gov.hmrc.http.HeaderCarrier
 
 /**
   * Created by dbeer on 14/08/15.
   */
 
 @Singleton
-class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationController with IhtActions with I18nSupport {
+class PDFControllerImpl @Inject()(val messagesApi: MessagesApi) extends PDFController with IhtConnectors
 
-  val cachingConnector: CachingConnector = CachingConnector
-  val authConnector: AuthConnector = FrontendAuthConnector
-  val ihtConnector: IhtConnector = IhtConnector
+trait PDFController extends ApplicationController with I18nSupport {
 
   private def pdfHeaders(fileName: String): Seq[(String, String)] =
     IhtProperties.pdfStaticHeaders :+ Tuple2(CONTENT_DISPOSITION, "inline; filename=\"" + fileName + "\"")
 
-  def onPreSubmissionPDF = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        Logger.info("Generating Summary PDF")
-        val messages = messagesApi.preferred(request)
-        val fileName = s"${messages("iht.inheritanceTaxEstateReport")}.pdf"
-        withApplicationDetails { regDetails =>
-          applicationDetails =>
-            val pdfByteArray = XmlFoToPDF.createPreSubmissionPDF(
-              regDetails,
-              applicationDetails,
-              DeclarationHelper.getDeclarationType(applicationDetails), messages)
-            Future.successful(Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*))
-        }
+  def onPreSubmissionPDF = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      Logger.info("Generating Summary PDF")
+      val messages = messagesApi.preferred(request)
+      val fileName = s"${messages("iht.inheritanceTaxEstateReport")}.pdf"
+      withApplicationDetails(userNino) { regDetails =>
+        applicationDetails =>
+          val pdfByteArray = XmlFoToPDF.createPreSubmissionPDF(
+            regDetails,
+            applicationDetails,
+            DeclarationHelper.getDeclarationType(applicationDetails), messages)
+          Future.successful(Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*))
       }
+    }
   }
 
-  def onClearancePDF = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        Logger.info("Generating Clearance PDF")
-        val messages = messagesApi.preferred(request)
-        cachingConnector.getSingleValue(Constants.PDFIHTReference).flatMap { optionIHTReference =>
-          val ihtReference = CommonHelper.getOrException(optionIHTReference)
-          val fileName = s"${messages("pdf.clearanceCertificate.title")}.pdf"
-          val nino = StringHelper.getNino(user)
-          ihtConnector.getCaseDetails(nino, ihtReference).flatMap(registrationDetails =>
-            getSubmittedApplicationDetails(nino,
-              registrationDetails, messages) map {
+  def onClearancePDF = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      Logger.info("Generating Clearance PDF")
+      val messages = messagesApi.preferred(request)
+      cachingConnector.getSingleValue(Constants.PDFIHTReference).flatMap { optionIHTReference =>
+        val ihtReference = CommonHelper.getOrException(optionIHTReference)
+        val fileName = s"${messages("pdf.clearanceCertificate.title")}.pdf"
+        val nino = StringHelper.getNino(userNino)
+        ihtConnector.getCaseDetails(nino, ihtReference).flatMap(registrationDetails =>
+          getSubmittedApplicationDetails(nino,
+            registrationDetails, messages) map {
+            case Some(ihtReturn) =>
+              val pdfByteArray = XmlFoToPDF.createClearancePDF(registrationDetails, CommonHelper.getOrException(
+                ihtReturn.declaration, "No declaration found").declarationDate.getOrElse(
+                throw new RuntimeException("Declaration Date not available")), messages)
+              Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*)
+            case _ =>
+              internalServerError
+          }
+        )
+      }
+    }
+  }
+
+  def onPostSubmissionPDF = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      Logger.info("Generating Application PDF")
+      val messages = messagesApi.preferred(request)
+      cachingConnector.getSingleValue(Constants.PDFIHTReference).flatMap {
+        case Some(ihtReference) => {
+          val fileName = s"${messages("iht.inheritanceTaxEstateReport")}.pdf"
+          val nino = StringHelper.getNino(userNino)
+          ihtConnector.getCaseDetails(nino, ihtReference).flatMap(regDetails =>
+            getSubmittedApplicationDetails(nino, regDetails, messages) map {
               case Some(ihtReturn) =>
-                val pdfByteArray = XmlFoToPDF.createClearancePDF(registrationDetails, CommonHelper.getOrException(
-                  ihtReturn.declaration, "No declaration found").declarationDate.getOrElse(
-                  throw new RuntimeException("Declaration Date not available")), messages)
+                val pdfByteArray = XmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn, messages)
                 Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*)
               case _ =>
                 internalServerError
             }
           )
         }
+        case _ => Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
       }
-  }
-
-  def onPostSubmissionPDF = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        Logger.info("Generating Application PDF")
-        val messages = messagesApi.preferred(request)
-        cachingConnector.getSingleValue(Constants.PDFIHTReference).flatMap {
-          case Some(ihtReference) => {
-            val fileName = s"${messages("iht.inheritanceTaxEstateReport")}.pdf"
-            val nino = StringHelper.getNino(user)
-            ihtConnector.getCaseDetails(nino, ihtReference).flatMap(regDetails =>
-              getSubmittedApplicationDetails(nino, regDetails, messages) map {
-                case Some(ihtReturn) =>
-                  val pdfByteArray = XmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn, messages)
-                  Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*)
-                case _ =>
-                  internalServerError
-              }
-            )
-          }
-          case _ => Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
-        }
-      }
+    }
   }
 
   private def internalServerError = {

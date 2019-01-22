@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,18 +36,19 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
  */
 class GiftsMadeBeforeDeathControllerTest  extends ApplicationControllerTest{
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+//  val mockCachingConnector = mock[CachingConnector]
+//  val mockIhtConnector = mock[IhtConnector]
 
   def giftsMadeBeforeDeathController = new GiftsMadeBeforeDeathController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def giftsMadeBeforeDeathControllerNotAuthorised = new GiftsMadeBeforeDeathController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
+//    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -57,14 +58,14 @@ class GiftsMadeBeforeDeathControllerTest  extends ApplicationControllerTest{
 
     "redirect to login page onPageLoad if the user is not logged in" in {
       val result = giftsMadeBeforeDeathController.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to ida login page on Submit if the user is not logged in" in {
       val result = giftsMadeBeforeDeathController.onSubmit(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
@@ -77,7 +78,7 @@ class GiftsMadeBeforeDeathControllerTest  extends ApplicationControllerTest{
         saveAppDetails = true)
 
       val result = giftsMadeBeforeDeathController.onPageLoad (createFakeRequest())
-      status(result) shouldBe OK
+      status(result) mustBe OK
     }
 
     "show predeceased name on page load" in {
@@ -94,8 +95,8 @@ class GiftsMadeBeforeDeathControllerTest  extends ApplicationControllerTest{
         saveAppDetails = true)
 
       val result = giftsMadeBeforeDeathController.onPageLoad (createFakeRequest())
-      status(result) shouldBe OK
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.tnrb.giftsMadeBeforeDeath.question",
+      status(result) mustBe OK
+      ContentChecker.stripLineBreaks(contentAsString(result)) must include(messagesApi("iht.estateReport.tnrb.giftsMadeBeforeDeath.question",
         s"$firstName $secondName"))
     }
 
@@ -116,8 +117,8 @@ class GiftsMadeBeforeDeathControllerTest  extends ApplicationControllerTest{
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsMadeBeforeDeathForm.data.toSeq: _*)
 
       val result = giftsMadeBeforeDeathController.onSubmit (request)
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + TnrbGiftsGivenAwayID))
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + TnrbGiftsGivenAwayID))
     }
 
     "go to KickOut page if gifts were given away in last 7 years " in {
@@ -135,8 +136,8 @@ class GiftsMadeBeforeDeathControllerTest  extends ApplicationControllerTest{
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsMadeBeforeDeathForm.data.toSeq: _*)
 
       val result = giftsMadeBeforeDeathController.onSubmit (request)
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be(Some(iht.controllers.application.routes.KickoutController.onPageLoad.url))
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) must be(Some(iht.controllers.application.routes.KickoutAppController.onPageLoad.url))
     }
 
     "go to successful Tnrb page on submit when its satisfies happy path" in {
@@ -158,8 +159,8 @@ class GiftsMadeBeforeDeathControllerTest  extends ApplicationControllerTest{
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsMadeBeforeDeathForm.data.toSeq: _*)
 
       val result = giftsMadeBeforeDeathController.onSubmit (request)
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be(Some(routes.TnrbSuccessController.onPageLoad().url))
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad().url))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

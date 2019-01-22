@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,10 +52,10 @@ trait QualifyingBodiesOverviewViewBehaviour extends GenericNonSubmittablePageBeh
 }
 
 class QualifyingBodiesOverviewViewTest extends QualifyingBodiesOverviewViewBehaviour {
-  val qualifyingBodyName1 = CommonBuilder.qualifyingBody.map(_.name).fold("")(identity)
-  val qualifyingBodyValue1 = CommonBuilder.currencyValue(CommonBuilder.qualifyingBody.map(_.totalValue).fold(BigDecimal(0))(identity))
-  val qualifyingBodyName2 = CommonBuilder.qualifyingBody2.map(_.name).fold("")(identity)
-  val qualifyingBodyValue2 = CommonBuilder.currencyValue(CommonBuilder.qualifyingBody2.map(_.totalValue).fold(BigDecimal(0))(identity))
+  val qualifyingBodyName1 = CommonBuilder.qualifyingBody.name.fold("")(identity)
+  val qualifyingBodyValue1 = CommonBuilder.currencyValue(CommonBuilder.qualifyingBody.totalValue.fold(BigDecimal(0))(identity))
+  val qualifyingBodyName2 = CommonBuilder.qualifyingBody2.name.fold("")(identity)
+  val qualifyingBodyValue2 = CommonBuilder.currencyValue(CommonBuilder.qualifyingBody2.totalValue.fold(BigDecimal(0))(identity))
 
   val qualifyingBodyTableId = "qualifying_bodies_table"
 
@@ -68,23 +68,23 @@ class QualifyingBodiesOverviewViewTest extends QualifyingBodiesOverviewViewBehav
 
   def qualifyingBodyWithDeleteAndModify(rowNo: Int, expectedName: String, expectedValue: String) = {
     s"show qualifyingBody number ${rowNo + 1} name" in {
-      tableCell(doc, qualifyingBodyTableId, 0, rowNo).ownText shouldBe expectedName
+      tableCell(doc, qualifyingBodyTableId, 0, rowNo).ownText mustBe expectedName
     }
 
     s"show qualifyingBody number ${rowNo + 1} value" in {
-      tableCell(doc, qualifyingBodyTableId, 1, rowNo).text shouldBe expectedValue
+      tableCell(doc, qualifyingBodyTableId, 1, rowNo).text mustBe expectedValue
     }
 
     s"show qualifyingBody number ${rowNo + 1} delete link" in {
       val div = tableCell(doc, qualifyingBodyTableId, 2, rowNo)
       val anchor = div.getElementsByTag("a").first
-      getVisibleText(anchor) shouldBe messagesApi("iht.delete")
+      getVisibleText(anchor) mustBe messagesApi("iht.delete")
     }
 
     s"show qualifyingBody number ${rowNo + 1} change link" in {
       val div = tableCell(doc, qualifyingBodyTableId, 3, rowNo)
       val anchor = div.getElementsByTag("a").first
-      getVisibleText(anchor) shouldBe messagesApi("iht.change")
+      getVisibleText(anchor) mustBe messagesApi("iht.change")
     }
 
   }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,6 @@ import play.api.i18n.Messages.Implicits._
 class YourEstateReportsViewTest extends ViewTestHelper with ApplicationControllerTest with EstateReportMessage {
 
   override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-  var mockIhtConnector = mock[IhtConnector]
   lazy val registrationChecklistPageUrl = iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad()
 
   def ihtHomeView(ihtApplications: Seq[YourEstateReportsRowViewModel] = Nil) = {
@@ -50,7 +49,6 @@ class YourEstateReportsViewTest extends ViewTestHelper with ApplicationControlle
   }
 
   before {
-    mockIhtConnector = mock[IhtConnector]
     createMockToGetApplicationDetails(mockIhtConnector)
   }
 
@@ -89,8 +87,8 @@ class YourEstateReportsViewTest extends ViewTestHelper with ApplicationControlle
       val view = ihtHomeView(ihtApplications)
 
       val returnLink = view.getElementById("start-new-registration")
-      returnLink.attr("href") shouldBe registrationChecklistPageUrl.url
-      returnLink.text() shouldBe messagesApi("site.link.startNewRegistration")
+      returnLink.attr("href") mustBe registrationChecklistPageUrl.url
+      returnLink.text() mustBe messagesApi("site.link.startNewRegistration")
 
     }
 
@@ -103,9 +101,9 @@ class YourEstateReportsViewTest extends ViewTestHelper with ApplicationControlle
 
       val detailsReveal = view.getElementById("personal-details-submitted-reveal")
 
-      detailsReveal.select("p").get(0).text() shouldBe estateReportPersonalDetailsSubmittedErrorP1
-      detailsReveal.select("p").get(1).text() shouldBe estateReportPersonalDetailsSubmittedErrorP2
-      detailsReveal.select("p").get(2).text() shouldBe estateReportPersonalDetailsSubmittedErrorP3
+      detailsReveal.select("p").get(0).text() mustBe estateReportPersonalDetailsSubmittedErrorP1
+      detailsReveal.select("p").get(1).text() mustBe estateReportPersonalDetailsSubmittedErrorP2
+      detailsReveal.select("p").get(2).text() mustBe estateReportPersonalDetailsSubmittedErrorP3
     }
   }
 }

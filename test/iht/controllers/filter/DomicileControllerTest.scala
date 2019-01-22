@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,18 +43,18 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
 
     "show the Domicile page when access by an unauthorised person" in {
       val result = controller.onPageLoad()(createFakeRequest(isAuthorised = false))
-      status(result) should be(OK)
+      status(result) must be(OK)
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() should be(messagesApi("page.iht.registration.deceasedPermanentHome.title"))
+      titleElement.text() must be(messagesApi("page.iht.registration.deceasedPermanentHome.title"))
     }
 
     "show an error if no radio button is selected" in {
       val request = createFakeRequestWithBody(isAuthorised = false, data = domicileForm(messages).data.toSeq)
       val result = controller.onSubmit()(request)
 
-      status(result) should be(BAD_REQUEST)
+      status(result) must be(BAD_REQUEST)
 
       val doc = asDocument(contentAsString(result))
       assertRenderedById(doc, "errors")
@@ -65,8 +65,8 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
       val result = controller.onSubmit()(request)
 
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(iht.controllers.filter.routes.FilterJointlyOwnedController.onPageLoad().url))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.FilterJointlyOwnedController.onPageLoad().url))
     }
 
     "redirect to the 'Scotland transition' page if 'Scotland' is selected" in {
@@ -74,8 +74,8 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
       val result = controller.onSubmit()(request)
 
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(iht.controllers.filter.routes.TransitionController.onPageLoadScotland().url))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.TransitionController.onPageLoadScotland().url))
     }
 
     "redirect to the 'Northern Ireland transition' page if 'Northern Ireland' is selected" in {
@@ -83,8 +83,8 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
       val result = controller.onSubmit()(request)
 
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(iht.controllers.filter.routes.TransitionController.onPageLoadNorthernIreland().url))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.TransitionController.onPageLoadNorthernIreland().url))
     }
 
     "redirect to the 'Other country transition' page if 'Other country' is selected" in {
@@ -92,8 +92,8 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
       val result = controller.onSubmit()(request)
 
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(iht.controllers.filter.routes.TransitionController.onPageLoadOtherCountry().url))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.TransitionController.onPageLoadOtherCountry().url))
     }
   }
 }

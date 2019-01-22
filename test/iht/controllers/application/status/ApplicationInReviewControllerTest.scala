@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,13 +22,14 @@ import iht.views.HtmlSpec
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class ApplicationInReviewControllerTest extends ApplicationControllerTest with HtmlSpec {
+  val applicationInReviewController = new ApplicationInReviewControllerImpl
 
   "ApplicationInReviewController" must {
     "implement the correct view" in {
       val deceasedName = "Xyz"
       val request = createFakeRequest()
       implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
-      val pageContent = ApplicationInReviewController.getView("",deceasedName,CommonBuilder.buildProbateDetails)(request, formPartialRetriever).toString
+      val pageContent = applicationInReviewController.getView("",deceasedName,CommonBuilder.buildProbateDetails)(request, formPartialRetriever).toString
       titleShouldBeCorrect(pageContent, messagesApi("page.iht.application.overview.inreview.title", deceasedName))
     }
   }

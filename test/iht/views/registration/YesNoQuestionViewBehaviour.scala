@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,14 +38,14 @@ trait YesNoQuestionViewBehaviour[A] extends RegistrationPageBehaviour[A] {
     }
 
     "show the correct yes/no question text" in {
-      doc.getElementById("yes-label").text shouldBe messagesApi("iht.yes")
-      doc.getElementById("no-label").text shouldBe messagesApi("iht.no")
+      doc.getElementById("yes-label").text mustBe messagesApi("iht.yes")
+      doc.getElementById("no-label").text mustBe messagesApi("iht.no")
     }
 
     "show the Continue button with the correct target" in {
       val continueButton = doc.getElementById("continue-button")
-      continueButton.`val` shouldBe messagesApi("iht.continue")
-      doc.getElementsByTag("form").attr("action") shouldBe CommonBuilder.DefaultCall1.url
+      continueButton.`val` mustBe messagesApi("iht.continue")
+      doc.getElementsByTag("form").attr("action") mustBe CommonBuilder.DefaultCall1.url
     }
   }
 
@@ -53,7 +53,7 @@ trait YesNoQuestionViewBehaviour[A] extends RegistrationPageBehaviour[A] {
     yesNoQuestion()
 
     "show the correct question text" in {
-      doc.getElementById("yes-no-question-legend").text shouldBe questionLegend
+      doc.getElementById("yes-no-question-legend").text mustBe questionLegend
     }
   }
 
@@ -66,12 +66,12 @@ trait YesNoQuestionViewBehaviour[A] extends RegistrationPageBehaviour[A] {
 
     "show the Cancel link with the correct target" in {
       val continueButton = doc.getElementById("continue-button")
-      continueButton.`val` shouldBe messagesApi("iht.continue")
-      doc.getElementsByTag("form").attr("action") shouldBe CommonBuilder.DefaultCall1.url
+      continueButton.`val` mustBe messagesApi("iht.continue")
+      doc.getElementsByTag("form").attr("action") mustBe CommonBuilder.DefaultCall1.url
 
       val cancelLink = doc.getElementById("cancel-button")
-      cancelLink.attr("href") shouldBe CommonBuilder.DefaultCall2.url
-      cancelLink.text() shouldBe messagesApi("site.link.cancel")
+      cancelLink.attr("href") mustBe CommonBuilder.DefaultCall2.url
+      cancelLink.text() mustBe messagesApi("site.link.cancel")
     }
   }
 }

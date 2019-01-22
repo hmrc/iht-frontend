@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.application.assets.properties
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
@@ -27,26 +28,31 @@ import iht.models.application.assets.Property
 import iht.utils._
 import play.api.Logger
 import play.api.mvc.{Call, Request, Result}
-import uk.gov.hmrc.play.frontend.auth.AuthContext
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+
 import scala.concurrent.Future
 import iht.constants.IhtProperties._
+import javax.inject.Inject
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-object PropertyTenureController extends PropertyTenureController with IhtConnectors {
+class PropertyTenureControllerImpl @Inject()() extends PropertyTenureController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait PropertyTenureController extends EstateController {
 
+
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionProperties)
-  val cancelRedirectLocation = routes.PropertiesOverviewController.onPageLoad()
-  val cancelUrl = iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad()
+  lazy val cancelRedirectLocation = routes.PropertiesOverviewController.onPageLoad()
+  lazy val cancelUrl = iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad()
 
   def editCancelUrl(id: String) = iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onEditPageLoad(id)
 
-  val submitUrl = iht.controllers.application.assets.properties.routes.PropertyTenureController.onSubmit()
+  lazy val submitUrl = iht.controllers.application.assets.properties.routes.PropertyTenureController.onSubmit()
 
   def editSubmitUrl(id: String) = iht.controllers.application.assets.properties.routes.PropertyTenureController.onEditSubmit(id)
   def locationAfterSuccessfulSave(id: String) = CommonHelper.addFragmentIdentifier(
@@ -57,77 +63,76 @@ trait PropertyTenureController extends EstateController {
   def cachingConnector: CachingConnector
 
   def onPageLoad = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        withRegistrationDetails { regDetails =>
-          val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
-          Future.successful(Ok(iht.views.html.application.asset.properties.property_tenure(propertyTenureForm,
-            submitUrl,
-            cancelUrl,
-            deceasedName)))
-        }
+    implicit request => {
+      withRegistrationDetails { regDetails =>
+        val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
+        Future.successful(Ok(iht.views.html.application.asset.properties.property_tenure(propertyTenureForm,
+          submitUrl,
+          cancelUrl,
+          deceasedName)))
       }
+    }
   }
 
-  def onEditPageLoad(id: String) = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        withRegistrationDetails { registrationData =>
-          val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationData)
-          for {
-            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(user),
-              CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference),
-              registrationData.acknowledgmentReference)
-          } yield {
-            applicationDetails match {
-              case Some(applicationDetails) => {
-                applicationDetails.propertyList.find(property => property.id.getOrElse("") equals id).fold {
-                  throw new RuntimeException("No Property found for the id")
-                } {
-                  (matchedProperty) =>
-                    Ok(iht.views.html.application.asset.properties.property_tenure(propertyTenureForm.fill(matchedProperty),
-                      editSubmitUrl(id),
-                      editCancelUrl(id),
-                      deceasedName))
-                }
+  def onEditPageLoad(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      withRegistrationDetails { registrationData =>
+        val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationData)
+        for {
+          applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
+            CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference),
+            registrationData.acknowledgmentReference)
+        } yield {
+          applicationDetails match {
+            case Some(applicationDetails) => {
+              applicationDetails.propertyList.find(property => property.id.getOrElse("") equals id).fold {
+                throw new RuntimeException("No Property found for the id")
+              } {
+                (matchedProperty) =>
+                  Ok(iht.views.html.application.asset.properties.property_tenure(propertyTenureForm.fill(matchedProperty),
+                    editSubmitUrl(id),
+                    editCancelUrl(id),
+                    deceasedName))
               }
-              case _ => {
-                Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
-                InternalServerError("No Application Details found")
-              }
+            }
+            case _ => {
+              Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
+              InternalServerError("No Application Details found")
             }
           }
         }
       }
+    }
   }
 
 
-  def onSubmit = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        doSubmit(
-          redirectLocationIfErrors = routes.PropertyTenureController.onSubmit(),
-          submitUrl = submitUrl,
-          cancelUrl = cancelUrl)
-      }
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      doSubmit(
+        redirectLocationIfErrors = routes.PropertyTenureController.onSubmit(),
+        submitUrl = submitUrl,
+        cancelUrl = cancelUrl,
+        userNino)
+    }
   }
 
-  def onEditSubmit(id: String) = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        doSubmit(
-          redirectLocationIfErrors = routes.PropertyTenureController.onEditSubmit(id),
-          submitUrl = editSubmitUrl(id),
-          cancelUrl = editCancelUrl(id),
-          Some(id))
-      }
+  def onEditSubmit(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      doSubmit(
+        redirectLocationIfErrors = routes.PropertyTenureController.onEditSubmit(id),
+        submitUrl = editSubmitUrl(id),
+        cancelUrl = editCancelUrl(id),
+        userNino,
+        Some(id))
+    }
   }
 
   private def doSubmit(redirectLocationIfErrors: Call,
                        submitUrl: Call,
                        cancelUrl: Call,
+                       userNino: Option[String],
                        propertyId: Option[String] = None)(
-                        implicit user: AuthContext, request: Request[_]) = {
+                        implicit request: Request[_]) = {
     withRegistrationDetails { regDetails =>
       val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
       val boundForm = propertyTenureForm.bindFromRequest
@@ -140,7 +145,7 @@ trait PropertyTenureController extends EstateController {
             deceasedName)))
         },
         property => {
-          processSubmit(StringHelper.getNino(user), property, propertyId)
+          processSubmit(StringHelper.getNino(userNino), property, propertyId)
         }
       )
     }
@@ -149,7 +154,7 @@ trait PropertyTenureController extends EstateController {
   def processSubmit(nino: String,
                     property: Property,
                     propertyId: Option[String] = None)(
-                     implicit request: Request[_], hc: HeaderCarrier, user: AuthContext): Future[Result] = {
+                     implicit request: Request[_], hc: HeaderCarrier): Future[Result] = {
 
     withRegistrationDetails { registrationData =>
       val ihtReference = CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference)

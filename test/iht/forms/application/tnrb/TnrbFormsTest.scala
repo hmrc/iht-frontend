@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -136,8 +136,8 @@ class TnrbFormsTest extends FormTestHelper with FakeIhtApp {
     "give no error when a valid first and last name is supplied" in {
       val data = formData("firstName", sampleFirstName, "lastName", sampleLastName)
       val boundModel = formWithNoError(partnerNameForm, data)
-      boundModel.firstName shouldBe Some(sampleFirstName)
-      boundModel.lastName shouldBe Some(sampleLastName)
+      boundModel.firstName mustBe Some(sampleFirstName)
+      boundModel.lastName mustBe Some(sampleLastName)
     }
 
     "give an error when the last name is not supplied" in {

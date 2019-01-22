@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,18 +34,17 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
  */
 class DateOfMarriageControllerTest  extends ApplicationControllerTest{
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def dateOfMarriageController = new DateOfMarriageController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def dateOfMarriageControllerNotAuthorised = new DateOfMarriageController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -55,14 +54,14 @@ class DateOfMarriageControllerTest  extends ApplicationControllerTest{
 
     "redirect to login page onPageLoad if the user is not logged in" in {
       val result = dateOfMarriageController.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to ida login page on Submit if the user is not logged in" in {
       val result = dateOfMarriageController.onSubmit(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
@@ -75,7 +74,7 @@ class DateOfMarriageControllerTest  extends ApplicationControllerTest{
         saveAppDetails = true)
 
       val result = dateOfMarriageController.onPageLoad (createFakeRequest())
-      status(result) shouldBe OK
+      status(result) mustBe OK
     }
 
     "respond with Bad Request when input is not valid" in {
@@ -93,7 +92,7 @@ class DateOfMarriageControllerTest  extends ApplicationControllerTest{
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDateOfMarriageValueForm.data.toSeq: _*)
 
       val result = dateOfMarriageController.onSubmit (request)
-      status(result) shouldBe BAD_REQUEST
+      status(result) mustBe BAD_REQUEST
     }
 
     "respond with Bad Request when date of marriage is after predeceased date of death" in {
@@ -112,7 +111,7 @@ class DateOfMarriageControllerTest  extends ApplicationControllerTest{
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDateOfMarriageValueForm.data.toSeq: _*)
 
       val result = dateOfMarriageController.onSubmit (request)
-      status(result) shouldBe BAD_REQUEST
+      status(result) mustBe BAD_REQUEST
     }
 
     "save application and go to Tnrb Overview page on submit" in {
@@ -130,8 +129,8 @@ class DateOfMarriageControllerTest  extends ApplicationControllerTest{
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filleDateOfMarriageValueForm.data.toSeq: _*)
 
       val result = dateOfMarriageController.onSubmit (request)
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + TnrbSpouseDateOfMarriageID))
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + TnrbSpouseDateOfMarriageID))
     }
 
     "go to successful Tnrb page on submit when its satisfies happy path" in {
@@ -152,8 +151,8 @@ class DateOfMarriageControllerTest  extends ApplicationControllerTest{
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filleDateOfMarriageValueForm.data.toSeq: _*)
 
       val result = dateOfMarriageController.onSubmit (request)
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be(Some(routes.TnrbSuccessController.onPageLoad().url))
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad().url))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

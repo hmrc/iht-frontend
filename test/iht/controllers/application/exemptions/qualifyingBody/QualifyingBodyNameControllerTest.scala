@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,8 +33,7 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
  */
 
 class QualifyingBodyNameControllerTest extends ApplicationControllerTest with BeforeAndAfter {
-  val mockCachingConnector = mock[CachingConnector]
-  var mockIhtConnector = mock[IhtConnector]
+
   val QualifyingBody1Name = "Qualifying Body 1"
   val QualifyingBody2Name = "Qualifying Body 2"
   val QualifyingBodyNameAtLengthBoundary = "a" * 35
@@ -44,19 +43,17 @@ class QualifyingBodyNameControllerTest extends ApplicationControllerTest with Be
   val qualifyingBody2 = QualifyingBody(Some("2"), Some(QualifyingBody2Name), Some(QualifyingBody2Value))
   val referrerURL = "localhost:9070"
 
-  before {
-    mockIhtConnector = mock[IhtConnector]
-  }
+
 
   def qualifyingBodyNameController = new QualifyingBodyNameController {
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def qualifyingBodyNameControllerNotAuthorised = new QualifyingBodyNameController {
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -83,16 +80,16 @@ class QualifyingBodyNameControllerTest extends ApplicationControllerTest with Be
   }
 
   lazy val resultOnPageLoadNotAuthorised =
-    qualifyingBodyNameControllerNotAuthorised.onPageLoad(createFakeRequest())
+    qualifyingBodyNameControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
   def resultOnEditPageLoadNotAuthorised(id: String) =
-    qualifyingBodyNameControllerNotAuthorised.onEditPageLoad(id)(createFakeRequest())
+    qualifyingBodyNameControllerNotAuthorised.onEditPageLoad(id)(createFakeRequest(isAuthorised = false))
   def resultOnSubmitNotAuthorised(request: Request[AnyContentAsFormUrlEncoded])=
     qualifyingBodyNameControllerNotAuthorised.onSubmit(request)
   def resultOnEditSubmitNotAuthorised(id: String) =
-    qualifyingBodyNameControllerNotAuthorised.onEditSubmit(id)(createFakeRequest())
+    qualifyingBodyNameControllerNotAuthorised.onEditSubmit(id)(createFakeRequest(isAuthorised = false))
 
   lazy val resultOnPageLoad =
-    qualifyingBodyNameController.onPageLoad(createFakeRequest())
+    qualifyingBodyNameController.onPageLoad(createFakeRequest(authRetrieveNino = false))
   def resultOnEditPageLoad(id: String) =
     qualifyingBodyNameController.onEditPageLoad(id)(createFakeRequest())
   def resultOnSubmit(request: Request[AnyContentAsFormUrlEncoded]) =
@@ -106,30 +103,30 @@ class QualifyingBodyNameControllerTest extends ApplicationControllerTest with Be
   "QualifyingBodyNameControllerTest" must {
 
     "redirect to log in page onPageLoad if user is not logged in" in {
-      status(resultOnPageLoadNotAuthorised) should be(SEE_OTHER)
-      redirectLocation(resultOnPageLoadNotAuthorised) should be(Some(loginUrl))
+      status(resultOnPageLoadNotAuthorised) must be(SEE_OTHER)
+      redirectLocation(resultOnPageLoadNotAuthorised) must be(Some(loginUrl))
     }
 
     "redirect to log in page onEditPageLoad if user is not logged in" in {
-      status(resultOnEditPageLoadNotAuthorised("1")) should be(SEE_OTHER)
-      redirectLocation(resultOnEditPageLoadNotAuthorised("1")) should be(Some(loginUrl))
+      status(resultOnEditPageLoadNotAuthorised("1")) must be(SEE_OTHER)
+      redirectLocation(resultOnEditPageLoadNotAuthorised("1")) must be(Some(loginUrl))
     }
 
     "redirect to log in page onSubmit if user is not logged in" in {
-      status(resultOnSubmitNotAuthorised(createFakeRequest().withFormUrlEncodedBody((
-        "totalValue", "101.00")))) should be(SEE_OTHER)
-      redirectLocation(resultOnSubmitNotAuthorised(createFakeRequest().withFormUrlEncodedBody((
-        "totalValue", "101.00")))) should be(Some(loginUrl))
+      status(resultOnSubmitNotAuthorised(createFakeRequest(isAuthorised = false).withFormUrlEncodedBody((
+        "totalValue", "101.00")))) must be(SEE_OTHER)
+      redirectLocation(resultOnSubmitNotAuthorised(createFakeRequest(isAuthorised = false).withFormUrlEncodedBody((
+        "totalValue", "101.00")))) must be(Some(loginUrl))
     }
 
     "redirect to log in page onEditSubmit if user is not logged in" in {
-      status(resultOnEditSubmitNotAuthorised("1")) should be(SEE_OTHER)
-      redirectLocation(resultOnEditSubmitNotAuthorised("1")) should be(Some(loginUrl))
+      status(resultOnEditSubmitNotAuthorised("1")) must be(SEE_OTHER)
+      redirectLocation(resultOnEditSubmitNotAuthorised("1")) must be(Some(loginUrl))
     }
 
     "return OK onPageLoad" in {
       createMocksForQualifyingBodyName
-      status(resultOnPageLoad) should be(OK)
+      status(resultOnPageLoad) must be(OK)
     }
 
     "display errors when a blank value is submitted" in {
@@ -137,8 +134,8 @@ class QualifyingBodyNameControllerTest extends ApplicationControllerTest with Be
       implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("name", ""))
       val result = resultOnSubmit(fakePostRequest)
 
-      status(result) shouldBe BAD_REQUEST
-      contentAsString(result) should include("a problem")
+      status(result) mustBe BAD_REQUEST
+      contentAsString(result) must include("a problem")
     }
 
     "save new value with new ID to application details onSubmit where exactly 36 characters in length and redirect to QB detail overview" in {
@@ -146,11 +143,11 @@ class QualifyingBodyNameControllerTest extends ApplicationControllerTest with Be
       implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("name", QualifyingBodyNameAtLengthBoundary))
       val result = resultOnSubmit(fakePostRequest)
 
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) shouldBe Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onEditPageLoad("2").url)
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) mustBe Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onEditPageLoad("2").url)
       val appDetails = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
-      appDetails.qualifyingBodies.size shouldBe 2
-      appDetails.qualifyingBodies.tail.head shouldBe QualifyingBody(Some("2"), Some(QualifyingBodyNameAtLengthBoundary), None)
+      appDetails.qualifyingBodies.size mustBe 2
+      appDetails.qualifyingBodies.tail.head mustBe QualifyingBody(Some("2"), Some(QualifyingBodyNameAtLengthBoundary), None)
     }
 
     "save new value with new ID to application details onSubmit and redirect to QB detail overview" in {
@@ -158,16 +155,16 @@ class QualifyingBodyNameControllerTest extends ApplicationControllerTest with Be
       implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("name", QualifyingBody1Name))
       val result = resultOnSubmit(fakePostRequest)
 
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) shouldBe Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onEditPageLoad("2").url)
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) mustBe Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onEditPageLoad("2").url)
       val appDetails = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
-      appDetails.qualifyingBodies.size shouldBe 2
-      appDetails.qualifyingBodies.tail.head shouldBe QualifyingBody(Some("2"), Some(QualifyingBody1Name), None)
+      appDetails.qualifyingBodies.size mustBe 2
+      appDetails.qualifyingBodies.tail.head mustBe QualifyingBody(Some("2"), Some(QualifyingBody1Name), None)
     }
 
     "display previously entered value on EditPageLoad" in {
       createMocksForQualifyingBodyName
-      contentAsString(resultOnEditPageLoad("1")) should include(QualifyingBody1Name)
+      contentAsString(resultOnEditPageLoad("1")) must include(QualifyingBody1Name)
     }
 
     "amend existing value with ID 1 in application details onEditSubmit and redirect to QB detail overview" in {
@@ -175,11 +172,11 @@ class QualifyingBodyNameControllerTest extends ApplicationControllerTest with Be
       implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("name", QualifyingBody2Name))
       val result = resultOnEditSubmit("1")(fakePostRequest)
 
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) shouldBe Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onEditPageLoad("1").url)
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) mustBe Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onEditPageLoad("1").url)
       val appDetails = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
-      appDetails.qualifyingBodies.size shouldBe 2
-      appDetails.qualifyingBodies.head shouldBe QualifyingBody(Some("1"), Some(QualifyingBody2Name), Some(QualifyingBody1Value))
+      appDetails.qualifyingBodies.size mustBe 2
+      appDetails.qualifyingBodies.head mustBe QualifyingBody(Some("1"), Some(QualifyingBody2Name), Some(QualifyingBody1Value))
     }
 
     "amend existing value with ID 2 in application details onEditSubmit and redirect to QB detail overview" in {
@@ -187,21 +184,21 @@ class QualifyingBodyNameControllerTest extends ApplicationControllerTest with Be
       implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("name", QualifyingBody1Name))
       val result = resultOnEditSubmit("2")(fakePostRequest)
 
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) shouldBe Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onEditPageLoad("2").url)
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) mustBe Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onEditPageLoad("2").url)
       val appDetails = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
-      appDetails.qualifyingBodies.size shouldBe 2
-      appDetails.qualifyingBodies.tail.head shouldBe QualifyingBody(Some("2"), Some(QualifyingBody1Name), Some(QualifyingBody2Value))
+      appDetails.qualifyingBodies.size mustBe 2
+      appDetails.qualifyingBodies.tail.head mustBe QualifyingBody(Some("2"), Some(QualifyingBody1Name), Some(QualifyingBody2Value))
     }
 
     "return an internal server error if onPageLoad for invalid ID is entered" in {
       createMocksForQualifyingBodyName
-      a[RuntimeException] shouldBe thrownBy {
+      a[RuntimeException] mustBe thrownBy {
        await(resultOnEditPageLoad("10"))
       }
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
-      qualifyingBodyNameController.onPageLoad(createFakeRequest()))
+      qualifyingBodyNameController.onPageLoad(createFakeRequest(authRetrieveNino = false)))
   }
 }

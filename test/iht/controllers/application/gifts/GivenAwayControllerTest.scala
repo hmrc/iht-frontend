@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,8 +34,7 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class GivenAwayControllerTest  extends ApplicationControllerTest{
 
-  val mockCachingConnector = mock[CachingConnector]
-  var mockIhtConnector = mock[IhtConnector]
+
 
   val allGifts=CommonBuilder.buildAllGifts
   val applicationDetails=CommonBuilder.buildApplicationDetails copy (allGifts = Some(allGifts))
@@ -55,35 +54,33 @@ class GivenAwayControllerTest  extends ApplicationControllerTest{
   }
 
   def givenAwayController = new GivenAwayController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def givenAwayControllerNotAuthorised = new GivenAwayController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  before {
-    mockIhtConnector = mock[IhtConnector]
-  }
+
 
   "GivenAwayController" must {
 
     "redirect to login page onPageLoad if the user is not logged in" in {
       val result = givenAwayController.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to ida login page on Submit if the user is not logged in" in {
       val result = givenAwayControllerNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
@@ -91,7 +88,7 @@ class GivenAwayControllerTest  extends ApplicationControllerTest{
 
       setUpMocks(applicationDetails)
       val result = givenAwayController.onPageLoad (createFakeRequest())
-      status(result) shouldBe OK
+      status(result) mustBe OK
     }
 
     "save application and go to Gifts Overview page on submit if answered Yes" in {
@@ -105,7 +102,7 @@ class GivenAwayControllerTest  extends ApplicationControllerTest{
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGivenAwayForm.data.toSeq: _*)
 
       val result = givenAwayController.onSubmit (request)
-      status(result) shouldBe SEE_OTHER
+      status(result) mustBe SEE_OTHER
     }
 
     "save application and go to Gifts Overview page on submit if answered No" in {
@@ -119,7 +116,7 @@ class GivenAwayControllerTest  extends ApplicationControllerTest{
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGivenAwayForm.data.toSeq: _*)
 
       val result = givenAwayController.onSubmit (request)
-      status(result) shouldBe SEE_OTHER
+      status(result) mustBe SEE_OTHER
     }
 
     "save application, reset 7 years gifts values to none and go to Gifts Overview page on submit if answered No" in {
@@ -136,12 +133,12 @@ class GivenAwayControllerTest  extends ApplicationControllerTest{
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGivenAwayForm.data.toSeq: _*)
 
       val result = givenAwayController.onSubmit (request)
-      status(result) shouldBe SEE_OTHER
+      status(result) mustBe SEE_OTHER
 
       val capturedValue = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
       val expectedAppDetails = applicationDetails.copy(giftsList = None)
 
-      capturedValue shouldBe expectedAppDetails
+      capturedValue mustBe expectedAppDetails
     }
 
     "display error if user submit the page without selecting the answer " in {
@@ -160,7 +157,7 @@ class GivenAwayControllerTest  extends ApplicationControllerTest{
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGivenAwayForm.data.toSeq: _*)
 
       val result = givenAwayController.onSubmit()(request)
-      status(result) should be (BAD_REQUEST)
+      status(result) must be (BAD_REQUEST)
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

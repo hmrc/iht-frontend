@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,9 +36,8 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class StocksAndSharesListedControllerTest extends ApplicationControllerTest {
 
-  val mockCachingConnector = mock[CachingConnector]
-  var mockIhtConnector = mock[IhtConnector]
-  lazy val submitUrl = CommonHelper.addFragmentIdentifierToUrl(routes.StocksAndSharesOverviewController.onPageLoad().url, AssetsStocksListedID)
+
+  val submitUrl = CommonHelper.addFragmentIdentifierToUrl(routes.StocksAndSharesOverviewController.onPageLoad().url, AssetsStocksListedID)
 
 
   def setUpTests(applicationDetails: ApplicationDetails) = {
@@ -51,42 +50,40 @@ class StocksAndSharesListedControllerTest extends ApplicationControllerTest {
   }
 
   def stocksAndSharesListedController = new StocksAndSharesListedController {
-    val authConnector = createFakeAuthConnector(isAuthorised = true)
+    val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def stocksAndSharesListedControllerNotAuthorised = new StocksAndSharesListedController {
-    val authConnector = createFakeAuthConnector(isAuthorised = false)
+    val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  before {
-    mockIhtConnector = mock[IhtConnector]
-  }
+
 
   "StocksAndSharesListedController" must {
 
     "redirect to login page on PageLoad if the user is not logged in" in {
-      val result = stocksAndSharesListedControllerNotAuthorised.onPageLoad(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      val result = stocksAndSharesListedControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to login page on Submit if the user is not logged in" in {
-      val result = stocksAndSharesListedControllerNotAuthorised.onSubmit(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      val result = stocksAndSharesListedControllerNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
       setUpTests(applicationDetails)
       val result = stocksAndSharesListedController.onPageLoad(createFakeRequest())
-      status(result) should be(OK)
+      status(result) must be(OK)
     }
 
     "save application and go to stocksAndShares overview page on submit" in {
@@ -97,8 +94,8 @@ class StocksAndSharesListedControllerTest extends ApplicationControllerTest {
       setUpTests(applicationDetails)
 
       val result = stocksAndSharesListedController.onSubmit()(request)
-      status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(submitUrl))
+      status(result) must be (SEE_OTHER)
+      redirectLocation(result) must be (Some(submitUrl))
     }
 
     "wipe out the sharesListed value if user selects No, save application and " +
@@ -115,14 +112,14 @@ class StocksAndSharesListedControllerTest extends ApplicationControllerTest {
       setUpTests(applicationDetails)
 
       val result = stocksAndSharesListedController.onSubmit()(request)
-      status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(submitUrl))
+      status(result) must be (SEE_OTHER)
+      redirectLocation(result) must be (Some(submitUrl))
 
       val capturedValue = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
       val expectedAppDetails = applicationDetails.copy(allAssets = applicationDetails.allAssets.map(_.copy(
         stockAndShare = Some(CommonBuilder.buildStockAndShare.copy(valueListed = None, isListed = Some(false))))))
 
-      capturedValue shouldBe expectedAppDetails
+      capturedValue mustBe expectedAppDetails
     }
 
     "display validation message when form is submitted with no values entered" in {
@@ -132,8 +129,8 @@ class StocksAndSharesListedControllerTest extends ApplicationControllerTest {
       setUpTests(applicationDetails)
 
       val result = stocksAndSharesListedController.onSubmit()(request)
-      status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include (messagesApi("error.problem"))
+      status(result) must be (BAD_REQUEST)
+      contentAsString(result) must include (messagesApi("error.problem"))
     }
 
     "redirect to overview when form is submitted with answer yes and a value entered" in {
@@ -143,8 +140,8 @@ class StocksAndSharesListedControllerTest extends ApplicationControllerTest {
       setUpTests(applicationDetails)
 
       val result = stocksAndSharesListedController.onSubmit()(request)
-      status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(submitUrl))
+      status(result) must be (SEE_OTHER)
+      redirectLocation(result) must be (Some(submitUrl))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
@@ -153,7 +150,7 @@ class StocksAndSharesListedControllerTest extends ApplicationControllerTest {
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = stocksAndSharesListedController.onSubmit (fakePostRequest)
-      status(result) shouldBe (BAD_REQUEST)
+      status(result) mustBe (BAD_REQUEST)
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
