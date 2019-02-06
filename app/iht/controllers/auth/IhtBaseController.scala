@@ -20,10 +20,9 @@ import iht.config.ApplicationConfig
 import iht.utils.{AuthHelper, IhtSection}
 import play.api.Logger
 import play.api.mvc.{Action, AnyContent, Request, Result}
-import uk.gov.hmrc.auth.core.AuthProvider.GovernmentGateway
 import uk.gov.hmrc.auth.core.authorise.Predicate
 import uk.gov.hmrc.auth.core.retrieve.Retrieval
-import uk.gov.hmrc.auth.core.{AffinityGroup, AuthProviders, AuthorisationException, AuthorisedFunctions, ConfidenceLevel, InsufficientConfidenceLevel}
+import uk.gov.hmrc.auth.core.{AffinityGroup, AuthorisationException, AuthorisedFunctions, ConfidenceLevel, InsufficientConfidenceLevel}
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 
 import scala.concurrent.Future
@@ -35,7 +34,8 @@ trait IhtBaseController extends FrontendController with AuthorisedFunctions with
   protected val ihtSection: IhtSection.Value
   protected lazy val confidenceLevel: Int = ApplicationConfig.ivUpliftConfidenceLevel
 
-  private lazy val predicate: Predicate = AuthProviders(GovernmentGateway) and AffinityGroup.Individual and ConfidenceLevel.fromInt(confidenceLevel).get
+  private lazy val predicate: Predicate = AffinityGroup.Individual and ConfidenceLevel.fromInt(confidenceLevel).get
+
   private def handleAuthErrors(implicit request: Request[_]): PartialFunction[Throwable, Result] = {
     case e: InsufficientConfidenceLevel =>
       Logger.info(s"Insufficient confidence level user attempting to access ${request.path} redirecting to IV uplift : ${e.getMessage}")
