@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -105,15 +105,15 @@ class DeleteCoExecutorConfirmViewTest extends ViewTestHelper{
       val view = deleteCoExecutorUKAddressConfirmView().toString
 
       val button = asDocument(view).getElementById("confirm-delete")
-      button.attr("value") shouldBe messagesApi("site.button.confirmDelete")
+      button.attr("value") mustBe messagesApi("site.button.confirmDelete")
     }
 
     "show the cancel link with correct text" in {
       val view = deleteCoExecutorUKAddressConfirmView().toString
 
       val link = asDocument(view).getElementById("cancel")
-      link.text() shouldBe messagesApi("site.link.cancel")
-      link.attr("href") shouldBe
+      link.text() mustBe messagesApi("site.link.cancel")
+      link.attr("href") mustBe
         iht.controllers.registration.executor.routes.ExecutorOverviewController.onPageLoad().url
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package iht.controllers
 
 import iht.connector.ExplicitAuditConnector
 import iht.constants.{Constants, IhtProperties}
-import iht.controllers.auth.IhtActions
+import iht.controllers.auth.IhtBaseController
 import iht.events.QuestionnaireEvent
 import iht.forms.QuestionnaireForms._
 import iht.models.QuestionnaireModel
@@ -28,7 +28,7 @@ import play.api.mvc._
 import play.twirl.api.HtmlFormat.Appendable
 import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
 
-trait QuestionnaireController extends FrontendController with IhtActions {
+trait QuestionnaireController extends FrontendController with IhtBaseController {
 
   def explicitAuditConnector: ExplicitAuditConnector = ExplicitAuditConnector
 

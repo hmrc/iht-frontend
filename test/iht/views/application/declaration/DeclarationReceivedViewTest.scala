@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,8 +63,8 @@ class DeclarationReceivedViewTest extends ViewTestHelper {
     "show the continue to Inheritance Tax estate reports link" in {
       val view = declarationReceivedView()
       val continue = view.getElementById("continue-to-probate-page")
-      continue.attr("href") shouldBe iht.controllers.application.declaration.routes.ProbateApplicationFormDetailsController.onPageLoad().url
-      continue.text() shouldBe messagesApi("page.iht.application.declaration_received.continue")
+      continue.attr("href") mustBe iht.controllers.application.declaration.routes.ProbateApplicationFormDetailsController.onPageLoad().url
+      continue.text() mustBe messagesApi("page.iht.application.declaration_received.continue")
     }
   }
 

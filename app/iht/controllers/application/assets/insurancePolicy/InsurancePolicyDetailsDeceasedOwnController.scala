@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,36 +16,40 @@
 
 package iht.controllers.application.assets.insurancePolicy
 
+import iht.config.FrontendAuthConnector
 import iht.connector.IhtConnectors
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
-import iht.utils.ApplicationKickOutHelper
+import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_deceased_own
-import play.api.i18n.Messages.Implicits._
+import javax.inject.Inject
 import play.api.Play.current
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
-import iht.utils.CommonHelper
+import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-object InsurancePolicyDetailsDeceasedOwnController extends InsurancePolicyDetailsDeceasedOwnController with IhtConnectors {
+class InsurancePolicyDetailsDeceasedOwnControllerImpl @Inject()() extends InsurancePolicyDetailsDeceasedOwnController with IhtConnectors {
   def metrics : Metrics = Metrics
 }
 
 trait InsurancePolicyDetailsDeceasedOwnController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsInsurancePoliciesOwnedByDeceased)
 
-  def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
+
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
       estateElementOnPageLoad[InsurancePolicy](insurancePolicyDeceasedOwnQuestionForm, insurance_policy_details_deceased_own.apply,
-        _.allAssets.flatMap(_.insurancePolicy))
+        _.allAssets.flatMap(_.insurancePolicy), userNino)
     }
   }
 
-  def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
       val updateApplicationDetails: (ApplicationDetails, Option[String], InsurancePolicy) =>
         (ApplicationDetails, Option[String]) =
         (appDetails, _, insurancePolicy) => {
@@ -60,7 +64,8 @@ trait InsurancePolicyDetailsDeceasedOwnController extends EstateController {
         insurancePolicyDeceasedOwnQuestionForm,
         insurance_policy_details_deceased_own.apply,
         updateApplicationDetails,
-        CommonHelper.addFragmentIdentifier(insurancePoliciesRedirectLocation, Some(InsurancePayingToDeceasedYesNoID))
+        CommonHelper.addFragmentIdentifier(insurancePoliciesRedirectLocation, Some(InsurancePayingToDeceasedYesNoID)),
+        userNino
       )
     }
   }

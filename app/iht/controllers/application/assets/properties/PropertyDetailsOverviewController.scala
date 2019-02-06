@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,72 +16,76 @@
 
 package iht.controllers.application.assets.properties
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.controllers.application.EstateController
 import iht.metrics.Metrics
 import iht.utils.{CommonHelper, DeceasedInfoHelper, StringHelper}
+import javax.inject.Inject
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
 import scala.concurrent.Future
 
 /**
   * Created by james on 16/06/16.
   */
-object PropertyDetailsOverviewController extends PropertyDetailsOverviewController with IhtConnectors {
+class PropertyDetailsOverviewControllerImpl @Inject()() extends PropertyDetailsOverviewController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait PropertyDetailsOverviewController extends EstateController {
+
 
   def ihtConnector: IhtConnector
 
   def cachingConnector: CachingConnector
 
   def onPageLoad = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        withRegistrationDetails { registrationDetails =>
-          val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)
-          Future.successful(Ok(iht.views.html.application.asset.properties.property_details_overview(deceasedName)))
-        }
+    implicit request => {
+      withRegistrationDetails { registrationDetails =>
+        val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)
+        Future.successful(Ok(iht.views.html.application.asset.properties.property_details_overview(deceasedName)))
       }
+    }
   }
 
-  def onEditPageLoad(propertyId: String) = authorisedForIht {
-    implicit user =>
-      implicit request => {
+  def onEditPageLoad(propertyId: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
 
-        withRegistrationDetails { registrationDetails =>
-          val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)
+      withRegistrationDetails { registrationDetails =>
+        val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)
 
-          for {
-            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(user),
-              CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-              registrationDetails.acknowledgmentReference)
-          } yield {
-            applicationDetails match {
-              case Some(applicationDetails) => {
-                applicationDetails.propertyList.find(property => property.id.getOrElse("") equals propertyId).fold {
-                  Logger.info(s"User attempted to navigate to property details of non-existent property (id $propertyId)")
-                  Redirect(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad())
-                } {
-                  (matchedProperty) =>
-                    Ok(iht.views.html.application.asset.properties.property_details_overview(
-                      deceasedName,
-                      Some(matchedProperty)
-                    ))
-                }
+        for {
+          applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
+            CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+            registrationDetails.acknowledgmentReference)
+        } yield {
+          applicationDetails match {
+            case Some(applicationDetails) => {
+              applicationDetails.propertyList.find(property => property.id.getOrElse("") equals propertyId).fold {
+                Logger.info(s"User attempted to navigate to property details of non-existent property (id $propertyId)")
+                Redirect(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad())
+              } {
+                (matchedProperty) =>
+                  Ok(iht.views.html.application.asset.properties.property_details_overview(
+                    deceasedName,
+                    Some(matchedProperty)
+                  ))
               }
-              case _ => {
-                Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
-                InternalServerError("No Application Details found")
-              }
+            }
+            case _ => {
+              Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
+              InternalServerError("No Application Details found")
             }
           }
         }
       }
+    }
   }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,17 +26,10 @@ import play.api.test.Helpers._
 
 class TestOnlyControllerTest extends ApplicationControllerTest with BeforeAndAfter {
 
-  val mockCachingConnector = mock[CachingConnector]
-  var mockIhtConnector:IhtConnector = mock[IhtConnector]
-
-  before {
-    mockIhtConnector = mock[IhtConnector]
-  }
-
   def testOnlyController = new TestOnlyController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
 
   }
 
@@ -51,8 +44,8 @@ class TestOnlyControllerTest extends ApplicationControllerTest with BeforeAndAft
       val result = await(testOnlyController.fillApplication(createFakeRequest(isAuthorised = true)))
       val expectedAppDetailsBeforeSave = AssetsWithAllSectionsSetToNoBuilder.buildApplicationDetails
       val appDetailsBeforeSave: ApplicationDetails = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
-      status(result) shouldBe OK
-      appDetailsBeforeSave shouldBe expectedAppDetailsBeforeSave
+      status(result) mustBe OK
+      appDetailsBeforeSave mustBe expectedAppDetailsBeforeSave
     }
 
   }

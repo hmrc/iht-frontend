@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.application.tnrb
 
+import iht.config.AppConfig
 import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
@@ -30,25 +31,28 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import javax.inject.Inject
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-
-object PartnerNameController extends PartnerNameController with IhtConnectors {
+class PartnerNameControllerImpl @Inject()() extends PartnerNameController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait PartnerNameController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
-  val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
+  lazy val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
-  def onPageLoad = authorisedForIht {
-    implicit user =>
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+
       implicit request => {
         withRegistrationDetails { registrationDetails =>
           for {
-            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(user),
+            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
               CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
               registrationDetails.acknowledgmentReference)
           } yield {
@@ -72,11 +76,11 @@ trait PartnerNameController extends EstateController {
       }
   }
 
-  def onSubmit = authorisedForIht {
-    implicit user =>
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+
       implicit request => {
         withRegistrationDetails { regDetails =>
-          val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(user),
+          val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(userNino),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
@@ -90,7 +94,7 @@ trait PartnerNameController extends EstateController {
                     CommonHelper.getOrException(appDetails.widowCheck).dateOfPreDeceased, cancelUrl)))
                 },
                 tnrbModel => {
-                  saveApplication(StringHelper.getNino(user), tnrbModel, appDetails, regDetails)
+                  saveApplication(StringHelper.getNino(userNino), tnrbModel, appDetails, regDetails)
                 }
               )
             }

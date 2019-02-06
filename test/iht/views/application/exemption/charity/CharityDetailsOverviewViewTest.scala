@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,17 +54,17 @@ trait CharityDetailsOverviewViewBehaviour extends GenericNonSubmittablePageBehav
                                           expectedAttributeValue: => String,
                                           expectedLinkText: => String) = {
     s"show attribute number ${rowNo + 1} name" in {
-      tableCell(doc, propertyAttributesTableId, 0, rowNo).text shouldBe expectedAttributeName
+      tableCell(doc, propertyAttributesTableId, 0, rowNo).text mustBe expectedAttributeName
     }
 
     s"show attribute number ${rowNo + 1} value" in {
-      tableCell(doc, propertyAttributesTableId, 1, rowNo).text shouldBe expectedAttributeValue
+      tableCell(doc, propertyAttributesTableId, 1, rowNo).text mustBe expectedAttributeValue
     }
 
     s"show attribute number ${rowNo + 1} change link" in {
       val changeDiv = tableCell(doc, propertyAttributesTableId, 2, rowNo)
       val anchor = changeDiv.getElementsByTag("a").first
-      getVisibleText(anchor) shouldBe messagesApi(expectedLinkText)
+      getVisibleText(anchor) mustBe messagesApi(expectedLinkText)
     }
   }
 }
@@ -78,19 +78,19 @@ class CharityDetailsOverviewViewTest extends CharityDetailsOverviewViewBehaviour
 
     behave like propertyAttributeWithValueAndChange(0,
       messagesApi("iht.estateReport.exemptions.charities.charityName.title"),
-      CommonBuilder.charity.map(_.name).fold("")(identity),
+      CommonBuilder.charity.name.fold("")(identity),
       messagesApi("iht.change")
     )
 
     behave like propertyAttributeWithValueAndChange(1,
       messagesApi("iht.estateReport.exemptions.charities.registeredCharityNo"),
-      getOrException(CommonBuilder.charity.map(_.number)),
+      getOrException(CommonBuilder.charity.number),
       messagesApi("iht.change")
     )
 
     behave like propertyAttributeWithValueAndChange(2,
       messagesApi("iht.estateReport.exemptions.charities.totalValueOfAssetsCharityReceived"),
-      CommonBuilder.currencyValue(getOrException(CommonBuilder.charity.map(_.totalValue))),
+      CommonBuilder.currencyValue(getOrException(CommonBuilder.charity.totalValue)),
       messagesApi("iht.change")
     )
   }

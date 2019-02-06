@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,8 +53,8 @@ class InsurancePolicyDetailsGuidanceViewTest extends ApplicationPageBehaviour {
 
     "show the return link with to the gifts" in {
       val giftsButton = doc.getElementById("return-button-gifts")
-      giftsButton.attr("href") shouldBe giftsLocation.url
-      giftsButton.text() shouldBe messagesApi("site.link.go.to.gifts", deceasedName)
+      giftsButton.attr("href") mustBe giftsLocation.url
+      giftsButton.text() mustBe messagesApi("site.link.go.to.gifts", deceasedName)
     }
   }
 }

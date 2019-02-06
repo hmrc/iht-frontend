@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,8 +34,7 @@ import uk.gov.hmrc.http.HeaderCarrier
   */
 trait PropertyDetailsOverviewControllerBehaviour extends ApplicationControllerTest {
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails copy(
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails), ihtReference = Some("AbC123"))
@@ -44,7 +43,7 @@ trait PropertyDetailsOverviewControllerBehaviour extends ApplicationControllerTe
 
   def propertyDetailsOverviewController = new PropertyDetailsOverviewController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -52,7 +51,7 @@ trait PropertyDetailsOverviewControllerBehaviour extends ApplicationControllerTe
 
   def propertyDetailsOverviewControllerNotAuthorised = new PropertyDetailsOverviewController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -67,59 +66,61 @@ trait PropertyDetailsOverviewControllerBehaviour extends ApplicationControllerTe
 
   def pageLoad(request: Request[_]): Future[Result]
 
+  class Setup {
+    createMocksForApplication(mockCachingConnector,
+      mockIhtConnector,
+      regDetails = regDetails,
+      appDetails = Some(applicationDetails),
+      getAppDetails = true,
+      saveAppDetails = true,
+      storeAppDetailsInCache = true)
+  }
+
   "Property details overview controller" must {
 
-    "return OK on page load" in {
-
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        regDetails = regDetails,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails = true,
-        storeAppDetailsInCache = true)
-
+    "return OK on page load" in new Setup {
       val result = pageLoad(createFakeRequest())
-      status(result) should be(OK)
+      status(result) must be(OK)
     }
 
-    "display the page title on page load" in {
-      val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("iht.estateReport.assets.propertyAdd"))
+    "display the page title on page load" in new Setup {
+
+      val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      status(result) must be(OK)
+      contentAsString(result) must include(messagesApi("iht.estateReport.assets.propertyAdd"))
     }
 
-    "display property address details question on page" in {
-      val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("iht.estateReport.assets.property.whatIsAddress.question"))
+    "display property address details question on page" in new Setup {
+      val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      status(result) must be(OK)
+      contentAsString(result) must include(messagesApi("iht.estateReport.assets.property.whatIsAddress.question"))
     }
 
-    "display kind of property question on page" in {
-      val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("iht.estateReport.assets.properties.whatKind.question"))
+    "display kind of property question on page" in new Setup {
+      val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      status(result) must be(OK)
+      contentAsString(result) must include(messagesApi("iht.estateReport.assets.properties.whatKind.question"))
     }
 
-    "display how the property was owned question on the page" in {
-      val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.assets.howOwnedByDeceased", deceasedName))
+    "display how the property was owned question on the page" in new Setup {
+      val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      status(result) must be(OK)
+      ContentChecker.stripLineBreaks(contentAsString(result)) must include(messagesApi("iht.estateReport.assets.howOwnedByDeceased", deceasedName))
     }
 
-    "display freehold leasehold question on page" in {
-      val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("iht.estateReport.assets.properties.freeholdOrLeasehold"))
+    "display freehold leasehold question on page" in new Setup {
+      val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      status(result) must be(OK)
+      contentAsString(result) must include(messagesApi("iht.estateReport.assets.properties.freeholdOrLeasehold"))
     }
 
-    "display value of property question on the page" in {
-      val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
+    "display value of property question on the page" in new Setup {
+      val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      status(result) must be(OK)
+      ContentChecker.stripLineBreaks(contentAsString(result)) must include(messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
     }
 
-    "redirect to properties overview when onEditPageLoad is called with a property ID that does not exist" in {
+    "redirect to properties overview when onEditPageLoad is called with a property ID that does not exist" in new Setup {
       val appDetails = CommonBuilder.buildApplicationDetails
 
       createMocksForApplication(mockCachingConnector,
@@ -131,16 +132,16 @@ trait PropertyDetailsOverviewControllerBehaviour extends ApplicationControllerTe
         storeAppDetailsInCache = true)
 
       val result = propertyDetailsOverviewController.onEditPageLoad("1")(createFakeRequest())
-      status(result) should be(SEE_OTHER)
+      status(result) must be(SEE_OTHER)
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
-      propertyDetailsOverviewController.onPageLoad(createFakeRequest()))
+      propertyDetailsOverviewController.onPageLoad(createFakeRequest(authRetrieveNino = false)))
   }
 }
 
 class PropertyDetailsOverviewControllerTest extends PropertyDetailsOverviewControllerBehaviour {
-  def pageLoad(request: Request[_]): Future[Result] = propertyDetailsOverviewController.onPageLoad()(createFakeRequest())
+  def pageLoad(request: Request[_]): Future[Result] = propertyDetailsOverviewController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
 }
 
 class PropertyDetailsOverviewControllerInEditModeTest extends PropertyDetailsOverviewControllerBehaviour {

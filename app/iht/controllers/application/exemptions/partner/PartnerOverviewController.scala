@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,24 +16,31 @@
 
 package iht.controllers.application.exemptions.partner
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.connector.IhtConnectors
 import iht.controllers.application.ApplicationController
+import javax.inject.Inject
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
-import scala.concurrent.Future
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
-object PartnerOverviewController extends PartnerOverviewController with IhtConnectors
+import scala.concurrent.Future
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+
+class PartnerOverviewControllerImpl @Inject()() extends PartnerOverviewController with IhtConnectors
 
 trait PartnerOverviewController extends ApplicationController {
+
 
   def cachingConnector: CachingConnector
 
   def ihtConnector: IhtConnector
 
-  def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      withApplicationDetails { rd => ad =>
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      withApplicationDetails(userNino) { rd => ad =>
         Future.successful(Ok(iht.views.html.application.exemption.partner.partner_overview(ad, rd)))
       }
     }

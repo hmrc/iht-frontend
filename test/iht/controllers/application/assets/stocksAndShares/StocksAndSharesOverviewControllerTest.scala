@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,18 +33,17 @@ class StocksAndSharesOverviewControllerTest extends ApplicationControllerTest {
 
   "StocksAndSharesOverviewControllerTest" must {
 
-    val mockCachingConnector = mock[CachingConnector]
-    val mockIhtConnector = mock[IhtConnector]
+
 
     def stocksAndSharesOverviewController = new StocksAndSharesOverviewController {
-      override val authConnector = createFakeAuthConnector()
+      override val authConnector = mockAuthConnector
       override val cachingConnector = mockCachingConnector
       override val ihtConnector = mockIhtConnector
       override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
     }
 
     def stocksAndSharesOverviewControllerNotAuthorised = new StocksAndSharesOverviewController {
-      override val authConnector = createFakeAuthConnector(false)
+      override val authConnector = mockAuthConnector
       override val cachingConnector = mockCachingConnector
       override val ihtConnector = mockIhtConnector
       override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -61,7 +60,7 @@ class StocksAndSharesOverviewControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = stocksAndSharesOverviewController.onPageLoad(createFakeRequest())
-      status(result) shouldBe (OK)
+      status(result) mustBe (OK)
     }
 
     "redirect to login page on PageLoad if the user is not logged in" in {
@@ -75,8 +74,8 @@ class StocksAndSharesOverviewControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = stocksAndSharesOverviewControllerNotAuthorised.onPageLoad(createFakeRequest(false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

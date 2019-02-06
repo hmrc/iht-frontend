@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.collection.immutable.ListMap
 
-class RegistrationDetailsHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
+class RegistrationDetailsHelperTest extends FakeIhtApp with MockitoSugar {
 
   val referrerURL = "http://localhost:9070/inheritance-tax/registration/addExecutor"
   val host = "localhost:9070"
@@ -49,7 +49,7 @@ class RegistrationDetailsHelperTest extends UnitSpec with FakeIhtApp with Mockit
     val c: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => true
     val aa = RegistrationDetailsHelper.findFirstTrue(CommonBuilder.buildRegistrationDetails, CommonBuilder.buildApplicationDetails, Seq(BigDecimal(0)),
       ListMap("1" -> a, "2" -> b, "3" -> c))
-    aa shouldBe Some("3")
+    aa mustBe Some("3")
   }
 
   "findFirstTrue should return correct item subscript when second of three is true" in {
@@ -58,7 +58,7 @@ class RegistrationDetailsHelperTest extends UnitSpec with FakeIhtApp with Mockit
     val c: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
     val aa = RegistrationDetailsHelper.findFirstTrue(CommonBuilder.buildRegistrationDetails, CommonBuilder.buildApplicationDetails, Seq(BigDecimal(0)),
       ListMap("1" -> a, "2" -> b, "3" -> c))
-    aa shouldBe Some("2")
+    aa mustBe Some("2")
   }
 
   "findFirstTrue should return correct item subscript when first of three is true" in {
@@ -67,7 +67,7 @@ class RegistrationDetailsHelperTest extends UnitSpec with FakeIhtApp with Mockit
     val c: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
     val aa = RegistrationDetailsHelper.findFirstTrue(CommonBuilder.buildRegistrationDetails, CommonBuilder.buildApplicationDetails, Seq(BigDecimal(0)),
       ListMap("1" -> a, "2" -> b, "3" -> c))
-    aa shouldBe Some("1")
+    aa mustBe Some("1")
   }
 
   "findFirstTrue should return None when none of three is true" in {
@@ -76,7 +76,7 @@ class RegistrationDetailsHelperTest extends UnitSpec with FakeIhtApp with Mockit
     val c: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
     val aa = RegistrationDetailsHelper.findFirstTrue(CommonBuilder.buildRegistrationDetails, CommonBuilder.buildApplicationDetails, Seq(BigDecimal(0)),
       ListMap("1" -> a, "2" -> b, "3" -> c))
-    aa shouldBe None
+    aa mustBe None
   }
 
   "findFirstTrue should return correct item subscript when more than one item is true" in {
@@ -93,21 +93,21 @@ class RegistrationDetailsHelperTest extends UnitSpec with FakeIhtApp with Mockit
     val aa = RegistrationDetailsHelper.findFirstTrue(
       CommonBuilder.buildRegistrationDetails, CommonBuilder.buildApplicationDetails, Seq(BigDecimal(0)),
       ListMap("1" -> a, "2" -> b, "3" -> c, "4" -> d, "5" -> e, "6" -> f, "7" -> g, "8" -> h))
-    aa shouldBe Some("4")
+    aa mustBe Some("4")
   }
 
 
   "findFirstTrue should return None when sequence is empty" in {
     val aa = RegistrationDetailsHelper.findFirstTrue(
       CommonBuilder.buildRegistrationDetails, CommonBuilder.buildApplicationDetails, Seq(BigDecimal(0)), ListMap())
-    aa shouldBe None
+    aa mustBe None
   }
 
   "getOrException throws exception if Registration Details None passed in with suitable message" in {
     val aa: Option[RegistrationDetails] = None
     intercept[RuntimeException] {
       RegistrationDetailsHelper.getOrExceptionNoRegistration(aa)
-    }.getMessage should include("No registration details")
+    }.getMessage must include("No registration details")
   }
 
   "isExemptionsCompleted" should {
@@ -125,7 +125,7 @@ class RegistrationDetailsHelperTest extends UnitSpec with FakeIhtApp with Mockit
           Some("1"), Some("testCharity"), Some("123456"), Some(BigDecimal(80000))))
       )
 
-      RegistrationDetailsHelper.isExemptionsCompleted(regDetailsMarried, appDetails) shouldBe true
+      RegistrationDetailsHelper.isExemptionsCompleted(regDetailsMarried, appDetails) mustBe true
     }
 
     "return false when Deceased is Married but all exemptions have not been completed" in {
@@ -138,7 +138,7 @@ class RegistrationDetailsHelperTest extends UnitSpec with FakeIhtApp with Mockit
           Some("1"), Some("testCharity"), Some("123456"), Some(BigDecimal(80000))))
       )
 
-      RegistrationDetailsHelper.isExemptionsCompleted(regDetailsMarried, appDetails) shouldBe false
+      RegistrationDetailsHelper.isExemptionsCompleted(regDetailsMarried, appDetails) mustBe false
     }
 
     "return true when Deceased's marital status is other than Married and all exemptions have been completed" in {
@@ -152,7 +152,7 @@ class RegistrationDetailsHelperTest extends UnitSpec with FakeIhtApp with Mockit
           Some("1"), Some("testCharity"), Some("123456"), Some(BigDecimal(80000))))
       )
 
-      RegistrationDetailsHelper.isExemptionsCompleted(regDetailsWidowed, appDetails) shouldBe true
+      RegistrationDetailsHelper.isExemptionsCompleted(regDetailsWidowed, appDetails) mustBe true
     }
 
     "return false when Deceased's marital status is other than Married and all exemptions have not been completed" in {
@@ -165,7 +165,7 @@ class RegistrationDetailsHelperTest extends UnitSpec with FakeIhtApp with Mockit
           Some("1"), Some("testCharity"), Some("123456"), Some(BigDecimal(80000))))
       )
 
-      RegistrationDetailsHelper.isExemptionsCompleted(regDetailsWidowed, appDetails) shouldBe false
+      RegistrationDetailsHelper.isExemptionsCompleted(regDetailsWidowed, appDetails) mustBe false
     }
   }
 }

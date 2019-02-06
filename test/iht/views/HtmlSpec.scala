@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,15 +18,13 @@ package iht.views
 
 import iht.FakeIhtApp
 import org.apache.commons.lang3.StringEscapeUtils
-import iht.utils.CommonHelper._
 import iht.testhelpers.ContentChecker
 import org.jsoup.Jsoup
 import org.jsoup.nodes.{Document, Element}
 import play.api.i18n.MessagesApi
 import play.twirl.api.Html
-import uk.gov.hmrc.play.test.UnitSpec
 
-trait HtmlSpec extends UnitSpec with FakeIhtApp { self: UnitSpec =>
+trait HtmlSpec { self: FakeIhtApp =>
 
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -99,14 +99,14 @@ trait PersonalDetailsViewBehaviour[A] extends RegistrationPageBehaviour[A] {
 
 		"have a continue button with correct text" in {
 		  val continueLink = view.getElementById("continue-button")
-		  continueLink.attr("value") shouldBe messagesApi("iht.continue")
+		  continueLink.attr("value") mustBe messagesApi("iht.continue")
 
 		}
 
 		"have a cancel link with correct text" in {
 		  val cancelLink = view.getElementById("cancel-button")
-		  cancelLink.attr("href") shouldBe cancelUrl.url
-		  cancelLink.text() shouldBe messagesApi("site.link.cancel")
+		  cancelLink.attr("href") mustBe cancelUrl.url
+		  cancelLink.text() mustBe messagesApi("site.link.cancel")
 		}
 	  }
 }

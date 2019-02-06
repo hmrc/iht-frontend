@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,8 +32,7 @@ import uk.gov.hmrc.http.HeaderCarrier
 class CharitiesOverviewControllerTest extends ApplicationControllerTest {
 
   implicit val hc = new HeaderCarrier()
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
   implicit val messages: Messages = messagesApi.preferred(Seq(Lang("en")))
 
   val applicationDetailsWithCharityLeftTrue = CommonBuilder.buildApplicationDetails.copy(
@@ -42,7 +41,7 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
 
   def charitiesOverviewController = new CharitiesOverviewController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -50,7 +49,7 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
 
   def charitiesOverviewControllerNotAuthorised = new CharitiesOverviewController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -66,7 +65,7 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = charitiesOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
+      status(result) must be(OK)
     }
 
     "display charities on screen" in {
@@ -84,15 +83,15 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = charitiesOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
-      contentAsString(result) should include(charityName)
-      contentAsString(result) should include(CommonHelper.numberWithCommas(charityValue))
+      status(result) must be(OK)
+      contentAsString(result) must include(charityName)
+      contentAsString(result) must include(CommonHelper.numberWithCommas(charityValue))
     }
 
     "redirect to ida login page on PageLoad if the user is not logged in" in {
       val result = charitiesOverviewControllerNotAuthorised.onPageLoad()(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(loginUrl))
     }
 
     "onPageLoad validate test Internal Server error" in {
@@ -103,7 +102,7 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
-      a[RuntimeException] shouldBe thrownBy {
+      a[RuntimeException] mustBe thrownBy {
         await(charitiesOverviewController.onPageLoad()(createFakeRequest()))
       }
     }
@@ -129,8 +128,8 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
       when(mockCharity.nameValidationMessage).thenReturn(Some(validationMessage))
 
       val result = charitiesOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
-      contentAsString(result) should include(CommonBuilder.escapeApostrophes(validationMessage))
+      status(result) must be(OK)
+      contentAsString(result) must include(CommonBuilder.escapeApostrophes(validationMessage))
     }
 
     "show name when no name validation message mocked on the charity object" in {
@@ -154,8 +153,8 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
       when(mockCharity.nameValidationMessage).thenReturn(None)
 
       val result = charitiesOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
-      contentAsString(result) should include(CommonBuilder.escapeApostrophes(charityName))
+      status(result) must be(OK)
+      contentAsString(result) must include(CommonBuilder.escapeApostrophes(charityName))
     }
 
     "show asset left to charity question text" in {
@@ -170,7 +169,7 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = charitiesOverviewController.onPageLoad()(createFakeRequest())
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
+      ContentChecker.stripLineBreaks(contentAsString(result)) must include(messagesApi("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
                                                 DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
   }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,18 +39,18 @@ class FilterJointlyOwnedControllerTest extends ApplicationControllerTest with Ht
 
     "show the Filter Jointly Owned page when access by an unauthorised person" in {
       val result = controller.onPageLoad()(createFakeRequest(isAuthorised = false))
-      status(result) should be(OK)
+      status(result) must be(OK)
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() should be(messages("page.iht.filter.jointlyowned.question"))
+      titleElement.text() must be(messages("page.iht.filter.jointlyowned.question"))
     }
 
     "show an error if no radio button is selected" in {
       val request = createFakeRequestWithBody(isAuthorised = false, data = filterJointlyOwnedForm(messages).data.toSeq)
       val result = controller.onSubmit()(request)
 
-      status(result) should be(BAD_REQUEST)
+      status(result) must be(BAD_REQUEST)
 
       val doc = asDocument(contentAsString(result))
       assertRenderedById(doc, "errors")

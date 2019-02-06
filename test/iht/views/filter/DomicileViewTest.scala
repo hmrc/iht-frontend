@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ class DomicileViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
 
-      titleElement.text should include(messagesApi("page.iht.registration.deceasedPermanentHome.title"))
+      titleElement.text must include(messagesApi("page.iht.registration.deceasedPermanentHome.title"))
     }
 
     "generate appropriate content for the browser title" in {
@@ -49,7 +49,7 @@ class DomicileViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("title").first
 
-      titleElement.text should include(messagesApi("page.iht.registration.deceasedPermanentHome.title"))
+      titleElement.text must include(messagesApi("page.iht.registration.deceasedPermanentHome.title"))
     }
 
     "contain an appropriate field set" in {
@@ -57,35 +57,35 @@ class DomicileViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val fieldSet = doc.getElementsByTag("fieldset")
       val id = fieldSet.attr("id")
-      id should be("domicile-container")
+      id must be("domicile-container")
     }
 
     "contain an 'England or Wales' radio button" in {
       val result = domicile(fakeForm)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
 
-      doc.getElementById("domicile-england-or-wales-label").text() should be("England or Wales")
+      doc.getElementById("domicile-england-or-wales-label").text() must be("England or Wales")
     }
 
     "contain a 'Scotland' radio button" in {
       val result = domicile(fakeForm)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
 
-      doc.getElementById("domicile-scotland-label").text() should be(messagesApi("iht.countries.scotland"))
+      doc.getElementById("domicile-scotland-label").text() must be(messagesApi("iht.countries.scotland"))
     }
 
     "contain a 'Northern Ireland' radio button" in {
       val result = domicile(fakeForm)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
 
-      doc.getElementById("domicile-northern-ireland-label").text() should be(messagesApi("iht.countries.northernIreland"))
+      doc.getElementById("domicile-northern-ireland-label").text() must be(messagesApi("iht.countries.northernIreland"))
     }
 
     "contain an 'Other country' radio button" in {
       val result = domicile(fakeForm)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
 
-      doc.getElementById("domicile-other-label").text() should be(messagesApi("page.iht.filter.domicile.choice.other"))
+      doc.getElementById("domicile-other-label").text() must be(messagesApi("page.iht.filter.domicile.choice.other"))
     }
 
     "contain a continue button with the text 'Continue'" in {
@@ -93,7 +93,7 @@ class DomicileViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val button = doc.select("input#continue").first
 
-      button.attr("value") should be(messagesApi("iht.continue"))
+      button.attr("value") must be(messagesApi("iht.continue"))
     }
 
     "contain a form with the action attribute set to the DomicileController onSubmit URL" in {
@@ -101,7 +101,7 @@ class DomicileViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val formElement = doc.getElementsByTag("form").first
 
-      formElement.attr("action") should be(iht.controllers.filter.routes.DomicileController.onSubmit().url)
+      formElement.attr("action") must be(iht.controllers.filter.routes.DomicileController.onSubmit().url)
     }
 
     "contain a link to return to the 'What do you want to do' page" in {
@@ -109,8 +109,8 @@ class DomicileViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
 
       val link = doc.getElementById("return-link")
-      link.text() should be(messagesApi("page.iht.filter.domicile.return.link"))
-      link.attr("href") should be(iht.controllers.filter.routes.FilterController.onPageLoad().url)
+      link.text() must be(messagesApi("page.iht.filter.domicile.return.link"))
+      link.attr("href") must be(iht.controllers.filter.routes.FilterController.onPageLoad().url)
     }
   }
 }

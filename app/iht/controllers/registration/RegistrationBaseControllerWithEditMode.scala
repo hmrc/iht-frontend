@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import play.api.data.Form
 import play.api.mvc.{AnyContent, Request, Result}
 
 import scala.concurrent.Future
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
 trait RegistrationBaseControllerWithEditMode[T] extends RegistrationBaseController[T] {
 
@@ -34,8 +35,8 @@ trait RegistrationBaseControllerWithEditMode[T] extends RegistrationBaseControll
 
   def onEditSubmit = submit(Mode.Edit)
 
-  override def pageLoad(mode: Mode.Value) = authorisedForIht {
-    implicit user => implicit request =>
+  override def pageLoad(mode: Mode.Value) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request =>
       withRegistrationDetailsRedirectOnGuardCondition { rd =>
         val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd)
         val f = fillForm(rd)
@@ -44,14 +45,14 @@ trait RegistrationBaseControllerWithEditMode[T] extends RegistrationBaseControll
         } else {
           okForEditPageLoad(f, Some(deceasedName))
         }
-        val result = okResult.withSession(SessionHelper.ensureSessionHasNino(request.session, user))
+        val result = okResult.withSession(SessionHelper.ensureSessionHasNino(request.session, userNino))
         Future.successful(result)
       }
   }
 
   override def submit(mode: Mode.Value) =
     authorisedForIht {
-      implicit user => implicit request => {
+      implicit request => {
         withRegistrationDetailsRedirectOnGuardCondition { rd =>
           val boundForm = performAdditionalValidation(form.bindFromRequest, rd, mode)
 

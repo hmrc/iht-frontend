@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,18 +31,17 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 class PropertiesOverviewControllerTest extends ApplicationControllerTest {
 
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def propertiesOverviewController = new PropertiesOverviewController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def propertiesOverviewControllerNotAuthorised = new PropertiesOverviewController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -52,8 +51,8 @@ class PropertiesOverviewControllerTest extends ApplicationControllerTest {
 
     "redirect to login page on PageLoad if the user is not logged in" in {
       val result = propertiesOverviewControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
@@ -67,7 +66,7 @@ class PropertiesOverviewControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = propertiesOverviewController.onPageLoad (createFakeRequest())
-      status(result) should be (OK)
+      status(result) must be (OK)
     }
 
     "display value of house with numberWithCommas formatting" in {
@@ -82,8 +81,8 @@ class PropertiesOverviewControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = propertiesOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
-      contentAsString(result) should include (CommonHelper.numberWithCommas(120000))
+      status(result) must be (OK)
+      contentAsString(result) must include (CommonHelper.numberWithCommas(120000))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

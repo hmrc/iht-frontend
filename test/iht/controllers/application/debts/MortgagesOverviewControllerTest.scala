@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,20 +34,16 @@ import uk.gov.hmrc.http.HeaderCarrier
 
 class MortgagesOverviewControllerTest extends ApplicationControllerTest {
   implicit val hc = new HeaderCarrier()
-  var mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
 
   def mortgagesOverviewController = new MortgagesOverviewController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  before {
-    mockCachingConnector = mock[CachingConnector]
-  }
+
 
   "MortgagesOverviewController controller" must {
 
@@ -65,7 +61,7 @@ class MortgagesOverviewControllerTest extends ApplicationControllerTest {
         getAppDetails = true)
       
       val result = mortgagesOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
+      status(result) must be (OK)
     }
 
     "return OK on Page Load where app details exist, liabilities exist and mortgages don't exist" in {
@@ -82,7 +78,7 @@ class MortgagesOverviewControllerTest extends ApplicationControllerTest {
         getAppDetails = true)
 
       val result = mortgagesOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
+      status(result) must be (OK)
     }
 
     "return OK on Page Load and find no properties added message where there is no properties" in {
@@ -96,8 +92,8 @@ class MortgagesOverviewControllerTest extends ApplicationControllerTest {
         getAppDetails = true)
 
       val result = mortgagesOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
-      contentAsString(result) should include(messagesApi("page.iht.application.debts.mortgages.noProperties.description"))
+      status(result) must be (OK)
+      contentAsString(result) must include(messagesApi("page.iht.application.debts.mortgages.noProperties.description"))
     }
 
     "return OK on Page Load where app details exist and liabilities don't exist" in {
@@ -114,7 +110,7 @@ class MortgagesOverviewControllerTest extends ApplicationControllerTest {
         getAppDetails = true)
 
       val result = mortgagesOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
+      status(result) must be (OK)
     }
 
     "return OK on Page Load where app details don't exist" in {
@@ -124,7 +120,7 @@ class MortgagesOverviewControllerTest extends ApplicationControllerTest {
         getAppDetails = true)
 
       val result = mortgagesOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
+      status(result) must be (OK)
     }
 
     "return OK on Page Load where no IHT reference" in {
@@ -135,7 +131,7 @@ class MortgagesOverviewControllerTest extends ApplicationControllerTest {
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
 
-      a[RuntimeException] shouldBe thrownBy {
+      a[RuntimeException] mustBe thrownBy {
         await(mortgagesOverviewController.onPageLoad()(createFakeRequest()))
       }
     }
@@ -143,7 +139,7 @@ class MortgagesOverviewControllerTest extends ApplicationControllerTest {
     "return exception on Page Load where no reg details" in {
       createMockToThrowExceptionWhileGettingExistingRegDetails(mockCachingConnector, "bla")
 
-      a[RuntimeException] shouldBe thrownBy {
+      a[RuntimeException] mustBe thrownBy {
         Await.result(mortgagesOverviewController.onPageLoad()(createFakeRequest()), Duration.Inf)
       }
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.application
 
+import iht.config.FrontendAuthConnector
 import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.constants.IhtProperties._
 import iht.models.RegistrationDetails
@@ -25,68 +26,68 @@ import iht.utils.RegistrationDetailsHelper._
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.{ApplicationKickOutNonSummaryHelper, ApplicationStatus, EstateNotDeclarableHelper, ExemptionsGuidanceHelper, StringHelper, SubmissionDeadlineHelper}
 import iht.viewmodels.application.overview.EstateOverviewViewModel
+import javax.inject.Inject
 import org.joda.time.LocalDate
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc._
-import uk.gov.hmrc.play.frontend.auth.AuthContext
-
-
-import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, Future}
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http._
 
-object EstateOverviewController extends EstateOverviewController with IhtConnectors
+import scala.concurrent.Future
+
+class EstateOverviewControllerImpl @Inject()() extends EstateOverviewController with IhtConnectors
 
 trait EstateOverviewController extends ApplicationController {
 
-val checkedEverythingQuestionPage = iht.controllers.application.declaration.routes.CheckedEverythingQuestionController.onPageLoad()
+  lazy val checkedEverythingQuestionPage = iht.controllers.application.declaration.routes.CheckedEverythingQuestionController.onPageLoad()
 
-  val kickOutPage = iht.controllers.application.routes.KickoutController.onPageLoad()
-  val exemptionsOverviewPage= iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()
-  val tnrbGuidancePage = iht.controllers.application.tnrb.routes.TnrbGuidanceController.onSystemPageLoad()
+  lazy val kickOutPage = iht.controllers.application.routes.KickoutAppController.onPageLoad()
+  lazy val exemptionsOverviewPage= iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()
+  lazy val tnrbGuidancePage = iht.controllers.application.tnrb.routes.TnrbGuidanceController.onSystemPageLoad()
 
   def cachingConnector: CachingConnector
 
   def ihtConnector: IhtConnector
 
-  def onPageLoadWithIhtRef(ihtReference: String) = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        def errorHandler: PartialFunction[Throwable, Result] = {
-          case ex: Upstream5xxResponse if ex.upstreamResponseCode == 500 &&
-            ex.getMessage.contains("JSON validation against schema failed") => {
-            Logger.warn("JSON validation against schema failed. Redirecting to error page", ex)
-            InternalServerError(iht.views.html.application.overview.estate_overview_json_error())
-          }
+  def onPageLoadWithIhtRef(ihtReference: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      def errorHandler: PartialFunction[Throwable, Result] = {
+        case ex: Upstream5xxResponse if ex.upstreamResponseCode == 500 &&
+          ex.getMessage.contains("JSON validation against schema failed") => {
+          Logger.warn("JSON validation against schema failed. Redirecting to error page", ex)
+          InternalServerError(iht.views.html.application.overview.estate_overview_json_error())
         }
-        val nino = StringHelper.getNino(user)
+      }
+      val nino = StringHelper.getNino(userNino)
 
-        ihtConnector.getCaseDetails(nino, ihtReference).flatMap {
-          caseDetails =>
-            caseDetails.status match {
-              case ApplicationStatus.AwaitingReturn => {
-                for {
-                  Some(registrationDetails) <- cachingConnector.storeRegistrationDetails(caseDetails)
-                  applicationDetails <- getApplicationDetails(ihtReference, registrationDetails.acknowledgmentReference)
-                  deadlineDate <- getDeadline(applicationDetails, user)
-                  redirectCall: Option[Call] <- ExemptionsGuidanceHelper.guidanceRedirect(
-                    routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference), applicationDetails, cachingConnector)
-                } yield {
-                  redirectCall match {
-                    case Some(call) => Redirect(call)
-                    case None => {
-                      val viewModel = EstateOverviewViewModel(registrationDetails, applicationDetails, deadlineDate)
-                      Ok(iht.views.html.application.overview.estate_overview(viewModel))
-                    }
+      ihtConnector.getCaseDetails(nino, ihtReference).flatMap {
+        caseDetails =>
+          caseDetails.status match {
+            case ApplicationStatus.AwaitingReturn => {
+              for {
+                Some(registrationDetails) <- cachingConnector.storeRegistrationDetails(caseDetails)
+                applicationDetails <- getApplicationDetails(ihtReference, registrationDetails.acknowledgmentReference, userNino)
+                deadlineDate <- getDeadline(applicationDetails, userNino)
+                redirectCall: Option[Call] <- ExemptionsGuidanceHelper.guidanceRedirect(
+                  routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference), applicationDetails, cachingConnector)
+              } yield {
+                redirectCall match {
+                  case Some(call) => Redirect(call)
+                  case None => {
+                    val viewModel = EstateOverviewViewModel(registrationDetails, applicationDetails, deadlineDate)
+                    Ok(iht.views.html.application.overview.estate_overview(viewModel))
                   }
                 }
               }
-              case _ => Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
             }
-        } recover errorHandler
-      }
+            case _ => Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
+          }
+      } recover errorHandler
+    }
   }
 
 
@@ -96,12 +97,12 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
     *
     * @param ihtReference
     */
-  def onContinueOrDeclarationRedirect(ihtReference: String): Action[AnyContent] = authorisedForIht {
-    implicit user => implicit request => {
-      val nino = StringHelper.getNino(user)
+  def onContinueOrDeclarationRedirect(ihtReference: String): Action[AnyContent] = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      val nino = StringHelper.getNino(userNino)
       withRegistrationDetails { regDetails =>
         for {
-          appDetails <- getApplicationDetails(ihtReference, regDetails.acknowledgmentReference)
+          appDetails <- getApplicationDetails(ihtReference, regDetails.acknowledgmentReference, userNino)
           appDetailsWithKickOutUpdatedOpt <- ihtConnector.saveApplication(nino, ApplicationKickOutNonSummaryHelper.updateKickout(
             checks = ApplicationKickOutNonSummaryHelper.checksBackend,
             registrationDetails = regDetails,
@@ -117,9 +118,9 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
     }
   }
 
-  private def getDeadline(ad: ApplicationDetails, user: AuthContext)(
+  private def getDeadline(ad: ApplicationDetails, userNino: Option[String])(
     implicit headerCarrier: HeaderCarrier): Future[LocalDate] = {
-    SubmissionDeadlineHelper(StringHelper.getNino(user), ad.ihtRef.getOrElse(""), ihtConnector, headerCarrier)
+    SubmissionDeadlineHelper(StringHelper.getNino(userNino), ad.ihtRef.getOrElse(""), ihtConnector, headerCarrier)
   }
 
   private def getRedirect(regDetails: RegistrationDetails, appDetails: ApplicationDetails)(implicit hc: HeaderCarrier) = {

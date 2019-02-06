@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,12 +37,11 @@ import scala.concurrent.Future
  */
 class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def partnerDateOfBirthController = new PartnerDateOfBirthController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -50,7 +49,7 @@ class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
 
   def partnerDateOfBirthControllerNotAuthorised = new PartnerDateOfBirthController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -63,15 +62,15 @@ class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
   "PartnerDateOfBirthController" must {
 
     "redirect to login page on Page load if the user is not logged in" in {
-      val result = partnerDateOfBirthControllerNotAuthorised.onPageLoad()(createFakeRequest())
-      status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      val result = partnerDateOfBirthControllerNotAuthorised.onPageLoad()(createFakeRequest(isAuthorised = false))
+      status(result) must be (SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to login page on submit if the user is not logged in" in {
-      val result = partnerDateOfBirthControllerNotAuthorised.onSubmit()(createFakeRequest())
-      status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      val result = partnerDateOfBirthControllerNotAuthorised.onSubmit()(createFakeRequest(isAuthorised = false))
+      status(result) must be (SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "Return OK on Page Load" in {
@@ -83,7 +82,7 @@ class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = partnerDateOfBirthController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
+      status(result) must be (OK)
     }
 
     "display the correct stored date on page load" in {
@@ -100,9 +99,9 @@ class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = partnerDateOfBirthController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
-      contentAsString(result) should include ("12")
-      contentAsString(result) should include ("1998")
+      status(result) must be (OK)
+      contentAsString(result) must include ("12")
+      contentAsString(result) must include ("1998")
     }
 
     "respond with error when ApplicationDetails could not be retrieved on page load" in {
@@ -114,7 +113,7 @@ class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = partnerDateOfBirthController.onPageLoad()(createFakeRequest())
-      status(result) should be (INTERNAL_SERVER_ERROR)
+      status(result) must be (INTERNAL_SERVER_ERROR)
     }
 
     "save and redirect to Exemptions overview page on successful page submit" in {
@@ -134,8 +133,8 @@ class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = partnerDateOfBirthController.onSubmit(request)
-      status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerDobID)))
+      status(result) must be (SEE_OTHER)
+      redirectLocation(result) must be (Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerDobID)))
     }
 
     "redirect to Partner Date of Birth Exemption page and show relevant error message when page fails in validation while submission" in {
@@ -147,13 +146,13 @@ class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = partnerDateOfBirthController.onSubmit(request)
-      status(result) should be(OK)
+      status(result) must be(OK)
     }
 
     "on page load throws exception when no iht ref" in {
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetailsWithNoIhtRef)))
 
-      a [RuntimeException] shouldBe thrownBy {
+      a [RuntimeException] mustBe thrownBy {
         await(partnerDateOfBirthController.onPageLoad(createFakeRequest()))
       }
     }
@@ -173,8 +172,8 @@ class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = partnerDateOfBirthController.onSubmit(request)
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result).get should be(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerDobID))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result).get must be(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerDobID))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

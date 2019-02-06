@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,8 +80,8 @@ class DeclarationSectionViewTest extends ViewTestHelper {
       val doc = asDocument(view)
 
       val link = doc.getElementById("continue")
-      link.text shouldBe messagesApi("iht.continue")
-      link.attr("href") shouldBe
+      link.text mustBe messagesApi("iht.continue")
+      link.attr("href") mustBe
         iht.controllers.application.routes.EstateOverviewController.onContinueOrDeclarationRedirect(ihtRef).url
     }
 
@@ -92,8 +92,8 @@ class DeclarationSectionViewTest extends ViewTestHelper {
       val doc = asDocument(view)
 
       val link = doc.getElementById("continue-to-declaration")
-      link.text shouldBe messagesApi("iht.continue")
-      link.attr("href") shouldBe
+      link.text mustBe messagesApi("iht.continue")
+      link.attr("href") mustBe
         iht.controllers.application.routes.EstateOverviewController.onContinueOrDeclarationRedirect(ihtRef).url
     }
   }

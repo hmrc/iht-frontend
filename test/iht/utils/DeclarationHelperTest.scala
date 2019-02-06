@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,11 +34,9 @@ import uk.gov.hmrc.http.HeaderCarrier
   */
 class DeclarationHelperTest extends ApplicationControllerTest {
 
-  var mockIhtConnector = mock[IhtConnector]
   implicit val hc = new HeaderCarrier
 
   before {
-    mockIhtConnector = mock[IhtConnector]
     createMockToGetApplicationDetails(mockIhtConnector)
     createMockToGetRealtimeRiskMessage(mockIhtConnector, None)
   }
@@ -52,7 +50,7 @@ class DeclarationHelperTest extends ApplicationControllerTest {
       implicit val fakeRequest = createFakeRequest()
       val appDetailsWithRequiredValues = buildApplicationDetailsWithAllAssets
 
-      DeclarationHelper.getDeclarationType(appDetailsWithRequiredValues) should be (DeclarationReason.ValueLessThanNilRateBand)
+      DeclarationHelper.getDeclarationType(appDetailsWithRequiredValues) must be (DeclarationReason.ValueLessThanNilRateBand)
     }
 
     "return declaration type as ValueLessThanNilRateBandAfterExemption when assets, gifts and debts value is " +
@@ -69,7 +67,7 @@ class DeclarationHelperTest extends ApplicationControllerTest {
           charity = Some(BasicExemptionElement(Some(true)) ))),
         charities = Seq(charity, charity))
 
-      DeclarationHelper.getDeclarationType(appDetailsWithRequiredValues) shouldBe (DeclarationReason.ValueLessThanNilRateBandAfterExemption)
+      DeclarationHelper.getDeclarationType(appDetailsWithRequiredValues) mustBe (DeclarationReason.ValueLessThanNilRateBandAfterExemption)
     }
 
     "return declaration type as ValueLessThanTransferredNilRateBand  when assets, gifts and debts value is " +
@@ -86,7 +84,7 @@ class DeclarationHelperTest extends ApplicationControllerTest {
           dateOfPreDeceased = Some(new LocalDate(1988, 12, 11))))
       )
 
-      DeclarationHelper.getDeclarationType(appDetailsWithRequiredValues) shouldBe (DeclarationReason.ValueLessThanTransferredNilRateBand)
+      DeclarationHelper.getDeclarationType(appDetailsWithRequiredValues) mustBe (DeclarationReason.ValueLessThanTransferredNilRateBand)
     }
 
     "return declare type as ValueLessThanTransferredNilRateBandAfterExemption when assets, gifts and debts value is" +
@@ -106,7 +104,7 @@ class DeclarationHelperTest extends ApplicationControllerTest {
           dateOfPreDeceased = Some(new LocalDate(1988, 12, 11))))
       )
 
-      DeclarationHelper.getDeclarationType(appDetailsWithRequiredValues) shouldBe DeclarationReason.ValueLessThanTransferredNilRateBandAfterExemption
+      DeclarationHelper.getDeclarationType(appDetailsWithRequiredValues) mustBe DeclarationReason.ValueLessThanTransferredNilRateBandAfterExemption
     }
   }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -127,6 +127,10 @@ object StringHelper {
 
   def getNino(user: AuthContext): String = {
     user.principal.accounts.iht.getOrElse(throw new RuntimeException("User account could not be retrieved!")).nino.value
+  }
+
+  def getNino(userNino: Option[String]): String = {
+    userNino.getOrElse(throw new RuntimeException("User account could not be retrieved!"))
   }
 
   def booleanToYesNo(boolean: Boolean): String = {

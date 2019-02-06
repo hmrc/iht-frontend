@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,8 +36,7 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
  */
 class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
 
-  val mockCachingConnector = mock[CachingConnector]
-  var mockIhtConnector = mock[IhtConnector]
+
 
   lazy val returnToOverviewUrl = CommonHelper.addFragmentIdentifierToUrl(routes.MoneyOverviewController.onPageLoad.url, AssetsMoneyOwnID)
 
@@ -57,42 +56,40 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
   }
 
   def moneyDeceasedOwnController = new MoneyDeceasedOwnController {
-    val authConnector = createFakeAuthConnector(isAuthorised = true)
+    val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def moneyDeceasedOwnControllerNotAuthorised = new MoneyDeceasedOwnController {
-    val authConnector = createFakeAuthConnector(isAuthorised = false)
+    val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  before {
-    mockIhtConnector = mock[IhtConnector]
-  }
+
 
   "MoneyDeceasedOwnController" must {
 
     "redirect to login page on PageLoad if the user is not logged in" in {
-      val result = moneyDeceasedOwnControllerNotAuthorised.onPageLoad(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      val result = moneyDeceasedOwnControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to login page on Submit if the user is not logged in" in {
-      val result = moneyDeceasedOwnControllerNotAuthorised.onSubmit(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      val result = moneyDeceasedOwnControllerNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
       setUpTests(applicationDetails)
       val result = moneyDeceasedOwnController.onPageLoad(createFakeRequest())
-      status(result) should be(OK)
+      status(result) must be(OK)
     }
 
     "save application and go to money overview page on submit" in {
@@ -103,8 +100,8 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
       setUpTests(applicationDetails)
 
       val result = moneyDeceasedOwnController.onSubmit()(request)
-      status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(returnToOverviewUrl))
+      status(result) must be (SEE_OTHER)
+      redirectLocation(result) must be (Some(returnToOverviewUrl))
     }
 
     "wipe out the money value if user selects No, save application and go to money overview page on submit" in {
@@ -120,14 +117,14 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
       setUpTests(applicationDetails)
 
       val result = moneyDeceasedOwnController.onSubmit()(request)
-      status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(returnToOverviewUrl))
+      status(result) must be (SEE_OTHER)
+      redirectLocation(result) must be (Some(returnToOverviewUrl))
 
       val capturedValue = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
       val expectedAppDetails = applicationDetails.copy(allAssets = applicationDetails.allAssets.map(_.copy(
         money = Some(CommonBuilder.buildShareableBasicElementExtended.copy(value = None, isOwned = Some(false))))))
 
-      capturedValue shouldBe expectedAppDetails
+      capturedValue mustBe expectedAppDetails
     }
 
     "display validation message when form is submitted with no values entered" in {
@@ -137,8 +134,8 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
       setUpTests(applicationDetails)
 
       val result = moneyDeceasedOwnController.onSubmit()(request)
-      status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include (messagesApi("error.problem"))
+      status(result) must be (BAD_REQUEST)
+      contentAsString(result) must include (messagesApi("error.problem"))
     }
 
     "redirect to overview when form is submitted with answer yes and a value entered" in {
@@ -148,8 +145,8 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
       setUpTests(applicationDetails)
 
       val result = moneyDeceasedOwnController.onSubmit()(request)
-      status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(returnToOverviewUrl))
+      status(result) must be (SEE_OTHER)
+      redirectLocation(result) must be (Some(returnToOverviewUrl))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
@@ -158,7 +155,7 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = moneyDeceasedOwnController.onSubmit (fakePostRequest)
-      status(result) shouldBe (BAD_REQUEST)
+      status(result) mustBe (BAD_REQUEST)
     }
 
     "respond with bad request and correct error message when no answer is selected" in {
@@ -167,8 +164,8 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = moneyDeceasedOwnController.onSubmit (fakePostRequest)
-      status(result) shouldBe (BAD_REQUEST)
-      contentAsString(result) should include(messagesApi("error.assets.money.deceasedOwned.select",
+      status(result) mustBe (BAD_REQUEST)
+      contentAsString(result) must include(messagesApi("error.assets.money.deceasedOwned.select",
                                               CommonBuilder.buildDeceasedDetails.name))
     }
 

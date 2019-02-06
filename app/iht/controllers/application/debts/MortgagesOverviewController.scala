@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,21 +16,26 @@
 
 package iht.controllers.application.debts
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.constants.FieldMappings
 import iht.controllers.application.ApplicationController
 import iht.models.application.assets.Properties
 import iht.utils.{CommonHelper, PropertyAndMortgageHelper, StringHelper}
+import javax.inject.Inject
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Call, Request}
-import uk.gov.hmrc.play.frontend.auth.AuthContext
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
 import scala.concurrent.Future
 
-object MortgagesOverviewController extends MortgagesOverviewController with IhtConnectors
+class MortgagesOverviewControllerImpl @Inject()() extends MortgagesOverviewController with IhtConnectors
 
 trait MortgagesOverviewController extends ApplicationController {
+
 
   private val MessageKeyReturnToDebts = "site.link.return.debts"
 
@@ -38,20 +43,22 @@ trait MortgagesOverviewController extends ApplicationController {
 
   def ihtConnector: IhtConnector
 
-  def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
       doPageLoad(
         onCancel=iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad(),
         onCancelMessageKey=MessageKeyReturnToDebts,
-        isVisiblePropertyWarningAndLink=true)
+        isVisiblePropertyWarningAndLink=true,
+        userNino)
     }
   }
 
   private def doPageLoad(onCancel: Call,
                          onCancelMessageKey: String,
-                         isVisiblePropertyWarningAndLink: Boolean)(implicit user: AuthContext, request: Request[_]) = {
+                         isVisiblePropertyWarningAndLink: Boolean,
+                         userNino: Option[String])(implicit request: Request[_]) = {
     withRegistrationDetails { regDetails =>
-      ihtConnector.getApplication(StringHelper.getNino(user),
+      ihtConnector.getApplication(StringHelper.getNino(userNino),
         CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
         regDetails.acknowledgmentReference) flatMap {
         case Some(applicationDetails) => {

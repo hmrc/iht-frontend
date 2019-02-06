@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,92 +40,92 @@ class FormValidatorTest extends  FormTestHelper with FakeIhtApp {
     "return false the date is later than current date" in {
       val testDate = LocalDate.now().plusDays(1)
       val result = IhtFormValidator.isNotFutureDate(testDate)
-      result should be(false)
+      result must be(false)
     }
 
     "return true the date is equal to current date" in {
       val testDate = LocalDate.now()
       val result = IhtFormValidator.isNotFutureDate(testDate)
-      result should be(true)
+      result must be(true)
     }
 
     "return true the date is earlier than current date" in {
       val testDate = LocalDate.now().minusDays(1)
       val result = IhtFormValidator.isNotFutureDate(testDate)
-      result should be(true)
+      result must be(true)
     }
   }
 
   "validateCountryCode" must {
     "reject an invalid country code" in {
-      IhtFormValidator.validateCountryCode("UK") should be(false)
+      IhtFormValidator.validateCountryCode("UK") must be(false)
     }
     "accept a valid country code" in {
-      IhtFormValidator.validateCountryCode("GB") should be(true)
+      IhtFormValidator.validateCountryCode("GB") must be(true)
     }
   }
 
   "existsInKeys" must {
     "return true if valid list map key" in {
       val result = IhtFormValidator.existsInKeys(TestHelper.MaritalStatusSingle, FieldMappings.maritalStatusMap(messages))
-      result should be(true)
+      result must be(true)
     }
 
     "return false if invalid list map key" in {
       val result = IhtFormValidator.existsInKeys("7", FieldMappings.maritalStatusMap(messages))
-      result should be(false)
+      result must be(false)
     }
   }
 
-  "currency" should {
+  "currency" must {
     "Report correctly for invalid numeric value length>10" in {
-      optionalCurrencyWithoutFieldName.bind(Map("" -> "11111111111111111111")) shouldBe Left(List(FormError("", "error.currencyValue.length")))
+      optionalCurrencyWithoutFieldName.bind(Map("" -> "11111111111111111111")) mustBe Left(List(FormError("", "error.currencyValue.length")))
     }
  }
 
-  "mandatoryPhoneNumberFormatter" should {
+  "mandatoryPhoneNumberFormatter" must {
     "Return expected mapping validation for various inputs, valid and invalid" in {
       import play.api.data.FormError
 
       val formatter = mandatoryPhoneNumberFormatter("blank message", "invalid length", "invalid value")
 
-      formatter.bind("a", Map("a" -> ""))  shouldBe Left(Seq(FormError("a", "blank message")))
-      formatter.bind("a", Map("a" -> "1111111111111111111111111111"))  shouldBe Left(Seq(FormError("a", "invalid length")))
-      formatter.bind("a", Map("a" -> "$5gggF"))  shouldBe Left(Seq(FormError("a", "invalid value")))
-      formatter.bind("a", Map("a" -> "+44 020 1234 5678"))  shouldBe Right("0044 020 1234 5678")
-      formatter.bind("a", Map("a" -> "(020) 1234 5678")) shouldBe Right("(020) 1234 5678")
+      formatter.bind("a", Map("a" -> ""))  mustBe Left(Seq(FormError("a", "blank message")))
+      formatter.bind("a", Map("a" -> "1111111111111111111111111111"))  mustBe Left(Seq(FormError("a", "invalid length")))
+      formatter.bind("a", Map("a" -> "$5gggF"))  mustBe Left(Seq(FormError("a", "invalid value")))
+      formatter.bind("a", Map("a" -> "+44 020 1234 5678"))  mustBe Right("0044 020 1234 5678")
+      formatter.bind("a", Map("a" -> "(020) 1234 5678")) mustBe Right("(020) 1234 5678")
 
-      formatter.bind("a", Map("a" -> "(020) 1234 5678#1234")) shouldBe Right("(020) 1234 5678#1234")
-      formatter.bind("a", Map("a" -> "(020) 1234 5678*6")) shouldBe Right("(020) 1234 5678*6")
-      formatter.bind("a", Map("a" -> "(020) 1234 5678")) shouldBe Right("(020) 1234 5678")
-      formatter.bind("a", Map("a" -> "02012345678")) shouldBe Right("02012345678")
-      formatter.bind("a", Map("a" -> "02012345678 ext 1234")) shouldBe Right("02012345678 EXT 1234")
-      formatter.bind("a", Map("a" -> "020123456+12 ext 1234")) shouldBe Left(Seq(FormError("a", "invalid value")))
+      formatter.bind("a", Map("a" -> "(020) 1234 5678#1234")) mustBe Right("(020) 1234 5678#1234")
+      formatter.bind("a", Map("a" -> "(020) 1234 5678*6")) mustBe Right("(020) 1234 5678*6")
+      formatter.bind("a", Map("a" -> "(020) 1234 5678")) mustBe Right("(020) 1234 5678")
+      formatter.bind("a", Map("a" -> "02012345678")) mustBe Right("02012345678")
+      formatter.bind("a", Map("a" -> "02012345678 ext 1234")) mustBe Right("02012345678 EXT 1234")
+      formatter.bind("a", Map("a" -> "020123456+12 ext 1234")) mustBe Left(Seq(FormError("a", "invalid value")))
 
     }
   }
 
-  "phoneNumberOptionString" should {
+  "phoneNumberOptionString" must {
     "Return expected mapping validation for various inputs, valid and invalid" in {
       import play.api.data.FormError
       val mapping: FieldMapping[Option[String]] = phoneNumberOptionString("blank message", "invalid length", "invalid value")
 
-      mapping.bind(Map("" -> ""))  shouldBe Left(Seq(FormError("", "blank message")))
-      mapping.bind(Map("" -> "1111111111111111111111111111"))  shouldBe Left(Seq(FormError("", "invalid length")))
-      mapping.bind(Map("" -> "$5gggF"))  shouldBe Left(Seq(FormError("", "invalid value")))
-      mapping.bind(Map("" -> "+44 020 1234 5678"))  shouldBe Right(Some("0044 020 1234 5678"))
-      mapping.bind(Map("" -> "(020) 1234 5678")) shouldBe Right(Some("(020) 1234 5678"))
+      mapping.bind(Map("" -> ""))  mustBe Left(Seq(FormError("", "blank message")))
+      mapping.bind(Map("" -> "1111111111111111111111111111"))  mustBe Left(Seq(FormError("", "invalid length")))
+      mapping.bind(Map("" -> "$5gggF"))  mustBe Left(Seq(FormError("", "invalid value")))
+      mapping.bind(Map("" -> "+44 020 1234 5678"))  mustBe Right(Some("0044 020 1234 5678"))
+      mapping.bind(Map("" -> "(020) 1234 5678")) mustBe Right(Some("(020) 1234 5678"))
 
-      mapping.bind(Map("" -> "(020) 1234 5678#1234")) shouldBe Right(Some("(020) 1234 5678#1234"))
-      mapping.bind(Map("" -> "(020) 1234 5678*6")) shouldBe Right(Some("(020) 1234 5678*6"))
-      mapping.bind(Map("" -> "(020) 1234 5678")) shouldBe Right(Some("(020) 1234 5678"))
-      mapping.bind(Map("" -> "02012345678")) shouldBe Right(Some("02012345678"))
-      mapping.bind(Map("" -> "02012345678 ext 1234")) shouldBe Right(Some("02012345678 EXT 1234"))
-      mapping.bind(Map("" -> "020123456+12 ext 1234")) shouldBe Left(Seq(FormError("", "invalid value")))
+      mapping.bind(Map("" -> "(020) 1234 5678#1234")) mustBe Right(Some("(020) 1234 5678#1234"))
+      mapping.bind(Map("" -> "(020) 1234 5678*6")) mustBe Right(Some("(020) 1234 5678*6"))
+      mapping.bind(Map("" -> "(020) 1234 5678")) mustBe Right(Some("(020) 1234 5678"))
+      mapping.bind(Map("" -> "02012345678")) mustBe Right(Some("02012345678"))
+      mapping.bind(Map("" -> "02012345678 ext 1234")) mustBe Right(Some("02012345678 EXT 1234"))
+      mapping.bind(Map("" -> "020123456+12 ext 1234")) mustBe Left(Seq(FormError("", "invalid value")))
     }
   }
 
-  "ihtAddress" should {
+  "ihtAddress" must {
     val allBlank = Map(
       "addr1key"->"",
       "addr2key"->"",
@@ -200,40 +200,40 @@ class FormValidatorTest extends  FormTestHelper with FakeIhtApp {
       "all-lines-blank","first-two-blank","invalid-line", "invalid-char", "blank-postcode","invalid-postcode", "blankcountrycode")
 
     "Return a formatter which responds suitably to all lines being blank" in {
-      formatter.bind("", allBlank).left.get.contains(FormError("", "all-lines-blank")) shouldBe true
+      formatter.bind("", allBlank).left.get.contains(FormError("", "all-lines-blank")) mustBe true
     }
 
     "Return a formatter which responds suitably to first two lines being blank" in {
-      formatter.bind("", first2Blank).left.get.contains(FormError("", "all-lines-blank")) shouldBe true
+      formatter.bind("", first2Blank).left.get.contains(FormError("", "all-lines-blank")) mustBe true
     }
     "Return a formatter which responds suitably to invalid lines" in {
-      formatter.bind("", invalidLine2).left.get.contains(FormError("addr2key", "invalid-line")) shouldBe true
+      formatter.bind("", invalidLine2).left.get.contains(FormError("addr2key", "invalid-line")) mustBe true
     }
 
     "Return a formatter which responds suitably to blank postcode" in {
-      formatter.bind("", blankPostcode).left.get.contains(FormError("postcodekey", "blank-postcode")) shouldBe true
+      formatter.bind("", blankPostcode).left.get.contains(FormError("postcodekey", "blank-postcode")) mustBe true
     }
     "Return a formatter which responds suitably to invalid postcode" in {
-      formatter.bind("", invalidPostcode).left.get.contains(FormError("postcodekey", "invalid-postcode")) shouldBe true
+      formatter.bind("", invalidPostcode).left.get.contains(FormError("postcodekey", "invalid-postcode")) mustBe true
     }
     "Return a formatter which responds suitably to allowed country code" in {
-      formatter.bind("", allowedBlankPostcode).left.get.contains(FormError("postcodekey", "blank-postcode")) shouldBe false
+      formatter.bind("", allowedBlankPostcode).left.get.contains(FormError("postcodekey", "blank-postcode")) mustBe false
     }
   }
 
-  "ihtRadio" should {
+  "ihtRadio" must {
     val formatter = ihtRadio("no-selection", ListMap("a"->"a"))
     "Return a formatter which responds suitably to no item being selected" in {
       formatter.bind("radiokey", Map( "option1"->"option1" ))
-        .left.get.contains(FormError("radiokey", "no-selection")) shouldBe true
+        .left.get.contains(FormError("radiokey", "no-selection")) mustBe true
     }
   }
 
-  "radioOptionString" should {
+  "radioOptionString" must {
     val formatter = radioOptionString("no-selection", ListMap("a"->"a"))
     "Return a formatter which responds suitably to no item being selected" in {
       formatter.bind("radiokey", Map( "option1"->"option1" ))
-        .left.get.contains(FormError("radiokey", "no-selection")) shouldBe true
+        .left.get.contains(FormError("radiokey", "no-selection")) mustBe true
     }
   }
 
@@ -245,9 +245,9 @@ class FormValidatorTest extends  FormTestHelper with FakeIhtApp {
       val f = Form(mapping, Map("" -> ""), errors, None)
       val result: Form[Option[String]] = addDeceasedNameToAllFormErrors(f, deceasedName)
       val actualOptionArgs1 = result.error("one").map(_.args)
-      actualOptionArgs1 shouldBe Some(Seq(deceasedName))
+      actualOptionArgs1 mustBe Some(Seq(deceasedName))
       val actualOptionArgs2 = result.error("two").map(_.args)
-      actualOptionArgs2 shouldBe Some(Seq(deceasedName))
+      actualOptionArgs2 mustBe Some(Seq(deceasedName))
     }
   }
 }

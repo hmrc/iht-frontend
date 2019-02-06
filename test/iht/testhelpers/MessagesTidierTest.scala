@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import play.api.Play
 import play.api.libs.Files.TemporaryFile
 import uk.gov.hmrc.play.test.UnitSpec
 
-class MessagesTidierTest extends UnitSpec with FakeIhtApp {
+class MessagesTidierTest extends FakeIhtApp {
 
   val messagesFile = "/messages"
   val mockedMessagesFileWithoutDuplicateKeys = "/messages_without_duplicates"
@@ -117,73 +117,73 @@ class MessagesTidierTest extends UnitSpec with FakeIhtApp {
     "readTuples" must {
       "generate correct tuples from mocked file" in {
         val result = mockedMessagesTidier.readTuples(mockedMessagesFileWithoutDuplicateKeys)
-        result shouldBe mockedMessagesFileWithoutDuplicateKeysAsSeqOfTuples
+        result mustBe mockedMessagesFileWithoutDuplicateKeysAsSeqOfTuples
       }
     }
 
     "parseLine" must {
       "parse a line correctly" in {
         val result: Option[(String, String)] = mockedMessagesTidier.parseLine("aaaa=bbbb")
-        result shouldBe Some(("aaaa", "bbbb"))
+        result mustBe Some(("aaaa", "bbbb"))
       }
 
       "parse a line correctly where spaces before and after equals" in {
         val result: Option[(String, String)] = mockedMessagesTidier.parseLine("aaaa = bbbb")
-        result shouldBe Some(("aaaa", "bbbb"))
+        result mustBe Some(("aaaa", "bbbb"))
       }
 
       "parse a line correctly where not in a=b format" in {
         val result: Option[(String, String)] = mockedMessagesTidier.parseLine("#waaaaa")
-        result shouldBe None
+        result mustBe None
       }
 
       "parse a blank line correctly" in {
         val result: Option[(String, String)] = mockedMessagesTidier.parseLine("\n")
-        result shouldBe None
+        result mustBe None
       }
     }
 
     "createConsolidatedMap" must {
       "create a map where key is first string of a tuple and value is a set of values" in {
         val tuples = Seq(("aaa", "bbb"), ("ccc", "ddd"))
-        mockedMessagesTidier.createConsolidatedMap(tuples) shouldBe Map("aaa" -> Set("bbb"), "ccc" -> Set("ddd"))
+        mockedMessagesTidier.createConsolidatedMap(tuples) mustBe Map("aaa" -> Set("bbb"), "ccc" -> Set("ddd"))
       }
 
       "create a map where key is first string of a tuple and value is a set of duplicate values" in {
         mockedMessagesTidier
-          .createConsolidatedMap(mockedMessagesWithDuplicateKeysAsSeqOfTuples) shouldBe mockedMessagesWithDuplicateKeysAsMapOfSets
+          .createConsolidatedMap(mockedMessagesWithDuplicateKeysAsSeqOfTuples) mustBe mockedMessagesWithDuplicateKeysAsMapOfSets
       }
     }
 
     "hasDuplicatedKeys" must {
       "return true if there are duplicate keys" in {
-        mockedMessagesTidier.hasDuplicatedKeys(mockedMessagesWithDuplicateKeysAsMapOfSets) shouldBe true
+        mockedMessagesTidier.hasDuplicatedKeys(mockedMessagesWithDuplicateKeysAsMapOfSets) mustBe true
       }
 
       "return false if there are no duplicate keys" in {
-        mockedMessagesTidier.hasDuplicatedKeys(mockedMessagesWithoutDuplicateKeysAsMapOfSets) shouldBe false
+        mockedMessagesTidier.hasDuplicatedKeys(mockedMessagesWithoutDuplicateKeysAsMapOfSets) mustBe false
       }
     }
 
     "readMessageFile" must {
       "read a file of key=message lines and produce a Right(map) if there are no duplicated keys" in {
-        mockedMessagesTidier.readMessageFile(mockedMessagesFileWithoutDuplicateKeys) shouldBe Right(mockedMessagesWithDuplicateValuesAsMap)
+        mockedMessagesTidier.readMessageFile(mockedMessagesFileWithoutDuplicateKeys) mustBe Right(mockedMessagesWithDuplicateValuesAsMap)
       }
 
       "readMessageFile" must {
         "read a file of key=message lines and produce a Left(map) if there are duplicated keys" in {
-          mockedMessagesTidier.readMessageFile(mockedMessagesFileWithDuplicateKeys) shouldBe Left(mockedMessagesFileWithDuplicateKeysAsMap)
+          mockedMessagesTidier.readMessageFile(mockedMessagesFileWithDuplicateKeys) mustBe Left(mockedMessagesFileWithDuplicateKeysAsMap)
         }
       }
     }
 
     "prettyPrint" must {
       "return empty string for empty set" in {
-        mockedMessagesTidier.prettyPrintSetOfStrings(Set()) shouldBe ""
+        mockedMessagesTidier.prettyPrintSetOfStrings(Set()) mustBe ""
       }
 
       "return all items in set with commas in between" in {
-        mockedMessagesTidier.prettyPrintSetOfStrings(Set("one", "two", "three")) shouldBe "\"one\",\"two\",\"three\""
+        mockedMessagesTidier.prettyPrintSetOfStrings(Set("one", "two", "three")) mustBe "\"one\",\"two\",\"three\""
       }
     }
   }

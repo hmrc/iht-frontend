@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ class ProbateLocationControllerTest
  //Create controller object and pass in mock.
  def controller = new ProbateLocationController {
    override val cachingConnector = mockCachingConnector
-   override val authConnector = createFakeAuthConnector(isAuthorised=true)
+   override val authConnector = mockAuthConnector
    override val metrics:Metrics = mock[Metrics]
 
    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -48,14 +48,10 @@ class ProbateLocationControllerTest
 
   def controllerNotAuthorised = new ProbateLocationController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
     override val metrics:Metrics = mock[Metrics]
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
-  }
-
-  before {
-    mockCachingConnector = mock[CachingConnector]
   }
 
   "ProbateLocationController" must {
@@ -70,11 +66,11 @@ class ProbateLocationControllerTest
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
       val result = controller.onPageLoad()(createFakeRequest())
-      status(result) shouldBe OK
+      status(result) mustBe OK
 
-      contentAsString(result) should include(messagesApi("page.iht.registration.applicant.probateLocation.title"))
-      contentAsString(result) should include(messagesApi("iht.continue"))
-      contentAsString(result) should not include(messagesApi("site.link.cancel"))
+      contentAsString(result) must include(messagesApi("page.iht.registration.applicant.probateLocation.title"))
+      contentAsString(result) must include(messagesApi("iht.continue"))
+      contentAsString(result) must not include(messagesApi("site.link.cancel"))
     }
 
     "contain Continue and Cancel buttons when page is loaded in edit mode" in {
@@ -86,39 +82,39 @@ class ProbateLocationControllerTest
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
       val result = controller.onEditPageLoad()(createFakeRequest())
-      status(result) shouldBe OK
+      status(result) mustBe OK
 
-      contentAsString(result) should include(messagesApi("page.iht.registration.applicant.probateLocation.title"))
-      contentAsString(result) should include(messagesApi("iht.continue"))
-      contentAsString(result) should include(messagesApi("site.link.cancel"))
+      contentAsString(result) must include(messagesApi("page.iht.registration.applicant.probateLocation.title"))
+      contentAsString(result) must include(messagesApi("iht.continue"))
+      contentAsString(result) must include(messagesApi("site.link.cancel"))
     }
 
     "respond appropriately to a submit with valid values in all fields" in  {
       val applicantDetails = CommonBuilder.buildApplicantDetails
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
       val filledForm = probateLocationForm.fill(applicantDetails)
-      val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
       val result = controller.onSubmit()(request)
-      redirectLocation(result) should be(Some(routes.ApplicantTellUsAboutYourselfController.onPageLoad().url))
+      redirectLocation(result) must be(Some(routes.ApplicantTellUsAboutYourselfController.onPageLoad().url))
     }
 
     "respond appropriately to a submit in edit mode with valid values in all fields" in  {
       val applicantDetails = CommonBuilder.buildApplicantDetails
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
       val filledForm = probateLocationForm.fill(applicantDetails)
-      val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
       val result = controller.onEditSubmit()(request)
-      redirectLocation(result) should be(Some(registrationRoutes.RegistrationSummaryController.onPageLoad().url))
+      redirectLocation(result) must be(Some(registrationRoutes.RegistrationSummaryController.onPageLoad().url))
     }
 
     "respond appropriately to an invalid submit: Missing mandatory fields" in {
@@ -126,13 +122,13 @@ class ProbateLocationControllerTest
       val registrationDetails = CommonBuilder.buildRegistrationDetailsWithDeceasedDetails copy (
         applicantDetails = Some(applicantDetails))
       val filledForm = probateLocationForm.fill(applicantDetails)
-      val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
       val result = await(controller.onSubmit()(request))
-      status(result) shouldBe BAD_REQUEST
+      status(result) mustBe BAD_REQUEST
     }
 
     "save valid data correctly when coming to this screen for the first time" in {
@@ -146,13 +142,13 @@ class ProbateLocationControllerTest
 
       val form = probateLocationForm.fill(applicantDetails)
 
-      val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq)
+      val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq, authRetrieveNino = false)
 
       val result = controller.onSubmit()(request)
-      status(result) should be (SEE_OTHER)
+      status(result) must be (SEE_OTHER)
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
-      capturedValue.applicantDetails shouldBe Some(applicantDetails)
+      capturedValue.applicantDetails mustBe Some(applicantDetails)
     }
 
     "save valid data correctly when returning to this screen" in {
@@ -170,27 +166,27 @@ class ProbateLocationControllerTest
 
       val form = probateLocationForm.fill(applicantDetails)
 
-      val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq)
+      val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq, authRetrieveNino = false)
 
       val result = controller.onEditSubmit()(request)
-      status(result) should be (SEE_OTHER)
+      status(result) must be (SEE_OTHER)
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
-      capturedValue.deceasedDetails shouldBe Some(existingDeceasedDetails)
-      capturedValue.deceasedDateOfDeath shouldBe Some(existingDod)
-      capturedValue.applicantDetails shouldBe Some(existingApplicantDetails copy (country = applicantDetails.country))
+      capturedValue.deceasedDetails mustBe Some(existingDeceasedDetails)
+      capturedValue.deceasedDateOfDeath mustBe Some(existingDod)
+      capturedValue.applicantDetails mustBe Some(existingApplicantDetails copy (country = applicantDetails.country))
     }
 
     "return true if the guard conditions are true" in {
       val rd = CommonBuilder.buildRegistrationDetails copy (applicantDetails =
         Some(ApplicantDetails(isApplyingForProbate = Some(true))),
         deceasedDetails = Some(CommonBuilder.buildDeceasedDetails))
-      controller.checkGuardCondition(rd, "") shouldBe true
+      controller.checkGuardCondition(rd, "") mustBe true
     }
 
     "return false if the guard conditions are false" in {
       val rd = CommonBuilder.buildRegistrationDetails copy (applicantDetails = None)
-      controller.checkGuardCondition(rd, "") shouldBe false
+      controller.checkGuardCondition(rd, "") mustBe false
     }
 
     def ensureRedirectOnKickout(country: String, kickoutReasonKey: String) = {
@@ -198,7 +194,7 @@ class ProbateLocationControllerTest
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
       val applicantDetailsForm1 = probateLocationForm.fill(applicantDetails)
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-        data=applicantDetailsForm1.data.toSeq)
+        data=applicantDetailsForm1.data.toSeq, authRetrieveNino = false)
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -208,13 +204,13 @@ class ProbateLocationControllerTest
         singleValueReturn=Some(kickoutReasonKey))
 
       val result = await(controller.onSubmit()(request))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (
-        Some(iht.controllers.registration.routes.KickoutController.onPageLoad().url))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (
+        Some(iht.controllers.registration.routes.KickoutRegController.onPageLoad().url))
       verifyAndReturnStoredSingleValue(mockCachingConnector) match {
         case (cachedKey, cachedValue) =>
-          cachedKey shouldBe RegistrationKickoutReasonCachingKey
-          cachedValue shouldBe kickoutReasonKey
+          cachedKey mustBe RegistrationKickoutReasonCachingKey
+          cachedValue mustBe kickoutReasonKey
       }
     }
 
@@ -230,7 +226,7 @@ class ProbateLocationControllerTest
       val applicantDetails = CommonBuilder.buildApplicantDetails
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
       val filledForm = probateLocationForm.fill(applicantDetails)
-      val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -238,7 +234,7 @@ class ProbateLocationControllerTest
 
 
       val result = controller.onSubmit()(request)
-      status(result) should be(INTERNAL_SERVER_ERROR)
+      status(result) must be(INTERNAL_SERVER_ERROR)
     }
   }
 }

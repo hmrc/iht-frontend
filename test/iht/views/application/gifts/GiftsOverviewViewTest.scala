@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,8 +76,8 @@ class GiftsOverviewViewTest extends ViewTestHelper {
       val view = giftsOverviewView()
 
       val returnLink = view.getElementById("return-button")
-      returnLink.attr("href") shouldBe CommonHelper.addFragmentIdentifierToUrl(estateOverviewPageUrl.url, EstateGiftsID)
-      returnLink.text() shouldBe messagesApi("iht.estateReport.returnToEstateOverview")
+      returnLink.attr("href") mustBe CommonHelper.addFragmentIdentifierToUrl(estateOverviewPageUrl.url, EstateGiftsID)
+      returnLink.text() mustBe messagesApi("iht.estateReport.returnToEstateOverview")
     }
 
     "have all question labels and the correct target links" in {
@@ -105,26 +105,26 @@ class GiftsOverviewViewTest extends ViewTestHelper {
       messagesShouldBePresent(doc.toString,
         messagesApi("page.iht.application.gifts.lastYears.givenAway.question", deceasedName))
       val givenAwayLink = doc.getElementById(GiftsGivenAwayQuestionID)
-      givenAwayLink.text shouldBe messagesApi("iht.change")
-      givenAwayLink.attr("href") shouldBe giftGivenAwayPageUrl.url
+      givenAwayLink.text mustBe messagesApi("iht.change")
+      givenAwayLink.attr("href") mustBe giftGivenAwayPageUrl.url
 
       assertRenderedById(doc, "reservation")
       messagesShouldBePresent(doc.toString, messagesApi("iht.estateReport.gifts.reservation.question", deceasedName))
       val reservationLink = doc.getElementById(GiftsReservationBenefitQuestionID)
-      reservationLink.text shouldBe messagesApi("iht.change")
-      reservationLink.attr("href") shouldBe giftWithReservationUrl.url
+      reservationLink.text mustBe messagesApi("iht.change")
+      reservationLink.attr("href") mustBe giftWithReservationUrl.url
 
       assertRenderedById(doc, "sevenYear")
       messagesShouldBePresent(doc.toString, messagesApi("page.iht.application.gifts.lastYears.question", deceasedName))
       val sevenYearsLink = doc.getElementById(GiftsSevenYearsQuestionID)
-      sevenYearsLink.text shouldBe messagesApi("iht.change")
-      sevenYearsLink.attr("href") shouldBe giftGivenInLastSevenYearsPageUrl.url
+      sevenYearsLink.text mustBe messagesApi("iht.change")
+      sevenYearsLink.attr("href") mustBe giftGivenInLastSevenYearsPageUrl.url
 
       assertRenderedById(doc, "value")
       messagesShouldBePresent(doc.toString, messagesApi("page.iht.application.gifts.overview.value.question1"))
       val valueLink = doc.getElementById(GiftsValueOfGiftsQuestionID)
-      valueLink.text shouldBe messagesApi("iht.estateReport.changeValues")
-      valueLink.attr("href") shouldBe giftSevenYearsValuesPageUrl.url
+      valueLink.text mustBe messagesApi("iht.estateReport.changeValues")
+      valueLink.attr("href") mustBe giftSevenYearsValuesPageUrl.url
     }
 
   }

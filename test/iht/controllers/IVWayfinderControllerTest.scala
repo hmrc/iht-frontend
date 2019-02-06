@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,24 +26,18 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class IVWayfinderControllerTest extends ApplicationControllerTest {
 
-  val mockCachingConnector: CachingConnector = mock[CachingConnector]
-
   def ivWayfinderController = new IVWayfinderController {
-    val mockIhtConnector: IhtConnector = mock[IhtConnector]
-    val cachingConnector: CachingConnector = mockCachingConnector
-    val authConnector = createFakeAuthConnector(true)
+    override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  implicit val request = FakeRequest()
-
   "IV Wayfinder login-pass" must {
 
     "respond with a 303 when login-pass hasn't got an auth connection" in {
-      val result = ivWayfinderController.loginPass(request)
+      val result = ivWayfinderController.loginPass()(createFakeRequest(isAuthorised = false, authRetrieveNino = false))
 
-      status(result) shouldBe 303
+      status(result) mustBe 303
     }
 
     "respond with a 200 when login-pass page is served" in {
@@ -51,9 +45,9 @@ class IVWayfinderControllerTest extends ApplicationControllerTest {
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
-      val result = ivWayfinderController.loginPass()(createFakeRequest())
+      val result = ivWayfinderController.loginPass()(createFakeRequest(authRetrieveNino = false))
 
-      status(result) shouldBe 200
+      status(result) mustBe 200
     }
 
   }
@@ -61,9 +55,9 @@ class IVWayfinderControllerTest extends ApplicationControllerTest {
   "IV Wayfinder verification-pass" must {
 
     "respond with a 303 when verification-pass hasn't got an auth connection" in {
-      val result = ivWayfinderController.verificationPass(request)
+      val result = ivWayfinderController.verificationPass()(createFakeRequest(isAuthorised = false, authRetrieveNino = false))
 
-      status(result) shouldBe 303
+      status(result) mustBe 303
     }
 
     "respond with a 200 when verification-pass page is served" in {
@@ -71,9 +65,9 @@ class IVWayfinderControllerTest extends ApplicationControllerTest {
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
-      val result = ivWayfinderController.verificationPass()(createFakeRequest())
+      val result = ivWayfinderController.verificationPass()(createFakeRequest(authRetrieveNino = false))
 
-      status(result) shouldBe 200
+      status(result) mustBe 200
     }
 
   }

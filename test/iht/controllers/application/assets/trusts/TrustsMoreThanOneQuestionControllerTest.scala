@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,18 +31,19 @@ import iht.utils.CommonHelper
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class TrustsMoreThanOneQuestionControllerTest extends ApplicationControllerTest{
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+//  val mockCachingConnector = mock[CachingConnector]
+//  val mockIhtConnector = mock[IhtConnector]
 
   def trustsMoreThanOneQuestionController = new TrustsMoreThanOneQuestionController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def trustsMoreThanOneQuestionControllerNotAuthorised = new TrustsMoreThanOneQuestionController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
+//    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -52,14 +53,14 @@ class TrustsMoreThanOneQuestionControllerTest extends ApplicationControllerTest{
 
     "redirect to login page on PageLoad if the user is not logged in" in {
       val result = trustsMoreThanOneQuestionControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to login page on Submit if the user is not logged in" in {
       val result = trustsMoreThanOneQuestionController.onSubmit(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
@@ -76,8 +77,8 @@ class TrustsMoreThanOneQuestionControllerTest extends ApplicationControllerTest{
         storeAppDetailsInCache = true)
 
       val result = trustsMoreThanOneQuestionController.onPageLoad (createFakeRequest())
-      status(result) shouldBe (OK)
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("iht.estateReport.assets.trusts.moreThanOne.question", deceasedName))
+      status(result) mustBe (OK)
+      ContentChecker.stripLineBreaks(contentAsString(result)) must include (messagesApi("iht.estateReport.assets.trusts.moreThanOne.question", deceasedName))
     }
 
     "save application and go to held in trust overview page on submit when user selects No" in {
@@ -95,8 +96,8 @@ class TrustsMoreThanOneQuestionControllerTest extends ApplicationControllerTest{
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledHeldInTrustForm.data.toSeq: _*)
 
       val result = trustsMoreThanOneQuestionController.onSubmit (request)
-      status(result) shouldBe (SEE_OTHER)
-      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.TrustsOverviewController.onPageLoad.url, AssetsTrustsMultipleID)))
+      status(result) mustBe (SEE_OTHER)
+      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.TrustsOverviewController.onPageLoad.url, AssetsTrustsMultipleID)))
     }
 
     "save application and go to held in trust overview page on submit when user selects No and " +
@@ -114,8 +115,8 @@ class TrustsMoreThanOneQuestionControllerTest extends ApplicationControllerTest{
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledHeldInTrustForm.data.toSeq: _*)
 
       val result = trustsMoreThanOneQuestionController.onSubmit (request)
-      status(result) shouldBe (SEE_OTHER)
-      redirectLocation(result) should be (Some(iht.controllers.application.routes.KickoutController.onPageLoad.url))
+      status(result) mustBe (SEE_OTHER)
+      redirectLocation(result) must be (Some(iht.controllers.application.routes.KickoutAppController.onPageLoad.url))
     }
 
 
@@ -134,8 +135,8 @@ class TrustsMoreThanOneQuestionControllerTest extends ApplicationControllerTest{
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledHeldInTrustForm.data.toSeq: _*)
 
       val result = trustsMoreThanOneQuestionController.onSubmit (request)
-      status(result) shouldBe (SEE_OTHER)
-      redirectLocation(result) should be (Some(iht.controllers.application.routes.KickoutController.onPageLoad.url))
+      status(result) mustBe (SEE_OTHER)
+      redirectLocation(result) must be (Some(iht.controllers.application.routes.KickoutAppController.onPageLoad.url))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
@@ -144,7 +145,7 @@ class TrustsMoreThanOneQuestionControllerTest extends ApplicationControllerTest{
      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = trustsMoreThanOneQuestionController.onSubmit (fakePostRequest)
-      status(result) shouldBe (BAD_REQUEST)
+      status(result) mustBe (BAD_REQUEST)
     }
 
     "respond with bad request and correct error message when no answer is selected" in {
@@ -153,8 +154,8 @@ class TrustsMoreThanOneQuestionControllerTest extends ApplicationControllerTest{
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = trustsMoreThanOneQuestionController.onSubmit (fakePostRequest)
-      status(result) shouldBe (BAD_REQUEST)
-      contentAsString(result) should include(messagesApi("error.assets.heldInTrust.moreThanOne.select",
+      status(result) mustBe (BAD_REQUEST)
+      contentAsString(result) must include(messagesApi("error.assets.heldInTrust.moreThanOne.select",
         CommonBuilder.buildDeceasedDetails.name))
     }
 

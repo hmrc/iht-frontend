@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,8 +60,8 @@ trait GenericNonSubmittablePageBehaviour extends ViewTestHelper {
       "show the exit link with the correct target and text" in {
         exitComponent.foreach { attrib =>
           val anchor = doc.getElementById(exitId)
-          anchor.attr("href") shouldBe addFragmentIdentifierToUrl(attrib.target.url, attrib.hash)
-          anchor.text() shouldBe attrib.content
+          anchor.attr("href") mustBe addFragmentIdentifierToUrl(attrib.target.url, attrib.hash)
+          anchor.text() mustBe attrib.content
         }
       }
     }
@@ -70,10 +70,10 @@ trait GenericNonSubmittablePageBehaviour extends ViewTestHelper {
   def link(anchorId: => String, href: => String, text: => String) = {
     def anchor = doc.getElementById(anchorId)
     s"have a link with id $anchorId and correct target" in {
-      anchor.attr("href") shouldBe href
+      anchor.attr("href") mustBe href
     }
     s"have a link with id $anchorId and correct text" in {
-      getVisibleText(anchor) shouldBe text
+      getVisibleText(anchor) mustBe text
     }
   }
 }

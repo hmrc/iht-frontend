@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,17 +34,16 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
  */
 class ExemptionsOverviewControllerTest extends ApplicationControllerTest with BeforeAndAfter{
 
-  var mockCachingConnector = mock[CachingConnector]
-  var mockIhtConnector = mock[IhtConnector]
+
 
   def exemptionsSummaryController = new ExemptionsOverviewController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
   def exemptionsSummaryControllerNotAuthorised = new ExemptionsOverviewController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -56,10 +55,7 @@ class ExemptionsOverviewControllerTest extends ApplicationControllerTest with Be
   val allExemptions = CommonBuilder.buildAllExemptions copy (partner=Some(defaultPartnerExemption))
   val applicationDetails = CommonBuilder.buildApplicationDetails copy (allExemptions = Some(allExemptions))
 
-  before {
-    mockCachingConnector = mock[CachingConnector]
-    mockIhtConnector = mock[IhtConnector]
-  }
+
 
   "ExemptionsOverviewController" must {
     "respond with OK on page load" in {
@@ -72,8 +68,8 @@ class ExemptionsOverviewControllerTest extends ApplicationControllerTest with Be
         storeAppDetailsInCache = true)
 
       val result = exemptionsSummaryController.onPageLoad (createFakeRequest())
-      status(result) should be (OK)
-      contentAsString(result) should include(messagesApi("page.iht.application.exemptions.title"))
+      status(result) must be (OK)
+      contentAsString(result) must include(messagesApi("page.iht.application.exemptions.title"))
     }
 
 
@@ -92,7 +88,7 @@ class ExemptionsOverviewControllerTest extends ApplicationControllerTest with Be
       await(exemptionsSummaryController.onPageLoad (createFakeRequest()))
 
       val adStored = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
-      adStored.hasSeenExemptionGuidance shouldBe Some(true)
+      adStored.hasSeenExemptionGuidance mustBe Some(true)
     }
 
     "respond with amended applicationDetails object with hasSeenExemptionGuidance set to true where it was None " +
@@ -110,7 +106,7 @@ class ExemptionsOverviewControllerTest extends ApplicationControllerTest with Be
       await(exemptionsSummaryController.onPageLoad (createFakeRequest()))
 
       val adStored = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
-      adStored.hasSeenExemptionGuidance shouldBe Some(true)
+      adStored.hasSeenExemptionGuidance mustBe Some(true)
     }
 
     "redirect to ida login page on page load if user is not logged in" in {
@@ -121,8 +117,8 @@ class ExemptionsOverviewControllerTest extends ApplicationControllerTest with Be
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
-      val result = exemptionsSummaryControllerNotAuthorised.onPageLoad()(createFakeRequest())
-      redirectLocation(result) should be (Some(loginUrl))
+      val result = exemptionsSummaryControllerNotAuthorised.onPageLoad()(createFakeRequest(isAuthorised = false))
+      redirectLocation(result) must be (Some(loginUrl))
 
     }
 
@@ -134,7 +130,7 @@ class ExemptionsOverviewControllerTest extends ApplicationControllerTest with Be
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
-      a[RuntimeException] shouldBe thrownBy {
+      a[RuntimeException] mustBe thrownBy {
         await(exemptionsSummaryController.onPageLoad (createFakeRequest()))
       }
     }
@@ -148,8 +144,8 @@ class ExemptionsOverviewControllerTest extends ApplicationControllerTest with Be
         storeAppDetailsInCache = true)
 
       val result = exemptionsSummaryController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
-      contentAsString(result) should include ("120")
+      status(result) must be (OK)
+      contentAsString(result) must include ("120")
     }
 
     "display correct value for qualifying body total exemption value if defined" in {
@@ -161,8 +157,8 @@ class ExemptionsOverviewControllerTest extends ApplicationControllerTest with Be
         storeAppDetailsInCache = true)
 
       val result = exemptionsSummaryController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
-      contentAsString(result) should include ("12,345")
+      status(result) must be (OK)
+      contentAsString(result) must include ("12,345")
     }
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,8 +34,8 @@ import uk.gov.hmrc.http.HeaderCarrier
 class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
 
   implicit val hc = new HeaderCarrier()
-  var mockCachingConnector: CachingConnector = null
-  var mockIhtConnector: IhtConnector = null
+//  var mockCachingConnector: CachingConnector = null
+//  var mockIhtConnector: IhtConnector = null
 
   val appDetailsWithNoQualifyingBodies = CommonBuilder.buildApplicationDetails.copy(
     allExemptions = Some(CommonBuilder.buildAllExemptions.copy(
@@ -61,11 +61,6 @@ class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
 
   def requestUnauthorised = createFakeRequest(isAuthorised = false)
 
-  before {
-    mockCachingConnector = mock[CachingConnector]
-    mockIhtConnector = mock[IhtConnector]
-  }
-
   def controller = getController()
 
   def controllerNotAuthorised = getController(authorised = false)
@@ -73,7 +68,8 @@ class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
   private def getController(authorised: Boolean = true) = new QualifyingBodiesOverviewController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = authorised)
+//    override val authConnector = createFakeAuthConnector(isAuthorised = authorised)
+    override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
@@ -81,8 +77,8 @@ class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
   "Qualifying Bodies Overview Controller" must {
     "redirect to login page on PageLoad if the user is not logged in" in {
       val result = controllerNotAuthorised.onPageLoad()(requestUnauthorised)
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) shouldBe Some(loginUrl)
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) mustBe Some(loginUrl)
     }
 
     "throw an illegal page navigation error when accessed before the Yes/No question is answered" in {
@@ -92,7 +88,7 @@ class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
         await(controller.onPageLoad()(request))
       }
 
-      exception.getMessage should include("Illegal page navigation")
+      exception.getMessage must include("Illegal page navigation")
     }
 
     "load the page" in {
@@ -102,10 +98,10 @@ class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
       setupMocks(appDetailsWithNoQualifyingBodies)
 
       val result = controller.onPageLoad()(request)
-      status(result) shouldBe OK
+      status(result) mustBe OK
 
       val content = contentAsString(result)
-      content should include(messagesApi("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title"))
+      content must include(messagesApi("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title"))
     }
   }
 }

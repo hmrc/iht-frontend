@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,8 +29,8 @@ trait YesNoQuestionViewBehaviour[A] extends SubmittableApplicationPageBehaviour[
     behave like applicationPageWithErrorSummaryBox()
 
     "show the correct yes/no question text" in {
-      doc.getElementById("yes-label").text shouldBe messagesApi("iht.yes")
-      doc.getElementById("no-label").text shouldBe messagesApi("iht.no")
+      doc.getElementById("yes-label").text mustBe messagesApi("iht.yes")
+      doc.getElementById("no-label").text mustBe messagesApi("iht.no")
     }
   }
 
@@ -38,7 +38,7 @@ trait YesNoQuestionViewBehaviour[A] extends SubmittableApplicationPageBehaviour[
     behave like yesNoQuestion()
 
     "show the correct question text" in {
-      doc.getElementById("yes-no-question-legend").text shouldBe questionLegend
+      doc.getElementById("yes-no-question-legend").text mustBe questionLegend
     }
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,21 +39,17 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
     (firstName = CommonBuilder.firstNameGenerator, lastName = CommonBuilder.surnameGenerator, nino = NinoBuilder.defaultNino,
       dateOfBirth = new LocalDate(new org.joda.time.DateTime(1980, 5, 1, 0, 0)))
 
-  before {
-    mockCachingConnector = mock[CachingConnector]
-  }
-
   // Create controller object and pass in mock.
   def controller = new OtherPersonsAddressController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new OtherPersonsAddressController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
@@ -61,14 +57,14 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
   "OtherPersonsAddressController" must {
     "redirect to GG login page on PageLoad if the user is not logged in" in {
       val result = controllerNotAuthorised.onPageLoadUK("1")(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(loginUrl))
     }
 
     "redirect to GG login page on Submit if the user is not logged in" in {
       val result = controllerNotAuthorised.onSubmitUK("1")(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(loginUrl))
     }
 
     "load UK page when the coExecutors address has not been entered" in {
@@ -76,16 +72,16 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
 
       val result = controller.onPageLoadUK("1")(
-        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-in-uk/1"))
+        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-in-uk/1", authRetrieveNino = false))
 
-      status(result) should be(OK)
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(
+      status(result) must be(OK)
+      ContentChecker.stripLineBreaks(contentAsString(result)) must include(
         messagesApi("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
           addApostrophe(rd.coExecutors(0).name)))
       val msg = escapeApostrophes(
         messagesApi("iht.registration.changeAddressToAbroad"))
-      contentAsString(result) should include(msg)
-      contentAsString(result) should include(messagesApi("page.iht.registration.others-applying-for-probate-address.address.guidance"))
+      contentAsString(result) must include(msg)
+      contentAsString(result) must include(messagesApi("page.iht.registration.others-applying-for-probate-address.address.guidance"))
     }
 
     "load international page when the coExecutors address has not been entered" in {
@@ -93,16 +89,16 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
 
       val result = controller.onPageLoadAbroad("1")(
-        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/1"))
+        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/1", authRetrieveNino = false))
 
-      status(result) should be(OK)
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(
+      status(result) must be(OK)
+      ContentChecker.stripLineBreaks(contentAsString(result)) must include(
         messagesApi("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
           addApostrophe(rd.coExecutors(0).name)))
       val msg = escapeApostrophes(
         messagesApi("iht.registration.changeAddressToUK"))
-      contentAsString(result) should include(msg)
-      contentAsString(result) should include(messagesApi("page.iht.registration.others-applying-for-probate-address.address.guidance"))
+      contentAsString(result) must include(msg)
+      contentAsString(result) must include(messagesApi("page.iht.registration.others-applying-for-probate-address.address.guidance"))
     }
 
     "raise an error when trying to load the UK view when trying to add a co-executor but " +
@@ -112,8 +108,8 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
         coExecutors = Seq(CommonBuilder.buildCoExecutor))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithOthersApplyingForProbateAndOneOther))
       val result = controller.onPageLoadUK("1")(
-        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-in-uk/2"))
-      status(result) shouldBe SEE_OTHER
+        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-in-uk/2", authRetrieveNino = false))
+      status(result) mustBe SEE_OTHER
     }
 
     "raise an error when trying to load the international  view when trying to add a co-executor but" +
@@ -123,8 +119,8 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
         coExecutors = Seq(CommonBuilder.buildCoExecutor))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithOthersApplyingForProbateAndOneOther))
       val result = controller.onPageLoadAbroad("1")(
-        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/2"))
-      status(result) shouldBe SEE_OTHER
+        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/2", authRetrieveNino = false))
+      status(result) mustBe SEE_OTHER
     }
 
     "load the UK display when the coExecutors address has been entered" in {
@@ -134,14 +130,14 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithCoExecs))
 
       val result = controller.onPageLoadUK("1")(
-        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-in-uk/1"))
+        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-in-uk/1", authRetrieveNino = false))
 
-      status(result) should be(OK)
-      contentAsString(result) should include("addr1")
-      contentAsString(result) should include("addr2")
-      contentAsString(result) should include("addr3")
-      contentAsString(result) should include("addr4")
-      contentAsString(result) should include(CommonBuilder.DefaultUkAddress.postCode)
+      status(result) must be(OK)
+      contentAsString(result) must include("addr1")
+      contentAsString(result) must include("addr2")
+      contentAsString(result) must include("addr3")
+      contentAsString(result) must include("addr4")
+      contentAsString(result) must include(CommonBuilder.DefaultUkAddress.postCode)
     }
 
     "load the international display when the coExecutors address has been entered" in {
@@ -153,14 +149,14 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithCoExecs))
 
       val result = controller.onPageLoadAbroad("1")(
-        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/1"))
+        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/1", authRetrieveNino = false))
 
-      status(result) should be(OK)
-      contentAsString(result) should include("addr1")
-      contentAsString(result) should include("addr2")
-      contentAsString(result) should include("addr3")
-      contentAsString(result) should include("addr4")
-      contentAsString(result) should include("AU")
+      status(result) must be(OK)
+      contentAsString(result) must include("addr1")
+      contentAsString(result) must include("addr2")
+      contentAsString(result) must include("addr3")
+      contentAsString(result) must include("addr4")
+      contentAsString(result) must include("AU")
     }
 
 
@@ -169,13 +165,13 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
 
       val result = controller.onPageLoadUK("1")(
-        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-in-uk/1"))
+        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-in-uk/1", authRetrieveNino = false))
 
-      status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("iht.postcode"))
+      status(result) must be(OK)
+      contentAsString(result) must include(messagesApi("iht.postcode"))
       val msg = escapeApostrophes(
         messagesApi("iht.registration.changeAddressToAbroad"))
-      contentAsString(result) should include(msg)
+      contentAsString(result) must include(msg)
     }
 
 
@@ -184,14 +180,14 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
 
       val result = controller.onPageLoadAbroad("1")(
-        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/1"))
+        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/1", authRetrieveNino = false))
 
-      status(result) should be(OK)
-      contentAsString(result) should include(
+      status(result) must be(OK)
+      contentAsString(result) must include(
         messagesApi("iht.country"))
       val msg = escapeApostrophes(
         messagesApi("iht.registration.changeAddressToUK"))
-      contentAsString(result) should include(msg)
+      contentAsString(result) must include(msg)
     }
 
     "load the UK view when creating a new co-executor and another already exists" in {
@@ -204,15 +200,15 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithCoExecs))
 
       val result = controller.onPageLoadUK("2")(
-        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-in-uk/2"))
+        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-in-uk/2", authRetrieveNino = false))
 
-      status(result) should be(OK)
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(
+      status(result) must be(OK)
+      ContentChecker.stripLineBreaks(contentAsString(result)) must include(
         messagesApi("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
           addApostrophe(rdWithCoExecs.coExecutors(1).name)))
       val msg = escapeApostrophes(
         messagesApi("iht.registration.changeAddressToAbroad"))
-      contentAsString(result) should include(msg)
+      contentAsString(result) must include(msg)
     }
 
     "load the international view when creating a new co-executor and another already exists" in {
@@ -222,15 +218,15 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithCoExecs))
 
       val result = controller.onPageLoadAbroad("2")(
-        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/2"))
+        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/2", authRetrieveNino = false))
 
-      status(result) should be(OK)
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(
+      status(result) must be(OK)
+      ContentChecker.stripLineBreaks(contentAsString(result)) must include(
         messagesApi("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
           addApostrophe(rdWithCoExecs.coExecutors(1).name)))
       val msg = escapeApostrophes(
         messagesApi("iht.registration.changeAddressToUK"))
-      contentAsString(result) should include(msg)
+      contentAsString(result) must include(msg)
     }
 
 
@@ -241,8 +237,8 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithCoExecs))
 
       val result = controller.onPageLoadUK("2")(
-        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-uk/2"))
-      status(result) shouldBe SEE_OTHER
+        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-uk/2", authRetrieveNino = false))
+      status(result) mustBe SEE_OTHER
     }
 
     "raise an error when international view accessed for a non-existent co-executor" in {
@@ -252,8 +248,8 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithCoExecs))
 
       val result = controller.onPageLoadAbroad("2")(
-        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/2"))
-      status(result) shouldBe SEE_OTHER
+        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/2", authRetrieveNino = false))
+      status(result) mustBe SEE_OTHER
     }
 
     "raise an error when trying to add a co-executor but no first name or last name," +
@@ -262,8 +258,8 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       val rdWithNoAnswer = rd copy (coExecutors = Seq(CommonBuilder.buildCoExecutor))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithNoAnswer))
 
-      val result = controller.onPageLoadAbroad("1")(createFakeRequest())
-      status(result) shouldBe SEE_OTHER
+      val result = controller.onPageLoadAbroad("1")(createFakeRequest(authRetrieveNino = false))
+      status(result) mustBe SEE_OTHER
     }
 
     "raise an error when first name has not been entered from the previous page is not present" in {
@@ -274,8 +270,8 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
 
 
       val result = controller.onPageLoadUK("2")(
-        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-uk/2"))
-      status(result) shouldBe SEE_OTHER
+        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-uk/2", authRetrieveNino = false))
+      status(result) mustBe SEE_OTHER
     }
 
     "respond appropriately to a submit in the UK with a plausible address" in {
@@ -284,14 +280,14 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       val addressForm = coExecutorAddressUkForm.fill(CommonBuilder.DefaultUkAddress)
       val request = createFakeRequestWithReferrerWithBody(
         referrerURL = "http://localhost:9070/inheritance-tax/registration/other-persons-address-uk/1",
-        host = host, data = addressForm.data.toSeq)
+        host = host, data = addressForm.data.toSeq, authRetrieveNino = false)
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
       val result = controller.onSubmitUK("1")(request)
-      status(result) shouldBe (SEE_OTHER)
+      status(result) mustBe (SEE_OTHER)
     }
   }
 
@@ -302,7 +298,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       CommonBuilder.DefaultUkAddress copy(postCode = "", countryCode = "AU"))
     val request = createFakeRequestWithReferrerWithBody(
       referrerURL = "http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/1",
-      host = host, data = addressForm.data.toSeq)
+      host = host, data = addressForm.data.toSeq, authRetrieveNino = false)
 
     createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
     createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -310,7 +306,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
 
     val result = controller.onSubmitAbroad("1")(request)
 
-    status(result) shouldBe (SEE_OTHER)
+    status(result) mustBe (SEE_OTHER)
   }
 
   "store plausible data when submitted" in {
@@ -321,7 +317,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
 
     implicit val request = createFakeRequestWithReferrerWithBody(
       referrerURL = "http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/1",
-      host = host, data = form.data.toSeq)
+      host = host, data = form.data.toSeq, authRetrieveNino = false)
 
     createMockToStoreRegDetailsInCache(mockCachingConnector, registrationDetails)
 
@@ -329,7 +325,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
     status(result)
 
     val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
-    capturedValue.coExecutors.head.ukAddress shouldBe Some(CommonBuilder.DefaultUkAddress)
+    capturedValue.coExecutors.head.ukAddress mustBe Some(CommonBuilder.DefaultUkAddress)
   }
 
   "show an error when the first address line is blank when submitted to the UK route" in {
@@ -375,14 +371,14 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
     createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
     val result = controller.onPageLoadUK("1")(
-      createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-uk/1"))
+      createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-uk/1", authRetrieveNino = false))
 
-    status(result) should be(OK)
-    contentAsString(result) should not include ("addr1")
-    contentAsString(result) should not include ("addr2")
-    contentAsString(result) should not include ("addr3")
-    contentAsString(result) should not include ("addr4")
-    contentAsString(result) should not include ("AU")
+    status(result) must be(OK)
+    contentAsString(result) must not include ("addr1")
+    contentAsString(result) must not include ("addr2")
+    contentAsString(result) must not include ("addr3")
+    contentAsString(result) must not include ("addr4")
+    contentAsString(result) must not include ("AU")
   }
 
   "If you load the international page and the coexecutors address is set up as an uk address " +
@@ -397,14 +393,14 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
     createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
     val result = controller.onPageLoadAbroad("1")(
-      createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/1"))
+      createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/1", authRetrieveNino = false))
 
-    status(result) should be(OK)
-    contentAsString(result) should not include ("addr1")
-    contentAsString(result) should not include ("addr2")
-    contentAsString(result) should not include ("addr3")
-    contentAsString(result) should not include ("addr4")
-    contentAsString(result) should not include (CommonBuilder.DefaultPostCode)
+    status(result) must be(OK)
+    contentAsString(result) must not include ("addr1")
+    contentAsString(result) must not include ("addr2")
+    contentAsString(result) must not include ("addr3")
+    contentAsString(result) must not include ("addr4")
+    contentAsString(result) must not include (CommonBuilder.DefaultPostCode)
   }
 
   "if you submit a page with errors to the UK view it displays errors on the uk view" in {
@@ -418,10 +414,10 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
     createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
     val result = controller.onPageLoadUK("1")(
-      createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-uk/1"))
+      createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-uk/1", authRetrieveNino = false))
 
-    status(result) should be(OK)
-    contentAsString(result) should include(escapeApostrophes(
+    status(result) must be(OK)
+    contentAsString(result) must include(escapeApostrophes(
       messagesApi("iht.registration.changeAddressToAbroad")))
 
   }
@@ -438,10 +434,10 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
     createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
     val result = controller.onPageLoadAbroad("1")(
-      createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-Abroad/1"))
+      createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-Abroad/1", authRetrieveNino = false))
 
-    status(result) should be(OK)
-    contentAsString(result) should include(escapeApostrophes(
+    status(result) must be(OK)
+    contentAsString(result) must include(escapeApostrophes(
       messagesApi("iht.registration.changeAddressToUK")))
   }
 
@@ -451,14 +447,14 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
     val addressForm = coExecutorAddressUkForm.fill(CommonBuilder.DefaultUkAddress)
     val request = createFakeRequestWithReferrerWithBody(
       referrerURL = "http://localhost:9070/inheritance-tax/registration/other-persons-address-uk/1",
-      host = host, data = addressForm.data.toSeq)
+      host = host, data = addressForm.data.toSeq, authRetrieveNino = false)
 
     createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
     createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
     createMockToStoreRegDetailsInCacheWithFailure(mockCachingConnector, Some(registrationDetails))
 
     val result = controller.onSubmitUK("1")(request)
-    status(result) shouldBe (INTERNAL_SERVER_ERROR)
+    status(result) mustBe (INTERNAL_SERVER_ERROR)
   }
 
   type SubmissionFunc = String => Action[AnyContent]
@@ -466,15 +462,15 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
   def checkForErrorOnSubmissionOfModelToUKRoute(address: UkAddress, expectedError: String): Unit = {
     val result = submitCoExecutorPersonalDetailsModel(
       CommonBuilder.buildRegistrationDetailsWithCoExecutors, address, "1", controller.onSubmitUK)
-    status(result) should be(BAD_REQUEST)
-    contentAsString(result) should include(messagesApi(expectedError))
+    status(result) must be(BAD_REQUEST)
+    contentAsString(result) must include(messagesApi(expectedError))
   }
 
   def checkForErrorOnSubmissionOfModelToInternationalRoute(address: UkAddress, expectedError: String): Unit = {
     val result = submitCoExecutorPersonalDetailsModel(
       CommonBuilder.buildRegistrationDetailsWithCoExecutors, address, "1", controller.onSubmitAbroad)
-    status(result) should be(BAD_REQUEST)
-    contentAsString(result) should include(messagesApi(expectedError))
+    status(result) must be(BAD_REQUEST)
+    contentAsString(result) must include(messagesApi(expectedError))
   }
 
   def prepareForm(address: UkAddress): Form[UkAddress] = {
@@ -493,7 +489,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
     createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
 
     implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
-      host = host, data = detailsToSubmit)
+      host = host, data = detailsToSubmit, authRetrieveNino = false)
 
     submissionFunc(submissionId)(request)
   }

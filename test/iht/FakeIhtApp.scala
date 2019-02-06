@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,35 +16,38 @@
 
 package iht
 
-import iht.config.FrontendAuthConnector
 import iht.constants.Constants
 import iht.testhelpers.{CommonBuilder, NinoBuilder}
 import org.scalatest._
-import org.scalatestplus.play.{OneAppPerSuite, OneServerPerSuite}
+import org.scalatestplus.play.PlaySpec
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.http.HeaderNames
-import play.api.{Application, Mode}
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
+import play.api.{Application, Mode}
 import uk.gov.hmrc.domain.{Nino, SaUtr}
+import uk.gov.hmrc.http.SessionKeys
 import uk.gov.hmrc.play.frontend.auth.connectors.domain._
 
-import scala.concurrent.{ExecutionContext, Future}
-import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys}
+import scala.concurrent.Future
 
-trait FakeIhtApp extends OneAppPerSuite {
+trait FakeIhtApp extends PlaySpec with GuiceOneAppPerSuite {
   this: TestSuite =>
 
-    val config: Map[String, _] = Map("application.secret" -> "Its secret",
+  val config: Map[String, _] = Map("application.secret" -> "Its secret",
                       "passcodeAuthentication.enabled" -> false,
                       "passcodeAuthentication.regime" -> "iht",
                       "metrics.enabled" -> false)
 
-  override implicit lazy val app : Application = new GuiceApplicationBuilder().in(Mode.Test).configure(config).build()
+//  override implicit lazy val app : Application = new GuiceApplicationBuilder().in(Mode.Test).configure(config).build()
+  override def fakeApplication(): Application = new GuiceApplicationBuilder().in(Mode.Test).configure(config).build()
 
   val fakeNino = CommonBuilder.DefaultNino
 
-  def createFakeRequest(isAuthorised: Boolean = true, referer: Option[String] = None): FakeRequest[AnyContentAsEmpty.type] = {
+  implicit def liftFuture[A](v: A) = Future.successful(v)
+
+  def createFakeRequest(isAuthorised: Boolean = true, referer: Option[String] = None, authRetrieveNino: Boolean = true): FakeRequest[AnyContentAsEmpty.type] = {
     val userId = "ID-" + fakeNino
     if (isAuthorised) {
       FakeRequest().withSession(
@@ -74,26 +77,17 @@ trait FakeIhtApp extends OneAppPerSuite {
     }
   }
 
-  def createFakeAuthConnector(isAuthorised: Boolean = true) = new FrontendAuthConnector {
-    override val serviceUrl: String = null
-    override lazy val http = null
+  def createFakeRequestWithReferrer(isAuthorised: Boolean = true, referrerURL: String, host: String, authRetrieveNino: Boolean = true)
+  : FakeRequest[AnyContentAsEmpty.type] = createFakeRequest(isAuthorised = true, authRetrieveNino = authRetrieveNino).withHeaders(("referer", referrerURL), ("host", host))
 
-    override def currentAuthority(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[Authority]] = {
-      Future.successful(Some(createFakeAuthority(isAuthorised)))
-    }
-  }
-
-  def createFakeRequestWithReferrer(isAuthorised: Boolean = true, referrerURL: String, host: String)
-  : FakeRequest[AnyContentAsEmpty.type] = createFakeRequest(isAuthorised = true).withHeaders(("referer", referrerURL), ("host", host))
-
-  def createFakeRequestWithReferrerWithBody(isAuthorised: Boolean = true, referrerURL: String, host: String, data: Seq[(String, String)])
-  = createFakeRequest(isAuthorised = true).withHeaders(("referer", referrerURL), ("host", host)).withFormUrlEncodedBody(data: _*)
+  def createFakeRequestWithReferrerWithBody(isAuthorised: Boolean = true, referrerURL: String, host: String, data: Seq[(String, String)], authRetrieveNino: Boolean = true)
+  = createFakeRequest(isAuthorised = true, authRetrieveNino = authRetrieveNino).withHeaders(("referer", referrerURL), ("host", host)).withFormUrlEncodedBody(data: _*)
 
   def createFakeRequestWithBody(isAuthorised: Boolean = true, data: Seq[(String, String)])
   = createFakeRequest(isAuthorised = true).withFormUrlEncodedBody(data: _*)
 
-  def createFakeRequestWithUri(path: String): FakeRequest[AnyContentAsEmpty.type] = {
-     val fr = createFakeRequest()
+  def createFakeRequestWithUri(path: String, authRetrieveNino: Boolean = true): FakeRequest[AnyContentAsEmpty.type] = {
+     val fr = createFakeRequest(authRetrieveNino = authRetrieveNino)
      FakeRequest(fr.method, path, fr.headers, fr.body, fr.remoteAddress, fr.version, fr.id, fr.tags, fr.secure)
   }
 }

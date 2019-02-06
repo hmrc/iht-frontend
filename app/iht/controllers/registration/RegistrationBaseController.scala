@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,7 +61,7 @@ trait RegistrationBaseController[T] extends RegistrationController {
   def performAdditionalValidation(form: Form[T], rd: RegistrationDetails, mode: Mode.Value): Form[T] = form
 
   def pageLoad(mode: Mode.Value) = authorisedForIht {
-    implicit user => implicit request =>
+    implicit request =>
       withRegistrationDetailsRedirectOnGuardCondition { rd =>
         val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd)
         Future.successful(okForPageLoad(fillForm(rd), Some(deceasedName)))
@@ -70,7 +70,7 @@ trait RegistrationBaseController[T] extends RegistrationController {
 
   def submit(mode: Mode.Value) =
     authorisedForIht {
-      implicit user => implicit request => {
+      implicit request => {
         withRegistrationDetailsRedirectOnGuardCondition { rd =>
           val boundForm = performAdditionalValidation(form.bindFromRequest, rd, mode)
           val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd)

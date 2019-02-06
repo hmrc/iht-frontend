@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.collection.immutable.ListMap
 
-trait FormTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils {
+trait FormTestHelper extends FakeIhtApp with MockitoSugar with TestUtils {
 
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit val request = FakeRequest()
@@ -47,7 +47,7 @@ trait FormTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
   def checkForError(form: Form[_], data: Map[String, String], expectedErrors: Seq[FormError]): Unit = {
     form.bind(data).fold(
       formWithErrors => {
-        formWithErrors.errors shouldBe expectedErrors
+        formWithErrors.errors mustBe expectedErrors
       },
       form => {
         fail("Expected a validation error when binding the form, but it was bound successfully.")
@@ -69,7 +69,7 @@ trait FormTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
   def checkForError(form: Form[_], data: JsValue, expectedErrors: Seq[FormError]) = {
     form.bind(data).fold(
       formWithErrors => {
-        formWithErrors.errors shouldBe expectedErrors
+        formWithErrors.errors mustBe expectedErrors
       },
       form => {
         fail("Expected a validation error when binding the form, but it was bound successfully.")
@@ -131,12 +131,12 @@ trait FormTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
                        formErrorMessageKey: String) = {
     "not give an error when answered Yes" in {
       val data = formData(fieldName, "true")
-      retrieveValueFromModel(form.bind(data).get) shouldBe Some(true)
+      retrieveValueFromModel(form.bind(data).get) mustBe Some(true)
     }
 
     "not give an error when answered No" in {
       val data = formData(fieldName, "false")
-      retrieveValueFromModel(form.bind(data).get) shouldBe Some(false)
+      retrieveValueFromModel(form.bind(data).get) mustBe Some(false)
     }
 
     "give an error when the question is not answered" in {
@@ -155,8 +155,8 @@ trait FormTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
                               ) = {
     "not give an error when answered Yes and a value given" in {
       val data = formData(questionFieldName, "true", valueFieldName, "666")
-      retrieveQuestionValueFromModel(form.bind(data).get) shouldBe Some(true)
-      retrieveValueValueFromModel(form.bind(data).get) shouldBe Some(BigDecimal(666))
+      retrieveQuestionValueFromModel(form.bind(data).get) mustBe Some(true)
+      retrieveValueValueFromModel(form.bind(data).get) mustBe Some(BigDecimal(666))
     }
 
     "give an error when answered Yes and no value is given" in {
@@ -167,7 +167,7 @@ trait FormTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
 
     "not give an error when answered No" in {
       val data = formData(questionFieldName, "false")
-      retrieveQuestionValueFromModel(form.bind(data).get) shouldBe Some(false)
+      retrieveQuestionValueFromModel(form.bind(data).get) mustBe Some(false)
     }
 
     "give an error when the question is not answered" in {
@@ -184,7 +184,7 @@ trait FormTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
 
     "not give an error when the question is answered " in {
       val data = formData(fieldName, items.head._1)
-      retrieveValueFromModel(form.bind(data).get) shouldBe Some(items.head._1)
+      retrieveValueFromModel(form.bind(data).get) mustBe Some(items.head._1)
     }
 
     "give an error when the question is not answered" in {

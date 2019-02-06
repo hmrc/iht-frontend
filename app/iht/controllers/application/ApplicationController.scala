@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package iht.controllers.application
 
 import iht.config.IhtFormPartialRetriever
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.controllers.auth.IhtActions
+import iht.controllers.auth.IhtBaseController
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.utils.{CommonHelper, IhtSection, StringHelper}
@@ -31,7 +31,7 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
-trait ApplicationController extends FrontendController with IhtActions {
+trait ApplicationController extends IhtBaseController {
   override lazy val ihtSection = IhtSection.Application
 
   implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
@@ -40,11 +40,11 @@ trait ApplicationController extends FrontendController with IhtActions {
 
   def ihtConnector: IhtConnector
 
-  def withApplicationDetails(body: RegistrationDetails => ApplicationDetails => Future[Result])
-                            (implicit request: Request[_], user: AuthContext, hc: HeaderCarrier): Future[Result] = {
+  def withApplicationDetails(userNino: Option[String])(body: RegistrationDetails => ApplicationDetails => Future[Result])
+                            (implicit request: Request[_], hc: HeaderCarrier): Future[Result] = {
     withRegistrationDetails { registrationDetails =>
       val optionApplicationDetailsFuture = ihtConnector.getApplication(
-        StringHelper.getNino(user),
+        StringHelper.getNino(userNino),
         CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
         registrationDetails.acknowledgmentReference)
 
@@ -55,18 +55,18 @@ trait ApplicationController extends FrontendController with IhtActions {
     }
   }
 
-  def getApplicationDetails(ihtReference: String, acknowledgementReference: String)
-                           (implicit request: Request[_], user: AuthContext, hc: HeaderCarrier) = {
+  def getApplicationDetails(ihtReference: String, acknowledgementReference: String, userNino: Option[String])
+                           (implicit request: Request[_], hc: HeaderCarrier) = {
     for {
       Some(applicationDetails) <- ihtConnector.getApplication(
-        StringHelper.getNino(user),
+        StringHelper.getNino(userNino),
         CommonHelper.getOrExceptionNoIHTRef(Some(ihtReference)),
         acknowledgementReference)
     } yield applicationDetails
   }
 
   def withRegistrationDetails(body: RegistrationDetails => Future[Result])
-                             (implicit request: Request[_], user: AuthContext, hc: HeaderCarrier): Future[Result] = {
+                             (implicit request: Request[_], hc: HeaderCarrier): Future[Result] = {
     cachingConnector.getRegistrationDetails flatMap {
       case None =>
         Logger.info("Registration details not found so re-directing to application overview page")

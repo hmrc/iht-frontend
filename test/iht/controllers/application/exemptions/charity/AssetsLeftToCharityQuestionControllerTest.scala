@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,18 +32,17 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class AssetsLeftToCharityQuestionControllerTest extends ApplicationControllerTest {
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def assetsLeftToCharityQuestionController = new AssetsLeftToCharityQuestionController {
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def assetsLeftToCharityQuestionControllerNotAuthorised = new AssetsLeftToCharityQuestionController {
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -52,15 +51,15 @@ class AssetsLeftToCharityQuestionControllerTest extends ApplicationControllerTes
   "AssetsLeftToCharityQuestionControllerTest" must {
 
     "redirect to login page on PageLoad if the user is not logged in" in {
-      val result = assetsLeftToCharityQuestionControllerNotAuthorised.onPageLoad(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(loginUrl))
+      val result = assetsLeftToCharityQuestionControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(loginUrl))
     }
 
     "redirect to login page on Submit if the user is not logged in" in {
-      val result = assetsLeftToCharityQuestionControllerNotAuthorised.onSubmit(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(loginUrl))
+      val result = assetsLeftToCharityQuestionControllerNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(loginUrl))
     }
 
     "respond with OK on page load" in {
@@ -74,9 +73,9 @@ class AssetsLeftToCharityQuestionControllerTest extends ApplicationControllerTes
         storeAppDetailsInCache = true)
 
       val result = assetsLeftToCharityQuestionController.onPageLoad(createFakeRequest())
-      status(result) shouldBe (OK)
-      contentAsString(result) should include(messagesApi("page.iht.application.exemptions.assetLeftToCharity.browserTitle"))
-      contentAsString(result) should include(messagesApi("iht.saveAndContinue"))
+      status(result) mustBe (OK)
+      contentAsString(result) must include(messagesApi("page.iht.application.exemptions.assetLeftToCharity.browserTitle"))
+      contentAsString(result) must include(messagesApi("iht.saveAndContinue"))
     }
 
     "save application and go to Exemptions Overview page on submit" in {
@@ -97,7 +96,7 @@ class AssetsLeftToCharityQuestionControllerTest extends ApplicationControllerTes
         .toSeq: _*)
 
       val result = assetsLeftToCharityQuestionController.onSubmit(request)
-      status(result) shouldBe SEE_OTHER
+      status(result) mustBe SEE_OTHER
     }
 
     "save application and go to Add a charity when user select yes and submit  " in {
@@ -117,8 +116,8 @@ class AssetsLeftToCharityQuestionControllerTest extends ApplicationControllerTes
         storeAppDetailsInCache = true)
 
       val result = assetsLeftToCharityQuestionController.onSubmit()(request)
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be (Some(addFragmentIdentifierToUrl(routes.CharityDetailsOverviewController.onPageLoad.url, ExemptionsCharitiesAssetsID)))
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) must be (Some(addFragmentIdentifierToUrl(routes.CharityDetailsOverviewController.onPageLoad.url, ExemptionsCharitiesAssetsID)))
     }
 
     "throw exception when no application details are present" in {
@@ -134,7 +133,7 @@ class AssetsLeftToCharityQuestionControllerTest extends ApplicationControllerTes
         storeAppDetailsInCache = true)
 
       val result = assetsLeftToCharityQuestionController.onSubmit()(request)
-      status(result) shouldBe INTERNAL_SERVER_ERROR
+      status(result) mustBe INTERNAL_SERVER_ERROR
     }
 
     "display validation message when incomplete form is submitted" in {
@@ -153,24 +152,24 @@ class AssetsLeftToCharityQuestionControllerTest extends ApplicationControllerTes
         storeAppDetailsInCache = true)
 
       val result = assetsLeftToCharityQuestionController.onSubmit()(request)
-      status(result) should be(BAD_REQUEST)
-      contentAsString(result) should include(messagesApi("error.problem"))
+      status(result) must be(BAD_REQUEST)
+      contentAsString(result) must include(messagesApi("error.problem"))
     }
 
     "updating application details with No chosen blanks the charities list and sets value to No" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(charities = Seq(CommonBuilder.charity))
       val charity = BasicExemptionElement(Some(false))
       val result = assetsLeftToCharityQuestionController.updateApplicationDetails(applicationDetails, None, charity)
-      result._1.charities shouldBe Nil
-      result._1.allExemptions.flatMap(_.charity.flatMap(_.isSelected)) shouldBe Some(false)
+      result._1.charities mustBe Nil
+      result._1.allExemptions.flatMap(_.charity.flatMap(_.isSelected)) mustBe Some(false)
     }
 
     "updating application details with Yes chosen keeps the charities list and sets value to Yes" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(charities = Seq(CommonBuilder.charity))
       val charity = BasicExemptionElement(Some(true))
       val result = assetsLeftToCharityQuestionController.updateApplicationDetails(applicationDetails, None, charity)
-      result._1.charities shouldBe Seq(CommonBuilder.charity)
-      result._1.allExemptions.flatMap(_.charity.flatMap(_.isSelected)) shouldBe Some(true)
+      result._1.charities mustBe Seq(CommonBuilder.charity)
+      result._1.allExemptions.flatMap(_.charity.flatMap(_.isSelected)) mustBe Some(true)
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

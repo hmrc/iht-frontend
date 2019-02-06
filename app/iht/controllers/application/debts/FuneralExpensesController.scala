@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,32 +16,38 @@
 
 package iht.controllers.application.debts
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.IhtConnectors
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.debts.{AllLiabilities, BasicEstateElementLiabilities}
-import iht.views.html.application.debts.funeral_expenses
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
 import iht.utils.CommonHelper
+import iht.views.html.application.debts.funeral_expenses
+import javax.inject.Inject
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-object FuneralExpensesController extends FuneralExpensesController with IhtConnectors {
+class FuneralExpensesControllerImpl @Inject()() extends FuneralExpensesController with IhtConnectors {
   def metrics : Metrics = Metrics
 }
 
 trait FuneralExpensesController extends EstateController {
-  def onPageLoad = authorisedForIht {
-    implicit user => implicit request =>
+
+
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request =>
       estateElementOnPageLoad[BasicEstateElementLiabilities](funeralExpensesForm,
-        funeral_expenses.apply, _.allLiabilities.flatMap(_.funeralExpenses))
+        funeral_expenses.apply, _.allLiabilities.flatMap(_.funeralExpenses), userNino)
   }
 
-  def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
       val updateApplicationDetails: (ApplicationDetails, Option[String], BasicEstateElementLiabilities) =>
         (ApplicationDetails, Option[String]) =
         (appDetails, _, funeralExpenses) => {
@@ -60,7 +66,8 @@ trait FuneralExpensesController extends EstateController {
         funeralExpensesForm,
         funeral_expenses.apply,
         updateApplicationDetails,
-        CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(DebtsFuneralExpensesID))
+        CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(DebtsFuneralExpensesID)),
+        userNino
       )
     }
   }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,52 +24,52 @@ import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
 import uk.gov.hmrc.play.test.UnitSpec
 
-class IHTReturnTest extends UnitSpec with FakeIhtApp with MockitoSugar {
+class IHTReturnTest extends FakeIhtApp with MockitoSugar {
   "IHTReturn" must {
    "total assets values" in {
       val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
-      ihtReturn.totalAssetsValue shouldBe BigDecimal(754)
+      ihtReturn.totalAssetsValue mustBe BigDecimal(754)
     }
 
     "total debts values" in {
       val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
-      ihtReturn.totalDebtsValue shouldBe BigDecimal(340)
+      ihtReturn.totalDebtsValue mustBe BigDecimal(340)
     }
 
 
     "total exemptions values" in {
       val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
-      ihtReturn.totalExemptionsValue shouldBe BigDecimal(169)
+      ihtReturn.totalExemptionsValue mustBe BigDecimal(169)
     }
 
     "total gifts values" in {
       val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
-      ihtReturn.totalGiftsValue shouldBe BigDecimal(27800)
+      ihtReturn.totalGiftsValue mustBe BigDecimal(27800)
     }
 
     "total trusts values" in {
       val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
-      ihtReturn.totalTrustsValue shouldBe BigDecimal(17)
+      ihtReturn.totalTrustsValue mustBe BigDecimal(17)
     }
 
     "total values of gifts excluding exemptions" in {
       val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
-      ihtReturn.giftsTotalExclExemptions shouldBe BigDecimal(28000)
+      ihtReturn.giftsTotalExclExemptions mustBe BigDecimal(28000)
     }
 
     "total values of gifts exemption" in {
       val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
-      ihtReturn.giftsExemptionsTotal shouldBe BigDecimal(200)
+      ihtReturn.giftsExemptionsTotal mustBe BigDecimal(200)
     }
 
     "total net value" in {
       val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
-      ihtReturn.totalNetValue shouldBe BigDecimal(28062)
+      ihtReturn.totalNetValue mustBe BigDecimal(28062)
     }
 
     "show 650K as the threshold value when there is TNRB" in {
       val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
-      ihtReturn.currentThreshold shouldBe BigDecimal(650000)
+      ihtReturn.currentThreshold mustBe BigDecimal(650000)
     }
 
     "show 325K as the threshold value when there is no TNRB" in {
@@ -78,18 +78,18 @@ class IHTReturnTest extends UnitSpec with FakeIhtApp with MockitoSugar {
 
       ihtReturn.copy(deceased = deceasedValue.map{
         x => x.copy(transferOfNilRateBand = None)
-      }).currentThreshold shouldBe BigDecimal(325000)
+      }).currentThreshold mustBe BigDecimal(325000)
     }
 
     "sum assets correctly" in {
       val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
-      ihtReturn.totalForAssetIDs(Set("9004", "9001")) shouldBe BigDecimal(21)
+      ihtReturn.totalForAssetIDs(Set("9004", "9001")) mustBe BigDecimal(21)
     }
 
     "sum and group exemptions correctly" in {
       val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
       val expectedResult = Map("Spouse" -> BigDecimal(25), "Charity" -> BigDecimal(83), "GNCP" -> BigDecimal(61))
-      ihtReturn.exemptionTotalsByExemptionType shouldBe expectedResult
+      ihtReturn.exemptionTotalsByExemptionType mustBe expectedResult
     }
   }
 
@@ -109,7 +109,7 @@ class IHTReturnTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val sortedIHTReturn: IHTReturn = IHTReturn.sortByGiftDate(ihtReturn)
       val actualDates: Set[Seq[Option[LocalDate]]] = sortedIHTReturn.gifts.map(_.map(_.toSeq.map(_.dateOfGift)))
         .fold[Set[Seq[Option[LocalDate]]]](Set.empty)(identity)
-      actualDates shouldBe expectedDates
+      actualDates mustBe expectedDates
     }
   }
 
@@ -117,13 +117,13 @@ class IHTReturnTest extends UnitSpec with FakeIhtApp with MockitoSugar {
     "return false when there is no tnrb" in {
 
       val ihtReturnWihNoTnrb = CommonBuilder.buildIHTReturn
-      ihtReturnWihNoTnrb.isTnrbApplicable shouldBe false
+      ihtReturnWihNoTnrb.isTnrbApplicable mustBe false
     }
 
     "return true when there is no tnrb" in {
       val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
 
-      ihtReturn.isTnrbApplicable shouldBe true
+      ihtReturn.isTnrbApplicable mustBe true
     }
   }
 }

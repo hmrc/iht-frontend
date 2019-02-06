@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,18 +28,17 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
  */
 class PensionsOverviewControllerTest extends ApplicationControllerTest {
 
-    val mockCachingConnector = mock[CachingConnector]
-    val mockIhtConnector = mock[IhtConnector]
+
 
     def pensionsOverviewController = new PensionsOverviewController {
-      override val authConnector = createFakeAuthConnector()
+      override val authConnector = mockAuthConnector
       override val cachingConnector = mockCachingConnector
       override val ihtConnector = mockIhtConnector
       override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
     }
 
     def pensionsOverviewControllerNotAuthorised = new PensionsOverviewController {
-      override val authConnector = createFakeAuthConnector(false)
+      override val authConnector = mockAuthConnector
       override val cachingConnector = mockCachingConnector
       override val ihtConnector = mockIhtConnector
       override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -56,8 +55,8 @@ class PensionsOverviewControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = pensionsOverviewControllerNotAuthorised.onPageLoad(createFakeRequest(false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
@@ -71,7 +70,7 @@ class PensionsOverviewControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = pensionsOverviewController.onPageLoad(createFakeRequest())
-      status(result) shouldBe (OK)
+      status(result) mustBe (OK)
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

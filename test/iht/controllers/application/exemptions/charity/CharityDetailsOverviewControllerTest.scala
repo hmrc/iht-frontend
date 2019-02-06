@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,12 +32,11 @@ import uk.gov.hmrc.http.HeaderCarrier
 
 class CharityDetailsOverviewControllerTest extends ApplicationControllerTest {
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def charityDetailsOverviewController = new CharityDetailsOverviewController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -45,7 +44,7 @@ class CharityDetailsOverviewControllerTest extends ApplicationControllerTest {
 
   def charityDetailsOverviewControllerNotAuthorised = new CharityDetailsOverviewController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -57,7 +56,6 @@ class CharityDetailsOverviewControllerTest extends ApplicationControllerTest {
   "Charity details overview controller" must {
 
     "return OK on page load" in {
-
       val applicationDetails = CommonBuilder.buildApplicationDetails
 
       createMocksForApplication(mockCachingConnector,
@@ -68,13 +66,22 @@ class CharityDetailsOverviewControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = charityDetailsOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
+      status(result) must be(OK)
     }
 
     "display the page title on page load" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = Some(applicationDetails),
+        getAppDetails = true,
+        saveAppDetails = true,
+        storeAppDetailsInCache = true)
+
       val result = charityDetailsOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
-      contentAsString(result) should include(
+      status(result) must be(OK)
+      contentAsString(result) must include(
         messagesApi("page.iht.application.exemptions.overview.charity.detailsOverview.title"))
     }
 
@@ -92,7 +99,7 @@ class CharityDetailsOverviewControllerTest extends ApplicationControllerTest {
 
       intercept[RuntimeException] {
         val result = charityDetailsOverviewController.onEditPageLoad("2")(createFakeRequest())
-        status(result) should be (INTERNAL_SERVER_ERROR)
+        status(result) must be (INTERNAL_SERVER_ERROR)
       }
     }
 
@@ -109,11 +116,11 @@ class CharityDetailsOverviewControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = charityDetailsOverviewController.onEditPageLoad("1")(createFakeRequest())
-      contentAsString(result) should include(
+      contentAsString(result) must include(
         iht.controllers.application.exemptions.charity.routes.CharityNameController.onEditPageLoad("1").url)
-      contentAsString(result) should include(
+      contentAsString(result) must include(
         iht.controllers.application.exemptions.charity.routes.CharityValueController.onEditPageLoad("1").url)
-      contentAsString(result) should include(
+      contentAsString(result) must include(
         iht.controllers.application.exemptions.charity.routes.CharityNumberController.onEditPageLoad("1").url)
     }
 
@@ -131,11 +138,11 @@ class CharityDetailsOverviewControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = charityDetailsOverviewController.onEditPageLoad("2")(createFakeRequest())
-      contentAsString(result) should include(
+      contentAsString(result) must include(
         iht.controllers.application.exemptions.charity.routes.CharityNameController.onEditPageLoad("2").url)
-      contentAsString(result) should include(
+      contentAsString(result) must include(
         iht.controllers.application.exemptions.charity.routes.CharityValueController.onEditPageLoad("2").url)
-      contentAsString(result) should include(
+      contentAsString(result) must include(
         iht.controllers.application.exemptions.charity.routes.CharityNameController.onEditPageLoad("2").url)
     }
 
@@ -151,11 +158,11 @@ class CharityDetailsOverviewControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = charityDetailsOverviewController.onPageLoad()(createFakeRequest())
-      contentAsString(result) should include(
+      contentAsString(result) must include(
         iht.controllers.application.exemptions.charity.routes.CharityNameController.onPageLoad().url)
-      contentAsString(result) should include(
+      contentAsString(result) must include(
         iht.controllers.application.exemptions.charity.routes.CharityValueController.onPageLoad().url)
-      contentAsString(result) should include(
+      contentAsString(result) must include(
         iht.controllers.application.exemptions.charity.routes.CharityNameController.onPageLoad().url)
     }
   }

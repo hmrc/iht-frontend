@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.application.tnrb
 
+import iht.config.AppConfig
 import iht.connector.IhtConnectors
 import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
@@ -25,28 +26,33 @@ import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
 import iht.utils.tnrb.TnrbHelper._
-import iht.utils.{ApplicationKickOutNonSummaryHelper, ApplicationKickOutHelper, CommonHelper, IhtFormValidator, StringHelper}
+import iht.utils.{ApplicationKickOutHelper, ApplicationKickOutNonSummaryHelper, CommonHelper, IhtFormValidator, StringHelper}
+import javax.inject.Inject
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Request, Result}
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-object DeceasedWidowCheckQuestionController extends DeceasedWidowCheckQuestionController with IhtConnectors {
+
+class DeceasedWidowCheckQuestionControllerImpl @Inject()() extends DeceasedWidowCheckQuestionController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait DeceasedWidowCheckQuestionController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
 
-  def onPageLoad = authorisedForIht {
-    implicit user =>
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+
       implicit request => {
         withRegistrationDetails { registrationDetails =>
           for {
-            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(user),
+            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
               CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
               registrationDetails.acknowledgmentReference)
           } yield {
@@ -72,12 +78,12 @@ trait DeceasedWidowCheckQuestionController extends EstateController {
       }
   }
 
-  def onSubmit = authorisedForIht {
-    implicit user =>
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+
       implicit request => {
         withRegistrationDetails { regDetails =>
 
-          val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(user),
+          val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(userNino),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
@@ -97,7 +103,7 @@ trait DeceasedWidowCheckQuestionController extends EstateController {
                     cancelLinkTextForWidowCheckPages(appDetails))))
                 },
                 widowModel => {
-                  saveApplication(StringHelper.getNino(user), widowModel, appDetails, regDetails)
+                  saveApplication(StringHelper.getNino(userNino), widowModel, appDetails, regDetails)
                 }
               )
             }

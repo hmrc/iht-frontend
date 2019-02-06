@@ -6,145 +6,145 @@ GET         /registration-checklist                             iht.controllers.
 
 ## deceased - date of death ##
 
-GET         /date-of-death                                      iht.controllers.registration.deceased.DeceasedDateOfDeathController.onPageLoad
-POST        /date-of-death                                      iht.controllers.registration.deceased.DeceasedDateOfDeathController.onSubmit
+GET         /date-of-death                                      @iht.controllers.registration.deceased.DeceasedDateOfDeathController.onPageLoad
+POST        /date-of-death                                      @iht.controllers.registration.deceased.DeceasedDateOfDeathController.onSubmit
 
-GET         /change-date-of-death                               iht.controllers.registration.deceased.DeceasedDateOfDeathController.onEditPageLoad
-POST        /change-date-of-death                               iht.controllers.registration.deceased.DeceasedDateOfDeathController.onEditSubmit
+GET         /change-date-of-death                               @iht.controllers.registration.deceased.DeceasedDateOfDeathController.onEditPageLoad
+POST        /change-date-of-death                               @iht.controllers.registration.deceased.DeceasedDateOfDeathController.onEditSubmit
 
 ## deceased - permanent home location ##
 
-GET         /permanent-home-location                            iht.controllers.registration.deceased.DeceasedPermanentHomeController.onPageLoad
-POST        /permanent-home-location                            iht.controllers.registration.deceased.DeceasedPermanentHomeController.onSubmit
+GET         /permanent-home-location                            @iht.controllers.registration.deceased.DeceasedPermanentHomeController.onPageLoad
+POST        /permanent-home-location                            @iht.controllers.registration.deceased.DeceasedPermanentHomeController.onSubmit
 
-GET         /change-permanent-home-location                     iht.controllers.registration.deceased.DeceasedPermanentHomeController.onEditPageLoad
-POST        /change-permanent-home-location                     iht.controllers.registration.deceased.DeceasedPermanentHomeController.onEditSubmit
+GET         /change-permanent-home-location                     @iht.controllers.registration.deceased.DeceasedPermanentHomeController.onEditPageLoad
+POST        /change-permanent-home-location                     @iht.controllers.registration.deceased.DeceasedPermanentHomeController.onEditSubmit
 
 ## deceased - details ##
 
-GET         /deceaseds-details                                  iht.controllers.registration.deceased.AboutDeceasedController.onPageLoad
-POST        /deceaseds-details                                  iht.controllers.registration.deceased.AboutDeceasedController.onSubmit
+GET         /deceaseds-details                                  @iht.controllers.registration.deceased.AboutDeceasedController.onPageLoad
+POST        /deceaseds-details                                  @iht.controllers.registration.deceased.AboutDeceasedController.onSubmit
 
-GET         /change-deceaseds-details                           iht.controllers.registration.deceased.AboutDeceasedController.onEditPageLoad
-POST        /change-deceaseds-details                           iht.controllers.registration.deceased.AboutDeceasedController.onEditSubmit
+GET         /change-deceaseds-details                           @iht.controllers.registration.deceased.AboutDeceasedController.onEditPageLoad
+POST        /change-deceaseds-details                           @iht.controllers.registration.deceased.AboutDeceasedController.onEditSubmit
 
 ## deceased - location of contact address ##
 
-GET         /location-of-contact-address                        iht.controllers.registration.deceased.DeceasedAddressQuestionController.onPageLoad
-POST        /location-of-contact-address                        iht.controllers.registration.deceased.DeceasedAddressQuestionController.onSubmit
+GET         /location-of-contact-address                        @iht.controllers.registration.deceased.DeceasedAddressQuestionController.onPageLoad
+POST        /location-of-contact-address                        @iht.controllers.registration.deceased.DeceasedAddressQuestionController.onSubmit
 
 ## deceased - uk contact address ##
 
-GET         /uk-contact-address                                 iht.controllers.registration.deceased.DeceasedAddressDetailsUKController.onPageLoad
-POST        /uk-contact-address                                 iht.controllers.registration.deceased.DeceasedAddressDetailsUKController.onSubmit
+GET         /uk-contact-address                                 @iht.controllers.registration.deceased.DeceasedAddressDetailsUKController.onPageLoad
+POST        /uk-contact-address                                 @iht.controllers.registration.deceased.DeceasedAddressDetailsUKController.onSubmit
 
-GET         /change-uk-contact-address                          iht.controllers.registration.deceased.DeceasedAddressDetailsUKController.onEditPageLoad
-POST        /change-uk-contact-address                          iht.controllers.registration.deceased.DeceasedAddressDetailsUKController.onEditSubmit
+GET         /change-uk-contact-address                          @iht.controllers.registration.deceased.DeceasedAddressDetailsUKController.onEditPageLoad
+POST        /change-uk-contact-address                          @iht.controllers.registration.deceased.DeceasedAddressDetailsUKController.onEditSubmit
 
 ## deceased - non-uk contact address ##
 
-GET         /contact-address                                    iht.controllers.registration.deceased.DeceasedAddressDetailsOutsideUKController.onPageLoad
-POST        /contact-address                                    iht.controllers.registration.deceased.DeceasedAddressDetailsOutsideUKController.onSubmit
+GET         /contact-address                                    @iht.controllers.registration.deceased.DeceasedAddressDetailsOutsideUKController.onPageLoad
+POST        /contact-address                                    @iht.controllers.registration.deceased.DeceasedAddressDetailsOutsideUKController.onSubmit
 
-GET         /change-contact-address                             iht.controllers.registration.deceased.DeceasedAddressDetailsOutsideUKController.onEditPageLoad
-POST        /change-contact-address                             iht.controllers.registration.deceased.DeceasedAddressDetailsOutsideUKController.onEditSubmit
+GET         /change-contact-address                             @iht.controllers.registration.deceased.DeceasedAddressDetailsOutsideUKController.onEditPageLoad
+POST        /change-contact-address                             @iht.controllers.registration.deceased.DeceasedAddressDetailsOutsideUKController.onEditSubmit
 
 ## applicant - applying for probate ##
 
-GET         /applying-for-probate                               iht.controllers.registration.applicant.ApplyingForProbateController.onPageLoad
-POST        /applying-for-probate                               iht.controllers.registration.applicant.ApplyingForProbateController.onSubmit
+GET         /applying-for-probate                               @iht.controllers.registration.applicant.ApplyingForProbateController.onPageLoad
+POST        /applying-for-probate                               @iht.controllers.registration.applicant.ApplyingForProbateController.onSubmit
 
-GET         /change-your-role                                   iht.controllers.registration.applicant.ApplyingForProbateController.onEditPageLoad
-POST        /change-your-role                                   iht.controllers.registration.applicant.ApplyingForProbateController.onEditSubmit
+GET         /change-your-role                                   @iht.controllers.registration.applicant.ApplyingForProbateController.onEditPageLoad
+POST        /change-your-role                                   @iht.controllers.registration.applicant.ApplyingForProbateController.onEditSubmit
 
 ## applicant - probate location ##
 
-GET         /probate-location                                   iht.controllers.registration.applicant.ProbateLocationController.onPageLoad
-POST        /probate-location                                   iht.controllers.registration.applicant.ProbateLocationController.onSubmit
+GET         /probate-location                                   @iht.controllers.registration.applicant.ProbateLocationController.onPageLoad
+POST        /probate-location                                   @iht.controllers.registration.applicant.ProbateLocationController.onSubmit
 
-GET         /change-probate-location                            iht.controllers.registration.applicant.ProbateLocationController.onEditPageLoad
-POST        /change-probate-location                            iht.controllers.registration.applicant.ProbateLocationController.onEditSubmit
+GET         /change-probate-location                            @iht.controllers.registration.applicant.ProbateLocationController.onEditPageLoad
+POST        /change-probate-location                            @iht.controllers.registration.applicant.ProbateLocationController.onEditSubmit
 
 ## applicant - contact details ##
 
-GET         /your-contact-details                               iht.controllers.registration.applicant.ApplicantTellUsAboutYourselfController.onPageLoad
-POST        /your-contact-details                               iht.controllers.registration.applicant.ApplicantTellUsAboutYourselfController.onSubmit
+GET         /your-contact-details                               @iht.controllers.registration.applicant.ApplicantTellUsAboutYourselfController.onPageLoad
+POST        /your-contact-details                               @iht.controllers.registration.applicant.ApplicantTellUsAboutYourselfController.onSubmit
 
-GET         /change-your-contact-details                        iht.controllers.registration.applicant.ApplicantTellUsAboutYourselfController.onEditPageLoad
-POST        /change-your-contact-details                        iht.controllers.registration.applicant.ApplicantTellUsAboutYourselfController.onEditSubmit
+GET         /change-your-contact-details                        @iht.controllers.registration.applicant.ApplicantTellUsAboutYourselfController.onEditPageLoad
+POST        /change-your-contact-details                        @iht.controllers.registration.applicant.ApplicantTellUsAboutYourselfController.onEditSubmit
 
 ## applicant - uk contact address ##
 
-GET         /your-uk-address                                    iht.controllers.registration.applicant.ApplicantAddressController.onPageLoadUk
-POST        /your-uk-address                                    iht.controllers.registration.applicant.ApplicantAddressController.onSubmitUk
+GET         /your-uk-address                                    @iht.controllers.registration.applicant.ApplicantAddressController.onPageLoadUk
+POST        /your-uk-address                                    @iht.controllers.registration.applicant.ApplicantAddressController.onSubmitUk
 
-GET         /change-your-uk-address                             iht.controllers.registration.applicant.ApplicantAddressController.onEditPageLoadUk
-POST        /change-your-uk-address                             iht.controllers.registration.applicant.ApplicantAddressController.onEditSubmitUk
+GET         /change-your-uk-address                             @iht.controllers.registration.applicant.ApplicantAddressController.onEditPageLoadUk
+POST        /change-your-uk-address                             @iht.controllers.registration.applicant.ApplicantAddressController.onEditSubmitUk
 
 ## applicant - non-uk contact address ##
 
-GET         /your-address                                       iht.controllers.registration.applicant.ApplicantAddressController.onPageLoadAbroad
-POST        /your-address                                       iht.controllers.registration.applicant.ApplicantAddressController.onSubmitAbroad
+GET         /your-address                                       @iht.controllers.registration.applicant.ApplicantAddressController.onPageLoadAbroad
+POST        /your-address                                       @iht.controllers.registration.applicant.ApplicantAddressController.onSubmitAbroad
 
-GET         /change-your-address                                iht.controllers.registration.applicant.ApplicantAddressController.onEditPageLoadAbroad
-POST        /change-your-address                                iht.controllers.registration.applicant.ApplicantAddressController.onEditSubmitAbroad
+GET         /change-your-address                                @iht.controllers.registration.applicant.ApplicantAddressController.onEditPageLoadAbroad
+POST        /change-your-address                                @iht.controllers.registration.applicant.ApplicantAddressController.onEditSubmitAbroad
 
 ## executors - any other applicants ##
 
-GET         /other-probate-applicants                           iht.controllers.registration.executor.ExecutorOverviewController.onPageLoad
-POST        /other-probate-applicants                           iht.controllers.registration.executor.ExecutorOverviewController.onSubmit
+GET         /other-probate-applicants                           @iht.controllers.registration.executor.ExecutorOverviewController.onPageLoad
+POST        /other-probate-applicants                           @iht.controllers.registration.executor.ExecutorOverviewController.onSubmit
 
-GET         /delete-applicant/:id                               iht.controllers.registration.executor.DeleteCoExecutorController.onPageLoad(id:String)
-POST        /delete-applicant/:id                               iht.controllers.registration.executor.DeleteCoExecutorController.onSubmit(id:String)
+GET         /delete-applicant/:id                               @iht.controllers.registration.executor.DeleteCoExecutorController.onPageLoad(id:String)
+POST        /delete-applicant/:id                               @iht.controllers.registration.executor.DeleteCoExecutorController.onSubmit(id:String)
 
-GET         /any-other-applicants                               iht.controllers.registration.executor.OthersApplyingForProbateController.onPageLoad
-POST        /any-other-applicants                               iht.controllers.registration.executor.OthersApplyingForProbateController.onSubmit
+GET         /any-other-applicants                               @iht.controllers.registration.executor.OthersApplyingForProbateController.onPageLoad
+POST        /any-other-applicants                               @iht.controllers.registration.executor.OthersApplyingForProbateController.onSubmit
 
-GET         /change-who-else-is-applying-for-probate            iht.controllers.registration.executor.OthersApplyingForProbateController.onEditPageLoad
-POST        /change-who-else-is-applying-for-probate            iht.controllers.registration.executor.OthersApplyingForProbateController.onEditSubmit
+GET         /change-who-else-is-applying-for-probate            @iht.controllers.registration.executor.OthersApplyingForProbateController.onEditPageLoad
+POST        /change-who-else-is-applying-for-probate            @iht.controllers.registration.executor.OthersApplyingForProbateController.onEditSubmit
 
-GET         /change-other-people-applying-for-probate           iht.controllers.registration.executor.OthersApplyingForProbateController.onPageLoadFromOverview
-POST        /change-other-people-applying-for-probate           iht.controllers.registration.executor.OthersApplyingForProbateController.onSubmitFromOverview
+GET         /change-other-people-applying-for-probate           @iht.controllers.registration.executor.OthersApplyingForProbateController.onPageLoadFromOverview
+POST        /change-other-people-applying-for-probate           @iht.controllers.registration.executor.OthersApplyingForProbateController.onSubmitFromOverview
 
 ## executors - details ##
 
-GET         /applicants-details                                 iht.controllers.registration.executor.CoExecutorPersonalDetailsController.onPageLoad(id: Option[String])
-POST        /applicants-details                                 iht.controllers.registration.executor.CoExecutorPersonalDetailsController.onSubmit(id: Option[String])
+GET         /applicants-details                                 @iht.controllers.registration.executor.CoExecutorPersonalDetailsController.onPageLoad(id: Option[String])
+POST        /applicants-details                                 @iht.controllers.registration.executor.CoExecutorPersonalDetailsController.onSubmit(id: Option[String])
 
-GET         /change-applicants-details/:id                      iht.controllers.registration.executor.CoExecutorPersonalDetailsController.onEditPageLoad(id: String)
-POST        /change-applicants-details/:id                      iht.controllers.registration.executor.CoExecutorPersonalDetailsController.onEditSubmit(id: String)
+GET         /change-applicants-details/:id                      @iht.controllers.registration.executor.CoExecutorPersonalDetailsController.onEditPageLoad(id: String)
+POST        /change-applicants-details/:id                      @iht.controllers.registration.executor.CoExecutorPersonalDetailsController.onEditSubmit(id: String)
 
 ## executors - uk contact address ##
 
-GET         /applicants-uk-address/:id                          iht.controllers.registration.executor.OtherPersonsAddressController.onPageLoadUK(id:String)
-POST        /applicants-uk-address/:id                          iht.controllers.registration.executor.OtherPersonsAddressController.onSubmitUK(id:String)
+GET         /applicants-uk-address/:id                          @iht.controllers.registration.executor.OtherPersonsAddressController.onPageLoadUK(id:String)
+POST        /applicants-uk-address/:id                          @iht.controllers.registration.executor.OtherPersonsAddressController.onSubmitUK(id:String)
 
-GET         /change-applicants-uk-address/:id                   iht.controllers.registration.executor.OtherPersonsAddressController.onEditPageLoadUK(id:String)
-POST        /change-applicants-uk-address/:id                   iht.controllers.registration.executor.OtherPersonsAddressController.onEditSubmitUK(id:String)
+GET         /change-applicants-uk-address/:id                   @iht.controllers.registration.executor.OtherPersonsAddressController.onEditPageLoadUK(id:String)
+POST        /change-applicants-uk-address/:id                   @iht.controllers.registration.executor.OtherPersonsAddressController.onEditSubmitUK(id:String)
 
 ## executors - non-uk address ##
 
-GET         /applicants-address/:id                             iht.controllers.registration.executor.OtherPersonsAddressController.onPageLoadAbroad(id:String)
-POST        /applicants-address/:id                             iht.controllers.registration.executor.OtherPersonsAddressController.onSubmitAbroad(id:String)
+GET         /applicants-address/:id                             @iht.controllers.registration.executor.OtherPersonsAddressController.onPageLoadAbroad(id:String)
+POST        /applicants-address/:id                             @iht.controllers.registration.executor.OtherPersonsAddressController.onSubmitAbroad(id:String)
 
-GET         /change-applicants-address/:id                      iht.controllers.registration.executor.OtherPersonsAddressController.onEditPageLoadAbroad(id:String)
-POST        /change-applicants-address/:id                      iht.controllers.registration.executor.OtherPersonsAddressController.onEditSubmitAbroad(id:String)
+GET         /change-applicants-address/:id                      @iht.controllers.registration.executor.OtherPersonsAddressController.onEditPageLoadAbroad(id:String)
+POST        /change-applicants-address/:id                      @iht.controllers.registration.executor.OtherPersonsAddressController.onEditSubmitAbroad(id:String)
 
 ## summary ##
 
-GET         /check-your-answers                                 iht.controllers.registration.RegistrationSummaryController.onPageLoad
-POST        /check-your-answers                                 iht.controllers.registration.RegistrationSummaryController.onSubmit
+GET         /check-your-answers                                 @iht.controllers.registration.RegistrationSummaryController.onPageLoad
+POST        /check-your-answers                                 @iht.controllers.registration.RegistrationSummaryController.onSubmit
 
-GET         /complete                                           iht.controllers.registration.CompletedRegistrationController.onPageLoad
+GET         /complete                                           @iht.controllers.registration.CompletedRegistrationController.onPageLoad
 
-GET         /already-registered/:ihtReference                   iht.controllers.registration.DuplicateRegistrationController.onPageLoad(ihtReference:String)
+GET         /already-registered/:ihtReference                   @iht.controllers.registration.DuplicateRegistrationController.onPageLoad(ihtReference:String)
 
-GET         /not-possible-to-use-service                        iht.controllers.registration.KickoutController.onPageLoad
-POST        /not-possible-to-use-service                        iht.controllers.registration.KickoutController.onSubmit
+GET         /not-possible-to-use-service                        @iht.controllers.registration.KickoutRegController.onPageLoad
+POST        /not-possible-to-use-service                        @iht.controllers.registration.KickoutRegController.onSubmit
 
 ### To do ####
 
 ### Routes below to be removed after completion of Yes/No changes ###
 
-GET         /change-who-is-applying-for-probate                 iht.controllers.registration.executor.ExecutorOverviewController.onEditPageLoad
-POST        /change-who-is-applying-for-probate                 iht.controllers.registration.executor.ExecutorOverviewController.onEditSubmit
+GET         /change-who-is-applying-for-probate                 @iht.controllers.registration.executor.ExecutorOverviewController.onEditPageLoad
+POST        /change-who-is-applying-for-probate                 @iht.controllers.registration.executor.ExecutorOverviewController.onEditSubmit

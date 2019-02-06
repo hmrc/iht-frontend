@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.application.exemptions.charity
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
@@ -26,20 +27,24 @@ import iht.models.application.exemptions._
 import iht.utils.CommonHelper
 import iht.views.html.application.exemption.charity.assets_left_to_charity_value
 import play.api.mvc.{Call, Request}
-import uk.gov.hmrc.play.frontend.auth.AuthContext
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.IhtProperties._
+import javax.inject.Inject
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
 import scala.concurrent.Future
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-object CharityValueController extends CharityValueController with IhtConnectors {
+class CharityValueControllerImpl @Inject()() extends CharityValueController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait CharityValueController extends EstateController {
 
-  val submitUrl = CommonHelper.addFragmentIdentifier(routes.CharityValueController.onSubmit(), Some(ExemptionsCharitiesValueID))
+
+  lazy val submitUrl = CommonHelper.addFragmentIdentifier(routes.CharityValueController.onSubmit(), Some(ExemptionsCharitiesValueID))
   val cancelUrl = routes.CharityDetailsOverviewController.onPageLoad()
 
   private def editCancelUrl(id: String) = routes.CharityDetailsOverviewController.onEditPageLoad(id)
@@ -68,51 +73,52 @@ trait CharityValueController extends EstateController {
     }
 
   def onPageLoad = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        withRegistrationDetails { regDetails =>
-          Future.successful(Ok(iht.views.html.application.exemption.charity.assets_left_to_charity_value(assetsLeftToCharityValueForm,
-            regDetails,
-            submitUrl,
-            cancelUrl)))
-        }
+    implicit request => {
+      withRegistrationDetails { regDetails =>
+        Future.successful(Ok(iht.views.html.application.exemption.charity.assets_left_to_charity_value(assetsLeftToCharityValueForm,
+          regDetails,
+          submitUrl,
+          cancelUrl)))
       }
+    }
   }
 
-  def onEditPageLoad(id: String) = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        estateElementOnEditPageLoadWithNavigation[Charity](assetsLeftToCharityValueForm,
-          assets_left_to_charity_value.apply,
-          retrieveSectionDetailsOrExceptionIfInvalidID(id),
-          editSubmitUrl(id),
-          editCancelUrl(id))
-      }
+  def onEditPageLoad(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      estateElementOnEditPageLoadWithNavigation[Charity](assetsLeftToCharityValueForm,
+        assets_left_to_charity_value.apply,
+        retrieveSectionDetailsOrExceptionIfInvalidID(id),
+        editSubmitUrl(id),
+        editCancelUrl(id),
+        userNino)
+    }
   }
 
-  def onSubmit = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        doSubmit(
-          submitUrl = submitUrl,
-          cancelUrl = cancelUrl)
-      }
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      doSubmit(
+        submitUrl = submitUrl,
+        cancelUrl = cancelUrl,
+        None,
+        userNino)
+    }
   }
 
-  def onEditSubmit(id: String) = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        doSubmit(
-          submitUrl = editSubmitUrl(id),
-          cancelUrl = editCancelUrl(id),
-          Some(id))
-      }
+  def onEditSubmit(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      doSubmit(
+        submitUrl = editSubmitUrl(id),
+        cancelUrl = editCancelUrl(id),
+        Some(id),
+        userNino)
+    }
   }
 
   private def doSubmit(submitUrl: Call,
                        cancelUrl: Call,
-                       charityId: Option[String] = None)(
-                        implicit user: AuthContext, request: Request[_]) = {
+                       charityId: Option[String] = None,
+                       userNino: Option[String])(
+                        implicit request: Request[_]) = {
     estateElementOnSubmitWithIdAndNavigation[Charity](
       assetsLeftToCharityValueForm,
       assets_left_to_charity_value.apply,
@@ -121,7 +127,8 @@ trait CharityValueController extends EstateController {
       None,
       charityId,
       submitUrl,
-      cancelUrl
+      cancelUrl,
+      userNino
     )
   }
 }

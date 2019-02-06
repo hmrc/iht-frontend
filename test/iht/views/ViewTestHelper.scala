@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,21 +17,19 @@
 package iht.views
 
 import iht.models.UkAddress
-import iht.testhelpers.{MockFormPartialRetriever, ContentChecker}
+import iht.testhelpers.{ContentChecker, MockFormPartialRetriever}
 import iht.utils.CommonHelper
 import iht.{FakeIhtApp, TestUtils}
 import org.jsoup.Jsoup
 import org.jsoup.nodes.{Document, Element}
 import org.jsoup.safety.Whitelist
-import org.scalatest.BeforeAndAfter
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.{BeforeAndAfter, BeforeAndAfterEach}
+import org.scalatest.mockito.MockitoSugar
 import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.partials.FormPartialRetriever
-import uk.gov.hmrc.play.test.UnitSpec
-
 import scala.collection.JavaConversions._
 
-trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
+trait ViewTestHelper extends FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter with BeforeAndAfterEach with HtmlSpec {
   val messageKeysRegex = """([A-Za-z]+\.){1,}[\w]+""".r
   /**
     * Items which look like message keys but actually are real content, so instances of them
@@ -49,8 +47,8 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
   def titleShouldBeCorrect(pageContent: String, expectedTitle: String) = {
     val doc = asDocument(pageContent)
     val headers = doc.getElementsByTag("h1")
-    headers.size shouldBe 1
-    headers.first.text() shouldBe expectedTitle
+    headers.size mustBe 1
+    headers.first.text() mustBe expectedTitle
   }
 
   def browserTitleShouldBeCorrect(pageContent: String, expectedTitle: String) = {
@@ -62,9 +60,9 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
                                  labelID: Option[String] = None) = {
     val labelText = messagesApi(labelTextMessagesKey)
     val label = doc.getElementById(labelID.fold(s"$radioID-label")(identity))
-    label.text shouldBe labelText
+    label.text mustBe labelText
     val radio = label.parent().select("input")
-    radio.attr("id") shouldBe radioID
+    radio.attr("id") mustBe radioID
   }
 
   def noMessageKeysShouldBePresent(content:String) = {
@@ -83,15 +81,15 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
         }
       }
     }
-    messageKeysFound shouldBe ""
+    messageKeysFound mustBe ""
   }
 
   def messagesShouldBePresent(content: String, expectedSentences: String*) = {
-    for (sentence <- expectedSentences) ContentChecker.stripLineBreaks(content) should include(ContentChecker.stripLineBreaks(sentence))
+    for (sentence <- expectedSentences) ContentChecker.stripLineBreaks(content) must include(ContentChecker.stripLineBreaks(sentence))
   }
 
   def messagesShouldNotBePresent(content: String, unexpectedSentences: String*) = {
-    for (sentence <- unexpectedSentences) ContentChecker.stripLineBreaks(content) should not include ContentChecker.stripLineBreaks(sentence)
+    for (sentence <- unexpectedSentences) ContentChecker.stripLineBreaks(content) must not include ContentChecker.stripLineBreaks(sentence)
   }
 
   def buildApplicationTitle(title: String) = {
@@ -103,19 +101,19 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
 
     val label = doc.getElementById(labelId)
     val mainLabel = label.getElementsByTag("label").first
-    mainLabel.text shouldBe messagesApi(messageKey)
+    mainLabel.text mustBe messagesApi(messageKey)
   }
 
   def labelHelpTextShouldBe(doc: Document, labelId: String, messageKey: String) = {
 
     val label = doc.getElementById(labelId)
     val helpText = label.getElementsByClass("form-hint").get(0)
-    helpText.text shouldBe messagesApi(messageKey)
+    helpText.text mustBe messagesApi(messageKey)
   }
 
   def elementShouldHaveText(doc: Document, id: String, expectedValueMessageKey: String) = {
     val element = doc.getElementById(id)
-    element.text shouldBe messagesApi(expectedValueMessageKey)
+    element.text mustBe messagesApi(expectedValueMessageKey)
   }
 
   /**
@@ -150,10 +148,10 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
   def link(doc: => Document, anchorId: => String, href: => String, text: => String): Unit = {
     def anchor = doc.getElementById(anchorId)
     s"have a link with id $anchorId and correct target" in {
-      anchor.attr("href") shouldBe href
+      anchor.attr("href") mustBe href
     }
     s"have a link with id $anchorId and correct text" in {
-      getVisibleText(anchor) shouldBe text
+      getVisibleText(anchor) mustBe text
     }
   }
 }

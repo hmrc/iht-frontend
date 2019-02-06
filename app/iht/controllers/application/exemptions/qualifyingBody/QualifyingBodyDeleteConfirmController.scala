@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,26 +16,33 @@
 
 package iht.controllers.application.exemptions.qualifyingBody
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.IhtConnectors
 import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.metrics.Metrics
 import iht.utils.{CommonHelper, StringHelper}
 import iht.views.html.application.exemption.qualifyingBody.qualifying_body_delete_confirm
+import javax.inject.Inject
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
 import scala.concurrent.Future
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-object QualifyingBodyDeleteConfirmController extends QualifyingBodyDeleteConfirmController with IhtConnectors {
+class QualifyingBodyDeleteConfirmControllerImpl @Inject()() extends QualifyingBodyDeleteConfirmController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait QualifyingBodyDeleteConfirmController extends EstateController {
-  def onPageLoad(id: String) = authorisedForIht {
-    implicit user => implicit request => {
-      withApplicationDetails {
+
+
+  def onPageLoad(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      withApplicationDetails(userNino) {
         rd => ad => {
           Future.successful(ad.qualifyingBodies.find(_.id.contains(id)).fold {
             Logger.warn("QualifyingBody with id = " + id + " not found during onLoad of delete confirmation")
@@ -48,9 +55,9 @@ trait QualifyingBodyDeleteConfirmController extends EstateController {
     }
   }
 
-  def onSubmit(id: String) = authorisedForIht {
-    implicit user => implicit request => {
-      withApplicationDetails {
+  def onSubmit(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      withApplicationDetails(userNino) {
         rd => ad => {
           val index = ad.qualifyingBodies.indexWhere(_.id.contains(id))
 
@@ -59,7 +66,7 @@ trait QualifyingBodyDeleteConfirmController extends EstateController {
             Future.successful(InternalServerError("QualifyingBody with id = " + id
               + " not found during onSubmit of delete confirmation"))
           } else {
-            val nino = StringHelper.getNino(user)
+            val nino = StringHelper.getNino(userNino)
             val newQualifyingBodies = ad.qualifyingBodies.patch(index, Nil, 1)
             val newAppDetails = ad copy (qualifyingBodies = newQualifyingBodies)
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.application.debts
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.constants.IhtProperties._
 import iht.controllers.application.ApplicationController
@@ -25,17 +26,22 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets.Property
 import iht.models.application.debts._
 import iht.utils.{ApplicationStatus, CommonHelper, StringHelper}
+import javax.inject.Inject
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Request, Result}
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
-object MortgageValueController extends MortgageValueController with IhtConnectors
+class MortgageValueControllerImpl @Inject()() extends MortgageValueController with IhtConnectors
 
 trait MortgageValueController extends ApplicationController {
+
 
   def cachingConnector: CachingConnector
 
@@ -43,12 +49,12 @@ trait MortgageValueController extends ApplicationController {
 
   def onSubmitUrl(id: String) = iht.controllers.application.debts.routes.MortgageValueController.onSubmit(id)
 
-  def onPageLoad(id: String) = authorisedForIht {
-    implicit user =>
+  def onPageLoad(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+
       implicit request => {
         withRegistrationDetails { regDetails =>
           for {
-            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(user),
+            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
               CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
               regDetails.acknowledgmentReference)
           } yield {
@@ -88,11 +94,11 @@ trait MortgageValueController extends ApplicationController {
     }
   }
 
-  def onSubmit(id: String) = authorisedForIht {
-    implicit user =>
+  def onSubmit(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+
       implicit request => {
         withRegistrationDetails { regDetails =>
-          val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(user),
+          val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(userNino),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
@@ -114,7 +120,7 @@ trait MortgageValueController extends ApplicationController {
                 },
                 mortgage => {
                   val newMort = mortgage.copy(id = id)
-                  saveApplication(StringHelper.getNino(user), id, newMort, appDetails, regDetails)
+                  saveApplication(StringHelper.getNino(userNino), id, newMort, appDetails, regDetails)
                 }
               )
             }

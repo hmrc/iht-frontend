@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import iht.testhelpers.{CommonBuilder, NinoBuilder}
 import iht.utils.IhtFormValidator._
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, Form, FormError}
 import uk.gov.hmrc.play.test.UnitSpec
@@ -33,7 +33,7 @@ import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.logging.SessionId
 
-class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
+class IhtFormValidatorTest extends FakeIhtApp with MockitoSugar {
   val coExecutorIDKey = "id"
   val validName = "Axxlsk"
   val mapping: FieldMapping[String] = name(10, "blank", "length", "chars")
@@ -64,17 +64,17 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
     val vpp = IhtFormValidator.validateBasicEstateElementLiabilities("value")
     "displays error if no value" in {
       val result = vpp.bind("", Map("value" -> ""))
-      result shouldBe Left(List(FormError("value", "error.value.blank")))
+      result mustBe Left(List(FormError("value", "error.value.blank")))
     }
 
     "bind to true if true chosen via radio button" in {
       val result = vpp.bind("", Map("" -> "true", "value" -> "22"))
-      result shouldBe Right(Some(true))
+      result mustBe Right(Some(true))
     }
 
     "unbind" in {
       val result = vpp.unbind("waa", Some(true))
-      result shouldBe Map("waa" -> "true")
+      result mustBe Map("waa" -> "true")
     }
   }
 
@@ -83,7 +83,7 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
 
     "display error if value < exemptions" in {
       val result = fv.bind("", Map("value" -> "12000", "ex" -> "15000"))
-      result shouldBe Left(List(FormError("ex", "error.giftsDetails.exceedsGivenAway")))
+      result mustBe Left(List(FormError("ex", "error.giftsDetails.exceedsGivenAway")))
     }
   }
 
@@ -92,31 +92,31 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
 
     "accept valid nino" in {
       val validNino = NinoBuilder.defaultNino
-      ninoMapping.bind(Map("" -> validNino)) shouldBe Right(validNino)
+      ninoMapping.bind(Map("" -> validNino)) mustBe Right(validNino)
     }
 
     "accept valid nino containing spaces" in {
       val ninoWithSpace = NinoBuilder.addSpacesToNino(CommonBuilder.DefaultNino)
-      ninoMapping.bind(Map("" -> ninoWithSpace)) shouldBe Right(ninoWithSpace)
+      ninoMapping.bind(Map("" -> ninoWithSpace)) mustBe Right(ninoWithSpace)
     }
 
     "accept nino with lower case letters" in {
       val ninoInLowerCase = NinoBuilder.defaultNino.toLowerCase
-      ninoMapping.bind(Map("" -> ninoInLowerCase)) shouldBe Right(ninoInLowerCase)
+      ninoMapping.bind(Map("" -> ninoInLowerCase)) mustBe Right(ninoInLowerCase)
     }
 
     "reject blank nino" in {
-      ninoMapping.bind(Map("" -> "")) shouldBe Left(List(FormError("", "blank")))
+      ninoMapping.bind(Map("" -> "")) mustBe Left(List(FormError("", "blank")))
     }
 
     "reject nino which is wrong length (too few characters)" in {
       val ninoWithLengthLessThanValid = NinoBuilder.defaultNino.substring(3)
-      ninoMapping.bind(Map("" -> ninoWithLengthLessThanValid)) shouldBe Left(List(FormError("", "length")))
+      ninoMapping.bind(Map("" -> ninoWithLengthLessThanValid)) mustBe Left(List(FormError("", "length")))
     }
 
     "reject nino which is wrong length (too many characters)" in {
       val ninoWithLengthMoreThanValid = NinoBuilder.defaultNino.concat("XXXX")
-      ninoMapping.bind(Map("" -> ninoWithLengthMoreThanValid)) shouldBe Left(List(FormError("", "length")))
+      ninoMapping.bind(Map("" -> ninoWithLengthMoreThanValid)) mustBe Left(List(FormError("", "length")))
     }
 
     "reject ninos with invalid prefixes" in {
@@ -124,7 +124,7 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
       val ninoWithoutPrefix = nino.substring(2)
 
       Set("BG", "GB", "KN", "NK", "NT", "TN", "ZZ").foreach { prefix =>
-        ninoMapping.bind(Map("" -> s"${prefix}$ninoWithoutPrefix")) shouldBe Left(List(FormError("", "format")))
+        ninoMapping.bind(Map("" -> s"${prefix}$ninoWithoutPrefix")) mustBe Left(List(FormError("", "format")))
       }
     }
 
@@ -133,7 +133,7 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
       val lastChar = defaultNino.charAt(defaultNino.length - 1)
 
       val ninoWithIllegalSuffix = NinoBuilder.defaultNino.replace(lastChar, 'F')
-      ninoMapping.bind(Map("" -> ninoWithIllegalSuffix)) shouldBe Left(List(FormError("", "format")))
+      ninoMapping.bind(Map("" -> ninoWithIllegalSuffix)) mustBe Left(List(FormError("", "format")))
     }
 
     "reject nino which has more than one trailing character" in {
@@ -141,19 +141,19 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
       val secondLastChar = defaultNino.charAt(defaultNino.length - 2)
       val ninoWithMoreThanOneTrailingCharacter = defaultNino.replace(secondLastChar, 'C')
 
-      ninoMapping.bind(Map("" -> ninoWithMoreThanOneTrailingCharacter)) shouldBe Left(List(FormError("", "format")))
+      ninoMapping.bind(Map("" -> ninoWithMoreThanOneTrailingCharacter)) mustBe Left(List(FormError("", "format")))
     }
 
     "reject nino containing spaces but too many characters" in {
       val ninoWithSpacesAndInvalidLength = NinoBuilder.addSpacesToNino(CommonBuilder.DefaultNino).concat("XXXX")
-      ninoMapping.bind(Map("" -> ninoWithSpacesAndInvalidLength)) shouldBe Left(List(FormError("", "length")))
+      ninoMapping.bind(Map("" -> ninoWithSpacesAndInvalidLength)) mustBe Left(List(FormError("", "length")))
     }
   }
 
   "nino for coexecutor mapping" should {
     "respond with no error when nino not same as main executor nino or another executor nino" in {
       val nino = NinoBuilder.randomNino.toString()
-      ninoForCoExecutorMapping(CommonBuilder.buildRegistrationDetails1).bind(Map("" -> nino)) shouldBe Right(nino)
+      ninoForCoExecutorMapping(CommonBuilder.buildRegistrationDetails1).bind(Map("" -> nino)) mustBe Right(nino)
     }
 
     "respond with no error when nino same as THIS executor nino but coexecutor ids are the same" in {
@@ -171,7 +171,7 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
         coExecutors = Seq(coExec1, coExec2, coExec3)
       )
 
-      ninoForCoExecutorMapping(rd).bind(Map("" -> nino2, "id" -> "2")) shouldBe Right(nino2)
+      ninoForCoExecutorMapping(rd).bind(Map("" -> nino2, "id" -> "2")) mustBe Right(nino2)
     }
 
     "respond with error when nino same as OTHER executor nino but coexecutor ids are the same" in {
@@ -190,7 +190,7 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
       )
 
       ninoForCoExecutorMapping(rd)
-        .bind(Map("" -> nino1, "id" -> "2")) shouldBe Left(Seq(FormError("", "error.nino.alreadyGiven")))
+        .bind(Map("" -> nino1, "id" -> "2")) mustBe Left(Seq(FormError("", "error.nino.alreadyGiven")))
     }
 
     "respond with error when nino same as another executor nino but coexecutor ids are different" in {
@@ -209,13 +209,13 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
       )
 
       ninoForCoExecutorMapping(rd)
-        .bind(Map("" -> CommonBuilder.DefaultNino, "id" -> "1")) shouldBe Left(Seq(FormError("", "error.nino.alreadyGiven")))
+        .bind(Map("" -> CommonBuilder.DefaultNino, "id" -> "1")) mustBe Left(Seq(FormError("", "error.nino.alreadyGiven")))
 
     }
 
     "respond with error when nino same as main executor nino" in {
       ninoForCoExecutorMapping(CommonBuilder.buildRegistrationDetails1)
-        .bind(Map("" -> CommonBuilder.DefaultNino)) shouldBe Left(Seq(FormError("", "error.nino.alreadyGiven")))
+        .bind(Map("" -> CommonBuilder.DefaultNino)) mustBe Left(Seq(FormError("", "error.nino.alreadyGiven")))
     }
 
     "respond with error when nino same as deceased nino" in {
@@ -224,7 +224,7 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
         deceasedDetails = Some(CommonBuilder.buildDeceasedDetails copy (nino = Some(deceasedNino)))
         )
       ninoForCoExecutorMapping(rd)
-        .bind(Map("" -> deceasedNino)) shouldBe Left(Seq(FormError("", "error.nino.alreadyGiven")))
+        .bind(Map("" -> deceasedNino)) mustBe Left(Seq(FormError("", "error.nino.alreadyGiven")))
     }
 
     "respond with error when nino same as other executor nino but with extra space" in {
@@ -234,7 +234,7 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
         )
 
       ninoForCoExecutorMapping(rd)
-        .bind(Map("" -> NinoBuilder.addSpacesToNino(CommonBuilder.DefaultNino))) shouldBe
+        .bind(Map("" -> NinoBuilder.addSpacesToNino(CommonBuilder.DefaultNino))) mustBe
         Left(Seq(FormError("", "error.nino.alreadyGiven")))
     }
 
@@ -254,7 +254,7 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
       )
 
       ninoForCoExecutorMapping(rd)
-        .bind(Map("" -> nino2)) shouldBe
+        .bind(Map("" -> nino2)) mustBe
         Left(Seq(FormError("", "error.nino.alreadyGiven")))
     }
 
@@ -274,7 +274,7 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
       )
 
       ninoForCoExecutorMapping(rd)
-        .bind(Map("" -> nino2)) shouldBe
+        .bind(Map("" -> nino2)) mustBe
         Left(Seq(FormError("", "error.nino.alreadyGiven")))
     }
   }
@@ -282,11 +282,11 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
   // scalastyle:off magic.number
   "check for name error" should {
     "respond with error when no value entered" in {
-      checkForNameError("", 10, "blank", "length", "chars", Some("")) shouldBe Some(FormError("", "blank"))
+      checkForNameError("", 10, "blank", "length", "chars", Some("")) mustBe Some(FormError("", "blank"))
     }
 
     "respond with error when too long" in {
-      checkForNameError("", 10, "blank", "length", "chars", Some("a" * 11)) shouldBe Some(FormError("", "length"))
+      checkForNameError("", 10, "blank", "length", "chars", Some("a" * 11)) mustBe Some(FormError("", "length"))
     }
   }
 
@@ -294,35 +294,35 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
     "return errors for blank values" in {
       val formatter: Formatter[Option[String]] = validatePartnerName("lastName")
       val result = formatter.bind("firstName", Map("firstName" -> "", "lastName" -> ""))
-      result shouldBe Left(Seq(FormError("firstName", "error.firstName.give"),
+      result mustBe Left(Seq(FormError("firstName", "error.firstName.give"),
         FormError("lastName", "error.lastName.give")))
     }
 
     "return errors for length" in {
       val formatter: Formatter[Option[String]] = validatePartnerName("lastName")
       val result = formatter.bind("firstName", Map("firstName" -> "a" * 50, "lastName" -> "a" * 50))
-      result shouldBe Left(Seq(FormError("firstName", "error.firstName.giveUsingXCharsOrLess"),
+      result mustBe Left(Seq(FormError("firstName", "error.firstName.giveUsingXCharsOrLess"),
         FormError("lastName", "error.lastName.giveUsingXCharsOrLess")))
     }
 
     "return no errors for valid entry" in {
       val formatter: Formatter[Option[String]] = validatePartnerName("lastName")
       val result = formatter.bind("firstName", Map("firstName" -> validName, "lastName" -> validName))
-      result shouldBe Right(Some(validName))
+      result mustBe Right(Some(validName))
     }
   }
 
   "name" should {
     "return error for blank value" in {
-      mapping.bind(Map("" -> "")) shouldBe Left(List(FormError("", "blank")))
+      mapping.bind(Map("" -> "")) mustBe Left(List(FormError("", "blank")))
     }
 
     "return error for long value" in {
-      mapping.bind(Map("" -> "a" * 50)) shouldBe Left(List(FormError("", "length")))
+      mapping.bind(Map("" -> "a" * 50)) mustBe Left(List(FormError("", "length")))
     }
 
     "return no error for valid value" in {
-      mapping.bind(Map("" -> validName)) shouldBe Right(validName)
+      mapping.bind(Map("" -> validName)) mustBe Right(validName)
     }
   }
   // scalastyle:on magic.number
@@ -334,7 +334,7 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
       val ad = CommonBuilder.buildApplicantDetails copy (nino = Some(CommonBuilder.DefaultNino))
 
       ninoForDeceasedMapping(CommonBuilder.buildRegistrationDetails1 copy (
-        applicantDetails = Some(ad))).bind(Map("" -> nino)) shouldBe Right(nino)
+        applicantDetails = Some(ad))).bind(Map("" -> nino)) mustBe Right(nino)
     }
 
     "respond with error when nino entered for nino matches previously entered nino for applicant" in {
@@ -342,7 +342,7 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
       val rd = CommonBuilder.buildRegistrationDetails1 copy (applicantDetails = Some(ad))
 
       ninoForDeceasedMapping(rd)
-        .bind(Map("" -> NinoBuilder.addSpacesToNino(CommonBuilder.DefaultNino))) shouldBe
+        .bind(Map("" -> NinoBuilder.addSpacesToNino(CommonBuilder.DefaultNino))) mustBe
         Left(Seq(FormError("", "error.nino.alreadyGiven")))
     }
 
@@ -353,7 +353,7 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
       val rd = CommonBuilder.buildRegistrationDetails1 copy(applicantDetails = Some(ad), coExecutors = Seq(coExec1))
 
       ninoForDeceasedMapping(rd)
-        .bind(Map("" -> CommonBuilder.DefaultNino)) shouldBe Left(Seq(FormError("", "error.nino.alreadyGiven")))
+        .bind(Map("" -> CommonBuilder.DefaultNino)) mustBe Left(Seq(FormError("", "error.nino.alreadyGiven")))
     }
 
     "respond with error when nino entered for deceased matches previously entered nino for a 2nd coexecutor" in {
@@ -365,7 +365,7 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
       val rd = CommonBuilder.buildRegistrationDetails1 copy(applicantDetails = Some(ad), coExecutors = Seq(coExec1, coExec2))
 
       ninoForDeceasedMapping(rd)
-        .bind(Map("" -> CommonBuilder.DefaultNino)) shouldBe Left(Seq(FormError("", "error.nino.alreadyGiven")))
+        .bind(Map("" -> CommonBuilder.DefaultNino)) mustBe Left(Seq(FormError("", "error.nino.alreadyGiven")))
     }
 
   }

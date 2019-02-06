@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,17 +57,17 @@ class PropertyDetailsOverviewViewTest extends GenericNonSubmittablePageBehaviour
 
   def propertyAttributeWithValueAndChange(rowNo: Int, expectedAttributeName: => String, expectedAttributeValue: => String) = {
     s"show attribute number ${rowNo + 1}" in {
-      tableCell(doc, propertyAttributesTableId, 0, rowNo).text shouldBe expectedAttributeName
+      tableCell(doc, propertyAttributesTableId, 0, rowNo).text mustBe expectedAttributeName
     }
 
     s"show attribute number ${rowNo + 1} value" in {
-      tableCell(doc, propertyAttributesTableId, 1, rowNo).text shouldBe expectedAttributeValue
+      tableCell(doc, propertyAttributesTableId, 1, rowNo).text mustBe expectedAttributeValue
     }
 
     s"show attribute number ${rowNo + 1} change link" in {
       val changeDiv = tableCell(doc, propertyAttributesTableId, 2, rowNo)
       val anchor = changeDiv.getElementsByTag("a").first
-      getVisibleText(anchor) shouldBe messagesApi("iht.change")
+      getVisibleText(anchor) mustBe messagesApi("iht.change")
     }
   }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.application.assets.insurancePolicy
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
@@ -24,25 +25,30 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.utils.ApplicationKickOutHelper
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_annuity
+import javax.inject.Inject
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-object InsurancePolicyDetailsAnnuityController extends InsurancePolicyDetailsAnnuityController with IhtConnectors {
+class InsurancePolicyDetailsAnnuityControllerImpl @Inject()() extends InsurancePolicyDetailsAnnuityController with IhtConnectors {
   def metrics : Metrics = Metrics
 }
 
 trait InsurancePolicyDetailsAnnuityController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsInsurancePoliciesAnnuities)
-  def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
+
+
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
       estateElementOnPageLoad[InsurancePolicy](insurancePolicyAnnuityForm, insurance_policy_details_annuity.apply,
-        _.allAssets.flatMap(_.insurancePolicy))
+        _.allAssets.flatMap(_.insurancePolicy), userNino)
     }
   }
 
-  def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
-
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
       val updateApplicationDetails: (ApplicationDetails, Option[String], InsurancePolicy) =>
         (ApplicationDetails, Option[String]) =
         (appDetails, _, insurancePolicy) => {
@@ -57,7 +63,9 @@ trait InsurancePolicyDetailsAnnuityController extends EstateController {
         insurance_policy_details_annuity.apply, updateApplicationDetails,
         (ad, _) =>  ad.allAssets.flatMap(allAssets=>allAssets.insurancePolicy).flatMap(_.isAnnuitiesBought)
           .fold(insurancePoliciesRedirectLocation)(_=>
-          iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsInTrustController.onPageLoad()))
+          iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsInTrustController.onPageLoad()),
+        userNino
+      )
     }
   }
 }

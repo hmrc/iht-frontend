@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,33 +16,39 @@
 
 package iht.controllers.application.exemptions
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.connector.IhtConnectors
 import iht.controllers.application.ApplicationController
 import iht.utils.ExemptionsGuidanceHelper
+import javax.inject.Inject
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+
 import scala.concurrent.Future
 
 /**
  * Created by jon on 21/07/15.
  */
-object ExemptionsGuidanceIncreasingThresholdController extends ExemptionsGuidanceIncreasingThresholdController with IhtConnectors
+class ExemptionsGuidanceIncreasingThresholdControllerImpl @Inject()() extends ExemptionsGuidanceIncreasingThresholdController with IhtConnectors
 
 trait ExemptionsGuidanceIncreasingThresholdController extends ApplicationController {
+
 
   def cachingConnector: CachingConnector
 
   def ihtConnector: IhtConnector
 
   def onPageLoad(ihtReference: String) = authorisedForIht {
-    implicit user => implicit request => {
+    implicit request => {
       Future.successful(Ok(iht.views.html.application.exemption.exemptions_guidance_increasing_threshold(ihtReference)))
     }
   }
 
   def onSubmit(ihtReference: String) = authorisedForIht {
-    implicit user => implicit request => {
+    implicit request => {
       ExemptionsGuidanceHelper.finalDestination(ihtReference, cachingConnector)
         .map( finalDestination => Redirect(finalDestination))
     }

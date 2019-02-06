@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ import uk.gov.hmrc.play.test.UnitSpec
  *
  * This Class contains the Unit Tests for iht.utils.CommonHelper
  */
-class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I18nSupport {
+class CommonHelperTest extends FakeIhtApp with MockitoSugar with I18nSupport {
 
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val referrerURL="http://localhost:9070/inheritance-tax/registration/addExecutor"
@@ -50,139 +50,139 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I
     val aa:Option[String] = None
     intercept[RuntimeException] {
       CommonHelper.getOrException(aa)
-    }.getMessage should include ("No element found")
+    }.getMessage must include ("No element found")
   }
 
   "getOrException throws exception if Application Details None passed in with suitable message" in {
     val aa:Option[ApplicationDetails] = None
     intercept[RuntimeException] {
       CommonHelper.getOrExceptionNoApplication(aa)
-    }.getMessage should include ("No application details")
+    }.getMessage must include ("No application details")
   }
 
   "getOrException throws exception if Application Details saved None passed in with suitable message" in {
     val aa:Option[ApplicationDetails] = None
     intercept[RuntimeException] {
       CommonHelper.getOrExceptionApplicationNotSaved(aa)
-    }.getMessage should include ("Unable to save application")
+    }.getMessage must include ("Unable to save application")
   }
 
   "getOrException throws exception if IHT Ref None passed in with suitable message" in {
     val aa:Option[String] = None
     intercept[RuntimeException] {
       CommonHelper.getOrExceptionNoIHTRef(aa)
-    }.getMessage should include ("No IHT Reference")
+    }.getMessage must include ("No IHT Reference")
   }
 
  "aggregateOfSeqOfOption returns Some(false) where at least one element is Some(false)" in {
     val seqList = Seq(Some(true),Some(false),None)
     val result = CommonHelper.aggregateOfSeqOfOption(seqList)
-    result shouldBe Some(false)
+    result mustBe Some(false)
   }
 
   "aggregateOfSeqOfOption returns Some(false) where at least one element is None" in {
     val seqList = Seq(Some(true),None,None)
     val result = CommonHelper.aggregateOfSeqOfOption(seqList)
-    result shouldBe Some(false)
+    result mustBe Some(false)
   }
 
   "aggregateOfSeqOfOption returns Some(true) where all element are Some(true)" in {
     val seqList = Seq(Some(true),Some(true),Some(true))
     val result = CommonHelper.aggregateOfSeqOfOption(seqList)
-    result shouldBe Some(true)
+    result mustBe Some(true)
   }
 
   "aggregateOfSeqOfOption returns None where all element are None" in {
     val seqList = Seq(None, None, None)
     val result = CommonHelper.aggregateOfSeqOfOption(seqList)
-    result shouldBe None
+    result mustBe None
   }
 
   "aggregateOfSeqOfOptionDecimal returns the correct optional value" in {
     val seqList = Seq(Some(BigDecimal(12)), Some(BigDecimal(10)), None)
     val result = CommonHelper.aggregateOfSeqOfOptionDecimal(seqList)
-    result shouldBe Some(BigDecimal(22))
+    result mustBe Some(BigDecimal(22))
   }
 
   "aggregateOfSeqOfOptionDecimal returns None when all values are None" in {
     val seqList = Seq(None, None, None)
     val result = CommonHelper.aggregateOfSeqOfOptionDecimal(seqList)
-    result shouldBe None
+    result mustBe None
   }
 
-"getOrZero" should {
+"getOrZero" must {
     "return BigDecimal(0) if None is given as input" in {
-      CommonHelper.getOrZero(None) shouldBe BigDecimal(0)
+      CommonHelper.getOrZero(None) mustBe BigDecimal(0)
     }
 
     "return the correct value if input is BigDecimal value other than 0" in {
-      CommonHelper.getOrZero(Some(BigDecimal(100000))) shouldBe BigDecimal(100000)
+      CommonHelper.getOrZero(Some(BigDecimal(100000))) mustBe BigDecimal(100000)
     }
   }
 
   "numericElements" must {
     "return the blank key if first element is blank" in {
-      CommonHelper.convertToNumbers(Seq("", "2", "3"), "1", "2") shouldBe Left("1")
+      CommonHelper.convertToNumbers(Seq("", "2", "3"), "1", "2") mustBe Left("1")
     }
 
     "return the blank key if second element is blank" in {
-      CommonHelper.convertToNumbers(Seq("1", "", "3"), "1", "2") shouldBe Left("1")
+      CommonHelper.convertToNumbers(Seq("1", "", "3"), "1", "2") mustBe Left("1")
     }
 
     "return the blank key if third element is blank" in {
-      CommonHelper.convertToNumbers(Seq("1", "2", " "), "1", "2") shouldBe Left("1")
+      CommonHelper.convertToNumbers(Seq("1", "2", " "), "1", "2") mustBe Left("1")
     }
 
     "return the invalid characters key if first element has not numeric characters" in {
-      CommonHelper.convertToNumbers(Seq("&^", "2", "3"), "1", "2") shouldBe Left("2")
+      CommonHelper.convertToNumbers(Seq("&^", "2", "3"), "1", "2") mustBe Left("2")
     }
 
     "return the invalid characters key if second element has not numeric characters" in {
-      CommonHelper.convertToNumbers(Seq("1", "£$", "3"), "1", "2") shouldBe Left("2")
+      CommonHelper.convertToNumbers(Seq("1", "£$", "3"), "1", "2") mustBe Left("2")
     }
 
     "return the invalid characters key if third element has not numeric characters" in {
-      CommonHelper.convertToNumbers(Seq("1", "2", "three"), "1", "2") shouldBe Left("2")
+      CommonHelper.convertToNumbers(Seq("1", "2", "three"), "1", "2") mustBe Left("2")
     }
 
     "return the an integer seq if all numeric elements passed in" in {
-      CommonHelper.convertToNumbers(Seq("1", "2", "5"), "1", "2") shouldBe Right(Seq(1,2,5))
+      CommonHelper.convertToNumbers(Seq("1", "2", "5"), "1", "2") mustBe Right(Seq(1,2,5))
     }
   }
 
   "formatCurrencyForInput" must {
     "return a properly formatted number if no trailing zero provided" in {
       val number = "5000.5"
-      CommonHelper.formatCurrencyForInput(number) shouldBe "5000.50"
+      CommonHelper.formatCurrencyForInput(number) mustBe "5000.50"
     }
 
     "return a properly formatted number if two decimal places provided" in {
       val number = "5000.55"
-      CommonHelper.formatCurrencyForInput(number) shouldBe "5000.55"
+      CommonHelper.formatCurrencyForInput(number) mustBe "5000.55"
     }
 
     "return a properly formatted number if no decimal places provided" in {
       val number = "5000"
-      CommonHelper.formatCurrencyForInput(number) shouldBe "5000.00"
+      CommonHelper.formatCurrencyForInput(number) mustBe "5000.00"
     }
 
     "return a properly formatted number if no decimal point provided" in {
       val number = "5000."
-      CommonHelper.formatCurrencyForInput(number) shouldBe "5000.00"
+      CommonHelper.formatCurrencyForInput(number) mustBe "5000.00"
     }
 
     "return a blank string if no number provided" in {
       val number = ""
-      CommonHelper.formatCurrencyForInput(number) shouldBe ""
+      CommonHelper.formatCurrencyForInput(number) mustBe ""
     }
 
     "return the initial value if number not provided" in {
       val number = "thisIsNotANumber"
-      CommonHelper.formatCurrencyForInput(number) shouldBe "thisIsNotANumber"
+      CommonHelper.formatCurrencyForInput(number) mustBe "thisIsNotANumber"
     }
   }
 
-    "" should {
+    "" must {
       val deceasedDetails = CommonBuilder.buildDeceasedDetails
       val singleDeceasedDetails = CommonBuilder.buildDeceasedDetailsSingle
       val applicantDetails = CommonBuilder.buildApplicantDetails
@@ -191,22 +191,22 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I
 
       "have no registration details" in {
         val registrationDetails = RegistrationDetails(None, None, None)
-        the[RuntimeException] thrownBy CommonHelper.mapMaritalStatus(registrationDetails) should have message "No element found"
+        the[RuntimeException] thrownBy CommonHelper.mapMaritalStatus(registrationDetails) must have message "No element found"
       }
 
       "have no marital status" in {
         val registrationDetails = RegistrationDetails(None, Some(applicantDetails), Some(buildDeceasedDetailsNone))
-        CommonHelper.mapMaritalStatus(registrationDetails) shouldBe "notMarried"
+        CommonHelper.mapMaritalStatus(registrationDetails) mustBe "notMarried"
       }
 
       "have married status" in {
         val registrationDetails = RegistrationDetails(None, Some(applicantDetails), Some(deceasedDetails))
-        CommonHelper.mapMaritalStatus(registrationDetails) shouldBe "married"
+        CommonHelper.mapMaritalStatus(registrationDetails) mustBe "married"
       }
 
       "have not married status" in {
         val registrationDetails = RegistrationDetails(None, Some(applicantDetails), Some(singleDeceasedDetails))
-        CommonHelper.mapMaritalStatus(registrationDetails) shouldBe "notMarried"
+        CommonHelper.mapMaritalStatus(registrationDetails) mustBe "notMarried"
       }
 
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,18 +30,17 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 class TnrbGuidanceControllerTest  extends ApplicationControllerTest with HtmlSpec {
 
   override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def controller = new TnrbGuidanceController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new TnrbGuidanceController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -60,15 +59,15 @@ class TnrbGuidanceControllerTest  extends ApplicationControllerTest with HtmlSpe
 
     "redirect to login page onPageLoad if the user is not logged in" in {
       val result = controller.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
       createMocksForRegistrationAndApplicationWithMaritalStatus(TestHelper.MaritalStatusWidowed)
 
-      val result = controller.onPageLoad (createFakeRequest())
-      status(result) shouldBe OK
+      val result = controller.onPageLoad (createFakeRequest(authRetrieveNino = false))
+      status(result) mustBe OK
       val content = contentAsString(result)
       val doc = asDocument(content)
       assertEqualsValue(doc, "h1",
@@ -78,8 +77,8 @@ class TnrbGuidanceControllerTest  extends ApplicationControllerTest with HtmlSpe
     "respond with OK on system page load" in {
       createMocksForRegistrationAndApplicationWithMaritalStatus(TestHelper.MaritalStatusWidowed)
 
-      val result = controller.onSystemPageLoad (createFakeRequest())
-      status(result) shouldBe OK
+      val result = controller.onSystemPageLoad (createFakeRequest(authRetrieveNino = false))
+      status(result) mustBe OK
       val content = contentAsString(result)
       val doc = asDocument(content)
       assertEqualsValue(doc, "h1",
@@ -89,67 +88,67 @@ class TnrbGuidanceControllerTest  extends ApplicationControllerTest with HtmlSpe
     "respond with continue link with correct content in on page load when deceased was widowed" in {
       createMocksForRegistrationAndApplicationWithMaritalStatus(TestHelper.MaritalStatusWidowed)
 
-      val result = controller.onPageLoad(createFakeRequest())
-      status(result) shouldBe OK
+      val result = controller.onPageLoad(createFakeRequest(authRetrieveNino = false))
+      status(result) mustBe OK
       val content = contentAsString(result)
       val doc = asDocument(content)
 
       val link: Element = doc.getElementById("continue-to-increasing-threshold-link")
-      link.text() shouldBe messagesApi("page.iht.application.tnrb.guidance.continueLink.text")
+      link.text() mustBe messagesApi("page.iht.application.tnrb.guidance.continueLink.text")
     }
 
     "respond with continue link with correct content in on system page load when deceased was widowed" in {
       createMocksForRegistrationAndApplicationWithMaritalStatus(TestHelper.MaritalStatusWidowed)
 
-      val result = controller.onSystemPageLoad(createFakeRequest())
-      status(result) shouldBe OK
+      val result = controller.onSystemPageLoad(createFakeRequest(authRetrieveNino = false))
+      status(result) mustBe OK
       val content = contentAsString(result)
       val doc = asDocument(content)
 
       val link: Element = doc.getElementById("continue-to-increasing-threshold-link")
-      link.text() shouldBe messagesApi("page.iht.application.tnrb.guidance.continueLink.text")
+      link.text() mustBe messagesApi("page.iht.application.tnrb.guidance.continueLink.text")
     }
 
     "respond with correct link (deceased spouse date of death page) in on page load when deceased was widowed" in {
       createMocksForRegistrationAndApplicationWithMaritalStatus(TestHelper.MaritalStatusWidowed)
 
-      val result = controller.onPageLoad(createFakeRequest())
-      status(result) shouldBe OK
+      val result = controller.onPageLoad(createFakeRequest(authRetrieveNino = false))
+      status(result) mustBe OK
       val content = contentAsString(result)
       val doc = asDocument(content)
 
       val link: Element = doc.getElementById("continue-to-increasing-threshold-link")
-      link.attr("href") shouldBe iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad().url
+      link.attr("href") mustBe iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad().url
     }
 
     "respond with correct link (TNRB Widow check page) in on page load when deceased was married" in {
       createMocksForRegistrationAndApplicationWithMaritalStatus(TestHelper.MaritalStatusMarried)
 
-      val result = controller.onPageLoad(createFakeRequest())
-      status(result) shouldBe OK
+      val result = controller.onPageLoad(createFakeRequest(authRetrieveNino = false))
+      status(result) mustBe OK
       val content = contentAsString(result)
       val doc = asDocument(content)
 
       val link: Element = doc.getElementById("continue-to-increasing-threshold-link")
-      link.attr("href") shouldBe iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad().url
+      link.attr("href") mustBe iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad().url
     }
 
     "respond with correct link (TNRB Widow check page) in on page load when deceased was divorced" in {
       createMocksForRegistrationAndApplicationWithMaritalStatus(TestHelper.MaritalStatusDivorced)
 
-      val result = controller.onPageLoad(createFakeRequest())
-      status(result) shouldBe OK
+      val result = controller.onPageLoad(createFakeRequest(authRetrieveNino = false))
+      status(result) mustBe OK
       val content = contentAsString(result)
       val doc = asDocument(content)
 
       val link: Element = doc.getElementById("continue-to-increasing-threshold-link")
-      link.attr("href") shouldBe iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad().url
+      link.attr("href") mustBe iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad().url
     }
 
     "respond with correct link (TNRB Widow check page) in on page load when deceased was single" in {
       createMocksForRegistrationAndApplicationWithMaritalStatus(TestHelper.MaritalStatusSingle)
 
-      a [RuntimeException] shouldBe thrownBy {
+      a [RuntimeException] mustBe thrownBy {
         await(controller.onPageLoad(createFakeRequest()))
       }
     }

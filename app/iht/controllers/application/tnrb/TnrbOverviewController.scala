@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.application.tnrb
 
+import iht.config.AppConfig
 import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.metrics.Metrics
@@ -23,24 +24,28 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
 import iht.utils.CommonHelper._
 import iht.utils.{CommonHelper, StringHelper}
+import javax.inject.Inject
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
 import scala.concurrent.Future
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-object TnrbOverviewController extends TnrbOverviewController with IhtConnectors {
+class TnrbOverviewControllerImpl @Inject()() extends TnrbOverviewController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait TnrbOverviewController extends EstateController {
 
-  def onPageLoad = authorisedForIht {
-    implicit user =>
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+
       implicit request => {
 
         withRegistrationDetails { regDetails =>
           val applicationDetailsFuture: Future[Option[ApplicationDetails]] = ihtConnector
-            .getApplication(StringHelper.getNino(user), getOrExceptionNoIHTRef(regDetails.ihtReference),
+            .getApplication(StringHelper.getNino(userNino), getOrExceptionNoIHTRef(regDetails.ihtReference),
               regDetails.acknowledgmentReference)
 
           applicationDetailsFuture.map { optionApplicationDetails =>

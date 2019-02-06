@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,17 +65,17 @@ trait PartnerOverviewViewBehaviour extends GenericNonSubmittablePageBehaviour {
                                           expectedAttributeValue: => String,
                                           expectedLinkText: => String) = {
     s"show attribute number ${rowNo + 1} name" in {
-      tableCell(doc, assetsLeftToSpouseAttributesTableId, 0, rowNo).text shouldBe expectedAttributeName
+      tableCell(doc, assetsLeftToSpouseAttributesTableId, 0, rowNo).text mustBe expectedAttributeName
     }
 
     s"show attribute number ${rowNo + 1} value" in {
-      tableCell(doc, assetsLeftToSpouseAttributesTableId, 1, rowNo).text shouldBe expectedAttributeValue
+      tableCell(doc, assetsLeftToSpouseAttributesTableId, 1, rowNo).text mustBe expectedAttributeValue
     }
 
     s"show attribute number ${rowNo + 1} change link" in {
       val changeDiv = tableCell(doc, assetsLeftToSpouseAttributesTableId, 2, rowNo)
       val anchor = changeDiv.getElementsByTag("a").first
-      getVisibleText(anchor) shouldBe messagesApi(expectedLinkText)
+      getVisibleText(anchor) mustBe messagesApi(expectedLinkText)
     }
   }
 

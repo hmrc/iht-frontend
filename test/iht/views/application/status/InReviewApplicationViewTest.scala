@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,9 +66,9 @@ class InReviewApplicationViewTest extends ApplicationStatusViewBehaviour {
     }
 
     "show submit button with correct target and text" in {
-      doc.getElementsByTag("form").attr("action") shouldBe iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url
+      doc.getElementsByTag("form").attr("action") mustBe iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url
       val submitButton = doc.getElementById("return-input")
-      submitButton.`val` shouldBe messagesApi("page.iht.application.overview.common.return")
+      submitButton.`val` mustBe messagesApi("page.iht.application.overview.common.return")
     }
   }
 }

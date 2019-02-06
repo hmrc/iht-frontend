@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.application.exemptions.partner
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
@@ -23,59 +24,61 @@ import iht.forms.ApplicationForms._
 import iht.models.RegistrationDetails
 import iht.models.application.exemptions._
 import iht.utils.CommonHelper._
-import iht.utils.{ApplicationKickOutNonSummaryHelper, ApplicationKickOutHelper, StringHelper}
+import iht.utils.{ApplicationKickOutHelper, ApplicationKickOutNonSummaryHelper, StringHelper}
 import iht.views.html.application.exemption.partner.partner_name
+import javax.inject.Inject
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Request, Result}
-import uk.gov.hmrc.play.frontend.auth.AuthContext
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
 /**
   * Created by jennygj on 01/08/16.
   */
-object ExemptionPartnerNameController extends ExemptionPartnerNameController with IhtConnectors
+class ExemptionPartnerNameControllerImpl @Inject()() extends ExemptionPartnerNameController with IhtConnectors
 
 trait ExemptionPartnerNameController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionExemptionsSpouse)
+
 
   def cachingConnector: CachingConnector
 
   def ihtConnector: IhtConnector
 
-  def onPageLoad = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        estateElementOnPageLoad[PartnerExemption](
-          partnerExemptionNameForm, partner_name.apply, _.allExemptions.flatMap(_.partner))
-      }
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      estateElementOnPageLoad[PartnerExemption](
+        partnerExemptionNameForm, partner_name.apply, _.allExemptions.flatMap(_.partner), userNino)
+    }
   }
 
-  def onSubmit = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        withRegistrationDetails { regDetails =>
-          val boundForm = partnerExemptionNameForm.bindFromRequest
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      withRegistrationDetails { regDetails =>
+        val boundForm = partnerExemptionNameForm.bindFromRequest
 
-          boundForm.fold(
-            formWithErrors => {
-              Future.successful(BadRequest(iht.views.html.application.exemption.partner.partner_name(
-                formWithErrors, regDetails)))
-            },
-            partnerExemption => {
-              saveApplication(StringHelper.getNino(user), partnerExemption, regDetails)
-            }
-          )
-        }
+        boundForm.fold(
+          formWithErrors => {
+            Future.successful(BadRequest(iht.views.html.application.exemption.partner.partner_name(
+              formWithErrors, regDetails)))
+          },
+          partnerExemption => {
+            saveApplication(StringHelper.getNino(userNino), partnerExemption, regDetails, userNino)
+          }
+        )
       }
+    }
   }
 
-  def saveApplication(nino: String, pe: PartnerExemption, regDetails: RegistrationDetails)
-                     (implicit request: Request[_], user: AuthContext, hc: HeaderCarrier): Future[Result] = {
+  def saveApplication(nino: String, pe: PartnerExemption, regDetails: RegistrationDetails, userNino: Option[String])
+                     (implicit request: Request[_], hc: HeaderCarrier): Future[Result] = {
 
-    withApplicationDetails {
+    withApplicationDetails(userNino) {
       rd =>
         appDetails =>
 

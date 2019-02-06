@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,8 +66,8 @@ class CompletedRegistrationViewTest extends ViewTestHelper{
       val doc = asDocument(view)
 
       val button = doc.getElementById("go-to-inheritance-tax-report")
-      button.text shouldBe messagesApi("page.iht.registration.completedRegistration.button")
-      button.attr("href") shouldBe iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url
+      button.text mustBe messagesApi("page.iht.registration.completedRegistration.button")
+      button.attr("href") mustBe iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url
 
     }
 
@@ -78,8 +78,8 @@ class CompletedRegistrationViewTest extends ViewTestHelper{
       val doc = asDocument(view)
 
       val textlink = doc.getElementById("go-to-save-and-exit")
-      textlink.text shouldBe messagesApi("page.iht.registration.completedRegistration.link")
-      textlink.attr("href") shouldBe iht.controllers.routes.SessionTimeoutController.onSaveAndExitPageLoad.url
+      textlink.text mustBe messagesApi("page.iht.registration.completedRegistration.link")
+      textlink.attr("href") mustBe iht.controllers.routes.SessionTimeoutController.onSaveAndExitPageLoad.url
 
     }
 

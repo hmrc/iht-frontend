@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,25 +16,32 @@
 
 package iht.controllers.application.exemptions.charity
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.metrics.Metrics
 import iht.utils.StringHelper
 import iht.views.html.application.exemption.charity.charity_delete_confirm
+import javax.inject.Inject
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
 import scala.concurrent.Future
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-object CharityDeleteConfirmController extends CharityDeleteConfirmController with IhtConnectors {
+class CharityDeleteConfirmControllerImpl @Inject()() extends CharityDeleteConfirmController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait CharityDeleteConfirmController extends EstateController {
-  def onPageLoad(id: String) = authorisedForIht {
-    implicit user => implicit request => {
-      withApplicationDetails {
+
+
+  def onPageLoad(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      withApplicationDetails(userNino) {
         rd => ad => {
           Future.successful(ad.charities.find(_.id.contains(id)).fold {
             Logger.warn("Charity with id = " + id + " not found during onLoad of delete confirmation")
@@ -47,9 +54,9 @@ trait CharityDeleteConfirmController extends EstateController {
     }
   }
 
-  def onSubmit(id: String) = authorisedForIht {
-    implicit user => implicit request => {
-      withApplicationDetails {
+  def onSubmit(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      withApplicationDetails(userNino) {
         rd => ad => {
           val index = ad.charities.indexWhere(_.id.contains(id))
 
@@ -58,7 +65,7 @@ trait CharityDeleteConfirmController extends EstateController {
             Future.successful(InternalServerError("Charity with id = " + id
               + " not found during onSubmit of delete confirmation"))
           } else {
-            val nino = StringHelper.getNino(user)
+            val nino = StringHelper.getNino(userNino)
             val newCharities = ad.charities.patch(index, Nil, 1)
             val newAppDetails = ad copy (charities = newCharities)
 

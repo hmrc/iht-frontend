@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,8 +56,8 @@ class QuestionnaireFormViewTest extends ViewTestHelper {
     }
 
     "have an input for users contact details and activity user has completed" in {
-     viewAsDocument.toString should include(messagesApi("page.iht.questionnaire.contactDetails"))
-     viewAsDocument.toString should include(messagesApi("page.iht.questionnaire.activity.question"))
+     viewAsDocument.toString must include(messagesApi("page.iht.questionnaire.contactDetails"))
+     viewAsDocument.toString must include(messagesApi("page.iht.questionnaire.activity.question"))
     }
 
   }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,18 +33,15 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class CharityNameControllerTest extends ApplicationControllerTest with BeforeAndAfter {
 
-  var mockCachingConnector = mock[CachingConnector]
-  var mockIhtConnector = mock[IhtConnector]
-
   def charityNameController = new CharityNameController {
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def charityNameControllerNotAuthorised = new CharityNameController {
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -72,22 +69,19 @@ class CharityNameControllerTest extends ApplicationControllerTest with BeforeAnd
   val applicationDetailsTwoCharities = CommonBuilder.buildApplicationDetails copy (charities
     = Seq(charity1, charity2))
 
-  before {
-    mockCachingConnector = mock[CachingConnector]
-    mockIhtConnector = mock[IhtConnector]
-  }
+
 
   "CharityNameControllerTest" must {
     "redirect to login page on PageLoad if the user is not logged in" in {
-      val result = charityNameControllerNotAuthorised.onPageLoad(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(loginUrl))
+      val result = charityNameControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false, authRetrieveNino = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(loginUrl))
     }
 
     "redirect to login page on Submit if the user is not logged in" in {
-      val result = charityNameControllerNotAuthorised.onSubmit(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(loginUrl))
+      val result = charityNameControllerNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(loginUrl))
     }
 
     "respond with OK on page load with correct content" in {
@@ -97,9 +91,9 @@ class CharityNameControllerTest extends ApplicationControllerTest with BeforeAnd
         appDetails = Some(applicationDetailsTwoCharities),
         getAppDetails = true)
 
-      val result = charityNameController.onPageLoad(createFakeRequest())
-      status(result) shouldBe OK
-      contentAsString(result) should include(messagesApi("page.iht.application.exemptions.charityName.sectionTitle"))
+      val result = charityNameController.onPageLoad(createFakeRequest(authRetrieveNino = false))
+      status(result) mustBe OK
+      contentAsString(result) must include(messagesApi("page.iht.application.exemptions.charityName.sectionTitle"))
     }
 
     "update the existing Charity in ApplicationDetails" in {
@@ -111,7 +105,7 @@ class CharityNameControllerTest extends ApplicationControllerTest with BeforeAnd
       )
       val expectedResult = (CommonBuilder.buildApplicationDetails copy (charities = Seq(charity1, expectedCharity)), Some("2"))
       val result = charityNameController.updateApplicationDetails(applicationDetailsTwoCharities, Some("2"), charity3)
-      result shouldBe expectedResult
+      result mustBe expectedResult
     }
 
     "save application and go to Charity Details Overview page on submit" in {
@@ -128,7 +122,7 @@ class CharityNameControllerTest extends ApplicationControllerTest with BeforeAnd
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
       val result = charityNameController.onSubmit(request)
-      status(result) shouldBe SEE_OTHER
+      status(result) mustBe SEE_OTHER
     }
 
     "show Bad Request if the form is invalid" in {
@@ -145,14 +139,14 @@ class CharityNameControllerTest extends ApplicationControllerTest with BeforeAnd
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
       val result = charityNameController.onSubmit(request)
-      status(result) shouldBe BAD_REQUEST
+      status(result) mustBe BAD_REQUEST
     }
 
     "save application, update charity and  go to Charity Details Overview page on submit in edit mode" in {
       val mockIhtConnectorTemp: IhtConnector = mock[IhtConnector]
       val mockCachingConnectorTemp: CachingConnector = mock[CachingConnector]
       def charityNameControllerTemp = new CharityNameController {
-        override val authConnector = createFakeAuthConnector(isAuthorised = true)
+        override val authConnector = mockAuthConnector
         override val cachingConnector = mockCachingConnectorTemp
         override val ihtConnector = mockIhtConnectorTemp
       }
@@ -194,11 +188,11 @@ class CharityNameControllerTest extends ApplicationControllerTest with BeforeAnd
 
       val appDetailsBeforeSave: ApplicationDetails = verifyAndReturnSavedApplicationDetails(mockIhtConnectorTemp)
       val charityAfterSave: Option[Charity] = appDetailsBeforeSave.charities.find(_.id == Some("2"))
-      charityAfterSave shouldBe Some(charityChanged)
-      status(result) shouldBe SEE_OTHER
+      charityAfterSave mustBe Some(charityChanged)
+      status(result) mustBe SEE_OTHER
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
-      charityNameController.onPageLoad(createFakeRequest()))
+      charityNameController.onPageLoad(createFakeRequest(authRetrieveNino = false)))
   }
 }

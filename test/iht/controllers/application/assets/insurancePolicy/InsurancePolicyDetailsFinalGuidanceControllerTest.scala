@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,18 +35,17 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
  */
 class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationControllerTest {
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def insurancePolicyDetailsFinalGuidanceController = new InsurancePolicyDetailsFinalGuidanceController {
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def insurancePolicyDetailsFinalGuidanceControllerNotAuthorised = new InsurancePolicyDetailsFinalGuidanceController {
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -73,9 +72,9 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
 
   "InsurancePolicyDetailsFinalGuidanceController" must {
     "redirect to login page onPageLoad if the user is not logged in" in {
-      val result = insurancePolicyDetailsFinalGuidanceControllerNotAuthorised.onPageLoad()(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result).get should be(loginUrl)
+      val result = insurancePolicyDetailsFinalGuidanceControllerNotAuthorised.onPageLoad()(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result).get must be(loginUrl)
     }
 
     "respond with OK and all content on page load" in {
@@ -91,11 +90,11 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
         getSingleValueFromCache = true)
 
       val result = insurancePolicyDetailsFinalGuidanceController.onPageLoad()(createFakeRequest())
-      status(result) shouldBe OK
+      status(result) mustBe OK
 
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("page.iht.application.insurance.policies.section7.guidance",
+      ContentChecker.stripLineBreaks(contentAsString(result)) must include(messagesApi("page.iht.application.insurance.policies.section7.guidance",
                                             DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)))
-      contentAsString(result) should include(messagesApi("page.iht.application.insurance.policies.section7.guidance2"))
+      contentAsString(result) must include(messagesApi("page.iht.application.insurance.policies.section7.guidance2"))
     }
   }
 
@@ -114,7 +113,7 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
 
       val result = insurancePolicyDetailsFinalGuidanceController.giftsPageRedirect(initialGiftsQuestionAnswerOption)(createFakeRequest())
 
-      result should be (iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad())
+      result must be (iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad())
     }
 
     "return initial gifts question page given initial gifts question answered no" in {
@@ -131,7 +130,7 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
 
       val result = insurancePolicyDetailsFinalGuidanceController.giftsPageRedirect(initialGiftsQuestionAnswerOption)(createFakeRequest())
 
-      result should be (iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad())
+      result must be (iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad())
     }
 
     "return gifts overview page when initial question answered yes" in {
@@ -148,7 +147,7 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
 
       val result = insurancePolicyDetailsFinalGuidanceController.giftsPageRedirect(initialGiftsQuestionAnswerOption)(createFakeRequest())
 
-      result should be (iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad())
+      result must be (iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad())
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

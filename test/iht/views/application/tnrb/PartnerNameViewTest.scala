@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,7 +75,7 @@ class PartnerNameViewTest extends SubmittableApplicationPageBehaviour[TnrbEligib
     }
 
     "have a first name field" in {
-      Option(doc.getElementById("firstName")).isDefined shouldBe true
+      Option(doc.getElementById("firstName")).isDefined mustBe true
     }
 
     "have a last name label" in {
@@ -83,7 +83,7 @@ class PartnerNameViewTest extends SubmittableApplicationPageBehaviour[TnrbEligib
     }
 
     "have a last name field" in {
-      Option(doc.getElementById("lastName")).isDefined shouldBe true
+      Option(doc.getElementById("lastName")).isDefined mustBe true
     }
   }
 }

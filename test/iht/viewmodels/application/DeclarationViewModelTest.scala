@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,11 +27,9 @@ import uk.gov.hmrc.http.HeaderCarrier
 
 class DeclarationViewModelTest extends ApplicationControllerTest{
 
-  var mockIhtConnector = mock[IhtConnector]
   implicit val hc = new HeaderCarrier
 
   before {
-    mockIhtConnector = mock[IhtConnector]
     createMockToGetApplicationDetails(mockIhtConnector)
     createMockToGetRealtimeRiskMessage(mockIhtConnector, None)
   }
@@ -47,7 +45,7 @@ class DeclarationViewModelTest extends ApplicationControllerTest{
       val regDetails = buildRegistrationDetails
       implicit val fakeRequest = createFakeRequest()
 
-      DeclarationViewModel(form, appDetails, regDetails, nino, mockIhtConnector, None).declarationForm should be (form)
+      DeclarationViewModel(form, appDetails, regDetails, nino, mockIhtConnector, None).declarationForm must be (form)
     }
 
     "create executors" in {
@@ -56,7 +54,7 @@ class DeclarationViewModelTest extends ApplicationControllerTest{
       val regDetails = buildRegistrationDetails.copy(coExecutors = executors)
       implicit val fakeRequest = createFakeRequest()
 
-      DeclarationViewModel(form, appDetails, regDetails, nino, mockIhtConnector, None).executors should be (executors)
+      DeclarationViewModel(form, appDetails, regDetails, nino, mockIhtConnector, None).executors must be (executors)
     }
 
     "create isMultipleExecutor with true value when there are more than one executors " in {
@@ -65,7 +63,7 @@ class DeclarationViewModelTest extends ApplicationControllerTest{
       val regDetails = buildRegistrationDetails.copy(coExecutors = executors)
       implicit val fakeRequest = createFakeRequest()
 
-      DeclarationViewModel(form, appDetails, regDetails, nino, mockIhtConnector, None).isMultipleExecutor should be (true)
+      DeclarationViewModel(form, appDetails, regDetails, nino, mockIhtConnector, None).isMultipleExecutor must be (true)
     }
 
     "create isMultipleExecutor with false value when there is one executor " in {
@@ -74,7 +72,7 @@ class DeclarationViewModelTest extends ApplicationControllerTest{
       val regDetails = buildRegistrationDetails.copy(coExecutors = executors)
       implicit val fakeRequest = createFakeRequest()
 
-      DeclarationViewModel(form, appDetails, regDetails, nino, mockIhtConnector, None).isMultipleExecutor should be (false)
+      DeclarationViewModel(form, appDetails, regDetails, nino, mockIhtConnector, None).isMultipleExecutor must be (false)
     }
 
     "create isMultipleExecutor with true value when there is only one coExecutor " in {
@@ -83,7 +81,7 @@ class DeclarationViewModelTest extends ApplicationControllerTest{
       val regDetails = buildRegistrationDetails.copy(coExecutors = executors)
       implicit val fakeRequest = createFakeRequest()
 
-      DeclarationViewModel(form, appDetails, regDetails, nino, mockIhtConnector, None).isMultipleExecutor should be (true)
+      DeclarationViewModel(form, appDetails, regDetails, nino, mockIhtConnector, None).isMultipleExecutor must be (true)
     }
 
     "create registrationDetails " in {
@@ -91,7 +89,7 @@ class DeclarationViewModelTest extends ApplicationControllerTest{
       val regDetails = buildRegistrationDetails
       implicit val fakeRequest = createFakeRequest()
 
-      DeclarationViewModel(form, appDetails, regDetails, nino, mockIhtConnector, None).registrationDetails should be (regDetails)
+      DeclarationViewModel(form, appDetails, regDetails, nino, mockIhtConnector, None).registrationDetails must be (regDetails)
     }
   }
 }

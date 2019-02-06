@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import uk.gov.hmrc.play.test.UnitSpec
 /**
   * Created by vineet on 06/11/16.
   */
-class CharityTest extends UnitSpec with MockitoSugar with FakeIhtApp{
+class CharityTest extends FakeIhtApp with MockitoSugar {
 
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit val messages: Messages = messagesApi.preferred(Seq(Lang("en")))
@@ -38,7 +38,7 @@ class CharityTest extends UnitSpec with MockitoSugar with FakeIhtApp{
         number = Some("121212"),
         totalValue = Some(BigDecimal(1000)))
 
-      charity.isComplete shouldBe true
+      charity.isComplete mustBe true
     }
 
     "return false when all but one of fields is None" in {
@@ -48,34 +48,34 @@ class CharityTest extends UnitSpec with MockitoSugar with FakeIhtApp{
         number = Some("121212"),
         totalValue = None)
 
-      charity.isComplete shouldBe false
+      charity.isComplete mustBe false
     }
 
     "return false when all the fields are None" in {
-        CommonBuilder.buildCharity.isComplete shouldBe false
+        CommonBuilder.buildCharity.isComplete mustBe false
     }
   }
 
   "nameValidationMessage" must {
     "respond correctly for scenario 1 (No charity name, no charity number, charity value)" in {
       val result = CommonBuilder.charity.copy(name = None, number = None)
-      result.nameValidationMessage shouldBe Some(messagesApi("site.noCharityNameAndNumberGiven"))
+      result.nameValidationMessage mustBe Some(messagesApi("site.noCharityNameAndNumberGiven"))
     }
     "respond correctly for scenario 2 (Charity name, no charity number, no charity value)" in {
       val result = CommonBuilder.charity.copy(number = None, totalValue = None)
-      result.nameValidationMessage shouldBe None
+      result.nameValidationMessage mustBe None
     }
     "respond correctly for scenario 3 (No charity name, charity number, no charity value)" in {
       val result = CommonBuilder.charity.copy(name = None, totalValue = None)
-      result.nameValidationMessage shouldBe Some(messagesApi("site.noCharityNameGiven"))
+      result.nameValidationMessage mustBe Some(messagesApi("site.noCharityNameGiven"))
     }
     "respond correctly for scenario 4 (Charity name, no charity number, charity value)" in {
       val result = CommonBuilder.charity.copy(number = None)
-      result.nameValidationMessage shouldBe None
+      result.nameValidationMessage mustBe None
     }
     "respond correctly for scenario 5 (No charity name, charity number, charity value)" in {
       val result = CommonBuilder.charity.copy(name = None)
-      result.nameValidationMessage shouldBe Some(messagesApi("site.noCharityNameGiven"))
+      result.nameValidationMessage mustBe Some(messagesApi("site.noCharityNameGiven"))
     }
   }
 }

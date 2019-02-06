@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,18 +34,17 @@ class TrustsOverviewControllerTest extends ApplicationControllerTest {
 
   "TrustsOverviewControllerTest" must {
 
-    val mockCachingConnector = mock[CachingConnector]
-    val mockIhtConnector = mock[IhtConnector]
+
 
     def trustsOverviewController = new TrustsOverviewController {
-      override val authConnector = createFakeAuthConnector()
+      override val authConnector = mockAuthConnector
       override val cachingConnector = mockCachingConnector
       override val ihtConnector = mockIhtConnector
       override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
     }
 
     def trustsOverviewControllerNotAuthorised = new TrustsOverviewController {
-      override val authConnector = createFakeAuthConnector(false)
+      override val authConnector = mockAuthConnector
       override val cachingConnector = mockCachingConnector
       override val ihtConnector = mockIhtConnector
       override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -62,7 +61,7 @@ class TrustsOverviewControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = trustsOverviewController.onPageLoad(createFakeRequest())
-      status(result) shouldBe (OK)
+      status(result) mustBe (OK)
     }
 
     "redirect to login page on PageLoad if the user is not logged in" in {
@@ -76,14 +75,22 @@ class TrustsOverviewControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = trustsOverviewControllerNotAuthorised.onPageLoad(createFakeRequest(false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "display the correct content title" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = Some(applicationDetails),
+        getAppDetails = true,
+        saveAppDetails= true,
+        storeAppDetailsInCache = true)
+
       val result = trustsOverviewController.onPageLoad(createFakeRequest())
-      status(result) shouldBe (OK)
-      contentAsString(result) should include(messagesApi("iht.estateReport.assets.heldInTrust.title"))
+      status(result) mustBe (OK)
+      contentAsString(result) must include(messagesApi("iht.estateReport.assets.heldInTrust.title"))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

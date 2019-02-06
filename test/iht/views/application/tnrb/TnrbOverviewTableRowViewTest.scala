@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,29 +80,29 @@ class TnrbOverviewTableRowViewTest extends ViewTestHelper {
       val view = tnrbOverviewTableRow()
 
       val value = view.getElementById(s"$id-value")
-      value.text shouldBe answerValue
+      value.text mustBe answerValue
     }
 
     "not show the value when there is not" in {
       val view = tnrbOverviewTableRow(answerValue = "")
 
       val value = view.getElementById(s"$id-value")
-      value.text shouldBe empty
+      value.text mustBe empty
     }
 
     "show the correct link with text" in {
       val view = tnrbOverviewTableRow(link = Some(link))
 
       val questionLink = view.getElementById(s"$linkID")
-      questionLink.attr("href") shouldBe link.url
-      questionLink.text() shouldBe messagesApi("iht.change")
+      questionLink.attr("href") mustBe link.url
+      questionLink.text() mustBe messagesApi("iht.change")
     }
 
     "show the correct question category when answer value is empty" in {
       val view = tnrbOverviewTableRow(answerValue = "", link = Some(link))
 
       val questionLink = view.getElementById(s"$linkID")
-      questionLink.text() shouldBe messagesApi("site.link.giveAnswer")
+      questionLink.text() mustBe messagesApi("site.link.giveAnswer")
     }
   }
 

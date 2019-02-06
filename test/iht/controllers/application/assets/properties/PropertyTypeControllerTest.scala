@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,8 +39,7 @@ import scala.concurrent.duration.Duration
  */
 class PropertyTypeControllerTest extends ApplicationControllerTest {
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def setUpTests(applicationDetails: Option[ApplicationDetails] = None) = {
     createMocksForApplication(mockCachingConnector,
@@ -52,14 +51,14 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
   }
 
   def propertyTypeController = new PropertyTypeController {
-    val authConnector = createFakeAuthConnector(isAuthorised = true)
+    val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def propertyTypeControllerNotAuthorised = new PropertyTypeController {
-    val authConnector = createFakeAuthConnector(isAuthorised = false)
+    val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -68,29 +67,31 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
   "PropertyTypeController" must {
 
     "redirect to login page on PageLoad if the user is not logged in" in {
-      val result = propertyTypeControllerNotAuthorised.onPageLoad(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      val result = propertyTypeControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to login page on Submit if the user is not logged in" in {
-      val result = propertyTypeControllerNotAuthorised.onSubmit(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      val result = propertyTypeControllerNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
       setUpTests(Some(applicationDetails))
 
-      val result = propertyTypeController.onPageLoad(createFakeRequest())
-      status(result) should be(OK)
+      val result = propertyTypeController.onPageLoad(createFakeRequest(authRetrieveNino = false))
+      status(result) must be(OK)
     }
 
     "display the correct title on page load" in {
-      val result = propertyTypeController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.whatKind.question"))
+      createMockToGetRegDetailsFromCache(mockCachingConnector)
+
+      val result = propertyTypeController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      status(result) must be (OK)
+      contentAsString(result) must include (messagesApi("iht.estateReport.assets.properties.whatKind.question"))
     }
 
     "respond with OK on edit page load" in {
@@ -99,7 +100,7 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
       setUpTests(Some(applicationDetails))
 
       val result = propertyTypeController.onEditPageLoad(id)(createFakeRequest())
-      status(result) should be(OK)
+      status(result) must be(OK)
     }
 
     "respond with BAD_REQUEST on submit if request is malformed" in {
@@ -110,7 +111,7 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
       setUpTests(Some(applicationDetails))
 
       val result = propertyTypeController.onSubmit()(request)
-      status(result) should be (BAD_REQUEST)
+      status(result) must be (BAD_REQUEST)
     }
 
     "save application and go to property overview page in non-edit mode on submit" in {
@@ -121,8 +122,8 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
       setUpTests(Some(applicationDetails))
 
       val result = propertyTypeController.onSubmit()(request)
-      status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertyDetailsOverviewController.onEditPageLoad("1").url, TestHelper.AssetsPropertiesPropertyKindID)))
+      status(result) must be (SEE_OTHER)
+      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertyDetailsOverviewController.onEditPageLoad("1").url, TestHelper.AssetsPropertiesPropertyKindID)))
     }
 
     "add property to property list should add new property to list if property doesn't exist " in {
@@ -136,7 +137,7 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
       val propertyListNew = List(property1, property2)
       val result = propertyTypeController.addPropertyToPropertyList(property2WithoutId, propertyList)
 
-      result should equal ((propertyListNew, "2"))
+      result must equal ((propertyListNew, "2"))
     }
 
     "save application and go to property overview page edit mode on submit" in {
@@ -147,8 +148,8 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
       setUpTests(Some(applicationDetails))
 
       val result = propertyTypeController.onEditSubmit("1")(request)
-      status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertyDetailsOverviewController.onEditPageLoad("1").url, TestHelper.AssetsPropertiesPropertyKindID)))
+      status(result) must be (SEE_OTHER)
+      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertyDetailsOverviewController.onEditPageLoad("1").url, TestHelper.AssetsPropertiesPropertyKindID)))
     }
 
     "respond with exception on edit page load where property id does not exist" in {
@@ -156,7 +157,7 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = List(CommonBuilder.property))
       setUpTests(Some(applicationDetails))
 
-      a[RuntimeException] shouldBe thrownBy {
+      a[RuntimeException] mustBe thrownBy {
         Await.result(propertyTypeController.onEditPageLoad(id)(createFakeRequest()), Duration.Inf)
       }
     }
@@ -171,8 +172,8 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
       setUpTests(Some(applicationDetails))
 
       val result = propertyTypeController.onEditSubmit("2")(request)
-      status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertyDetailsOverviewController.onEditPageLoad("2").url, TestHelper.AssetsPropertiesPropertyKindID)))
+      status(result) must be (SEE_OTHER)
+      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertyDetailsOverviewController.onEditPageLoad("2").url, TestHelper.AssetsPropertiesPropertyKindID)))
     }
 
     "respond with InternalServerError on edit page load where no application details" in {
@@ -182,10 +183,10 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
       setUpTests()
 
       val result = propertyTypeController.onEditPageLoad(id)(createFakeRequest())
-      status(result) should be(INTERNAL_SERVER_ERROR)
+      status(result) must be(INTERNAL_SERVER_ERROR)
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
-      propertyTypeController.onPageLoad(createFakeRequest()))
+      propertyTypeController.onPageLoad(createFakeRequest(authRetrieveNino = false)))
   }
 }

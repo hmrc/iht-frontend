@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,10 +23,10 @@ import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.models.application.exemptions.BasicExemptionElement
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.CommonBuilder._
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import uk.gov.hmrc.play.test.UnitSpec
 
-class ApplicationKickoutNonSummaryHelperTest extends UnitSpec with MockitoSugar with FakeIhtApp {
+class ApplicationKickoutNonSummaryHelperTest extends FakeIhtApp with MockitoSugar {
 
   val registrationDetails = CommonBuilder.buildRegistrationDetails copy(
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails),
@@ -39,7 +39,7 @@ class ApplicationKickoutNonSummaryHelperTest extends UnitSpec with MockitoSugar 
         ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsInTrust),
             registrationDetails=registrationDetails, applicationDetails=ad,
             sectionTotal=Seq(BigDecimal(0)))
-        result shouldBe Some(KickOutReason.TrustsMoreThanOne)
+        result mustBe Some(KickOutReason.TrustsMoreThanOne)
       }
     }
   }
@@ -49,7 +49,7 @@ class ApplicationKickoutNonSummaryHelperTest extends UnitSpec with MockitoSugar 
       val result =
         ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsForeign),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
-      result shouldBe Some(KickOutReason.ForeignAssetsValueMoreThanMax)
+      result mustBe Some(KickOutReason.ForeignAssetsValueMoreThanMax)
     }
   }
 
@@ -58,7 +58,7 @@ class ApplicationKickoutNonSummaryHelperTest extends UnitSpec with MockitoSugar 
       val result =
         ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyDeceasedOwned),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
-      result shouldBe Some(KickOutReason.TrustValueMoreThanMax)
+      result mustBe Some(KickOutReason.TrustValueMoreThanMax)
     }
   }
 
@@ -67,7 +67,7 @@ class ApplicationKickoutNonSummaryHelperTest extends UnitSpec with MockitoSugar 
       val result =
         ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsPensions),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
-      result shouldBe Some(KickOutReason.PensionDisposedLastTwoYears)
+      result mustBe Some(KickOutReason.PensionDisposedLastTwoYears)
     }
   }
 
@@ -77,7 +77,7 @@ class ApplicationKickoutNonSummaryHelperTest extends UnitSpec with MockitoSugar 
       val result =
         ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsInTrust),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
-      result shouldBe Some(KickOutReason.InTrustLessThanSevenYears)
+      result mustBe Some(KickOutReason.InTrustLessThanSevenYears)
     }
   }
 
@@ -87,7 +87,7 @@ class ApplicationKickoutNonSummaryHelperTest extends UnitSpec with MockitoSugar 
         ApplicationKickOutNonSummaryHelper.check(prioritySection=
           Some(ApplicationKickOutHelper.ApplicationSectionAssetsInsurancePoliciesMoreThanMax),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
-      result shouldBe Some(KickOutReason.InsuranceMoreThanMax)
+      result mustBe Some(KickOutReason.InsuranceMoreThanMax)
     }
   }
 
@@ -96,7 +96,7 @@ class ApplicationKickoutNonSummaryHelperTest extends UnitSpec with MockitoSugar 
       val result =
         ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
-      result shouldBe Some(KickOutReason.GiftsWithReservationOfBenefit)
+      result mustBe Some(KickOutReason.GiftsWithReservationOfBenefit)
     }
   }
 
@@ -105,7 +105,7 @@ class ApplicationKickoutNonSummaryHelperTest extends UnitSpec with MockitoSugar 
       val result =
         ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionGiftsGivenAway),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
-      result shouldBe Some(KickOutReason.GiftsToTrust)
+      result mustBe Some(KickOutReason.GiftsToTrust)
     }
   }
 
@@ -114,7 +114,7 @@ class ApplicationKickoutNonSummaryHelperTest extends UnitSpec with MockitoSugar 
       val result =
         ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionGiftsGivenAway),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
-      result shouldBe Some(KickOutReason.GiftsGivenInPast)
+      result mustBe Some(KickOutReason.GiftsGivenInPast)
     }
   }
 
@@ -123,7 +123,7 @@ class ApplicationKickoutNonSummaryHelperTest extends UnitSpec with MockitoSugar 
       val result =
         ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionGiftsGivenAway),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
-      result shouldBe Some(KickOutReason.GiftsMaxValue)
+      result mustBe Some(KickOutReason.GiftsMaxValue)
     }
   }
 
@@ -133,7 +133,7 @@ class ApplicationKickoutNonSummaryHelperTest extends UnitSpec with MockitoSugar 
       val result =
         ApplicationKickOutNonSummaryHelper.check(prioritySection=None,
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
-      result shouldBe Some(KickOutReason.AssetsTotalValueMoreThanMax)
+      result mustBe Some(KickOutReason.AssetsTotalValueMoreThanMax)
     }
   }
 
@@ -144,7 +144,7 @@ class ApplicationKickoutNonSummaryHelperTest extends UnitSpec with MockitoSugar 
         val result =
           ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyDeceasedOwned),
             registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(1000001)))
-        result shouldBe Some(KickOutReason.SingleSectionMoreThanMax)
+        result mustBe Some(KickOutReason.SingleSectionMoreThanMax)
       }
     }
   }
@@ -154,7 +154,7 @@ class ApplicationKickoutNonSummaryHelperTest extends UnitSpec with MockitoSugar 
       val result =
         ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionGiftsGivenAway),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
-      result shouldBe Some(KickOutReason.PartnerHomeInUK)
+      result mustBe Some(KickOutReason.PartnerHomeInUK)
     }
   }
 
@@ -174,7 +174,7 @@ class ApplicationKickoutNonSummaryHelperTest extends UnitSpec with MockitoSugar 
 
     val result = ApplicationKickOutNonSummaryHelper.updateKickout(checks =ApplicationKickOutNonSummaryHelper.checksBackend,
           registrationDetails=registrationDetails, applicationDetails=appDetails)
-      result.kickoutReason shouldBe Some(KickOutReason.AssetsTotalValueMoreThanThresholdAfterExemption)
+      result.kickoutReason mustBe Some(KickOutReason.AssetsTotalValueMoreThanThresholdAfterExemption)
 
   }
 
@@ -205,7 +205,7 @@ class ApplicationKickoutNonSummaryHelperTest extends UnitSpec with MockitoSugar 
     ).foreach { section =>
       "get section total should calculate correct total for " + section._1 + " section " + section._2._2.fold("")(xx=>"(" + xx + ")") in {
         ApplicationKickOutNonSummaryHelper.getSectionTotal(Some(section._1), section._2._2,
-           ad) shouldBe section._2._1
+           ad) mustBe section._2._1
     }
   }
 }

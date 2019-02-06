@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,13 +18,12 @@ package iht.utils
 
 import iht.constants.Constants
 import play.api.mvc.{Request, Session}
-import uk.gov.hmrc.play.frontend.auth.AuthContext
 
 
 object SessionHelper {
 
-  def ensureSessionHasNino(session: Session, user: AuthContext): Session =
-    CommonHelper.withValue(StringHelper.getNino(user)) { currentNino =>
+  def ensureSessionHasNino(session: Session, userNino: Option[String]): Session =
+    CommonHelper.withValue(StringHelper.getNino(userNino)) { currentNino =>
       val optionSession = session.get(Constants.NINO).fold[Option[Session]](
         None
       ) { foundNino =>

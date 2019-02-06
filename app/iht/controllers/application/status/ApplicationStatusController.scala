@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +25,8 @@ import iht.utils.{CommonHelper, StringHelper}
 import play.api.Logger
 import play.api.mvc.Request
 import play.twirl.api.HtmlFormat.Appendable
-import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.partials.FormPartialRetriever
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
@@ -40,27 +40,26 @@ trait ApplicationStatusController extends EstateController {
 
   def getView: (String, String, ProbateDetails) => (Request[_], FormPartialRetriever) => Appendable
 
-  def onPageLoad(ihtReference: String) = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        val nino = StringHelper.getNino(user)
-        cachingConnector.storeSingleValue(Constants.PDFIHTReference, ihtReference).flatMap{ _ =>
-          ihtConnector.getCaseDetails(nino, ihtReference).flatMap { caseDetails =>
-            val futureAD = getApplicationDetails(ihtReference, caseDetails.acknowledgmentReference)
-            val futureProbateDetails = futureAD.flatMap(ad =>
-              getProbateDetails(nino, caseDetails, ad)
-            )
-            val deceasedDetails = CommonHelper.getOrException(caseDetails.deceasedDetails)
-            futureProbateDetails.map { probateDetails =>
-              Ok(getView(ihtReference, deceasedDetails.name, probateDetails)(request, formPartialRetriever))
-            }
+  def onPageLoad(ihtReference: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      val nino = StringHelper.getNino(userNino)
+      cachingConnector.storeSingleValue(Constants.PDFIHTReference, ihtReference).flatMap{ _ =>
+        ihtConnector.getCaseDetails(nino, ihtReference).flatMap { caseDetails =>
+          val futureAD = getApplicationDetails(ihtReference, caseDetails.acknowledgmentReference, userNino)
+          val futureProbateDetails = futureAD.flatMap(ad =>
+            getProbateDetails(nino, caseDetails, ad)
+          )
+          val deceasedDetails = CommonHelper.getOrException(caseDetails.deceasedDetails)
+          futureProbateDetails.map { probateDetails =>
+            Ok(getView(ihtReference, deceasedDetails.name, probateDetails)(request, formPartialRetriever))
           }
         }
       }
+    }
   }
 
   private def getProbateDetails(nino: String, registrationDetails: RegistrationDetails, applicationDetails: ApplicationDetails)
-                               (implicit request: Request[_], user: AuthContext, hc: HeaderCarrier): Future[ProbateDetails] = {
+                               (implicit request: Request[_], hc: HeaderCarrier): Future[ProbateDetails] = {
     cachingConnector.getProbateDetails.flatMap {
       case Some(probateDetails) => Future.successful(probateDetails)
       case _ => {

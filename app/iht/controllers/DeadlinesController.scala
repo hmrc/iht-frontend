@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,10 @@
 
 package iht.controllers
 
-import iht.config.IhtFormPartialRetriever
+import iht.config.{AppConfig, IhtFormPartialRetriever}
 import iht.connector.CachingConnector
 import iht.views.html.{deadlines_application, deadlines_registration}
+import javax.inject.Inject
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}

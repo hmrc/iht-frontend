@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,13 +21,11 @@ import iht.config.ApplicationConfig
 import play.api.mvc.{Action, AnyContent}
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 
-
 import scala.concurrent.Future
 
 object FeedbackSurveyController extends FeedbackSurveyController
 
 trait FeedbackSurveyController extends FrontendController {
-
   def redirectExitSurvey: Action[AnyContent] = Action.async { implicit request =>
     Future.successful(Redirect(ApplicationConfig.feedbackSurvey).withNewSession)
   }

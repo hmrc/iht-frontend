@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@ import iht.testhelpers.MockObjectBuilder._
 import iht.utils.pdf.XmlFoToPDF
 import org.mockito.ArgumentMatchers._
 import play.api.test.Helpers._
+import org.mockito.Mockito.{reset, when}
+import play.api.i18n.MessagesApi
 
 import scala.concurrent.Future
 
@@ -34,22 +36,21 @@ import scala.concurrent.Future
   */
 class PDFControllerTest extends ApplicationControllerTest {
 
-  val mockCachingConnector = mock[CachingConnector]
-  var mockIhtConnector = mock[IhtConnector]
-
   val ihtRef = "1A1A1A"
 
-  def pdfController = new PDFController(messagesApi) {
-    override val authConnector = createFakeAuthConnector()
+  def pdfController = new PDFController {
     override val cachingConnector = mockCachingConnector
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
+
+    override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
     lazy val xmlFoToPDF = XmlFoToPDF
   }
 
   private def setUpMocks() {
     val regDetails: RegistrationDetails = CommonBuilder.buildRegistrationDetails1.copy(ihtReference = Some(ihtRef),
       returns = Seq(CommonBuilder.buildReturnDetails))
-
 
     createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(regDetails)))
     createMockToGetCaseDetails(mockIhtConnector, regDetails)
@@ -61,15 +62,11 @@ class PDFControllerTest extends ApplicationControllerTest {
       singleValueReturn = Some(ihtRef))
   }
 
-  before {
-    mockIhtConnector = mock[IhtConnector]
-  }
-
   "onClearancePDF" must {
     "have correct contents for the certificate" in {
       setUpMocks()
       val result = pdfController.onClearancePDF()(createFakeRequest())
-      contentAsBytes(result).length should be > 0
+      contentAsBytes(result).length must be > 0
     }
   }
 
@@ -77,7 +74,7 @@ class PDFControllerTest extends ApplicationControllerTest {
     "generate correct contents" in {
       setUpMocks()
       val result = pdfController.onPreSubmissionPDF(createFakeRequest())
-      contentAsBytes(result).length should be > 0
+      contentAsBytes(result).length must be > 0
     }
   }
 
@@ -85,7 +82,7 @@ class PDFControllerTest extends ApplicationControllerTest {
     "generate correct contents" in {
       setUpMocks()
       val result = pdfController.onPostSubmissionPDF(createFakeRequest())
-      contentAsBytes(result).length should be > 0
+      contentAsBytes(result).length must be > 0
     }
 
     "return to Application overview page if there is no iht reference in cache" in {
@@ -103,7 +100,7 @@ class PDFControllerTest extends ApplicationControllerTest {
 
       val result = pdfController.onPostSubmissionPDF(createFakeRequest())
 
-      redirectLocation(result) should be (Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().toString))
+      redirectLocation(result) must be (Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().toString))
     }
   }
 

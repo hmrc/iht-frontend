@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,22 +16,23 @@
 
 package iht.controllers.registration.deceased
 
-import iht.config.IhtFormPartialRetriever
-import iht.constants.FieldMappings._
-import iht.controllers.ControllerHelper.Mode
+import iht.config.AppConfig
 import iht.connector.IhtConnectors
+import iht.controllers.ControllerHelper.Mode
 import iht.forms.registration.DeceasedForms._
 import iht.metrics.Metrics
 import iht.models.{DeceasedDetails, RegistrationDetails}
 import iht.utils.RegistrationKickOutHelper
 import iht.views.html.registration.{deceased => views}
-import play.api.data.Form
-import play.api.mvc._
-import play.api.i18n.Messages.Implicits._
+import javax.inject.Inject
 import play.api.Play.current
-import play.api.i18n.Lang
+import play.api.data.Form
+import play.api.i18n.Messages.Implicits._
+import play.api.mvc._
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
-object DeceasedPermanentHomeController extends DeceasedPermanentHomeController with IhtConnectors {
+class DeceasedPermanentHomeControllerImpl @Inject()() extends DeceasedPermanentHomeController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 

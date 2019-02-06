@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,8 +32,7 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 import scala.concurrent.Future
 
 class ApplicationStatusControllerTest extends ApplicationControllerTest {
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def applicationStatusController = new ApplicationStatusController {
     def getView = (ihtReference, deceasedName, probateDetails) => (request: Request[_], formPartialRetriever: FormPartialRetriever) =>
@@ -43,7 +42,7 @@ class ApplicationStatusControllerTest extends ApplicationControllerTest {
 
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override val authConnector = createFakeAuthConnector()
+    override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
@@ -69,8 +68,8 @@ class ApplicationStatusControllerTest extends ApplicationControllerTest {
       createMocksForRegistrationAndApplication(registrationDetails, applicationDetails)
 
       val result = applicationStatusController.onPageLoad("")(createFakeRequest())
-      status(result) shouldBe OK
-      contentAsString(result) should include(messagesApi("page.iht.application.overview.inreview.browserTitle"))
+      status(result) mustBe OK
+      contentAsString(result) must include(messagesApi("page.iht.application.overview.inreview.browserTitle"))
     }
   }
 }

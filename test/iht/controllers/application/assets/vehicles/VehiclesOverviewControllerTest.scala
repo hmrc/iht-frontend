@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,13 +18,19 @@ package iht.controllers.application.assets.vehicles
 
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.testhelpers.MockObjectBuilder._
+import org.mockito.ArgumentMatchers
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
+import org.mockito.Mockito._
+import org.mockito.ArgumentMatchers._
+import uk.gov.hmrc.auth.core.AuthenticateHeaderParser
+
+import scala.concurrent.Future
 
 /**
   *
@@ -33,12 +39,8 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
   */
 class VehiclesOverviewControllerTest extends ApplicationControllerTest{
 
-
-  val mockCachingConnector: CachingConnector = mock[CachingConnector]
-  val mockIhtConnector: IhtConnector = mock[IhtConnector]
-
   def vehiclesOverviewController = new VehiclesOverviewController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -51,20 +53,19 @@ class VehiclesOverviewControllerTest extends ApplicationControllerTest{
 
     "redirect to login page onPageLoad if the user is not logged in" in {
       val result = vehiclesOverviewController.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
-
       createMocksForApplication(cachingConnector= mockCachingConnector,
         ihtConnector = mockIhtConnector ,
         appDetails = Some(applicationDetails),
         getAppDetails = true)
 
       val result = vehiclesOverviewController.onPageLoad (createFakeRequest())
-      status(result) shouldBe (OK)
-      contentAsString(result) should include(messagesApi("iht.estateReport.assets.vehicles"))
+      status(result) mustBe (OK)
+      contentAsString(result) must include(messagesApi("iht.estateReport.assets.vehicles"))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

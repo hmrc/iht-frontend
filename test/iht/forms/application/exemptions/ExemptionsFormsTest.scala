@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -86,8 +86,8 @@ class ExemptionsFormsTest extends FormTestHelper with FakeIhtApp {
     "give no error when a valid first and last name is supplied" in {
       val data = formData("firstName", sampleName, "lastName", sampleName)
       val boundModel = formWithNoError(partnerExemptionNameForm, data)
-      boundModel.firstName shouldBe Some(sampleName)
-      boundModel.lastName shouldBe Some(sampleName)
+      boundModel.firstName mustBe Some(sampleName)
+      boundModel.lastName mustBe Some(sampleName)
     }
 
     "give an error when the last name is not supplied" in {
@@ -129,7 +129,7 @@ class ExemptionsFormsTest extends FormTestHelper with FakeIhtApp {
   "charityNameForm" must {
     "give no error when a valid name is supplied" in {
       val data = formData("name", sampleCharityName)
-      formWithNoError(charityNameForm, data).name shouldBe Some(sampleCharityName)
+      formWithNoError(charityNameForm, data).name mustBe Some(sampleCharityName)
     }
 
     "give an error when the name is not supplied" in {
@@ -148,7 +148,7 @@ class ExemptionsFormsTest extends FormTestHelper with FakeIhtApp {
   "charityNumberForm" must {
     "give no error when a valid number is supplied" in {
       val data = formData("charityNumber", sampleCharityNumber)
-      formWithNoError(charityNumberForm, data).number shouldBe Some(sampleCharityNumber)
+      formWithNoError(charityNumberForm, data).number mustBe Some(sampleCharityNumber)
     }
 
     "give an error when the number is not supplied" in {
@@ -176,7 +176,7 @@ class ExemptionsFormsTest extends FormTestHelper with FakeIhtApp {
   "qualifyingBodyNameForm" must {
     "give no error when a valid name is supplied" in {
       val data = formData("name", sampleQualifyingBodyName)
-      formWithNoError(qualifyingBodyNameForm, data).name shouldBe Some(sampleQualifyingBodyName)
+      formWithNoError(qualifyingBodyNameForm, data).name mustBe Some(sampleQualifyingBodyName)
     }
 
     "give an error when the name is not supplied" in {

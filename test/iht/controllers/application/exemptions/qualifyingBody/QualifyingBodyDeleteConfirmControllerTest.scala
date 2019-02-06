@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,22 +31,19 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class QualifyingBodyDeleteConfirmControllerTest extends ApplicationControllerTest with BeforeAndAfter {
 
-  var mockCachingConnector = mock[CachingConnector]
-  var mockIhtConnector = mock[IhtConnector]
 
-  before {
-    mockIhtConnector = mock[IhtConnector]
-  }
+
+
 
   def qualifyingBodyDeleteConfirmController = new QualifyingBodyDeleteConfirmController {
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def qualifyingBodyDeleteControllerNotAuthorised = new QualifyingBodyDeleteConfirmController {
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -68,15 +65,15 @@ class QualifyingBodyDeleteConfirmControllerTest extends ApplicationControllerTes
 
   "QualifyingBodyDeleteConfirmControllerTest" must {
     "redirect to login page on PageLoad if the user is not logged in" in {
-      val result = qualifyingBodyDeleteControllerNotAuthorised.onPageLoad("1")(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(loginUrl))
+      val result = qualifyingBodyDeleteControllerNotAuthorised.onPageLoad("1")(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(loginUrl))
     }
 
     "redirect to login page on Submit if the user is not logged in" in {
-      val result = qualifyingBodyDeleteControllerNotAuthorised.onSubmit("1")(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(loginUrl))
+      val result = qualifyingBodyDeleteControllerNotAuthorised.onSubmit("1")(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(loginUrl))
     }
 
     "display main section title message on page load" in {
@@ -87,8 +84,8 @@ class QualifyingBodyDeleteConfirmControllerTest extends ApplicationControllerTes
         getAppDetails = true)
 
       val result = qualifyingBodyDeleteConfirmController.onPageLoad("1")(createFakeRequest())
-      status(result) shouldBe OK
-      contentAsString(result) should include(messagesApi("iht.estateReport.exemptions.qualifyingBodies.confirmDeleteQualifyingBody"))
+      status(result) mustBe OK
+      contentAsString(result) must include(messagesApi("iht.estateReport.exemptions.qualifyingBodies.confirmDeleteQualifyingBody"))
     }
   }
 
@@ -102,11 +99,11 @@ class QualifyingBodyDeleteConfirmControllerTest extends ApplicationControllerTes
 
     val result = qualifyingBodyDeleteConfirmController.onSubmit("1")(createFakeRequest())
 
-    status(result) shouldBe(SEE_OTHER)
-    redirectLocation(result) should be(Some(addFragmentIdentifierToUrl(routes.QualifyingBodiesOverviewController.onPageLoad().url, ExemptionsOtherAddID)))
+    status(result) mustBe(SEE_OTHER)
+    redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.QualifyingBodiesOverviewController.onPageLoad().url, ExemptionsOtherAddID)))
   }
 
-  "when given a valid qualifyingBody id the qualifyingBody should be deleted in load" in {
+  "when given a valid qualifyingBody id the qualifyingBody must be deleted in load" in {
     createMockForRegistration(mockCachingConnector, getRegDetailsFromCache = true)
     createMocksForApplication(mockCachingConnector,
       mockIhtConnector,
@@ -116,10 +113,10 @@ class QualifyingBodyDeleteConfirmControllerTest extends ApplicationControllerTes
 
     val result = qualifyingBodyDeleteConfirmController.onSubmit("1")(createFakeRequest())
 
-    status(result) shouldBe(SEE_OTHER)
+    status(result) mustBe(SEE_OTHER)
     val capturedValue = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
-    capturedValue.qualifyingBodies.length shouldBe 1
-    capturedValue.qualifyingBodies(0).id.getOrElse("") shouldBe("2")
+    capturedValue.qualifyingBodies.length mustBe 1
+    capturedValue.qualifyingBodies(0).id.getOrElse("") mustBe("2")
   }
 
   "when given a invalid qualifyingBody id during the load, we should get and internal server error" in {
@@ -132,7 +129,7 @@ class QualifyingBodyDeleteConfirmControllerTest extends ApplicationControllerTes
 
     val result = qualifyingBodyDeleteConfirmController.onPageLoad("999999")(createFakeRequest())
 
-    status(result) shouldBe(INTERNAL_SERVER_ERROR)
+    status(result) mustBe(INTERNAL_SERVER_ERROR)
   }
 
   "when given a invalid qualifyingBody id during the submit, we should get and internal server error" in {
@@ -145,6 +142,6 @@ class QualifyingBodyDeleteConfirmControllerTest extends ApplicationControllerTes
 
     val result = qualifyingBodyDeleteConfirmController.onSubmit("999999")(createFakeRequest())
 
-    status(result) shouldBe(INTERNAL_SERVER_ERROR)
+    status(result) mustBe(INTERNAL_SERVER_ERROR)
   }
 }

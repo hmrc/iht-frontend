@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,8 +84,8 @@ class PensionsOverviewViewTest extends ViewTestHelper {
       val view = pensionOverviewView(Some(CommonBuilder.buildPrivatePensionExtended))
 
       val link = view.getElementById("return-button")
-      link.text shouldBe messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
-      link.attr("href") shouldBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad.url + "#" + AppSectionPrivatePensionID
+      link.text mustBe messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
+      link.attr("href") mustBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad.url + "#" + AppSectionPrivatePensionID
     }
 
   }

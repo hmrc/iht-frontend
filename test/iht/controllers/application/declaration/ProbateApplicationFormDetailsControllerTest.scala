@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,12 +40,11 @@ import uk.gov.hmrc.http.HeaderCarrier
 class ProbateApplicationFormDetailsControllerTest extends ApplicationControllerTest {
   implicit val headerCarrier = FakeHeaders()
   implicit val hc = new HeaderCarrier
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def probateApplicationFormDetailsController = new ProbateApplicationFormDetailsController{
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector()
+    override val authConnector = mockAuthConnector
 
     def ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -53,7 +52,7 @@ class ProbateApplicationFormDetailsControllerTest extends ApplicationControllerT
 
   def probateApplicationFormDetailsControllerNotAuthorised = new ProbateApplicationFormDetailsController{
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
 
     def ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -69,8 +68,8 @@ class ProbateApplicationFormDetailsControllerTest extends ApplicationControllerT
 
     "redirect to GG login page on PageLoad if the user is not logged in" in {
       val result = probateApplicationFormDetailsControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to estate overview of no probate details in cache" in {
@@ -78,9 +77,9 @@ class ProbateApplicationFormDetailsControllerTest extends ApplicationControllerT
       createMockToGetRegDetailsFromCache(mockCachingConnector, Option(registrationDetails))
       createMockToGetProbateDetailsFromCache(mockCachingConnector, None)
 
-      val result = probateApplicationFormDetailsController.onPageLoad()(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url))
+      val result = probateApplicationFormDetailsController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url))
     }
 
     "load the page" in {
@@ -94,11 +93,11 @@ class ProbateApplicationFormDetailsControllerTest extends ApplicationControllerT
         singleValueFormKey = same(Constants.PDFIHTReference),
         singleValueReturn = CommonBuilder.DefaultIHTReference)
 
-      val result = probateApplicationFormDetailsController.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
+      val result = probateApplicationFormDetailsController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      status(result) must be(OK)
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
-      probateApplicationFormDetailsController.onPageLoad(createFakeRequest()))
+      probateApplicationFormDetailsController.onPageLoad(createFakeRequest(authRetrieveNino = false)))
   }
 }

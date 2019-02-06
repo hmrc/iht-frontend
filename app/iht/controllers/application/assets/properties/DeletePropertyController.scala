@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,30 +16,36 @@
 
 package iht.controllers.application.assets.properties
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.constants.IhtProperties._
 import iht.controllers.application.ApplicationController
 import iht.models.application.ApplicationDetails
 import iht.models.application.debts.{Mortgage, MortgageEstateElement}
 import iht.utils.{CommonHelper, StringHelper}
+import javax.inject.Inject
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-object DeletePropertyController extends DeletePropertyController with IhtConnectors
+
+class DeletePropertyControllerImpl @Inject()() extends DeletePropertyController with IhtConnectors
 
 trait DeletePropertyController extends ApplicationController {
+
 
   def cachingConnector: CachingConnector
 
   def ihtConnector: IhtConnector
 
-  def onPageLoad(id: String) = authorisedForIht {
-    implicit user =>
+  def onPageLoad(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
       implicit request => {
         withRegistrationDetails { registrationData =>
           for {
-            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(user),
+            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
               CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference),
               registrationData.acknowledgmentReference)
           } yield {
@@ -62,13 +68,12 @@ trait DeletePropertyController extends ApplicationController {
       }
   }
 
-  def onSubmit(id: String) = authorisedForIht {
-    implicit user =>
+  def onSubmit(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
       implicit request => {
         withRegistrationDetails { registrationData =>
           for {
             applicationDetails: Option[ApplicationDetails] <- ihtConnector.getApplication(
-              StringHelper.getNino(user),
+              StringHelper.getNino(userNino),
               CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference),
               registrationData.acknowledgmentReference)
             propertyListNew = applicationDetails.map(_.propertyList.filterNot(p => p.id.getOrElse("") == id)).getOrElse(Nil)
@@ -77,7 +82,7 @@ trait DeletePropertyController extends ApplicationController {
             applicationDetailsNew: Option[ApplicationDetails] = applicationDetails.map(
               x => x.copy(propertyList = propertyListNew, allLiabilities = x.allLiabilities.map(_.copy(mortgages = mortgageEstateElementNew))))
             storedApplication <- ihtConnector.saveApplication(
-              StringHelper.getNino(user),
+              StringHelper.getNino(userNino),
               CommonHelper.getOrExceptionNoApplication(applicationDetailsNew),
               registrationData.acknowledgmentReference)
           } yield {

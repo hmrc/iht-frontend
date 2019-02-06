@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ class AgentViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
 
-      titleElement.text should include(messagesApi("iht.noChangeToHowReportToHMRC"))
+      titleElement.text must include(messagesApi("iht.noChangeToHowReportToHMRC"))
     }
 
     "generate appropriate content for the browser title" in {
@@ -49,7 +49,7 @@ class AgentViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val browserTitleElement = doc.getElementsByTag("title").first
 
-      browserTitleElement.text should include(messagesApi("iht.noChangeToHowReportToHMRC"))
+      browserTitleElement.text must include(messagesApi("iht.noChangeToHowReportToHMRC"))
     }
 
     "generate content text informing the agent that there is no change" in {
@@ -57,7 +57,7 @@ class AgentViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val contentPara = doc.getElementById("agent-content")
 
-      contentPara.text should be(messagesApi("page.iht.filter.agent.content"))
+      contentPara.text must be(messagesApi("page.iht.filter.agent.content"))
     }
 
     "contain a link with the button class with the text 'Exit to GOV.UK'" in {
@@ -65,7 +65,7 @@ class AgentViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 
-      button.text() should be(messagesApi("iht.exitToGovUK"))
+      button.text() must be(messagesApi("iht.exitToGovUK"))
     }
 
     "contain a link with a button class with the correct exit link" in {
@@ -73,7 +73,7 @@ class AgentViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 
-      button.attr("href") should be(IhtProperties.linkExitToGovUKIHTForms)
+      button.attr("href") must be(IhtProperties.linkExitToGovUKIHTForms)
     }
 
     "contain a link with id 'back' with the text 'Back'" in {
@@ -81,7 +81,7 @@ class AgentViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val button = doc.getElementById("back")
 
-      button.text() should be(messagesApi("iht.back"))
+      button.text() must be(messagesApi("iht.back"))
     }
 
 
@@ -90,7 +90,7 @@ class AgentViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val button = doc.getElementById("back")
 
-      button.attr("href") should be(iht.controllers.filter.routes.FilterController.onPageLoad().url)
+      button.attr("href") must be(iht.controllers.filter.routes.FilterController.onPageLoad().url)
     }
 
   }

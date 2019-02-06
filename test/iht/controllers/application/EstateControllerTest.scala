@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,14 +25,12 @@ import uk.gov.hmrc.http.HeaderCarrier
 
 class EstateControllerTest extends ApplicationControllerTest {
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
   val registrationDetails = CommonBuilder.buildRegistrationDetails copy(
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails),
     ihtReference = Some("ABC123"))
 
   def estateController = new EstateController {
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -42,8 +40,8 @@ class EstateControllerTest extends ApplicationControllerTest {
     "update application details with correct kickout reason and status for TrustsMoreThanOne" in {
       CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.TrustsMoreThanOne) foreach { ad =>
         val result = estateController.updateKickout(registrationDetails=registrationDetails, applicationDetails=ad)(createFakeRequest(), new HeaderCarrier)
-        result.status shouldBe ApplicationStatus.KickOut
-        result.kickoutReason shouldBe Some(KickOutReason.TrustsMoreThanOne)
+        result.status mustBe ApplicationStatus.KickOut
+        result.kickoutReason mustBe Some(KickOutReason.TrustsMoreThanOne)
       }
     }
 
@@ -97,7 +95,7 @@ class EstateControllerTest extends ApplicationControllerTest {
 
       val result = estateController.updateAllAssetsWithInsurancePolicy(assetsWithInsurancePolicy1, insurancePolicy2,identity)
 
-      result should be (assetsWithInsurancePolicy3)
+      result must be (assetsWithInsurancePolicy3)
 
     }
   }

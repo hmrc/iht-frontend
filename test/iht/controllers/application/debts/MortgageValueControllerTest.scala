@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,12 +38,11 @@ import uk.gov.hmrc.http.HeaderCarrier
  */
 class MortgageValueControllerTest extends ApplicationControllerTest {
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def mortgageValueController = new MortgageValueController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -51,7 +50,7 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
 
   def mortgageValueControllerNotAuthorised = new MortgageValueController{
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -64,14 +63,14 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
 
     "redirect to ida login page on PageLoad if the user is not logged in" in {
       val result = mortgageValueControllerNotAuthorised.onPageLoad("1")(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to ida login page on Submit if the user is not logged in" in {
       val result = mortgageValueControllerNotAuthorised.onSubmit("1")(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond ok on page load" in {
@@ -86,7 +85,7 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = mortgageValueController.onPageLoad("1")(createFakeRequest())
-      status(result) should be (OK)
+      status(result) must be (OK)
     }
 
     "respond ok on page load when it has some debts but mortgage" in {
@@ -102,7 +101,7 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = mortgageValueController.onPageLoad("1")(createFakeRequest())
-      status(result) should be (OK)
+      status(result) must be (OK)
     }
 
     "display the correct title on page" in {
@@ -121,8 +120,8 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = mortgageValueController.onPageLoad("1")(createFakeRequest())
-      status(result) should be (OK)
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include (
+      status(result) must be (OK)
+      ContentChecker.stripLineBreaks(contentAsString(result)) must include (
         messagesApi("page.iht.application.debts.mortgageValue.title",
           DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
@@ -144,7 +143,7 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
 
       val result = mortgageValueController.onSubmit("1")(request)
 
-      status(result) should be (BAD_REQUEST)
+      status(result) must be (BAD_REQUEST)
 
     }
 
@@ -161,7 +160,7 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = mortgageValueController.onSubmit("1")(request)
-      status(result) should be (INTERNAL_SERVER_ERROR)
+      status(result) must be (INTERNAL_SERVER_ERROR)
     }
     
     "respond with Runtime exception when there if no matched property found" in {
@@ -204,8 +203,8 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
 
       val result = mortgageValueController.onSubmit("1")(request)
 
-      status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.MortgagesOverviewController.onPageLoad().url, DebtsMortgagesPropertyID + "1")))
+      status(result) must be (SEE_OTHER)
+      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.MortgagesOverviewController.onPageLoad().url, DebtsMortgagesPropertyID + "1")))
     }
   }
 }

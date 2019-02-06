@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,18 +34,17 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
  */
 class SevenYearsGivenInLast7YearsControllerTest  extends ApplicationControllerTest{
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def sevenYearsGivenInLast7YearsController = new SevenYearsGivenInLast7YearsController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def sevenYearsGivenInLast7YearsControllerNotAuthorised = new SevenYearsGivenInLast7YearsController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -58,14 +57,14 @@ class SevenYearsGivenInLast7YearsControllerTest  extends ApplicationControllerTe
 
     "redirect to login page onPageLoad if the user is not logged in" in {
       val result = sevenYearsGivenInLast7YearsController.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to ida login page on Submit if the user is not logged in" in {
       val result = sevenYearsGivenInLast7YearsControllerNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
@@ -79,7 +78,7 @@ class SevenYearsGivenInLast7YearsControllerTest  extends ApplicationControllerTe
         saveAppDetails = true)
 
       val result = sevenYearsGivenInLast7YearsController.onPageLoad (createFakeRequest())
-      status(result) shouldBe OK
+      status(result) mustBe OK
     }
 
     "display the question on the page" in {
@@ -95,8 +94,8 @@ class SevenYearsGivenInLast7YearsControllerTest  extends ApplicationControllerTe
         saveAppDetails = true)
 
       val result = sevenYearsGivenInLast7YearsController.onPageLoad (createFakeRequest())
-      status(result) shouldBe OK
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("page.iht.application.gifts.lastYears.question",
+      status(result) mustBe OK
+      ContentChecker.stripLineBreaks(contentAsString(result)) must include (messagesApi("page.iht.application.gifts.lastYears.question",
                                                         DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
 
@@ -113,14 +112,14 @@ class SevenYearsGivenInLast7YearsControllerTest  extends ApplicationControllerTe
         saveAppDetails = true)
 
       val result = sevenYearsGivenInLast7YearsController.onPageLoad (createFakeRequest())
-      status(result) shouldBe OK
-      contentAsString(result) should include (messagesApi("page.iht.application.gifts.lastYears.description.p1"))
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("page.iht.application.gifts.lastYears.description.p3",
+      status(result) mustBe OK
+      contentAsString(result) must include (messagesApi("page.iht.application.gifts.lastYears.description.p1"))
+      ContentChecker.stripLineBreaks(contentAsString(result)) must include (messagesApi("page.iht.application.gifts.lastYears.description.p3",
                                                         DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)))
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.money.lowerCaseInitial"))
-      contentAsString(result) should include (messagesApi("iht.estateReport.gifts.stocksAndSharesListed"))
-      contentAsString(result) should include (messagesApi("page.iht.application.gifts.lastYears.description.e3"))
-      contentAsString(result) should include (messagesApi("page.iht.application.gifts.lastYears.description.e4"))
+      contentAsString(result) must include (messagesApi("iht.estateReport.assets.money.lowerCaseInitial"))
+      contentAsString(result) must include (messagesApi("iht.estateReport.gifts.stocksAndSharesListed"))
+      contentAsString(result) must include (messagesApi("page.iht.application.gifts.lastYears.description.e3"))
+      contentAsString(result) must include (messagesApi("page.iht.application.gifts.lastYears.description.e4"))
     }
 
     "save application and go to Seven Years To Trust page on submit" in {
@@ -139,11 +138,19 @@ class SevenYearsGivenInLast7YearsControllerTest  extends ApplicationControllerTe
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledSevenYearsGivenInLast7YearsForm.data.toSeq: _*)
 
       val result = sevenYearsGivenInLast7YearsController.onSubmit (request)
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be (Some(iht.controllers.application.gifts.routes.SevenYearsToTrustController.onPageLoad().url))
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) must be (Some(iht.controllers.application.gifts.routes.SevenYearsToTrustController.onPageLoad().url))
     }
 
     "display error if user submit the page without selecting the answer " in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(allGifts= Some(CommonBuilder.buildAllGifts))
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = Some(applicationDetails),
+        getAppDetails = true,
+        storeAppDetailsInCache = true,
+        saveAppDetails = true)
 
       val withSevenYearsGivenInLast7YearsValue = CommonBuilder.buildAllGifts.copy(isGivenInLast7Years = None)
 
@@ -151,7 +158,7 @@ class SevenYearsGivenInLast7YearsControllerTest  extends ApplicationControllerTe
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledSevenYearsGivenInLast7YearsForm.data.toSeq: _*)
 
       val result = sevenYearsGivenInLast7YearsController.onSubmit()(request)
-      status(result) should be (BAD_REQUEST)
+      status(result) must be (BAD_REQUEST)
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

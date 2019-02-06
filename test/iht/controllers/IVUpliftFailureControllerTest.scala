@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,15 +49,15 @@ class IVUpliftFailureControllerTest extends ApplicationControllerTest {
         when(mockIdentityVerificationConnector.identityVerificationResponse(any())(any()))
           .thenReturn(Future.successful(ivResult))
         val result = showFailure(Some(""))
-        status(result) should be(expectedStatus)
-        contentAsString(result) should include(messagesApi(titleMessagesKey))
+        status(result) must be(expectedStatus)
+        contentAsString(result) must include(messagesApi(titleMessagesKey))
       }
     }
 
     "go to 2fa failure page if no journey id" in {
       val result = showFailure(None)
-      status(result) should be(UNAUTHORIZED)
-      contentAsString(result) should include(messagesApi("page.iht.iv.failure.2fa.heading"))
+      status(result) must be(UNAUTHORIZED)
+      contentAsString(result) must include(messagesApi("page.iht.iv.failure.2fa.heading"))
     }
 
     behave like ivFailure("failed matching", IdentityVerificationResult.FailedMatching, "page.iht.iv.failure.failedMatching.failureReason", FORBIDDEN)

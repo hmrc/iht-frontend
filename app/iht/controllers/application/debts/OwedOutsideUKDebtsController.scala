@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.application.debts
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
@@ -25,23 +26,28 @@ import iht.models.application.debts.{AllLiabilities, BasicEstateElementLiabiliti
 import iht.views.html.application.debts.owed_outside_uk
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
-import iht.constants.Constants._
 import iht.constants.IhtProperties._
 import iht.utils.CommonHelper
+import javax.inject.Inject
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-object OwedOutsideUKDebtsController extends OwedOutsideUKDebtsController with IhtConnectors {
+class OwedOutsideUKDebtsControllerImpl @Inject()() extends OwedOutsideUKDebtsController with IhtConnectors {
   def metrics : Metrics = Metrics
 }
 
 trait OwedOutsideUKDebtsController extends EstateController {
-  def onPageLoad = authorisedForIht {
-    implicit user => implicit request =>
+
+
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request =>
       estateElementOnPageLoad[BasicEstateElementLiabilities](debtsOutsideUkForm,
-        owed_outside_uk.apply, _.allLiabilities.flatMap(_.debtsOutsideUk))
+        owed_outside_uk.apply, _.allLiabilities.flatMap(_.debtsOutsideUk), userNino)
   }
 
-  def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
       val updateApplicationDetails: (ApplicationDetails, Option[String], BasicEstateElementLiabilities) =>
         (ApplicationDetails, Option[String]) =
         (appDetails, _, debtsOutsideUk) => {
@@ -60,7 +66,8 @@ trait OwedOutsideUKDebtsController extends EstateController {
         debtsOutsideUkForm,
         owed_outside_uk.apply,
         updateApplicationDetails,
-        CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(DebtsOwedOutsideUKID))
+        CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(DebtsOwedOutsideUKID)),
+        userNino
       )
     }
   }

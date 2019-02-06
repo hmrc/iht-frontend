@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,18 +33,17 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class PartnerOverviewControllerTest extends ApplicationControllerTest{
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def partnerOverviewController = new PartnerOverviewController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def partnerOverviewControllerNotAuthorised = new PartnerOverviewController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -52,9 +51,9 @@ class PartnerOverviewControllerTest extends ApplicationControllerTest{
 
   "PartnerOverviewController" must {
     "redirect to login page on PageLoad if the user is not logged in" in {
-      val result = partnerOverviewControllerNotAuthorised.onPageLoad(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      val result = partnerOverviewControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
@@ -69,8 +68,8 @@ class PartnerOverviewControllerTest extends ApplicationControllerTest{
         storeAppDetailsInCache = true)
 
       val result = partnerOverviewController.onPageLoad (createFakeRequest())
-      status(result) shouldBe OK
-      contentAsString(result) should include (messagesApi("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title"))
+      status(result) mustBe OK
+      contentAsString(result) must include (messagesApi("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title"))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

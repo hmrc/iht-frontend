@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.registration.applicant
 
+import iht.config.AppConfig
 import iht.connector.CachingConnector
 import iht.connector.IhtConnectors
 import iht.controllers.registration.RegistrationController
@@ -24,12 +25,16 @@ import iht.forms.registration.ApplicantForms._
 import iht.metrics.Metrics
 import iht.utils.CommonHelper
 import iht.views.html.registration.{applicant => views}
+import javax.inject.Inject
 import play.api.mvc.Call
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+
 import scala.concurrent.Future
 
-object ApplicantAddressController extends ApplicantAddressController with IhtConnectors {
+class ApplicantAddressControllerImpl @Inject()() extends ApplicantAddressController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
@@ -55,7 +60,7 @@ trait ApplicantAddressController extends RegistrationController {
 
   private def pageLoad(isInternational: Boolean, actionCall: Call, changeNationalityCall: Call,
                        cancelCall: Option[Call] = None) = authorisedForIht {
-    implicit user => implicit request => {
+    implicit request => {
       withRegistrationDetailsRedirectOnGuardCondition { rd =>
         val formType = if(isInternational) applicantAddressAbroadForm else applicantAddressUkForm
         val ad = CommonHelper.getOrException(rd.applicantDetails)
@@ -80,7 +85,7 @@ trait ApplicantAddressController extends RegistrationController {
 
   private def onSubmit(isInternational: Boolean, actionCall: Call, onFailureActionCall: Call, changeNationalityCall: Call,
                        cancelCall: Option[Call] = None) = authorisedForIht {
-    implicit user => implicit request => {
+    implicit request => {
       withRegistrationDetailsRedirectOnGuardCondition { rd =>
         val boundForm =
           if (isInternational) applicantAddressAbroadForm.bindFromRequest else applicantAddressUkForm.bindFromRequest

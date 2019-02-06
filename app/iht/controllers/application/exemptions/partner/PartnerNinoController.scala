@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,34 +16,40 @@
 
 package iht.controllers.application.exemptions.partner
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.IhtConnectors
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.Metrics
-import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions._
-import iht.views.html.application.exemption.partner.partner_nino
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import iht.utils.CommonHelper._
-import iht.constants.IhtProperties._
+import iht.views.html.application.exemption.partner.partner_nino
+import javax.inject.Inject
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-object PartnerNinoController extends PartnerNinoController with IhtConnectors {
+class PartnerNinoControllerImpl @Inject()() extends PartnerNinoController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait PartnerNinoController extends EstateController {
-  val submitUrl = addFragmentIdentifier(
+
+
+  lazy val submitUrl = addFragmentIdentifier(
     iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(), Some(ExemptionsPartnerNinoID))
 
-  def onPageLoad = authorisedForIht {
-    implicit user => implicit request =>
-      estateElementOnPageLoad[PartnerExemption](partnerNinoForm, partner_nino.apply, _.allExemptions.flatMap(_.partner))
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request =>
+      estateElementOnPageLoad[PartnerExemption](partnerNinoForm, partner_nino.apply, _.allExemptions.flatMap(_.partner), userNino)
   }
 
-  def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
       val updateApplicationDetails: (ApplicationDetails, Option[String], PartnerExemption) =>
         (ApplicationDetails, Option[String]) =
         (appDetails, _, partnerExemption) => {
@@ -76,7 +82,8 @@ trait PartnerNinoController extends EstateController {
         partnerNinoForm,
         partner_nino.apply,
         updateApplicationDetails,
-        submitUrl
+        submitUrl,
+        userNino
       )
     }
   }

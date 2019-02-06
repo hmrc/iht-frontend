@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,18 +43,18 @@ class EstimateControllerTest extends ApplicationControllerTest with HtmlSpec {
 
     "show the Estimate page when access by an unauthorised person" in {
       val result = controller.onPageLoadWithoutJointAssets()(createFakeRequest(isAuthorised = false))
-      status(result) should be(OK)
+      status(result) must be(OK)
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() should be(messages("iht.roughEstimateEstateWorth"))
+      titleElement.text() must be(messages("iht.roughEstimateEstateWorth"))
     }
 
     "show an error if no radio button is selected" in {
       val request = createFakeRequestWithBody(isAuthorised = false, data = estimateForm(messages).data.toSeq)
       val result = controller.onSubmitWithoutJointAssets()(request)
 
-      status(result) should be(BAD_REQUEST)
+      status(result) must be(BAD_REQUEST)
 
       val doc = asDocument(contentAsString(result))
       assertRenderedById(doc, "errors")
@@ -65,8 +65,8 @@ class EstimateControllerTest extends ApplicationControllerTest with HtmlSpec {
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
       val result = controller.onSubmitWithoutJointAssets()(request)
 
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(iht.controllers.filter.routes.UseServiceController.onPageLoadUnder().url))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.UseServiceController.onPageLoadUnder().url))
     }
 
     "redirect to the Use Service page if 'Between £325,000 and £1 million' is selected" in {
@@ -74,8 +74,8 @@ class EstimateControllerTest extends ApplicationControllerTest with HtmlSpec {
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
       val result = controller.onSubmitWithoutJointAssets()(request)
 
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(iht.controllers.filter.routes.UseServiceController.onPageLoadOver().url))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.UseServiceController.onPageLoadOver().url))
     }
 
     "redirect to the 'Over £1 million transition' page if 'More than £1 million' is selected" in {
@@ -83,8 +83,8 @@ class EstimateControllerTest extends ApplicationControllerTest with HtmlSpec {
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
       val result = controller.onSubmitWithoutJointAssets()(request)
 
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(iht.controllers.filter.routes.UseIHT400Controller.onPageLoadWithoutJointAssets().url))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.UseIHT400Controller.onPageLoadWithoutJointAssets().url))
     }
   }
 }

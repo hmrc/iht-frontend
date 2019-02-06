@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -78,8 +78,8 @@ class ThresholdSectionViewTest extends ViewTestHelper {
       val doc = asDocument(view)
       assertRenderedById(doc, "tnrb-link")
       val link = doc.getElementById("tnrb-link")
-      link.text shouldBe messagesApi("page.iht.application.estateOverview.increaseThreshold.link")
-      link.attr("href") shouldBe iht.controllers.application.tnrb.routes.TnrbGuidanceController.onPageLoad().url
+      link.text mustBe messagesApi("page.iht.application.estateOverview.increaseThreshold.link")
+      link.attr("href") mustBe iht.controllers.application.tnrb.routes.TnrbGuidanceController.onPageLoad().url
     }
 
     "show the threshold row as a normal row when threshold has not been increased" in {
@@ -87,7 +87,7 @@ class ThresholdSectionViewTest extends ViewTestHelper {
       val view = threshold_section(thresholdSection).toString
       val doc = asDocument(view)
       val thresholdRow = doc.getElementById("threshold-row")
-      thresholdRow.attr("data--iht-role") should not include "ledger"
+      thresholdRow.attr("data--iht-role") must not include "ledger"
     }
 
     "show the threshold row as a grand total when the threshold has been increased" in {
@@ -98,7 +98,7 @@ class ThresholdSectionViewTest extends ViewTestHelper {
       val view = threshold_section(viewModel).toString
       val doc = asDocument(view)
       val thresholdRow = doc.getElementById("threshold-row")
-      thresholdRow.attr("data--iht-role") should include("ledger")
+      thresholdRow.attr("data--iht-role") must include("ledger")
     }
   }
 }

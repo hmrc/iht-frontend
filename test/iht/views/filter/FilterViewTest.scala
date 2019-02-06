@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,9 @@
 
 package iht.views.filter
 
+import iht.FakeIhtApp
 import iht.forms.FilterForms.filterForm
-import iht.views.ViewTestHelper
+import iht.views.{HtmlSpec, ViewTestHelper}
 import iht.views.html.filter.{filter_view, use_iht400}
 import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers.{contentAsString, _}
@@ -25,7 +26,7 @@ import play.api.test.Helpers.{contentAsString, _}
 /**
   * Created by adwelly on 20/10/2016.
   */
-class FilterViewTest extends ViewTestHelper {
+class FilterViewTest extends ViewTestHelper with HtmlSpec with FakeIhtApp {
 
   val fakeRequest = createFakeRequest(isAuthorised = false)
 
@@ -42,7 +43,7 @@ class FilterViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
 
-      titleElement.text should include(messagesApi("iht.whatDoYouWantToDo"))
+      titleElement.text must include(messagesApi("iht.whatDoYouWantToDo"))
     }
 
     "generate appropriate content for the browser title" in {
@@ -50,7 +51,7 @@ class FilterViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("title").first
 
-      titleElement.text should include(messagesApi("iht.whatDoYouWantToDo"))
+      titleElement.text must include(messagesApi("iht.whatDoYouWantToDo"))
     }
 
     "contain an appropriate field set" in {
@@ -58,14 +59,14 @@ class FilterViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val fieldSet = doc.getElementsByTag("fieldset")
       val id = fieldSet.attr("id")
-      id should be("filter-choices-container")
+      id must be("filter-choices-container")
     }
 
     "contain the first radio button with the text 'I want to continue an estate report that I've already started' and no hint" in {
       val result = filter_view(filterForm)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val mainSpan = doc.getElementById("filter-choices-continue-main")
-      mainSpan.text() should be(messagesApi("page.iht.filter.filter.choice.main.continue"))
+      mainSpan.text() must be(messagesApi("page.iht.filter.filter.choice.main.continue"))
     }
 
     "contain the first radio button without a hint" in {
@@ -73,21 +74,21 @@ class FilterViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
 
       val label =  doc.getElementById("filter-choices-continue-label")
-      label.attr("span") shouldBe empty
+      label.attr("span") mustBe empty
     }
 
     "contain the second radio button with the text 'I want to register so I can tell HMRC about a person's estate" in {
       val result = filter_view(filterForm)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val mainElement = doc.getElementById("filter-choices-register-main")
-      mainElement.text() should be(messagesApi("page.iht.filter.filter.choice.main.register"))
+      mainElement.text() must be(messagesApi("page.iht.filter.filter.choice.main.register"))
     }
 
     "contains a second button with the hint 'You’ll be asked a couple of questions first to make sure you’re using the right service.'" in {
       val result = filter_view(filterForm)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val hintElement = doc.getElementById("filter-choices-register-hint")
-      hintElement.text() should be(messagesApi("page.iht.filter.filter.choice.main.register.hint"))
+      hintElement.text() must be(messagesApi("page.iht.filter.filter.choice.main.register.hint"))
     }
 
     "contain the third radio button with the text 'I've already started registration and want to continue'" in {
@@ -102,7 +103,7 @@ class FilterViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
 
       val label =  doc.getElementById("filter-choices-already-started-label")
-      label.attr("span") shouldBe empty
+      label.attr("span") mustBe empty
     }
 
     "contain the fourth radio button with the text 'I'm an agent and reporting on behalf of a client'" in {
@@ -117,7 +118,7 @@ class FilterViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
 
       val label =  doc.getElementById("filter-choices-agent-label")
-      label.attr("span") shouldBe empty
+      label.attr("span") mustBe empty
     }
 
     "contain a continue button with the text 'Continue'" in {
@@ -125,7 +126,7 @@ class FilterViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val button = doc.select("input#continue").first
 
-      button.attr("value") should be(messagesApi("iht.continue"))
+      button.attr("value") must be(messagesApi("iht.continue"))
     }
 
     "contain a form with the action attribute set to the FilterController onSubmit URL" in {
@@ -133,14 +134,14 @@ class FilterViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val formElement = doc.getElementsByTag("form").first
 
-      formElement.attr("action") should be(iht.controllers.filter.routes.FilterController.onSubmit().url)
+      formElement.attr("action") must be(iht.controllers.filter.routes.FilterController.onSubmit().url)
     }
 
     "contain content related to user research" in {
       val result = filter_view(filterForm)(fakeRequest, applicationMessages, formPartialRetriever)
       val content = contentAsString(result)
-      content should include(messagesApi("site.userResearchLink.link"))
-      content should include(messagesApi("site.userResearchLink.text"))
+      content must include(messagesApi("site.userResearchLink.link"))
+      content must include(messagesApi("site.userResearchLink.text"))
     }
   }
 }

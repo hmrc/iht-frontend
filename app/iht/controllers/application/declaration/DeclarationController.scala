@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.application.declaration
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.constants.IhtProperties
 import iht.controllers.ControllerHelper
@@ -28,23 +29,26 @@ import iht.models.enums.StatsSource
 import iht.utils.CommonHelper._
 import iht.utils.{CommonHelper, _}
 import iht.viewmodels.application.DeclarationViewModel
+import javax.inject.Inject
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent, Result}
-import uk.gov.hmrc.play.frontend.auth.AuthContext
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.http.{GatewayTimeoutException, HeaderCarrier, Upstream5xxResponse}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.ExecutionContext.Implicits._
-import scala.concurrent.duration._
-import scala.concurrent.{Await, Future}
-import uk.gov.hmrc.http.{BadGatewayException, GatewayTimeoutException, HeaderCarrier, Upstream5xxResponse}
+import scala.concurrent.Future
 
-object DeclarationController extends DeclarationController with IhtConnectors {
+class DeclarationControllerImpl @Inject()() extends DeclarationController with IhtConnectors {
   lazy val metrics: Metrics = Metrics
 }
 
 trait DeclarationController extends ApplicationController {
+
 
   import play.api.mvc.Request
 
@@ -55,29 +59,27 @@ trait DeclarationController extends ApplicationController {
   val metrics: Metrics
 
 
-  def onPageLoad: Action[AnyContent] = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        withRegistrationDetails { regDetails =>
-           getApplicationDetails(getOrException(regDetails.ihtReference), regDetails.acknowledgmentReference).flatMap { appDetails =>
-             realTimeRiskingMessage(appDetails, CommonHelper.getOrException(regDetails.ihtReference), StringHelper.getNino(user), ihtConnector).map { optRiskMsg =>
-               Ok(iht.views.html.application.declaration.declaration(
-                 DeclarationViewModel(ApplicationForms.declarationForm,
-                   appDetails,
-                   regDetails,
-                   StringHelper.getNino(user),
-                   ihtConnector,
-                   optRiskMsg
-                 )
-               ))
-             }
+  def onPageLoad: Action[AnyContent] = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      withRegistrationDetails { regDetails =>
+         getApplicationDetails(getOrException(regDetails.ihtReference), regDetails.acknowledgmentReference, userNino).flatMap { appDetails =>
+           realTimeRiskingMessage(appDetails, CommonHelper.getOrException(regDetails.ihtReference), StringHelper.getNino(userNino), ihtConnector).map { optRiskMsg =>
+             Ok(iht.views.html.application.declaration.declaration(
+               DeclarationViewModel(ApplicationForms.declarationForm,
+                 appDetails,
+                 regDetails,
+                 StringHelper.getNino(userNino),
+                 ihtConnector,
+                 optRiskMsg
+               )
+             ))
            }
-          }
+         }
         }
       }
+    }
 
-  def onSubmit = authorisedForIht {
-    implicit user =>
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
       implicit request => {
         withRegistrationDetails { rd =>
           if (rd.coExecutors.nonEmpty) {
@@ -85,13 +87,13 @@ trait DeclarationController extends ApplicationController {
             boundForm.fold(
               formWithErrors => {
                 LogHelper.logFormError(formWithErrors)
-                getApplicationDetails(getOrException(rd.ihtReference), rd.acknowledgmentReference).flatMap { appDetails =>
-                  realTimeRiskingMessage(appDetails, CommonHelper.getOrException(rd.ihtReference), StringHelper.getNino(user), ihtConnector).map{ optRiskMsg =>
+                getApplicationDetails(getOrException(rd.ihtReference), rd.acknowledgmentReference, userNino).flatMap { appDetails =>
+                  realTimeRiskingMessage(appDetails, CommonHelper.getOrException(rd.ihtReference), StringHelper.getNino(userNino), ihtConnector).map{ optRiskMsg =>
                     BadRequest(iht.views.html.application.declaration.declaration(
                       DeclarationViewModel(ApplicationForms.declarationForm,
                         appDetails,
                         rd,
-                        StringHelper.getNino(user),
+                        StringHelper.getNino(userNino),
                         ihtConnector,
                         optRiskMsg
                       )
@@ -100,14 +102,14 @@ trait DeclarationController extends ApplicationController {
                 }
               }, {
                 case true =>
-                  processApplicationOrRedirect
+                  processApplicationOrRedirect(userNino)
                 case _ =>
                   Logger.warn("isDeclared is false. Redirecting to InternalServerError")
                   Future.successful(InternalServerError)
               }
             )
           } else {
-            processApplicationOrRedirect
+            processApplicationOrRedirect(userNino)
           }
         } recover {
           case ex: Upstream5xxResponse if ex.upstreamResponseCode == 502 &&
@@ -156,14 +158,13 @@ trait DeclarationController extends ApplicationController {
   }
 
 
-  private def processApplicationOrRedirect(implicit request: Request[_],
-                                                    hc: HeaderCarrier,
-                                                    user: AuthContext) = {
+  private def processApplicationOrRedirect(userNino: Option[String])(implicit request: Request[_],
+                                                    hc: HeaderCarrier) = {
     withRegistrationDetails { rd =>
       val ihtReference = CommonHelper.getOrException(rd.ihtReference)
-      ihtConnector.getCaseDetails(StringHelper.getNino(user), ihtReference) flatMap { rd =>
+      ihtConnector.getCaseDetails(StringHelper.getNino(userNino), ihtReference) flatMap { rd =>
         if (rd.status == ApplicationStatus.AwaitingReturn) {
-          processApplication(StringHelper.getNino(user))
+          processApplication(StringHelper.getNino(userNino))
         } else {
           Future.successful(Redirect(
             iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
@@ -174,7 +175,6 @@ trait DeclarationController extends ApplicationController {
 
   private def processApplication(nino: String)(implicit request: Request[_],
                                                         hc: HeaderCarrier,
-                                                        user: AuthContext,
                                                         ihtFormPartialRetriever: FormPartialRetriever): Future[Result] = {
     withRegistrationDetails { regDetails =>
       val ihtAppReference = regDetails.ihtReference

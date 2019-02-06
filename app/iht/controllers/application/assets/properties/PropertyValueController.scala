@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.application.assets.properties
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
@@ -27,24 +28,27 @@ import iht.models.application.assets.Property
 import iht.utils._
 import play.Logger
 import play.api.mvc.{Call, Request, Result}
-import uk.gov.hmrc.play.frontend.auth.AuthContext
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.IhtProperties._
+import javax.inject.Inject
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-object PropertyValueController extends PropertyValueController with IhtConnectors {
+class PropertyValueControllerImpl @Inject()() extends PropertyValueController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait PropertyValueController extends EstateController {
 
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionProperties)
-  val cancelRedirectLocation = routes.PropertiesOverviewController.onPageLoad()
-  val submitUrl = iht.controllers.application.assets.properties.routes.PropertyValueController.onSubmit()
-  val cancelUrl = iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad()
+  lazy val cancelRedirectLocation = routes.PropertiesOverviewController.onPageLoad()
+  lazy val submitUrl = iht.controllers.application.assets.properties.routes.PropertyValueController.onSubmit()
+  lazy val cancelUrl = iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad()
 
   def editCancelUrl(id: String) = iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onEditPageLoad(id)
 
@@ -58,7 +62,7 @@ trait PropertyValueController extends EstateController {
   def cachingConnector: CachingConnector
 
   def onPageLoad = authorisedForIht {
-    implicit user =>
+
       implicit request => {
         withRegistrationDetails { regDetails =>
           val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
@@ -71,13 +75,13 @@ trait PropertyValueController extends EstateController {
       }
   }
 
-  def onEditPageLoad(id: String) = authorisedForIht {
-    implicit user =>
+  def onEditPageLoad(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+
       implicit request => {
         withRegistrationDetails { regDetails =>
           val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
           for {
-            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(user),
+            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
               CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
               regDetails.acknowledgmentReference)
           } yield {
@@ -104,23 +108,25 @@ trait PropertyValueController extends EstateController {
   }
 
 
-  def onSubmit = authorisedForIht {
-    implicit user =>
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+
       implicit request => {
         doSubmit(
           redirectLocationIfErrors = routes.PropertyValueController.onSubmit(),
           submitUrl = submitUrl,
-          cancelUrl = cancelUrl)
+          cancelUrl = cancelUrl,
+          userNino)
       }
   }
 
-  def onEditSubmit(id: String) = authorisedForIht {
-    implicit user =>
+  def onEditSubmit(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+
       implicit request => {
         doSubmit(
           redirectLocationIfErrors = routes.PropertyValueController.onEditSubmit(id),
           submitUrl = editSubmitUrl(id),
           cancelUrl = editCancelUrl(id),
+          userNino,
           Some(id))
       }
   }
@@ -128,8 +134,9 @@ trait PropertyValueController extends EstateController {
   private def doSubmit(redirectLocationIfErrors: Call,
                        submitUrl: Call,
                        cancelUrl: Call,
+                       userNino: Option[String],
                        propertyId: Option[String] = None)(
-                        implicit user: AuthContext, request: Request[_]) = {
+                        implicit request: Request[_]) = {
     withRegistrationDetails { regDetails =>
       val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
 
@@ -143,7 +150,7 @@ trait PropertyValueController extends EstateController {
             deceasedName)))
         },
         property => {
-          processSubmit(StringHelper.getNino(user), property, propertyId)
+          processSubmit(StringHelper.getNino(userNino), property, propertyId)
         }
       )
     }
@@ -152,7 +159,7 @@ trait PropertyValueController extends EstateController {
   private def processSubmit(nino: String,
                             property: Property,
                             propertyId: Option[String] = None)(
-                             implicit request: Request[_], hc: HeaderCarrier, user: AuthContext): Future[Result] = {
+                             implicit request: Request[_], hc: HeaderCarrier): Future[Result] = {
 
     withRegistrationDetails { registrationData =>
       val ihtReference = CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference)
@@ -191,18 +198,18 @@ trait PropertyValueController extends EstateController {
     }
   }
 
-  def onEditPageLoadForKickout(id: String) = authorisedForIht {
-    implicit user =>
+  def onEditPageLoadForKickout(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+
       implicit request => {
-        doEditPageLoad(id, Some(kickoutRedirectLocation))
+        doEditPageLoad(id, Some(kickoutRedirectLocation), userNino)
       }
   }
 
-  private def doEditPageLoad(id: String, cancelUrl: Option[Call])(implicit request: Request[_], user: AuthContext) = {
+  private def doEditPageLoad(id: String, cancelUrl: Option[Call], userNino: Option[String])(implicit request: Request[_]) = {
     withRegistrationDetails { regDetails =>
       val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
       for {
-        applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(user),
+        applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
           CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
           regDetails.acknowledgmentReference)
       } yield {

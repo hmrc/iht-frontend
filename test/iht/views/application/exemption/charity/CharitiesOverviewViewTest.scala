@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import iht.testhelpers.TestHelper._
+import play.api.test.Helpers.{await, defaultAwaitTimeout}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -53,10 +54,10 @@ trait CharitiesOverviewViewBehaviour extends GenericNonSubmittablePageBehaviour 
 }
 
 class CharitiesOverviewViewTest extends CharitiesOverviewViewBehaviour {
-  val charityName1 = CommonBuilder.charity.map(_.name).fold("")(identity)
-  val charityValue1 = CommonBuilder.currencyValue(CommonBuilder.charity.map(_.totalValue).fold(BigDecimal(0))(identity))
-  val charityName2 = CommonBuilder.charity2.map(_.name).fold("")(identity)
-  val charityValue2 = CommonBuilder.currencyValue(CommonBuilder.charity2.map(_.totalValue).fold(BigDecimal(0))(identity))
+  val charityName1 = await(CommonBuilder.charity.map(_.name)).fold("")(identity)
+  val charityValue1 = CommonBuilder.currencyValue(CommonBuilder.charity.totalValue.fold(BigDecimal(0))(identity))
+  val charityName2 = await(CommonBuilder.charity2.map(_.name)).fold("")(identity)
+  val charityValue2 = CommonBuilder.currencyValue(CommonBuilder.charity2.totalValue.fold(BigDecimal(0))(identity))
 
   val charityTableId = "charities_table"
 
@@ -69,23 +70,23 @@ class CharitiesOverviewViewTest extends CharitiesOverviewViewBehaviour {
 
   def charityWithDeleteAndModify(rowNo: Int, expectedName: String, expectedValue: String) = {
     s"show charity number ${rowNo + 1} name" in {
-      tableCell(doc, charityTableId, 0, rowNo).ownText shouldBe expectedName
+      tableCell(doc, charityTableId, 0, rowNo).ownText mustBe expectedName
     }
 
     s"show charity number ${rowNo + 1} value" in {
-      tableCell(doc, charityTableId, 1, rowNo).text shouldBe expectedValue
+      tableCell(doc, charityTableId, 1, rowNo).text mustBe expectedValue
     }
 
     s"show charity number ${rowNo + 1} change link" in {
       val div = tableCell(doc, charityTableId, 2, rowNo)
       val anchor = div.getElementsByTag("a").first
-      getVisibleText(anchor) shouldBe messagesApi("iht.delete")
+      getVisibleText(anchor) mustBe messagesApi("iht.delete")
     }
 
     s"show charity number ${rowNo + 1} delete link" in {
       val div = tableCell(doc, charityTableId, 3, rowNo)
       val anchor = div.getElementsByTag("a").first
-      getVisibleText(anchor) shouldBe messagesApi("iht.change")
+      getVisibleText(anchor) mustBe messagesApi("iht.change")
     }
   }
 

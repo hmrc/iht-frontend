@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,64 +16,69 @@
 
 package iht.controllers.application.exemptions.qualifyingBody
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.controllers.application.EstateController
 import iht.metrics.Metrics
 import iht.utils.{CommonHelper, StringHelper}
+import javax.inject.Inject
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
 import scala.concurrent.Future
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
 /**
   * Created by jennygj on 15/08/16.
   */
 
-object QualifyingBodyDetailsOverviewController extends QualifyingBodyDetailsOverviewController with IhtConnectors {
+class QualifyingBodyDetailsOverviewControllerImpl @Inject()() extends QualifyingBodyDetailsOverviewController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait QualifyingBodyDetailsOverviewController extends EstateController {
+
+
   def ihtConnector: IhtConnector
 
   def cachingConnector: CachingConnector
 
-  def onPageLoad() = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        withApplicationDetails { rd =>
-          ad =>
-            Future.successful(Ok(iht.views.html.application.exemption.qualifyingBody.qualifying_body_details_overview()))
-        }
+  def onPageLoad() = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      withApplicationDetails(userNino) { rd =>
+        ad =>
+          Future.successful(Ok(iht.views.html.application.exemption.qualifyingBody.qualifying_body_details_overview()))
       }
+    }
   }
 
-  def onEditPageLoad(id: String) = authorisedForIht {
-    implicit user =>
-      implicit request => {
+  def onEditPageLoad(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
 
-        withRegistrationDetails { registrationDetails =>
-          for {
-            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(user),
-              CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-              registrationDetails.acknowledgmentReference)
-          } yield {
-            applicationDetails match {
-              case Some(applicationDetails) =>
-                applicationDetails.qualifyingBodies.find(qualifyingBody => qualifyingBody.id.contains(id)).fold {
-                  throw new RuntimeException("No qualifyingBody found for id " + id)
-                } {
-                  (matchedQualifyingBody) =>
-                    Ok(iht.views.html.application.exemption.qualifyingBody.qualifying_body_details_overview(Some(matchedQualifyingBody)
-                    ))
-                }
-              case _ =>
-                Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
-                InternalServerError("No Application Details found")
-            }
+      withRegistrationDetails { registrationDetails =>
+        for {
+          applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
+            CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+            registrationDetails.acknowledgmentReference)
+        } yield {
+          applicationDetails match {
+            case Some(applicationDetails) =>
+              applicationDetails.qualifyingBodies.find(qualifyingBody => qualifyingBody.id.contains(id)).fold {
+                throw new RuntimeException("No qualifyingBody found for id " + id)
+              } {
+                (matchedQualifyingBody) =>
+                  Ok(iht.views.html.application.exemption.qualifyingBody.qualifying_body_details_overview(Some(matchedQualifyingBody)
+                  ))
+              }
+            case _ =>
+              Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
+              InternalServerError("No Application Details found")
           }
         }
       }
+    }
   }
 }

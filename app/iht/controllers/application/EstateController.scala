@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,6 @@ import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Call, Request, Result}
 import play.twirl.api.HtmlFormat._
-import uk.gov.hmrc.play.frontend.auth.AuthContext
 
 import scala.concurrent.Future
 import scala.util.{Failure, Success, Try}
@@ -41,13 +40,13 @@ trait EstateController extends ApplicationController {
 
   def ihtConnector: IhtConnector
 
-  val assetsRedirectLocation =
+  lazy val assetsRedirectLocation =
     iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()
-  val insurancePoliciesRedirectLocation =
+  lazy val insurancePoliciesRedirectLocation =
     iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()
-  val debtsRedirectLocation = iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()
-  val giftsRedirectLocation = iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()
-  val kickoutRedirectLocation = iht.controllers.application.routes.KickoutController.onPageLoad()
+  lazy val debtsRedirectLocation = iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()
+  lazy val giftsRedirectLocation = iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()
+  lazy val kickoutRedirectLocation = iht.controllers.application.routes.KickoutAppController.onPageLoad()
 
   val retrieveSectionDetailsOrExceptionIfInvalidID: String => ApplicationDetails => Option[Charity] = id => ad => {
     val foundCharity = ad.charities.find(_.id.contains(id))
@@ -104,10 +103,11 @@ trait EstateController extends ApplicationController {
 
   def estateElementOnPageLoad[A](form: Form[A],
                                  retrievePageToDisplay: (Form[A], RegistrationDetails) => Appendable,
-                                 retrieveSectionDetails: ApplicationDetails => Option[A])
-                                (implicit request: Request[_], user: AuthContext) = {
+                                 retrieveSectionDetails: ApplicationDetails => Option[A],
+                                 userNino: Option[String])
+                                (implicit request: Request[_]) = {
     withRegistrationDetails { regDetails =>
-      val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(user),
+      val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(userNino),
         CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
         regDetails.acknowledgmentReference)
 
@@ -131,10 +131,11 @@ trait EstateController extends ApplicationController {
                                                      RegistrationDetails, Call, Call) => Appendable,
                                                    retrieveSectionDetails: ApplicationDetails => Option[A],
                                                    submit: Call,
-                                                   cancel: Call)(implicit request: Request[_], user: AuthContext) = {
+                                                   cancel: Call,
+                                                   userNino: Option[String])(implicit request: Request[_]) = {
 
     withRegistrationDetails { regDetails =>
-      val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(user),
+      val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(userNino),
         CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
         regDetails.acknowledgmentReference)
 
@@ -157,14 +158,15 @@ trait EstateController extends ApplicationController {
                                retrievePageToDisplay: (Form[A], RegistrationDetails) => Appendable,
                                updateApplicationDetails: (ApplicationDetails, Option[String], A) => (ApplicationDetails, Option[String]),
                                redirectLocation: Call,
+                               userNino: Option[String],
                                formValidation: Option[Form[A] => Option[FormError]] = None,
                                id: Option[String] = None)
-                              (implicit request: Request[_], user: AuthContext): Future[Result] = {
+                              (implicit request: Request[_]): Future[Result] = {
 
     val conditionalRedirect: (ApplicationDetails, Option[String]) => Call = (_, _) => redirectLocation
     estateElementOnSubmitConditionalRedirect[A](form, retrievePageToDisplay,
       updateApplicationDetails,
-      conditionalRedirect,
+      conditionalRedirect, userNino,
       formValidation, id)
   }
 
@@ -176,9 +178,10 @@ trait EstateController extends ApplicationController {
                                                   updateApplicationDetails: (ApplicationDetails,
                                                     Option[String], A) => (ApplicationDetails, Option[String]),
                                                   redirectLocation: (ApplicationDetails, Option[String]) => Call,
+                                                  userNino: Option[String],
                                                   formValidation: Option[Form[A] => Option[FormError]] = None,
                                                   id: Option[String] = None)
-                                                 (implicit request: Request[_], user: AuthContext): Future[Result] = {
+                                                 (implicit request: Request[_]): Future[Result] = {
     withRegistrationDetails { regDetails =>
       val boundFormBeforeValidation = form.bindFromRequest
 
@@ -197,7 +200,7 @@ trait EstateController extends ApplicationController {
             Future.successful(BadRequest(retrievePageToDisplay(formWithErrors, regDetails)))
           },
           estateElementModel => {
-            estatesSaveApplication(StringHelper.getNino(user),
+            estatesSaveApplication(StringHelper.getNino(userNino),
               estateElementModel,
               regDetails,
               updateApplicationDetails,
@@ -245,7 +248,7 @@ trait EstateController extends ApplicationController {
                   cachingConnector.storeSingleValue(ApplicationKickOutHelper.applicationLastSectionKey,
                     applicationSection.fold("")(identity))
                   Redirect(applicationDetails.kickoutReason.fold(redirectLocation(applicationDetails, updatedID))(_ =>
-                    kickoutRedirectLocation))
+                    kickoutRedirectLocation).url)
                 })
               })
           case Failure(ex) =>
@@ -288,7 +291,8 @@ trait EstateController extends ApplicationController {
                                                    formValidation: Option[Form[A] => Option[FormError]] = None,
                                                    id: Option[String] = None,
                                                    submit: Call,
-                                                   cancel: Call)(implicit request: Request[_], user: AuthContext): Future[Result] = {
+                                                   cancel: Call,
+                                                   userNino: Option[String])(implicit request: Request[_]): Future[Result] = {
 
     withRegistrationDetails { regDetails =>
       val boundFormBeforeValidation = form.bindFromRequest
@@ -306,7 +310,7 @@ trait EstateController extends ApplicationController {
           Future.successful(BadRequest(retrievePageToDisplay(formWithErrors, regDetails, submit, cancel)))
         },
         estateElementModel => {
-          estatesSaveApplication(StringHelper.getNino(user),
+          estatesSaveApplication(StringHelper.getNino(userNino),
             estateElementModel,
             regDetails,
             updateApplicationDetails,

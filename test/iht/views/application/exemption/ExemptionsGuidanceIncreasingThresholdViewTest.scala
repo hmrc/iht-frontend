@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,8 +40,8 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
       val view = exemptions_guidance_increasing_threshold("ihtReference").toString
       val doc = asDocument(view)
       val headers: Elements = doc.getElementsByTag("h1")
-      headers.size() shouldBe 1
-      headers.first().text() shouldBe messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.title")
+      headers.size() mustBe 1
+      headers.first().text() mustBe messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.title")
     }
 
     "show the correct browser title" in {
@@ -56,20 +56,20 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
       implicit val request = createFakeRequest()
       val view = exemptions_guidance_increasing_threshold("ihtReference").toString
       val doc = asDocument(view)
-      doc.select("div#Section1 p").text() should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.start"))
-      doc.select("#p1Link").text() should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.link"))
-      doc.select("div#Section1 p").text() should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.end"))
-      doc.select("div#Section1 p").text() should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section1.p2"))
-      doc.select("div#Section2 p").text() should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section2.p3"))
-      doc.select("div#Section2 p").text should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section2.p4"))
-      doc.select("div#Section2 p").text() should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.start"))
-      doc.select("#iht400Link").text() should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.link"))
-      doc.select("div#Section2 p").text() should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.end"))
-      doc.select("div#Section3 p").text() should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section3.p6.start"))
-      doc.select("div#Section3 p").text() should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section3.p6.link"))
-      doc.select("div#Section3 p").text() should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section3.p6.end"))
-      doc.select("div#Section3 p").text() should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section3.p7.start"))
-      doc.select("div#Section4 p").text() should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section4.p8"))
+      doc.select("div#Section1 p").text() must include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.start"))
+      doc.select("#p1Link").text() must include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.link"))
+      doc.select("div#Section1 p").text() must include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.end"))
+      doc.select("div#Section1 p").text() must include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section1.p2"))
+      doc.select("div#Section2 p").text() must include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section2.p3"))
+      doc.select("div#Section2 p").text must include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section2.p4"))
+      doc.select("div#Section2 p").text() must include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.start"))
+      doc.select("#iht400Link").text() must include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.link"))
+      doc.select("div#Section2 p").text() must include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.end"))
+      doc.select("div#Section3 p").text() must include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section3.p6.start"))
+      doc.select("div#Section3 p").text() must include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section3.p6.link"))
+      doc.select("div#Section3 p").text() must include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section3.p6.end"))
+      doc.select("div#Section3 p").text() must include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section3.p7.start"))
+      doc.select("div#Section4 p").text() must include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section4.p8"))
     }
 
     "show the correct sub headings" in {
@@ -77,10 +77,10 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
       val view = exemptions_guidance_increasing_threshold("ihtReference").toString
       val doc = asDocument(view)
       val headers: Elements = doc.select("article h2")
-      headers.size() shouldBe 3
-      headers.first().text() shouldBe messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section2.exemptionHeader")
-      headers.get(1).text() shouldBe messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section3.raisedHeader")
-      headers.last().text() shouldBe messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section4.nextStepHeader")
+      headers.size() mustBe 3
+      headers.first().text() mustBe messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section2.exemptionHeader")
+      headers.get(1).text() mustBe messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section3.raisedHeader")
+      headers.last().text() mustBe messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section4.nextStepHeader")
     }
 
     "show the correct bullet points" in {
@@ -88,13 +88,13 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
       val view = exemptions_guidance_increasing_threshold("ihtReference").toString
       val doc = asDocument(view)
       val bullets: Elements = doc.select("article li")
-      bullets.size() shouldBe 6
-      doc.select("div#Section1 ul").first().text() should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section1.bullet1"))
-      doc.select("div#Section1 ul").last().text() should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section1.bullet2"))
-      doc.select("div#Section2 ul").first().text() should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section2.bullet3"))
-      doc.select("div#Section2 ul").last().text() should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section2.bullet4"))
-      doc.select("div#Section3 ul").first().text should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section3.bullet5"))
-      doc.select("div#Section3 ul").last().text() should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section3.bullet6"))
+      bullets.size() mustBe 6
+      doc.select("div#Section1 ul").first().text() must include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section1.bullet1"))
+      doc.select("div#Section1 ul").last().text() must include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section1.bullet2"))
+      doc.select("div#Section2 ul").first().text() must include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section2.bullet3"))
+      doc.select("div#Section2 ul").last().text() must include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section2.bullet4"))
+      doc.select("div#Section3 ul").first().text must include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section3.bullet5"))
+      doc.select("div#Section3 ul").last().text() must include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section3.bullet6"))
     }
 
     "show a url linked to transfer of threshold page" in {
@@ -104,8 +104,8 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
 
       assertRenderedById(doc, "transferThresholdLink")
       val link = doc.getElementById("transferThresholdLink")
-      link.text shouldBe messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section3.p6.link")
-      link.attr("href") shouldBe "https://www.gov.uk/guidance/inheritance-tax-transfer-of-threshold"
+      link.text mustBe messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section3.p6.link")
+      link.attr("href") mustBe "https://www.gov.uk/guidance/inheritance-tax-transfer-of-threshold"
     }
 
     "show a url linked to IHT400 page" in {
@@ -115,8 +115,8 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
 
       assertRenderedById(doc, "iht400Link")
       val link = doc.getElementById("iht400Link")
-      link.text shouldBe messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.link")
-      link.attr("href") shouldBe "https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400"
+      link.text mustBe messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.link")
+      link.attr("href") mustBe "https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400"
     }
 
     "shows a second url linked to IHT400 page" in {
@@ -126,8 +126,8 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
 
       assertRenderedById(doc, "iht400FormLink")
       val link = doc.getElementById("iht400FormLink")
-      link.text shouldBe messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.link")
-      link.attr("href") shouldBe "https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400"
+      link.text mustBe messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.link")
+      link.attr("href") mustBe "https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400"
     }
 
     "show button with Continue as the title" in {
@@ -139,8 +139,8 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
       assertRenderedById(doc, "continue")
 
 
-      button.text() shouldBe messagesApi("iht.continue")
-      button.attr("name") shouldBe "action"
+      button.text() mustBe messagesApi("iht.continue")
+      button.attr("name") mustBe "action"
     }
   }
 }

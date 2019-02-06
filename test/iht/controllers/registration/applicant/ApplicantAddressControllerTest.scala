@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,24 +31,19 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class ApplicantAddressControllerTest extends RegistrationControllerTest  {
 
-  var maxLength = 0
-
-  before {
-    mockCachingConnector = mock[CachingConnector]
-    maxLength = IhtProperties.validationMaxLengthAddresslines.toInt
-  }
+  lazy val maxLength = IhtProperties.validationMaxLengthAddresslines.toInt
 
   // Create controller object and pass in mock.
   def controller = new ApplicantAddressController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new ApplicantAddressController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
@@ -80,180 +75,180 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
 
     "redirect to GG login page on PageLoad of a Uk address if the user is not logged in" in {
       val result = controllerNotAuthorised.onPageLoadUk(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to GG login page on Submit of a Uk address if the user is not logged in" in {
       val result = controllerNotAuthorised.onSubmitUk(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to GG login page on PageLoad of an address abroad if the user is not logged in" in {
       val result = controllerNotAuthorised.onPageLoadAbroad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to GG login page on Submit of an address abroad if the user is not logged in" in {
       val result = controllerNotAuthorised.onSubmitAbroad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to GG login page on PageLoad of a Uk address in edit mode if the user is not logged in" in {
       val result = controllerNotAuthorised.onEditPageLoadUk(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to GG login page on Submit of a Uk address if in edit mode the user is not logged in" in {
       val result = controllerNotAuthorised.onEditSubmitUk(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to GG login page on PageLoad of an address abroad in edit mode if the user is not logged in" in {
       val result = controllerNotAuthorised.onEditPageLoadAbroad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to GG login page on Submit of an address abroad in edit mode if the user is not logged in" in {
       val result = controllerNotAuthorised.onEditSubmitAbroad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "load when visited for the first time and applicant lives in the UK" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetailsWithUkApplicant))
 
-      val result = controller.onPageLoadUk(createFakeRequest())
+      val result = controller.onPageLoadUk(createFakeRequest(authRetrieveNino = false))
 
-      status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("page.iht.registration.applicantAddress.title"))
-      contentAsString(result) should include(messagesApi("page.iht.registration.applicantAddress.hint"))
-      contentAsString(result) should include(messagesApi("iht.address.line1"))
-      contentAsString(result) should include(messagesApi("iht.address.line2"))
-      contentAsString(result) should include(messagesApi("iht.address.line3"))
-      contentAsString(result) should include(messagesApi("iht.address.line4"))
-      contentAsString(result) should include(messagesApi("iht.postcode"))
-      contentAsString(result) should include(messagesApi("iht.registration.changeAddressToAbroad"))
-      contentAsString(result) should include(routes.ApplicantAddressController.onPageLoadAbroad().url)
+      status(result) must be(OK)
+      contentAsString(result) must include(messagesApi("page.iht.registration.applicantAddress.title"))
+      contentAsString(result) must include(messagesApi("page.iht.registration.applicantAddress.hint"))
+      contentAsString(result) must include(messagesApi("iht.address.line1"))
+      contentAsString(result) must include(messagesApi("iht.address.line2"))
+      contentAsString(result) must include(messagesApi("iht.address.line3"))
+      contentAsString(result) must include(messagesApi("iht.address.line4"))
+      contentAsString(result) must include(messagesApi("iht.postcode"))
+      contentAsString(result) must include(messagesApi("iht.registration.changeAddressToAbroad"))
+      contentAsString(result) must include(routes.ApplicantAddressController.onPageLoadAbroad().url)
     }
 
     "load when revisited and applicant lives in the UK" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetailsWithUkApplicantPopulated))
 
-      val result = controller.onPageLoadUk(createFakeRequest())
+      val result = controller.onPageLoadUk(createFakeRequest(authRetrieveNino = false))
 
-      status(result) should be(OK)
-      contentAsString(result) should include("UK Line 1")
-      contentAsString(result) should include("UK Line 2")
-      contentAsString(result) should include("AA1 1AA")
+      status(result) must be(OK)
+      contentAsString(result) must include("UK Line 1")
+      contentAsString(result) must include("UK Line 2")
+      contentAsString(result) must include("AA1 1AA")
     }
 
     "load when revisited in edit mode and applicant lives in the UK" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetailsWithUkApplicantPopulated))
 
-      val result = controller.onEditPageLoadUk(createFakeRequest())
+      val result = controller.onEditPageLoadUk(createFakeRequest(authRetrieveNino = false))
 
-      status(result) should be(OK)
-      contentAsString(result) should include("UK Line 1")
-      contentAsString(result) should include("UK Line 2")
-      contentAsString(result) should include("AA1 1AA")
+      status(result) must be(OK)
+      contentAsString(result) must include("UK Line 1")
+      contentAsString(result) must include("UK Line 2")
+      contentAsString(result) must include("AA1 1AA")
     }
 
     "load when visited for the first time and applicant lives abroad" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetailsWithApplicantAbroad))
 
-      val result = controller.onPageLoadAbroad(createFakeRequest())
+      val result = controller.onPageLoadAbroad(createFakeRequest(authRetrieveNino = false))
 
-      status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("page.iht.registration.applicantAddress.title"))
-      contentAsString(result) should include(messagesApi("page.iht.registration.applicantAddress.hint"))
-      contentAsString(result) should include(messagesApi("iht.address.line1"))
-      contentAsString(result) should include(messagesApi("iht.address.line2"))
-      contentAsString(result) should include(messagesApi("iht.address.line3"))
-      contentAsString(result) should include(messagesApi("iht.address.line4"))
-      contentAsString(result) should include(messagesApi("iht.country"))
-      contentAsString(result) should include(messagesApi("iht.registration.changeAddressToUK"))
-      contentAsString(result) should include(routes.ApplicantAddressController.onPageLoadUk().url)
+      status(result) must be(OK)
+      contentAsString(result) must include(messagesApi("page.iht.registration.applicantAddress.title"))
+      contentAsString(result) must include(messagesApi("page.iht.registration.applicantAddress.hint"))
+      contentAsString(result) must include(messagesApi("iht.address.line1"))
+      contentAsString(result) must include(messagesApi("iht.address.line2"))
+      contentAsString(result) must include(messagesApi("iht.address.line3"))
+      contentAsString(result) must include(messagesApi("iht.address.line4"))
+      contentAsString(result) must include(messagesApi("iht.country"))
+      contentAsString(result) must include(messagesApi("iht.registration.changeAddressToUK"))
+      contentAsString(result) must include(routes.ApplicantAddressController.onPageLoadUk().url)
     }
 
     "load when revisited and applicant lives abroad" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetailsWithApplicantAbroadPopulated))
 
-      val result = controller.onPageLoadAbroad(createFakeRequest())
+      val result = controller.onPageLoadAbroad(createFakeRequest(authRetrieveNino = false))
 
-      status(result) should be(OK)
-      contentAsString(result) should include("Abroad Line 1")
-      contentAsString(result) should include("Abroad Line 2")
-      contentAsString(result) should include("Abroad Line 3")
-      contentAsString(result) should include("Abroad Line 4")
-      contentAsString(result) should include("US")
+      status(result) must be(OK)
+      contentAsString(result) must include("Abroad Line 1")
+      contentAsString(result) must include("Abroad Line 2")
+      contentAsString(result) must include("Abroad Line 3")
+      contentAsString(result) must include("Abroad Line 4")
+      contentAsString(result) must include("US")
     }
 
     "load when revisited in edit mode and applicant lives abroad" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetailsWithApplicantAbroadPopulated))
 
-      val result = controller.onEditPageLoadAbroad(createFakeRequest())
+      val result = controller.onEditPageLoadAbroad(createFakeRequest(authRetrieveNino = false))
 
-      status(result) should be(OK)
-      contentAsString(result) should include("Abroad Line 1")
-      contentAsString(result) should include("Abroad Line 2")
-      contentAsString(result) should include("Abroad Line 3")
-      contentAsString(result) should include("Abroad Line 4")
-      contentAsString(result) should include("US")
+      status(result) must be(OK)
+      contentAsString(result) must include("Abroad Line 1")
+      contentAsString(result) must include("Abroad Line 2")
+      contentAsString(result) must include("Abroad Line 3")
+      contentAsString(result) must include("Abroad Line 4")
+      contentAsString(result) must include("US")
     }
 
     "forget address details when changing from UK to abroad" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetailsWithUkApplicantPopulated))
 
-      val result = controller.onPageLoadAbroad(createFakeRequest())
+      val result = controller.onPageLoadAbroad(createFakeRequest(authRetrieveNino = false))
 
-      status(result) should be(OK)
-      contentAsString(result) shouldNot include("UK Line 1")
-      contentAsString(result) shouldNot include("UK Line 2")
-      contentAsString(result) shouldNot include("AA1 1AA")
+      status(result) must be(OK)
+      contentAsString(result) mustNot include("UK Line 1")
+      contentAsString(result) mustNot include("UK Line 2")
+      contentAsString(result) mustNot include("AA1 1AA")
     }
 
     "forget address details when changing from abroad to UK" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetailsWithApplicantAbroadPopulated))
 
-      val result = controller.onPageLoadUk(createFakeRequest())
+      val result = controller.onPageLoadUk(createFakeRequest(authRetrieveNino = false))
 
-      status(result) should be(OK)
-      contentAsString(result) shouldNot include("Abroad Line 1")
-      contentAsString(result) shouldNot include("Abroad Line 2")
-      contentAsString(result) shouldNot include("Abroad Line 3")
-      contentAsString(result) shouldNot include("Abroad Line 4")
-      contentAsString(result) shouldNot include("GB")
+      status(result) must be(OK)
+      contentAsString(result) mustNot include("Abroad Line 1")
+      contentAsString(result) mustNot include("Abroad Line 2")
+      contentAsString(result) mustNot include("Abroad Line 3")
+      contentAsString(result) mustNot include("Abroad Line 4")
+      contentAsString(result) mustNot include("GB")
     }
 
     "forget address details when changing from UK to abroad in edit mode" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetailsWithUkApplicantPopulated))
 
-      val result = controller.onEditPageLoadAbroad(createFakeRequest())
+      val result = controller.onEditPageLoadAbroad(createFakeRequest(authRetrieveNino = false))
 
-      status(result) should be(OK)
-      contentAsString(result) shouldNot include("UK Line 1")
-      contentAsString(result) shouldNot include("UK Line 2")
-      contentAsString(result) shouldNot include("AA1 1AA")
+      status(result) must be(OK)
+      contentAsString(result) mustNot include("UK Line 1")
+      contentAsString(result) mustNot include("UK Line 2")
+      contentAsString(result) mustNot include("AA1 1AA")
     }
 
     "forget address details when changing from abroad to UK in edit mode" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetailsWithApplicantAbroadPopulated))
 
-      val result = controller.onEditPageLoadUk(createFakeRequest())
+      val result = controller.onEditPageLoadUk(createFakeRequest(authRetrieveNino = false))
 
-      status(result) should be(OK)
-      contentAsString(result) shouldNot include("Abroad Line 1")
-      contentAsString(result) shouldNot include("Abroad Line 2")
-      contentAsString(result) shouldNot include("Abroad Line 3")
-      contentAsString(result) shouldNot include("Abroad Line 4")
-      contentAsString(result) shouldNot include("GB")
+      status(result) must be(OK)
+      contentAsString(result) mustNot include("Abroad Line 1")
+      contentAsString(result) mustNot include("Abroad Line 2")
+      contentAsString(result) mustNot include("Abroad Line 3")
+      contentAsString(result) mustNot include("Abroad Line 4")
+      contentAsString(result) mustNot include("GB")
     }
 
     "save and redirect correctly on submit when saving a UK address" in {
@@ -263,17 +258,17 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
       val form = applicantAddressUkForm.fill(ukAddress)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
-        data = form.data.toSeq)
+        data = form.data.toSeq, authRetrieveNino = false)
 
       val result = controller.onSubmitUk(request)
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(
         Some(iht.controllers.registration.executor.routes.OthersApplyingForProbateController.onPageLoad.url))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val applicant = capturedValue.applicantDetails.get
-      applicant.ukAddress shouldBe Some(ukAddress copy (countryCode = IhtProperties.ukIsoCountryCode))
-      applicant.doesLiveInUK shouldBe Some(true)
+      applicant.ukAddress mustBe Some(ukAddress copy (countryCode = IhtProperties.ukIsoCountryCode))
+      applicant.doesLiveInUK mustBe Some(true)
     }
 
     "save and redirect correctly on submit when saving an address abroad" in {
@@ -283,17 +278,17 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
       val form = applicantAddressAbroadForm.fill(addressAbroad)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
-        data = form.data.toSeq)
+        data = form.data.toSeq, authRetrieveNino = false)
 
       val result = controller.onSubmitAbroad(request)
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(
         Some(iht.controllers.registration.executor.routes.OthersApplyingForProbateController.onPageLoad.url))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val applicant = capturedValue.applicantDetails.get
-      applicant.ukAddress shouldBe Some(addressAbroad)
-      applicant.doesLiveInUK shouldBe Some(false)
+      applicant.ukAddress mustBe Some(addressAbroad)
+      applicant.doesLiveInUK mustBe Some(false)
     }
 
     "save and redirect correctly on submit in edit mode when saving a UK address" in {
@@ -302,16 +297,16 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
 
       val form = applicantAddressUkForm.fill(ukAddress)
 
-      implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host, data = form.data.toSeq)
+      implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host, data = form.data.toSeq, authRetrieveNino = false)
 
       val result = controller.onEditSubmitUk(request)
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(registrationRoutes.RegistrationSummaryController.onPageLoad().url))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(registrationRoutes.RegistrationSummaryController.onPageLoad().url))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val applicant = capturedValue.applicantDetails.get
-      applicant.ukAddress shouldBe Some(ukAddress copy (countryCode = IhtProperties.ukIsoCountryCode))
-      applicant.doesLiveInUK shouldBe Some(true)
+      applicant.ukAddress mustBe Some(ukAddress copy (countryCode = IhtProperties.ukIsoCountryCode))
+      applicant.doesLiveInUK mustBe Some(true)
     }
 
     "save and redirect correctly on submit in edit mode when saving an address abroad" in {
@@ -320,31 +315,31 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
 
       val form = applicantAddressAbroadForm.fill(addressAbroad)
 
-      implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host, data = form.data.toSeq)
+      implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host, data = form.data.toSeq, authRetrieveNino = false)
 
       val result = controller.onEditSubmitAbroad(request)
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(registrationRoutes.RegistrationSummaryController.onPageLoad().url))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(registrationRoutes.RegistrationSummaryController.onPageLoad().url))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val applicant = capturedValue.applicantDetails.get
-      applicant.ukAddress shouldBe Some(addressAbroad)
-      applicant.doesLiveInUK shouldBe Some(false)
+      applicant.ukAddress mustBe Some(addressAbroad)
+      applicant.doesLiveInUK mustBe Some(false)
     }
 
     "redirect UK address to estate report if RegistrationDetails object does not contain applicant details" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
 
-      val result = await(controller.onPageLoadUk(createFakeRequest()))
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) shouldBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url)
+      val result = await(controller.onPageLoadUk(createFakeRequest(authRetrieveNino = false)))
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) mustBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url)
     }
 
     "redirect address to estate report if RegistrationDetails object does not contain applicant details" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
 
-      val result = await(controller.onPageLoadAbroad(createFakeRequest()))
-      status(result) shouldBe SEE_OTHER
+      val result = await(controller.onPageLoadAbroad(createFakeRequest(authRetrieveNino = false)))
+      status(result) mustBe SEE_OTHER
     }
 
     "redirect onSubmit UK address to estate report if RegistrationDetails object does not contain applicant details" in {
@@ -353,10 +348,10 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
 
       val form = applicantAddressUkForm.fill(ukAddress)
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
-        data = form.data.toSeq)
+        data = form.data.toSeq, authRetrieveNino = false)
 
       val result = await(controller.onSubmitUk(request))
-      status(result) shouldBe SEE_OTHER
+      status(result) mustBe SEE_OTHER
     }
 
     "redirect onSubmit address to estate report if RegistrationDetails object does not contain applicant details" in {
@@ -367,8 +362,8 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
         data = form.data.toSeq)
 
-      val result = await(controller.onSubmitAbroad(createFakeRequest()))
-      status(result) shouldBe SEE_OTHER
+      val result = await(controller.onSubmitAbroad(createFakeRequest(authRetrieveNino = false)))
+      status(result) mustBe SEE_OTHER
     }
 
     "show an error when submitting a UK address when address line 1 is blank" in {
@@ -459,11 +454,11 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
       val form = if (isInternational) applicantAddressAbroadForm.fill(address) else applicantAddressUkForm.fill(address)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
-        data = form.data.toSeq)
+        data = form.data.toSeq, authRetrieveNino = false)
 
       val result = if (isInternational) controller.onSubmitAbroad(request) else controller.onSubmitUk(request)
-      status(result) should be(BAD_REQUEST)
-      contentAsString(result) should include(messagesApi(expectedError))
+      status(result) must be(BAD_REQUEST)
+      contentAsString(result) must include(messagesApi(expectedError))
     }
 
     "After a submit, when submitting an address, if the storage operation fails the result must be a server error" in {
@@ -473,10 +468,10 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
       val form = applicantAddressUkForm.fill(ukAddress)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
-        data = form.data.toSeq)
+        data = form.data.toSeq, authRetrieveNino = false)
 
       val result = controller.onSubmitUk(request)
-      status(result) should be(INTERNAL_SERVER_ERROR)
+      status(result) must be(INTERNAL_SERVER_ERROR)
     }
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,12 +31,11 @@ import uk.gov.hmrc.http.HeaderCarrier
 class DeclarationReceivedControllerTest extends ApplicationControllerTest {
   implicit val headerCarrier = FakeHeaders()
   implicit val hc = new HeaderCarrier
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def declarationReceivedController = new DeclarationReceivedController{
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
 
     def ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -44,7 +43,7 @@ class DeclarationReceivedControllerTest extends ApplicationControllerTest {
 
   def declarationReceivedControllerNotAuthorised = new DeclarationReceivedController{
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
 
     def ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -54,8 +53,8 @@ class DeclarationReceivedControllerTest extends ApplicationControllerTest {
 
     "redirect to GG login page on PageLoad if the user is not logged in" in {
       val result = declarationReceivedControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "load the page" in {
@@ -72,11 +71,11 @@ class DeclarationReceivedControllerTest extends ApplicationControllerTest {
         singleValueFormKey = same(Constants.PDFIHTReference),
         singleValueReturn = CommonBuilder.DefaultIHTReference)
 
-      val result = declarationReceivedController.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
+      val result = declarationReceivedController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      status(result) must be(OK)
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
-      declarationReceivedController.onPageLoad(createFakeRequest()))
+      declarationReceivedController.onPageLoad(createFakeRequest(authRetrieveNino = false)))
   }
 }

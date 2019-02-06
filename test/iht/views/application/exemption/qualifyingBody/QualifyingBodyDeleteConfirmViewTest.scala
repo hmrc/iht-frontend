@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ class QualifyingBodyDeleteConfirmViewTest extends GenericNonSubmittablePageBehav
     )
   )
 
-  val nameOfQualifyingBody = CommonBuilder.qualifyingBody.map(_.name).fold("")(identity)
+  val nameOfQualifyingBody = CommonBuilder.qualifyingBody.name.fold("")(identity)
 
   def view = qualifying_body_delete_confirm(CommonBuilder.qualifyingBody, CommonBuilder.DefaultCall1).toString
 
@@ -50,14 +50,14 @@ class QualifyingBodyDeleteConfirmViewTest extends GenericNonSubmittablePageBehav
     behave like nonSubmittablePage()
 
     "show submit button with correct target and text" in {
-      doc.getElementsByTag("form").attr("action") shouldBe CommonBuilder.DefaultCall1.url
+      doc.getElementsByTag("form").attr("action") mustBe CommonBuilder.DefaultCall1.url
       val submitButton = doc.getElementById("confirm-delete")
-      submitButton.text() shouldBe messagesApi("site.button.confirmDelete")
+      submitButton.text() mustBe messagesApi("site.button.confirmDelete")
     }
 
     "show the name of the qualifying body" in {
       val nameParagraph = doc.getElementById("qualifying-body-name")
-      nameParagraph.text shouldBe nameOfQualifyingBody
+      nameParagraph.text mustBe nameOfQualifyingBody
     }
   }
 }

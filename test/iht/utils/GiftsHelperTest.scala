@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import org.scalatest.mock.MockitoSugar
 import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.test.UnitSpec
 
-class GiftsHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
+class GiftsHelperTest extends FakeIhtApp with MockitoSugar {
 
   "GiftsHelper" must {
     "generate sequence of years needed for gifts" in {
@@ -41,7 +41,7 @@ class GiftsHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
         PreviousYearsGifts(Some("7"), None, None, Some("2014-4-6"), Some("2015-4-5")),
         PreviousYearsGifts(Some("8"), None, None, Some("2015-4-6"), Some("2015-12-30"))).reverse
 
-      giftsForYears should be(previousYears)
+      giftsForYears must be(previousYears)
     }
 
     "generate sequence of years needed for gifts where date of death is in the 1st quarter of the year" in {
@@ -58,7 +58,7 @@ class GiftsHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
         PreviousYearsGifts(Some("7"), None, None, Some("2012-4-6"), Some("2013-4-5")),
         PreviousYearsGifts(Some("8"), None, None, Some("2013-4-6"), Some("2014-3-12"))).reverse
 
-      giftsForYears should be(previousYears)
+      giftsForYears must be(previousYears)
 
     }
 
@@ -75,7 +75,7 @@ class GiftsHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
         PreviousYearsGifts(Some("6"), None, None, Some("2013-4-6"), Some("2014-4-5")),
         PreviousYearsGifts(Some("7"), None, None, Some("2014-4-6"), Some("2015-4-5"))).reverse
 
-      giftsForYears should be(previousYears)
+      giftsForYears must be(previousYears)
     }
 
     "generate correct old date formats and leave new formats alone" in {
@@ -97,7 +97,7 @@ class GiftsHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
         giftsList = Some(expectedGifts)
       )
 
-      GiftsHelper.correctGiftDateFormats(ad) shouldBe expectedAD
+      GiftsHelper.correctGiftDateFormats(ad) mustBe expectedAD
     }
   }
 }

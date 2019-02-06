@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,11 +35,10 @@ import scala.concurrent.Future
  */
 class InsurancePolicyOverviewControllerTest extends ApplicationControllerTest {
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def insurancePolicyOverviewController = new InsurancePolicyOverviewController {
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -74,17 +73,17 @@ class InsurancePolicyOverviewControllerTest extends ApplicationControllerTest {
       when(mockIhtConnector.getApplication(any(), any(), any())(any()))
         .thenReturn(Future.successful(Some(applicationDetails)))
       val result = insurancePolicyOverviewController.onPageLoad(createFakeRequest())
-      status(result) shouldBe OK
+      status(result) mustBe OK
 
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.insurancePolicies.jointlyHeld.question", deceasedName))
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare", deceasedName))
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.insurancePolicies.ownName.question", deceasedName))
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) must include(messagesApi("iht.estateReport.insurancePolicies.jointlyHeld.question", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) must include(messagesApi("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) must include(messagesApi("iht.estateReport.insurancePolicies.ownName.question", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) must include(messagesApi("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut", deceasedName))
 
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question", deceasedName))
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question", deceasedName))
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.assets.insurancePolicies.buyAnnuity.question", deceasedName))
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("page.iht.application.assets.insurance.policies.overview.other.question4", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) must include(messagesApi("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) must include(messagesApi("iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) must include(messagesApi("iht.estateReport.assets.insurancePolicies.buyAnnuity.question", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) must include(messagesApi("page.iht.application.assets.insurance.policies.overview.other.question4", deceasedName))
     }
 
     "respond with OK and correct question1 text on page load if deceased not married" in {
@@ -94,8 +93,8 @@ class InsurancePolicyOverviewControllerTest extends ApplicationControllerTest {
       when(mockIhtConnector.getApplication(any(), any(), any())(any()))
         .thenReturn(Future.successful(Some(applicationDetails)))
       val result = insurancePolicyOverviewController.onPageLoad(createFakeRequest())
-      status(result) shouldBe OK
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question", deceasedName))
+      status(result) mustBe OK
+      ContentChecker.stripLineBreaks(contentAsString(result)) must include(messagesApi("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question", deceasedName))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

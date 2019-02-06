@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -77,8 +77,8 @@ class GiftsDetailsViewTest extends SubmittableApplicationPageBehaviour[PreviousY
       val giftsGivenAwaySectionText = giftsGivenAwaySection.getElementsByTag("span").get(0)
       val giftsGivenAwaySectionValue = giftsGivenAwaySection.getElementsByTag("span").get(1)
 
-      giftsGivenAwaySectionText.text shouldBe messagesApi("page.iht.application.giftsDetails.value.label", "13 March 2007", "5 April 2007")
-      giftsGivenAwaySectionValue.text shouldBe "£"
+      giftsGivenAwaySectionText.text mustBe messagesApi("page.iht.application.giftsDetails.value.label", "13 March 2007", "5 April 2007")
+      giftsGivenAwaySectionValue.text mustBe "£"
     }
 
     "have correct exemptions being claimed input text labels and value" in {
@@ -87,8 +87,8 @@ class GiftsDetailsViewTest extends SubmittableApplicationPageBehaviour[PreviousY
       val exemptionsClaimedSectionText = exemptionsClaimedSection.getElementsByTag("span").get(0)
       val exemptionsClaimedSectionValue = exemptionsClaimedSection.getElementsByTag("span").get(1)
 
-      exemptionsClaimedSectionText.text shouldBe messagesApi("page.iht.application.giftsDetails.exemptions.label", "13 March 2007", "5 April 2007")
-      exemptionsClaimedSectionValue.text shouldBe "£"
+      exemptionsClaimedSectionText.text mustBe messagesApi("page.iht.application.giftsDetails.exemptions.label", "13 March 2007", "5 April 2007")
+      exemptionsClaimedSectionValue.text mustBe "£"
     }
 
     "show amount added to the estate value label with correct value" in {

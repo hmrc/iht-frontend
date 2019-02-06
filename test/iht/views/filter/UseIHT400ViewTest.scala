@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,35 +42,35 @@ class UseIHT400ViewTest extends ViewTestHelper {
       val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val title = doc.getElementsByTag("h1").first
-      title.text should be(messagesApi("iht.useIHT400PaperForm"))
+      title.text must be(messagesApi("iht.useIHT400PaperForm"))
     }
 
     "display the correct browser title" in {
       val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val browserTitle = doc.getElementsByTag("title").first
-      browserTitle.text should include(messagesApi("iht.useIHT400PaperForm"))
+      browserTitle.text must include(messagesApi("iht.useIHT400PaperForm"))
     }
 
     "contain content advising why you must use a paper IHT-400 form" in {
       val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
       val content = contentAsString(result)
-      content should include(messagesApi("page.iht.filter.paperform.million.p1"))
-      content should include(messagesApi("page.iht.filter.paperform.million.p2"))
+      content must include(messagesApi("page.iht.filter.paperform.million.p1"))
+      content must include(messagesApi("page.iht.filter.paperform.million.p2"))
     }
 
     "contain content with link to IHT-400 paper form" in {
       val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val linkElement = doc.getElementById("form-link")
-      linkElement.text should be(messagesApi("page.iht.filter.paperform.iht400.link.text"))
+      linkElement.text must be(messagesApi("page.iht.filter.paperform.iht400.link.text"))
     }
 
     "contain link to IHT-400 paper form" in {
       val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val linkElement = doc.getElementById("form-link")
-      linkElement.attr("href") should be(iht400PaperFormLink)
+      linkElement.attr("href") must be(iht400PaperFormLink)
     }
 
     "contain a link with the button class with the text 'Exit to IHT-400 paper form'" in {
@@ -78,7 +78,7 @@ class UseIHT400ViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 
-      button.text() should be(messagesApi("iht.continue"))
+      button.text() must be(messagesApi("iht.continue"))
     }
 
     "contain a link with the button class with href attribute pointing to ???" in {
@@ -86,7 +86,7 @@ class UseIHT400ViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 
-      button.attr("href") should be(iht.controllers.routes.DeadlinesController.onPageLoadRegistration().url)
+      button.attr("href") must be(iht.controllers.routes.DeadlinesController.onPageLoadRegistration().url)
     }
 
     "contain a 'Previous answers' section" in {
@@ -99,48 +99,48 @@ class UseIHT400ViewTest extends ViewTestHelper {
       val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val link = doc.getElementById("start-again")
-      link.text() should be(messagesApi("iht.startAgain"))
-      link.attr("href") should be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
+      link.text() must be(messagesApi("iht.startAgain"))
+      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
     }
 
     "contain a row showing the user's answer to the previous domicile question" in {
       val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val row = doc.getElementById("domicile-row")
-      row.text() should include(messagesApi("page.iht.registration.deceasedPermanentHome.title"))
-      row.text() should include(messagesApi("iht.countries.englandOrWales"))
+      row.text() must include(messagesApi("page.iht.registration.deceasedPermanentHome.title"))
+      row.text() must include(messagesApi("iht.countries.englandOrWales"))
     }
 
     "contain a 'Change' link to go back to the domicile page" in {
       val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val link = doc.getElementById("change-domicile")
-      link.text() should include(messagesApi("iht.change"))
-      link.attr("href") should be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
+      link.text() must include(messagesApi("iht.change"))
+      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
     }
 
     "contain a row showing the user's answer to the previous estimate question when given the under 32500 parameter" in {
       val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val row = doc.getElementById("estimate-row")
-      row.text() should include(messagesApi("iht.roughEstimateEstateWorth"))
-      row.text() should include(messagesApi("page.iht.filter.estimate.choice.over"))
+      row.text() must include(messagesApi("iht.roughEstimateEstateWorth"))
+      row.text() must include(messagesApi("page.iht.filter.estimate.choice.over"))
     }
 
     "contain a row showing the user's answer to the previous estimate question when given the between parameter" in {
       val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val row = doc.getElementById("estimate-row")
-      row.text() should include(messagesApi("iht.roughEstimateEstateWorth"))
-      row.text() should include(messagesApi("page.iht.filter.estimate.choice.over"))
+      row.text() must include(messagesApi("iht.roughEstimateEstateWorth"))
+      row.text() must include(messagesApi("page.iht.filter.estimate.choice.over"))
     }
 
     "contain a 'Change' link to go back to the estimate page" in {
       val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val link = doc.getElementById("change-estimate")
-      link.text() should include(messagesApi("iht.change"))
-      link.attr("href") should be(iht.controllers.filter.routes.EstimateController.onPageLoadWithoutJointAssets().url)
+      link.text() must include(messagesApi("iht.change"))
+      link.attr("href") must be(iht.controllers.filter.routes.EstimateController.onPageLoadWithoutJointAssets().url)
     }
 
   }

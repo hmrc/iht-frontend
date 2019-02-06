@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.application.exemptions.charity
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
@@ -26,20 +27,24 @@ import iht.models.application.exemptions._
 import iht.utils.CommonHelper
 import iht.views.html.application.exemption.charity.charity_number
 import play.api.mvc.{Call, Request}
-import uk.gov.hmrc.play.frontend.auth.AuthContext
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.IhtProperties._
+import javax.inject.Inject
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
 import scala.concurrent.Future
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-object CharityNumberController extends CharityNumberController with IhtConnectors {
+class CharityNumberControllerImpl @Inject()() extends CharityNumberController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait CharityNumberController extends EstateController {
 
-  val submitUrl = CommonHelper.addFragmentIdentifier(routes.CharityNumberController.onSubmit(), Some(ExemptionsCharitiesNumberID))
+
+  lazy val submitUrl = CommonHelper.addFragmentIdentifier(routes.CharityNumberController.onSubmit(), Some(ExemptionsCharitiesNumberID))
   val cancelUrl = routes.CharityDetailsOverviewController.onPageLoad()
 
   val updateApplicationDetails: (ApplicationDetails, Option[String], Charity) => (ApplicationDetails, Option[String]) =
@@ -65,7 +70,7 @@ trait CharityNumberController extends EstateController {
     optionID.map(id=>routes.CharityDetailsOverviewController.onEditPageLoad(id)))
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
+    implicit request => {
       withRegistrationDetails { regDetails =>
         Future.successful(Ok(iht.views.html.application.exemption.charity.charity_number(charityNumberForm,
           regDetails,
@@ -75,37 +80,42 @@ trait CharityNumberController extends EstateController {
     }
   }
 
-  def onEditPageLoad(id: String) = authorisedForIht {
-    implicit user => implicit request => {
+  def onEditPageLoad(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
       estateElementOnEditPageLoadWithNavigation[Charity](charityNumberForm,
             charity_number.apply,
             retrieveSectionDetailsOrExceptionIfInvalidID(id),
             editSubmitUrl(id),
-            editCancelUrl(id))
+            editCancelUrl(id),
+            userNino)
       }
   }
 
-  def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
       doSubmit(
         submitUrl = submitUrl,
-        cancelUrl = cancelUrl)
+        cancelUrl = cancelUrl,
+        None,
+        userNino)
     }
   }
 
-  def onEditSubmit(id: String) = authorisedForIht {
-    implicit user => implicit request => {
+  def onEditSubmit(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
       doSubmit(
         submitUrl= editSubmitUrl(id),
         cancelUrl= editCancelUrl(id),
-        Some(id))
+        Some(id),
+        userNino)
     }
   }
 
   private def doSubmit(submitUrl: Call,
                        cancelUrl: Call,
-                       charityId: Option[String] = None)(
-                        implicit user: AuthContext, request: Request[_]) = {
+                       charityId: Option[String] = None,
+                       userNino: Option[String])(
+                        implicit request: Request[_]) = {
     estateElementOnSubmitWithIdAndNavigation[Charity](
       charityNumberForm,
       charity_number.apply,
@@ -114,7 +124,8 @@ trait CharityNumberController extends EstateController {
       None,
       charityId,
       submitUrl,
-      cancelUrl
+      cancelUrl,
+      userNino
     )
   }
 }

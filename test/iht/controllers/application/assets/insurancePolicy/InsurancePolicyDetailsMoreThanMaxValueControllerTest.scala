@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,39 +30,32 @@ import scala.concurrent.Future
 
 class InsurancePolicyDetailsMoreThanMaxValueControllerTest extends ApplicationControllerTest{
 
-  val mockCachingConnector = mock[CachingConnector]
-  var mockIhtConnector = mock[IhtConnector]
-
   def controller = new InsurancePolicyDetailsMoreThanMaxValueController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new InsurancePolicyDetailsMoreThanMaxValueController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
-  }
-
-  before {
-    mockIhtConnector = mock[IhtConnector]
   }
 
   "InsurancePolicyDetailsMoreThanMaxValueController" must {
 
     "redirect to login page on PageLoad if the user is not logged in" in {
       val result = controllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to login page on Submit if the user is not logged in" in {
       val result = controllerNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
@@ -76,7 +69,7 @@ class InsurancePolicyDetailsMoreThanMaxValueControllerTest extends ApplicationCo
         storeAppDetailsInCache = true)
 
       val result = controller.onPageLoad (createFakeRequest())
-      status(result) shouldBe (OK)
+      status(result) mustBe (OK)
     }
 
     "save application and go to annuities page on submit when user selects Yes" in {
@@ -95,8 +88,8 @@ class InsurancePolicyDetailsMoreThanMaxValueControllerTest extends ApplicationCo
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = controller.onSubmit (request)
-      status(result) shouldBe (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.InsurancePolicyDetailsAnnuityController.onPageLoad.url))
+      status(result) mustBe (SEE_OTHER)
+      redirectLocation(result) must be (Some(routes.InsurancePolicyDetailsAnnuityController.onPageLoad.url))
     }
 
     "save application and go to annuities page on submit when the user had some data before" in {
@@ -118,8 +111,8 @@ class InsurancePolicyDetailsMoreThanMaxValueControllerTest extends ApplicationCo
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = controller.onSubmit (request)
-      status(result) shouldBe (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.InsurancePolicyDetailsAnnuityController.onPageLoad.url))
+      status(result) mustBe (SEE_OTHER)
+      redirectLocation(result) must be (Some(routes.InsurancePolicyDetailsAnnuityController.onPageLoad.url))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
@@ -129,7 +122,7 @@ class InsurancePolicyDetailsMoreThanMaxValueControllerTest extends ApplicationCo
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = controller.onSubmit (fakePostRequest)
-      status(result) shouldBe (BAD_REQUEST)
+      status(result) mustBe (BAD_REQUEST)
     }
 
     "redirect to kickout page when yes selected on submit" in {
@@ -148,8 +141,8 @@ class InsurancePolicyDetailsMoreThanMaxValueControllerTest extends ApplicationCo
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = controller.onSubmit (request)
-      status(result) shouldBe (SEE_OTHER)
-      redirectLocation(result) should be (Some(iht.controllers.application.routes.KickoutController.onPageLoad().url))
+      status(result) mustBe (SEE_OTHER)
+      redirectLocation(result) must be (Some(iht.controllers.application.routes.KickoutAppController.onPageLoad().url))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

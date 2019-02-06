@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,36 +16,39 @@
 
 package iht.controllers.application.assets
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.IhtConnectors
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.Metrics
-import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.AllAssets
 import iht.models.application.basicElements.BasicEstateElement
-import iht.utils.ApplicationKickOutHelper
+import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import iht.views.html.application.asset._
-import play.api.i18n.Messages.Implicits._
+import javax.inject.Inject
 import play.api.Play.current
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
-import iht.utils.CommonHelper
+import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-object MoneyOwedController extends MoneyOwedController with IhtConnectors {
+class MoneyOwedControllerImpl @Inject()() extends MoneyOwedController with IhtConnectors {
   def metrics : Metrics = Metrics
 }
 
 trait MoneyOwedController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyOwed)
 
-  def onPageLoad = authorisedForIht {
-    implicit user => implicit request =>
-      estateElementOnPageLoad[BasicEstateElement](moneyOwedForm, money_owed.apply, _.allAssets.flatMap(_.moneyOwed))
+
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request =>
+      estateElementOnPageLoad[BasicEstateElement](moneyOwedForm, money_owed.apply, _.allAssets.flatMap(_.moneyOwed), userNino)
   }
 
-  def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
       val updateApplicationDetails: (ApplicationDetails, Option[String], BasicEstateElement) =>
         (ApplicationDetails, Option[String]) =
         (appDetails, _, moneyOwed) => {
@@ -64,7 +67,8 @@ trait MoneyOwedController extends EstateController {
       estateElementOnSubmit[BasicEstateElement](moneyOwedForm,
         money_owed.apply,
         updateApplicationDetails,
-        CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionMoneyOwedID))
+        CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionMoneyOwedID)),
+        userNino
       )
     }
   }

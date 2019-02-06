@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,16 +16,21 @@
 
 package iht.controllers.application.exemptions
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.constants.IhtProperties
 import iht.controllers.application.ApplicationController
 import iht.models.RegistrationDetails
 import iht.models.application.exemptions._
 import iht.utils.StringHelper
+import javax.inject.Inject
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
 import scala.concurrent.Future
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
 /**
  *
@@ -33,17 +38,18 @@ import scala.concurrent.Future
  *
  */
 
-object ExemptionsOverviewController extends ExemptionsOverviewController with IhtConnectors
+class ExemptionsOverviewControllerImpl @Inject()() extends ExemptionsOverviewController with IhtConnectors
 
 trait ExemptionsOverviewController extends ApplicationController{
+
 
   def cachingConnector: CachingConnector
   def ihtConnector: IhtConnector
 
 
-  def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      withApplicationDetails { rd => ad =>
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      withApplicationDetails(userNino) { rd => ad =>
         val allExemptions = ad.allExemptions.fold(new AllExemptions())(exemptions => exemptions)
         val response = Ok(iht.views.html.application.exemption.exemptions_overview(
           ad,
@@ -54,7 +60,7 @@ trait ExemptionsOverviewController extends ApplicationController{
           rd))
         if (!ad.hasSeenExemptionGuidance.getOrElse(false)) {
           val changedAppDetails = ad copy (hasSeenExemptionGuidance = Some(true))
-          ihtConnector.saveApplication(StringHelper.getNino(user), changedAppDetails, rd.acknowledgmentReference).map(_=>response)
+          ihtConnector.saveApplication(StringHelper.getNino(userNino), changedAppDetails, rd.acknowledgmentReference).map(_=>response)
         } else {
           Future.successful(response)
         }

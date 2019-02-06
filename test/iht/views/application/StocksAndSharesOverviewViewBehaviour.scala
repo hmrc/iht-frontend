@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -89,8 +89,8 @@ trait StocksAndSharesOverviewViewBehaviour extends ViewTestHelper {
     "show the correct return link with right text" in {
       val f = fixture(dataWithQuestionsAnsweredNo)
       val returnLink = f.doc.getElementById("return-button")
-      returnLink.attr("href") shouldBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url + "#" + linkHash
-      returnLink.text() shouldBe messagesApi("page.iht.application.return.to.assetsOf",deceasedName)
+      returnLink.attr("href") mustBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url + "#" + linkHash
+      returnLink.text() mustBe messagesApi("page.iht.application.return.to.assetsOf",deceasedName)
     }
   }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ import uk.gov.hmrc.play.test.UnitSpec
 /**
   * Created by yusuf on 13/07/15.
   */
-class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar {
+class ApplicationDetailsTest extends FakeIhtApp with MockitoSugar {
 
   val applicationDetailsWithValues = CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts
   val emptyApplicationDetails = CommonBuilder.buildApplicationDetails
@@ -71,7 +71,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
   "areAllAssetsCompleted" must {
 
     "return Some(true) when all the assets section are completed" in {
-      applicationDetailsWithValues.areAllAssetsCompleted shouldBe Some(true)
+      applicationDetailsWithValues.areAllAssetsCompleted mustBe Some(true)
     }
 
     "return Some(false) when all the assets section are not completed" in {
@@ -81,34 +81,34 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       val appDetailsWithAssetsCompleted = CommonBuilder.buildApplicationDetailsWithAllAssets.copy(
         allAssets = Some(assets.copy(heldInTrust = Some(inCompleteHeldAndTrustSection))))
 
-      appDetailsWithAssetsCompleted.areAllAssetsCompleted shouldBe Some(false)
+      appDetailsWithAssetsCompleted.areAllAssetsCompleted mustBe Some(false)
     }
   }
 
   "isCompleteProperties" must {
     "return Some(true) when the properties section is complete" in {
-      applicationDetailsWithValues.isCompleteProperties shouldBe Some(true)
+      applicationDetailsWithValues.isCompleteProperties mustBe Some(true)
     }
 
     "return Some(false) when the properties section is not complete" in {
 
       val appDetails = applicationDetailsWithValues.copy(propertyList = Nil)
 
-      appDetails.isCompleteProperties shouldBe Some(false)
+      appDetails.isCompleteProperties mustBe Some(false)
     }
 
     "return None when the properties section has not been started at all" in {
-      emptyApplicationDetails.isCompleteProperties shouldBe empty
+      emptyApplicationDetails.isCompleteProperties mustBe empty
     }
   }
 
   "totalAssetsValue" must {
     "return the correct value of the assets" in {
-      applicationDetailsWithValues.totalAssetsValue shouldBe BigDecimal(26190)
+      applicationDetailsWithValues.totalAssetsValue mustBe BigDecimal(26190)
     }
 
     "return 0 as the assets value when there is no asset entered" in {
-      emptyApplicationDetails.totalAssetsValue shouldBe BigDecimal(0)
+      emptyApplicationDetails.totalAssetsValue mustBe BigDecimal(0)
     }
 
   }
@@ -123,7 +123,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
         isReservation = Some(false), isGivenInLast7Years = Some(true))
       val appDetails = emptyApplicationDetails.copy(allGifts = Some(gifts), giftsList = Some(giftsForSevenYearsList))
 
-      appDetails.totalPastYearsGiftsOption shouldBe Some(2000.00)
+      appDetails.totalPastYearsGiftsOption mustBe Some(2000.00)
     }
 
     "return correct value with option when gift values entered but not exemptions" in {
@@ -132,7 +132,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
           Seq(buildPreviousYearGift(Some(100), None), buildPreviousYearGift(Some(50), None))
         ))
 
-      appDetails.totalPastYearsGiftsOption should be(Some(BigDecimal(150)))
+      appDetails.totalPastYearsGiftsOption must be(Some(BigDecimal(150)))
     }
 
     "return None where gift values are not provided" in {
@@ -140,7 +140,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
         isReservation = Some(false), isGivenInLast7Years = Some(true))
       val appDetails = emptyApplicationDetails.copy(allGifts = Some(gifts))
 
-      appDetails.totalPastYearsGiftsOption shouldBe empty
+      appDetails.totalPastYearsGiftsOption mustBe empty
     }
   }
 
@@ -151,7 +151,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
           Seq(buildPreviousYearGift(Some(100), Some(30)), buildPreviousYearGift(Some(50), Some(30)))
         ))
 
-      appDetails.totalPastYearsGiftsValueExcludingExemptionsOption shouldBe Some(BigDecimal(150))
+      appDetails.totalPastYearsGiftsValueExcludingExemptionsOption mustBe Some(BigDecimal(150))
     }
 
     "return correct value with option when gifts values entered but not exemptions" in {
@@ -160,7 +160,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
           Seq(buildPreviousYearGift(Some(100), None), buildPreviousYearGift(Some(50), None))
         ))
 
-      appDetails.totalPastYearsGiftsValueExcludingExemptionsOption shouldBe Some(BigDecimal(150))
+      appDetails.totalPastYearsGiftsValueExcludingExemptionsOption mustBe Some(BigDecimal(150))
     }
 
     "return None when exemptions entered but no gift values" in {
@@ -169,7 +169,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
           Seq(buildPreviousYearGift(None, Some(50)), buildPreviousYearGift(None, Some(30)))
         ))
 
-      appDetails.totalPastYearsGiftsValueExcludingExemptionsOption shouldBe empty
+      appDetails.totalPastYearsGiftsValueExcludingExemptionsOption mustBe empty
     }
   }
 
@@ -180,7 +180,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
           Seq(buildPreviousYearGift(Some(100), Some(30)), buildPreviousYearGift(Some(50), Some(30)))
         ))
 
-      appDetails.totalPastYearsGiftsExemptionsOption shouldBe Some(BigDecimal(60))
+      appDetails.totalPastYearsGiftsExemptionsOption mustBe Some(BigDecimal(60))
     }
 
     "return correct value with option when exemptions but no gift values entered" in {
@@ -190,7 +190,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
           Seq(buildPreviousYearGift(None, Some(30)), buildPreviousYearGift(None, Some(30)))
         ))
 
-      appDetails.totalPastYearsGiftsExemptionsOption shouldBe Some(BigDecimal(60))
+      appDetails.totalPastYearsGiftsExemptionsOption mustBe Some(BigDecimal(60))
     }
 
     "return None when gift values entered but no exemptions" in {
@@ -199,7 +199,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
           Seq(buildPreviousYearGift(Some(100), None), buildPreviousYearGift(Some(50), None))
         ))
 
-      appDetails.totalPastYearsGiftsExemptionsOption shouldBe empty
+      appDetails.totalPastYearsGiftsExemptionsOption mustBe empty
     }
 
     "return None when neither gifts nor exemptions entered" in {
@@ -208,7 +208,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
           Seq(buildPreviousYearGift(), buildPreviousYearGift())
         ))
 
-      appDetails.totalPastYearsGiftsExemptionsOption shouldBe empty
+      appDetails.totalPastYearsGiftsExemptionsOption mustBe empty
     }
   }
 
@@ -217,14 +217,14 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
     "return true if value entered" in {
       val appDetails = emptyApplicationDetails.copy(giftsList = Some(Seq(CommonBuilder.buildPreviousYearsGifts)))
 
-      appDetails.isValueEnteredForPastYearsGifts shouldBe true
+      appDetails.isValueEnteredForPastYearsGifts mustBe true
     }
 
     "return false is no value entered" in {
       val appDetails = emptyApplicationDetails.copy(giftsList =
         Some(Seq(CommonBuilder.buildPreviousYearsGifts.copy(value = None, exemptions = None))))
 
-      appDetails.isValueEnteredForPastYearsGifts shouldBe false
+      appDetails.isValueEnteredForPastYearsGifts mustBe false
     }
   }
 
@@ -235,32 +235,32 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
         isReservation = Some(false), isGivenInLast7Years = Some(true))
       val giftsValues = Seq(CommonBuilder.buildPreviousYearsGifts)
       val appDetails = emptyApplicationDetails.copy(allGifts = Some(gifts), giftsList = Some(giftsValues))
-      appDetails.areAllGiftSectionsCompleted shouldBe Some(true)
+      appDetails.areAllGiftSectionsCompleted mustBe Some(true)
     }
 
     "return Some(true) when the gifts section is completed and user has no gifts to declare" in {
       val gifts = AssetsWithAllSectionsSetToNoBuilder.buildAllGifts
       val appDetails = emptyApplicationDetails.copy(allGifts = Some(gifts))
-      appDetails.areAllGiftSectionsCompleted shouldBe Some(true)
+      appDetails.areAllGiftSectionsCompleted mustBe Some(true)
     }
 
     "return Some(false) when the gifts section is not completed because user has not answered all questions" in {
       val gifts = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(true))
       val appDetails = emptyApplicationDetails.copy(allGifts = Some(gifts))
-      appDetails.areAllGiftSectionsCompleted shouldBe Some(false)
+      appDetails.areAllGiftSectionsCompleted mustBe Some(false)
     }
 
     "return Some(false) when the gifts section is not completed because user has not entered any gift values" in {
       val gifts = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(true), isToTrust = Some(false),
         isReservation = Some(false), isGivenInLast7Years = Some(true))
       val appDetails = emptyApplicationDetails.copy(allGifts = Some(gifts))
-      appDetails.areAllGiftSectionsCompleted shouldBe Some(false)
+      appDetails.areAllGiftSectionsCompleted mustBe Some(false)
     }
 
     "return Some(false) when the gifts given away has answered yes and no gift values have been provided " in {
       val gifts = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(true))
       val appDetails = emptyApplicationDetails.copy(allGifts = Some(gifts), giftsList = None)
-      appDetails.areAllGiftSectionsCompleted shouldBe Some(false)
+      appDetails.areAllGiftSectionsCompleted mustBe Some(false)
     }
 
     "return Some(false) when the gifts section is not completed because user has provided gifts value but has not" +
@@ -269,7 +269,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       val giftsValues = Seq(CommonBuilder.buildPreviousYearsGifts)
 
       val appDetails = emptyApplicationDetails.copy(allGifts = Some(gifts), giftsList = Some(giftsValues))
-      appDetails.areAllGiftSectionsCompleted shouldBe Some(false)
+      appDetails.areAllGiftSectionsCompleted mustBe Some(false)
     }
 
   }
@@ -278,7 +278,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
 
     "return Some(true) when all debts section are complete" in {
       val appDetails = AssetsWithAllSectionsSetToNoBuilder.buildApplicationDetails
-      appDetails.areAllDebtsCompleted shouldBe Some(true)
+      appDetails.areAllDebtsCompleted mustBe Some(true)
     }
 
     "return Some(false) when all but one of debts section are complete" in {
@@ -286,18 +286,18 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
         allLiabilities = Some(AssetsWithAllSectionsSetToNoBuilder.buildAllLiabilities),
         allAssets = Some(CommonBuilder.buildAllAssets.copy(properties = Some(Properties(isOwned = Some(true))))
         ))
-      appDetails.areAllDebtsCompleted shouldBe Some(false)
+      appDetails.areAllDebtsCompleted mustBe Some(false)
     }
   }
 
   "totalLiabilitiesValue" must {
 
     "return correct value if liabilities value is other than 0" in {
-      applicationDetailsWithValues.totalLiabilitiesValue shouldBe BigDecimal(17400)
+      applicationDetailsWithValues.totalLiabilitiesValue mustBe BigDecimal(17400)
     }
 
     "return the liabilities value as 0 if there is no liabilities entered" in {
-      emptyApplicationDetails.totalLiabilitiesValue shouldBe BigDecimal(0)
+      emptyApplicationDetails.totalLiabilitiesValue mustBe BigDecimal(0)
     }
   }
 
@@ -306,13 +306,13 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
     "total liabilities value calculated correctly" in {
       val appDetails = CommonBuilder.buildApplicationDetails copy (
         allLiabilities = Some(CommonBuilder.buildAllLiabilitiesWithAllSectionsFilled))
-      appDetails.totalLiabilitiesValueOption shouldBe Some(BigDecimal(17400))
+      appDetails.totalLiabilitiesValueOption mustBe Some(BigDecimal(17400))
     }
 
     "total liabilities value None where no liabilities" in {
       val appDetails = CommonBuilder.buildApplicationDetails copy (allLiabilities = None)
       val res = appDetails.totalLiabilitiesValue
-      appDetails.totalLiabilitiesValueOption shouldBe None
+      appDetails.totalLiabilitiesValueOption mustBe None
     }
   }
 
@@ -331,7 +331,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
           mortgages = Some(CommonBuilder.buildMortgageEstateElement.copy(isOwned = Some(false)))))
       )
 
-      appDetails.isCompleteMortgages shouldBe Some(true)
+      appDetails.isCompleteMortgages mustBe Some(true)
     }
 
     "return Some(false) when there is a property and mortgage section is not complete" in {
@@ -347,7 +347,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
           mortgages = None))
       )
 
-      appDetails.isCompleteMortgages shouldBe Some(false)
+      appDetails.isCompleteMortgages mustBe Some(false)
     }
 
     "return Some(false) when property and mortgages list size does not match" in {
@@ -369,18 +369,18 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
           mortgages = Some(CommonBuilder.buildMortgageEstateElement.copy(isOwned = Some(true), mortgageList))))
       )
 
-      appDetails.isCompleteMortgages shouldBe Some(false)
+      appDetails.isCompleteMortgages mustBe Some(false)
     }
 
     "return None when the properties section has not been started at all" in {
-      emptyApplicationDetails.isCompleteProperties shouldBe empty
+      emptyApplicationDetails.isCompleteProperties mustBe empty
     }
   }
 
   "areAllAssetsGiftsAndDebtsCompleted" must {
 
     "return true when assets, gifts, debts sections are complete and no exemptions" in {
-      applicationDetailsWithValues.areAllAssetsGiftsAndDebtsCompleted shouldBe true
+      applicationDetailsWithValues.areAllAssetsGiftsAndDebtsCompleted mustBe true
     }
 
     "return true when assets, gifts and debts sections are complete" in {
@@ -393,11 +393,11 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
           Some("1"), Some("testCharity"), Some("123456"), Some(BigDecimal(80000))))
       )
 
-      appDetails.areAllAssetsGiftsAndDebtsCompleted shouldBe true
+      appDetails.areAllAssetsGiftsAndDebtsCompleted mustBe true
     }
 
     "return false when any of or all of assets, gifts and debts sections are not complete" in {
-      emptyApplicationDetails.areAllAssetsGiftsAndDebtsCompleted shouldBe false
+      emptyApplicationDetails.areAllAssetsGiftsAndDebtsCompleted mustBe false
     }
   }
 
@@ -413,7 +413,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
           Some(BigDecimal(1000))))
       )
 
-      appDetails.isCompleteCharities shouldBe Some(true)
+      appDetails.isCompleteCharities mustBe Some(true)
     }
 
     "return Some(true) when charities question has answered as no" in {
@@ -425,7 +425,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
         charities = Nil
       )
 
-      appDetails.isCompleteCharities shouldBe Some(true)
+      appDetails.isCompleteCharities mustBe Some(true)
     }
 
     "return Some(false) when charities question is answered yes but no charity has been added" in {
@@ -436,7 +436,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
         charities = Nil
       )
 
-      appDetails.isCompleteCharities shouldBe Some(false)
+      appDetails.isCompleteCharities mustBe Some(false)
     }
 
     "return Some(false) when charities question is answered yes but no charity value has been added" in {
@@ -447,11 +447,11 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
         charities = Seq(CommonBuilder.buildCharity.copy(Some("1"), Some("abc"), Some("121212")))
       )
 
-      appDetails.isCompleteCharities shouldBe Some(false)
+      appDetails.isCompleteCharities mustBe Some(false)
     }
 
     "return None when the charities section has not been started at all" in {
-      emptyApplicationDetails.isCompleteCharities shouldBe empty
+      emptyApplicationDetails.isCompleteCharities mustBe empty
     }
   }
 
@@ -466,7 +466,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
         qualifyingBodies = Seq(CommonBuilder.buildQualifyingBody.copy(Some("1"), Some("abc"), Some(BigDecimal(1000))))
       )
 
-      appDetails.isCompleteQualifyingBodies shouldBe Some(true)
+      appDetails.isCompleteQualifyingBodies mustBe Some(true)
     }
 
     "return Some(true) when qualifying bodies question has answered as no" in {
@@ -478,7 +478,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
         qualifyingBodies = Nil
       )
 
-      appDetails.isCompleteQualifyingBodies shouldBe Some(true)
+      appDetails.isCompleteQualifyingBodies mustBe Some(true)
     }
 
     "return Some(false) when qualifying bodies question is answered yes but no qualifying body  has been added" in {
@@ -489,7 +489,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
         qualifyingBodies = Nil
       )
 
-      appDetails.isCompleteQualifyingBodies shouldBe Some(false)
+      appDetails.isCompleteQualifyingBodies mustBe Some(false)
     }
 
     "return Some(false) when qualifying bodies question is answered yes but " +
@@ -501,11 +501,11 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
         qualifyingBodies = Seq(CommonBuilder.buildQualifyingBody.copy(Some("1"), Some("abc")))
       )
 
-      appDetails.isCompleteQualifyingBodies shouldBe Some(false)
+      appDetails.isCompleteQualifyingBodies mustBe Some(false)
     }
 
     "return None when the qualifying bodies section has not been started at all" in {
-      emptyApplicationDetails.isCompleteQualifyingBodies shouldBe empty
+      emptyApplicationDetails.isCompleteQualifyingBodies mustBe empty
     }
   }
 
@@ -518,7 +518,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       val exemptions = CommonBuilder.buildAllExemptions.copy(partner, charities, qualifyingBodies)
 
       val appDetails = emptyApplicationDetails.copy(allExemptions = Some(exemptions))
-      appDetails.isExemptionsCompletedWithNoValue shouldBe true
+      appDetails.isExemptionsCompletedWithNoValue mustBe true
     }
 
     "return false when all exemptions sections have not been completed" in {
@@ -528,7 +528,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       val exemptions = CommonBuilder.buildAllExemptions.copy(partner, charities, qualifyingBodies)
 
       val appDetails = emptyApplicationDetails.copy(allExemptions = Some(exemptions))
-      appDetails.isExemptionsCompletedWithNoValue shouldBe false
+      appDetails.isExemptionsCompletedWithNoValue mustBe false
     }
   }
 
@@ -541,7 +541,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       val exemptions = CommonBuilder.buildAllExemptions.copy(None, charities, qualifyingBodies)
 
       val appDetails = CommonBuilder.buildApplicationDetails.copy(allExemptions = Some(exemptions))
-      appDetails.isExemptionsCompletedWithoutPartnerExemptionWithNoValue shouldBe true
+      appDetails.isExemptionsCompletedWithoutPartnerExemptionWithNoValue mustBe true
     }
 
     "return false when all exemptions section have not been completed" in {
@@ -550,14 +550,14 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       val exemptions = CommonBuilder.buildAllExemptions.copy(None, charities, qualifyingBodies)
 
       val appDetails = CommonBuilder.buildApplicationDetails.copy(allExemptions = Some(exemptions))
-      appDetails.isExemptionsCompletedWithoutPartnerExemptionWithNoValue shouldBe false
+      appDetails.isExemptionsCompletedWithoutPartnerExemptionWithNoValue mustBe false
     }
   }
 
   "noExemptionsHaveBeenAnswered" must {
 
     "return true when no exemptions section has been answered" in {
-      emptyApplicationDetails.noExemptionsHaveBeenAnswered shouldBe true
+      emptyApplicationDetails.noExemptionsHaveBeenAnswered mustBe true
     }
 
     "return false when no exemptions section has been answered" in {
@@ -566,7 +566,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
         qualifyingBody = Some(CommonBuilder.buildBasicExemptionElement.copy(Some(true)))
       )))
 
-      appDetails.noExemptionsHaveBeenAnswered shouldBe false
+      appDetails.noExemptionsHaveBeenAnswered mustBe false
     }
   }
 
@@ -578,11 +578,11 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       val exemptions = CommonBuilder.buildAllExemptions.copy(None, charities, qualifyingBodies)
 
       val appDetails = emptyApplicationDetails.copy(allExemptions = Some(exemptions))
-      appDetails.isValueEnteredForExemptions shouldBe true
+      appDetails.isValueEnteredForExemptions mustBe true
     }
 
     "return false when no exemptions section has been answered " in {
-      emptyApplicationDetails.isValueEnteredForExemptions shouldBe false
+      emptyApplicationDetails.isValueEnteredForExemptions mustBe false
     }
   }
 
@@ -597,11 +597,11 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
         qualifyingBodies = Seq(qualifyingBody)
       )
 
-      appDetailsWithExemptions.totalExemptionsValue shouldBe BigDecimal(12389.45)
+      appDetailsWithExemptions.totalExemptionsValue mustBe BigDecimal(12389.45)
     }
 
     "return 0 as all exemptions value" in {
-      emptyApplicationDetails.totalExemptionsValue shouldBe BigDecimal(0)
+      emptyApplicationDetails.totalExemptionsValue mustBe BigDecimal(0)
     }
 
   }
@@ -617,18 +617,18 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
         qualifyingBodies = Seq(qualifyingBody)
       )
 
-      appDetailsWithExemptions.totalExemptionsValueOption shouldBe Some(BigDecimal(12389.45))
+      appDetailsWithExemptions.totalExemptionsValueOption mustBe Some(BigDecimal(12389.45))
     }
 
     "return None where no exemption is entered" in {
-     emptyApplicationDetails.totalExemptionsValueOption shouldBe empty
+     emptyApplicationDetails.totalExemptionsValueOption mustBe empty
     }
   }
 
   "netValueAfterExemptionAndDebtsForPositiveExemption" must {
 
     "return correct value when there is no exemptions" in {
-      applicationDetailsWithValues.netValueAfterExemptionAndDebtsForPositiveExemption shouldBe BigDecimal(29193)
+      applicationDetailsWithValues.netValueAfterExemptionAndDebtsForPositiveExemption mustBe BigDecimal(29193)
     }
 
     "return correct value when there is positive exemptions value" in {
@@ -641,7 +641,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
         qualifyingBodies = Seq(qualifyingBody)
       )
 
-      appDetailsWithExemptions.netValueAfterExemptionAndDebtsForPositiveExemption shouldBe BigDecimal(11493)
+      appDetailsWithExemptions.netValueAfterExemptionAndDebtsForPositiveExemption mustBe BigDecimal(11493)
     }
   }
 
@@ -649,30 +649,30 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
 
     "return false if no widow check section" in {
       val appDetails = emptyApplicationDetails.copy(widowCheck = None)
-      appDetails.isWidowCheckSectionCompleted shouldBe false
+      appDetails.isWidowCheckSectionCompleted mustBe false
     }
 
     "return true if widow check section, no boolean value but a valid date" in {
       val appDetails = emptyApplicationDetails.copy(widowCheck =
         Some(CommonBuilder.buildWidowedCheck.copy(None, Some(new LocalDate(2011, 12, 12)))))
-      appDetails.isWidowCheckSectionCompleted shouldBe true
+      appDetails.isWidowCheckSectionCompleted mustBe true
     }
 
     "return false if widow check section with boolean value of true but no date value" in {
       val appDetails = emptyApplicationDetails.copy(widowCheck = Some(WidowCheck(Some(true), None)))
-      appDetails.isWidowCheckSectionCompleted shouldBe false
+      appDetails.isWidowCheckSectionCompleted mustBe false
     }
 
     "return true if widow check section with boolean value of false and date value" in {
       val appDetails = emptyApplicationDetails.copy(widowCheck =
         Some(CommonBuilder.buildWidowedCheck.copy(Some(false), Some(new LocalDate(2011, 12, 12)))))
-      appDetails.isWidowCheckSectionCompleted shouldBe true
+      appDetails.isWidowCheckSectionCompleted mustBe true
     }
 
     "return true if widow check section with boolean value of true and date value" in {
       val appDetails = emptyApplicationDetails.copy(widowCheck =
         Some(CommonBuilder.buildWidowedCheck.copy(Some(true), Some(new LocalDate(2011, 12, 12)))))
-      appDetails.isWidowCheckSectionCompleted shouldBe true
+      appDetails.isWidowCheckSectionCompleted mustBe true
     }
 
   }
@@ -683,17 +683,17 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       val widowCheck = CommonBuilder.buildWidowedCheck.copy(Some(true))
       val appDetails =  emptyApplicationDetails.copy(widowCheck = Some(widowCheck))
 
-      appDetails.isWidowCheckQuestionAnswered shouldBe true
+      appDetails.isWidowCheckQuestionAnswered mustBe true
     }
 
     "return false when question has not been answered" in {
       val widowCheck = CommonBuilder.buildWidowedCheck.copy(None,Some(new LocalDate(2011, 12, 12)))
       val appDetails = emptyApplicationDetails.copy(widowCheck = Some(widowCheck))
-      appDetails.isWidowCheckQuestionAnswered shouldBe false
+      appDetails.isWidowCheckQuestionAnswered mustBe false
     }
 
     "return false when tnrb flow has not been started at all" in {
-      emptyApplicationDetails.isWidowCheckQuestionAnswered shouldBe false
+      emptyApplicationDetails.isWidowCheckQuestionAnswered mustBe false
     }
   }
 
@@ -706,14 +706,14 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       val appDetails = emptyApplicationDetails.copy(widowCheck = Some(widowCheck),
         increaseIhtThreshold = Some(tnrbEligibilty))
 
-      appDetails.isSuccessfulTnrbCase shouldBe true
+      appDetails.isSuccessfulTnrbCase mustBe true
     }
 
     "return false when WidowCheck section has not been started" in {
 
       val appDetails = emptyApplicationDetails
 
-      appDetails.isSuccessfulTnrbCase shouldBe false
+      appDetails.isSuccessfulTnrbCase mustBe false
     }
 
     "return false when none of TnrbEligibility questions is answered" in {
@@ -721,7 +721,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
 
       val appDetails = emptyApplicationDetails.copy(widowCheck = Some(widowCheck))
 
-      appDetails.isSuccessfulTnrbCase shouldBe false
+      appDetails.isSuccessfulTnrbCase mustBe false
     }
 
     "return false when WidowCheck and TnrbEligibility section are not complete" in {
@@ -731,7 +731,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       val appDetails = emptyApplicationDetails.copy(widowCheck = Some(widowCheck),
         increaseIhtThreshold = Some(tnrbEligibilty))
 
-      appDetails.isSuccessfulTnrbCase shouldBe false
+      appDetails.isSuccessfulTnrbCase mustBe false
     }
 
     "return false when WidowCheck section is not complete" in {
@@ -741,7 +741,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       val appDetails = emptyApplicationDetails.copy(widowCheck = Some(widowCheck),
         increaseIhtThreshold = Some(tnrbEligibilty))
 
-      appDetails.isSuccessfulTnrbCase shouldBe false
+      appDetails.isSuccessfulTnrbCase mustBe false
     }
 
     "return false when TnrbEligibility section is not complete" in {
@@ -751,7 +751,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       val appDetails = emptyApplicationDetails.copy(widowCheck = Some(widowCheck),
         increaseIhtThreshold = Some(tnrbEligibilty))
 
-      appDetails.isSuccessfulTnrbCase shouldBe false
+      appDetails.isSuccessfulTnrbCase mustBe false
     }
 
     "return false when TnrbEligibility section has any kickout condition" in {
@@ -761,23 +761,23 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       val appDetails = emptyApplicationDetails.copy(widowCheck = Some(widowCheck),
         increaseIhtThreshold = Some(tnrbEligibilty))
 
-      appDetails.isSuccessfulTnrbCase shouldBe false
+      appDetails.isSuccessfulTnrbCase mustBe false
     }
   }
 
   "totalValue" must {
     "return correct value of assets entered" in {
-      applicationDetailsWithValues.totalValue shouldBe BigDecimal(29193)
+      applicationDetailsWithValues.totalValue mustBe BigDecimal(29193)
     }
 
     "return assets value as 0" in {
-      emptyApplicationDetails.totalValue shouldBe BigDecimal(0)
+      emptyApplicationDetails.totalValue mustBe BigDecimal(0)
     }
   }
 
   "totalNetValue" must {
     "return corret net value when there is no exemptions" in {
-      applicationDetailsWithValues.totalNetValue shouldBe BigDecimal(11793)
+      applicationDetailsWithValues.totalNetValue mustBe BigDecimal(11793)
     }
 
     "return corret net value when there are some exemptions entered" in {
@@ -790,7 +790,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
         qualifyingBodies = Seq(qualifyingBody)
       )
 
-      appDetailsWithExemptions.totalNetValue shouldBe BigDecimal(10693)
+      appDetailsWithExemptions.totalNetValue mustBe BigDecimal(10693)
     }
   }
 
@@ -800,18 +800,18 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       val appDetails = emptyApplicationDetails.copy(increaseIhtThreshold = Some(CommonBuilder.buildTnrbEligibility),
         widowCheck = Some(CommonBuilder.buildWidowedCheck.copy(Some(true), Some(new LocalDate(2012, 1, 1)))))
 
-      appDetails.currentThreshold shouldBe IhtProperties.transferredNilRateBand
+      appDetails.currentThreshold mustBe IhtProperties.transferredNilRateBand
     }
 
     "return threshold as 325K if Tnrb has not been started" in {
-      emptyApplicationDetails.currentThreshold shouldBe IhtProperties.exemptionsThresholdValue
+      emptyApplicationDetails.currentThreshold mustBe IhtProperties.exemptionsThresholdValue
     }
 
     "return threshold as 325K if Tnrb is only partially completed" in {
       val appDetails = emptyApplicationDetails.copy(increaseIhtThreshold = Some(CommonBuilder.buildTnrbEligibility copy
         (isGiftMadeBeforeDeath = Some(true))))
 
-      appDetails.currentThreshold shouldBe IhtProperties.exemptionsThresholdValue
+      appDetails.currentThreshold mustBe IhtProperties.exemptionsThresholdValue
     }
   }
 

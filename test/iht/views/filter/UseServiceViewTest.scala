@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,53 +40,53 @@ class UseServiceViewTest extends ViewTestHelper with UseService {
     }
 
     "generate appropriate content for the title" in {
-      val result = use_service(under325000, false, "iht.shouldUseOnlineService")(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = use_service(under325000, false, "iht.mustUseOnlineService")(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
 
-      titleElement.text should include(messagesApi("iht.shouldUseOnlineService"))
+      titleElement.text must include(messagesApi("iht.mustUseOnlineService"))
     }
 
     "generate appropriate content for the browser title" in {
-      val result = use_service(under325000, false, "iht.shouldUseOnlineService")(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = use_service(under325000, false, "iht.mustUseOnlineService")(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val browserTitleElement = doc.getElementsByTag("title").first
 
-      browserTitleElement.text should include(messagesApi("iht.shouldUseOnlineService"))
+      browserTitleElement.text must include(messagesApi("iht.mustUseOnlineService"))
     }
 
     "generate appropriate content for under 325000" in {
       val result = use_service(under325000, false, "")(fakeRequest, applicationMessages, formPartialRetriever)
       val content = contentAsString(result)
 
-      content should include(messagesApi("page.iht.filter.useService.under325000.paragraph0"))
-      content should include(messagesApi("page.iht.filter.useService.paragraphFinal"))
-      content shouldNot include(messagesApi("page.iht.filter.useService.between325000And1Million.section1.title"))
-      content shouldNot include(messagesApi("page.iht.filter.useService.between325000And1Million.section2.title"))
-      content shouldNot include(messagesApi("page.iht.filter.useService.between325000And1Million.section3.title"))
+      content must include(messagesApi("page.iht.filter.useService.under325000.paragraph0"))
+      content must include(messagesApi("page.iht.filter.useService.paragraphFinal"))
+      content mustNot include(messagesApi("page.iht.filter.useService.between325000And1Million.section1.title"))
+      content mustNot include(messagesApi("page.iht.filter.useService.between325000And1Million.section2.title"))
+      content mustNot include(messagesApi("page.iht.filter.useService.between325000And1Million.section3.title"))
     }
 
     "generate appropriate content for between 325000 and 1 million" in {
       val result = use_service(between325000and1million, false, "")(fakeRequest, applicationMessages, formPartialRetriever)
       val content = contentAsString(result)
 
-      content should include(messagesApi("page.iht.filter.useService.between325000And1Million.section1.title"))
-      content should include(messagesApi("page.iht.filter.useService.between325000And1Million.section2.title"))
-      content should include(messagesApi("page.iht.filter.useService.between325000And1Million.section3.title"))
+      content must include(messagesApi("page.iht.filter.useService.between325000And1Million.section1.title"))
+      content must include(messagesApi("page.iht.filter.useService.between325000And1Million.section2.title"))
+      content must include(messagesApi("page.iht.filter.useService.between325000And1Million.section3.title"))
     }
 
     "display content about other ways to report the value of the estate when value is under 325000" in {
       val result = use_service(under325000, false, "")(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val h2 = doc.getElementById("other-ways-to-report")
-      h2.text() should be(messagesApi("page.iht.filter.useService.under325000.otherWaysToReportValue"))
+      h2.text() must be(messagesApi("page.iht.filter.useService.under325000.otherWaysToReportValue"))
     }
 
     "does not display content about other ways to report the value of the estate when value is between 325000 and 1 million" in {
       val result = use_service(between325000and1million, false, "")(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val h2 = doc.getElementById("other-ways-to-reportOver")
-      h2.text() shouldBe pageIHTFilterUseServiceBetween325000And1MillionSection4P1
+      h2.text() mustBe pageIHTFilterUseServiceBetween325000And1MillionSection4P1
     }
 
     "contain a link with the button class with the text 'Continue' for values under 325000" in {
@@ -99,7 +99,7 @@ class UseServiceViewTest extends ViewTestHelper with UseService {
       val result = use_service(under325000, false, "")(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val paragraph0 = doc.getElementById("paragraph-final")
-      paragraph0.text() should be(messagesApi("page.iht.filter.useService.paragraphFinal"))
+      paragraph0.text() must be(messagesApi("page.iht.filter.useService.paragraphFinal"))
     }
 
     "contain a link with the button class with the text 'Continue to online service' " +
@@ -108,7 +108,7 @@ class UseServiceViewTest extends ViewTestHelper with UseService {
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 
-      button.text() shouldBe pageIHTFilterUseServiceBetween325000And1MillionReport
+      button.text() mustBe pageIHTFilterUseServiceBetween325000And1MillionReport
     }
 
     "contain a link to the TNRB and RNRB guidance, and IHT400, when value is between 325 and 1 million" in {
@@ -118,9 +118,9 @@ class UseServiceViewTest extends ViewTestHelper with UseService {
       val rnrb = doc.getElementById("rnrb-link")
       val iht400 = doc.getElementById("IHT400-form")
 
-      tnrb.attr("href") should be("https://www.gov.uk/guidance/inheritance-tax-transfer-of-threshold")
-      rnrb.attr("href") should be("https://www.gov.uk/guidance/check-if-you-can-get-an-additional-inheritance-tax-threshold")
-      iht400.attr("href") should be("https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400")
+      tnrb.attr("href") must be("https://www.gov.uk/guidance/inheritance-tax-transfer-of-threshold")
+      rnrb.attr("href") must be("https://www.gov.uk/guidance/check-if-you-can-get-an-additional-inheritance-tax-threshold")
+      iht400.attr("href") must be("https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400")
     }
 
     "contain a link with the button class with href attribute pointing to the start pages" in {
@@ -128,7 +128,7 @@ class UseServiceViewTest extends ViewTestHelper with UseService {
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 
-      button.attr("href") should be(iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad().url)
+      button.attr("href") must be(iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad().url)
     }
 
     "contain a 'Previous answers' section" in {
@@ -141,47 +141,47 @@ class UseServiceViewTest extends ViewTestHelper with UseService {
       val result = use_service(under325000, false, "")(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val link = doc.getElementById("start-again")
-      link.text() should be(messagesApi("iht.startAgain"))
-      link.attr("href") should be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
+      link.text() must be(messagesApi("iht.startAgain"))
+      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
     }
 
     "contain a row showing the user's answer to the previous domicile question" in {
       val result = use_service(under325000, false, "")(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val row = doc.getElementById("domicile-row")
-      row.text() should include(messagesApi("page.iht.registration.deceasedPermanentHome.title"))
-      row.text() should include(messagesApi("iht.countries.englandOrWales"))
+      row.text() must include(messagesApi("page.iht.registration.deceasedPermanentHome.title"))
+      row.text() must include(messagesApi("iht.countries.englandOrWales"))
     }
 
     "contain a 'Change' link to go back to the domicile page" in {
       val result = use_service(under325000, false, "")(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val link = doc.getElementById("change-domicile")
-      link.text() should include(messagesApi("iht.change"))
-      link.attr("href") should be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
+      link.text() must include(messagesApi("iht.change"))
+      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
     }
 
     "contain a row showing the user's answer to the previous estimate question when given the under 32500 parameter" in {
       val result = use_service(under325000, false, "")(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val row = doc.getElementById("estimate-row")
-      row.text() should include(messagesApi("iht.roughEstimateEstateWorth"))
-      row.text() should include(messagesApi("page.iht.filter.estimate.choice.under"))
+      row.text() must include(messagesApi("iht.roughEstimateEstateWorth"))
+      row.text() must include(messagesApi("page.iht.filter.estimate.choice.under"))
     }
 
     "contain a row showing the user's answer to the previous estimate question when given the between parameter" in {
       val result = use_service(between325000and1million, false, "")(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val rows = doc.getElementsByAttributeValue("id","estimate-row")
-      rows.size() shouldEqual 1
+      rows.size() mustEqual 1
     }
 
     "contain a 'Change' link to go back to the estimate page" in {
       val result = use_service(under325000, false, "")(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val link = doc.getElementById("change-estimate")
-      link.text() should include(messagesApi("iht.change"))
-      link.attr("href") should be(iht.controllers.filter.routes.EstimateController.onPageLoadWithoutJointAssets().url)
+      link.text() must include(messagesApi("iht.change"))
+      link.attr("href") must be(iht.controllers.filter.routes.EstimateController.onPageLoadWithoutJointAssets().url)
     }
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.registration.deceased
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnectors}
 import iht.controllers.ControllerHelper.Mode
 import iht.controllers.registration.{RegistrationController, routes => registrationRoutes}
@@ -25,15 +26,19 @@ import iht.metrics.Metrics
 import iht.models.{DeceasedDetails, RegistrationDetails}
 import iht.utils.{DeceasedInfoHelper, SessionHelper}
 import iht.views.html.registration.{deceased => views}
+import javax.inject.Inject
 import org.joda.time.LocalDate
 import play.api.Play.current
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc._
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
 import scala.concurrent.Future
 
-object AboutDeceasedController extends AboutDeceasedController with IhtConnectors {
+class AboutDeceasedControllerImpl @Inject()() extends AboutDeceasedController with IhtConnectors {
   def metrics: Metrics = Metrics
   override def deceasedForms = DeceasedForms
 }
@@ -49,8 +54,7 @@ trait AboutDeceasedController extends RegistrationController {
   def onEditPageLoad = pageLoad(routes.AboutDeceasedController.onEditSubmit(), Mode.Edit, cancelToRegSummary)
 
   def pageLoad(actionCall: Call, mode: Mode.Value = Mode.Standard,
-               cancelCall: Option[Call] = None) = authorisedForIht {
-    implicit user =>
+               cancelCall: Option[Call] = None) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
       implicit request =>
         withRegistrationDetailsRedirectOnGuardCondition { rd =>
           val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd)
@@ -61,7 +65,7 @@ trait AboutDeceasedController extends RegistrationController {
           } else {
             okForEditPageLoad(f, Some(deceasedName))
           }
-          val result = okResult.withSession(SessionHelper.ensureSessionHasNino(request.session, user))
+          val result = okResult.withSession(SessionHelper.ensureSessionHasNino(request.session, userNino))
           Future.successful(result)
         }
   }
@@ -85,7 +89,6 @@ trait AboutDeceasedController extends RegistrationController {
 
   def submit(onFailureActionCall: Call, mode: Mode.Value = Mode.Standard,
              cancelCall: Option[Call] = None) = authorisedForIht {
-    implicit user =>
       implicit request =>
         withRegistrationDetailsRedirectOnGuardCondition { (rd: RegistrationDetails) =>
 

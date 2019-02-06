@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,16 +27,16 @@ object GenericOverviewHelper extends ViewTestHelper {
 
   def headerQuestionShouldBeUnanswered(doc: Document, elementId: String, message: String, url: String) = {
     val heading = doc.getElementById(s"$elementId-section").getElementsByTag("h2").first
-    heading.text shouldBe message
+    heading.text mustBe message
 
     val link = doc.getElementById(elementId)
     messagesShouldBePresent(link.text, messagesApi("site.link.giveAnswer"))
-    link.attr("href") shouldBe url
+    link.attr("href") mustBe url
   }
 
   def headerShouldBeAnswered(doc: Document, elementId: String, messageKey: String) = {
     val heading = doc.getElementById(s"$elementId-heading").getElementsByTag("h2").first
-    heading.text shouldBe messagesApi(messageKey)
+    heading.text mustBe messagesApi(messageKey)
 
     assertNotRenderedByCssSelector(doc, s"#$elementId-heading #$elementId")
   }
@@ -44,24 +44,24 @@ object GenericOverviewHelper extends ViewTestHelper {
   def rowShouldBeAnswered(doc: Document, elementId: String, message: String, value: String, linkMessageKey: String, url: String) = {
     val li = doc.getElementById(elementId)
     val divs = li.getElementsByTag("div")
-    divs.get(0).text shouldBe message
-    divs.get(1).text shouldBe value
+    divs.get(0).text mustBe message
+    divs.get(1).text mustBe value
 
     val link = li.getElementsByTag("a").get(0)
     messagesShouldBePresent(link.text, messagesApi(linkMessageKey))
-    link.attr("href") shouldBe url
+    link.attr("href") mustBe url
 
   }
 
   def rowShouldBeUnAnswered(doc: Document, elementId: String, messageKey: String, linkMessageKey: String, url: String) = {
     val li = doc.getElementById(elementId)
     val divs = li.getElementsByTag("div")
-    divs.get(0).text shouldBe messagesApi(messageKey)
-    divs.get(1).text shouldBe ""
+    divs.get(0).text mustBe messagesApi(messageKey)
+    divs.get(1).text mustBe ""
 
     val link = li.getElementsByTag("a").get(0)
     messagesShouldBePresent(link.text, messagesApi(linkMessageKey))
-    link.attr("href") shouldBe url
+    link.attr("href") mustBe url
 
   }
 }

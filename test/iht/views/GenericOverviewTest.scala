@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Call
 import uk.gov.hmrc.play.test.UnitSpec
 
-class GenericOverviewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
+class GenericOverviewTest extends FakeIhtApp with HtmlSpec {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val call1 = CommonBuilder.DefaultCall1

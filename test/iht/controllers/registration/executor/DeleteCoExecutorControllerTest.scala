@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,20 +35,16 @@ import scala.concurrent.Future
 
 class DeleteCoExecutorControllerTest extends RegistrationControllerTest with BeforeAndAfter {
 
-  before {
-    mockCachingConnector = mock[CachingConnector]
-  }
-
   def deleteCoExecutorController = new DeleteCoExecutorController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def deleteCoExecutorControllerNotAuthorised = new DeleteCoExecutorController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
@@ -62,15 +58,15 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
   "DeleteCoExecutor controller" must {
 
     "redirect to GG login page on PageLoad if the user is not logged in" in {
-      val result = deleteCoExecutorControllerNotAuthorised.onPageLoad(coExecutor.id.getOrElse(""))(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(loginUrl))
+      val result = deleteCoExecutorControllerNotAuthorised.onPageLoad(coExecutor.id.getOrElse(""))(createFakeRequest(isAuthorised = false, authRetrieveNino = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(loginUrl))
     }
 
     "redirect to GG login page on Submit if the user is not logged in" in {
-      val result = deleteCoExecutorControllerNotAuthorised.onSubmit(coExecutor.id.getOrElse(""))(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(loginUrl))
+      val result = deleteCoExecutorControllerNotAuthorised.onSubmit(coExecutor.id.getOrElse(""))(createFakeRequest(isAuthorised = false, authRetrieveNino = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(loginUrl))
     }
 
     "if the registration details does not have areOthersApplying set then respond with an error" in {
@@ -80,8 +76,8 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
 
-      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequest())
-      status(result) shouldBe SEE_OTHER
+      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequest(authRetrieveNino = false))
+      status(result) mustBe SEE_OTHER
     }
 
     "if the registration details does not have more than one coExecutor set then respond with an error" in {
@@ -91,8 +87,8 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
 
-      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequest())
-      status(result) shouldBe SEE_OTHER
+      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequest(authRetrieveNino = false))
+      status(result) mustBe SEE_OTHER
     }
 
     "if the coexecutor with given id does not exist - respond with a server error" in {
@@ -100,9 +96,9 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
 
-      val result = deleteCoExecutorController.onPageLoad("2")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070"))
+      val result = deleteCoExecutorController.onPageLoad("2")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070", authRetrieveNino = false))
 
-      status(result) shouldBe (INTERNAL_SERVER_ERROR)
+      status(result) mustBe (INTERNAL_SERVER_ERROR)
     }
 
     "if the coexecutor with given id exists - respond with an OK" in {
@@ -110,9 +106,9 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
 
-      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070"))
+      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070", authRetrieveNino = false))
 
-      status(result) shouldBe(OK)
+      status(result) mustBe(OK)
     }
 
     "if the coexecutor with given id exists - the instruction must be visible" in {
@@ -120,10 +116,10 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
 
-      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070"))
+      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070", authRetrieveNino = false))
 
-      status(result) shouldBe(OK)
-      contentAsString(result) should include("Confirm that you want to delete this person")
+      status(result) mustBe(OK)
+      contentAsString(result) must include("Confirm that you want to delete this person")
     }
 
     "if the coexecutor with given id exists - the confirm or delete button must be visible" in {
@@ -131,10 +127,10 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
 
-      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070"))
+      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070", authRetrieveNino = false))
 
-      status(result) shouldBe(OK)
-      contentAsString(result) should include(messagesApi("site.button.confirmDelete"))
+      status(result) mustBe(OK)
+      contentAsString(result) must include(messagesApi("site.button.confirmDelete"))
     }
 
     "if the coexecutor with given id exists - a cancel link must be visible" in {
@@ -142,11 +138,11 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
 
-      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL = referrerURL, host = "localhost:9070"))
+      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL = referrerURL, host = "localhost:9070", authRetrieveNino = false))
 
-      status(result) shouldBe (OK)
-      contentAsString(result) should include(messagesApi("site.link.cancel"))
-      contentAsString(result) should include(messagesApi(routes.ExecutorOverviewController.onPageLoad().url))
+      status(result) mustBe (OK)
+      contentAsString(result) must include(messagesApi("site.link.cancel"))
+      contentAsString(result) must include(messagesApi(routes.ExecutorOverviewController.onPageLoad().url))
     }
 
     "if the coexecutor with given id exists - the name of the coexecutor must be visible" in {
@@ -154,10 +150,10 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
 
-      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070"))
+      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070", authRetrieveNino = false))
 
-      status(result) shouldBe(OK)
-      contentAsString(result) should include(CommonBuilder.buildCoExecutor.name)
+      status(result) mustBe(OK)
+      contentAsString(result) must include(CommonBuilder.buildCoExecutor.name)
     }
 
     "if the coexecutor with given id exists - the first line of the address of the coexecutor must be visible" in {
@@ -165,10 +161,10 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
 
-      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070"))
+      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070", authRetrieveNino = false))
 
-      status(result) shouldBe(OK)
-      contentAsString(result) should include(CommonBuilder.buildCoExecutor.ukAddress.get.ukAddressLine1)
+      status(result) mustBe(OK)
+      contentAsString(result) must include(CommonBuilder.buildCoExecutor.ukAddress.get.ukAddressLine1)
     }
 
     "if the coexecutor with given id exists - the second line of the address of the coexecutor must be visible" in {
@@ -176,10 +172,10 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
 
-      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070"))
+      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070", authRetrieveNino = false))
 
-      status(result) shouldBe(OK)
-      contentAsString(result) should include(CommonBuilder.buildCoExecutor.ukAddress.get.ukAddressLine2)
+      status(result) mustBe(OK)
+      contentAsString(result) must include(CommonBuilder.buildCoExecutor.ukAddress.get.ukAddressLine2)
     }
 
     "if the coexecutor with given id exists - and the third line of the address exists the third line of the address of the coexecutor must be visible" in {
@@ -187,10 +183,10 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
 
-      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070"))
+      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070", authRetrieveNino = false))
 
-      status(result) shouldBe(OK)
-      contentAsString(result) should include(CommonBuilder.buildCoExecutor.ukAddress.get.ukAddressLine3.get)
+      status(result) mustBe(OK)
+      contentAsString(result) must include(CommonBuilder.buildCoExecutor.ukAddress.get.ukAddressLine3.get)
     }
 
     "if the coexecutor with given id exists - and the third line of the address does not exist - " +
@@ -203,9 +199,9 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
 
-      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070"))
+      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070", authRetrieveNino = false))
 
-      status(result) shouldBe(OK)
+      status(result) mustBe(OK)
     }
 
     "if the coexecutor with given id exists - and the fourth line of the address exists the fourth line of the address of the coexecutor must be visible" in {
@@ -217,10 +213,10 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
 
-      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070"))
+      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070", authRetrieveNino = false))
 
-      status(result) shouldBe(OK)
-      contentAsString(result) should include(CommonBuilder.buildCoExecutor.ukAddress.get.ukAddressLine4.get)
+      status(result) mustBe(OK)
+      contentAsString(result) must include(CommonBuilder.buildCoExecutor.ukAddress.get.ukAddressLine4.get)
     }
 
     "if the coexecutor with given id exists - and the fourth line of the address does not exist - " +
@@ -233,9 +229,9 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
 
-      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070"))
+      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070", authRetrieveNino = false))
 
-      status(result) shouldBe(OK)
+      status(result) mustBe(OK)
     }
 
     "if the coexecutor with given id exists - and the postcode line of the address does not exist - " +
@@ -248,9 +244,9 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
 
-      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070"))
+      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070", authRetrieveNino = false))
 
-      status(result) shouldBe(OK)
+      status(result) mustBe(OK)
     }
 
     "if the coexecutor with given id exists - and the postcode line of the address does exist - " +
@@ -263,10 +259,10 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
 
-      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070"))
+      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070", authRetrieveNino = false))
 
-      status(result) shouldBe(OK)
-      contentAsString(result) should include(CommonBuilder.DefaultPostCode)
+      status(result) mustBe(OK)
+      contentAsString(result) must include(CommonBuilder.DefaultPostCode)
     }
 
     "if the coexecutor with given id exists - and the countrycode line of the address is GB - " +
@@ -279,10 +275,10 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
 
-      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070"))
+      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070", authRetrieveNino = false))
 
-      status(result) shouldBe(OK)
-      contentAsString(result) should not include coExecutor.ukAddress.get.countryCode
+      status(result) mustBe(OK)
+      contentAsString(result) must not include coExecutor.ukAddress.get.countryCode
     }
 
     "if the coexecutor with given id exists - and the countrycode line of the address is not GB - " +
@@ -295,10 +291,10 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
 
-      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070"))
+      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070", authRetrieveNino = false))
 
-      status(result) shouldBe OK
-      contentAsString(result) should include(countryName(coExecutor.ukAddress.get.countryCode))
+      status(result) mustBe OK
+      contentAsString(result) must include(countryName(coExecutor.ukAddress.get.countryCode))
     }
 
     "After a submit, when the coexecutor with the given id does not exist, should result in a server error" in {
@@ -310,11 +306,11 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
 
 
-      val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = "localhost:9070", data = confirmForm.data.toSeq)
+      val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = "localhost:9070", data = confirmForm.data.toSeq, authRetrieveNino = false)
 
       val result = deleteCoExecutorController.onSubmit("2")(request)
 
-      status(result) shouldBe INTERNAL_SERVER_ERROR
+      status(result) mustBe INTERNAL_SERVER_ERROR
     }
 
     "After a submit, when the coexecutor with the given id exists, the registration details should have been properly modified" in {
@@ -330,14 +326,14 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rdWithCoExecs))
 
 
-      val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = "localhost:9070", data = confirmForm.data.toSeq)
+      val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = "localhost:9070", data = confirmForm.data.toSeq, authRetrieveNino = false)
 
       val result = deleteCoExecutorController.onSubmit("1")(request)
 
-      status(result) shouldBe SEE_OTHER
+      status(result) mustBe SEE_OTHER
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
-      capturedValue.coExecutors.length shouldBe 1
-      capturedValue.coExecutors.head shouldBe existingCoExec1
+      capturedValue.coExecutors.length mustBe 1
+      capturedValue.coExecutors.head mustBe existingCoExec1
     }
 
     "After a submit, when the coexecutor with the given id exists, if the storage operation fails the result must be a server error" in {
@@ -353,10 +349,10 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       createMockToStoreRegDetailsInCacheWithFailure(mockCachingConnector, Some(rdWithCoExecs))
 
 
-      val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = "localhost:9070", data = confirmForm.data.toSeq)
+      val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = "localhost:9070", data = confirmForm.data.toSeq, authRetrieveNino = false)
       val result = deleteCoExecutorController.onSubmit("1")(request)
 
-      status(result) shouldBe INTERNAL_SERVER_ERROR
+      status(result) mustBe INTERNAL_SERVER_ERROR
     }
   }
 }

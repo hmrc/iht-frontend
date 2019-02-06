@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.application.assets.insurancePolicy
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
@@ -27,21 +28,26 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.utils.CommonHelper._
 import iht.constants.IhtProperties._
+import javax.inject.Inject
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-object InsurancePolicyDetailsPayingOtherController extends InsurancePolicyDetailsPayingOtherController with IhtConnectors {
+class InsurancePolicyDetailsPayingOtherControllerImpl @Inject()() extends InsurancePolicyDetailsPayingOtherController with IhtConnectors {
   def metrics : Metrics = Metrics
 }
 
 trait InsurancePolicyDetailsPayingOtherController extends EstateController {
-  def onPageLoad = authorisedForIht {
-    implicit user => implicit request =>
+
+
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request =>
       estateElementOnPageLoad[InsurancePolicy](insurancePolicyPayingOtherForm, insurance_policy_details_paying_other.apply,
-        _.allAssets.flatMap(_.insurancePolicy))
+        _.allAssets.flatMap(_.insurancePolicy), userNino)
   }
 
-  def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
-
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
       val blankUnapplicableQuestions: InsurancePolicy => InsurancePolicy = insurancePolicy => {
         if (!insurancePolicy.isInsurancePremiumsPayedForSomeoneElse.fold(true)(identity)) {
             insurancePolicy copy (
@@ -77,7 +83,8 @@ trait InsurancePolicyDetailsPayingOtherController extends EstateController {
             } else {
               addFragmentIdentifier(insurancePoliciesRedirectLocation, Some(InsurancePaidForSomeoneElseYesNoID))
             }
-          )
+          ),
+        userNino
       )
     }
   }

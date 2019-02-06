@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,28 +32,28 @@ class ApplicationGenericErrorViewTest extends ViewTestHelper with MessagesHelper
   "ApplicationGenericError" must {
 
     "have the correct title" in {
-      doc.title() shouldBe pageIhtIVFailureTechnicalIssueHeading
+      doc.title() mustBe pageIhtIVFailureTechnicalIssueHeading
 
     }
     "have the correct first paragraph" in {
-      doc.select("p").eq(2).text shouldBe errorApplicationSystemErrorp1
+      doc.select("p").eq(2).text mustBe errorApplicationSystemErrorp1
     }
 
     "have the correct second paragraph" in {
-      doc.select("p").eq(3).text shouldBe ihtApplicationTimeoutp1
+      doc.select("p").eq(3).text mustBe ihtApplicationTimeoutp1
     }
 
     "have the correct third paragraph" in {
-      doc.select("p").eq(4).text shouldBe pageIhtIVFailureYouCanAlso
+      doc.select("p").eq(4).text mustBe pageIhtIVFailureYouCanAlso
     }
 
     "have a list" that {
       "have first entry of" in {
-        doc.select("ul > li").eq(1).text shouldBe pageIhtIVFailureReportWithPaperForm
+        doc.select("ul > li").eq(1).text mustBe pageIhtIVFailureReportWithPaperForm
       }
 
       "have second entry of" in {
-        doc.select("ul > li").eq(2).text shouldBe pageIhtIVFailureaskForHelp
+        doc.select("ul > li").eq(2).text mustBe pageIhtIVFailureaskForHelp
       }
     }
   }

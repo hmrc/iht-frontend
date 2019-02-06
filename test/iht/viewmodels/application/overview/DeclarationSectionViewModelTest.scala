@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import uk.gov.hmrc.play.test.UnitSpec
 import iht.testhelpers.TestHelper._
 
 class DeclarationSectionViewModelTest
-  extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
+  extends FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
 
   val applicationDetails = CommonBuilder.buildApplicationDetails
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(
@@ -52,7 +52,7 @@ class DeclarationSectionViewModelTest
           allAssets = Some(CommonBuilder.buildAllAssetsWithAllSectionsFilled))
 
         val viewModel = DeclarationSectionViewModel(regDetails, incompleteAppDetails)
-        viewModel.declarationSectionStatus shouldBe InComplete
+        viewModel.declarationSectionStatus mustBe InComplete
       }
     }
 
@@ -65,7 +65,7 @@ class DeclarationSectionViewModelTest
           allExemptions = Some(incompleteExemptions))
 
         val viewModel = DeclarationSectionViewModel(regDetails, incompleteAppDetails)
-        viewModel.declarationSectionStatus shouldBe InComplete
+        viewModel.declarationSectionStatus mustBe InComplete
       }
     }
 
@@ -85,7 +85,7 @@ class DeclarationSectionViewModelTest
         )
 
         val viewModel = DeclarationSectionViewModel(regDetails, incompleteAppDetails)
-        viewModel.declarationSectionStatus shouldBe InComplete
+        viewModel.declarationSectionStatus mustBe InComplete
       }
     }
 
@@ -97,7 +97,7 @@ class DeclarationSectionViewModelTest
         )
 
         val viewModel = DeclarationSectionViewModel(regDetails, completeAppDetails)
-        viewModel.declarationSectionStatus shouldBe NotDeclarable
+        viewModel.declarationSectionStatus mustBe NotDeclarable
       }
     }
 
@@ -111,7 +111,7 @@ class DeclarationSectionViewModelTest
         )
 
         val viewModel = DeclarationSectionViewModel(regDetails, completeAppDetails)
-        viewModel.declarationSectionStatus shouldBe NotDeclarable
+        viewModel.declarationSectionStatus mustBe NotDeclarable
       }
     }
 
@@ -131,7 +131,7 @@ class DeclarationSectionViewModelTest
         )
 
         val viewModel = DeclarationSectionViewModel(regDetails, completeAppDetails)
-        viewModel.declarationSectionStatus shouldBe NotDeclarable
+        viewModel.declarationSectionStatus mustBe NotDeclarable
       }
     }
 
@@ -152,7 +152,7 @@ class DeclarationSectionViewModelTest
         )
 
         val viewModel = DeclarationSectionViewModel(regDetails, completeAppDetails)
-        viewModel.declarationSectionStatus shouldBe NotDeclarable
+        viewModel.declarationSectionStatus mustBe NotDeclarable
       }
     }
 
@@ -163,7 +163,7 @@ class DeclarationSectionViewModelTest
             money = Some(buildShareableBasicElement(800000, 450000)))))
 
         val viewModel = DeclarationSectionViewModel(regDetails, completeAppDetails)
-        viewModel.declarationSectionStatus shouldBe NotDeclarable
+        viewModel.declarationSectionStatus mustBe NotDeclarable
       }
     }
 
@@ -174,7 +174,7 @@ class DeclarationSectionViewModelTest
             money = Some(buildShareableBasicElement(800000, 450000)))))
 
         val viewModel = DeclarationSectionViewModel(regDetailsDeceasedSingle, completeAppDetails)
-        viewModel.declarationSectionStatus shouldBe NotDeclarable
+        viewModel.declarationSectionStatus mustBe NotDeclarable
       }
     }
 
@@ -191,7 +191,7 @@ class DeclarationSectionViewModelTest
             Some("1"),Some("testCharity"),Some("123456"), Some(BigDecimal(80000)))))
 
         val viewModel = DeclarationSectionViewModel(regDetailsDeceasedMarried, completeAppDetails)
-        viewModel.declarationSectionStatus shouldBe InComplete
+        viewModel.declarationSectionStatus mustBe InComplete
       }
     }
 
@@ -201,7 +201,7 @@ class DeclarationSectionViewModelTest
 
         val viewModel = DeclarationSectionViewModel(regDetails, completeAppDetails)
 
-        viewModel.declarationSectionStatus shouldBe Declarable
+        viewModel.declarationSectionStatus mustBe Declarable
       }
     }
 
@@ -220,7 +220,7 @@ class DeclarationSectionViewModelTest
 
         val viewModel = DeclarationSectionViewModel(regDetails, completeAppDetails)
 
-        viewModel.declarationSectionStatus shouldBe Declarable
+        viewModel.declarationSectionStatus mustBe Declarable
       }
     }
 
@@ -248,7 +248,7 @@ class DeclarationSectionViewModelTest
 
         val viewModel = DeclarationSectionViewModel(regDetails, appDetails)
 
-        viewModel.declarationSectionStatus shouldBe Declarable
+        viewModel.declarationSectionStatus mustBe Declarable
       }
     }
 
@@ -277,7 +277,7 @@ class DeclarationSectionViewModelTest
 
         val viewModel = DeclarationSectionViewModel(regDetailsDeceasedSingle, appDetails)
 
-        viewModel.declarationSectionStatus shouldBe Declarable
+        viewModel.declarationSectionStatus mustBe Declarable
       }
     }
 

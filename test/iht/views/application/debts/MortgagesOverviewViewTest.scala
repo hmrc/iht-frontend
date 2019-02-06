@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,13 +73,13 @@ class MortgagesOverviewViewTest extends ApplicationPageBehaviour {
 
   def addressWithDeleteAndModify(rowNo: Int, expectedValue: String) = {
     s"show address number ${rowNo + 1}" in {
-      tableCell(doc, addressTableId, 0, rowNo).ownText shouldBe expectedValue
+      tableCell(doc, addressTableId, 0, rowNo).ownText mustBe expectedValue
     }
 
     s"show address number ${rowNo + 1} Give details link" in {
       val deleteDiv = tableCell(doc, addressTableId, 2, rowNo)
       val anchor = deleteDiv.getElementsByTag("a").first
-      getVisibleText(anchor) shouldBe messagesApi("site.link.giveDetails")
+      getVisibleText(anchor) mustBe messagesApi("site.link.giveDetails")
     }
   }
 

@@ -1,5 +1,5 @@
 @*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@
     <p><strong>@Messages("page.iht.application.kickout.final.guidance.onFinish")</strong></p>
 
     <div id="continue-button">
-        @helpers.form(action = iht.controllers.application.routes.KickoutController.onSubmit) {
+        @helpers.form(action = iht.controllers.application.routes.KickoutAppController.onSubmit) {
         <p><input id="finish" class='button' name="action" type='submit' value='@Messages("iht.finishAndDeleteThisEstateReport")'></p>
         }
     </div>

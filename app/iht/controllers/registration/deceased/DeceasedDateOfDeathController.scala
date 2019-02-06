@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.controllers.registration.deceased
 
+import iht.config.AppConfig
 import iht.controllers.ControllerHelper.Mode
 import iht.connector.IhtConnectors
 import iht.controllers.registration.RegistrationBaseControllerWithEditMode
@@ -24,15 +25,18 @@ import iht.metrics.Metrics
 import iht.models.{DeceasedDateOfDeath, RegistrationDetails}
 import iht.utils.RegistrationKickOutHelper
 import iht.views.html.registration.{deceased => views}
+import javax.inject.Inject
 import org.joda.time.LocalDate
 import play.api.data.{Form, FormError}
 import play.api.mvc._
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
 import scala.util.{Failure, Success, Try}
 
-object DeceasedDateOfDeathController extends DeceasedDateOfDeathController with IhtConnectors {
+class DeceasedDateOfDeathControllerImpl @Inject()() extends DeceasedDateOfDeathController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 

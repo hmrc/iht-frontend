@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package iht.controllers.registration
 
 import iht.config.IhtFormPartialRetriever
 import iht.connector.CachingConnector
-import iht.controllers.auth.IhtActions
+import iht.controllers.auth.IhtBaseController
 import iht.models.RegistrationDetails
 import iht.utils.AddressHelper._
 import iht.utils.ApplicantHelper._
@@ -28,7 +28,6 @@ import iht.utils.{IhtSection, RegistrationKickOutHelper}
 import play.api.Logger
 import play.api.i18n.Lang
 import play.api.mvc.{AnyContent, Call, Request, Result}
-import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
@@ -36,7 +35,7 @@ import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
 
-trait RegistrationController extends FrontendController with IhtActions {
+trait RegistrationController extends FrontendController with IhtBaseController {
   type Predicate = (RegistrationDetails, String) => Boolean
   override lazy val ihtSection = IhtSection.Registration
 
@@ -46,29 +45,29 @@ trait RegistrationController extends FrontendController with IhtActions {
 
   implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
 
-  val guardConditionsDeceasedPermanentHome = Set(isThereADateOfDeath)
+  lazy val guardConditionsDeceasedPermanentHome = Set(isThereADateOfDeath)
 
-  val guardConditionsAboutDeceased = Set(isThereADeceasedDomicile)
+  lazy val guardConditionsAboutDeceased = Set(isThereADeceasedDomicile)
 
-  val guardConditionsDeceasedLastContactAddressQuestion = Set(isThereADeceasedFirstName)
+  lazy val guardConditionsDeceasedLastContactAddressQuestion = Set(isThereADeceasedFirstName)
 
-  val guardConditionsDeceasedLastContactAddress = Set(isDeceasedAddressQuestionAnswered)
+  lazy val guardConditionsDeceasedLastContactAddress = Set(isDeceasedAddressQuestionAnswered)
 
-  val guardConditionsApplicantApplyingForProbateQuestion = Set(isThereADeceasedAddress)
+  lazy val guardConditionsApplicantApplyingForProbateQuestion = Set(isThereADeceasedAddress)
 
-  val guardConditionsApplicantProbateLocation = Set(isApplicantApplyingForProbateQuestionAnswered)
+  lazy val guardConditionsApplicantProbateLocation = Set(isApplicantApplyingForProbateQuestionAnswered)
 
-  val guardConditionsApplicantContactDetails = Set(isThereAnApplicantProbateLocation)
+  lazy val guardConditionsApplicantContactDetails = Set(isThereAnApplicantProbateLocation)
 
-  val guardConditionsApplicantAddress = Set(isThereAnApplicantPhoneNo)
+  lazy val guardConditionsApplicantAddress = Set(isThereAnApplicantPhoneNo)
 
-  val guardConditionsCoExecutorOthersApplyingForProbateQuestion = Set(isThereAnApplicantAddress)
+  lazy val guardConditionsCoExecutorOthersApplyingForProbateQuestion = Set(isThereAnApplicantAddress)
 
-  val guardConditionsCoExecutorPersonalDetails = Set(isApplicantOthersApplyingForProbateQuestionAnsweredYes)
+  lazy val guardConditionsCoExecutorPersonalDetails = Set(isApplicantOthersApplyingForProbateQuestionAnsweredYes)
 
-  val guardConditionsCoExecutorAddress = Set(isThereACoExecutorWithId, isThereACoExecutorFirstName)
+  lazy val guardConditionsCoExecutorAddress = Set(isThereACoExecutorWithId, isThereACoExecutorFirstName)
 
-  val guardConditionsRegistrationSummary = Set(isThereADateOfDeath,
+  lazy val guardConditionsRegistrationSummary = Set(isThereADateOfDeath,
     isThereADeceasedFirstName,
     isDeceasedAddressQuestionAnswered,
     isThereADeceasedAddress,
@@ -78,15 +77,15 @@ trait RegistrationController extends FrontendController with IhtActions {
     isThereAnApplicantAddress,
     isApplicantOthersApplyingForProbateQuestionAnswered)
 
-  val regSummaryRoute = routes.RegistrationSummaryController.onPageLoad
+  lazy val regSummaryRoute = routes.RegistrationSummaryController.onPageLoad
 
-  val cancelToRegSummary = Some(regSummaryRoute)
+  lazy val cancelToRegSummary = Some(regSummaryRoute)
 
   def guardConditions: Set[Predicate]
 
   def storeKickoutReasonAndRedirect(kickoutReason: String)(implicit request: Request[_], hc: HeaderCarrier): Future[Result] =
     cachingConnector.storeSingleValue(RegistrationKickOutHelper.RegistrationKickoutReasonCachingKey, kickoutReason) map { _ =>
-      Redirect(routes.KickoutController.onPageLoad())
+      Redirect(routes.KickoutRegController.onPageLoad())
     }
 
   def checkGuardCondition(registrationDetails: RegistrationDetails, id: String): Boolean = {
@@ -94,7 +93,7 @@ trait RegistrationController extends FrontendController with IhtActions {
   }
 
   def withRegistrationDetailsRedirectOnGuardCondition(body: RegistrationDetails => Future[Result])
-                                                     (implicit request: Request[_], user: AuthContext, hc: HeaderCarrier): Future[Result] = {
+                                                     (implicit request: Request[_], hc: HeaderCarrier): Future[Result] = {
     withRegistrationDetails { rd =>
       val uri = request.uri.split("/")
       val id = if (uri.isEmpty) "" else uri.last
@@ -111,7 +110,7 @@ trait RegistrationController extends FrontendController with IhtActions {
   }
 
   def withRegistrationDetails(body: RegistrationDetails => Future[Result])
-                             (implicit request: Request[_], user: AuthContext, hc: HeaderCarrier): Future[Result] = {
+                             (implicit request: Request[_], hc: HeaderCarrier): Future[Result] = {
     val futureOptionRD: Future[Option[RegistrationDetails]] = cachingConnector.getRegistrationDetails
     futureOptionRD.flatMap(optionRD => {
       val registrationDetails = optionRD.fold(new RegistrationDetails(None, None, None, Nil, None, "", ""))(identity)
@@ -120,7 +119,7 @@ trait RegistrationController extends FrontendController with IhtActions {
   }
 
   def withRegistrationDetailsOrRedirect(url: String)(body: RegistrationDetails => Future[Result])
-                                       (implicit request: Request[_], user: AuthContext, hc: HeaderCarrier): Future[Result] = {
+                                       (implicit request: Request[_], hc: HeaderCarrier): Future[Result] = {
     cachingConnector.getRegistrationDetails flatMap {
       case None =>
         Logger.info(s"Registration details not found in cache when $url requested so re-directing to application overview page")

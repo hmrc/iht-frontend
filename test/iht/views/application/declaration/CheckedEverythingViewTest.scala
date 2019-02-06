@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ class CheckedEverythingViewTest extends ViewTestHelper {
     "show correct title and browserTitle" in {
       val rd = CommonBuilder.buildRegistrationDetails1
       val deceasedName = getOrException(rd.deceasedDetails.map(_.name))
-      asDocument(page(rd)).title() should not include deceasedName
+      asDocument(page(rd)).title() must not include deceasedName
       browserTitleShouldBeCorrect(page(CommonBuilder.buildRegistrationDetails1),
         messagesApi("iht.estateReport.declaration.checkedEverything.browserTitle"))
     }

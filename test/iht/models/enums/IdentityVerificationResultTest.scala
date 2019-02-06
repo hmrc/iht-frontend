@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,16 +22,16 @@ import org.scalatest.mock.MockitoSugar
 import uk.gov.hmrc.play.test.UnitSpec
 import play.api.libs.json._
 
-class IdentityVerificationResultTest extends UnitSpec with FakeIhtApp with MockitoSugar {
+class IdentityVerificationResultTest extends FakeIhtApp with MockitoSugar {
   val failedMatchingJson = Json.parse(""""FailedMatching"""")
   "IdentityVerificationResult" must {
     "read in json values correctly" in {
         val result: JsResult[IdentityVerificationResult] = failedMatchingJson.validate[IdentityVerificationResult]
-      result shouldBe JsSuccess[IdentityVerificationResult](IdentityVerificationResult.FailedMatching)
+      result mustBe JsSuccess[IdentityVerificationResult](IdentityVerificationResult.FailedMatching)
     }
     "write out json values correctly" in {
       val jsValue: JsValue = Json.toJson(IdentityVerificationResult.FailedMatching)
-      jsValue shouldBe failedMatchingJson
+      jsValue mustBe failedMatchingJson
     }
   }
 }

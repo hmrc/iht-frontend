@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,39 +26,36 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class ForeignControllerTest extends ApplicationControllerTest{
 
-  val mockCachingConnector = mock[CachingConnector]
-  var mockIhtConnector = mock[IhtConnector]
+
 
   def foreignController = new ForeignController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def foreignControllerNotAuthorised = new ForeignController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  before {
-    mockIhtConnector = mock[IhtConnector]
-  }
+
 
   "ForeignController" must {
 
     "redirect to login page on PageLoad if the user is not logged in" in {
       val result = foreignControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to login page on Submit if the user is not logged in" in {
       val result = foreignControllerNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
@@ -72,7 +69,7 @@ class ForeignControllerTest extends ApplicationControllerTest{
         storeAppDetailsInCache = true)
 
       val result = foreignController.onPageLoad (createFakeRequest())
-      status(result) shouldBe (OK)
+      status(result) mustBe (OK)
     }
 
     "save application and go to Asset Overview page on submit when user selects Yes" in {
@@ -93,7 +90,7 @@ class ForeignControllerTest extends ApplicationControllerTest{
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForeignForm.data.toSeq: _*)
 
       val result = foreignController.onSubmit (request)
-      status(result) shouldBe (SEE_OTHER)
+      status(result) mustBe (SEE_OTHER)
     }
 
     "save application and go to Asset Overview page on submit when user selects No" in {
@@ -114,13 +111,13 @@ class ForeignControllerTest extends ApplicationControllerTest{
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForeignForm.data.toSeq: _*)
 
       val result = foreignController.onSubmit (request)
-      status(result) shouldBe (SEE_OTHER)
+      status(result) mustBe (SEE_OTHER)
 
       val capturedValue = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
       val expectedAppDetails = applicationDetails.copy(allAssets = applicationDetails.allAssets.map(_.copy(
         foreign = Some(CommonBuilder.buildBasicElement.copy(value = None, isOwned = Some(false))))))
 
-      capturedValue shouldBe expectedAppDetails
+      capturedValue mustBe expectedAppDetails
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
@@ -130,7 +127,7 @@ class ForeignControllerTest extends ApplicationControllerTest{
      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = foreignController.onSubmit (fakePostRequest)
-      status(result) shouldBe (BAD_REQUEST)
+      status(result) mustBe (BAD_REQUEST)
     }
 
     "save application and go to Asset Overview page on submit where no assets previously saved" in {
@@ -149,7 +146,7 @@ class ForeignControllerTest extends ApplicationControllerTest{
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForeignForm.data.toSeq: _*)
 
       val result = foreignController.onSubmit (request)
-      status(result) shouldBe (SEE_OTHER)
+      status(result) mustBe (SEE_OTHER)
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,35 +16,36 @@
 
 package iht.controllers.application.gifts
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.IhtConnectors
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
-import iht.controllers.ControllerHelper
 import iht.forms.ApplicationForms._
 import iht.metrics.Metrics
-import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.AllGifts
-import iht.utils.{ApplicationStatus => AppStatus}
+import iht.utils.{CommonHelper, ApplicationStatus => AppStatus}
 import iht.views.html.application.gift.seven_years_to_trust
-import play.api.i18n.Messages.Implicits._
+import javax.inject.Inject
 import play.api.Play.current
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
-import iht.utils.CommonHelper
+import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-object SevenYearsToTrustController extends SevenYearsToTrustController with IhtConnectors {
+class SevenYearsToTrustControllerImpl @Inject()() extends SevenYearsToTrustController with IhtConnectors {
   def metrics : Metrics = Metrics
 }
 
 trait SevenYearsToTrustController extends EstateController {
 
-  def onPageLoad = authorisedForIht {
-    implicit user => implicit request =>
-      estateElementOnPageLoad[AllGifts](giftSevenYearsToTrustForm, seven_years_to_trust.apply, _.allGifts)
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request =>
+      estateElementOnPageLoad[AllGifts](giftSevenYearsToTrustForm, seven_years_to_trust.apply, _.allGifts, userNino)
   }
 
-  def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
       val updateApplicationDetails: (ApplicationDetails, Option[String], AllGifts) =>
         (ApplicationDetails, Option[String]) =
         (appDetails, _, gifts) => {
@@ -56,7 +57,8 @@ trait SevenYearsToTrustController extends EstateController {
       estateElementOnSubmit[AllGifts](giftSevenYearsToTrustForm,
         seven_years_to_trust.apply,
         updateApplicationDetails,
-        CommonHelper.addFragmentIdentifier(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad(), Some(GiftsSevenYearsQuestionID2))
+        CommonHelper.addFragmentIdentifier(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad(), Some(GiftsSevenYearsQuestionID2)),
+        userNino
       )
     }
   }

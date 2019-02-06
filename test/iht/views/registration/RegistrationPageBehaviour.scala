@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ trait RegistrationPageBehaviour[A] extends ViewTestHelper {
     }
 
     "have a Continue button" in {
-      doc.getElementsByClass("button").first.attr("value") shouldBe messagesApi("iht.continue")
+      doc.getElementsByClass("button").first.attr("value") mustBe messagesApi("iht.continue")
     }
   }
 
@@ -57,7 +57,7 @@ trait RegistrationPageBehaviour[A] extends ViewTestHelper {
     "display the 'There's a problem' box if there's an error" in {
       val newForm = form.withError(FormError("field","error message"))
       val document = asDocument(formToView(newForm).toString)
-      document.getElementById("errors").children.first.text shouldBe messagesApi("error.problem")
+      document.getElementById("errors").children.first.text mustBe messagesApi("error.problem")
     }
   }
 
@@ -66,11 +66,11 @@ trait RegistrationPageBehaviour[A] extends ViewTestHelper {
 
     "have a continue and cancel link in edit mode" in {
       val continueLink = view.getElementById("continue-button")
-      continueLink.attr("value") shouldBe messagesApi("iht.continue")
+      continueLink.attr("value") mustBe messagesApi("iht.continue")
 
       val cancelLink = view.getElementById("cancel-button")
-      cancelLink.attr("href") shouldBe cancelUrl.url
-      cancelLink.text() shouldBe messagesApi("site.link.cancel")
+      cancelLink.attr("href") mustBe cancelUrl.url
+      cancelLink.text() mustBe messagesApi("site.link.cancel")
     }
   }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import iht.config.IhtFormPartialRetriever
 import iht.connector.IdentityVerificationConnector
 import iht.models.enums.IdentityVerificationResult
 import iht.views.html.iv.failurepages._
+import javax.inject.Inject
 import play.api.Logger
 import play.api.mvc._
 import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
@@ -32,11 +33,9 @@ import scala.concurrent.Future
 /**
   * Created by yasar on 2/19/15.
   */
-object IVUpliftFailureController extends IVUpliftFailureController{
-}
+object IVUpliftFailureController extends IVUpliftFailureController
 
 trait IVUpliftFailureController extends FrontendController{
-
   val identityVerificationConnector: IdentityVerificationConnector = IdentityVerificationConnector
 
   val ivUrlApplication = iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,25 +16,30 @@
 
 package iht.controllers.registration
 
+import iht.config.AppConfig
 import iht.connector.IhtConnectors
+import javax.inject.Inject
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+
 import scala.concurrent.Future
 
 
-object DuplicateRegistrationController extends DuplicateRegistrationController with IhtConnectors
+class DuplicateRegistrationControllerImpl @Inject()() extends DuplicateRegistrationController with IhtConnectors
 
 trait DuplicateRegistrationController extends RegistrationController {
   override def guardConditions: Set[Predicate] = Set.empty
 
   def onPageLoad(ihtReference: String) = authorisedForIht {
-    implicit user => implicit request => {
+    implicit request => {
       Future.successful(Ok(iht.views.html.registration.duplicate_registration(ihtReference)))
     }
   }
 
   def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
+    implicit request => {
         Future(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
     }
   }

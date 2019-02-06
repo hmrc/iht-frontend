@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -89,9 +89,9 @@ class GivenAwayViewTest extends SubmittableApplicationPageBehaviour[AllGifts] {
       val doc = asDocument(view)
 
       val link = doc.getElementById("return-button")
-      link.text shouldBe messagesApi("page.iht.application.gifts.return.to.givenAwayBy",
+      link.text mustBe messagesApi("page.iht.application.gifts.return.to.givenAwayBy",
         getOrException(registrationDetails.deceasedDetails).name)
-      link.attr("href") shouldBe
+      link.attr("href") mustBe
         iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad().url + "#" + GiftsGivenAwayQuestionID
     }
 
@@ -104,9 +104,9 @@ class GivenAwayViewTest extends SubmittableApplicationPageBehaviour[AllGifts] {
       val view = given_away(filledForm, registrationDetails, CommonBuilder.buildGiftsList)
       val doc = asDocument(view)
 
-      doc.getElementById("tax-year-1").text shouldBe "6 April 2014 to 12 December 2014"
-      doc.getElementById("tax-year-2").text shouldBe "6 April 2013 to 5 April 2013"
-      doc.getElementById("tax-year-3").text shouldBe "6 April 2012 to 5 April 2012"
+      doc.getElementById("tax-year-1").text mustBe "6 April 2014 to 12 December 2014"
+      doc.getElementById("tax-year-2").text mustBe "6 April 2013 to 5 April 2013"
+      doc.getElementById("tax-year-3").text mustBe "6 April 2012 to 5 April 2012"
     }
   }
 }

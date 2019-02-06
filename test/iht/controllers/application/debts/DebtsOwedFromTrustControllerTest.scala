@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,12 +31,11 @@ import uk.gov.hmrc.http.HeaderCarrier
 class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
 
   implicit val hc = new HeaderCarrier()
-  val mockCachingConnector = mock[CachingConnector]
-  var mockIhtConnector = mock[IhtConnector]
+
 
   def debtsOwedFromTrustController = new DebtsOwedFromATrustController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -47,9 +46,7 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
     ihtReference = Some("ABC1234567890")
     )
 
-  before {
-    mockIhtConnector = mock[IhtConnector]
-  }
+
 
   "DebtsOwedFromTrust" must {
     "return OK on page load" in {
@@ -60,7 +57,7 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
 
       val result = debtsOwedFromTrustController.onPageLoad()(createFakeRequest(isAuthorised = true))
 
-      status(result) should be(OK)
+      status(result) must be(OK)
     }
 
     "save on submit" in {
@@ -77,8 +74,8 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
         saveAppDetails = true)
 
       val result = debtsOwedFromTrustController.onSubmit()(request)
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(routes.DebtsOverviewController.onPageLoad().url + "#" + DebtsOwedFromTrustID))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(routes.DebtsOverviewController.onPageLoad().url + "#" + DebtsOwedFromTrustID))
     }
 
     "respond with bad request on submit when request is malformed" in {
@@ -95,7 +92,7 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
         saveAppDetails = true)
 
       val result = debtsOwedFromTrustController.onSubmit()(request)
-      status(result) should be(BAD_REQUEST)
+      status(result) must be(BAD_REQUEST)
     }
 
     "take you to internal server error on failure" in {
@@ -110,7 +107,7 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
         saveAppDetails = true)
 
       val result = debtsOwedFromTrustController.onSubmit()(request)
-      status(result) should be(INTERNAL_SERVER_ERROR)
+      status(result) must be(INTERNAL_SERVER_ERROR)
     }
 
     "save application, wipe out the value and go to Debts overview page on submit when users selects No" in {
@@ -129,14 +126,14 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
         saveAppDetails = true)
 
       val result = debtsOwedFromTrustController.onSubmit()(request)
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result).get should be(routes.DebtsOverviewController.onPageLoad().url + "#" + DebtsOwedFromTrustID)
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result).get must be(routes.DebtsOverviewController.onPageLoad().url + "#" + DebtsOwedFromTrustID)
 
       val capturedValue = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
       val expectedAppDetails = applicationDetails.copy(allLiabilities = applicationDetails.allLiabilities.map(_.copy(
         trust = Some(CommonBuilder.buildBasicEstateElementLiabilities.copy(value = None, isOwned = Some(false))))))
 
-      capturedValue shouldBe expectedAppDetails
+      capturedValue mustBe expectedAppDetails
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

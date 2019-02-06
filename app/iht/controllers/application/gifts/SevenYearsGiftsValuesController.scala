@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,45 +16,49 @@
 
 package iht.controllers.application.gifts
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.controllers.application.EstateController
 import iht.metrics.Metrics
 import iht.utils.CommonHelper
 import iht.utils.GiftsHelper._
+import javax.inject.Inject
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
 import scala.concurrent.Future
-
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
 /**
   * Created by vineet on 11/04/16.
   */
-object SevenYearsGiftsValuesController extends SevenYearsGiftsValuesController with IhtConnectors {
+class SevenYearsGiftsValuesControllerImpl @Inject()() extends SevenYearsGiftsValuesController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait SevenYearsGiftsValuesController extends EstateController {
 
+
   def cachingConnector: CachingConnector
 
   def ihtConnector: IhtConnector
 
-  def onPageLoad = authorisedForIht {
-    implicit user =>
-      implicit request =>
-        withApplicationDetails { rd =>
-          ad =>
-            CommonHelper.getOrException(rd.deceasedDateOfDeath.map(ddod =>
-              Future.successful(Ok(iht.views.html.application.gift.seven_years_gift_values(
-                ad.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity),
-                rd,
-                ad.totalPastYearsGiftsValueExcludingExemptions,
-                CommonHelper.getOrZero(ad.totalPastYearsGiftsOption),
-                ad.totalPastYearsGiftsExemptions,
-                ad.totalPastYearsGiftsExemptionsOption.isDefined,
-                ad.totalPastYearsGiftsValueExcludingExemptionsOption.isDefined)))
-            ))
-        }
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request =>
+      withApplicationDetails(userNino) { rd =>
+        ad =>
+          CommonHelper.getOrException(rd.deceasedDateOfDeath.map(ddod =>
+            Future.successful(Ok(iht.views.html.application.gift.seven_years_gift_values(
+              ad.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity),
+              rd,
+              ad.totalPastYearsGiftsValueExcludingExemptions,
+              CommonHelper.getOrZero(ad.totalPastYearsGiftsOption),
+              ad.totalPastYearsGiftsExemptions,
+              ad.totalPastYearsGiftsExemptionsOption.isDefined,
+              ad.totalPastYearsGiftsValueExcludingExemptionsOption.isDefined)))
+          ))
+      }
   }
 }

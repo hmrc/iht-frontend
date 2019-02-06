@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,11 +27,9 @@ import uk.gov.hmrc.http.HeaderCarrier
 
 class YourEstateReportsRowViewModelTest extends ApplicationControllerTest {
 
-  var mockIhtConnector = mock[IhtConnector]
   implicit val hc = new HeaderCarrier
 
   before {
-    mockIhtConnector = mock[IhtConnector]
     createMockToGetApplicationDetails(mockIhtConnector)
   }
 
@@ -41,33 +39,33 @@ class YourEstateReportsRowViewModelTest extends ApplicationControllerTest {
     def viewModel = YourEstateReportsRowViewModel("", ihtApp, mockIhtConnector, "Not Started")
 
     "should be created from IhtApplication with deceased name" in {
-      viewModel.deceasedName shouldBe CommonBuilder.DefaultName
+      viewModel.deceasedName mustBe CommonBuilder.DefaultName
     }
 
     "should be created from IhtApplication with Iht reference number" in {
-      viewModel.ihtRefNo shouldBe "A1912232"
+      viewModel.ihtRefNo mustBe "A1912232"
     }
 
     "should be created from IhtApplication with deceased date of death" in {
-      viewModel.dateOfDeath shouldBe new LocalDate(2014, 10, 5).toString(IhtProperties.dateFormatForDisplay)
+      viewModel.dateOfDeath mustBe new LocalDate(2014, 10, 5).toString(IhtProperties.dateFormatForDisplay)
     }
 
     "should be created from IhtApplication with status of not started" in {
-      viewModel.currentStatus shouldBe messagesApi("iht.notStarted")
+      viewModel.currentStatus mustBe messagesApi("iht.notStarted")
     }
 
     "should be created from IhtApplication with status of in progress" in {
       val ihtApp = CommonBuilder.buildIhtApplication.copy(currentStatus = ApplicationStatus.InProgress)
       def viewModel = YourEstateReportsRowViewModel("", ihtApp, mockIhtConnector, "In Progress")
-      viewModel.currentStatus shouldBe messagesApi("iht.inProgress")
+      viewModel.currentStatus mustBe messagesApi("iht.inProgress")
     }
 
     "should be created from IhtApplication with link label" in {
-      viewModel.linkLabel shouldBe messagesApi("iht.start")
+      viewModel.linkLabel mustBe messagesApi("iht.start")
     }
 
     "should be created from IhtApplication with link" in {
-      viewModel.link shouldBe
+      viewModel.link mustBe
         iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtApp.ihtRefNo)
     }
   }

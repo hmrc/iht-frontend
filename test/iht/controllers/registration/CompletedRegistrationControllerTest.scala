@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,20 +30,16 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 class CompletedRegistrationControllerTest extends RegistrationControllerTest {
   val requestWithHeaders=FakeRequest().withHeaders(("referer",referrerURL),("host",host))
 
-  before {
-    mockCachingConnector = mock[CachingConnector]
-  }
-
   def completedRegistrationController = new CompletedRegistrationController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def completedRegistrationControllerNotAuthorised = new CompletedRegistrationController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = false)
+    override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
@@ -54,8 +50,8 @@ class CompletedRegistrationControllerTest extends RegistrationControllerTest {
 
     "redirect to GG login page on PageLoad if the user is not logged in" in {
       val result = completedRegistrationControllerNotAuthorised.onPageLoad()(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
@@ -63,8 +59,8 @@ class CompletedRegistrationControllerTest extends RegistrationControllerTest {
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
-      val result = completedRegistrationController.onPageLoad()(createFakeRequest())
-      status(result) shouldBe(200)
+      val result = completedRegistrationController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      status(result) mustBe(200)
     }
 
     "respond with correct page" in {
@@ -73,9 +69,9 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
       val registrationDetails = CommonBuilder.buildRegistrationDetails copy(ihtReference = Some(""))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
-      val result = completedRegistrationController.onPageLoad()(createFakeRequest())
+      val result = completedRegistrationController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
 
-      contentAsString(result) should include(messagesApi("iht.registration.complete"))
+      contentAsString(result) must include(messagesApi("iht.registration.complete"))
     }
 
     "respond with a reference number" in {
@@ -84,39 +80,39 @@ import play.api.Play.current
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
       val formattedIhtRef = formattedIHTReference(ihtReference)
-      val result = completedRegistrationController.onPageLoad()(createFakeRequest())
-      contentAsString(result) should include(formattedIhtRef)
+      val result = completedRegistrationController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      contentAsString(result) must include(formattedIhtRef)
     }
 
     "respond with not implemented" in {
-      val result = completedRegistrationController.onSubmit(createFakeRequest())
-      status(result) shouldBe(SEE_OTHER)
-      redirectLocation(result) should be(Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url))
+      val result = completedRegistrationController.onSubmit(createFakeRequest(authRetrieveNino = false))
+      status(result) mustBe(SEE_OTHER)
+      redirectLocation(result) must be(Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url))
     }
 
     "display the valid content on the page" in {
       val registrationDetails = CommonBuilder.buildRegistrationDetails copy(ihtReference = Some(""))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
-      val result = completedRegistrationController.onPageLoad()(createFakeRequest())
+      val result = completedRegistrationController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
 
-      contentAsString(result) should include (messagesApi("page.iht.registration.completedRegistration.ref.text"))
-      contentAsString(result) should include (messagesApi("page.iht.registration.completedRegistration.p1"))
-      contentAsString(result) should include (messagesApi("page.iht.registration.completedRegistration.p2"))
+      contentAsString(result) must include (messagesApi("page.iht.registration.completedRegistration.ref.text"))
+      contentAsString(result) must include (messagesApi("page.iht.registration.completedRegistration.p1"))
+      contentAsString(result) must include (messagesApi("page.iht.registration.completedRegistration.p2"))
     }
 
     "respond with redirect to application overview when no registration details found in cache" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, None)
-      val result = completedRegistrationController.onPageLoad()(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) shouldBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url)
+      val result = completedRegistrationController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) mustBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url)
     }
 
     "redirect to estate overview when IHT ref is equal to None" in {
       val registrationDetails = CommonBuilder.buildRegistrationDetails copy(ihtReference = None)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
-      val result = completedRegistrationController.onPageLoad()(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) shouldBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url)
+      val result = completedRegistrationController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) mustBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url)
     }
 
   }

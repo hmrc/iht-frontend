@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,12 +34,11 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
  */
 class ExemptionPartnerNameControllerTest extends ApplicationControllerTest {
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def partnerNameController = new ExemptionPartnerNameController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -47,7 +46,7 @@ class ExemptionPartnerNameControllerTest extends ApplicationControllerTest {
 
   def partnerNameControllerNotAuthorised = new ExemptionPartnerNameController {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -61,14 +60,14 @@ class ExemptionPartnerNameControllerTest extends ApplicationControllerTest {
 
     "redirect to login page on PageLoad if the user is not logged in" in {
       val result = partnerNameControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to login page on Submit if the user is not logged in" in {
       val result = partnerNameControllerNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "return OK on page load" in {
@@ -81,8 +80,8 @@ class ExemptionPartnerNameControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = partnerNameController.onPageLoad(createFakeRequest(isAuthorised = true))
-      status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("page.iht.application.exemptions.partner.name.title"))
+      status(result) must be(OK)
+      contentAsString(result) must include(messagesApi("page.iht.application.exemptions.partner.name.title"))
     }
 
     "respond with error when ApplicationDetails could not be retrieved on page load" in {
@@ -94,7 +93,7 @@ class ExemptionPartnerNameControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = partnerNameController.onPageLoad(createFakeRequest(isAuthorised = true))
-      status(result) should be(INTERNAL_SERVER_ERROR)
+      status(result) must be(INTERNAL_SERVER_ERROR)
     }
 
     "save and redirect to spouse or civil partner exemptions overview page on successful page submit" in {
@@ -114,8 +113,8 @@ class ExemptionPartnerNameControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = partnerNameController.onSubmit(request)
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerNameID)))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerNameID)))
     }
 
     "show relevant error message when page fails in validation while submission" in {
@@ -127,7 +126,7 @@ class ExemptionPartnerNameControllerTest extends ApplicationControllerTest {
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = partnerNameController.onSubmit(request)
-      status(result) should be(BAD_REQUEST)
+      status(result) must be(BAD_REQUEST)
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

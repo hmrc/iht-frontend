@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,18 +36,17 @@ import scala.concurrent.Future
 
 class CheckedEverythingQuestionControllerTest extends ApplicationControllerTest{
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   lazy val checkedEverythingQuestionController = new CheckedEverythingQuestionController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   lazy val checkedEverythingQuestionNotAuthorised = new CheckedEverythingQuestionController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -55,23 +54,23 @@ class CheckedEverythingQuestionControllerTest extends ApplicationControllerTest{
 
   "CheckedEverythingQuestionController" must {
     "redirect to login page on PageLoad if the user is not logged in" in {
-      val result = checkedEverythingQuestionNotAuthorised.onPageLoad(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      val result = checkedEverythingQuestionNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false, authRetrieveNino = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to login page on Submit if the user is not logged in" in {
-      val result = checkedEverythingQuestionNotAuthorised.onSubmit(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      val result = checkedEverythingQuestionNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false, authRetrieveNino = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
       createMockForRegistration(mockCachingConnector,
         regDetails = Option(CommonBuilder.buildRegistrationDetails1),
         getRegDetailsFromCache = true)
-      val result = checkedEverythingQuestionController.onPageLoad (createFakeRequest())
-      status(result) shouldBe OK
+      val result = checkedEverythingQuestionController.onPageLoad (createFakeRequest(authRetrieveNino = false))
+      status(result) mustBe OK
     }
 
     def answerAndSubmit(booleanValue: Boolean, rd: RegistrationDetails): Future[Result] = {
@@ -81,7 +80,7 @@ class CheckedEverythingQuestionControllerTest extends ApplicationControllerTest{
 
       val filledForm = checkedEverythingQuestionForm.fill(Some(booleanValue))
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data
+      implicit val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(filledForm.data
         .toSeq: _*)
 
       checkedEverythingQuestionController.onSubmit(request)
@@ -89,30 +88,30 @@ class CheckedEverythingQuestionControllerTest extends ApplicationControllerTest{
 
     "save application and go to declaration page on submit when yes is chosen" in {
       val result = answerAndSubmit(booleanValue = true, CommonBuilder.buildRegistrationDetails1)
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) shouldBe Some(iht.controllers.application.declaration.routes.DeclarationController.onPageLoad().url)
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) mustBe Some(iht.controllers.application.declaration.routes.DeclarationController.onPageLoad().url)
     }
 
     "save application and go to declaration page on submit when no is chosen" in {
       val rd = CommonBuilder.buildRegistrationDetails1
       val result = answerAndSubmit(booleanValue = false, rd)
-      status(result) shouldBe SEE_OTHER
-      redirectLocation(result) shouldBe Some(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) mustBe Some(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(
         CommonHelper.getOrExceptionNoIHTRef(rd.ihtReference)).url)
     }
 
     "display validation message when incomplete form is submitted" in {
-      implicit val request = createFakeRequest()
+      implicit val request = createFakeRequest(authRetrieveNino = false)
       implicit val messagesApi = app.injector.instanceOf[MessagesApi]
       createMockForRegistration(mockCachingConnector,
         regDetails = Option(CommonBuilder.buildRegistrationDetails1),
         getRegDetailsFromCache = true)
 
       val result = checkedEverythingQuestionController.onSubmit()(request)
-      status(result) should be(BAD_REQUEST)
+      status(result) must be(BAD_REQUEST)
       val resultAsString = contentAsString(result)
-      resultAsString should include(messagesApi("error.problem"))
-      resultAsString should include(messagesApi("error.hasCheckedEverything.select"))
+      resultAsString must include(messagesApi("error.problem"))
+      resultAsString must include(messagesApi("error.hasCheckedEverything.select"))
     }
   }
 }

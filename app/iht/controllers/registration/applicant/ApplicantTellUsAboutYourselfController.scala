@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 package iht.controllers.registration.applicant
 
-import iht.config.IhtFormPartialRetriever
+import iht.config.AppConfig
 import iht.connector.{CitizenDetailsConnector, IhtConnectors}
 import iht.controllers.ControllerHelper.Mode
 import iht.controllers.registration.{routes => registrationRoutes}
@@ -25,20 +25,20 @@ import iht.metrics.Metrics
 import iht.models.{ApplicantDetails, CidPerson, RegistrationDetails}
 import iht.utils.{SessionHelper, StringHelper}
 import iht.views.html.registration.{applicant => views}
-import org.apache.http.HttpStatus
+import javax.inject.Inject
 import play.api.Play.current
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{AnyContent, Call, Request, Result}
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.domain.Nino
-import uk.gov.hmrc.play.partials.FormPartialRetriever
-
-import scala.concurrent.Future
 import uk.gov.hmrc.http.NotFoundException
 
+import scala.concurrent.Future
 
-object ApplicantTellUsAboutYourselfController extends ApplicantTellUsAboutYourselfController with IhtConnectors {
+class ApplicantTellUsAboutYourselfControllerImpl @Inject()() extends ApplicantTellUsAboutYourselfController with IhtConnectors {
   def metrics: Metrics = Metrics
 
   override lazy val citizenDetailsConnector = CitizenDetailsConnector
@@ -53,8 +53,6 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
 
   def citizenDetailsConnector: CitizenDetailsConnector
 
-  //override implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
-
   lazy val submitRoute = routes.ApplicantTellUsAboutYourselfController.onSubmit
   lazy val editSubmitRoute = routes.ApplicantTellUsAboutYourselfController.onEditSubmit
 
@@ -62,8 +60,8 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
     Ok(views.applicant_tell_us_about_yourself(form, Mode.Standard, submitRoute)
     (request, language, applicationMessages, formPartialRetriever))
 
-  override def pageLoad(mode: Mode.Value) = authorisedForIht {
-    implicit user => implicit request =>
+  override def pageLoad(mode: Mode.Value) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request =>
       withRegistrationDetailsRedirectOnGuardCondition { rd =>
         val f = fillForm(rd)
         val okResult: Result = if (mode == Mode.Standard) {
@@ -71,7 +69,7 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
         } else {
           okForEditPageLoad(f)
         }
-        val result = okResult.withSession(SessionHelper.ensureSessionHasNino(request.session, user))
+        val result = okResult.withSession(SessionHelper.ensureSessionHasNino(request.session, userNino))
         Future.successful(result)
       }
   }
@@ -99,8 +97,8 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
     case _ => registrationRoutes.RegistrationSummaryController.onPageLoad()
   }
 
-  override def submit(mode: Mode.Value) = authorisedForIht {
-    implicit user => implicit request => {
+  override def submit(mode: Mode.Value) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
       withRegistrationDetails { rd =>
         val formType = if (mode == Mode.Standard) {
             applicantTellUsAboutYourselfForm
@@ -117,7 +115,7 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
             }
           },
           ad => {
-            val nino = Nino(StringHelper.getNino(user))
+            val nino = Nino(StringHelper.getNino(userNino))
             val citizenDetailsPersonFuture: Future[CidPerson] = citizenDetailsConnector.getCitizenDetails(nino)
             val applicantDetailsFuture = citizenDetailsPersonFuture.map {
               person: CidPerson => {

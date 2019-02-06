@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,12 +51,12 @@ class KickoutTemplateViewTest extends ViewTestHelper{
       val view = kickOutTemplateView
       val headers = view.getElementsByTag("h2")
 
-      headers.first.text() shouldBe messagesApi("iht.nextSteps")
+      headers.first.text() mustBe messagesApi("iht.nextSteps")
     }
 
     "have the sequence of contents" in {
       val view = kickOutTemplateView
-      for (content <- seqOfContents) view.toString should include(content)
+      for (content <- seqOfContents) view.toString must include(content)
 
     }
 
@@ -64,15 +64,15 @@ class KickoutTemplateViewTest extends ViewTestHelper{
       val view = kickOutTemplateView
 
       val detailsAreCorrectButton = view.getElementById("finish")
-      detailsAreCorrectButton.attr("value") shouldBe messagesApi("site.button.details.correct.exitToGovK")
+      detailsAreCorrectButton.attr("value") mustBe messagesApi("site.button.details.correct.exitToGovK")
     }
 
     "have return link with correct text" in {
       val view = kickOutTemplateView
 
       val detailsAreCorrectButton = view.getElementById("return-button")
-      detailsAreCorrectButton.attr("href") shouldBe returnLinkUrl.url
-      detailsAreCorrectButton.text shouldBe messagesApi("iht.registration.kickout.returnToTheLastPageVisited")
+      detailsAreCorrectButton.attr("href") mustBe returnLinkUrl.url
+      detailsAreCorrectButton.text mustBe messagesApi("iht.registration.kickout.returnToTheLastPageVisited")
     }
   }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,18 +33,17 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class PensionsOwnedQuestionControllerTest extends ApplicationControllerTest{
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+
 
   def pensionsOwnedQuestionController = new PensionsOwnedQuestionController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def pensionsOwnedQuestionNotAuthorised = new PensionsOwnedQuestionController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -53,15 +52,15 @@ class PensionsOwnedQuestionControllerTest extends ApplicationControllerTest{
   "PensionsOwnedQuestionController" must {
 
     "redirect to login page on PageLoad if the user is not logged in" in {
-      val result = pensionsOwnedQuestionNotAuthorised.onPageLoad(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      val result = pensionsOwnedQuestionNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to login page on Submit if the user is not logged in" in {
-      val result = pensionsOwnedQuestionNotAuthorised.onSubmit(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      val result = pensionsOwnedQuestionNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
@@ -75,7 +74,7 @@ class PensionsOwnedQuestionControllerTest extends ApplicationControllerTest{
         storeAppDetailsInCache = true)
 
       val result = pensionsOwnedQuestionController.onPageLoad (createFakeRequest())
-      status(result) shouldBe (OK)
+      status(result) mustBe (OK)
     }
 
     "save application and go to Private Pensions Overview page when user selects yes and submit" in {
@@ -96,7 +95,7 @@ class PensionsOwnedQuestionControllerTest extends ApplicationControllerTest{
         .toSeq: _*)
 
       val result = pensionsOwnedQuestionController.onSubmit(request)
-      status(result) shouldBe (SEE_OTHER)
+      status(result) mustBe (SEE_OTHER)
     }
 
     "save application and go to Assets Overview page when user selects no and submit" in {
@@ -116,8 +115,8 @@ class PensionsOwnedQuestionControllerTest extends ApplicationControllerTest{
         .toSeq: _*)
 
       val result = pensionsOwnedQuestionController.onSubmit(request)
-      status(result) shouldBe (SEE_OTHER)
-      redirectLocation(result) shouldBe
+      status(result) mustBe (SEE_OTHER)
+      redirectLocation(result) mustBe
         Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url + "#private-pensions")
     }
 
@@ -136,8 +135,8 @@ class PensionsOwnedQuestionControllerTest extends ApplicationControllerTest{
         storeAppDetailsInCache = true)
 
       val result = pensionsOwnedQuestionController.onSubmit()(request)
-      status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include (messagesApi("error.problem"))
+      status(result) must be (BAD_REQUEST)
+      contentAsString(result) must include (messagesApi("error.problem"))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

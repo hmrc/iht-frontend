@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import play.api.i18n.Messages.Implicits._
 import play.twirl.api.Html
 import uk.gov.hmrc.play.test.UnitSpec
 
-class SideBarTest extends UnitSpec with FakeIhtApp with HtmlSpec {
+class SideBarTest extends FakeIhtApp with HtmlSpec {
 
   "sidebar" must {
 
@@ -35,9 +35,9 @@ class SideBarTest extends UnitSpec with FakeIhtApp with HtmlSpec {
       val doc = asDocument(result)
 
       val tag = doc.getElementsByTag("aside")
-      tag.attr("class") shouldBe "sidebar"
-      tag.attr("lang") shouldBe empty
-      tag.html() shouldBe "test"
+      tag.attr("class") mustBe "sidebar"
+      tag.attr("lang") mustBe empty
+      tag.html() mustBe "test"
     }
 
     "display the lang attribute when currentLang is Welsh " in {
@@ -45,9 +45,9 @@ class SideBarTest extends UnitSpec with FakeIhtApp with HtmlSpec {
       val doc = asDocument(result)
 
       val tag = doc.getElementsByAttribute("lang")
-      tag.attr("class") shouldBe "sidebar"
-      tag.attr("lang") should be ("cy")
-      tag.html() shouldBe "test"
+      tag.attr("class") mustBe "sidebar"
+      tag.attr("lang") must be ("cy")
+      tag.html() mustBe "test"
     }
 
   }

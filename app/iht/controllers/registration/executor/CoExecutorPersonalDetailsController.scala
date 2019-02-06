@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,26 +16,28 @@
 
 package iht.controllers.registration.executor
 
-import iht.connector.CachingConnector
+import iht.config.AppConfig
+import iht.connector.{CachingConnector, IhtConnectors}
 import iht.constants.IhtProperties
 import iht.controllers.ControllerHelper.Mode
-import iht.connector.IhtConnectors
 import iht.controllers.registration.RegistrationController
 import iht.forms.registration.CoExecutorForms
-import iht.forms.registration.CoExecutorForms._
 import iht.metrics.Metrics
 import iht.models.{CoExecutor, RegistrationDetails}
 import iht.views.html.registration.{executor => views}
+import javax.inject.Inject
 import play.api.Logger
-import play.api.data.Form
-import play.api.mvc.Call
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
-
-import scala.concurrent.Future
+import play.api.data.Form
+import play.api.i18n.Messages.Implicits._
+import play.api.mvc.Call
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 import uk.gov.hmrc.http.HeaderCarrier
 
-object CoExecutorPersonalDetailsController extends CoExecutorPersonalDetailsController with IhtConnectors {
+import scala.concurrent.Future
+
+class CoExecutorPersonalDetailsControllerImpl @Inject()() extends CoExecutorPersonalDetailsController with IhtConnectors {
   def metrics: Metrics = Metrics
   override def coExecutorForms = CoExecutorForms
 }
@@ -52,7 +54,7 @@ trait CoExecutorPersonalDetailsController extends RegistrationController {
 
   def pageLoad(id: Option[String], actionCall: Call, mode: Mode.Value = Mode.Standard,
                   cancelCall: Option[Call] = None) = authorisedForIht {
-    implicit user => implicit request =>
+    implicit request =>
       withRegistrationDetailsRedirectOnGuardCondition { (rd: RegistrationDetails) =>
 
         val form: Form[CoExecutor] = id match {
@@ -109,7 +111,7 @@ trait CoExecutorPersonalDetailsController extends RegistrationController {
 
   def submit(id: Option[String], onFailureActionCall: Call, mode: Mode.Value = Mode.Standard,
              cancelCall: Option[Call] = None) = authorisedForIht {
-    implicit user => implicit request =>
+    implicit request =>
       withRegistrationDetailsRedirectOnGuardCondition { (rd: RegistrationDetails) =>
 
         val formType =

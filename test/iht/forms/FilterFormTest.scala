@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import iht.constants.Constants._
 /**
   * Created by adwelly on 21/10/2016.
   */
-class FilterFormTest extends FormTestHelper with FakeIhtApp {
+class FilterFormTest extends FormTestHelper {
 
   "FilterForm" must {
     "give an error when no value is provided" in {

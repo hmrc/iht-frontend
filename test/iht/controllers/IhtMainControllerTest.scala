@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,9 +25,6 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class SessionManagementControllerTest extends ApplicationControllerTest {
 
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
-
   def ihtMainController = new SessionManagementController {
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
@@ -38,7 +35,7 @@ class SessionManagementControllerTest extends ApplicationControllerTest {
     "sign out correctly" in {
 
       val result = ihtMainController.signOut()(request)
-      status(result) shouldBe OK
+      status(result) mustBe OK
     }
   }
 }

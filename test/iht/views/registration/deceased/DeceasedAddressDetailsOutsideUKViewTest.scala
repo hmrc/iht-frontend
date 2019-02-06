@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -94,8 +94,8 @@ class DeceasedAddressDetailsOutsideUKViewTest extends RegistrationPageBehaviour[
 
     "have a link to change to a UK address" in {
       val link = doc.getElementById("return-button")
-      link.attr("href") shouldBe (CommonBuilder.DefaultCall1.url)
-      link.text shouldBe messagesApi("iht.registration.changeAddressToUK")
+      link.attr("href") mustBe (CommonBuilder.DefaultCall1.url)
+      link.text mustBe messagesApi("iht.registration.changeAddressToUK")
     }
   }
 
@@ -106,8 +106,8 @@ class DeceasedAddressDetailsOutsideUKViewTest extends RegistrationPageBehaviour[
     "have a link to change to an address in the UK" in {
       val link = editModeView.getElementById("return-button")
 
-      link.attr("href") shouldBe (addressInTheUK.url)
-      link.text shouldBe messagesApi("iht.registration.changeAddressToUK")
+      link.attr("href") mustBe (addressInTheUK.url)
+      link.text mustBe messagesApi("iht.registration.changeAddressToUK")
     }
   }
 }

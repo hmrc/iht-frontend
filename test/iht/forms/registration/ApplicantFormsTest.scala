@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,12 +55,12 @@ class ApplicantFormsTest extends FormTestHelper with FakeIhtApp {
 
     "not give an error when answered Yes" in {
       val data = applyingForProbate("true")
-      applyingForProbateForm.bind(data).get shouldBe ApplicantDetails(isApplyingForProbate = Some(true))
+      applyingForProbateForm.bind(data).get mustBe ApplicantDetails(isApplyingForProbate = Some(true))
     }
 
     "not give an error when answered No" in {
       val data = applyingForProbate("false")
-      applyingForProbateForm.bind(data).get shouldBe ApplicantDetails(isApplyingForProbate = Some(false))
+      applyingForProbateForm.bind(data).get mustBe ApplicantDetails(isApplyingForProbate = Some(false))
     }
 
     "give an error when the question is not answered" in {
@@ -86,7 +86,7 @@ class ApplicantFormsTest extends FormTestHelper with FakeIhtApp {
 
     "not give an error for a valid answer" in {
       val data = probateLocation(applicantCountryEnglandOrWales)
-      probateLocationForm(messages).bind(data).get shouldBe ApplicantDetails(country = Some(applicantCountryEnglandOrWales))
+      probateLocationForm(messages).bind(data).get mustBe ApplicantDetails(country = Some(applicantCountryEnglandOrWales))
     }
 
     "give an error when a blank value is supplied" in {
@@ -119,7 +119,7 @@ class ApplicantFormsTest extends FormTestHelper with FakeIhtApp {
     "not give an error for valid data" in {
       // Note that Applicant Details set the role to Lead Executor by default, hence setting it to None for comparison here
       val data = applicantTellUsAboutYourself("0123456789", "true")
-      applicantTellUsAboutYourselfForm.bind(data).get shouldBe
+      applicantTellUsAboutYourselfForm.bind(data).get mustBe
         ApplicantDetails(phoneNo = Some("0123456789"), doesLiveInUK = Some(true), role = None)
     }
 
@@ -185,7 +185,7 @@ class ApplicantFormsTest extends FormTestHelper with FakeIhtApp {
     "not give an error for valid data" in {
       // Note that Applicant Details set the role to Lead Executor by default, hence setting it to None for comparison here
       val data = applicantTellUsAboutYourselfEdit("0123456789")
-      applicantTellUsAboutYourselfEditForm.bind(data).get shouldBe ApplicantDetails(phoneNo = Some("0123456789"), role = None)
+      applicantTellUsAboutYourselfEditForm.bind(data).get mustBe ApplicantDetails(phoneNo = Some("0123456789"), role = None)
     }
 
     "give an error when a blank phone number is supplied" in {
@@ -219,7 +219,7 @@ class ApplicantFormsTest extends FormTestHelper with FakeIhtApp {
       // This is a test that over-posting does not occur.  The data we supply contains the isAddressInUk field,
       // and we test that the outcome has that field set to None - i.e. the supplied value isn't used.
       val data = applicantTellUsAboutYourself("0123456789", "true")
-      applicantTellUsAboutYourselfEditForm.bind(data).get shouldBe
+      applicantTellUsAboutYourselfEditForm.bind(data).get mustBe
         ApplicantDetails(phoneNo = Some("0123456789"), role = None, doesLiveInUK = None)
     }
   }
@@ -229,14 +229,14 @@ class ApplicantFormsTest extends FormTestHelper with FakeIhtApp {
   "Deceased Address Details (in the UK) form" must {
 
     "not give an error for valid data" in {
-      applicantAddressUkForm.bind(completeUkAddress).get shouldBe
+      applicantAddressUkForm.bind(completeUkAddress).get mustBe
         UkAddress("Line 1", "Line 2", Some("Line 3"), Some("Line 4"), "AA111AA", "GB")
     }
 
     "not give an error when lines 2 and 3 are omitted" in {
       val data = completeUkAddress - "ukAddressLine3" - "ukAddressLine4"
 
-      applicantAddressUkForm.bind(data).get shouldBe UkAddress("Line 1", "Line 2", None, None, "AA111AA", "GB")
+      applicantAddressUkForm.bind(data).get mustBe UkAddress("Line 1", "Line 2", None, None, "AA111AA", "GB")
     }
 
     "give an error when line 1 is blank" in {
@@ -343,14 +343,14 @@ class ApplicantFormsTest extends FormTestHelper with FakeIhtApp {
   "Deceased Address Details (abroad) form" must {
 
     "not give an error for valid data" in {
-      applicantAddressAbroadForm.bind(completeAddressAbroad).get shouldBe
+      applicantAddressAbroadForm.bind(completeAddressAbroad).get mustBe
         UkAddress("Line 1", "Line 2", Some("Line 3"), Some("Line 4"), "", "AU")
     }
 
     "not give an error when lines 2 and 3 are omitted" in {
       val data = completeAddressAbroad - "ukAddressLine3" - "ukAddressLine4"
 
-      applicantAddressAbroadForm.bind(data).get shouldBe UkAddress("Line 1", "Line 2", None, None, "", "AU")
+      applicantAddressAbroadForm.bind(data).get mustBe UkAddress("Line 1", "Line 2", None, None, "", "AU")
     }
 
     "give an error when line 1 is blank" in {

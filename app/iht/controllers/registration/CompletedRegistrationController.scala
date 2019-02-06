@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,24 +16,28 @@
 
 package iht.controllers.registration
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnectors}
 import iht.controllers.ControllerHelper
 import iht.utils.CommonHelper
+import javax.inject.Inject
 import play.api.Logger
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
 
 import scala.concurrent.Future
 
 
-object CompletedRegistrationController extends CompletedRegistrationController with IhtConnectors
+class CompletedRegistrationControllerImpl @Inject()() extends CompletedRegistrationController with IhtConnectors
 
 trait CompletedRegistrationController extends RegistrationController{
   def cachingConnector: CachingConnector
   override def guardConditions: Set[Predicate] = Set.empty
 
   def onPageLoad() = authorisedForIht {
-    implicit user =>implicit request => {
+    implicit request => {
       withRegistrationDetailsOrRedirect(request.uri) { rd =>
          Future.successful(Ok(iht.views.html.registration.completed_registration(rd.ihtReference.get)))
       }
@@ -41,7 +45,7 @@ trait CompletedRegistrationController extends RegistrationController{
   }
 
   def onSubmit = authorisedForIht {
-    implicit user =>implicit request => {
+    implicit request => {
       Future(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
     }
   }

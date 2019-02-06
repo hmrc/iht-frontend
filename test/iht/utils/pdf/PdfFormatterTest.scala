@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,7 +66,7 @@ class PdfFormatterTest extends FormTestHelper {
   "display value" must {
     "must return the year from specified date" in {
       val result = PdfFormatter.getYearFromDate("1990-06-05")
-      result shouldBe 1990
+      result mustBe 1990
     }
   }
 
@@ -102,7 +102,7 @@ class PdfFormatterTest extends FormTestHelper {
     setOfAssets.foreach { asset =>
       val expectedAssetDescription = expectedSetOfAssets
         .find(x => x.assetCode == asset.assetCode && x.howheld == asset.howheld).flatMap(_.assetDescription)
-      asset.assetDescription shouldBe expectedAssetDescription
+      asset.assetDescription mustBe expectedAssetDescription
     }
   }
 
@@ -110,19 +110,19 @@ class PdfFormatterTest extends FormTestHelper {
     "transform the marital status" in {
       val rd = PdfFormatter.transform(CommonBuilder.buildRegistrationDetails4, messages)
       val result = rd.deceasedDetails.flatMap(_.maritalStatus).fold("")(identity)
-      result shouldBe messagesApi("page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.label")
+      result mustBe messagesApi("page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.label")
     }
 
     "transform the deceased country code to country name" in {
       val rd = PdfFormatter.transform(CommonBuilder.buildRegistrationDetails4, messages)
       val result = rd.deceasedDetails.flatMap(_.ukAddress).map(_.countryCode).fold("")(identity)
-      result shouldBe messagesApi("country.GB")
+      result mustBe messagesApi("country.GB")
     }
 
     "transform the applicant country code to country name" in {
       val rd = PdfFormatter.transform(CommonBuilder.buildRegistrationDetails4, messages)
       val result = rd.applicantDetails.flatMap(_.ukAddress).map(_.countryCode).fold("")(identity)
-      result shouldBe messagesApi("country.GB")
+      result mustBe messagesApi("country.GB")
     }
 
     "map the tenure value from messages file" in {
@@ -130,7 +130,7 @@ class PdfFormatterTest extends FormTestHelper {
       val appDetailsAfterFormatting = PdfFormatter.transform(appDetails, regDetails, messages)
 
       val result = appDetailsAfterFormatting.propertyList.head.tenure
-      result shouldBe Some(messagesApi("page.iht.application.assets.tenure.freehold.label"))
+      result mustBe Some(messagesApi("page.iht.application.assets.tenure.freehold.label"))
     }
 
     "map the property type value from messages file" in {
@@ -138,7 +138,7 @@ class PdfFormatterTest extends FormTestHelper {
       val appDetailsAfterFormatting = PdfFormatter.transform(appDetails, regDetails, messages)
 
       val result = appDetailsAfterFormatting.propertyList.head.propertyType
-      result shouldBe Some(messagesApi("page.iht.application.assets.propertyType.deceasedHome.label"))
+      result mustBe Some(messagesApi("page.iht.application.assets.propertyType.deceasedHome.label"))
     }
 
     "map the property ownership value from messages file" in {
@@ -147,7 +147,7 @@ class PdfFormatterTest extends FormTestHelper {
       val appDetailsAfterFormatting = PdfFormatter.transform(appDetails, regDetails, messages)
 
       val result = appDetailsAfterFormatting.propertyList.head.typeOfOwnership
-      result shouldBe Some(messagesApi("page.iht.application.assets.typeOfOwnership.deceasedOnly.label",
+      result mustBe Some(messagesApi("page.iht.application.assets.typeOfOwnership.deceasedOnly.label",
         regDetails.deceasedDetails.fold("")(_.name)))
     }
   }
@@ -155,7 +155,7 @@ class PdfFormatterTest extends FormTestHelper {
   "estateOverviewDisplayMode" must {
     "return 1 when only assets, gifts and debts are filled in (base)" in {
       val ad = CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts
-      PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 1
+      PdfFormatter.estateOverviewDisplayMode(ad) mustBe 1
     }
 
     "return 2 when in addition to base Tnrb completed and exemptions locked" in {
@@ -165,7 +165,7 @@ class PdfFormatterTest extends FormTestHelper {
             hasSeenExemptionGuidance = Some(false)
             )
         )
-      PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 2
+      PdfFormatter.estateOverviewDisplayMode(ad) mustBe 2
     }
 
     "return 3 when in addition to base Tnrb started but not completed and exemptions unlocked but zero" in {
@@ -175,7 +175,7 @@ class PdfFormatterTest extends FormTestHelper {
             hasSeenExemptionGuidance = Some(true)
             )
         )
-      PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 3
+      PdfFormatter.estateOverviewDisplayMode(ad) mustBe 3
     }
 
     "return 3 when in addition to base Tnrb not increased and exemptions unlocked but zero" in {
@@ -185,7 +185,7 @@ class PdfFormatterTest extends FormTestHelper {
             hasSeenExemptionGuidance = Some(true)
             )
         )
-      PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 3
+      PdfFormatter.estateOverviewDisplayMode(ad) mustBe 3
     }
 
     "return 4 when in addition to base Tnrb increased and exemptions unlocked but zero" in {
@@ -195,7 +195,7 @@ class PdfFormatterTest extends FormTestHelper {
             hasSeenExemptionGuidance = Some(true)
             )
         )
-      PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 4
+      PdfFormatter.estateOverviewDisplayMode(ad) mustBe 4
     }
 
     "return 5 when in addition to base Tnrb increased and exemptions unlocked but more than zero" in {
@@ -205,7 +205,7 @@ class PdfFormatterTest extends FormTestHelper {
             hasSeenExemptionGuidance = Some(true)
             )
         )
-      PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 5
+      PdfFormatter.estateOverviewDisplayMode(ad) mustBe 5
     }
 
     "return 6 when in addition to base Tnrb started but not completed and exemptions unlocked but more than zero" in {
@@ -215,7 +215,7 @@ class PdfFormatterTest extends FormTestHelper {
             hasSeenExemptionGuidance = Some(true)
             )
         )
-      PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 6
+      PdfFormatter.estateOverviewDisplayMode(ad) mustBe 6
     }
 
     "return 6 when in addition to base Tnrb not increased and exemptions unlocked but more than zero" in {
@@ -225,7 +225,7 @@ class PdfFormatterTest extends FormTestHelper {
             hasSeenExemptionGuidance = Some(true)
             )
         )
-      PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 6
+      PdfFormatter.estateOverviewDisplayMode(ad) mustBe 6
     }
   }
 
@@ -258,7 +258,7 @@ class PdfFormatterTest extends FormTestHelper {
         makeGiftWithOutExemption(444, toDate("2014-10-05"))
       )
 
-      PdfFormatter.combineGiftSets(gifts1, gifts2).toSet shouldBe expectedGifts
+      PdfFormatter.combineGiftSets(gifts1, gifts2).toSet mustBe expectedGifts
     }
   }
 
@@ -289,7 +289,7 @@ class PdfFormatterTest extends FormTestHelper {
       ))
       val result = gifts.map(setGifts => PdfFormatter.padGifts(setGifts, dateOfDeath).toSet)
 
-      result shouldBe expectedGifts
+      result mustBe expectedGifts
     }
 
     "pad correctly where < 7 years" in {
@@ -315,7 +315,7 @@ class PdfFormatterTest extends FormTestHelper {
       ))
       val result = gifts.map(setGifts => PdfFormatter.padGifts(setGifts, dateOfDeath).toSet)
 
-      result shouldBe expectedGifts
+      result mustBe expectedGifts
     }
   }
 
@@ -327,13 +327,13 @@ class PdfFormatterTest extends FormTestHelper {
       val freeEstate = CommonBuilder.buildFreeEstate.copy(estateExemptions = Some(Seq(estateExemptions1)))
       val ihtReturnWithPositiveExemptions = CommonBuilder.buildIHTReturn.copy(freeEstate = Some(freeEstate))
 
-      PdfFormatter.estateOverviewDisplayModeForPostPdf(ihtReturnWithPositiveExemptions) shouldBe "exemption"
+      PdfFormatter.estateOverviewDisplayModeForPostPdf(ihtReturnWithPositiveExemptions) mustBe "exemption"
 
     }
 
     "return exemptions mode when total exemptions value is 0" in {
       val ihtReturnWithNoExemptions = CommonBuilder.buildIHTReturn
-      PdfFormatter.estateOverviewDisplayModeForPostPdf(ihtReturnWithNoExemptions) shouldBe "noExemption"
+      PdfFormatter.estateOverviewDisplayModeForPostPdf(ihtReturnWithNoExemptions) mustBe "noExemption"
     }
   }
 
@@ -434,8 +434,8 @@ class PdfFormatterTest extends FormTestHelper {
 
       val result = PdfFormatter.createApplicationDetails(optionSetAsset, optionSetTrust)
 
-      result.allAssets shouldBe expectedResult.allAssets
-      result.propertyList shouldBe expectedResult.propertyList
+      result.allAssets mustBe expectedResult.allAssets
+      result.propertyList mustBe expectedResult.propertyList
     }
   }
 
@@ -445,22 +445,22 @@ class PdfFormatterTest extends FormTestHelper {
 
     "set the isOwned flag to true for Other Residential Building asset (0017)" in {
       val tstAsset = Asset(assetCode = Some("0017"))
-      PdfFormatter.transformAssets2(emptyAssets, tstAsset) shouldBe Some(assetsWithPropertyTag)
+      PdfFormatter.transformAssets2(emptyAssets, tstAsset) mustBe Some(assetsWithPropertyTag)
     }
 
     "set the isOwned flag to true for Non-Residential asset (0018)" in {
       val tstAsset = Asset(assetCode = Some("0018"))
-      PdfFormatter.transformAssets2(emptyAssets, tstAsset) shouldBe Some(assetsWithPropertyTag)
+      PdfFormatter.transformAssets2(emptyAssets, tstAsset) mustBe Some(assetsWithPropertyTag)
     }
 
     "Return None if no asset code is provided" in {
       val tstAsset = Asset(assetCode = None)
-      PdfFormatter.transformAssets2(emptyAssets, tstAsset) shouldBe None
+      PdfFormatter.transformAssets2(emptyAssets, tstAsset) mustBe None
     }
 
     "Return None if an unknown asset code is provided" in {
       val tstAsset = Asset(assetCode = Some("8888"))
-      PdfFormatter.transformAssets2(emptyAssets, tstAsset) shouldBe None
+      PdfFormatter.transformAssets2(emptyAssets, tstAsset) mustBe None
     }
   }
 }

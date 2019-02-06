@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,37 +16,41 @@
 
 package iht.controllers.application.assets.trusts
 
+import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.IhtConnectors
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.Metrics
-import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
-import iht.utils.ApplicationKickOutHelper
+import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import iht.views.html.application.asset.trusts.trusts_value
-import play.api.i18n.Messages.Implicits._
+import javax.inject.Inject
 import play.api.Play.current
-import iht.utils.CommonHelper
-import iht.constants.IhtProperties._
+import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-object TrustsValueController extends TrustsValueController with IhtConnectors {
+class TrustsValueControllerImpl @Inject()() extends TrustsValueController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait TrustsValueController extends EstateController {
 
-  val submitUrl = CommonHelper.addFragmentIdentifier(
+
+  lazy val submitUrl = CommonHelper.addFragmentIdentifier(
     iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(), Some(AssetsTrustsValueID))
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsTrustsValue)
 
-  def onPageLoad = authorisedForIht {
-    implicit user => implicit request =>
-      estateElementOnPageLoad[HeldInTrust](trustsValueForm, trusts_value.apply, _.allAssets.flatMap(_.heldInTrust))
+  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request =>
+      estateElementOnPageLoad[HeldInTrust](trustsValueForm, trusts_value.apply, _.allAssets.flatMap(_.heldInTrust), userNino)
   }
 
-  def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
       val updateApplicationDetails: (ApplicationDetails, Option[String], HeldInTrust) =>
         (ApplicationDetails, Option[String]) =
         (appDetails, _, heldInTrust) => {
@@ -65,7 +69,8 @@ trait TrustsValueController extends EstateController {
         trustsValueForm,
         trusts_value.apply,
         updateApplicationDetails,
-        submitUrl
+        submitUrl,
+        userNino
       )
     }
   }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,40 +37,37 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTest{
 
-  val mockCachingConnector = mock[CachingConnector]
-  var mockIhtConnector = mock[IhtConnector]
+
 
   def assetsLeftToPartnerQuestionController = new AssetsLeftToPartnerQuestionController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def assetsLeftToPartnerQuestionControllerNotAuthorised = new AssetsLeftToPartnerQuestionController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  before {
-    mockIhtConnector = mock[IhtConnector]
-  }
+
 
 
   "AssetsLeftToPartnerQuestionController" must {
 
     "redirect to login page on PageLoad if the user is not logged in" in {
-      val result = assetsLeftToPartnerQuestionControllerNotAuthorised.onPageLoad(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      val result = assetsLeftToPartnerQuestionControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "redirect to login page on Submit if the user is not logged in" in {
-      val result = assetsLeftToPartnerQuestionControllerNotAuthorised.onSubmit(createFakeRequest())
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      val result = assetsLeftToPartnerQuestionControllerNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
+      status(result) must be(SEE_OTHER)
+      redirectLocation(result) must be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
@@ -89,8 +86,8 @@ class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTes
 
 
       val result = assetsLeftToPartnerQuestionController.onPageLoad (createFakeRequest())
-      status(result) shouldBe (OK)
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question", deceasedName))
+      status(result) mustBe (OK)
+      ContentChecker.stripLineBreaks(contentAsString(result)) must include (messagesApi("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question", deceasedName))
     }
 
     "respond with internal server error on page load when no app details" in {
@@ -104,7 +101,7 @@ class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTes
         storeAppDetailsInCache = true)
 
       val result = assetsLeftToPartnerQuestionController.onPageLoad (createFakeRequest())
-      status(result) shouldBe INTERNAL_SERVER_ERROR
+      status(result) mustBe INTERNAL_SERVER_ERROR
     }
 
     "save application and go to Exemptions Overview page on submit" in {
@@ -126,7 +123,7 @@ class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTes
         .toSeq: _*)
 
       val result = assetsLeftToPartnerQuestionController.onSubmit(request)
-      status(result) shouldBe (SEE_OTHER)
+      status(result) mustBe (SEE_OTHER)
     }
 
     "give internal server error when no app details on submit" in {
@@ -148,7 +145,7 @@ class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTes
         .toSeq: _*)
 
       val result = assetsLeftToPartnerQuestionController.onSubmit(request)
-      status(result) shouldBe INTERNAL_SERVER_ERROR
+      status(result) mustBe INTERNAL_SERVER_ERROR
     }
 
     "wipe out all the partner exemption data if user selects the assets left to partner question as No, " +
@@ -171,7 +168,7 @@ class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTes
         .toSeq: _*)
 
       val result = assetsLeftToPartnerQuestionController.onSubmit(request)
-      status(result) shouldBe (SEE_OTHER)
+      status(result) mustBe (SEE_OTHER)
 
       val capturedValue = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
 
@@ -180,7 +177,7 @@ class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTes
                               Some(CommonBuilder.buildPartnerExemption.copy(
                                 Some(false), None, None, None, None, None,None)))))
 
-      capturedValue shouldBe expectedAppDetails
+      capturedValue mustBe expectedAppDetails
     }
 
     "save application and go to PartnerPermanentHome when user select yes and submit  " in {
@@ -201,8 +198,8 @@ class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTes
         storeAppDetailsInCache = true)
 
       val result = assetsLeftToPartnerQuestionController.onSubmit()(request)
-      status(result) shouldBe (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.PartnerPermanentHomeQuestionController.onPageLoad.url))
+      status(result) mustBe (SEE_OTHER)
+      redirectLocation(result) must be (Some(routes.PartnerPermanentHomeQuestionController.onPageLoad.url))
 
     }
 
@@ -224,8 +221,8 @@ class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTes
         storeAppDetailsInCache = true)
 
       val result = assetsLeftToPartnerQuestionController.onSubmit()(request)
-      status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include (messagesApi("error.problem"))
+      status(result) must be (BAD_REQUEST)
+      contentAsString(result) must include (messagesApi("error.problem"))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

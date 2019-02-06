@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,8 +31,8 @@ class SignOutViewTest extends ViewTestHelper {
     "have the correct title" in {
       val doc = asDocument(view)
       val headers = doc.getElementsByTag("h1")
-      headers.size shouldBe 1
-      headers.get(0).text() shouldBe messagesApi("iht.signedOut")
+      headers.size mustBe 1
+      headers.get(0).text() mustBe messagesApi("iht.signedOut")
     }
 
     "have the correct message" in {
