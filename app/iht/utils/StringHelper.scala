@@ -125,10 +125,6 @@ object StringHelper {
     }
   }
 
-  def getNino(user: AuthContext): String = {
-    user.principal.accounts.iht.getOrElse(throw new RuntimeException("User account could not be retrieved!")).nino.value
-  }
-
   def getNino(userNino: Option[String]): String = {
     userNino.getOrElse(throw new RuntimeException("User account could not be retrieved!"))
   }

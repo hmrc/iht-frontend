@@ -38,7 +38,6 @@ import scala.concurrent.Future
   * Created by dbeer on 14/08/15.
   */
 
-@Singleton
 class PDFControllerImpl @Inject()(val messagesApi: MessagesApi) extends PDFController with IhtConnectors
 
 trait PDFController extends ApplicationController with I18nSupport {

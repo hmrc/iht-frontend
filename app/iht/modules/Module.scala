@@ -36,6 +36,7 @@ import iht.controllers.application.exemptions.charity._
 import iht.controllers.application.exemptions.partner._
 import iht.controllers.application.exemptions.qualifyingBody._
 import iht.controllers.application.gifts._
+import iht.controllers.application.pdf.{PDFController, PDFControllerImpl}
 import iht.controllers.application.status._
 import iht.controllers.application.tnrb._
 import iht.controllers.estateReports.{YourEstateReportsController, YourEstateReportsControllerImpl}
@@ -178,6 +179,8 @@ class Module extends AbstractModule {
 
     bind(classOf[ApplicationClosedController]).to(classOf[ApplicationClosedControllerImpl]).asEagerSingleton
     bind(classOf[ApplicationInReviewController]).to(classOf[ApplicationInReviewControllerImpl]).asEagerSingleton
+
+    bind(classOf[PDFController]).to(classOf[PDFControllerImpl]).asEagerSingleton
 
     bind(classOf[TestOnlyController]).to(classOf[TestOnlyControllerImpl]).asEagerSingleton
   }

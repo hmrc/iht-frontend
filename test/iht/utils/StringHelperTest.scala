@@ -162,15 +162,6 @@ class StringHelperTest extends FakeIhtApp with MockitoSugar {
     result mustNot contain("-")
   }
 
-  "getNino should throw a RuntimeException when user account could not be retrieved" in {
-
-    val loggedInUser = new LoggedInUser(CommonBuilder.firstNameGenerator, None, None, None, CredentialStrength.Strong, ConfidenceLevel.L300, "")
-    val ac = new AuthContext(loggedInUser, Principal(None, Accounts()), None, None, None, None)
-    a[RuntimeException] mustBe thrownBy {
-      StringHelper.getNino(ac)
-    }
-  }
-
   "booleanToYesNo should return Yes as a String" in {
     val result = StringHelper.booleanToYesNo(boolean = true)
     result must be("Yes")
