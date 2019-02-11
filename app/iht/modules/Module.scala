@@ -17,7 +17,7 @@
 package iht.modules
 
 import com.google.inject.AbstractModule
-import iht.config.{AppConfig, FrontendAuthConnector, TestAppConfig}
+import iht.config.{AppConfig, FrontendAuthConnector, ApplicationConfigImpl}
 import iht.controllers._
 import iht.controllers.application.assets._
 import iht.controllers.application._
@@ -49,7 +49,7 @@ import uk.gov.hmrc.auth.core.PlayAuthConnector
 
 class Module extends AbstractModule {
   def configure() = {
-    bind(classOf[AppConfig]).to(classOf[TestAppConfig]).asEagerSingleton
+    bind(classOf[AppConfig]).to(classOf[ApplicationConfigImpl]).asEagerSingleton
 
     bind(classOf[IVWayfinderController]).to(classOf[IVWayfinderControllerImpl]).asEagerSingleton
     bind(classOf[SessionManagementController]).to(classOf[SessionManagementControllerImpl]).asEagerSingleton

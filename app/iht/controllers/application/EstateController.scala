@@ -16,13 +16,14 @@
 
 package iht.controllers.application
 
+import iht.config.WiringConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.models.application.exemptions._
 import iht.utils.ApplicationKickOutHelper.FunctionListMap
-import iht.utils.{ApplicationKickOutNonSummaryHelper, ApplicationKickOutHelper, CommonHelper, IhtFormValidator, StringHelper}
+import iht.utils.{ApplicationKickOutHelper, ApplicationKickOutNonSummaryHelper, CommonHelper, IhtFormValidator, StringHelper}
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Call, Request, Result}

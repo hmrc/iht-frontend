@@ -16,9 +16,8 @@
 
 package iht.controllers.application.assets.properties
 
-import iht.config.{AppConfig, FrontendAuthConnector}
-import iht.connector.{CachingConnector, IhtConnector}
-import iht.connector.IhtConnectors
+import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.Metrics
@@ -26,18 +25,15 @@ import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.Property
 import iht.utils._
+import javax.inject.Inject
 import play.api.Logger
-import play.api.mvc.{Call, Request, Result}
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
+import play.api.mvc.{Call, Request, Result}
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.Future
-import iht.constants.IhtProperties._
-import javax.inject.Inject
-import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
-import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
 class PropertyTenureControllerImpl @Inject()() extends PropertyTenureController with IhtConnectors {
   def metrics: Metrics = Metrics

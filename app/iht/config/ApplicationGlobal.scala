@@ -33,7 +33,7 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 import play.api.mvc.Results._
 
 
-object ApplicationGlobal extends DefaultFrontendGlobal with RunMode {
+object ApplicationGlobal extends DefaultFrontendGlobal with WiringConfig {
 
   override val auditConnector = IhtAuditConnector
   override val loggingFilter = IhtLoggingFilter
@@ -44,7 +44,7 @@ object ApplicationGlobal extends DefaultFrontendGlobal with RunMode {
 
   override def onStart(app: Application) {
     super.onStart(app)
-    ApplicationCrypto.verifyConfiguration()
+    applicationCrypto.verifyConfiguration()
   }
 
   def desInternalServerErrorTemplate(implicit request: Request[_]): Html = {
@@ -86,8 +86,7 @@ object IhtLoggingFilter extends FrontendLoggingFilter with MicroserviceFilterSup
   override def controllerNeedsLogging(controllerName: String) = ControllerConfiguration.paramsForController(controllerName).needsLogging
 }
 
-object IhtAuditFilter extends FrontendAuditFilter with RunMode with AppName with MicroserviceFilterSupport {
-
+object IhtAuditFilter extends FrontendAuditFilter with WiringConfig with AppName with MicroserviceFilterSupport {
   override lazy val maskedFormFields = Seq.empty
 
   override lazy val applicationPort = None

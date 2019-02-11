@@ -16,7 +16,7 @@
 
 package iht.connector
 
-import iht.config.WSHttp
+import iht.config.{WSHttp, WiringConfig}
 import iht.controllers.ControllerHelper
 import iht.models._
 import iht.models.application.{ApplicationDetails, IhtApplication, ProbateDetails}
@@ -35,7 +35,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import uk.gov.hmrc.http.{BadRequestException, ConflictException, GatewayTimeoutException, HeaderCarrier, HttpDelete, HttpGet, HttpPost, HttpPut, HttpResponse, NotFoundException, Upstream4xxResponse, Upstream5xxResponse}
 
-trait IhtConnector {
+trait IhtConnector extends WiringConfig {
 
   def http: HttpGet with HttpPost with HttpPut with HttpDelete
 

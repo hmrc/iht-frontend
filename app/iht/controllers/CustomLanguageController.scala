@@ -16,16 +16,15 @@
 
 package iht.controllers
 
-import iht.config.ApplicationConfig
-import play.api.Play.current
+import iht.config.{ApplicationConfig, WiringConfig}
 import play.api.Play
+import play.api.Play.current
 import play.api.i18n.Lang
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent, Call}
-import uk.gov.hmrc.play.config.RunMode
 import uk.gov.hmrc.play.language.{LanguageController, LanguageUtils}
 
-object CustomLanguageController extends LanguageController with RunMode {
+object CustomLanguageController extends LanguageController with WiringConfig {
   /** Converts a string to a URL, using the route to this controller. **/
   val englishLang = Lang("en")
 

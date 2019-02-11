@@ -21,7 +21,7 @@ import java.net.URLEncoder
 import javax.inject.Inject
 import uk.gov.hmrc.play.config.ServicesConfig
 
-trait AppConfig extends ServicesConfig {
+trait AppConfig extends ServicesConfig with WiringConfig {
   def readFromConfig(key: String): String = runModeConfiguration.getString(key).getOrElse(throw new Exception(s"Missing key: $key")).toString.trim
 
   /**
@@ -73,6 +73,6 @@ trait AppConfig extends ServicesConfig {
   lazy val isWelshEnabled: Boolean  = runModeConfiguration.getBoolean("welsh.enabled").getOrElse(runningEnvironment != "PROD")
 }
 
-class TestAppConfig @Inject()() extends AppConfig
+class ApplicationConfigImpl @Inject()() extends AppConfig
 
 object ApplicationConfig extends AppConfig

@@ -16,7 +16,7 @@
 
 package iht.controllers.auth
 
-import iht.config.ApplicationConfig
+import iht.config.{ApplicationConfig, WiringConfig}
 import iht.utils.{AuthHelper, IhtSection}
 import play.api.Logger
 import play.api.mvc.{Action, AnyContent, Request, Result}
@@ -27,7 +27,7 @@ import uk.gov.hmrc.play.frontend.controller.FrontendController
 
 import scala.concurrent.Future
 
-trait IhtBaseController extends FrontendController with AuthorisedFunctions with AuthHelper {
+trait IhtBaseController extends FrontendController with AuthorisedFunctions with AuthHelper with WiringConfig {
   private type AsyncPlayRequest = Request[AnyContent] => Future[Result]
   private type AsyncPlayUserRequest[A] = A => Request[AnyContent] => Future[Result]
 

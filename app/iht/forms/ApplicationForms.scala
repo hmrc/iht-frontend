@@ -429,7 +429,7 @@ object ApplicationForms {
   )
 
 
-  val charityNumberForm = Form(mapping(
+  lazy val charityNumberForm = Form(mapping(
     "charityNumber" -> ihtNonEmptyText("error.charityNumber.give")
       .verifying("error.charityNumber.enterUsingOnly6Or7Numbers",
         f => f.length <= IhtProperties.validationMaxCharityNumberLength)
@@ -488,7 +488,7 @@ object ApplicationForms {
   )
   )
 
-  val charityNameForm = Form(mapping(
+  lazy val charityNameForm = Form(mapping(
     "name" -> name(
       IhtProperties.validationMaxLengthCharityName,
       "error.charityName.enterName",
@@ -511,7 +511,7 @@ object ApplicationForms {
   )
   )
 
-  val qualifyingBodyNameForm: Form[QualifyingBody] = Form(mapping(
+  lazy val qualifyingBodyNameForm: Form[QualifyingBody] = Form(mapping(
     "name" -> name(
       IhtProperties.validationMaxLengthQualifyingBodyName,
       "error.qualifyingBodyName.enterName",
