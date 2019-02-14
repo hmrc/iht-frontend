@@ -16,7 +16,7 @@
 
 package iht.connector
 
-import iht.config.{ApplicationConfig, WSHttp}
+import iht.config.{ApplicationConfig, WSHttp, WiringConfig}
 import iht.models.enums.IdentityVerificationResult.IdentityVerificationResult
 import play.api.Logger
 import play.api.data.validation.ValidationError
@@ -28,7 +28,7 @@ import uk.gov.hmrc.play.http.logging.MdcLoggingExecutionContext._
 import scala.concurrent.Future
 
 
-object IdentityVerificationConnector extends IdentityVerificationConnector with ServicesConfig{
+object IdentityVerificationConnector extends IdentityVerificationConnector with ServicesConfig with WiringConfig {
   override def http: HttpGet = WSHttp
 }
 

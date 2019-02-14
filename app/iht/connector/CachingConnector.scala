@@ -18,7 +18,7 @@ package iht.connector
 
 import java.io
 
-import iht.config.WSHttp
+import iht.config.{WSHttp, WiringConfig}
 import iht.models._
 import iht.models.application.{ApplicationDetails, ProbateDetails}
 import play.api.libs.json._
@@ -29,7 +29,7 @@ import uk.gov.hmrc.play.config.{AppName, ServicesConfig}
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
-object SessionHttpCaching extends SessionCache with AppName with ServicesConfig {
+object SessionHttpCaching extends SessionCache with AppName with ServicesConfig with WiringConfig {
   override lazy val http = WSHttp
   override lazy val defaultSource = appName
   override lazy val baseUri = baseUrl("cachable.session-cache")

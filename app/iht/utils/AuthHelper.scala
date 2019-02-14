@@ -16,44 +16,16 @@
 
 package iht.utils
 
-import java.net.{URI, URLEncoder}
+import java.net.URLEncoder
 
-import iht.config.{AppConfig, ApplicationConfig}
-import play.api.mvc.Results._
-import play.api.mvc.{AnyContent, Request}
+import iht.config.ApplicationConfig
 import uk.gov.hmrc.play.config.AppName
-import uk.gov.hmrc.play.frontend.auth._
-import uk.gov.hmrc.play.frontend.auth.connectors.domain.{ConfidenceLevel, CredentialStrength}
-
-import scala.concurrent.Future
 
 object IhtSection extends Enumeration {
   val Registration, Application = Value
 }
 
 trait AuthHelper extends AppName {
-//  private def getCompositePageVisibilityPredicate(postSignInUrl: String, notAuthorisedUrl: String, requiredConfidenceLevel: Int) = {
-//    new CompositePageVisibilityPredicate {
-//      private val ivUpliftURI: URI =
-//        new URI(ApplicationConfig.ivUrlUplift +
-//          s"completionURL=${URLEncoder.encode(postSignInUrl, "UTF-8")}&" +
-//          s"failureURL=${URLEncoder.encode(notAuthorisedUrl, "UTF-8")}" +
-//          s"&confidenceLevel=$requiredConfidenceLevel")
-//
-//      override def children: Seq[PageVisibilityPredicate] = Seq(
-//        new UpliftingIdentityConfidencePredicate(ConfidenceLevel.fromInt(requiredConfidenceLevel), ivUpliftURI)
-//      )
-//    }
-//  }
-//
-//  def getIhtTaxRegime(ihtSection: IhtSection.Value) = ihtSection match {
-//    case IhtSection.Registration =>
-//      IhtRegimeForRegistration
-//    case IhtSection.Application =>
-//      IhtRegimeForApplication
-//    case _ => throw new RuntimeException("Could not figure out tax regime")
-//  }
-
   def getIVUrlForFailedConfidenceLevel(ihtSection: IhtSection.Value, requiredConfidenceLevel: Int): String = {
     lazy val ivUpliftUrl = ApplicationConfig.ivUrlUplift
 
@@ -77,17 +49,4 @@ trait AuthHelper extends AppName {
     case IhtSection.Application => ApplicationConfig.postSignInRedirectUrlApplication
     case _ => throw new RuntimeException("Could not figure out tax regime")
   }
-
-//  def getIhtCompositePageVisibilityPredicate(ihtSection: IhtSection.Value) =
-//    ihtSection match {
-//    case IhtSection.Registration => getCompositePageVisibilityPredicate(
-//      ApplicationConfig.postIVRedirectUrlRegistration,
-//      ApplicationConfig.notAuthorisedRedirectUrlRegistration,
-//      ApplicationConfig.ivUpliftConfidenceLevel)
-//    case IhtSection.Application => getCompositePageVisibilityPredicate(
-//      ApplicationConfig.postIVRedirectUrlApplication,
-//      ApplicationConfig.notAuthorisedRedirectUrlApplication,
-//      ApplicationConfig.ivUpliftConfidenceLevel)
-//    case _ => throw new RuntimeException("Could not figure out composite page visibility predicate")
-//  }
 }
