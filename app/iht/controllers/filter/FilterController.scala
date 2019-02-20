@@ -20,38 +20,37 @@ import iht.config.IhtFormPartialRetriever
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.Constants
 import iht.forms.FilterForms._
-import iht.utils.MessagesHelper
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
+import javax.inject.Inject
+import play.api.Application
+import play.api.i18n.{I18nSupport, Lang, MessagesApi}
+import play.api.mvc.{Action, AnyContent}
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.play.bootstrap.controller.UnauthorisedAction.async
+import uk.gov.hmrc.play.bootstrap.controller.{FrontendController, UnauthorisedAction}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-/**
-  * Created by adwelly on 21/10/2016.
-  * Modelled closely on the PrivateBetaLandingPageController
-  */
+class FilterControllerImpl @Inject()(val ihtConnector: IhtConnector,
+                                     val cachingConnector: CachingConnector,
+                                     val authConnector: AuthConnector,
+                                     val messagesApi: MessagesApi,
+                                     val formPartialRetriever: IhtFormPartialRetriever) extends FilterController
 
-object FilterController extends FilterController {
-  val cachingConnector = CachingConnector
-  val ihtConnector = IhtConnector
-}
-
-trait FilterController extends FrontendController {
+trait FilterController extends FrontendController with I18nSupport {
 
   def cachingConnector: CachingConnector
   def ihtConnector: IhtConnector
 
-  implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
+  implicit val formPartialRetriever: FormPartialRetriever
 
-  def onPageLoad = UnauthorisedAction.async {
+  def onPageLoad: Action[AnyContent] = async {
     implicit request => {
       val refEndsWithCy = request.headers.get(REFERER).exists(_.endsWith(".cy"))
 
       if (refEndsWithCy) {
         Future.successful(Ok(iht.views.html.filter.filter_view(filterForm)(
-          messages = MessagesHelper.messagesForLang(applicationMessages, "cy"),
+          messages = messagesApi.preferred(Seq(Lang("cy"))),
           request = request, ihtFormPartialRetriever = formPartialRetriever)))
       } else {
         Future.successful(Ok(iht.views.html.filter.filter_view(filterForm)))
@@ -59,12 +58,11 @@ trait FilterController extends FrontendController {
     }
   }
 
-  def redirectPageLoad = UnauthorisedAction {
-    implicit user =>
-      Redirect(iht.controllers.filter.routes.FilterController.onPageLoad())
+  def redirectPageLoad = UnauthorisedAction { implicit user =>
+    Redirect(iht.controllers.filter.routes.FilterController.onPageLoad())
   }
 
-  def onSubmit = UnauthorisedAction.async {
+  def onSubmit: Action[AnyContent] = async {
     implicit request => {
       val boundForm = filterForm.bindFromRequest()
 

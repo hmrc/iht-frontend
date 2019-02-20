@@ -16,7 +16,7 @@
 
 package iht.controllers.estateReports
 
-import iht.connector.{CachingConnector, IhtConnector}
+import iht.connector.IhtConnector
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.{ApplicationDetails, IhtApplication}
 import iht.testhelpers.MockObjectBuilder._
@@ -31,13 +31,10 @@ import org.mockito.stubbing.Answer
 import play.api.mvc.Call
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
+import uk.gov.hmrc.http.{HeaderCarrier, Upstream4xxResponse}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
-import uk.gov.hmrc.http.{HeaderCarrier, Upstream4xxResponse}
-
-import scala.concurrent.duration.Duration
 
 class YourEstateReportsControllerTest  extends ApplicationControllerTest{
 

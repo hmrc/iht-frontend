@@ -14,16 +14,14 @@
  * limitations under the License.
  *@
 
-@import iht.models._
-@import iht.models.application.basicElements.BasicEstateElement
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-
-@import iht.utils._
 @import iht.constants.Constants
 @import iht.constants.IhtProperties._
+@import iht.models.application.basicElements.BasicEstateElement
 @import iht.utils._
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.models.RegistrationDetails
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(foreignForm: Form[BasicEstateElement],
 registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
@@ -37,7 +35,7 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
 
     @ihtHelpers.custom.error_summary_override_keys(foreignForm, Constants.AppSectionForeign)
 
-    @helpers.form(action = iht.controllers.application.assets.routes.ForeignController.onSubmit, 'autoComplete -> "off") {
+    @form(action = iht.controllers.application.assets.routes.ForeignController.onSubmit, 'autoComplete -> "off") {
 
         <div class="form-group">
             <p>@Html(Messages("page.iht.application.assets.foreign.description.p1",deceasedName))</p>

@@ -14,13 +14,10 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.utils._
-@import iht.controllers.ControllerHelper
 @import iht.constants._
-@import iht.controllers.ControllerHelper.Mode
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(aboutDeceased:Form[iht.models.DeceasedDetails],
 actionLocation: Call,
@@ -36,7 +33,7 @@ isFullWidth=false) {
 
 @ihtHelpers.custom.error_summary(aboutDeceased)
 
-@helpers.form(action = actionLocation, 'autoComplete -> "off") {
+@form(action = actionLocation, 'autoComplete -> "off") {
     @ihtHelpers.standard.input_with_help(aboutDeceased("firstName"),
         '_maxlength -> IhtProperties.validationMaxLengthFirstName,
         '_divClass -> "form-group",

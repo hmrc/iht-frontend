@@ -16,39 +16,31 @@
 
 package iht.controllers
 
-import iht.config.{AppConfig, IhtFormPartialRetriever}
+import iht.config.IhtFormPartialRetriever
 import iht.connector.CachingConnector
 import iht.views.html.{deadlines_application, deadlines_registration}
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
+import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.mvc.{Action, AnyContent}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.controller.UnauthorisedAction.async
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-/**
-  * Created by yasar on 2/19/15.
-  */
+class DeadlinesControllerImpl @Inject()(val cachingConnector: CachingConnector,
+                                        val formPartialRetriever: IhtFormPartialRetriever,
+                                        val messagesApi: MessagesApi) extends DeadlinesController
 
-trait DeadlinesController extends FrontendController {
-  implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
-
+trait DeadlinesController extends FrontendController with I18nSupport {
+  implicit val formPartialRetriever: FormPartialRetriever
   def cachingConnector: CachingConnector
 
-  def onPageLoadRegistration = UnauthorisedAction.async {
-    implicit request => {
-      Future.successful(Ok(deadlines_registration.apply))
-    }
+  def onPageLoadRegistration: Action[AnyContent] = async { implicit request =>
+    Future.successful(Ok(deadlines_registration.apply))
   }
 
-  def onPageLoadApplication = UnauthorisedAction.async {
-    implicit request => {
-      Future.successful(Ok(deadlines_application.apply))
-    }
+  def onPageLoadApplication: Action[AnyContent] = async { implicit request =>
+    Future.successful(Ok(deadlines_application.apply))
   }
-}
-
-object DeadlinesController extends DeadlinesController {
-  val cachingConnector = CachingConnector
 }

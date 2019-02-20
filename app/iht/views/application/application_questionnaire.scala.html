@@ -14,12 +14,9 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.models._
-@import iht.controllers.ControllerHelper
-@import iht.utils._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.views.html.iht_main_template_application
+@import iht.views.html.ihtHelpers
 
 @(form: Form[_], includeIntendReturnQuestion: Boolean, postRoute: Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
@@ -37,7 +34,7 @@
     <p>@Messages("page.iht.questionnaire.improve_service")</p>
     </div>
    @ihtHelpers.custom.questionnaire_form(
-        form = form,
+        ihtForm = form,
         postRoute = postRoute,
         includeIntendReturnQuestion = includeIntendReturnQuestion
     )

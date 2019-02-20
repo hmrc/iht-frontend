@@ -16,11 +16,10 @@
 
 package iht.controllers.registration.executor
 
-import iht.config.AppConfig
-import iht.connector.{CachingConnector, IhtConnectors}
+import iht.connector.CachingConnector
 import iht.controllers.registration.{RegistrationController, routes => registrationRoutes}
 import iht.forms.registration.CoExecutorForms._
-import iht.metrics.Metrics
+import iht.metrics.IhtMetrics
 import iht.models.RegistrationDetails
 import iht.utils.AddressHelper._
 import iht.utils.CommonHelper._
@@ -29,20 +28,19 @@ import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Call, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-class OthersApplyingForProbateControllerImpl @Inject()() extends OthersApplyingForProbateController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
+class OthersApplyingForProbateControllerImpl @Inject()(val cachingConnector: CachingConnector,
+                                                       val ihtMetrics: IhtMetrics,
+                                                       val authConnector: AuthConnector,
+                                                       val formPartialRetriever: FormPartialRetriever) extends OthersApplyingForProbateController
 
 trait OthersApplyingForProbateController extends RegistrationController {
   def cachingConnector: CachingConnector
 
   override def guardConditions: Set[Predicate] = Set(isThereAnApplicantAddress)
-
-  def metrics: Metrics
 
   private def submitRoute(arrivedFromOverview: Boolean) =
     if (arrivedFromOverview) {

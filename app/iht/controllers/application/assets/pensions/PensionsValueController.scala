@@ -16,29 +16,28 @@
 
 package iht.controllers.application.assets.pensions
 
-import iht.config.{AppConfig, FrontendAuthConnector}
-import iht.connector.IhtConnectors
+import iht.connector.{CachingConnector, IhtConnector}
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
-import iht.metrics.Metrics
-import iht.models._
+import iht.metrics.IhtMetrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
-import iht.utils.ApplicationKickOutHelper
+import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import iht.views.html.application.asset.pensions.pensions_value
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.utils.CommonHelper
-import iht.constants.IhtProperties._
 import javax.inject.Inject
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 
-class PensionsValueControllerImpl @Inject()() extends PensionsValueController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
+class PensionsValueControllerImpl @Inject()(val metrics: IhtMetrics,
+                                            val ihtConnector: IhtConnector,
+                                            val cachingConnector: CachingConnector,
+                                            val authConnector: AuthConnector,
+                                            val formPartialRetriever: FormPartialRetriever) extends PensionsValueController
 
 trait PensionsValueController extends EstateController {
 

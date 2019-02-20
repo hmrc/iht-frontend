@@ -16,13 +16,11 @@
 
 package iht.controllers.registration.executor
 
-import iht.config.AppConfig
-import iht.connector.{CachingConnector, IhtConnectors}
+import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.IhtProperties
 import iht.controllers.ControllerHelper.Mode
 import iht.controllers.registration.RegistrationController
 import iht.forms.registration.CoExecutorForms
-import iht.metrics.Metrics
 import iht.models.{CoExecutor, RegistrationDetails}
 import iht.views.html.registration.{executor => views}
 import javax.inject.Inject
@@ -32,13 +30,16 @@ import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Call
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-class CoExecutorPersonalDetailsControllerImpl @Inject()() extends CoExecutorPersonalDetailsController with IhtConnectors {
-  def metrics: Metrics = Metrics
+class CoExecutorPersonalDetailsControllerImpl @Inject()(val ihtConnector: IhtConnector,
+                                                        val cachingConnector: CachingConnector,
+                                                        val authConnector: AuthConnector,
+                                                        val formPartialRetriever: FormPartialRetriever) extends CoExecutorPersonalDetailsController {
+
   override def coExecutorForms = CoExecutorForms
 }
 

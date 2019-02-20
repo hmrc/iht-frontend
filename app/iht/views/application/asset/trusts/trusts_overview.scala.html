@@ -14,20 +14,14 @@
  * limitations under the License.
  *@
 
-@import iht.models._
 @import iht.models.application.assets.HeldInTrust
-
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-
-@import iht.utils._
-@import iht.views.html.ihtHelpers.custom._
 @import iht.utils.OverviewHelper._
-@import scala.collection.immutable.Seq
 @import iht.utils._
-@import iht.constants.Constants._
-@import iht.constants.IhtProperties._
+@import iht.views.html._
+@import iht.views.html.ihtHelpers.custom._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.models.RegistrationDetails
+@import iht.constants.IhtProperties._
 
 @(trusts:Option[HeldInTrust],
 registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)

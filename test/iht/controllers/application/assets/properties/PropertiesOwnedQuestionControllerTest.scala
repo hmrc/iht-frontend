@@ -16,16 +16,14 @@
 
 package iht.controllers.application.assets.properties
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.application.assets.routes.AssetsOverviewController
 import iht.forms.ApplicationForms._
-import iht.models.application.assets.Properties
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, TestHelper}
-import iht.testhelpers.MockObjectBuilder._
-import play.api.test.Helpers._
 import iht.models.application.ApplicationDetails
+import iht.models.application.assets.Properties
+import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
 import iht.utils.CommonHelper
+import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
@@ -91,7 +89,10 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
 
       val result = propertiesOwnedQuestionController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
-      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(AssetsOverviewController.onPageLoad().url,TestHelper.AppSectionPropertiesID)))
+
+      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(
+        iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url,TestHelper.AppSectionPropertiesID))
+      )
     }
 
     "respond with bad request when incorrect value are entered on the page" in {

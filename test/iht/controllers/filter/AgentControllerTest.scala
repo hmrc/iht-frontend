@@ -20,24 +20,20 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.MockFormPartialRetriever
 import iht.views.HtmlSpec
-import play.api.i18n.{Messages, MessagesApi}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-/**
-  * Created by adwelly on 24/10/2016.
-  */
 class AgentControllerTest extends ApplicationControllerTest with HtmlSpec {
 
-  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit val fakedMessagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
-
-  def controller = new AgentController {
-    override val cachingConnector = mockCachingConnector
-    override val ihtConnector = mockIhtConnector
+  def controller: AgentController = new AgentController {
+    val cachingConnector: CachingConnector = mockCachingConnector
+    val ihtConnector: IhtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+
+    override def messagesApi: MessagesApi = fakedMessagesApi
   }
 
   "AgentController" must {
@@ -47,7 +43,7 @@ class AgentControllerTest extends ApplicationControllerTest with HtmlSpec {
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() must be(messagesApi("iht.noChangeToHowReportToHMRC"))
+      titleElement.text() must be(fakedMessagesApi("iht.noChangeToHowReportToHMRC"))
     }
   }
 }

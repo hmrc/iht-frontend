@@ -16,7 +16,6 @@
 
 package iht.controllers.application.assets
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails

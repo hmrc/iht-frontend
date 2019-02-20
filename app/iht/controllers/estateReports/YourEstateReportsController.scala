@@ -18,8 +18,7 @@ package iht.controllers.estateReports
 
 import java.util.UUID
 
-import iht.config.AppConfig
-import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
+import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.Constants
 import iht.controllers.application.ApplicationController
 import iht.models.application.IhtApplication
@@ -31,13 +30,16 @@ import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent}
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
-import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys, Upstream4xxResponse}
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys, Upstream4xxResponse}
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-class YourEstateReportsControllerImpl @Inject()() extends YourEstateReportsController with IhtConnectors
+class YourEstateReportsControllerImpl @Inject()(val cachingConnector: CachingConnector,
+                                                val ihtConnector: IhtConnector,
+                                                val authConnector: AuthConnector,
+                                                override implicit val formPartialRetriever: FormPartialRetriever) extends YourEstateReportsController
 
 trait YourEstateReportsController extends ApplicationController {
 

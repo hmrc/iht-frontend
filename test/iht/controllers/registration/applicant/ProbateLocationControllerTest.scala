@@ -16,19 +16,15 @@
 
 package iht.controllers.registration.applicant
 
-import iht.connector.CachingConnector
 import iht.constants.IhtProperties
 import iht.controllers.registration.{routes => registrationRoutes}
 import iht.forms.registration.ApplicantForms._
-import iht.metrics.Metrics
+import iht.metrics.IhtMetrics
 import iht.models.{ApplicantDetails, DeceasedDateOfDeath, RegistrationDetails}
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
 import iht.utils.RegistrationKickOutHelper._
 import org.joda.time.LocalDate
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
@@ -41,7 +37,7 @@ class ProbateLocationControllerTest
  def controller = new ProbateLocationController {
    override val cachingConnector = mockCachingConnector
    override val authConnector = mockAuthConnector
-   override val metrics:Metrics = mock[Metrics]
+   override val metrics: IhtMetrics = mock[IhtMetrics]
 
    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
  }
@@ -49,7 +45,7 @@ class ProbateLocationControllerTest
   def controllerNotAuthorised = new ProbateLocationController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
-    override val metrics:Metrics = mock[Metrics]
+    override val metrics: IhtMetrics = mock[IhtMetrics]
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }

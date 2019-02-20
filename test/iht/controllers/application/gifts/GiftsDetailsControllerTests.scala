@@ -16,22 +16,18 @@
 
 package iht.controllers.application.gifts
 
-import iht.connector.{CachingConnector, IhtConnector}
+import iht.constants.IhtProperties._
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
-import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.PreviousYearsGifts
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import play.api.http.Status._
-import play.api.i18n.Messages.Implicits._
-import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout, redirectLocation, await, status => playStatus}
+import play.api.test.Helpers.{await, contentAsString, redirectLocation, status => playStatus}
 import play.api.test.{FakeHeaders, FakeRequest}
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
  * Created by jamestuttle on 09/10/15.
@@ -49,7 +45,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
 
   // Create gift details controller object and pass in mock.
   def giftsDetailsController = new GiftsDetailsController {
-    def metrics : Metrics = Metrics
+
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
@@ -58,7 +54,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
   }
 
   def giftsDetailsControllerNotAuthorised = new GiftsDetailsController {
-    def metrics : Metrics = Metrics
+
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector

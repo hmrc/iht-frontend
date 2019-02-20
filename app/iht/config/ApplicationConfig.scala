@@ -19,9 +19,14 @@ package iht.config
 import java.net.URLEncoder
 
 import javax.inject.Inject
+import play.api.Mode.Mode
+import play.api.{Configuration, Play}
 import uk.gov.hmrc.play.config.ServicesConfig
 
-trait AppConfig extends ServicesConfig with WiringConfig {
+trait AppConfig extends ServicesConfig {
+  lazy val mode: Mode = Play.current.mode
+  lazy val runModeConfiguration: Configuration = Play.current.configuration
+
   def readFromConfig(key: String): String = runModeConfiguration.getString(key).getOrElse(throw new Exception(s"Missing key: $key")).toString.trim
 
   /**

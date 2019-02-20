@@ -16,11 +16,9 @@
 
 package iht.controllers.application.gifts
 
-import iht.config.{AppConfig, FrontendAuthConnector}
-import iht.connector.IhtConnectors
+import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
-import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.AllGifts
 import iht.utils.{ApplicationStatus => AppStatus}
@@ -29,11 +27,14 @@ import javax.inject.Inject
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-class SevenYearsGivenInLast7YearsControllerImpl @Inject()() extends SevenYearsGivenInLast7YearsController with IhtConnectors {
-  def metrics : Metrics = Metrics
+class SevenYearsGivenInLast7YearsControllerImpl @Inject()(val ihtConnector: IhtConnector,
+                                                          val cachingConnector: CachingConnector,
+                                                          val authConnector: AuthConnector,
+                                                          val formPartialRetriever: FormPartialRetriever) extends SevenYearsGivenInLast7YearsController {
+
 }
 
 trait SevenYearsGivenInLast7YearsController extends EstateController {

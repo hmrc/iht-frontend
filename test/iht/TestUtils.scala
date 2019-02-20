@@ -69,7 +69,7 @@ trait TestUtils {
 
   def verifyDeleteKeyFromStore(mockCachingConnector: CachingConnector): String = {
     val keyCaptor = ArgumentCaptor.forClass(classOf[String])
-    verify(mockCachingConnector).delete(keyCaptor.capture)(headnapper.capture, exenapper.capture)
+    verify(mockCachingConnector).cacheDelete(keyCaptor.capture)(headnapper.capture, exenapper.capture)
     keyCaptor.getValue
   }
 }

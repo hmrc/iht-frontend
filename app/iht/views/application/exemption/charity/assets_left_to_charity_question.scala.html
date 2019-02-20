@@ -14,15 +14,14 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-
 @import iht.models._
-@import iht.models.application.exemptions._
 @import iht.utils.CommonHelper._
 @import iht.utils.DeceasedInfoHelper._
-@import iht.constants.IhtProperties._
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.models.RegistrationDetails
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import iht.constants.IhtProperties._
 
 @(assetsLeftToCharityQuestionForm: Form[iht.models.application.exemptions.BasicExemptionElement],
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
@@ -33,7 +32,7 @@ isFullWidth=false,
 cancelUrl = Some(addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsCharityID))),
 cancelLabel = Some(Messages("page.iht.application.return.to.exemptionsOf", ihtHelpers.custom.name(registrationDetails.deceasedDetails.map(_.name).fold("")(identity))))){
     @ihtHelpers.custom.error_summary(assetsLeftToCharityQuestionForm)
-    @helpers.form(action = iht.controllers.application.exemptions.charity.routes.AssetsLeftToCharityQuestionController.onSubmit,'autoComplete -> "off") {
+    @form(action = iht.controllers.application.exemptions.charity.routes.AssetsLeftToCharityQuestionController.onSubmit,'autoComplete -> "off") {
 
         <div class="form-group">
           <p>@Messages("page.iht.application.exemptions.assetLeftToCharity.p1")</p>

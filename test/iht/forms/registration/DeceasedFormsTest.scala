@@ -227,8 +227,6 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
 
   def deceasedForms = {
     val mockIhtFormValidator = new IhtFormValidator {
-
-      override def cachingConnector: CachingConnector = mock[CachingConnector]
       override def ninoForDeceased(blankMessageKey: String, lengthMessageKey: String,
                                    formatMessageKey: String, oRegDetails: Option[RegistrationDetails])(
                                    implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] = {

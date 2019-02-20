@@ -16,11 +16,9 @@
 
 package iht.controllers.application.gifts
 
-import iht.config.{AppConfig, FrontendAuthConnector}
-import iht.connector.IhtConnectors
+import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
-import iht.metrics.Metrics
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.AllGifts
@@ -33,13 +31,16 @@ import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-class GiftsOverviewControllerImpl @Inject()() extends GiftsOverviewController with IhtConnectors {
-  def metrics: Metrics = Metrics
+class GiftsOverviewControllerImpl @Inject()(val ihtConnector: IhtConnector,
+                                            val cachingConnector: CachingConnector,
+                                            val authConnector: AuthConnector,
+                                            val formPartialRetriever: FormPartialRetriever) extends GiftsOverviewController {
+
 }
 
 trait GiftsOverviewController extends EstateController {

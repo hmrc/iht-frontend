@@ -14,11 +14,10 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.constants.IhtProperties
 @import iht.utils._
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(coExecutor: iht.models.CoExecutor)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
@@ -29,7 +28,7 @@
     hasTimeOut=true) {
 
 
-@helpers.form(action = iht.controllers.registration.executor.routes.DeleteCoExecutorController.onSubmit(coExecutor.id.getOrElse(""))) {
+@form(action = iht.controllers.registration.executor.routes.DeleteCoExecutorController.onSubmit(coExecutor.id.getOrElse(""))) {
 
   <div class="panel panel-border-narrow">
       <p>@ihtHelpers.custom.name(coExecutor.name.toString)</p>

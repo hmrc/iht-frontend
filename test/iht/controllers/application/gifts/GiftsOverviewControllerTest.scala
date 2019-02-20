@@ -16,7 +16,6 @@
 
 package iht.controllers.application.gifts
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
@@ -24,7 +23,6 @@ import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers._
 import iht.utils._
 import org.mockito.ArgumentMatchers._
-import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 

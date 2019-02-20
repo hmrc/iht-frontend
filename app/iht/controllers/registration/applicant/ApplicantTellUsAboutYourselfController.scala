@@ -16,12 +16,11 @@
 
 package iht.controllers.registration.applicant
 
-import iht.config.AppConfig
-import iht.connector.{CitizenDetailsConnector, IhtConnectors}
+import iht.connector.{CachingConnector, CitizenDetailsConnector}
 import iht.controllers.ControllerHelper.Mode
 import iht.controllers.registration.{routes => registrationRoutes}
 import iht.forms.registration.ApplicantForms._
-import iht.metrics.Metrics
+import iht.metrics.IhtMetrics
 import iht.models.{ApplicantDetails, CidPerson, RegistrationDetails}
 import iht.utils.{SessionHelper, StringHelper}
 import iht.views.html.registration.{applicant => views}
@@ -31,25 +30,25 @@ import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{AnyContent, Call, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.http.NotFoundException
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-class ApplicantTellUsAboutYourselfControllerImpl @Inject()() extends ApplicantTellUsAboutYourselfController with IhtConnectors {
-  def metrics: Metrics = Metrics
-
-  override lazy val citizenDetailsConnector = CitizenDetailsConnector
-}
+class ApplicantTellUsAboutYourselfControllerImpl @Inject()(val citizenDetailsConnector: CitizenDetailsConnector,
+                                                           val metrics: IhtMetrics,
+                                                           val cachingConnector: CachingConnector,
+                                                           val authConnector: AuthConnector,
+                                                           val formPartialRetriever: FormPartialRetriever) extends ApplicantTellUsAboutYourselfController
 
 trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantControllerWithEditMode {
   def form = applicantTellUsAboutYourselfForm
 
   override def guardConditions: Set[Predicate] = guardConditionsApplicantContactDetails
 
-  def metrics: Metrics
+  def metrics: IhtMetrics
 
   def citizenDetailsConnector: CitizenDetailsConnector
 

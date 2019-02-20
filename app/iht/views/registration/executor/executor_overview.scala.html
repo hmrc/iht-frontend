@@ -14,13 +14,11 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.controllers.ControllerHelper
-@import iht.utils._
 @import iht.constants.IhtProperties
 @import iht.models.CoExecutor
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(addMoreCoExecutorsForm: Form[Option[Boolean]],
   areOthersApplying: Boolean,
@@ -36,7 +34,7 @@
 
 @ihtHelpers.custom.error_summary(addMoreCoExecutorsForm)
 
-@helpers.form(action = actionCall,'autoComplete -> "off") {
+@form(action = actionCall,'autoComplete -> "off") {
   <p class="lede">@Messages("page.iht.registration.executor-overview.description")</p>
 
 

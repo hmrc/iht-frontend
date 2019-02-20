@@ -16,27 +16,22 @@
 
 package iht.controllers.filter
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.MockFormPartialRetriever
 import iht.views.HtmlSpec
-import play.api.i18n.{Messages, MessagesApi}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-/**
- * Created by adwelly on 24/10/2016.
- */
 class UseIHT400ControllerTest extends ApplicationControllerTest with HtmlSpec {
-  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-
+  val injectedMessagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
   def controller = new UseIHT400Controller {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+
+    override def messagesApi: MessagesApi = injectedMessagesApi
   }
 
   "UseIHT400Controller" must {
@@ -47,7 +42,7 @@ class UseIHT400ControllerTest extends ApplicationControllerTest with HtmlSpec {
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() must be(messagesApi("iht.useIHT400PaperForm"))
+      titleElement.text() must be(injectedMessagesApi("iht.useIHT400PaperForm"))
     }
   }
 }

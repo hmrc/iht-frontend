@@ -21,7 +21,12 @@ import iht.testhelpers.CommonBuilder
 import iht.views.HtmlSpec
 
 class ApplicationClosedControllerTest extends ApplicationControllerTest with HtmlSpec {
-  val applicationClosedController = new ApplicationClosedControllerImpl
+  val applicationClosedController = new ApplicationClosedControllerImpl(
+    mockIhtConnector,
+    mockCachingConnector,
+    mockAuthConnector,
+    mockPartialRetriever
+  )
 
   "ApplicationClosedController" must {
     "implement a view" in {

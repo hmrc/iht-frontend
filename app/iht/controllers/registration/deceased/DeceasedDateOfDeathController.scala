@@ -16,28 +16,29 @@
 
 package iht.controllers.registration.deceased
 
-import iht.config.AppConfig
+import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.ControllerHelper.Mode
-import iht.connector.IhtConnectors
 import iht.controllers.registration.RegistrationBaseControllerWithEditMode
 import iht.forms.registration.DeceasedForms._
-import iht.metrics.Metrics
 import iht.models.{DeceasedDateOfDeath, RegistrationDetails}
 import iht.utils.RegistrationKickOutHelper
 import iht.views.html.registration.{deceased => views}
 import javax.inject.Inject
 import org.joda.time.LocalDate
-import play.api.data.{Form, FormError}
-import play.api.mvc._
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.data.{Form, FormError}
+import play.api.i18n.Messages.Implicits._
+import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.util.{Failure, Success, Try}
 
-class DeceasedDateOfDeathControllerImpl @Inject()() extends DeceasedDateOfDeathController with IhtConnectors {
-  def metrics: Metrics = Metrics
+class DeceasedDateOfDeathControllerImpl @Inject()(val ihtConnector: IhtConnector,
+                                                  val cachingConnector: CachingConnector,
+                                                  val authConnector: AuthConnector,
+                                                  val formPartialRetriever: FormPartialRetriever) extends DeceasedDateOfDeathController {
+
 }
 
 trait DeceasedDateOfDeathController extends RegistrationBaseControllerWithEditMode[DeceasedDateOfDeath] {

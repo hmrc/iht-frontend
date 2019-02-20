@@ -14,14 +14,13 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
 @import iht.constants.FieldMappings
-@import iht.constants.Constants._
-@import iht.constants.IhtProperties._
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.views.html.filter.previous_answers
+@import uk.gov.hmrc.play.views.html.helpers.form
 
-@(form: Form[Option[String]], jointAssets: Boolean, submitRoute:  Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+@(ihtForm: Form[Option[String]], jointAssets: Boolean, submitRoute:  Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_registration(title = Messages("iht.roughEstimateEstateWorth"),
 browserTitle = Some(Messages("iht.roughEstimateEstateWorth")),
@@ -30,16 +29,16 @@ hasSignOut = false,
 hasTimeOut = false,
 headingClass = "heading-medium"){
 
-@helpers.form(action = submitRoute,'autoComplete -> "off") {
+@form(action = submitRoute,'autoComplete -> "off") {
 
 <p>@Html(Messages("iht.roughEstimateEstateWorth.guidance.p1"))</p>
 
 @if(jointAssets) { <p>@Html(Messages("iht.roughEstimateEstateWorth.guidance.p2"))</p>  }
 
-@ihtHelpers.custom.error_summary(form)
+@ihtHelpers.custom.error_summary(ihtForm)
 
 @ihtHelpers.standard.input_radio_group(
-form("estimate"),
+ ihtForm("estimate"),
 FieldMappings.estimateChoices.toSeq,
 '_legendClass -> "visually-hidden",
 '_legend -> Html(Messages("iht.roughEstimateEstateWorth")),

@@ -19,7 +19,7 @@ package iht.controllers.registration.applicant
 import iht.connector.CitizenDetailsConnector
 import iht.controllers.registration.{routes => registrationRoutes}
 import iht.forms.registration.ApplicantForms._
-import iht.metrics.Metrics
+import iht.metrics.IhtMetrics
 import iht.models.{ApplicantDetails, RegistrationDetails, _}
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, NinoBuilder}
@@ -46,7 +46,7 @@ class ApplicantTellUsAboutYourselfControllerTest
  def controller = new ApplicantTellUsAboutYourselfController {
    override val cachingConnector = mockCachingConnector
    override val authConnector = mockAuthConnector
-   override val metrics:Metrics = mock[Metrics]
+   override val metrics: IhtMetrics = mock[IhtMetrics]
 
    override def citizenDetailsConnector = mockCitizenDetailsConnector
    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -55,7 +55,7 @@ class ApplicantTellUsAboutYourselfControllerTest
   def controllerNotAuthorised = new ApplicantTellUsAboutYourselfController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
-    override val metrics:Metrics = mock[Metrics]
+    override val metrics: IhtMetrics = mock[IhtMetrics]
 
     override def guardConditions: Set[Predicate] = Set((_, _) => true)
     override def citizenDetailsConnector = mockCitizenDetailsConnector

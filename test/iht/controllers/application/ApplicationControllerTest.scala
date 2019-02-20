@@ -17,20 +17,17 @@
 package iht.controllers.application
 
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.Constants
 import iht.testhelpers.MockObjectBuilder.createMockToGetRegDetailsFromCache
-import iht.testhelpers.NinoBuilder
 import iht.utils.IhtSection
 import iht.views.ViewTestHelper
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito._
-import play.api.http.HeaderNames
+import play.api.i18n.MessagesApi
 import play.api.mvc.{AnyContentAsEmpty, Result}
-import play.api.test.{DefaultAwaitTimeout, FakeRequest}
 import play.api.test.Helpers.{SEE_OTHER, redirectLocation, status => playStatus}
-import uk.gov.hmrc.auth.core.retrieve.Retrieval
+import play.api.test.{DefaultAwaitTimeout, FakeRequest}
 import uk.gov.hmrc.auth.core.{AuthConnector, AuthenticateHeaderParser}
-import uk.gov.hmrc.http.SessionKeys
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -50,6 +47,8 @@ trait ApplicationControllerTest extends ViewTestHelper with DefaultAwaitTimeout 
   val mockCachingConnector: CachingConnector = mock[CachingConnector]
   val mockIhtConnector: IhtConnector = mock[IhtConnector]
   val mockAuthConnector: AuthConnector = mock[AuthConnector]
+  val mockPartialRetriever: FormPartialRetriever = mock[FormPartialRetriever]
+  val mockMessagesApi: MessagesApi = mock[MessagesApi]
 
   override def createFakeRequest(isAuthorised: Boolean = true, referer: Option[String] = None, authRetrieveNino: Boolean = true): FakeRequest[AnyContentAsEmpty.type] = {
     if (isAuthorised) {
@@ -69,6 +68,8 @@ trait ApplicationControllerTest extends ViewTestHelper with DefaultAwaitTimeout 
     reset(mockCachingConnector)
     reset(mockIhtConnector)
     reset(mockAuthConnector)
+    reset(mockPartialRetriever)
+    reset(mockMessagesApi)
     super.beforeEach()
   }
 }

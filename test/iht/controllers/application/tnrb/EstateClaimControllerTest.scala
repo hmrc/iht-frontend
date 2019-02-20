@@ -16,16 +16,13 @@
 
 package iht.controllers.application.tnrb
 
-import iht.connector.{CachingConnector, IhtConnector}
+import iht.constants.IhtProperties._
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.TnrbForms._
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import org.joda.time.LocalDate
-import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**

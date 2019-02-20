@@ -16,13 +16,12 @@
 
 package iht.controllers.application.declaration
 
-import iht.config.{AppConfig, FrontendAuthConnector}
-import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
+import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.IhtProperties
 import iht.controllers.ControllerHelper
 import iht.controllers.application.ApplicationController
 import iht.forms.ApplicationForms
-import iht.metrics.Metrics
+import iht.metrics.IhtMetrics
 import iht.models._
 import iht.models.application.{ApplicationDetails, ProbateDetails}
 import iht.models.enums.StatsSource
@@ -33,9 +32,8 @@ import javax.inject.Inject
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent, Result}
+import play.api.mvc.{Action, AnyContent, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.{GatewayTimeoutException, HeaderCarrier, Upstream5xxResponse}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
@@ -43,21 +41,16 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.Future
 
-class DeclarationControllerImpl @Inject()() extends DeclarationController with IhtConnectors {
-  lazy val metrics: Metrics = Metrics
-}
+class DeclarationControllerImpl @Inject()(val metrics: IhtMetrics,
+                                          val ihtConnector: IhtConnector,
+                                          val cachingConnector: CachingConnector,
+                                          val authConnector: AuthConnector,
+                                          val formPartialRetriever: FormPartialRetriever) extends DeclarationController
 
 trait DeclarationController extends ApplicationController {
-
-
-  import play.api.mvc.Request
-
   def cachingConnector: CachingConnector
-
   def ihtConnector: IhtConnector
-
-  val metrics: Metrics
-
+  val metrics: IhtMetrics
 
   def onPageLoad: Action[AnyContent] = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {

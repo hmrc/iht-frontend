@@ -16,21 +16,20 @@
 
 package iht.controllers.registration
 
-import iht.config.FrontendAuthConnector
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.testhelpers.MockFormPartialRetriever
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class RegistrationChecklistControllerTest extends RegistrationControllerTest {
 
+  implicit val fakedMessagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
   def registrationChecklistController = new RegistrationChecklistController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+    override def messagesApi: MessagesApi = fakedMessagesApi
   }
 
   "RegistrationChecklistController" must {
@@ -43,40 +42,32 @@ class RegistrationChecklistControllerTest extends RegistrationControllerTest {
     "display a title on the page" in {
       val result = registrationChecklistController.onPageLoad()(createFakeRequest())
       status(result) must be (OK)
-      contentAsString(result) must include (messagesApi("page.iht.registration.checklist.title"))
+      contentAsString(result) must include (fakedMessagesApi("page.iht.registration.checklist.title"))
     }
 
     "display the introduction paragraph on the page" in {
       val result = registrationChecklistController.onPageLoad()(createFakeRequest())
       status(result) must be (OK)
-      contentAsString(result) must include (messagesApi("page.iht.registration.checklist.label1"))
-      contentAsString(result) must include (messagesApi("page.iht.registration.checklist.label2"))
+      contentAsString(result) must include (fakedMessagesApi("page.iht.registration.checklist.label1"))
+      contentAsString(result) must include (fakedMessagesApi("page.iht.registration.checklist.label2"))
     }
 
     "display at least one click and reveal link on the page" in {
       val result = registrationChecklistController.onPageLoad()(createFakeRequest())
       status(result) must be (OK)
-      contentAsString(result) must include (messagesApi("page.iht.registration.checklist.revealText"))
+      contentAsString(result) must include (fakedMessagesApi("page.iht.registration.checklist.revealText"))
     }
 
     "display start registration button on page" in {
       val result = registrationChecklistController.onPageLoad()(createFakeRequest())
       status(result) must be (OK)
-      contentAsString(result) must include (messagesApi("page.iht.registration.checklist.continueButton"))
+      contentAsString(result) must include (fakedMessagesApi("page.iht.registration.checklist.continueButton"))
     }
 
     "display a return link on page" in {
       val result = registrationChecklistController.onPageLoad()(createFakeRequest())
       status(result) must be (OK)
-      contentAsString(result) must include(messagesApi("page.iht.registration.checklist.leaveLink"))
-    }
-
-    "set up instance for caching connector" in {
-      RegistrationChecklistController.cachingConnector mustBe CachingConnector
-    }
-
-    "set up instance for iht connector" in {
-      RegistrationChecklistController.ihtConnector mustBe IhtConnector
+      contentAsString(result) must include(fakedMessagesApi("page.iht.registration.checklist.leaveLink"))
     }
   }
 }

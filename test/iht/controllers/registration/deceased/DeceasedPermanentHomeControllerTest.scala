@@ -16,7 +16,6 @@
 
 package iht.controllers.registration.deceased
 
-import iht.connector.CachingConnector
 import iht.constants.IhtProperties
 import iht.controllers.ControllerHelper.Mode
 import iht.forms.registration.DeceasedForms._
@@ -26,10 +25,7 @@ import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
 import iht.utils.RegistrationKickOutHelper._
 import org.joda.time.LocalDate
 import play.api.data.Form
-import play.api.i18n.{Messages, MessagesApi}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import play.api.test.FakeRequest
+import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 

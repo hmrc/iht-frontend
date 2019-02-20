@@ -14,17 +14,14 @@
  * limitations under the License.
  *@
 
-@import iht.models._
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.models.application.debts._
-@import iht.models.application.assets.Property
-@import iht.utils._
-@import iht.utils._
-@import iht.constants.FieldMappings
 @import iht.constants.Constants
 @import iht.constants.IhtProperties._
+@import iht.models.application.assets.Property
+@import iht.utils._
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.models.RegistrationDetails
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(mortgagesForm: Form[iht.models.application.debts.Mortgage],
 property: Property,
@@ -43,7 +40,7 @@ regDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages
 ) {
     @ihtHelpers.custom.error_summary_override_keys(mortgagesForm, Constants.AppSectionMortgages)
 
-    @helpers.form(action = submitUrl, 'autoComplete -> "off") {
+    @form(action = submitUrl, 'autoComplete -> "off") {
 
         <div id="address" class="panel panel-border-narrow">
             @property.address match{

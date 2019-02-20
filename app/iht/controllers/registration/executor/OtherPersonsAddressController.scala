@@ -16,28 +16,28 @@
 
 package iht.controllers.registration.executor
 
-import iht.config.AppConfig
-import iht.connector.CachingConnector
+import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.IhtProperties
-import iht.connector.IhtConnectors
 import iht.controllers.registration.RegistrationController
 import iht.forms.registration.CoExecutorForms._
-import iht.metrics.Metrics
 import iht.models.UkAddress
 import iht.utils.CommonHelper._
 import iht.views.html.registration.{executor => views}
 import javax.inject.Inject
-import play.api.mvc.Call
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
+import play.api.mvc.Call
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 
-class OtherPersonsAddressControllerImpl @Inject()() extends OtherPersonsAddressController with IhtConnectors {
-  def metrics: Metrics = Metrics
+class OtherPersonsAddressControllerImpl @Inject()(val ihtConnector: IhtConnector,
+                                                  val cachingConnector: CachingConnector,
+                                                  val authConnector: AuthConnector,
+                                                  val formPartialRetriever: FormPartialRetriever) extends OtherPersonsAddressController {
+
 }
 
 trait OtherPersonsAddressController extends RegistrationController {

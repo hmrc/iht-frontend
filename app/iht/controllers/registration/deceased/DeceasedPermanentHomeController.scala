@@ -16,11 +16,9 @@
 
 package iht.controllers.registration.deceased
 
-import iht.config.AppConfig
-import iht.connector.IhtConnectors
+import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.ControllerHelper.Mode
 import iht.forms.registration.DeceasedForms._
-import iht.metrics.Metrics
 import iht.models.{DeceasedDetails, RegistrationDetails}
 import iht.utils.RegistrationKickOutHelper
 import iht.views.html.registration.{deceased => views}
@@ -30,10 +28,13 @@ import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-class DeceasedPermanentHomeControllerImpl @Inject()() extends DeceasedPermanentHomeController with IhtConnectors {
-  def metrics: Metrics = Metrics
+class DeceasedPermanentHomeControllerImpl @Inject()(val ihtConnector: IhtConnector,
+                                                    val cachingConnector: CachingConnector,
+                                                    val authConnector: AuthConnector,
+                                                    val formPartialRetriever: FormPartialRetriever) extends DeceasedPermanentHomeController {
+
 }
 
 trait DeceasedPermanentHomeController extends RegistrationDeceasedControllerWithEditMode {

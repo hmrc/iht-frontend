@@ -26,9 +26,7 @@ import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import play.api.{Application, Mode}
-import uk.gov.hmrc.domain.{Nino, SaUtr}
 import uk.gov.hmrc.http.SessionKeys
-import uk.gov.hmrc.play.frontend.auth.connectors.domain._
 
 import scala.concurrent.Future
 
@@ -38,7 +36,7 @@ trait FakeIhtApp extends PlaySpec with GuiceOneAppPerSuite {
   val config: Map[String, _] = Map("application.secret" -> "Its secret",
                       "passcodeAuthentication.enabled" -> false,
                       "passcodeAuthentication.regime" -> "iht",
-                      "metrics.enabled" -> false)
+                      "metrics.enabled" -> true)
 
 //  override implicit lazy val app : Application = new GuiceApplicationBuilder().in(Mode.Test).configure(config).build()
   override def fakeApplication(): Application = new GuiceApplicationBuilder().in(Mode.Test).configure(config).build()
@@ -62,18 +60,6 @@ trait FakeIhtApp extends PlaySpec with GuiceOneAppPerSuite {
         "Accept-Language" -> "en-GB",
         HeaderNames.REFERER -> referer.getOrElse("")
       )
-    }
-  }
-
-  def createFakeAuthority(isAuthorised: Boolean = true) = {
-    val nino = fakeNino
-    if (isAuthorised) {
-      Authority("ID-" + nino, Accounts(iht = Some(IhtAccount(s"/iht/${nino}", Nino(nino))),
-        sa = Some(SaAccount("/sa/individual/1234567890", SaUtr("1234567890"))),
-        paye = Some(PayeAccount(s"/paye/${nino}", Nino(nino)))
-      ), None, None, CredentialStrength.Strong, ConfidenceLevel.L200, None, None, None, "")
-    } else {
-      Authority("ID-NOT_AUTHORISED", Accounts(), None, None, CredentialStrength.None, ConfidenceLevel.L0, None, None, None, "")
     }
   }
 

@@ -16,12 +16,11 @@
 
 package iht.controllers.application.declaration
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.RegistrationDetails
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.CommonHelper
 import play.api.i18n.MessagesApi
 import play.api.mvc.Result

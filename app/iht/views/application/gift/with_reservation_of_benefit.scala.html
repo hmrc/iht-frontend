@@ -14,16 +14,14 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-
-@import iht.utils.CommonHelper._
-@import iht.utils.DeceasedInfoHelper._
 @import iht.models._
 @import iht.models.application.gifts.AllGifts
-@import iht.constants.Constants._
-@import iht.constants.IhtProperties._
+@import iht.utils.DeceasedInfoHelper._
+@import iht.views.html._
+@import uk.gov.hmrc.play.views.html.helpers.form
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.models.RegistrationDetails
+@import iht.constants.IhtProperties._
 
 @(giftWithReservationFromBenefitForm:Form[AllGifts],
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
@@ -36,7 +34,7 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 ){
     @ihtHelpers.custom.error_summary(giftWithReservationFromBenefitForm)
 
-    @helpers.form(action = iht.controllers.application.gifts.routes.WithReservationOfBenefitController.onSubmit,'autoComplete -> "off") {
+    @form(action = iht.controllers.application.gifts.routes.WithReservationOfBenefitController.onSubmit,'autoComplete -> "off") {
 
         <div class="form-group">
             <p>@messages("iht.estateReport.gifts.withReservation.p1")</p>

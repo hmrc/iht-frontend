@@ -14,18 +14,15 @@
  * limitations under the License.
  *@
 
-@import iht.models._
-@import iht.utils._
-@import iht.utils.CommonHelper.getOrException
-@import iht.views.html._
-@import uk.gov.hmrc.play.views.html._
-
 @import iht.utils.OverviewHelper._
-@import iht.views.html.application.gift._
-@import iht.views.html.application._
-@import iht.constants.Constants._
-@import iht.constants.IhtProperties._
+@import iht.utils._
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import iht.models.RegistrationDetails
+@import iht.views.html.application._
+@import iht.utils.OverviewHelper.Section
+@import iht.constants.IhtProperties._
 
 @(registrationDetails:RegistrationDetails,
 seqRows:Seq[Section],

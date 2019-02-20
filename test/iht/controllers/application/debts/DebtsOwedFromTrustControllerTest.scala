@@ -16,17 +16,15 @@
 
 package iht.controllers.application.debts
 
-import iht.connector.{CachingConnector, IhtConnector}
+import iht.constants.IhtProperties._
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.debts.BasicEstateElementLiabilities
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import play.api.test.Helpers._
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
 

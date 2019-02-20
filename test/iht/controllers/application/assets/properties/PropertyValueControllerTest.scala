@@ -16,20 +16,16 @@
 
 package iht.controllers.application.assets.properties
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
+import iht.models.application.ApplicationDetails
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers._
 import iht.utils.{CommonHelper, DeceasedInfoHelper}
-import play.api.i18n.{Messages, MessagesApi}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
-import iht.models.application.ApplicationDetails
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 

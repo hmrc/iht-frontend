@@ -16,9 +16,9 @@
 
 package iht.controllers.application.assets
 
-import iht.config.{AppConfig, FrontendAuthConnector}
-import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
+import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationController
+import iht.metrics.IhtMetrics
 import iht.models.application.assets.AllAssets
 import iht.utils.CommonHelper
 import iht.utils.ExemptionsGuidanceHelper._
@@ -26,16 +26,14 @@ import javax.inject.Inject
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-/**
-  *
-  * Created by Vineet Tyagi on 07/12/15.
-  *
-  */
-
-class AssetsOverviewControllerImpl @Inject()() extends AssetsOverviewController with IhtConnectors
+class AssetsOverviewControllerImpl @Inject()(val metrics: IhtMetrics,
+                                             val ihtConnector: IhtConnector,
+                                             val cachingConnector: CachingConnector,
+                                             val authConnector: AuthConnector,
+                                             val formPartialRetriever: FormPartialRetriever) extends AssetsOverviewController
 
 trait AssetsOverviewController extends ApplicationController {
 

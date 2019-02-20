@@ -16,18 +16,19 @@
 
 package iht.controllers.auth
 
-import iht.config.{ApplicationConfig, WiringConfig}
+import iht.config.ApplicationConfig
 import iht.utils.{AuthHelper, IhtSection}
 import play.api.Logger
 import play.api.mvc.{Action, AnyContent, Request, Result}
+import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.auth.core.authorise.Predicate
 import uk.gov.hmrc.auth.core.retrieve.Retrieval
-import uk.gov.hmrc.auth.core.{AffinityGroup, AuthorisationException, AuthorisedFunctions, ConfidenceLevel, InsufficientConfidenceLevel}
-import uk.gov.hmrc.play.frontend.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-trait IhtBaseController extends FrontendController with AuthorisedFunctions with AuthHelper with WiringConfig {
+trait IhtBaseController extends FrontendController with AuthorisedFunctions with AuthHelper {
   private type AsyncPlayRequest = Request[AnyContent] => Future[Result]
   private type AsyncPlayUserRequest[A] = A => Request[AnyContent] => Future[Result]
 
@@ -35,6 +36,8 @@ trait IhtBaseController extends FrontendController with AuthorisedFunctions with
   protected lazy val confidenceLevel: Int = ApplicationConfig.ivUpliftConfidenceLevel
 
   private lazy val predicate: Predicate = AffinityGroup.Individual and ConfidenceLevel.fromInt(confidenceLevel).get
+
+  implicit val formPartialRetriever: FormPartialRetriever
 
   private def handleAuthErrors(implicit request: Request[_]): PartialFunction[Throwable, Result] = {
     case e: InsufficientConfidenceLevel =>
@@ -45,6 +48,7 @@ trait IhtBaseController extends FrontendController with AuthorisedFunctions with
       redirectToLogin
   }
 
+  private val appName: String = "iht-frontend"
   def redirectToLogin: Result = {
     val loginUrl: String = getIhtSignInUrl
     val continueUrl: String = getIhtContinueUrl(ihtSection)

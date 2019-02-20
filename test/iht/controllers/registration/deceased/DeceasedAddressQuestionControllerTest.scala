@@ -16,12 +16,11 @@
 
 package iht.controllers.registration.deceased
 
-import iht.connector.CachingConnector
 import iht.controllers.registration.RegistrationControllerTest
 import iht.forms.registration.DeceasedForms.deceasedAddressQuestionForm
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails}
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import org.joda.time.LocalDate
 import org.scalatest.BeforeAndAfter
 import play.api.data.Form

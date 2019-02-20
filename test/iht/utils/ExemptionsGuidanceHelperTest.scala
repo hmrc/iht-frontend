@@ -16,26 +16,24 @@
 
 package iht.utils
 
-import iht.{FakeIhtApp, TestUtils}
 import iht.connector.CachingConnector
 import iht.constants.Constants
 import iht.testhelpers.{CommonBuilder, MockObjectBuilder}
-import org.mockito.Matchers._
+import iht.{FakeIhtApp, TestUtils}
 import org.mockito.ArgumentMatchers.same
-import org.scalatest.BeforeAndAfter
+import org.scalatest.BeforeAndAfterEach
 import org.scalatest.mockito.MockitoSugar
-import play.api.i18n.MessagesApi
 import play.api.mvc.Call
-import play.api.test.{FakeHeaders, FakeRequest}
 import play.api.test.Helpers.{await, defaultAwaitTimeout}
-import uk.gov.hmrc.play.test.UnitSpec
+import play.api.test.{FakeHeaders, FakeRequest}
+import uk.gov.hmrc.http.HeaderCarrier
+import org.mockito.Mockito._
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import uk.gov.hmrc.http.HeaderCarrier
 
-class ExemptionsGuidanceHelperTest extends FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
+class ExemptionsGuidanceHelperTest extends FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfterEach {
 
-  var mockCachingConnector = mock[CachingConnector]
+  val mockCachingConnector = mock[CachingConnector]
 
   implicit val headerCarrier = FakeHeaders()
   implicit val request = FakeRequest()
@@ -45,8 +43,9 @@ class ExemptionsGuidanceHelperTest extends FakeIhtApp with MockitoSugar with Tes
   
   lazy val finalDestinationURL = "final-destination-url"
 
-  before {
-    mockCachingConnector = mock[CachingConnector]
+  override def beforeEach(): Unit = {
+    reset(mockCachingConnector)
+    super.beforeEach()
   }
 
   val GuidanceAppropriateMessage = "guidance is to be shown (the estate value is over the current lower " +

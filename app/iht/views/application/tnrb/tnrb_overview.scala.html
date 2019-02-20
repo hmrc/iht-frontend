@@ -14,22 +14,20 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.views.html._
-@import iht.models.application.tnrb._
 @import iht.models.RegistrationDetails
-@import iht.constants.IhtProperties._
-@import iht.controllers.ControllerHelper
-@import iht.utils._
-@import iht.utils.tnrb.TnrbHelper
-@import iht.utils.OverviewHelper._
+@import iht.models.application.tnrb.WidowCheck
+@import iht.models.application.tnrb.TnrbEligibiltyModel
+@import iht.models.application.tnrb._
 @import iht.utils.CommonHelper._
 @import iht.utils.DeceasedInfoHelper._
-@import iht.constants.Constants._
+@import iht.utils.OverviewHelper._
+@import iht.utils._
+@import iht.utils.tnrb.TnrbHelper
+@import iht.views.html._
+@import iht.views.html.application.tnrb._
 @import uk.gov.hmrc.play.language.LanguageUtils.Dates
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import org.apache.commons.lang3.StringEscapeUtils
+@import iht.constants.IhtProperties._
 
 @(registrationDetails: RegistrationDetails,
         widowCheckModel: WidowCheck,

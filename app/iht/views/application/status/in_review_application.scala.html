@@ -14,14 +14,11 @@
  * limitations under the License.
  *@
 
-@import iht.models._
 @import iht.models.application.ProbateDetails
 @import iht.views.html._
-@import uk.gov.hmrc.play.views.html._
-@import iht.utils._
-@import iht.views.html.application.overview._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.constants.IhtProperties
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import iht.views.html.application.status.post_submit_common
 
 @(ihtref: String,
 deceasedName: String,
@@ -34,7 +31,7 @@ isFullWidth=false
 
 <div>
     <div id="return-button">
-        @helpers.form(action = iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad) {
+        @form(action = iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad) {
 
         <p>@messages("page.iht.application.overview.inreview.p1")</p>
         <p>@messages("page.iht.application.overview.inreview.p2")</p>

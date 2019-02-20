@@ -14,13 +14,12 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.utils._
 @import iht.constants._
 @import iht.utils._
-@import iht.constants.IhtProperties._
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.constants.IhtProperties._
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(propertyAddressForm: Form[iht.models.application.assets.Property],
 cancelUrl: Call,
@@ -36,7 +35,7 @@ headingClass = "heading-large"
 
 @ihtHelpers.custom.error_summary(propertyAddressForm)
 
-@helpers.form(action = submitUrl, 'autoComplete -> "off") {
+@form(action = submitUrl, 'autoComplete -> "off") {
 
 <div class="form-group">
     @ihtHelpers.standard.input_with_help(propertyAddressForm("address.ukAddressLine1"),

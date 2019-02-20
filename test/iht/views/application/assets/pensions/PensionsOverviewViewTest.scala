@@ -16,20 +16,16 @@
 
 package iht.views.application.assets.pensions
 
+import iht.constants.IhtProperties._
 import iht.controllers.application.assets.pensions.routes
 import iht.models.application.assets.PrivatePension
 import iht.testhelpers.CommonBuilder
 import iht.utils.CommonHelper
-import iht.views.ViewTestHelper
-import iht.views.helpers.GenericOverviewHelper._
+import iht.views.helpers.GenericOverviewHelper
 import iht.views.html.application.asset.pensions.pensions_overview
 import play.api.i18n.Messages.Implicits._
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
-import org.jsoup.Jsoup
-import org.jsoup.select.Elements
 
-class PensionsOverviewViewTest extends ViewTestHelper {
+class PensionsOverviewViewTest extends GenericOverviewHelper {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)

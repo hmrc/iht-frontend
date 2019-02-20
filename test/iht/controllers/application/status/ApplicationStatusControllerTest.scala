@@ -16,15 +16,14 @@
 
 package iht.controllers.application.status
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.Constants
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.testhelpers.MockObjectBuilder._
-import play.api.i18n.Messages.Implicits._
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import org.mockito.ArgumentMatchers._
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Request
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever

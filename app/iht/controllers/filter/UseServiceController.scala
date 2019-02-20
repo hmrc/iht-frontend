@@ -16,26 +16,26 @@
 
 package iht.controllers.filter
 
-import iht.config.IhtFormPartialRetriever
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.Constants._
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
+import javax.inject.Inject
+import play.api.i18n.{I18nSupport, MessagesApi}
+import uk.gov.hmrc.play.bootstrap.controller.{FrontendController, UnauthorisedAction}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-object UseServiceController extends UseServiceController {
-  val cachingConnector = CachingConnector
-  val ihtConnector = IhtConnector
+class UseServiceControllerImpl @Inject()(val cachingConnector: CachingConnector,
+                                         val ihtConnector: IhtConnector,
+                                         val formPartialRetriever: FormPartialRetriever,
+                                         val messagesApi: MessagesApi) extends UseServiceController {
 }
 
-trait UseServiceController extends FrontendController {
+trait UseServiceController extends FrontendController with I18nSupport {
   def cachingConnector: CachingConnector
   def ihtConnector: IhtConnector
 
-  implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
+  implicit val formPartialRetriever: FormPartialRetriever
 
   private def onPageLoad(estimatedValue: String, jointAssets: Boolean, titleStr: String) = UnauthorisedAction.async {
     implicit request => {

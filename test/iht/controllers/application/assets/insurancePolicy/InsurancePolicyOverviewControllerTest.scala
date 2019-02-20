@@ -16,10 +16,9 @@
 
 package iht.controllers.application.assets.insurancePolicy
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.assets.InsurancePolicy
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, TestHelper, ContentChecker}
+import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever, TestHelper}
 import iht.utils.DeceasedInfoHelper
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._

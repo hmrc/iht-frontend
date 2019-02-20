@@ -14,14 +14,11 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.utils._
-@import iht.controllers.ControllerHelper._
-@import iht.utils._
 @import iht.constants._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.views.html._
 @import org.apache.commons.lang3.StringEscapeUtils
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(deceasedAddressDetailsUKForm:Form[iht.models.DeceasedDetails], deceasedName: String,
     actionLocation: Call,
@@ -38,7 +35,7 @@
 
     <p>@Messages("page.iht.registration.deceasedDetails.addressheader.uk.hint", deceasedName)</p>
 
-    @helpers.form(action = actionLocation,'autoComplete -> "off") {
+    @form(action = actionLocation,'autoComplete -> "off") {
 
     @ihtHelpers.standard.input_with_help(
     deceasedAddressDetailsUKForm("ukAddress.ukAddressLine1"),

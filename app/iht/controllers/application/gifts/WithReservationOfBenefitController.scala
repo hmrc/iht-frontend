@@ -16,33 +16,26 @@
 
 package iht.controllers.application.gifts
 
-import iht.config.{AppConfig, FrontendAuthConnector}
-import iht.connector.IhtConnectors
+import iht.connector.{CachingConnector, IhtConnector}
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
-import iht.controllers.ControllerHelper
 import iht.forms.ApplicationForms._
-import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.AllGifts
-import iht.utils.{ApplicationKickOutHelper, ApplicationStatus => AppStatus}
+import iht.utils.{ApplicationKickOutHelper, CommonHelper, ApplicationStatus => AppStatus}
 import iht.views.html.application.gift.with_reservation_of_benefit
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
-import iht.utils.CommonHelper
 import javax.inject.Inject
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-/**
- *
- * Created by Vineet Tyagi on 14/01/16.
- *
- */
-class WithReservationOfBenefitControllerImpl @Inject()() extends WithReservationOfBenefitController with IhtConnectors {
-  def metrics : Metrics = Metrics
+class WithReservationOfBenefitControllerImpl @Inject()(val ihtConnector: IhtConnector,
+                                                       val cachingConnector: CachingConnector,
+                                                       val authConnector: AuthConnector,
+                                                       val formPartialRetriever: FormPartialRetriever) extends WithReservationOfBenefitController {
+
 }
 
 trait WithReservationOfBenefitController extends EstateController{

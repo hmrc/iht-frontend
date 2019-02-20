@@ -16,10 +16,8 @@
 
 package iht.controllers.application.tnrb
 
-import iht.config.AppConfig
-import iht.connector.IhtConnectors
+import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.EstateController
-import iht.metrics.Metrics
 import iht.utils._
 import iht.utils.tnrb.TnrbHelper
 import iht.views.html.application.tnrb.tnrb_guidance
@@ -28,12 +26,15 @@ import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent}
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-class TnrbGuidanceControllerImpl @Inject()() extends TnrbGuidanceController with IhtConnectors {
-  def metrics : Metrics = Metrics
+class TnrbGuidanceControllerImpl @Inject()(val ihtConnector: IhtConnector,
+                                           val cachingConnector: CachingConnector,
+                                           val authConnector: AuthConnector,
+                                           val formPartialRetriever: FormPartialRetriever) extends TnrbGuidanceController {
+
 }
 
 trait TnrbGuidanceController extends EstateController{

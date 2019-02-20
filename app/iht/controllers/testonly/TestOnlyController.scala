@@ -16,8 +16,8 @@
 
 package iht.controllers.testonly
 
-import iht.config.AppConfig
-import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
+import iht.config.IhtFormPartialRetriever
+import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationController
 import iht.forms.testonly.TestOnlyForms.{storeRegistrationDetailsForm, _}
 import iht.models.RegistrationDetails
@@ -28,19 +28,22 @@ import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.libs.json.Json
+import play.api.mvc.{Action, AnyContent}
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
-
-import scala.concurrent.Future
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-class TestOnlyControllerImpl @Inject()() extends TestOnlyController with IhtConnectors
+import scala.concurrent.Future
+
+class TestOnlyControllerImpl @Inject()(val ihtConnector: IhtConnector,
+                                       val cachingConnector: CachingConnector,
+                                       val authConnector: AuthConnector,
+                                       implicit val formPartialRetriever: IhtFormPartialRetriever) extends TestOnlyController
 
 trait TestOnlyController extends ApplicationController {
   def ihtConnector: IhtConnector
   def cachingConnector: CachingConnector
 
-  def deleteFirstCase = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+  def deleteFirstCase: Action[AnyContent] = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       val nino = StringHelper.getNino(userNino)
       ihtConnector.getCaseList(nino).map {
@@ -54,7 +57,7 @@ trait TestOnlyController extends ApplicationController {
     }
   }
 
-  def fillApplication = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+  def fillApplication: Action[AnyContent] = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       withApplicationDetails(userNino) { registrationDetails => applicationDetails =>
         ihtConnector.saveApplication(StringHelper.getNino(userNino),
@@ -70,13 +73,13 @@ trait TestOnlyController extends ApplicationController {
     }
   }
 
-  def storeRegistrationDetailsPageLoad = authorisedForIht {
+  def storeRegistrationDetailsPageLoad: Action[AnyContent] = authorisedForIht {
     implicit request => {
       Future.successful(Ok(iht.views.html.testOnly.store_registration_details()))
     }
   }
 
-  def storeRegistrationDetailsSubmit = authorisedForIht {
+  def storeRegistrationDetailsSubmit: Action[AnyContent] = authorisedForIht {
     implicit request => {
       val boundForm = storeRegistrationDetailsForm.bindFromRequest
 

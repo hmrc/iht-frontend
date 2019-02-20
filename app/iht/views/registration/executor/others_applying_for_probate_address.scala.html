@@ -14,14 +14,12 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.controllers.ControllerHelper._
-@import iht.utils._
-@import iht.utils.StringHelper._
 @import iht.constants.IhtProperties
-@import iht.constants._
+@import iht.utils.StringHelper._
+@import iht.utils._
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(othersApplyingForProbateAddressForm: Form[iht.models.UkAddress],
     id: String,
@@ -40,7 +38,7 @@
 
 @ihtHelpers.custom.error_summary(othersApplyingForProbateAddressForm)
 
-@helpers.form(action = actionCall,'autoComplete -> "off") {
+@form(action = actionCall,'autoComplete -> "off") {
     <p id="other-persons-address-guidance">@Messages("page.iht.registration.others-applying-for-probate-address.address.guidance")</p>
 
     <div id="ukAddress_ukAddressLine1-container" class="form-group">

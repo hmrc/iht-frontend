@@ -23,10 +23,12 @@ import iht.models.application.{ApplicationDetails, IhtApplication, ProbateDetail
 import iht.models.des.ihtReturn.IHTReturn
 import iht.testhelpers.CommonBuilder._
 import org.mockito.ArgumentMatchers._
+import org.mockito.ArgumentMatchers.{eq => eqTo}
 import org.mockito.Mockito._
+import org.mockito.stubbing.OngoingStubbing
+import uk.gov.hmrc.http.{HttpResponse, NotFoundException}
 
 import scala.concurrent.Future
-import uk.gov.hmrc.http.NotFoundException
 
 /**
   * Created by vineet on 16/03/16.
@@ -56,13 +58,13 @@ object MockObjectBuilder {
     deceasedDetails = Some(buildDeceasedDetails), ihtReference = Some("AbC123"))
 
   def createMockToGetCitizenDetails(connector: CitizenDetailsConnector, person: CidPerson) =
-    when(connector.getCitizenDetails(any())(any())).thenReturn(Future.successful(person))
+    when(connector.getCitizenDetails(any())(any(), any())).thenReturn(Future.successful(person))
 
   def createMockToThrowExceptionWhenGettingCitizenDetails(connector: CitizenDetailsConnector) =
-    when(connector.getCitizenDetails(any())(any())).thenThrow(new RuntimeException)
+    when(connector.getCitizenDetails(any())(any(), any())).thenThrow(new RuntimeException)
 
   def createMockToThrowNotFoundExceptionWhenGettingCitizenDetails(connector: CitizenDetailsConnector) =
-    when(connector.getCitizenDetails(any())(any())).thenReturn(Future.failed(new NotFoundException("")))
+    when(connector.getCitizenDetails(any())(any(), any())).thenReturn(Future.failed(new NotFoundException("")))
 
   /**
     * Creates mock to get the RegistrationDetails from the cache using CachingConnector
@@ -251,8 +253,8 @@ object MockObjectBuilder {
   /**
     * Creates mock to delete key from Cache
     */
-  def createMockToDeleteKeyFromCache[A](cachingConnector: CachingConnector, input: A)= {
-    when(cachingConnector.delete(any())(any(), any())).thenReturn(Future.successful[A](input))
+  def createMockToDeleteKeyFromCache[A](cachingConnector: CachingConnector, key: A): OngoingStubbing[Future[Any]] = {
+    when(cachingConnector.cacheDelete(any())(any(), any())).thenReturn(Future.successful(key))
   }
 
   /**

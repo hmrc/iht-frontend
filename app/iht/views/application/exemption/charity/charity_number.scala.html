@@ -14,14 +14,12 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.models.application.exemptions._
-@import iht.models._
-@import iht.utils.CommonHelper._
 @import iht.constants.IhtProperties._
-@import iht.constants._
+@import iht.models.RegistrationDetails
+@import iht.utils.CommonHelper._
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(charityNumberForm: Form[iht.models.application.exemptions.Charity],
   registrationDetails:RegistrationDetails,
@@ -35,7 +33,7 @@ cancelLabel = Some(Messages("iht.estateReport.exemptions.charities.returnToAddAC
 isFullWidth=false
 ){
     @ihtHelpers.custom.error_summary(charityNumberForm)
-    @helpers.form(action = submitUrl, 'autoComplete -> "off") {
+    @form(action = submitUrl, 'autoComplete -> "off") {
             @ihtHelpers.standard.input_with_help(charityNumberForm("charityNumber"),
                 '_maxlength -> validationMaxCharityNumberLength,
                 '_divClass -> "form-group ",

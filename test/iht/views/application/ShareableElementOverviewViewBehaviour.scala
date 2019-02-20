@@ -17,15 +17,9 @@
 package iht.views.application
 
 import iht.testhelpers.SharableOverviewData
-import iht.views.ViewTestHelper
-import iht.views.helpers.GenericOverviewHelper._
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import play.api.mvc.AnyContentAsEmpty
-import play.api.test.FakeRequest
+import iht.views.helpers.GenericOverviewHelper
 
-trait ShareableElementOverviewViewBehaviour extends ViewTestHelper with SharableOverviewData{
+trait ShareableElementOverviewViewBehaviour extends GenericOverviewHelper with SharableOverviewData{
 
   def pageTitle: String
   def browserTitle: String

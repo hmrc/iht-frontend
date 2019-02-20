@@ -19,17 +19,17 @@ package iht.controllers.filter
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.MockFormPartialRetriever
 import iht.views.HtmlSpec
-import play.api.i18n.{Messages, MessagesApi}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class TransitionControllerTest extends ApplicationControllerTest with HtmlSpec {
 
-  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-  def controller = new TransitionController {
+  implicit val fakedMessagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  def controller: TransitionController = new TransitionController {
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+
+    override def messagesApi: MessagesApi = fakedMessagesApi
   }
 
   "Transition Controller" must {
@@ -40,7 +40,7 @@ class TransitionControllerTest extends ApplicationControllerTest with HtmlSpec {
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() must be(messagesApi("iht.usePaperForm"))
+      titleElement.text() must be(fakedMessagesApi("iht.usePaperForm"))
     }
 
     "show the Use Paper Form page when access by an unauthorised person for Northern Ireland" in {
@@ -49,7 +49,7 @@ class TransitionControllerTest extends ApplicationControllerTest with HtmlSpec {
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() must be(messagesApi("iht.usePaperForm"))
+      titleElement.text() must be(fakedMessagesApi("iht.usePaperForm"))
     }
 
     "show the Use Paper Form page when access by an unauthorised person for another country" in {
@@ -58,7 +58,7 @@ class TransitionControllerTest extends ApplicationControllerTest with HtmlSpec {
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() must be(messagesApi("iht.usePaperForm"))
+      titleElement.text() must be(fakedMessagesApi("iht.usePaperForm"))
     }
   }
 }

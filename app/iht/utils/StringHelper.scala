@@ -21,13 +21,10 @@ import java.util.UUID.randomUUID
 
 import iht.constants.IhtProperties
 import iht.utils.CommonHelper.withValue
-import iht.views.html.ihtHelpers.custom.name
 import org.joda.time.format.DateTimeFormat
 import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.twirl.api.Html
-import uk.gov.hmrc.play.frontend.auth.AuthContext
 
 import scala.collection.mutable.ListBuffer
 import scala.util.{Failure, Success, Try}

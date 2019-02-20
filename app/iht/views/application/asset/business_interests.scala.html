@@ -14,15 +14,14 @@
  * limitations under the License.
  *@
 
-@import iht.models._
 @import iht.models.application.basicElements.BasicEstateElement
-@import uk.gov.hmrc.play.views.html._
+@import iht.utils._
 @import iht.views.html._
-@import iht.utils._
-@import iht.constants.Constants._
+@import iht.models.RegistrationDetails
 @import iht.constants.IhtProperties._
-@import iht.utils._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import iht.constants.Constants._
 
 @(businessInterestForm: Form[BasicEstateElement],
 registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
@@ -35,7 +34,7 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
 ) {
     @ihtHelpers.custom.error_summary_override_keys(businessInterestForm, AppSectionBusinessInterest)
 
-    @helpers.form(action = iht.controllers.application.assets.routes.BusinessInterestsController.onSubmit, 'autoComplete -> "off") {
+    @form(action = iht.controllers.application.assets.routes.BusinessInterestsController.onSubmit, 'autoComplete -> "off") {
         <div class="form-group">
             <p>@Html(Messages("page.iht.application.assets.businessInterest.description.p1",deceasedName))</p>
             <p>@Html(Messages("page.iht.application.assets.businessInterest.description.p2",deceasedName))</p>

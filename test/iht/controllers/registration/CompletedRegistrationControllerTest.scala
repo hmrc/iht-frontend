@@ -16,13 +16,9 @@
 
 package iht.controllers.registration
 
-import iht.connector.CachingConnector
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils._
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
@@ -64,9 +60,6 @@ class CompletedRegistrationControllerTest extends RegistrationControllerTest {
     }
 
     "respond with correct page" in {
-      import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
       val registrationDetails = CommonBuilder.buildRegistrationDetails copy(ihtReference = Some(""))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       val result = completedRegistrationController.onPageLoad()(createFakeRequest(authRetrieveNino = false))

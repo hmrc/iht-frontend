@@ -14,13 +14,10 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
-@import iht.utils._
-@import iht.controllers.ControllerHelper._
-@import iht.utils._
-@import iht.constants.FieldMappings._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import iht.constants.FieldMappings._
 
 @(probateLocationForm:Form[iht.models.ApplicantDetails],
     actionLocation: Call, cancelLocation: Option[Call] = None)(implicit request:Request[_],
@@ -36,7 +33,7 @@ hasTimeOut=true) {
 
     @ihtHelpers.custom.error_summary(probateLocationForm)
 
-    @helpers.form(action = actionLocation,'autoComplete -> "off") {
+    @form(action = actionLocation,'autoComplete -> "off") {
 
     @ihtHelpers.standard.input_radio_group(
         probateLocationForm("country"),

@@ -80,7 +80,6 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
 
   def coExecutorForms = {
     val mockIhtFormValidator = new IhtFormValidator {
-      override def cachingConnector = mock[CachingConnector]
       override def ninoForCoExecutor(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String,
                                      coExecutorIDKey:String, oRegDetails: Option[RegistrationDetails])(
                                      implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] = {

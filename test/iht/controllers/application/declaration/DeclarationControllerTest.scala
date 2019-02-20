@@ -16,26 +16,26 @@
 
 package iht.controllers.application.declaration
 
-import iht.connector.{CachingConnector, IhtConnector}
+import iht.connector.IhtConnector
 import iht.controllers.ControllerHelper
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
-import iht.metrics.Metrics
+import iht.metrics.IhtMetrics
 import iht.models.application.assets._
 import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.models.application.exemptions.{AllExemptions, PartnerExemption}
 import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.models.enums.StatsSource
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.ApplicationStatus
 import org.mockito.ArgumentMatchers._
-import play.api.http.Status.OK
 import org.mockito.Mockito.when
+import play.api.http.Status.OK
 import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.http.{GatewayTimeoutException, HeaderCarrier, Upstream5xxResponse}
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -53,7 +53,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
-    override lazy val metrics:Metrics = mock[Metrics]
+    override lazy val metrics: IhtMetrics = mock[IhtMetrics]
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
@@ -62,7 +62,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
-    override lazy val metrics:Metrics = mock[Metrics]
+    override lazy val metrics: IhtMetrics = mock[IhtMetrics]
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }

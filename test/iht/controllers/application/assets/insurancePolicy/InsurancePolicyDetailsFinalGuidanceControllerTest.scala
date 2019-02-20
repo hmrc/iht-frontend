@@ -16,15 +16,11 @@
 
 package iht.controllers.application.assets.insurancePolicy
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.assets.InsurancePolicy
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, ContentChecker}
 import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
 import iht.utils.DeceasedInfoHelper
-import play.api.i18n.{Messages, MessagesApi}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 

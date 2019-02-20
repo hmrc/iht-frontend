@@ -16,35 +16,29 @@
 
 package iht.controllers.filter
 
-import iht.connector.{CachingConnector, IhtConnector}
+import iht.constants.Constants._
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.FilterForms._
 import iht.testhelpers.MockFormPartialRetriever
 import iht.views.HtmlSpec
-import play.api.i18n.{Messages, MessagesApi}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-/**
-  * Created by adwelly on 21/10/2016.
-  */
 class FilterControllerTest extends ApplicationControllerTest with HtmlSpec {
 
-  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit val fakedMessagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit val request = FakeRequest()
   val messages = messagesApi.preferred(request)
-
 
 
   def controller = new FilterController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+
+    override def messagesApi: MessagesApi = fakedMessagesApi
   }
 
   "FilterController" must {
@@ -54,7 +48,7 @@ class FilterControllerTest extends ApplicationControllerTest with HtmlSpec {
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() must be(messagesApi("iht.whatDoYouWantToDo"))
+      titleElement.text() must be(fakedMessagesApi("iht.whatDoYouWantToDo"))
     }
 
     "show an error if no radio  button is selected" in {

@@ -16,16 +16,12 @@
 
 package iht.controllers.registration.applicant
 
-import iht.connector.CachingConnector
 import iht.constants.IhtProperties
 import iht.controllers.registration.{RegistrationControllerTest, routes => registrationRoutes}
 import iht.forms.registration.ApplicantForms._
 import iht.models.{ApplicantDetails, UkAddress}
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 

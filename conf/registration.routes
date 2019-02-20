@@ -2,7 +2,7 @@
 
 #IHT Registration routes
 
-GET         /registration-checklist                             iht.controllers.registration.RegistrationChecklistController.onPageLoad
+GET         /registration-checklist                             @iht.controllers.registration.RegistrationChecklistController.onPageLoad
 
 ## deceased - date of death ##
 

@@ -14,16 +14,17 @@
  * limitations under the License.
  *@
 
-@(form: Form[_], postRoute: play.api.mvc.Call, includeIntendReturnQuestion: Boolean)(implicit request:Request[_], messages: Messages)
+@(ihtForm: Form[_], postRoute: play.api.mvc.Call, includeIntendReturnQuestion: Boolean)(implicit request:Request[_], messages: Messages)
 
-@import uk.gov.hmrc.play.views.html.helpers
-@import iht.views.html._
 @import iht.constants.FieldMappings._
+@import iht.views.html._
+@import views.html.helper.textarea
+@import uk.gov.hmrc.play.views.html.helpers.form
 
-@helpers.form(postRoute) {
+@form(postRoute) {
 
     @ihtHelpers.standard.input_radio_group(
-        form("feelingAboutExperience"),
+        ihtForm("feelingAboutExperience"),
         questionnaireFeelingAboutExperience.toSeq,
         '_legend -> messages("page.iht.questionnaire.feelingAboutExperience.question"),
         '_fieldsetId -> "feeling-about-experience",
@@ -34,7 +35,7 @@
     )
 
     @ihtHelpers.standard.input_radio_group(
-        form("easytouse"),
+        ihtForm("easytouse"),
         questionnaireEasyToUse.toSeq,
         '_legend -> messages("page.iht.questionnaire.easy-to-use.question"),
         '_fieldsetId -> "easy-to-use",
@@ -45,7 +46,7 @@
     )
 
     @ihtHelpers.standard.input_radio_group(
-        form("stageInService"),
+        ihtForm("stageInService"),
         questionnaireActivity.toSeq,
         '_legend -> messages("page.iht.questionnaire.activity.question"),
         '_legendClass -> Some("legend-with-heading"),
@@ -58,14 +59,14 @@
 
     @if(includeIntendReturnQuestion) {
         @ihtHelpers.standard.input_yes_no_radio_group(
-            form("intendToReturn"),
+            ihtForm("intendToReturn"),
             '_divClass -> Some("form-group"),
             '_legend -> Messages("page.iht.questionnaire.intendReturn.question"),
             '_legendClass -> "form-label-bold"
         )
     }
 
-    @helpers.textArea(form("howcanyouimprove"),
+    @textarea(ihtForm("howcanyouimprove"),
         '_label -> messages("page.iht.questionnaire.improve.question"),
         '_labelClass -> "form-label-bold",
         '_inputClass -> "full-width feedback-text-area")
@@ -76,13 +77,13 @@
     <p><strong>@messages("page.iht.questionnaire.fullName.p1")</strong></p>
     <p>@messages("page.iht.questionnaire.fullName.p2")</p>
 
-    @ihtHelpers.standard.input_with_help(form("fullName"),
+    @ihtHelpers.standard.input_with_help(ihtForm("fullName"),
     '_divClass -> "form-group",
     '_inputClass -> "form-control",
     '_labelTextClass -> "bold",
     '_label -> Html(messages("site.fullName")))
 
-    @ihtHelpers.standard.input_with_help(form("contactDetails"),
+    @ihtHelpers.standard.input_with_help(ihtForm("contactDetails"),
     '_divClass -> "form-group",
     '_inputClass -> "form-control",
     '_labelTextClass -> "bold",

@@ -14,16 +14,14 @@
  * limitations under the License.
  *@
 
-@import iht.models._
-@import iht.models.application.basicElements.ShareableBasicEstateElement
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-
-@import iht.utils._
 @import iht.constants.Constants
-@import iht.utils._
 @import iht.constants.IhtProperties._
+@import iht.models.application.basicElements.ShareableBasicEstateElement
+@import iht.utils._
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import iht.models.RegistrationDetails
 
 @(vehicles: Form[ShareableBasicEstateElement],
 registrationDetails: RegistrationDetails
@@ -41,7 +39,7 @@ registrationDetails: RegistrationDetails
 
 @ihtHelpers.custom.error_summary_override_keys(vehicles, Constants.AppSectionVehicles)
 
-@helpers.form(action = iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onSubmit(),'autoComplete -> "off") {
+@form(action = iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onSubmit(),'autoComplete -> "off") {
 
 @ihtHelpers.custom.generic_estate_element_assets(
                                     assetType = Constants.AssetTypeSingle,

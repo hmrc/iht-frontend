@@ -19,10 +19,6 @@ package iht.utils
 import iht.FakeIhtApp
 import iht.testhelpers.CommonBuilder
 import org.scalatest.mock.MockitoSugar
-import play.twirl.api.Html
-import uk.gov.hmrc.play.frontend.auth.connectors.domain.{Accounts, ConfidenceLevel, CredentialStrength}
-import uk.gov.hmrc.play.frontend.auth.{AuthContext, LoggedInUser, Principal}
-import uk.gov.hmrc.play.test.UnitSpec
 
 class StringHelperTest extends FakeIhtApp with MockitoSugar {
   "parseAssignmentsToSeqTuples" must {

@@ -16,10 +16,9 @@
 
 package iht.controllers.registration
 
-import iht.config.AppConfig
-import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
+import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.ControllerHelper
-import iht.metrics.Metrics
+import iht.metrics.IhtMetrics
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.enums.StatsSource
@@ -30,23 +29,23 @@ import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.http._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import uk.gov.hmrc.http._
 
-class RegistrationSummaryControllerImpl @Inject()() extends RegistrationSummaryController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
+class RegistrationSummaryControllerImpl @Inject()(val ihtConnector: IhtConnector,
+                                                  val cachingConnector: CachingConnector,
+                                                  val metrics: IhtMetrics,
+                                                  val authConnector: AuthConnector,
+                                                  val formPartialRetriever: FormPartialRetriever) extends RegistrationSummaryController
 
 trait RegistrationSummaryController extends RegistrationController {
   override def guardConditions: Set[Predicate] = guardConditionsRegistrationSummary
 
   def cachingConnector: CachingConnector
-
-  def metrics: Metrics
-
+  def metrics: IhtMetrics
   def ihtConnector: IhtConnector
 
   def onPageLoad = authorisedForIht {
@@ -94,7 +93,6 @@ trait RegistrationSummaryController extends RegistrationController {
             Logger.warn("System error while submitting registration", ex)
             InternalServerError(iht.views.html.registration.registration_error(ControllerHelper.errorSystem))
           }
-
       }
 
       // In order to set up stub data correctly,

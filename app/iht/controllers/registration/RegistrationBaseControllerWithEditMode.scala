@@ -21,9 +21,9 @@ import iht.utils.RegistrationKickOutHelper._
 import iht.utils.{DeceasedInfoHelper, SessionHelper}
 import play.api.data.Form
 import play.api.mvc.{AnyContent, Request, Result}
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
 import scala.concurrent.Future
-import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
 trait RegistrationBaseControllerWithEditMode[T] extends RegistrationBaseController[T] {
 

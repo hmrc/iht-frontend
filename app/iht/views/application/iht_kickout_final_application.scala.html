@@ -14,11 +14,9 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.controllers.ControllerHelper
-@import iht.utils._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.views.html._
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(ihtReference: String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
@@ -47,7 +45,7 @@
     <p><strong>@Messages("page.iht.application.kickout.final.guidance.onFinish")</strong></p>
 
     <div id="continue-button">
-        @helpers.form(action = iht.controllers.application.routes.KickoutAppController.onSubmit) {
+        @form(action = iht.controllers.application.routes.KickoutAppController.onSubmit) {
         <p><input id="finish" class='button' name="action" type='submit' value='@Messages("iht.finishAndDeleteThisEstateReport")'></p>
         }
     </div>

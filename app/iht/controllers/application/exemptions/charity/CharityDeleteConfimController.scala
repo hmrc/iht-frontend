@@ -16,10 +16,8 @@
 
 package iht.controllers.application.exemptions.charity
 
-import iht.config.{AppConfig, FrontendAuthConnector}
-import iht.connector.IhtConnectors
+import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.EstateController
-import iht.metrics.Metrics
 import iht.utils.StringHelper
 import iht.views.html.application.exemption.charity.charity_delete_confirm
 import javax.inject.Inject
@@ -27,13 +25,16 @@ import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
-import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-class CharityDeleteConfirmControllerImpl @Inject()() extends CharityDeleteConfirmController with IhtConnectors {
-  def metrics: Metrics = Metrics
+class CharityDeleteConfirmControllerImpl @Inject()(val ihtConnector: IhtConnector,
+                                                   val cachingConnector: CachingConnector,
+                                                   val authConnector: AuthConnector,
+                                                   val formPartialRetriever: FormPartialRetriever) extends CharityDeleteConfirmController {
+
 }
 
 trait CharityDeleteConfirmController extends EstateController {

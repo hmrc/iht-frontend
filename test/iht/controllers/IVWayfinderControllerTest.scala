@@ -16,11 +16,9 @@
 
 package iht.controllers
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.MockObjectBuilder.createMockToGetRegDetailsFromCache
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
-import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 

@@ -14,11 +14,10 @@
  * limitations under the License.
  *@
 
-@import iht.models.application._
-@import iht.utils.{KickOutReason => KickOut}
-@import iht.utils.ApplicationKickOutSummaryHelper
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.utils.tnrb.TnrbHelper
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.models.application.ApplicationDetails
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @( kickoutReason: String,
 applicationDetails: ApplicationDetails,
@@ -27,11 +26,8 @@ applicationLastID: Option[String],
 summaryParameter1:String,
 deceasedName: String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.controllers.ControllerHelper
-@import iht.utils.{KickOutReason=>KickOut}
 @import iht.utils._
+@import iht.views.html._
 
 @iht_main_template_application(title = Messages("iht.notPossibleToUseService"),
     browserTitle = Some(Messages("iht.notPossibleToUseService"))) {
@@ -83,7 +79,7 @@ deceasedName: String)(implicit request:Request[_], messages: Messages, ihtFormPa
 
     </div>
     <div id="continue-button" class="form-field form-field--submit">
-        @helpers.form(action = iht.controllers.application.routes.KickoutAppController.onSubmit) {
+        @form(action = iht.controllers.application.routes.KickoutAppController.onSubmit) {
             <p><input id="finish" class='button' name="action" type='submit' value='@Messages("site.button.details.correct")'></p>
         }
     </div>

@@ -16,27 +16,26 @@
 
 package iht.controllers.filter
 
+import iht.constants.Constants._
 import iht.controllers.application.ApplicationControllerTest
+import iht.forms.FilterForms._
 import iht.testhelpers.MockFormPartialRetriever
 import iht.views.HtmlSpec
-import play.api.i18n.{Messages, MessagesApi}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import iht.forms.FilterForms._
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
 
-  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit val fakedMessagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit val request = FakeRequest()
   val messages = messagesApi.preferred(request)
 
   def controller = new DomicileController {
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+
+    override def messagesApi: MessagesApi = fakedMessagesApi
   }
 
   "Domicile Controller" must {
@@ -47,7 +46,7 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() must be(messagesApi("page.iht.registration.deceasedPermanentHome.title"))
+      titleElement.text() must be(fakedMessagesApi("page.iht.registration.deceasedPermanentHome.title"))
     }
 
     "show an error if no radio button is selected" in {

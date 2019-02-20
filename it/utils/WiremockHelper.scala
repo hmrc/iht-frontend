@@ -5,6 +5,7 @@ import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.client.WireMock._
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig
+import iht.connector.IhtConnector
 import org.scalatestplus.play.guice.GuiceOneServerPerSuite
 import play.api.libs.ws.WSClient
 
@@ -31,7 +32,8 @@ trait WiremockHelper {
 
   def resetWiremock() = WireMock.reset()
 
-  lazy val ws = app.injector.instanceOf(classOf[WSClient])
+  lazy val ws: WSClient = app.injector.instanceOf(classOf[WSClient])
+  lazy val injectedIhtConnector: IhtConnector = app.injector.instanceOf(classOf[IhtConnector])
 
 
   def stubGet(url: String, status: Integer, body: String) =
