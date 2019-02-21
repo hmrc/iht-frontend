@@ -166,6 +166,7 @@ class Module extends AbstractModule {
     bind(classOf[RegistrationChecklistController]).to(classOf[RegistrationChecklistControllerImpl]).asEagerSingleton
     bind(classOf[SessionTimeoutController]).to(classOf[SessionTimeoutControllerImpl]).asEagerSingleton
     bind(classOf[UseIHT400Controller]).to(classOf[UseIHT400ControllerImpl]).asEagerSingleton
+    bind(classOf[AgentController]).to(classOf[AgentControllerImpl]).asEagerSingleton
 
     bind(classOf[BenefitFromTrustController]).to(classOf[BenefitFromTrustControllerImpl]).asEagerSingleton
     bind(classOf[DateOfMarriageController]).to(classOf[DateOfMarriageControllerImpl]).asEagerSingleton
