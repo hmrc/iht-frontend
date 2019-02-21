@@ -18,18 +18,15 @@ package iht.controllers.application
 
 import java.util.UUID
 
-import iht.connector.{CachingConnector, IhtConnector}
-import iht.metrics.Metrics
+import iht.metrics.IhtMetrics
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, MockObjectBuilder, TestHelper}
 import iht.utils.{DeceasedInfoHelper, KickOutReason, ApplicationStatus => AppStatus}
 import org.mockito.ArgumentMatchers._
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{status => playStatus, _}
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.http.SessionKeys
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -40,7 +37,7 @@ class KickoutAppControllerTest extends ApplicationControllerTest {
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
 
-    override lazy val metrics:Metrics = mock[Metrics]
+    override lazy val metrics:IhtMetrics = mock[IhtMetrics]
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
@@ -49,7 +46,7 @@ class KickoutAppControllerTest extends ApplicationControllerTest {
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
 
-    override lazy val metrics:Metrics = mock[Metrics]
+    override lazy val metrics:IhtMetrics = mock[IhtMetrics]
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 

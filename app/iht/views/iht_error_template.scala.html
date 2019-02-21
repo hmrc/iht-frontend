@@ -14,11 +14,9 @@
  * limitations under the License.
  *@
 
-@import iht.constants.IhtProperties
-@import play.api.Play.current
-@import play.api.i18n.Messages.Implicits.applicationMessagesApi
+@import iht.constants.IhtProperties.linkGovUkIht
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.constants.IhtProperties.{linkIHT205PDF, linkGovUkIht}
+@import iht.views.html._
 
 @()(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 

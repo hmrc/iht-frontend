@@ -16,26 +16,25 @@
 
 package iht.connector
 
-import iht.config.{WSHttp, WiringConfig}
 import iht.controllers.ControllerHelper
 import iht.models._
 import iht.models.application.{ApplicationDetails, IhtApplication, ProbateDetails}
-import iht.utils.{GiftsHelper, RegistrationDetailsHelper, StringHelper}
 import iht.models.des.ihtReturn.IHTReturn
+import iht.utils.{GiftsHelper, RegistrationDetailsHelper, StringHelper}
+import javax.inject.Inject
 import models.des.EventRegistration
-import play.api.Logger
+import play.api.{Configuration, Environment, Logger}
 import play.api.http.Status._
 import play.api.libs.json.{JsError, JsValue, Json}
-import play.api.mvc.Result
 import play.api.mvc.Request
+import uk.gov.hmrc.http.{BadRequestException, ConflictException, GatewayTimeoutException, HeaderCarrier, HttpDelete, HttpGet, HttpPost, HttpPut, HttpResponse, NotFoundException, Upstream4xxResponse, Upstream5xxResponse}
+import uk.gov.hmrc.play.bootstrap.http.HttpClient
 import uk.gov.hmrc.play.config.ServicesConfig
-import uk.gov.hmrc.play.http._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import uk.gov.hmrc.http.{BadRequestException, ConflictException, GatewayTimeoutException, HeaderCarrier, HttpDelete, HttpGet, HttpPost, HttpPut, HttpResponse, NotFoundException, Upstream4xxResponse, Upstream5xxResponse}
 
-trait IhtConnector extends WiringConfig {
+trait IhtConnector {
 
   def http: HttpGet with HttpPost with HttpPut with HttpDelete
 
@@ -77,9 +76,10 @@ trait IhtConnector extends WiringConfig {
   def getSubmittedApplicationDetails(nino: String, ihtReference: String, returnId: String)(implicit headerCarrier: HeaderCarrier): Future[Option[IHTReturn]]
 }
 
-object IhtConnector extends IhtConnector with ServicesConfig {
-  override def http = WSHttp
-
+class IhtConnectorImpl @Inject()(val http: HttpClient,
+                                 val runModeConfiguration: Configuration,
+                                 environment: Environment) extends IhtConnector with ServicesConfig {
+  override val mode = environment.mode
   lazy val serviceUrl = baseUrl("iht")
 
   override def deleteApplication(nino: String, ihtReference: String)(implicit headerCarrier: HeaderCarrier) = {

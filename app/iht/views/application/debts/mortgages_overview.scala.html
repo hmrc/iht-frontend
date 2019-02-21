@@ -14,10 +14,11 @@
  * limitations under the License.
  *@
 
-@import iht.models._
-@import iht.models.application.debts._
 @import iht.models.application.assets.Property
+@import iht.models.application.debts._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.models.RegistrationDetails
+@import iht.models.application.debts.Mortgage
 
 @(propertyList: List[Property] = List.empty[Property],
 mortgageList: List[Mortgage] = List.empty[Mortgage],
@@ -26,14 +27,9 @@ registrationDetails: RegistrationDetails,
 onCancel: Call,
 onCancelMessageKey: String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-
-@import iht.utils._
-@import iht.utils.CommonHelper
-@import iht.constants.FieldMappings
-@import iht.constants.Constants._
 @import iht.constants.IhtProperties._
+@import iht.utils.{CommonHelper, _}
+@import iht.views.html._
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 

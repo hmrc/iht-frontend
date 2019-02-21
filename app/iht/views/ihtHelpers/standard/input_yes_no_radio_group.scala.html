@@ -16,9 +16,9 @@
 
 @(field: Field, args: (Symbol, Any)*)(implicit messages: Messages)
 
+@import iht.views.html._
 @import play.api.i18n._
 @import views.html.helper._
-@import iht.views.html._
 
 @elements = @{new FieldElements(field.id, field, null, args.toMap, messages) }
 @labelAfter = @{ elements.args.get('_labelAfter).getOrElse(false).asInstanceOf[Boolean] }
@@ -76,10 +76,7 @@
     @elements.errors.map{error => <span class="error-message" data-journey="error - field:user-input:@fieldName">@Messages(error)</span>}
 }
 
-@import java.lang.String; val labelYes=Messages("iht.yes")
-@import java.lang.String; val valueYes="true"
-
-@defining(s"${elements.field.name}-${valueYes}")  { inputId =>
+@defining(s"${elements.field.name}-true")  { inputId =>
 
     <div class="multiple-choice"
             @if(elements.args.get('_shownElementYes).isDefined) {data-target= "@elements.args.get('_shownElementYes)"}
@@ -89,25 +86,22 @@
             type="radio"
             id="yes"
             name="@elements.field.name"
-            value="@valueYes"
+            value="true"
             @elements.args.get('_inputClass).map{inputClass => class="@inputClass"}
             @if(elements.args.contains('_dataAttributes) ){ @elements.args.get('_dataAttributes)}
             @if(elements.args.contains('_hintText)){aria-describedby="@hintID" }
-            @field.value.filter( _ == valueYes).map{_ => checked="checked"} />
+            @field.value.filter( _ == "true").map{_ => checked="checked"} />
         <label for="yes"
             id="yes-label"
             class="block-label block-label--inline"
             @if(elements.args.get('_labelAttributes).isDefined) {@elements.args.get('_labelAttributes)}>
-            @labelYes
+            @Messages("iht.yes")
         </label>
     </div>
 
-}
+};
 
-@import java.lang.String; val labelNo=Messages("iht.no")
-@import java.lang.String; val valueNo="false"
-
-@defining(s"${elements.field.name}-${valueNo}")  { inputId =>
+@defining(s"${elements.field.name}-false")  { inputId =>
 
     <div class="multiple-choice"
             @if(elements.args.get('_shownElementNo).isDefined) {data-target= "@elements.args.get('_shownElementNo)"}
@@ -117,16 +111,16 @@
             type="radio"
             id="no"
             name="@elements.field.name"
-            value="@valueNo"
+            value="false"
             @elements.args.get('_inputClass).map{inputClass => class="@inputClass"}
             @if(elements.args.contains('_dataAttributes) ){ @elements.args.get('_dataAttributes)}
             @if(elements.args.contains('_hintText)){aria-describedby="@hintID" }
-            @field.value.filter( _ == valueNo).map{_ => checked="checked"}/>
+            @field.value.filter( _ == "false").map{_ => checked="checked"}/>
         <label for="no"
             id="no-label"
             class="block-label block-label--inline"
             @if(elements.args.get('_labelAttributes).isDefined) {@elements.args.get('_labelAttributes)}>
-            @labelNo
+            @Messages("iht.no")
         </label>
     </div>
 

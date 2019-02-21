@@ -14,18 +14,15 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.models.application.gifts.PreviousYearsGifts
-@import iht.models._
-@import iht.models.application.gifts.AllGifts
+@import iht.models.RegistrationDetails
+@import iht.models.application.gifts.{AllGifts, PreviousYearsGifts}
 @import iht.utils._
-@import iht.constants.IhtProperties._
-@import iht.constants.Constants._
-@import uk.gov.hmrc.play.language.LanguageUtils.Dates
+@import iht.views.html._
 @import org.joda.time.LocalDate
-@import org.joda.time.format._
+@import uk.gov.hmrc.play.language.LanguageUtils.Dates
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import iht.constants.IhtProperties._
 
 @(giftsGivenAwayForm:Form[AllGifts],
 regDetails:RegistrationDetails,
@@ -41,7 +38,7 @@ headingName = deceasedName
 ){
     @ihtHelpers.custom.error_summary(giftsGivenAwayForm)
 
-    @helpers.form(action = iht.controllers.application.gifts.routes.GivenAwayController.onSubmit,'autoComplete -> "off") {
+    @form(action = iht.controllers.application.gifts.routes.GivenAwayController.onSubmit,'autoComplete -> "off") {
 
     <div class="form-group">
         <p>@Html(Messages("page.iht.application.gifts.lastYears.givenAway.p1", deceasedNameWrapped))</p>
@@ -72,22 +69,19 @@ headingName = deceasedName
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
 
-    @giftsGivenAwayForm.data.isEmpty match{
-                case true => {
-                                @ihtHelpers.custom.return_link(Messages("iht.estateReport.returnToEstateOverview"),
-                                    Some(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(
-                                        CommonHelper.getOrException(regDetails.ihtReference))))
-                                }
-                case _ => {
-                             @regDetails.deceasedDetails.map{dd=>
-                               @ihtHelpers.custom.return_link(
-                                    Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.custom.name(dd.name)),
-                                    Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()),
-                                    GiftsGivenAwayQuestionID
-                                )
-                              }
-                            }
-      }
+    @if(giftsGivenAwayForm.data.isEmpty) {
+        @ihtHelpers.custom.return_link(Messages("iht.estateReport.returnToEstateOverview"),
+            Some(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(
+                CommonHelper.getOrException(regDetails.ihtReference))))
+    } else {
+        @regDetails.deceasedDetails.map { dd =>
+            @ihtHelpers.custom.return_link(
+                Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.custom.name(dd.name)),
+                Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()),
+                GiftsGivenAwayQuestionID
+            )
+        }
+    }
 
    }
 }

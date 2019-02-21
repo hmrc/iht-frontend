@@ -14,13 +14,13 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.utils._
-@import iht.utils.CommonHelper._
-@import iht.constants.IhtProperties._
 @import iht.models.application.assets.Property
+@import iht.utils.CommonHelper._
+@import iht.utils._
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import iht.constants.IhtProperties._
 
 @(propertyModel: Property)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
@@ -31,11 +31,11 @@ cancelUrl=Some(addFragmentIdentifier(iht.controllers.application.assets.properti
 cancelLabel = Some(Messages("site.link.cancel"))
 ) {
 
-@helpers.form(action = iht.controllers.application.assets.properties.routes.DeletePropertyController.onSubmit(propertyModel.id.getOrElse(""))) {
+@form(action = iht.controllers.application.assets.properties.routes.DeletePropertyController.onSubmit(propertyModel.id.getOrElse(""))) {
 
 <div id="address" class="panel panel-border-narrow">
     <strong>
-        @defining(propertyModel.address)  { propertyAddress =>
+        @defining(propertyModel.address) {propertyAddress =>
             @propertyAddress match{
                 case Some(x) => {
                     @AddressHelper.addressLayout(x)

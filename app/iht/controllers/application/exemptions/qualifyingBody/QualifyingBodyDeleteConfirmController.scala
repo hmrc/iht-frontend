@@ -16,11 +16,9 @@
 
 package iht.controllers.application.exemptions.qualifyingBody
 
-import iht.config.{AppConfig, FrontendAuthConnector}
-import iht.connector.IhtConnectors
+import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
-import iht.metrics.Metrics
 import iht.utils.{CommonHelper, StringHelper}
 import iht.views.html.application.exemption.qualifyingBody.qualifying_body_delete_confirm
 import javax.inject.Inject
@@ -28,13 +26,16 @@ import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
-import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-class QualifyingBodyDeleteConfirmControllerImpl @Inject()() extends QualifyingBodyDeleteConfirmController with IhtConnectors {
-  def metrics: Metrics = Metrics
+class QualifyingBodyDeleteConfirmControllerImpl @Inject()(val ihtConnector: IhtConnector,
+                                                          val cachingConnector: CachingConnector,
+                                                          val authConnector: AuthConnector,
+                                                          val formPartialRetriever: FormPartialRetriever) extends QualifyingBodyDeleteConfirmController {
+
 }
 
 trait QualifyingBodyDeleteConfirmController extends EstateController {

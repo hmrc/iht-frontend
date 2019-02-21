@@ -19,11 +19,11 @@ package iht.controllers.auth
 import akka.stream.Materializer
 import iht.controllers.application.ApplicationControllerTest
 import iht.utils.IhtSection
-import org.mockito.Mockito._
 import play.api.mvc.{Action, AnyContent}
 import play.api.test.Helpers.{redirectLocation, status => playStatus}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -46,6 +46,7 @@ class IhtBaseControllerTest extends ApplicationControllerTest {
           Future.successful(Ok(s"$responseContent with $userNino"))
         }
       }
+      override implicit val formPartialRetriever: FormPartialRetriever = mockPartialRetriever
     }
   }
 

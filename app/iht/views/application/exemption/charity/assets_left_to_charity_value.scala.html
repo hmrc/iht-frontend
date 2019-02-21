@@ -14,13 +14,13 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.models.application.exemptions._
-@import iht.models._
-@import iht.utils.CommonHelper._
 @import iht.constants.IhtProperties._
+@import iht.models.RegistrationDetails
+@import iht.models.application.exemptions._
+@import iht.utils.CommonHelper._
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(assetsLeftToCharityValueForm: Form[Charity],
         rd: RegistrationDetails,
@@ -35,7 +35,7 @@
     isFullWidth = false
 ) {
     @ihtHelpers.custom.error_summary(assetsLeftToCharityValueForm)
-    @helpers.form(action = submitUrl, 'autoComplete -> "off") {
+    @form(action = submitUrl, 'autoComplete -> "off") {
 
 
         @ihtHelpers.custom.input_estate_value(assetsLeftToCharityValueForm("totalValue"),

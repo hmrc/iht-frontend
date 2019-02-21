@@ -16,16 +16,14 @@
 
 package iht.connector
 
-import iht.config.IhtAuditConnector
+import javax.inject.Inject
 import play.api.Logger
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 import uk.gov.hmrc.play.audit.model.DataEvent
 import uk.gov.hmrc.play.http.logging.MdcLoggingExecutionContext._
 import uk.gov.hmrc.http.HeaderCarrier
 
-object ExplicitAuditConnector extends ExplicitAuditConnector {
-  override lazy val auditConnector = IhtAuditConnector
-}
+class ExplicitAuditConnectorImpl @Inject()(val auditConnector: AuditConnector) extends ExplicitAuditConnector
 
 trait ExplicitAuditConnector {
 

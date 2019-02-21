@@ -14,14 +14,12 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.views.html._
 
 @(ihtReference : String)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
-@iht_main_template_registration(title = Messages("page.iht.registration.duplicateRegistration.title"),
-hasTimeOut=true) {
+@iht_main_template_registration(title = Messages("page.iht.registration.duplicateRegistration.title")) {
 
 
 <div class="subsection">

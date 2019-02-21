@@ -16,18 +16,16 @@
 
 package iht.views.application.assets.trusts
 
+import iht.constants.IhtProperties._
 import iht.controllers.application.assets.trusts.routes
+import iht.models.application.assets.HeldInTrust
 import iht.testhelpers.CommonBuilder
 import iht.utils.CommonHelper
-import iht.views.ViewTestHelper
-import iht.views.helpers.GenericOverviewHelper._
-import play.api.i18n.Messages.Implicits._
+import iht.views.helpers.GenericOverviewHelper
 import iht.views.html.application.asset.trusts.trusts_overview
-import iht.models.application.assets.HeldInTrust
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
+import play.api.i18n.Messages.Implicits._
 
-class TrustsOverviewViewTest extends ViewTestHelper {
+class TrustsOverviewViewTest extends GenericOverviewHelper {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)

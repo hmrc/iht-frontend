@@ -14,12 +14,9 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.utils._
-@import iht.controllers.ControllerHelper._
-@import iht.utils._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.views.html._
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @()(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
@@ -28,7 +25,7 @@ browserTitle = Some("Store Application Details"),
 isFullWidth=false
 ) {
 
-@helpers.form(action = iht.controllers.testonly.routes.TestOnlyController.storeApplicationDetailsSubmit(),'autoComplete -> "off") {
+@form(action = iht.controllers.testonly.routes.TestOnlyController.storeApplicationDetailsSubmit(),'autoComplete -> "off") {
 
 <label for="nino">NINO</label>
 <input id="nino" name="nino" />

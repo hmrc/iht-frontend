@@ -16,12 +16,11 @@
 
 package iht.controllers.application
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.models.application.assets._
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.{ApplicationStatus, KickOutReason}
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class EstateControllerTest extends ApplicationControllerTest {
 

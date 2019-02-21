@@ -16,33 +16,22 @@
 
 package iht.controllers.registration
 
-import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.{FieldMappings, IhtProperties}
-import iht.controllers.registration.applicant.{routes => applicantRoutes}
-import iht.controllers.registration.deceased.{routes => deceasedRoutes}
-import iht.controllers.registration.executor.{routes => executorRoutes}
-import iht.metrics.Metrics
+import iht.metrics.IhtMetrics
 import iht.models._
 import iht.models.application.ApplicationDetails
-import iht.models.application.debts._
-import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
 import iht.testhelpers.MockObjectBuilder._
-import iht.utils.StringHelper
-import iht.utils.CommonHelper._
+import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
 import org.joda.time.LocalDate
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.test.Helpers._
+import uk.gov.hmrc.http.{GatewayTimeoutException, Upstream5xxResponse}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
-import uk.gov.hmrc.http.{ConflictException, GatewayTimeoutException, Upstream5xxResponse}
 
 class RegistrationSummaryControllerTest extends RegistrationControllerTest{
 
@@ -50,7 +39,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
-    override val metrics:Metrics = mock[Metrics]
+    override val metrics: IhtMetrics = mock[IhtMetrics]
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
@@ -59,7 +48,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
-    override val metrics:Metrics = mock[Metrics]
+    override val metrics: IhtMetrics = mock[IhtMetrics]
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }

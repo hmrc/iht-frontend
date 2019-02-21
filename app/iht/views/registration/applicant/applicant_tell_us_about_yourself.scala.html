@@ -14,13 +14,11 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.utils._
-@import iht.controllers.ControllerHelper._
-@import iht.utils._
 @import iht.constants._
+@import iht.controllers.ControllerHelper._
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(applicantTellUsAboutYourselfForm:Form[iht.models.ApplicantDetails],
     mode: Mode.Value = Mode.Standard,
@@ -35,7 +33,7 @@ hasTimeOut=true) {
 
     @ihtHelpers.custom.error_summary(applicantTellUsAboutYourselfForm)
 
-    @helpers.form(action = actionLocation,'autoComplete -> "off") {
+    @form(action = actionLocation,'autoComplete -> "off") {
 
     @ihtHelpers.standard.input_with_help(applicantTellUsAboutYourselfForm("phoneNo"),
         '_maxlength -> IhtProperties.validationMaxLengthPhoneNo,

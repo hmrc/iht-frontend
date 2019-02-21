@@ -19,10 +19,10 @@ package iht.controllers.registration.executor
 import iht.connector.CachingConnector
 import iht.controllers.registration.{RegistrationControllerTest, routes => registrationRoutes}
 import iht.forms.registration.CoExecutorForms._
-import iht.metrics.Metrics
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.metrics.IhtMetrics
 import iht.testhelpers.CommonBuilder._
 import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import org.scalatest.BeforeAndAfter
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
@@ -33,18 +33,16 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
 
   //Create controller object and pass in mock.
   def executorOverviewController = new ExecutorOverviewController {
-    override def metrics: Metrics = Metrics
     override def cachingConnector: CachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
-
+    override def metrics: IhtMetrics = mockIhtMetrics
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def executorOverviewControllerNotAuthorised = new ExecutorOverviewController {
-    override def metrics: Metrics = Metrics
     override def cachingConnector: CachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
-
+    override def metrics: IhtMetrics = mockIhtMetrics
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 

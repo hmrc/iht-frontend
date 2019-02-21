@@ -16,14 +16,11 @@
 
 package iht.controllers.registration
 
-import iht.connector.CachingConnector
-import iht.metrics.Metrics
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
+import iht.metrics.IhtMetrics
 import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.RegistrationKickOutHelper
 import org.mockito.ArgumentMatchers._
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.mvc.Result
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
@@ -38,7 +35,7 @@ class KickoutRegControllerTest extends RegistrationControllerTest {
 
       def controller = new KickoutRegController{
         override val authConnector = mockAuthConnector
-        override lazy val metrics:Metrics = mock[Metrics]
+        override lazy val metrics:IhtMetrics = mock[IhtMetrics]
         override val cachingConnector = mockCachingConnector
         override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
       }
@@ -70,8 +67,9 @@ class KickoutRegControllerTest extends RegistrationControllerTest {
       val request = createFakeRequest(isAuthorised = true, authRetrieveNino = false)
       def controller = new KickoutRegController{
         override val authConnector = mockAuthConnector
-        override lazy val metrics:Metrics = mock[Metrics]
+        override lazy val metrics:IhtMetrics = mock[IhtMetrics]
         override val cachingConnector = mockCachingConnector
+        override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
       }
 
       val result: Future[Result] = controller.onSubmit(request)

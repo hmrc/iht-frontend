@@ -14,13 +14,14 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.models.application.exemptions._
 @import iht.models._
+@import iht.models.application.exemptions._
 @import iht.utils.CommonHelper._
-@import iht.constants.IhtProperties._
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.models.RegistrationDetails
+@import iht.constants.IhtProperties._
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(qualifyingBodyValueForm: Form[QualifyingBody],
         rd: RegistrationDetails,
@@ -35,7 +36,7 @@
     isFullWidth = false
 ) {
     @ihtHelpers.custom.error_summary(qualifyingBodyValueForm)
-    @helpers.form(action = submitUrl, 'autoComplete -> "off") {
+    @form(action = submitUrl, 'autoComplete -> "off") {
 
 
         @ihtHelpers.custom.input_estate_value(qualifyingBodyValueForm("totalValue"),

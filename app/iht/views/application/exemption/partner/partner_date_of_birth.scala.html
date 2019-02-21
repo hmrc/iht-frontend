@@ -14,13 +14,13 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
 @import iht.models._
 @import iht.models.application.exemptions._
-@import iht.constants.IhtProperties._
-@import iht.utils.CommonHelper._
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import iht.models.RegistrationDetails
+@import iht.constants.IhtProperties._
 
 @(spouseDateOfBirthForm: Form[PartnerExemption],
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
@@ -31,7 +31,7 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 ) {
 
 
-    @helpers.form(action = iht.controllers.application.exemptions.partner.routes.PartnerDateOfBirthController.onSubmit,
+    @form(action = iht.controllers.application.exemptions.partner.routes.PartnerDateOfBirthController.onSubmit,
         'autoComplete -> "off") {
 
         @ihtHelpers.custom.error_summary(spouseDateOfBirthForm)

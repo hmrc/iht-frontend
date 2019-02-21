@@ -16,10 +16,9 @@
 
 package iht.controllers.application.assets.household
 
-import iht.config.{AppConfig, FrontendAuthConnector}
-import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
+import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationController
-import iht.metrics.Metrics
+import iht.metrics.IhtMetrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.utils.{CommonHelper, StringHelper}
@@ -27,12 +26,14 @@ import javax.inject.Inject
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-class HouseholdOverviewControllerImpl @Inject()() extends HouseholdOverviewController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
+class HouseholdOverviewControllerImpl @Inject()(val metrics: IhtMetrics,
+                                                val ihtConnector: IhtConnector,
+                                                val cachingConnector: CachingConnector,
+                                                val authConnector: AuthConnector,
+                                                val formPartialRetriever: FormPartialRetriever) extends HouseholdOverviewController
 
 trait HouseholdOverviewController extends ApplicationController {
 

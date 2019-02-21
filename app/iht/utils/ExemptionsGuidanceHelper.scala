@@ -35,31 +35,31 @@ object ExemptionsGuidanceHelper {
     *
     * In pseudo code:
     *
-    *  Calculate the threshold
-    *  Check if guidance is appropriate (over the current threshold, and the guidance flag is not set, and the continue url is not set in the keystore.
-    *    if we are going to show guidance:
-    *      Update the key store with the continue url
-    *      return the guidance redirect
-    *      (the exemptions overview onload method that is reached from the guidance page must mark the application model with the seen guidance flag)
-    *    else:
-    *       Remove the continue url from the keystore if it's there
-    *       return None
+    * Calculate the threshold
+    * Check if guidance is appropriate (over the current threshold, and the guidance flag is not set, and the continue url is not set in the keystore.
+    * if we are going to show guidance:
+    * Update the key store with the continue url
+    * return the guidance redirect
+    * (the exemptions overview onload method that is reached from the guidance page must mark the application model with the seen guidance flag)
+    * else:
+    * Remove the continue url from the keystore if it's there
+    * return None
     */
   def guidanceRedirect(finalDestination: Call, applicationDetails: ApplicationDetails, connector: CachingConnector)(
     implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[Call]] = {
 
-    def isEstateOverThreshold(ad:ApplicationDetails): Boolean = ad.netValueAfterExemptionAndDebtsForPositiveExemption > ad.currentThreshold
+    def isEstateOverThreshold(ad: ApplicationDetails): Boolean = ad.netValueAfterExemptionAndDebtsForPositiveExemption > ad.currentThreshold
 
-    connector.getSingleValue(Constants.ExemptionsGuidanceContinueUrlKey).flatMap{ (continueUrl: Option[String]) =>
+    connector.getSingleValue(Constants.ExemptionsGuidanceContinueUrlKey).flatMap { continueUrl: Option[String] =>
       val shouldShowGuidance = isEstateOverThreshold(applicationDetails) && !applicationDetails.hasSeenExemptionGuidance.getOrElse(false) &&
         continueUrl.isEmpty
-      if(shouldShowGuidance) {
-        connector.storeSingleValue(Constants.ExemptionsGuidanceContinueUrlKey, finalDestination.url).map{ _=>
+      if (shouldShowGuidance) {
+        connector.storeSingleValue(Constants.ExemptionsGuidanceContinueUrlKey, finalDestination.url).map { _ =>
           Some(iht.controllers.application.exemptions.routes.ExemptionsGuidanceIncreasingThresholdController
             .onPageLoad(applicationDetails.ihtRef.getOrElse("")))
         }
       } else {
-        connector.delete(Constants.ExemptionsGuidanceContinueUrlKey).map {_ => None}
+        connector.cacheDelete(Constants.ExemptionsGuidanceContinueUrlKey).map { _ => None }
       }
     }
   }
@@ -69,11 +69,11 @@ object ExemptionsGuidanceHelper {
     * destination is found in keystore then the estate overview is stored in keystore and returned.
     */
   def finalDestination(ihtReference: String, connector: CachingConnector)
-            (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Call] = {
+                      (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Call] = {
     connector.getSingleValue(Constants.ExemptionsGuidanceContinueUrlKey).flatMap {
       case None =>
         val newCall = iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference)
-        connector.storeSingleValue(Constants.ExemptionsGuidanceContinueUrlKey, newCall.url).map(_=>newCall)
+        connector.storeSingleValue(Constants.ExemptionsGuidanceContinueUrlKey, newCall.url).map(_ => newCall)
       case Some(urlString) => Future.successful(Call(Constants.GET, urlString))
     }
   }

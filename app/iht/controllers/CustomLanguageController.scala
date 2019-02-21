@@ -16,7 +16,7 @@
 
 package iht.controllers
 
-import iht.config.{ApplicationConfig, WiringConfig}
+import iht.config.ApplicationConfig
 import play.api.Play
 import play.api.Play.current
 import play.api.i18n.Lang
@@ -24,7 +24,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent, Call}
 import uk.gov.hmrc.play.language.{LanguageController, LanguageUtils}
 
-object CustomLanguageController extends LanguageController with WiringConfig {
+object CustomLanguageController extends LanguageController {
   /** Converts a string to a URL, using the route to this controller. **/
   val englishLang = Lang("en")
 
@@ -49,7 +49,7 @@ object CustomLanguageController extends LanguageController with WiringConfig {
   }
 
   /** Provides a fallback URL if there is no referer in the request header. **/
-  override protected def fallbackURL: String = Play.current.configuration.getString(s"$env.language.fallbackUrl").getOrElse("/")
+  override protected def fallbackURL: String = Play.current.configuration.getString(s"language.fallbackUrl").getOrElse("/")
 
   /** Returns a mapping between strings and the corresponding Lang object. **/
   override def languageMap: Map[String, Lang] = Map("english" -> Lang("en"),

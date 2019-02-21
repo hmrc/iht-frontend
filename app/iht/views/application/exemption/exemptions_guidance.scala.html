@@ -14,9 +14,9 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import iht.views.html._
 
 @(ihtReference:String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
@@ -25,7 +25,7 @@
     isFullWidth=false
 )  {
 
-  @helpers.form(action = iht.controllers.application.exemptions.routes.ExemptionsGuidanceController.onSubmit(ihtReference)) {
+  @form(action = iht.controllers.application.exemptions.routes.ExemptionsGuidanceController.onSubmit(ihtReference)) {
 
     <div class="form-group">
       <p>@Messages("page.iht.application.exemptions.guidance.content1")</p>

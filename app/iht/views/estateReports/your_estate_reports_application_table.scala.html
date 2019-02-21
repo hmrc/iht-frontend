@@ -14,11 +14,8 @@
  * limitations under the License.
  *@
 
-@import iht.views.html._
 @import iht.utils._
-@import iht.utils.{CommonHelper, ApplicationStatus=> AppStatus}
-@import iht.controllers.{ControllerHelper=> Helper}
-@import iht.constants.IhtProperties
+@import iht.views.html.ihtHelpers
 @import iht.viewmodels.estateReports.YourEstateReportsRowViewModel
 
 @(applications: Seq[YourEstateReportsRowViewModel])(implicit messages: Messages)

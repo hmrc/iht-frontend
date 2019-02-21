@@ -19,19 +19,14 @@ package iht.controllers.application.assets.stocksAndShares
 /**
   * Created by vineet on 04/07/16.  */
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
-import play.api.i18n.{Messages, MessagesApi}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import play.api.test.Helpers._
-import play.api.test.Helpers.{contentAsString, _}
-import iht.utils.CommonHelper
 import iht.testhelpers.TestHelper._
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.utils.CommonHelper
+import play.api.test.Helpers.{contentAsString, _}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class StocksAndSharesListedControllerTest extends ApplicationControllerTest {

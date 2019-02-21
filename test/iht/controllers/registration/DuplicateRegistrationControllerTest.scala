@@ -53,9 +53,6 @@ class DuplicateRegistrationControllerTest extends RegistrationControllerTest{
     }
 
     "respond with correct page" in {
-      import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
       val result = duplicateRegistrationController.onPageLoad(ihtReference)(createFakeRequest(authRetrieveNino = false))
       contentAsString(result) must include(messagesApi("page.iht.registration.duplicateRegistration.title"))
     }

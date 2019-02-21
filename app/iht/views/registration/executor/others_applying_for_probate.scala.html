@@ -14,13 +14,9 @@
  * limitations under the License.
  *@
 
-@import iht.models._
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-
-@import iht.utils._
-@import iht.controllers.ControllerHelper._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.views.html._
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(othersApplyingForProbateForm: Form[Option[Boolean]],
     actionCall: Call,
@@ -34,7 +30,7 @@ hasTimeOut=true) {
 
 @ihtHelpers.custom.error_summary(othersApplyingForProbateForm)
 
-@helpers.form(action = actionCall,'autoComplete -> "off") {
+@form(action = actionCall,'autoComplete -> "off") {
 
 @defining( Messages("page.iht.registration.others-applying-for-probate.sectionName"))  { sectionName =>
 

@@ -14,16 +14,13 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.utils._
-@import iht.controllers.ControllerHelper
 @import iht.constants.IhtProperties
 @import iht.utils._
-@import iht.constants._
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
 
-@(form:Form[iht.models.UkAddress],
+@(ihtForm:Form[iht.models.UkAddress],
   isInternational: Boolean,
   actionCall: Call,
   changeNationalityLocation: Call,
@@ -35,35 +32,35 @@
                     cancelUrl=cancelLocation,
                     hasTimeOut=true) {
 
-    @ihtHelpers.custom.error_summary(form)
+    @ihtHelpers.custom.error_summary(ihtForm)
 
     <p>@Messages("page.iht.registration.applicantAddress.hint")</p>
 
-    @helpers.form(action = actionCall,'autoComplete -> "off") {
+    @form(action = actionCall,'autoComplete -> "off") {
 
         <div id="ukAddress_ukAddressLine1-container" class="form-group">
-          @ihtHelpers.standard.input_with_help(form("ukAddressLine1"),
+          @ihtHelpers.standard.input_with_help(ihtForm("ukAddressLine1"),
             '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
             '_inputClass -> "form-control ",
             '_labelTextClass -> "bold",
             '_label -> Html(Messages("iht.address.line1")))
             </div>
         <div id="ukAddress_ukAddressLine2-container" class="form-group">
-          @ihtHelpers.standard.input_with_help(form("ukAddressLine2"),
+          @ihtHelpers.standard.input_with_help(ihtForm("ukAddressLine2"),
             '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
             '_inputClass -> "form-control ",
             '_labelTextClass -> "bold",
             '_label -> Html(Messages("iht.address.line2")))
         </div>
         <div id="ukAddress_ukAddressLine3-container" class="form-group">
-          @ihtHelpers.standard.input_with_help(form("ukAddressLine3"),
+          @ihtHelpers.standard.input_with_help(ihtForm("ukAddressLine3"),
             '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
             '_inputClass -> "form-control ",
             '_labelTextClass -> "bold",
             '_label -> Html(Messages("iht.address.line3")))
         </div>
         <div id="ukAddress_ukAddressLine4-container" class="form-group">
-          @ihtHelpers.standard.input_with_help(form("ukAddressLine4"),
+          @ihtHelpers.standard.input_with_help(ihtForm("ukAddressLine4"),
             '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
             '_inputClass -> "form-control ", '_labelTextClass -> "bold",
             '_label -> Html(Messages("iht.address.line4")))
@@ -72,7 +69,7 @@
 
         @if(isInternational) {
             <div id="ukAddress_countryCode-container" class="form-group">
-                @ihtHelpers.standard.dropdown(form("countryCode"),
+                @ihtHelpers.standard.dropdown(ihtForm("countryCode"),
                 internationalCountries,
                 true,
                 true,
@@ -93,7 +90,7 @@
             </div>
         } else {
             <div id="ukAddress_postCode-container" class="form-group">
-                @ihtHelpers.standard.input_with_help(form("postCode"),
+                @ihtHelpers.standard.input_with_help(ihtForm("postCode"),
                 '_maxlength -> IhtProperties.validationMaxLengthPostcode,
                 '_divClass -> "form-group",
                 '_inputClass -> "form-control form-control-1-4",

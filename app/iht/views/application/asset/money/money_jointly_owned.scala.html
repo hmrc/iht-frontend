@@ -14,29 +14,24 @@
  * limitations under the License.
  *@
 
-@import iht.models._
-@import iht.models.application.basicElements.ShareableBasicEstateElement
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-
-@import iht.utils._
 @import iht.constants.Constants
-@import iht.utils._
 @import iht.constants.IhtProperties._
+@import iht.models.application.basicElements.ShareableBasicEstateElement
+@import iht.utils._
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.models.RegistrationDetails
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(moneyJointlyOwned: Form[ShareableBasicEstateElement],
  registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
-@deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+@deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, wrapName = true)}
 
 @iht_main_template_application(
     title = Messages("iht.estateReport.assets.money.jointlyOwned"),
-    browserTitle = Some(Messages("page.iht.application.assets.money.jointly.owned.browserTitle")),
-    isFullWidth=false
+    browserTitle = Some(Messages("page.iht.application.assets.money.jointly.owned.browserTitle"))
 ) {
-
-
 
     <div id="money-jointly-owned-description" class="form-group">
         <p>@Html(Messages("page.iht.application.assets.money.jointly.owned.guidance.p1", deceasedName))</p>
@@ -46,7 +41,7 @@
 
     @ihtHelpers.custom.error_summary_override_keys(moneyJointlyOwned, Constants.AppSectionMoney)
 
-    @helpers.form(action = iht.controllers.application.assets.money.routes.MoneyJointlyOwnedController.onSubmit(),'autoComplete -> "off") {
+    @form(action = iht.controllers.application.assets.money.routes.MoneyJointlyOwnedController.onSubmit(),'autoComplete -> "off") {
 
     @ihtHelpers.custom.generic_estate_element_assets(
       assetType = Constants.AssetTypeJoint,

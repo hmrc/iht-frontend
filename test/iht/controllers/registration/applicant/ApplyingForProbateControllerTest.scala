@@ -16,20 +16,13 @@
 
 package iht.controllers.registration.applicant
 
-import iht.connector.CachingConnector
 import iht.forms.registration.ApplicantForms._
 import iht.models.ApplicantDetails
-import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
 import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
 import iht.utils.{DeceasedInfoHelper, RegistrationKickOutHelper}
-import org.scalatest.BeforeAndAfterEach
-import org.scalatest.mockito.MockitoSugar
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.mvc.Result
 import play.api.test.Helpers._
-import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future

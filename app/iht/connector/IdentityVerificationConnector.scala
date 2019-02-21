@@ -16,23 +16,27 @@
 
 package iht.connector
 
-import iht.config.{ApplicationConfig, WSHttp, WiringConfig}
+import iht.config.ApplicationConfig
 import iht.models.enums.IdentityVerificationResult.IdentityVerificationResult
-import play.api.Logger
+import javax.inject.Inject
 import play.api.data.validation.ValidationError
 import play.api.libs.json.{JsPath, Json}
+import play.api.{Configuration, Environment, Logger}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpGet, HttpResponse}
+import uk.gov.hmrc.play.bootstrap.http.HttpClient
 import uk.gov.hmrc.play.config.ServicesConfig
 import uk.gov.hmrc.play.http.logging.MdcLoggingExecutionContext._
 
 import scala.concurrent.Future
 
 
-object IdentityVerificationConnector extends IdentityVerificationConnector with ServicesConfig with WiringConfig {
-  override def http: HttpGet = WSHttp
+class IdentityVerificationConnectorImpl @Inject()(override val http: HttpClient,
+                                                  override val runModeConfiguration: Configuration,
+                                                  environment: Environment) extends IdentityVerificationConnector {
+  override val mode = environment.mode
 }
 
-trait IdentityVerificationConnector{
+trait IdentityVerificationConnector extends ServicesConfig {
   def http: HttpGet
 
   private case class IdentityVerificationResponse(result: IdentityVerificationResult)

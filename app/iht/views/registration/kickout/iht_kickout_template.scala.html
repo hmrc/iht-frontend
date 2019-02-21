@@ -14,9 +14,10 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.views.html._
+@import uk.gov.hmrc.play.views.html.helpers.form
+
 
 @(pageTitle: String,
 summaryMessage: String,
@@ -40,7 +41,7 @@ hasTimeOut=hasTimeOut) {
     @ihtHelpers.custom.return_link(Messages("iht.registration.kickout.message.returnToLast"),Some(returnToUrl))
 
     <div id="continue-button" class="form-group">
-        @helpers.form(action = iht.controllers.registration.routes.KickoutRegController.onSubmit) {
+        @form(action = iht.controllers.registration.routes.KickoutRegController.onSubmit) {
             <input id="finish" class='button' type='submit' value='@Messages("site.button.details.correct.exitToGovK")'>
         }
     </div>

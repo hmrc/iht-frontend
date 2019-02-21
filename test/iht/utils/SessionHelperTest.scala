@@ -22,10 +22,6 @@ import iht.testhelpers._
 import org.scalatest.mockito.MockitoSugar
 import play.api.mvc.Session
 import play.api.test.FakeRequest
-import uk.gov.hmrc.domain.Nino
-import uk.gov.hmrc.play.frontend.auth.connectors.domain.{Accounts, ConfidenceLevel, CredentialStrength, IhtAccount}
-import uk.gov.hmrc.play.frontend.auth.{AuthContext, LoggedInUser, Principal}
-import uk.gov.hmrc.play.test.UnitSpec
 
 
 class SessionHelperTest extends FakeIhtApp with MockitoSugar {
@@ -41,14 +37,6 @@ class SessionHelperTest extends FakeIhtApp with MockitoSugar {
       val request = FakeRequest().withSession()
       SessionHelper.getNinoFromSession(request) mustBe empty
     }
-  }
-
-  def buildAuthContext(nino:Nino): AuthContext = {
-    new AuthContext(
-      LoggedInUser(CommonBuilder.firstNameGenerator, None, None, None, CredentialStrength.Strong, ConfidenceLevel.L300 ,""),
-      Principal(None, Accounts(iht = Some(IhtAccount("", nino)) )),
-      None, None, None, None
-    )
   }
 
   "ensureSessionHasNino" must {

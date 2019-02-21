@@ -16,18 +16,17 @@
 
 package iht.controllers.pdf
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.Constants
 import iht.controllers.application.ApplicationControllerTest
 import iht.controllers.application.pdf.PDFController
 import iht.models.RegistrationDetails
-import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.pdf.XmlFoToPDF
 import org.mockito.ArgumentMatchers._
-import play.api.test.Helpers._
-import org.mockito.Mockito.{reset, when}
 import play.api.i18n.MessagesApi
+import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -46,6 +45,7 @@ class PDFControllerTest extends ApplicationControllerTest {
     override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
     lazy val xmlFoToPDF = XmlFoToPDF
+    override implicit val formPartialRetriever: FormPartialRetriever = mockPartialRetriever
   }
 
   private def setUpMocks() {

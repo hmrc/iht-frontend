@@ -21,13 +21,9 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions.Charity
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
-import iht.utils.CommonHelper
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import org.scalatest.BeforeAndAfter
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
@@ -183,6 +179,7 @@ class CharityNumberControllerTest extends ApplicationControllerTest with BeforeA
         override val authConnector = mockAuthConnector
         override val cachingConnector = mockCachingConnectorTemp
         override val ihtConnector = mockIhtConnectorTemp
+        override implicit val formPartialRetriever: FormPartialRetriever = mockPartialRetriever
       }
 
       lazy val charity1 = CommonBuilder.buildCharity.copy(

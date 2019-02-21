@@ -16,6 +16,7 @@
 
 package iht.views.application.assets.stocksAndShares
 
+import iht.constants.IhtProperties._
 import iht.controllers.application.assets.stocksAndShares.routes._
 import iht.models.application.assets.StockAndShare
 import iht.testhelpers.CommonBuilder
@@ -23,8 +24,6 @@ import iht.views.application.StocksAndSharesOverviewViewBehaviour
 import iht.views.html.application.asset.stocksAndShares.stocks_and_shares_overview
 import org.jsoup.nodes.Document
 import play.api.i18n.Messages.Implicits._
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
 
 class StocksAndSharesOverviewViewTest extends StocksAndSharesOverviewViewBehaviour {
 

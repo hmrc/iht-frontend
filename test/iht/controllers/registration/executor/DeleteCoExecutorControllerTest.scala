@@ -16,19 +16,15 @@
 
 package iht.controllers.registration.executor
 
-import iht.connector.CachingConnector
 import iht.constants.IhtProperties
 import iht.controllers.registration.RegistrationControllerTest
 import iht.forms.registration.CoExecutorForms._
 import iht.models.UkAddress
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.testhelpers.MockObjectBuilder._
-import org.scalatest.BeforeAndAfter
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import play.api.test.Helpers._
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils._
+import org.scalatest.BeforeAndAfter
+import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future

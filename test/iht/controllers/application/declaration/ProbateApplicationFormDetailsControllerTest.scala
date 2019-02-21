@@ -16,26 +16,15 @@
 
 package iht.controllers.application.declaration
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.Constants
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.testhelpers.MockObjectBuilder.{createMockToGetProbateDetailsFromCache, createMockToGetRegDetailsFromCache, createMockToStoreSingleValueInCache}
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import org.mockito.ArgumentMatchers._
 import play.api.test.FakeHeaders
-import play.api.test.Helpers.{OK, SEE_OTHER, redirectLocation}
+import play.api.test.Helpers.{OK, SEE_OTHER, redirectLocation, _}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.partials.FormPartialRetriever
-import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.Constants
-import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.estateReports.YourEstateReportsController
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
-import iht.testhelpers.MockObjectBuilder._
-import play.api.test.FakeHeaders
-import play.api.test.Helpers._
-import uk.gov.hmrc.play.partials.FormPartialRetriever
-import uk.gov.hmrc.http.HeaderCarrier
 
 class ProbateApplicationFormDetailsControllerTest extends ApplicationControllerTest {
   implicit val headerCarrier = FakeHeaders()

@@ -16,29 +16,30 @@
 
 package iht.controllers.application.exemptions.charity
 
-import iht.config.{AppConfig, FrontendAuthConnector}
-import iht.connector.IhtConnectors
+import iht.connector.{CachingConnector, IhtConnector}
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
-import iht.metrics.Metrics
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions._
 import iht.utils.CommonHelper
 import iht.views.html.application.exemption.charity.charity_number
-import play.api.mvc.{Call, Request}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.constants.IhtProperties._
 import javax.inject.Inject
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
+import play.api.mvc.{Call, Request}
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
-import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-class CharityNumberControllerImpl @Inject()() extends CharityNumberController with IhtConnectors {
-  def metrics: Metrics = Metrics
+class CharityNumberControllerImpl @Inject()(val ihtConnector: IhtConnector,
+                                            val cachingConnector: CachingConnector,
+                                            val authConnector: AuthConnector,
+                                            val formPartialRetriever: FormPartialRetriever) extends CharityNumberController {
+
 }
 
 trait CharityNumberController extends EstateController {

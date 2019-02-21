@@ -93,7 +93,7 @@ object FieldMappings {
     createMapEntry(questionnaireActivityDeclareApp, "page.iht.questionnaire.activity.declare-app")(messages)
   )
 
-  def filterChoices(implicit messages: Messages) = ListMap(
+  def filterChoices(implicit messages: Messages): ListMap[String, (String, Option[String], None.type)] = ListMap(
     register -> Tuple3(messages("page.iht.filter.filter.choice.main.register"), Some(messages("page.iht.filter.filter.choice.main.register.hint")), None),
     alreadyStarted -> Tuple3(messages("page.iht.filter.filter.choice.main.alreadyStarted"), None, None),
     continueEstateReport -> Tuple3(messages("page.iht.filter.filter.choice.main.continue"), None, None),

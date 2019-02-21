@@ -16,21 +16,20 @@
 
 package iht.controllers.application.pdf
 
-import iht.config.AppConfig
-import iht.connector.IhtConnectors
+import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.{Constants, IhtProperties}
 import iht.controllers.application.ApplicationController
 import iht.models.RegistrationDetails
 import iht.models.des.ihtReturn.IHTReturn
 import iht.utils.pdf._
 import iht.utils.{CommonHelper, DeclarationHelper, StringHelper}
-import javax.inject.{Inject, Singleton}
+import javax.inject.Inject
 import play.api.Logger
 import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -38,7 +37,11 @@ import scala.concurrent.Future
   * Created by dbeer on 14/08/15.
   */
 
-class PDFControllerImpl @Inject()(val messagesApi: MessagesApi) extends PDFController with IhtConnectors
+class PDFControllerImpl @Inject()(val messagesApi: MessagesApi,
+                                  val cachingConnector: CachingConnector,
+                                  val ihtConnector: IhtConnector,
+                                  val authConnector: AuthConnector,
+                                  override implicit val formPartialRetriever: FormPartialRetriever) extends PDFController
 
 trait PDFController extends ApplicationController with I18nSupport {
 

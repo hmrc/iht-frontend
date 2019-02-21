@@ -14,18 +14,15 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.models.{RegistrationDetails, UkAddress}
-@import iht.constants.IhtProperties
 @import iht.constants.FieldMappings
-@import iht.controllers.ControllerHelper
-@import iht.utils._
-@import iht.utils.CommonHelper._
 @import iht.controllers.registration.applicant.{routes => applicantRoutes}
 @import iht.controllers.registration.deceased.{routes => deceasedRoutes}
+@import iht.models.RegistrationDetails
+@import iht.utils._
+@import iht.views.html._
 @import uk.gov.hmrc.play.language.LanguageUtils.Dates
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(registrationDetails: RegistrationDetails,
 role:String)(implicit request : Request[_], messages: Messages, lang : play.api.i18n.Lang, ihtFormPartialRetriever: FormPartialRetriever)
@@ -186,7 +183,7 @@ role:String)(implicit request : Request[_], messages: Messages, lang : play.api.
         }
 
     <div class="form-group">
-        @helpers.form(action = iht.controllers.registration.routes.RegistrationSummaryController.onSubmit) {
+        @form(action = iht.controllers.registration.routes.RegistrationSummaryController.onSubmit) {
         <input class='button' type='submit' value='@Messages("page.iht.registration.registrationSummary.button")' />
         }
     </div>

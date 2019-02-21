@@ -18,11 +18,8 @@ package iht.views.helpers
 
 import iht.views.ViewTestHelper
 import org.jsoup.nodes.Document
-import play.api.i18n.{Messages, MessagesApi}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-object GenericOverviewHelper extends ViewTestHelper {
+trait GenericOverviewHelper extends ViewTestHelper {
 
 
   def headerQuestionShouldBeUnanswered(doc: Document, elementId: String, message: String, url: String) = {

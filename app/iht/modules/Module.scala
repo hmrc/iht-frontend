@@ -17,10 +17,11 @@
 package iht.modules
 
 import com.google.inject.AbstractModule
-import iht.config.{AppConfig, FrontendAuthConnector, ApplicationConfigImpl}
+import iht.config.{AppConfig, ApplicationConfigImpl, IhtFormPartialRetriever}
+import iht.connector._
 import iht.controllers._
-import iht.controllers.application.assets._
 import iht.controllers.application._
+import iht.controllers.application.assets._
 import iht.controllers.application.assets.household._
 import iht.controllers.application.assets.insurancePolicy._
 import iht.controllers.application.assets.money._
@@ -40,16 +41,31 @@ import iht.controllers.application.pdf.{PDFController, PDFControllerImpl}
 import iht.controllers.application.status._
 import iht.controllers.application.tnrb._
 import iht.controllers.estateReports.{YourEstateReportsController, YourEstateReportsControllerImpl}
+import iht.controllers.filter._
 import iht.controllers.registration._
 import iht.controllers.registration.applicant._
 import iht.controllers.registration.deceased._
 import iht.controllers.registration.executor._
 import iht.controllers.testonly.{TestOnlyController, TestOnlyControllerImpl}
-import uk.gov.hmrc.auth.core.PlayAuthConnector
+import iht.metrics.{IhtMetrics, IhtMetricsImpl}
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.play.bootstrap.auth.DefaultAuthConnector
+import uk.gov.hmrc.play.bootstrap.http.{DefaultHttpClient, HttpClient}
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class Module extends AbstractModule {
   def configure() = {
     bind(classOf[AppConfig]).to(classOf[ApplicationConfigImpl]).asEagerSingleton
+    bind(classOf[FormPartialRetriever]).to(classOf[IhtFormPartialRetriever])
+    bind(classOf[IhtMetrics]).to(classOf[IhtMetricsImpl])
+    bind(classOf[HttpClient]).to(classOf[DefaultHttpClient])
+
+    bind(classOf[CachingConnector]).to(classOf[CachingConnectorImpl]).asEagerSingleton
+    bind(classOf[AuthConnector]).to(classOf[DefaultAuthConnector])
+    bind(classOf[CitizenDetailsConnector]).to(classOf[CitizenDetailsConnectorImpl]).asEagerSingleton
+    bind(classOf[ExplicitAuditConnector]).to(classOf[ExplicitAuditConnectorImpl]).asEagerSingleton
+    bind(classOf[IdentityVerificationConnector]).to(classOf[IdentityVerificationConnectorImpl]).asEagerSingleton
+    bind(classOf[IhtConnector]).to(classOf[IhtConnectorImpl]).asEagerSingleton
 
     bind(classOf[IVWayfinderController]).to(classOf[IVWayfinderControllerImpl]).asEagerSingleton
     bind(classOf[SessionManagementController]).to(classOf[SessionManagementControllerImpl]).asEagerSingleton
@@ -141,6 +157,15 @@ class Module extends AbstractModule {
     bind(classOf[SevenYearsGivenInLast7YearsController]).to(classOf[SevenYearsGivenInLast7YearsControllerImpl]).asEagerSingleton
     bind(classOf[SevenYearsToTrustController]).to(classOf[SevenYearsToTrustControllerImpl]).asEagerSingleton
     bind(classOf[WithReservationOfBenefitController]).to(classOf[WithReservationOfBenefitControllerImpl]).asEagerSingleton
+    bind(classOf[FilterController]).to(classOf[FilterControllerImpl]).asEagerSingleton
+    bind(classOf[DomicileController]).to(classOf[DomicileControllerImpl]).asEagerSingleton
+    bind(classOf[TransitionController]).to(classOf[TransitionControllerImpl]).asEagerSingleton
+    bind(classOf[FilterJointlyOwnedController]).to(classOf[FilterJointlyOwnedControllerImpl]).asEagerSingleton
+    bind(classOf[EstimateController]).to(classOf[EstimateControllerImpl]).asEagerSingleton
+    bind(classOf[UseServiceController]).to(classOf[UseServiceControllerImpl]).asEagerSingleton
+    bind(classOf[RegistrationChecklistController]).to(classOf[RegistrationChecklistControllerImpl]).asEagerSingleton
+    bind(classOf[SessionTimeoutController]).to(classOf[SessionTimeoutControllerImpl]).asEagerSingleton
+    bind(classOf[UseIHT400Controller]).to(classOf[UseIHT400ControllerImpl]).asEagerSingleton
 
     bind(classOf[BenefitFromTrustController]).to(classOf[BenefitFromTrustControllerImpl]).asEagerSingleton
     bind(classOf[DateOfMarriageController]).to(classOf[DateOfMarriageControllerImpl]).asEagerSingleton

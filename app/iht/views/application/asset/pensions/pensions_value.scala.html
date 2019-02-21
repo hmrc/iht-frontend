@@ -14,26 +14,23 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-
-@import iht.models._
-@import iht.models.application.assets.PrivatePension
-@import iht.utils.CommonHelper._
 @import iht.constants.Constants
 @import iht.constants.IhtProperties._
+@import iht.models._
+@import iht.models.application.assets.PrivatePension
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(pensionsValueForm: Form[PrivatePension],
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(title = "",
-browserTitle = Some(Messages("page.iht.application.assets.pensions.value.browserTitle")),
-isFullWidth=false){
+browserTitle = Some(Messages("page.iht.application.assets.pensions.value.browserTitle"))){
 
     @ihtHelpers.custom.error_summary_override_keys(pensionsValueForm, Constants.AppSectionPrivatePension)
 
-    @helpers.form(action = iht.controllers.application.assets.pensions.routes.PensionsValueController.onSubmit,'autoComplete -> "off") {
+    @form(action = iht.controllers.application.assets.pensions.routes.PensionsValueController.onSubmit,'autoComplete -> "off") {
 
 
             @ihtHelpers.custom.input_estate_value(pensionsValueForm("value"),

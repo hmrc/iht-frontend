@@ -16,24 +16,20 @@
 
 package iht.controllers.application.tnrb
 
-import iht.connector.{CachingConnector, IhtConnector}
+import iht.constants.IhtProperties._
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.TnrbForms._
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.WidowCheck
 import iht.testhelpers.MockObjectBuilder._
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, TestHelper}
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
 import iht.utils.CommonHelper
 import iht.utils.tnrb.TnrbHelper
 import iht.views.HtmlSpec
 import org.joda.time.LocalDate
 import org.scalatest.BeforeAndAfter
 import play.api.i18n.{Messages, MessagesApi}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.test.Helpers._
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**

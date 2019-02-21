@@ -14,13 +14,10 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
-@import iht.models.application.exemptions._
-@import iht.models._
-@import iht.utils.CommonHelper._
-@import iht.constants.IhtProperties._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import iht.constants.IhtProperties._
 
 @(charity: iht.models.application.exemptions.Charity,
   submitUrl:Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
@@ -28,14 +25,16 @@
 @iht_main_template_application(title = Messages("page.iht.application.exemptions.charityDelete.sectionTitle"),
 browserTitle = Some(Messages("page.iht.application.exemptions.charityDelete.browserTitle")),
 isFullWidth=false){
-@helpers.form(action = submitUrl, 'autoComplete -> "off") {
+@form(action = submitUrl, 'autoComplete -> "off") {
 <div class="panel panel-border-narrow">
     <p id="charity-name">
         <strong>
-            @defining(charity.name)  { charityName =>
-                @charityName match{
-                    case Some(x) => {@ihtHelpers.custom.name(charityName.getOrElse(""))}
-                    case None => {@Messages("iht.estateReport.exemptions.charities.noNameAdded")}
+            @defining(charity.name) {
+                case charityName@Some(x) => {
+                    @ihtHelpers.custom.name(charityName.getOrElse(""))
+                }
+                case None => {
+                    @Messages("iht.estateReport.exemptions.charities.noNameAdded")
                 }
             }
         </strong>

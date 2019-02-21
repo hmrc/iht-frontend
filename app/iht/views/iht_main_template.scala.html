@@ -14,42 +14,36 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html.layouts
-@import iht.config._
-@import uk.gov.hmrc.play.views.html.{helpers => uiHelpers}
-@import iht.utils.StringHelper
-@import iht.controllers.CustomLanguageController
-@import play.api.Application
-@import play.api.Play.current
-@import ihtHelpers.custom._
-@import iht.utils.CommonHelper
-@import uk.gov.hmrc.play.language.LanguageUtils
-@import iht.config.IhtFormPartialRetriever
 @import iht.config.ApplicationConfig
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.constants.IhtProperties
-@import iht.views.html.ihtHelpers.standard._
-
-@import ihtHelpers.custom._
+@import iht.controllers.CustomLanguageController
+@import iht.utils.StringHelper
+@import iht.views.html.ihtHelpers.custom
+@import iht.views.html.ihtHelpers.custom.full_width_banner
+@import iht.views.html.ihtHelpers.custom.full_width_banner_content_ur
+@import iht.views.html.ihtHelpers.standard
+@import uk.gov.hmrc.play.language.LanguageUtils
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.layouts
 
 @(title: String = "",
-signOutText: String = "",
-browserTitle: Option[String] = None,
-contentHeader: Option[Html] = None,
-isFullWidth: Boolean = false,
-backUrl: Option[Call] = None,
-cancelUrl: Option[Call]=None,
-cancelLabel: => Option[String] = Some(""),
-hasTimeOut:Boolean = true,
-sidebarLinks: Html = HtmlFormat.empty,
-signOutUrl: Option[Call],
-headerTitle: Option[String],
-headingClass: String = "",
-headingName: String = "",
-isRegistration: Boolean = false,
-isUserResearchBannerVisible:Boolean = false,
-highlightBoxClass:Option[String] = None,
-optionContentBelowTitle: Option[Html] = None
+        signOutText: String = "",
+        browserTitle: Option[String] = None,
+        contentHeader: Option[Html] = None,
+        isFullWidth: Boolean = false,
+        backUrl: Option[Call] = None,
+        cancelUrl: Option[Call]=None,
+        cancelLabel: => Option[String] = Some(""),
+        hasTimeOut:Boolean = true,
+        sidebarLinks: Html = HtmlFormat.empty,
+        signOutUrl: Option[Call],
+        headerTitle: Option[String],
+        headingClass: String = "",
+        headingName: String = "",
+        isRegistration: Boolean = false,
+        isUserResearchBannerVisible:Boolean = false,
+        highlightBoxClass:Option[String] = None,
+        optionContentBelowTitle: Option[Html] = None
 )(mainContent: Html)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @currentLang = @{LanguageUtils.getCurrentLang.language}
@@ -68,82 +62,82 @@ optionContentBelowTitle: Option[Html] = None
 
 @parseForName(heading: String, name: String) = @{
     if(heading contains name){
-        Html(heading.replace(name, ihtHelpers.custom.name(name).toString()));
+        Html(heading.replace(name, custom.name(name).toString()));
     } else {
         heading;
     }
 }
 
 @navLinks = {
-    @signOutUrl.map{ url =>
-        <li class="u--no-print"><a class="link--no-underline" id="logOutNavHref" href="@url">@signOutText</a></li>
-    }
+@signOutUrl.map{ url =>
+    <li class="u--no-print"><a class="link--no-underline" id="logOutNavHref" href="@url">@signOutText</a></li>
+}
 }
 
 @linkElement = {
     <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/iht-app.css")' />
-    <!--[if lte IE 8 ]>
+        <!--[if lte IE 8 ]>
     <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/iht-app-ie.css")" />
     <![endif]-->
     <link rel="stylesheet" media="print" href='@routes.Assets.versioned("stylesheets/iht-print.css")' />
 }
 
 @scriptElement = {
-    @if(ApplicationConfig.analyticsToken == Some("N/A")) {
-        <script type="text/javascript">
-          var ga = function(send, event, category, action, label, args) {
-            console.log(JSON.stringify({
-              call: 'ga',
-              send: send,
-              event: event,
-              category: category,
-              action: action,
-              label: label
-            }));
+@if(ApplicationConfig.analyticsToken.contains("N/A")) {
+    <script type="text/javascript">
+            var ga = function(send, event, category, action, label, args) {
+                console.log(JSON.stringify({
+                    call: 'ga',
+                    send: send,
+                    event: event,
+                    category: category,
+                    action: action,
+                    label: label
+                }));
 
-            if (args && typeof args['hitCallback'] === 'function' ) {
-              args['hitCallback']();
-            }
-          };
-        </script>
-    }
+                if (args && typeof args['hitCallback'] === 'function' ) {
+                    args['hitCallback']();
+                }
+            };
+    </script>
+}
 
     <script src='@routes.Assets.versioned("javascripts/gaTracking.js")' type="text/javascript"></script>
 
     <script src="https://cdn.optimizely.com/js/8390718215.js"></script>
 
     <script src='@routes.Assets.versioned("javascripts/iht-app.min.js")'> </script>
-    @if(hasTimeOut && ApplicationConfig.enableRefresh) {
-            <script>
-                $.timeoutDialog({
-                    timeout: @ApplicationConfig.timeOutSeconds,
-                    countdown: @ApplicationConfig.timeOutCountdownSeconds,
-                    keep_alive_url: "@iht.controllers.routes.SessionManagementController.keepAlive.url",
-                    title: "@Messages("iht.timeoutDialog.title")",
-                    messageSeconds: "@Messages("iht.timeoutDialog.seconds")",
+@if(hasTimeOut && ApplicationConfig.enableRefresh) {
+    <script>
+            $.timeoutDialog({
+                timeout: @ApplicationConfig.timeOutSeconds,
+                countdown: @ApplicationConfig.timeOutCountdownSeconds,
+                keep_alive_url: "@iht.controllers.routes.SessionManagementController.keepAlive.url",
+                title: "@Messages("iht.timeoutDialog.title")",htHelpers.
+                messageSeconds: "@Messages("iht.timeoutDialog.seconds")",
                     messageMinutes: "@Messages("iht.timeoutDialog.minutes")",
                     messageMinute: "@Messages("iht.timeoutDialog.minute")",
                     messageMinutesTwo: "@Messages("iht.timeoutDialog.minutes.two")",
 
-        @if(isRegistration){
+                    @if(isRegistration){
                     logout_url: "@iht.controllers.routes.SessionTimeoutController.onRegistrationPageLoad().url",
                     message: "@Messages("iht.timeoutDialog.registration.p1")",
                     keep_alive_button_text: "@Messages("iht.timeoutDialog.registration.button")"
-        } else {
-                    logout_url: "@iht.controllers.routes.SessionTimeoutController.onApplicationPageLoad().url",
+            } else {
+            logout_url: "@iht.controllers.routes.SessionTimeoutController.onApplicationPageLoad().url",
                     message: "@Messages("iht.timeoutDialog.p1")",
                     keep_alive_button_text: "@Messages("iht.timeoutDialog.button")"
-        }
-                });
-                var dialogOpen;
-            </script>
-    }
+            }
+            });
+            var dialogOpen;
+    </script>
+}
 }
 
-@commonContentHeader = {
+    @commonContentHeader = {
     @if(ApplicationConfig.isWelshEnabled){
         @{
-            ihtHelpers.standard.language_selection(
+            standard.language_selection(
                 CustomLanguageController.languageMap,
                 CustomLanguageController.langToCall,
                 Some("translate float--right u--no-print")
@@ -153,42 +147,39 @@ optionContentBelowTitle: Option[Html] = None
     @contentHeader
 }
 
-@insideHeader = {
-    @ihtHelpers.standard.header_nav(headerTitle, None, Some(navLinks))
+    @insideHeader = {
+    @standard.header_nav(headerTitle, None, Some(navLinks))
 }
 
-@afterHeader = {
+    @afterHeader = {
     @if(isUserResearchBannerVisible) {
-
-
-
         @full_width_banner(Some(full_width_banner_content_ur(
-                    messages("site.userResearchLink.link"),
-                    IhtProperties.linkUser,
-                    Some(messages("site.userResearchLink.text"))
-                )
-            )
+            messages("site.userResearchLink.link"),
+            IhtProperties.linkUser,
+            Some(messages("site.userResearchLink.text"))
+        )
+        )
         )
     }
 }
 
-@mainContentIht = {
+    @mainContentIht = {
     @if(title > ""){
         @highlightBoxClass.map{css=>
             <div class="@css">
         }
         <h1 class="@headingClassName">
-            @if(headingName > ""){
-                @parseForName(title, headingName)
-            } else {
-                @Html(title)
-            }
+        @if(headingName > ""){
+            @parseForName(title, headingName)
+        } else {
+            @Html(title)
+        }
         </h1>
         @optionContentBelowTitle.map{content=>
-                @content
+            @content
         }
         @highlightBoxClass.map{_=>
-            </div>
+        </div>
         }
     }
     @mainContent
@@ -201,28 +192,28 @@ optionContentBelowTitle: Option[Html] = None
     }
 }
 
-@serviceInfo = {
-    @ihtHelpers.standard.serviceInfo(
+    @serviceInfo = {
+    @standard.serviceInfo(
         includeGridWrapper = false,
         serviceInfoContent = None)
 }
 
-@content = {
+    @content = {
     @layouts.main_content(
-        article = ihtHelpers.standard.article(content = mainContentIht,
-                                              includeGridWrapper = false,
-                                              isFullWidth = isFullWidth,
-                                              currentLang = currentLang),
+        article = standard.article(content = mainContentIht,
+            includeGridWrapper = false,
+            isFullWidth = isFullWidth,
+            currentLang = currentLang),
         mainContentHeader = commonContentHeader,
         serviceInfo = serviceInfo,
-        getHelpForm = progressive_disclosure(request.uri),
-        sidebar = ihtHelpers.standard.sidebar(sidebarLinks = sidebarLinks,
-                                              sidebarClass = Some("sidebar"),
-                                              currentLang = currentLang)
+        getHelpForm = custom.progressive_disclosure(request.uri),
+        sidebar = standard.sidebar(sidebarLinks = sidebarLinks,
+            sidebarClass = Some("sidebar"),
+            currentLang = currentLang)
     )
 }
 
-@bodyEnd = {
+    @bodyEnd = {
     @layouts.footer(
         analyticsToken = ApplicationConfig.analyticsToken,
         analyticsHost = ApplicationConfig.analyticsHost,
@@ -233,12 +224,12 @@ optionContentBelowTitle: Option[Html] = None
 }
 
 @views.html.layouts.govuk_template(
-title = if(browserTitle.isDefined) { (browserTitle.map(_ + " " + Messages("site.title.govuk"))) } else Some(title),
-bodyClasses = None)(
-head = layouts.head(linkElem = Some(linkElement), headScripts = None),
-bodyEnd = bodyEnd,
-insideHeader = insideHeader,
-afterHeader = afterHeader,
-footerTop = HtmlFormat.empty,
-footerLinks = Some(iht.views.html.ihtHelpers.standard.footer_links()),
-nav = true)(content)
+    title = if(browserTitle.isDefined) { (browserTitle.map(_ + " " + Messages("site.title.govuk"))) } else Some(title),
+    bodyClasses = None)(
+    head = layouts.head(linkElem = Some(linkElement), headScripts = None),
+    bodyEnd = bodyEnd,
+    insideHeader = insideHeader,
+    afterHeader = afterHeader,
+    footerTop = HtmlFormat.empty,
+    footerLinks = Some(iht.views.html.ihtHelpers.standard.footer_links()),
+    nav = true)(content)

@@ -19,7 +19,6 @@ package iht.controllers.registration.deceased
 import iht.controllers.registration.RegistrationControllerTest
 import org.scalatestplus.play.PlaySpec
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.test.UnitSpec
 
 trait RegistrationDeceasedControllerWithEditModeBehaviour[T <: RegistrationDeceasedControllerWithEditMode]
   extends RegistrationControllerTest { this: PlaySpec =>

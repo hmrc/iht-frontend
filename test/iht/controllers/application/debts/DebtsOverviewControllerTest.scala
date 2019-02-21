@@ -16,14 +16,13 @@
 
 package iht.controllers.application.debts
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import play.api.http.Status._
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import play.api.test.Helpers.{await, status => playStatus}
 import uk.gov.hmrc.http.HeaderCarrier
-import play.api.test.Helpers.{status => playStatus, await}
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class DebtsOverviewControllerTest extends ApplicationControllerTest {
 

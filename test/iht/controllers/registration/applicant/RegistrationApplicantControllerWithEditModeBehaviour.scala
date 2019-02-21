@@ -19,7 +19,6 @@ package iht.controllers.registration.applicant
 import iht.controllers.registration.RegistrationControllerTest
 import org.scalatestplus.play.PlaySpec
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.test.UnitSpec
 
 trait RegistrationApplicantControllerWithEditModeBehaviour[T <: RegistrationApplicantControllerWithEditMode]
   extends RegistrationControllerTest { this: PlaySpec =>

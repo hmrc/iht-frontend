@@ -16,27 +16,26 @@
 
 package iht.controllers.filter
 
+import iht.constants.Constants._
 import iht.controllers.application.ApplicationControllerTest
+import iht.forms.FilterForms._
 import iht.testhelpers.MockFormPartialRetriever
 import iht.views.HtmlSpec
-import play.api.i18n.{Messages, MessagesApi}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import iht.forms.FilterForms._
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class EstimateControllerTest extends ApplicationControllerTest with HtmlSpec {
 
-  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit val fakedMessagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit val request = FakeRequest()
-  val messages = messagesApi.preferred(request)
+  val messages = fakedMessagesApi.preferred(request)
 
   def controller = new EstimateController {
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+
+    override def messagesApi: MessagesApi = fakedMessagesApi
   }
 
   "Estimate Controller" must {

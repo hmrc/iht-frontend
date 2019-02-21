@@ -16,15 +16,11 @@
 
 package iht.controllers.application.exemptions.qualifyingBody
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms.assetsLeftToQualifyingBodyQuestionForm
 import iht.models.application.exemptions.BasicExemptionElement
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, ContentChecker}
 import iht.testhelpers.MockObjectBuilder._
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 

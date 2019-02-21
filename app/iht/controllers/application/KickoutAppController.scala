@@ -16,9 +16,8 @@
 
 package iht.controllers.application
 
-import iht.config.{AppConfig, FrontendAuthConnector}
-import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
-import iht.metrics.Metrics
+import iht.connector.{CachingConnector, IhtConnector}
+import iht.metrics.IhtMetrics
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.enums.KickOutSource
@@ -30,16 +29,17 @@ import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent, Request}
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
-import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-class KickoutAppControllerImpl @Inject()() extends KickoutAppController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
+class KickoutAppControllerImpl @Inject()(val metrics: IhtMetrics,
+                                         val ihtConnector: IhtConnector,
+                                         val cachingConnector: CachingConnector,
+                                         val authConnector: AuthConnector,
+                                         implicit val formPartialRetriever: FormPartialRetriever) extends KickoutAppController
 trait KickoutAppController extends ApplicationController {
 
 
@@ -49,7 +49,7 @@ trait KickoutAppController extends ApplicationController {
 
   def ihtConnector: IhtConnector
 
-  def metrics: Metrics
+  def metrics: IhtMetrics
 
   def onPageLoad: Action[AnyContent] = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {

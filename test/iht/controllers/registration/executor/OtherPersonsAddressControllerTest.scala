@@ -16,13 +16,12 @@
 
 package iht.controllers.registration.executor
 
-import iht.connector.CachingConnector
 import iht.controllers.registration.RegistrationControllerTest
 import iht.forms.registration.CoExecutorForms._
 import iht.models.{RegistrationDetails, UkAddress}
 import iht.testhelpers.CommonBuilder._
 import iht.testhelpers.MockObjectBuilder._
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, ContentChecker, NinoBuilder}
+import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever, NinoBuilder}
 import iht.utils.StringHelper._
 import org.joda.time._
 import org.scalatest.BeforeAndAfter

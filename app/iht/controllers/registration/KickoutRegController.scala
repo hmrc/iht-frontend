@@ -16,39 +16,36 @@
 
 package iht.controllers.registration
 
-import iht.config.{AppConfig, IhtFormPartialRetriever}
 import iht.connector.CachingConnector
 import iht.constants.IhtProperties
-import iht.connector.IhtConnectors
-import iht.metrics.Metrics
+import iht.metrics.IhtMetrics
 import iht.models.enums.KickOutSource
-import iht.utils.{CommonHelper, DeceasedInfoHelper}
 import iht.utils.RegistrationKickOutHelper._
+import iht.utils.{CommonHelper, DeceasedInfoHelper}
 import iht.views.html.registration.kickout._
 import javax.inject.Inject
+import play.api.Play.current
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Request
 import play.twirl.api.HtmlFormat
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-class KickoutRegControllerImpl @Inject()() extends KickoutRegController with IhtConnectors {
-  lazy val metrics: Metrics = Metrics
-}
+class KickoutRegControllerImpl @Inject()(val metrics: IhtMetrics,
+                                         val formPartialRetriever: FormPartialRetriever,
+                                         val cachingConnector: CachingConnector,
+                                         val authConnector: AuthConnector) extends KickoutRegController
 
 trait KickoutRegController extends RegistrationController {
+  val metrics: IhtMetrics
+
+  implicit val formPartialRetriever: FormPartialRetriever
+
   def cachingConnector: CachingConnector
-
   override def guardConditions: Set[Predicate] = Set.empty
-
-  val metrics: Metrics
-
-  override implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
 
   lazy val applicantProbateLocationPageLoad = iht.controllers.registration.applicant.routes.ProbateLocationController.onPageLoad()
   lazy val deceasedPermHomePageLoad = iht.controllers.registration.deceased.routes.DeceasedPermanentHomeController.onPageLoad()

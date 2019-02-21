@@ -20,12 +20,10 @@ package iht.controllers.application.gifts
  * Created by xavierzanatta on 8/5/15.
  */
 
-import iht.config.{AppConfig, FrontendAuthConnector}
-import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
+import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
-import iht.metrics.Metrics
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.PreviousYearsGifts
@@ -38,14 +36,17 @@ import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Call, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
-import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-class GiftsDetailsControllerImpl @Inject()() extends GiftsDetailsController with IhtConnectors {
-  def metrics: Metrics = Metrics
+class GiftsDetailsControllerImpl @Inject()(val ihtConnector: IhtConnector,
+                                           val cachingConnector: CachingConnector,
+                                           val authConnector: AuthConnector,
+                                           val formPartialRetriever: FormPartialRetriever) extends GiftsDetailsController {
+
 }
 
 trait GiftsDetailsController extends EstateController {

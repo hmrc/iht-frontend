@@ -16,19 +16,12 @@
 
 package iht.controllers.application.exemptions.partner
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.exemptions.PartnerExemption
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, ContentChecker}
 import iht.testhelpers.MockObjectBuilder._
-import iht.utils.CommonHelper
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
 import play.api.test.Helpers._
-import iht.testhelpers.TestHelper._
-import iht.utils.CommonHelper._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**

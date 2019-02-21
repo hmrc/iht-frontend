@@ -16,21 +16,17 @@
 
 package iht.controllers.registration.deceased
 
-import iht.connector.CachingConnector
 import iht.controllers.registration.RegistrationControllerTest
 import iht.forms.registration.DeceasedForms._
 import iht.models._
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.RegistrationKickOutHelper
 import iht.utils.RegistrationKickOutHelper._
 import org.joda.time.LocalDate
 import org.mockito.ArgumentMatchers._
-import play.api.Play.current
 import play.api.data.FormError
-import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent}
-import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 

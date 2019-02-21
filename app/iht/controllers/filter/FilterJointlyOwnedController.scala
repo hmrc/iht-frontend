@@ -16,23 +16,22 @@
 
 package iht.controllers.filter
 
-import iht.config.{AppConfig, IhtFormPartialRetriever}
 import iht.constants.Constants
 import iht.forms.FilterForms._
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent}
-import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
+import uk.gov.hmrc.play.bootstrap.controller.{FrontendController, UnauthorisedAction}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-object FilterJointlyOwnedController extends FilterJointlyOwnedController
+class FilterJointlyOwnedControllerImpl @Inject()(val formPartialRetriever: FormPartialRetriever,
+                                                 val messagesApi: MessagesApi) extends FilterJointlyOwnedController
 
-trait FilterJointlyOwnedController extends FrontendController {
+trait FilterJointlyOwnedController extends FrontendController with I18nSupport {
 
-  implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
+  implicit val formPartialRetriever: FormPartialRetriever
 
   def onPageLoad: Action[AnyContent] = UnauthorisedAction.async {
     implicit request => {

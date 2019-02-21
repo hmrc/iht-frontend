@@ -16,12 +16,11 @@
 
 package iht.controllers.application
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.Constants
+import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.models.application.exemptions.BasicExemptionElement
-import iht.models.RegistrationDetails
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, MockObjectBuilder, TestHelper}
 import iht.views.HtmlSpec
@@ -29,12 +28,11 @@ import org.mockito.ArgumentMatchers._
 import play.api.i18n.MessagesApi
 import play.api.test.Helpers.{status => playStatus, _}
 import play.api.test.{FakeHeaders, FakeRequest}
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.http.{HeaderCarrier, Upstream5xxResponse}
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSpec {
 

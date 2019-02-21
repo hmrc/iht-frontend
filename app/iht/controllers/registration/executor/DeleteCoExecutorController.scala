@@ -16,18 +16,15 @@
 
 package iht.controllers.registration.executor
 
-import iht.config.AppConfig
-import iht.connector.CachingConnector
+import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.IhtProperties
-import iht.connector.IhtConnectors
 import iht.controllers.registration.RegistrationController
-import iht.metrics.Metrics
 import javax.inject.Inject
 import play.Logger
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -81,6 +78,9 @@ trait DeleteCoExecutorController extends RegistrationController {
   }
 }
 
-class DeleteCoExecutorControllerImpl @Inject()() extends DeleteCoExecutorController with IhtConnectors {
-  def metrics: Metrics = Metrics
+class DeleteCoExecutorControllerImpl @Inject()(val ihtConnector: IhtConnector,
+                                               val cachingConnector: CachingConnector,
+                                               val authConnector: AuthConnector,
+                                               val formPartialRetriever: FormPartialRetriever) extends DeleteCoExecutorController {
+
 }

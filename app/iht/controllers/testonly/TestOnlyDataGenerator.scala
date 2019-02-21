@@ -16,17 +16,13 @@
 
 package iht.controllers.testonly
 
-import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
-import iht.models.application.basicElements.{ShareableBasicEstateElement, BasicEstateElement}
+import iht.models.application.basicElements.{BasicEstateElement, ShareableBasicEstateElement}
 import iht.models.application.debts._
 import iht.models.application.gifts._
 import iht.utils.ApplicationStatus
 
-/**
-  * Created by yasar on 02/09/16.
-  */
 object TestOnlyDataGenerator {
   val buildShareableBasicEstateElement = ShareableBasicEstateElement(isOwned = Some(false),value= None, isOwnedShare=Some(false), shareValue= None)
   val buildPrivatePension = PrivatePension(

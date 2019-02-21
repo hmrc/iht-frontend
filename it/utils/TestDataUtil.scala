@@ -11,25 +11,11 @@ import uk.gov.hmrc.auth.core.authorise.Predicate
 import uk.gov.hmrc.auth.core.retrieve.Retrieval
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals
 import uk.gov.hmrc.auth.core.{AuthConnector, PlayAuthConnector}
-import uk.gov.hmrc.domain.{Nino, SaUtr}
 import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys}
-import uk.gov.hmrc.play.frontend.auth.connectors.domain._
 
 import scala.concurrent.{ExecutionContext, Future}
 
 trait TestDataUtil {
-
-  def createFakeAuthority(isAuthorised: Boolean = true): Authority = {
-    val nino = "AA123456A"
-    if (isAuthorised) {
-      Authority("ID-" + nino, Accounts(iht = Some(IhtAccount(s"/iht/$nino", Nino(nino))),
-        sa = Some(SaAccount("/sa/individual/1234567890", SaUtr("1234567890"))),
-        paye = Some(PayeAccount(s"/paye/$nino", Nino(nino)))
-      ), None, None, CredentialStrength.Strong, ConfidenceLevel.L200, None, None, None, "")
-    } else {
-      Authority("ID-NOT_AUTHORISED", Accounts(), None, None, CredentialStrength.None, ConfidenceLevel.L0, None, None, None, "")
-    }
-  }
 
   def createFakeAuthConnector(isAuthorised: Boolean = true, defaultAuthNino: String = "AA123456A"): AuthConnector = new PlayAuthConnector {
     override val serviceUrl: String = null

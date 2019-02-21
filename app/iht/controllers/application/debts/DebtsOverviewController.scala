@@ -16,25 +16,22 @@
 
 package iht.controllers.application.debts
 
-import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.connector.IhtConnectors
 import iht.controllers.application.ApplicationController
 import iht.models.application.debts.AllLiabilities
-import iht.utils._
 import javax.inject.Inject
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
-import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-/**
- * Created by jamestuttle on 20/10/15.
- */
-class DebtsOverviewControllerImpl @Inject()() extends DebtsOverviewController with IhtConnectors
+class DebtsOverviewControllerImpl @Inject()(val cachingConnector: CachingConnector,
+                                            val ihtConnector: IhtConnector,
+                                            val authConnector: AuthConnector,
+                                            override implicit val formPartialRetriever: FormPartialRetriever) extends DebtsOverviewController
 
 trait DebtsOverviewController extends ApplicationController {
 

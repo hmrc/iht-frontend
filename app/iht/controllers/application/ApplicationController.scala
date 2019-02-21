@@ -16,7 +16,6 @@
 
 package iht.controllers.application
 
-import iht.config.IhtFormPartialRetriever
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.auth.IhtBaseController
 import iht.models.RegistrationDetails
@@ -25,17 +24,13 @@ import iht.utils.{CommonHelper, IhtSection, StringHelper}
 import play.api.Logger
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 trait ApplicationController extends IhtBaseController {
-  override lazy val ihtSection = IhtSection.Application
-
-  implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
+  override lazy val ihtSection: IhtSection.Value = IhtSection.Application
 
   def cachingConnector: CachingConnector
-
   def ihtConnector: IhtConnector
 
   def withApplicationDetails(userNino: Option[String])(body: RegistrationDetails => ApplicationDetails => Future[Result])
@@ -54,7 +49,7 @@ trait ApplicationController extends IhtBaseController {
   }
 
   def getApplicationDetails(ihtReference: String, acknowledgementReference: String, userNino: Option[String])
-                           (implicit request: Request[_], hc: HeaderCarrier) = {
+                           (implicit request: Request[_], hc: HeaderCarrier): Future[ApplicationDetails] = {
     for {
       Some(applicationDetails) <- ihtConnector.getApplication(
         StringHelper.getNino(userNino),

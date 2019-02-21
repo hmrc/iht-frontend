@@ -16,10 +16,9 @@
 
 package iht.controllers.application.exemptions
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.views.HtmlSpec
 import org.jsoup.nodes.Element
 import org.scalatest.BeforeAndAfter

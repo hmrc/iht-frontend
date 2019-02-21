@@ -16,37 +16,33 @@
 
 package iht.controllers
 
-import iht.config.{AppConfig, FrontendAuthConnector, IhtFormPartialRetriever}
-import iht.connector.IhtConnectors
+import iht.config.IhtFormPartialRetriever
 import iht.controllers.auth.IhtBaseController
 import iht.utils.IhtSection
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.mvc.{Action, AnyContent}
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
-import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
+import uk.gov.hmrc.play.bootstrap.controller.UnauthorisedAction
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 
-/**
- * Created by yasar on 7/6/15.
- */
-class SessionManagementControllerImpl @Inject()() extends SessionManagementController
+class SessionManagementControllerImpl @Inject()(val authConnector: AuthConnector,
+                                                val messagesApi: MessagesApi,
+                                                implicit val formPartialRetriever: IhtFormPartialRetriever) extends SessionManagementController
 
-trait SessionManagementController extends IhtBaseController with IhtConnectors {
-  override lazy val ihtSection = IhtSection.Application
+trait SessionManagementController extends IhtBaseController with I18nSupport {
+  override lazy val ihtSection: IhtSection.Value = IhtSection.Application
+  implicit val formPartialRetriever: FormPartialRetriever
 
-  implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
-
-  def signOut = UnauthorisedAction.async {
+  def signOut: Action[AnyContent] = UnauthorisedAction.async {
     implicit request => {
       Future.successful(Ok(iht.views.html.sign_out()).withNewSession)
     }
   }
 
-  def keepAlive = authorisedForIht {
+  def keepAlive: Action[AnyContent] = authorisedForIht {
     implicit request => {
       Future.successful(Ok("OK"))
     }

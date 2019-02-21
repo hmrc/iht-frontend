@@ -21,8 +21,8 @@ import iht.constants.IhtProperties
 import iht.controllers.registration.RegistrationControllerTest
 import iht.forms.registration.DeceasedForms
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails}
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.IhtFormValidator
 import org.joda.time.LocalDate
 import org.scalatest.BeforeAndAfter
@@ -30,11 +30,11 @@ import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, Form, FormError, Forms}
 import play.api.mvc.Request
 import play.api.test.Helpers._
+import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.ExecutionContext.Implicits.global
-import uk.gov.hmrc.http.HeaderCarrier
+import scala.concurrent.{ExecutionContext, Future}
 
 
 class AboutDeceasedControllerTest extends RegistrationControllerTest with BeforeAndAfter {
@@ -59,7 +59,6 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
   def formWithMockedNinoValidation(deceased: DeceasedDetails, mockCachingConnector: CachingConnector): DeceasedForms = {
     def deceasedForms: DeceasedForms = {
       val mockIhtFormValidator = new IhtFormValidator {
-        override def cachingConnector = mockCachingConnector
         override def ninoForDeceased(blankMessageKey: String, lengthMessageKey: String,
                                      formatMessageKey: String, oRegDetails: Option[RegistrationDetails])(
                                      implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] = {
@@ -86,7 +85,6 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
   def formWithMockedNinoValidationNoDeceased(mockCachingConnector: CachingConnector): DeceasedForms = {
     def deceasedForms: DeceasedForms = {
       val mockIhtFormValidator = new IhtFormValidator {
-        override def cachingConnector = mockCachingConnector
         override def ninoForDeceased(blankMessageKey: String, lengthMessageKey: String,
                                      formatMessageKey: String, oRegDetails: Option[RegistrationDetails])(
                                      implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] = {

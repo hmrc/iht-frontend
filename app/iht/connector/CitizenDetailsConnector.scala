@@ -16,26 +16,23 @@
 
 package iht.connector
 
-import iht.config.{WSHttp, WiringConfig}
 import iht.models.CidPerson
-import play.api.Logger
+import javax.inject.Inject
+import play.api.Mode.Mode
+import play.api.{Configuration, Environment, Logger}
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.http._
+import uk.gov.hmrc.play.bootstrap.http.HttpClient
 import uk.gov.hmrc.play.config.ServicesConfig
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
-object CitizenDetailsConnector extends CitizenDetailsConnector with ServicesConfig with WiringConfig {
-  override def http = WSHttp
-
-  lazy val serviceUrl = baseUrl("citizen-details")
-
-  @throws[NotFoundException]
-  def getCitizenDetails(nino: Nino)(implicit hc: HeaderCarrier): Future[CidPerson] = {
-    Logger.info("Calling Citizen Details service to retrieve personal details")
-    http.GET[CidPerson](s"$serviceUrl/citizen-details/nino/$nino")
-  }
+class CitizenDetailsConnectorImpl @Inject()(override val http: HttpClient,
+                                            val environment: Environment,
+                                            val config: Configuration) extends CitizenDetailsConnector with ServicesConfig {
+  lazy val serviceUrl: String = baseUrl("citizen-details")
+  val mode: Mode = environment.mode
+  override def runModeConfiguration: Configuration = config
 }
 
 trait CitizenDetailsConnector {
@@ -43,7 +40,9 @@ trait CitizenDetailsConnector {
 
   def serviceUrl: String
 
-  @throws[NotFoundException]
-  def getCitizenDetails(nino: Nino)(implicit hc: HeaderCarrier): Future[CidPerson]
+  def getCitizenDetails(nino: Nino)(implicit hc: HeaderCarrier, ec : ExecutionContext): Future[CidPerson] = {
+    Logger.info("Calling Citizen Details service to retrieve personal details")
+    http.GET[CidPerson](s"$serviceUrl/citizen-details/nino/$nino")
+  }
 }
 

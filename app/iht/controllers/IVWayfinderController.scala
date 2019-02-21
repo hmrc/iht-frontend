@@ -16,8 +16,8 @@
 
 package iht.controllers
 
-import iht.config.{FrontendAuthConnector, IhtFormPartialRetriever}
-import iht.connector.IhtConnectors
+import iht.config.IhtFormPartialRetriever
+import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.auth.IhtBaseController
 import iht.utils.IhtSection
 import javax.inject.Inject
@@ -25,16 +25,16 @@ import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent}
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-class IVWayfinderControllerImpl @Inject()() extends IVWayfinderController with IhtConnectors
+class IVWayfinderControllerImpl @Inject()(val ihtConnector: IhtConnector,
+                                          val cachingConnector: CachingConnector,
+                                          val authConnector: AuthConnector,
+                                          implicit val formPartialRetriever: IhtFormPartialRetriever) extends IVWayfinderController
 
 trait IVWayfinderController extends IhtBaseController {
   override val ihtSection: IhtSection.Value = IhtSection.Registration
-
-  implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
 
   def loginPass: Action[AnyContent] = authorisedForIht {
     implicit request => {

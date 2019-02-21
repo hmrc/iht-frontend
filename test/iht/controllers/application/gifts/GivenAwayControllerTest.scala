@@ -16,15 +16,12 @@
 
 package iht.controllers.application.gifts
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
-import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, ContentChecker}
 import iht.testhelpers.CommonBuilder._
 import iht.testhelpers.MockObjectBuilder._
-import iht.utils.CommonHelper
-import play.api.i18n.Messages.Implicits._
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 

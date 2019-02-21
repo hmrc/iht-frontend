@@ -14,19 +14,15 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-
 @import iht.models._
 @import iht.models.application.basicElements.ShareableBasicEstateElement
 @import iht.utils._
+@import iht.views.html._
 @import iht.views.html.ihtHelpers.custom._
-@import iht.utils.OverviewHelper._
-@import scala.collection.immutable.Seq
-@import iht.utils._
-@import iht.constants.Constants._
-@import iht.constants.IhtProperties._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.utils.OverviewHelper._
+@import iht.models.RegistrationDetails
+@import iht.constants.IhtProperties._
 
 @(vehicles:Option[ShareableBasicEstateElement],
   registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)

@@ -14,13 +14,13 @@
  * limitations under the License.
  *@
 
-@import iht.models._
-@import iht.models.application.debts.BasicEstateElementLiabilities
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.constants.Constants._
 @import iht.constants.IhtProperties._
+@import iht.models.application.debts.BasicEstateElementLiabilities
 @import iht.views.html._
-@import uk.gov.hmrc.play.views.html._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import iht.models.RegistrationDetails
+@import iht.constants.Constants._
 
 @(debtsOutsideUkForm: Form[BasicEstateElementLiabilities],
   registrationDetails: RegistrationDetails)(implicit request: Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
@@ -31,7 +31,7 @@
 ) {
     @ihtHelpers.custom.error_summary_override_keys(debtsOutsideUkForm, AppSectionDebtsOwedToAnyoneOutsideUK)
 
-    @helpers.form(action = iht.controllers.application.debts.routes.OwedOutsideUKDebtsController.onSubmit, 'autoComplete -> "off") {
+    @form(action = iht.controllers.application.debts.routes.OwedOutsideUKDebtsController.onSubmit, 'autoComplete -> "off") {
 
         <div class="form-group">
             <p>@Messages("page.iht.application.debts.debtsOutsideUk.description.p1")</p>

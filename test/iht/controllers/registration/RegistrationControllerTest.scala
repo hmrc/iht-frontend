@@ -17,18 +17,18 @@
 package iht.controllers.registration
 
 import iht.connector.{CachingConnector, IhtConnector}
+import iht.metrics.IhtMetrics
 import iht.utils.IhtSection
 import iht.{FakeIhtApp, TestUtils}
 import org.mockito.ArgumentMatchers.any
-import org.scalatest.BeforeAndAfterEach
-import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.test.{FakeHeaders, FakeRequest}
-import uk.gov.hmrc.play.test.UnitSpec
-import uk.gov.hmrc.http.HeaderCarrier
 import org.mockito.Mockito._
+import org.scalatest.BeforeAndAfterEach
 import org.scalatest.mockito.MockitoSugar
+import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.AnyContentAsEmpty
-import uk.gov.hmrc.auth.core.{AuthConnector, AuthenticateHeaderParser, PlayAuthConnector}
+import play.api.test.{FakeHeaders, FakeRequest}
+import uk.gov.hmrc.auth.core.{AuthenticateHeaderParser, PlayAuthConnector}
+import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.Future
 
@@ -44,12 +44,16 @@ trait RegistrationControllerTest extends FakeIhtApp with MockitoSugar with TestU
 
   val mockCachingConnector: CachingConnector = mock[CachingConnector]
   val mockAuthConnector: PlayAuthConnector = mock[PlayAuthConnector]
+  val mockIhtMetrics: IhtMetrics = mock[IhtMetrics]
+  val mockMessagesApi: MessagesApi = mock[MessagesApi]
   val mockIhtConnector: IhtConnector = mock[IhtConnector]
 
   override def beforeEach(): Unit = {
     reset(mockCachingConnector)
     reset(mockAuthConnector)
     reset(mockIhtConnector)
+    reset(mockIhtMetrics)
+    reset(mockMessagesApi)
     super.beforeEach()
   }
 

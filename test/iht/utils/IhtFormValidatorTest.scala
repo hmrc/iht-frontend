@@ -40,9 +40,7 @@ class IhtFormValidatorTest extends FakeIhtApp with MockitoSugar {
 
   def ninoForCoExecutorMapping(rd: RegistrationDetails): FieldMapping[String] = {
     val mockCachingConnector = mock[CachingConnector]
-    val ihtFormValidator = new IhtFormValidator {
-      override def cachingConnector = mockCachingConnector
-    }
+    val ihtFormValidator = new IhtFormValidator {}
 
     implicit val request = createFakeRequest()
     implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
@@ -51,9 +49,7 @@ class IhtFormValidatorTest extends FakeIhtApp with MockitoSugar {
 
   def ninoForDeceasedMapping(rd: RegistrationDetails): FieldMapping[String] = {
     val mockCachingConnector = mock[CachingConnector]
-    val ihtFormValidator = new IhtFormValidator {
-      override def cachingConnector = mockCachingConnector
-    }
+    val ihtFormValidator = new IhtFormValidator {}
 
     implicit val request = createFakeRequest()
     implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))

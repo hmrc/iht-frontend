@@ -32,8 +32,6 @@ import org.joda.time.{DateTime, LocalDate}
 import org.mockito.invocation.InvocationOnMock
 import play.api.mvc.Call
 import uk.gov.hmrc.domain.{Nino, TaxIds}
-import uk.gov.hmrc.play.frontend.auth.connectors.domain.{Accounts, ConfidenceLevel, CredentialStrength}
-import uk.gov.hmrc.play.frontend.auth.{AuthContext, LoggedInUser, Principal}
 
 import scala.util.Random
 
@@ -1074,11 +1072,6 @@ object CommonBuilder {
           ), isRes = false, isToTrust = false, isLast7 = false, 0, 0, 0, 0, 0, 0, 0))
       case _ => None
     }
-  }
-
-  def buildAuthContext(): AuthContext = {
-    val loggedInUser = new LoggedInUser(firstNameGenerator, None, None, None, CredentialStrength.Strong, ConfidenceLevel.L300 ,"")
-    new AuthContext(loggedInUser, Principal(None, Accounts()), None, None, None, None)
   }
 
   def buildApplicationDetailsWithAllAssets = {

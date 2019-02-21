@@ -14,29 +14,26 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
 @import iht.constants.FieldMappings
-@import iht.constants.Constants._
-@import iht.forms.FilterForms._
-@import iht.constants.IhtProperties._
+@import iht.constants.Constants.filterChoices
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
 
-@(form: Form[Option[String]])(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+@(ihtForm: Form[Option[String]])(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
   @iht_main_template_registration(title = Messages("iht.whatDoYouWantToDo"),
     browserTitle = Some(Messages("iht.whatDoYouWantToDo")),
-    isFullWidth = false,
     hasSignOut = false,
     hasTimeOut = false,
     isUserResearchBannerVisible = true){
 
-  @helpers.form(action = iht.controllers.filter.routes.FilterController.onSubmit,'autoComplete -> "off") {
+  @form(action = iht.controllers.filter.routes.FilterController.onSubmit,'autoComplete -> "off") {
 
-      @ihtHelpers.custom.error_summary(form)
+      @ihtHelpers.custom.error_summary(ihtForm)
 
       @ihtHelpers.standard.input_radio_group_with_hints(
-          form(filterChoices),
+          ihtForm(filterChoices),
           FieldMappings.filterChoices.toSeq,
           '_legendClass -> "visually-hidden",
           '_legend -> Html(Messages("iht.whatDoYouWantToDo")),

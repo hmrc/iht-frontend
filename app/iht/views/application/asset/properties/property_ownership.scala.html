@@ -14,14 +14,12 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.utils._
-@import iht.constants.FieldMappings
-@import iht.constants.IhtProperties
-@import iht.utils._
 @import iht.constants.IhtProperties._
+@import iht.constants.{FieldMappings, IhtProperties}
+@import iht.utils._
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(propertyOwnership:Form[iht.models.application.assets.Property],
 submitUrl:Call,
@@ -37,7 +35,7 @@ cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProp
 
 @ihtHelpers.custom.error_summary(propertyOwnership)
 
-@helpers.form(action = submitUrl,'autoComplete -> "off") {
+@form(action = submitUrl,'autoComplete -> "off") {
 
 <div class="form-group">
     @ihtHelpers.standard.input_radio_group_with_hints(

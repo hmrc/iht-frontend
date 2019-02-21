@@ -18,38 +18,42 @@ package iht.connector
 
 import java.io
 
-import iht.config.{WSHttp, WiringConfig}
 import iht.models._
 import iht.models.application.{ApplicationDetails, ProbateDetails}
+import javax.inject.Inject
+import play.api.Mode.Mode
 import play.api.libs.json._
+import play.api.{Configuration, Environment}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.cache.client.SessionCache
-import uk.gov.hmrc.play.config.{AppName, ServicesConfig}
+import uk.gov.hmrc.play.bootstrap.http.HttpClient
+import uk.gov.hmrc.play.config.ServicesConfig
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
-object SessionHttpCaching extends SessionCache with AppName with ServicesConfig with WiringConfig {
-  override lazy val http = WSHttp
-  override lazy val defaultSource = appName
-  override lazy val baseUri = baseUrl("cachable.session-cache")
-  override lazy val domain = getConfString("cachable.session-cache.domain",
+class CachingConnectorImpl @Inject()(val http: HttpClient,
+                                     override val runModeConfiguration: Configuration,
+                                     environment: Environment) extends CachingConnector {
+  override lazy val baseUri: String = baseUrl("cachable.session-cache")
+  override lazy val domain: String = getConfString("cachable.session-cache.domain",
     throw new Exception(s"Could not find config 'cachable.session-cache.domain'"))
+
+  override protected def mode: Mode = environment.mode
+  override def defaultSource: String = runModeConfiguration.getString("appName").getOrElse("APP NAME NOT SET")
 }
 
-object CachingConnector extends CachingConnector
-
-trait CachingConnector {
+trait CachingConnector extends SessionCache with ServicesConfig {
   private val registrationDetailsFormKey = "registrationDetails"
   private val applicationDetailsFormKey = "applicationDetails"
   private val kickoutDetailsKey = "kickoutDetails"
   private val probateDetailsKey = "probateDetails"
 
   private def getChangeData[A](formKey: String)(implicit hc: HeaderCarrier, reads: Reads[A], ec: ExecutionContext): Future[Option[A]] =
-    SessionHttpCaching.fetchAndGetEntry[A](formKey)
+    fetchAndGetEntry[A](formKey)
 
   private def storeChangeData[A](formKey: String, data: A)(implicit hc: HeaderCarrier, writes: Writes[A], reads: Reads[A], ec: ExecutionContext) =
-    SessionHttpCaching.cache[A](formKey, data) flatMap { cachedData =>
+    cache[A](formKey, data) flatMap { cachedData =>
       Future.successful(cachedData.getEntry[A](formKey))
     }
 
@@ -76,10 +80,10 @@ trait CachingConnector {
         }
     }
 
-  def delete(key: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Any] = {
-    SessionHttpCaching.fetch.map {
+  def cacheDelete(key: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Any] = {
+    fetch.flatMap {
       case Some(x) =>
-        SessionHttpCaching.remove().map { response =>
+        remove().map { response =>
           response.status match {
             case 204 =>
               val changedCacheData = x.data - key
@@ -128,7 +132,7 @@ trait CachingConnector {
     getSingleValue(key).map{value =>
       if(value.isDefined){
         for{
-          deleteOutcome <- delete(key)
+          deleteOutcome <- cacheDelete(key)
         } yield {
           deleteOutcome match {
             case Success(x) => x

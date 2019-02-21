@@ -14,18 +14,12 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.utils._
-@import iht.models._
 @import iht.controllers.application.exemptions.qualifyingBody.routes._
-@import iht.constants.FieldMappings
-@import iht.utils._
-@import iht.views.html.ihtHelpers.custom._
-@import iht.utils.OverviewHelper._
 @import iht.models.application.exemptions._
-@import iht.constants.IhtProperties._
+@import iht.utils._
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.constants.IhtProperties._
 
 @(qualifyingBody:Option[QualifyingBody]=None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 

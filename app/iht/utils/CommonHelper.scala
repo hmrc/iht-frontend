@@ -30,13 +30,8 @@ import play.api.mvc.{Call, Request}
 
 import scala.util.{Failure, Success, Try}
 
-/**
-  *
-  * This object contains all the common functionalities that can be reused
-  */
 object CommonHelper {
   private val DateRangeMonths = 24
-  def cachingConnector: CachingConnector = CachingConnector
 
   /**
     * Capture the Referrer URL excluding the Host URL

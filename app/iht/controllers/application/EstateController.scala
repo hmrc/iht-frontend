@@ -16,7 +16,6 @@
 
 package iht.controllers.application
 
-import iht.config.WiringConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.models._
 import iht.models.application.ApplicationDetails
@@ -28,10 +27,10 @@ import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Call, Request, Result}
 import play.twirl.api.HtmlFormat._
+import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.Future
 import scala.util.{Failure, Success, Try}
-import uk.gov.hmrc.http.HeaderCarrier
 
 trait EstateController extends ApplicationController {
 

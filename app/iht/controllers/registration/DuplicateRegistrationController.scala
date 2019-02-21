@@ -16,18 +16,20 @@
 
 package iht.controllers.registration
 
-import iht.config.AppConfig
-import iht.connector.IhtConnectors
+import iht.connector.{CachingConnector, IhtConnector}
 import javax.inject.Inject
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 
-class DuplicateRegistrationControllerImpl @Inject()() extends DuplicateRegistrationController with IhtConnectors
+class DuplicateRegistrationControllerImpl @Inject()(val cachingConnector: CachingConnector,
+                                                    val ihtConnector: IhtConnector,
+                                                    val authConnector: AuthConnector,
+                                                    override implicit val formPartialRetriever: FormPartialRetriever) extends DuplicateRegistrationController
 
 trait DuplicateRegistrationController extends RegistrationController {
   override def guardConditions: Set[Predicate] = Set.empty

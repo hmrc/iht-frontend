@@ -25,11 +25,11 @@ import iht.utils.{CommonHelper, StringHelper}
 import play.api.Logger
 import play.api.mvc.Request
 import play.twirl.api.HtmlFormat.Appendable
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
-import uk.gov.hmrc.http.HeaderCarrier
 
 
 trait ApplicationStatusController extends EstateController {

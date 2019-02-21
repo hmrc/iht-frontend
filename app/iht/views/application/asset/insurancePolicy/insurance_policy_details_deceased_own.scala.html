@@ -14,16 +14,13 @@
  * limitations under the License.
  *@
 
-@import iht.models._
-@import iht.models.application.assets._
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-
-@import iht.utils._
-@import iht.utils._
-@import iht.constants.Constants._
+@import iht.models.application.assets.InsurancePolicy
 @import iht.constants.IhtProperties._
+@import iht.utils._
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import iht.models.RegistrationDetails
 
 @(insurancePolicyForm: Form[InsurancePolicy],
 registrationDetails: RegistrationDetails
@@ -40,7 +37,7 @@ registrationDetails: RegistrationDetails
 
     @ihtHelpers.custom.error_summary(insurancePolicyForm, None, CommonHelper.insurancePoliciesEndLineMessageKey(insurancePolicyForm))
 
-    @helpers.form(action = iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsDeceasedOwnController.onSubmit,'autoComplete -> "off") {
+    @form(action = iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsDeceasedOwnController.onSubmit,'autoComplete -> "off") {
 
         <div class="form-group">
             <p id="insurance-policy-description">

@@ -16,28 +16,32 @@
 
 package iht.controllers.registration.executor
 
-import iht.config.AppConfig
 import iht.connector.CachingConnector
-import iht.connector.IhtConnectors
 import iht.controllers.registration.{RegistrationController, routes => registrationRoutes}
 import iht.forms.registration.CoExecutorForms._
-import iht.metrics.Metrics
+import iht.metrics.IhtMetrics
 import iht.models.RegistrationDetails
 import javax.inject.Inject
+import play.api.Play.current
 import play.api.data.Form
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{AnyContent, Call, Request}
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
+
+class ExecutorOverviewControllerImpl @Inject()(val metrics: IhtMetrics,
+                                               val cachingConnector: CachingConnector,
+                                               val authConnector: AuthConnector,
+                                               val formPartialRetriever: FormPartialRetriever) extends ExecutorOverviewController
+
 
 trait ExecutorOverviewController extends RegistrationController {
 
   def cachingConnector: CachingConnector
   override def guardConditions: Set[Predicate] = Set((rd, _) => rd.areOthersApplyingForProbate.getOrElse(false))
-  def metrics: Metrics
+  def metrics: IhtMetrics
 
   def submitRoute = routes.ExecutorOverviewController.onSubmit()
   def editSubmitRoute = routes.ExecutorOverviewController.onEditSubmit()
@@ -96,8 +100,4 @@ trait ExecutorOverviewController extends RegistrationController {
         })
       }
   }
-}
-
-class ExecutorOverviewControllerImpl @Inject()() extends ExecutorOverviewController with IhtConnectors {
-  def metrics: Metrics = Metrics
 }

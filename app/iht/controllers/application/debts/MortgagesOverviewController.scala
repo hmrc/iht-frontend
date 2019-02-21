@@ -16,8 +16,7 @@
 
 package iht.controllers.application.debts
 
-import iht.config.{AppConfig, FrontendAuthConnector}
-import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
+import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.FieldMappings
 import iht.controllers.application.ApplicationController
 import iht.models.application.assets.Properties
@@ -27,12 +26,15 @@ import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Call, Request}
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-class MortgagesOverviewControllerImpl @Inject()() extends MortgagesOverviewController with IhtConnectors
+class MortgagesOverviewControllerImpl @Inject()(val cachingConnector: CachingConnector,
+                                                val ihtConnector: IhtConnector,
+                                                val authConnector: AuthConnector,
+                                                override implicit val formPartialRetriever: FormPartialRetriever) extends MortgagesOverviewController
 
 trait MortgagesOverviewController extends ApplicationController {
 

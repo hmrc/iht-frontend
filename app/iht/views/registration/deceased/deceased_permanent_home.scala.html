@@ -14,13 +14,10 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
-@import iht.utils._
-@import iht.controllers.ControllerHelper._
-@import iht.utils._
-@import iht.constants.FieldMappings._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import iht.constants.FieldMappings._
 
 @(deceasedPermanentHomeForm:Form[iht.models.DeceasedDetails],
 actionLocation: Call,
@@ -37,7 +34,7 @@ cancelLocation: Option[Call] = None)(implicit request:Request[_],
 
     @ihtHelpers.custom.error_summary(deceasedPermanentHomeForm)
 
-    @helpers.form(action = actionLocation,'autoComplete -> "off") {
+    @form(action = actionLocation,'autoComplete -> "off") {
 <div id="domicile-container">
     @ihtHelpers.standard.input_radio_group(
     deceasedPermanentHomeForm("domicile"),

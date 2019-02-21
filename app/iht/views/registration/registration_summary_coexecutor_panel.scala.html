@@ -14,12 +14,10 @@
  * limitations under the License.
  *@
 
-@import iht.views.html._
-@import iht.models.CoExecutor
 @import iht.controllers.registration.executor.{routes => executorRoutes}
+@import iht.models.CoExecutor
 @import iht.utils._
-@import iht.utils._
-@import iht.constants.IhtProperties
+@import iht.views.html.ihtHelpers
 @import uk.gov.hmrc.play.language.LanguageUtils.Dates
 
 @(coExecutors: Seq[CoExecutor])(implicit request : Request[_], messages: Messages, lang : play.api.i18n.Lang)

@@ -1,12 +1,11 @@
 package controllers
 
-import akka.actor.FSM.Failure
 import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.client.WireMock._
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.declaration.DeclarationController
 import iht.forms.ApplicationForms.declarationForm
-import iht.metrics.Metrics
+import iht.metrics.IhtMetrics
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mockito.MockitoSugar
@@ -14,11 +13,12 @@ import play.api.data.Form
 import play.api.libs.json.Json
 import play.api.mvc.AnyContentAsFormUrlEncoded
 import play.api.test.FakeRequest
-import utils.WiremockHelper.{wiremockHost, wiremockPort}
-import utils.{IntegrationBaseSpec, TestDataUtil}
 import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.http.Upstream5xxResponse
+import uk.gov.hmrc.play.partials.FormPartialRetriever
+import utils.WiremockHelper.{wiremockHost, wiremockPort}
+import utils.{IntegrationBaseSpec, TestDataUtil}
 
 import scala.concurrent.Future
 import scala.util.Try
@@ -30,16 +30,20 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
 
   "Calling onSubmit" when {
     val mockCachingConnector = mock[CachingConnector]
+    val mockIhtMetrics = mock[IhtMetrics]
+    val mockFormPartialRetriever = mock[FormPartialRetriever]
     val mockAuthConnector = createFakeAuthConnector()
 
     lazy val controller = new DeclarationController {
       override def cachingConnector: CachingConnector = mockCachingConnector
 
-      override def ihtConnector: IhtConnector = IhtConnector
+      override def ihtConnector: IhtConnector = injectedIhtConnector
 
-      override val metrics: Metrics = mock[Metrics]
+      override val metrics: IhtMetrics = mockIhtMetrics
 
       override def authConnector: AuthConnector = mockAuthConnector
+
+      override implicit val formPartialRetriever: FormPartialRetriever = mockFormPartialRetriever
     }
 
     when(mockCachingConnector.getRegistrationDetails(any(), any()))

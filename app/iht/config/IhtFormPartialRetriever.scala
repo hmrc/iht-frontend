@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package iht.connector
+package iht.config
 
-import iht.config.FrontendAuthConnector
+import javax.inject.Inject
+import uk.gov.hmrc.crypto.PlainText
+import uk.gov.hmrc.play.bootstrap.filters.frontend.crypto.SessionCookieCrypto
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-/**
- * Created by yasar on 9/28/15.
- */
-trait IhtConnectors {
-  lazy val cachingConnector = CachingConnector
-  lazy val ihtConnector = IhtConnector
-  lazy val authConnector = FrontendAuthConnector
+class IhtFormPartialRetriever @Inject()(defaultWSHttp: DefaultWSHttp,
+                                        cookieCrypto: SessionCookieCrypto) extends FormPartialRetriever {
+  override def crypto: String => String = (cookie: String) => cookieCrypto.crypto.encrypt(PlainText(cookie)).value
+  override val httpGet: DefaultWSHttp = defaultWSHttp
 }

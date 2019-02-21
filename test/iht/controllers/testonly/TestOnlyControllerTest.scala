@@ -16,13 +16,13 @@
 
 package iht.controllers.testonly
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.AssetsWithAllSectionsSetToNoBuilder
 import iht.testhelpers.MockObjectBuilder._
 import org.scalatest.BeforeAndAfter
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class TestOnlyControllerTest extends ApplicationControllerTest with BeforeAndAfter {
 
@@ -30,7 +30,7 @@ class TestOnlyControllerTest extends ApplicationControllerTest with BeforeAndAft
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
-
+    override implicit val formPartialRetriever: FormPartialRetriever = mockPartialRetriever
   }
 
   "Test Only Controller" must {

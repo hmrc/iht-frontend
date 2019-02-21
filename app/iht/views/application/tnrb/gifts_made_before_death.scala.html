@@ -14,15 +14,16 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-
-@import iht.models.application.tnrb._
 @import iht.models.RegistrationDetails
-@import iht.utils.tnrb.TnrbHelper
+@import iht.models.application.tnrb._
 @import iht.utils._
-@import iht.config.IhtFormPartialRetriever
+@import iht.utils.tnrb.TnrbHelper
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.models.application.tnrb.TnrbEligibiltyModel
+@import iht.models.application.tnrb.WidowCheck
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import iht.views.html._
 
 @(giftMadeBeforeDeathForm:Form[TnrbEligibiltyModel],
 tnrbModel: TnrbEligibiltyModel,
@@ -43,7 +44,7 @@ cancelUrl = Some(cancelUrl)
 ){
     @ihtHelpers.custom.error_summary(giftMadeBeforeDeathForm)
 
-    @helpers.form(action = iht.controllers.application.tnrb.routes.GiftsMadeBeforeDeathController.onSubmit,'autoComplete -> "off") {
+    @form(action = iht.controllers.application.tnrb.routes.GiftsMadeBeforeDeathController.onSubmit,'autoComplete -> "off") {
 
         @ihtHelpers.standard.input_yes_no_radio_group(
             giftMadeBeforeDeathForm("isGiftMadeBeforeDeath"),

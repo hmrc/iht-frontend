@@ -16,18 +16,20 @@
 
 package iht.controllers.application.status
 
-import iht.connector.IhtConnectors
+import iht.connector.{CachingConnector, IhtConnector}
 import javax.inject.Inject
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Request
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-class ApplicationClosedControllerImpl @Inject()() extends ApplicationClosedController
+class ApplicationClosedControllerImpl @Inject()(val ihtConnector: IhtConnector,
+                                                val cachingConnector: CachingConnector,
+                                                val authConnector: AuthConnector,
+                                                val formPartialRetriever: FormPartialRetriever) extends ApplicationClosedController
 
-trait ApplicationClosedController extends ApplicationStatusController with IhtConnectors {
+trait ApplicationClosedController extends ApplicationStatusController {
   def getView = (ihtReference, deceasedName, probateDetails) => (request: Request[_], formPartialRetriever: FormPartialRetriever) => {
 
     implicit val req = request

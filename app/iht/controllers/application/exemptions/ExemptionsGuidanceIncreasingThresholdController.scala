@@ -16,23 +16,24 @@
 
 package iht.controllers.application.exemptions
 
-import iht.config.{AppConfig, FrontendAuthConnector}
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.connector.IhtConnectors
 import iht.controllers.application.ApplicationController
 import iht.utils.ExemptionsGuidanceHelper
 import javax.inject.Inject
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 /**
  * Created by jon on 21/07/15.
  */
-class ExemptionsGuidanceIncreasingThresholdControllerImpl @Inject()() extends ExemptionsGuidanceIncreasingThresholdController with IhtConnectors
+class ExemptionsGuidanceIncreasingThresholdControllerImpl @Inject()(val cachingConnector: CachingConnector,
+                                                                    val ihtConnector: IhtConnector,
+                                                                    val authConnector: AuthConnector,
+                                                                    override implicit val formPartialRetriever: FormPartialRetriever) extends ExemptionsGuidanceIncreasingThresholdController
 
 trait ExemptionsGuidanceIncreasingThresholdController extends ApplicationController {
 

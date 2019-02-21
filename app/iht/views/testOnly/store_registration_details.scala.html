@@ -14,12 +14,9 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.utils.CommonHelper
-@import iht.controllers.ControllerHelper._
-@import iht.utils._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.views.html._
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @()(implicit request:Request[_], messages: Messages, lang: play.api.i18n.Lang, ihtFormPartialRetriever: FormPartialRetriever)
 
@@ -28,7 +25,7 @@
     isFullWidth=false
 ) {
 
-    @helpers.form(action = iht.controllers.testonly.routes.TestOnlyController.storeRegistrationDetailsSubmit(),'autoComplete -> "off") {
+    @form(action = iht.controllers.testonly.routes.TestOnlyController.storeRegistrationDetailsSubmit(),'autoComplete -> "off") {
 
         <label for="registrationDetails">JSON Representation of a Registration Details model</label>
         <textarea id="registrationDetails" name="registrationDetails" rows="15" cols="100"></textarea>

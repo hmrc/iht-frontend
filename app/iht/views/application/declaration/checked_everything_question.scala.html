@@ -14,13 +14,10 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-
-@import iht.models._
-@import iht.models.application.assets.PrivatePension
 @import iht.utils.CommonHelper._
-@import iht.constants.Constants
+@import iht.views.html._
+@import iht.models.RegistrationDetails
+@import uk.gov.hmrc.play.views.html.helpers.form
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(checkedEverythingQuestionForm: Form[Option[Boolean]],
@@ -39,7 +36,7 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
             headingName = getOrException(registrationDetails.deceasedDetails.map(_.name))){
                 @ihtHelpers.custom.error_summary(checkedEverythingQuestionForm)
 
-                @helpers.form(action = iht.controllers.application.declaration.routes.CheckedEverythingQuestionController.onSubmit,'autoComplete -> "off") {
+                @form(action = iht.controllers.application.declaration.routes.CheckedEverythingQuestionController.onSubmit,'autoComplete -> "off") {
 
                         <div class="form-group">
                             <p>@Messages("iht.estateReport.declaration.checkedEverything.p1")</p>

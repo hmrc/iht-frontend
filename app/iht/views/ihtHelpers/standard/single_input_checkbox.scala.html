@@ -14,9 +14,8 @@
  * limitations under the License.
  *@
 
-@import play.api.i18n._
-@import views.html.helper._
-@import iht.views.html._
+@import views.html.helper.FieldElements
+
 @(field: play.api.data.Field, args: (Symbol,Any)*)(implicit messages: Messages)
 @elements = @{ new FieldElements(field.id, field, null, args.toMap, messages) }
 @value = @{ field.value match { case Some(x) => x case None => "false" case x => x }}

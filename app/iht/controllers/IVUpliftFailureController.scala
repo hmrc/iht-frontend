@@ -16,32 +16,28 @@
 
 package iht.controllers
 
-import iht.config.IhtFormPartialRetriever
 import iht.connector.IdentityVerificationConnector
 import iht.models.enums.IdentityVerificationResult
 import iht.views.html.iv.failurepages._
 import javax.inject.Inject
 import play.api.Logger
-import play.api.mvc._
-import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
+import play.api.mvc._
+import uk.gov.hmrc.play.bootstrap.controller.{FrontendController, UnauthorisedAction}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-/**
-  * Created by yasar on 2/19/15.
-  */
-object IVUpliftFailureController extends IVUpliftFailureController
+class IVUpliftFailureControllerImpl @Inject()(val formPartialRetriever: FormPartialRetriever,
+                                              val identityVerificationConnector: IdentityVerificationConnector) extends IVUpliftFailureController
 
-trait IVUpliftFailureController extends FrontendController{
-  val identityVerificationConnector: IdentityVerificationConnector = IdentityVerificationConnector
+trait IVUpliftFailureController extends FrontendController {
+  val identityVerificationConnector: IdentityVerificationConnector
+  implicit val formPartialRetriever: FormPartialRetriever
 
-  val ivUrlApplication = iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url
-  val ivUrlRegistration =iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad().url
-
-  implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
+  val ivUrlApplication: String = iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url
+  val ivUrlRegistration: String = iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad().url
 
   def showNotAuthorisedApplication(journeyId: Option[String]) : Action[AnyContent] = UnauthorisedAction.async {implicit request =>
     showNotAuthorised(journeyId, ivUrlApplication)
@@ -52,8 +48,7 @@ trait IVUpliftFailureController extends FrontendController{
   }
 
   private def showNotAuthorised(oJourneyId: Option[String], tryAgainRoute: String)(implicit request: Request[AnyContent]): Future[Result] = {
-    import IdentityVerificationResult._
-    import IdentityVerificationResult.{PreconditionFailed => PreconditionFailedIV}
+    import IdentityVerificationResult.{PreconditionFailed => PreconditionFailedIV, _}
 
     oJourneyId.map { journeyId =>
       identityVerificationConnector.identityVerificationResponse(journeyId).map {

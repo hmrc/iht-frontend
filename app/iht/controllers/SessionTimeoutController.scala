@@ -16,22 +16,18 @@
 
 package iht.controllers
 
-import iht.config.{AppConfig, IhtFormPartialRetriever}
+import iht.config.IhtFormPartialRetriever
 import javax.inject.Inject
-import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.{I18nSupport, MessagesApi}
+import uk.gov.hmrc.play.bootstrap.controller.{FrontendController, UnauthorisedAction}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-/**
- * Created by yasar on 2/19/15.
- */
-object SessionTimeoutController extends SessionTimeoutController{
-}
+class SessionTimeoutControllerImpl @Inject()(val messagesApi: MessagesApi,
+                                             val formPartialRetriever: IhtFormPartialRetriever) extends SessionTimeoutController
 
-trait SessionTimeoutController extends FrontendController{
+trait SessionTimeoutController extends FrontendController with I18nSupport {
 
-  implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
+  implicit val formPartialRetriever: FormPartialRetriever
 
   def onRegistrationPageLoad = UnauthorisedAction {
     implicit request => {

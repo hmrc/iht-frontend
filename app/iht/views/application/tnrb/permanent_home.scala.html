@@ -14,14 +14,15 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-
-@import iht.models.application.tnrb._
 @import iht.models.RegistrationDetails
-@import iht.utils.tnrb.TnrbHelper
+@import iht.models.application.tnrb._
 @import iht.utils._
+@import iht.utils.tnrb.TnrbHelper
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.models.application.tnrb.TnrbEligibiltyModel
+@import iht.models.application.tnrb.WidowCheck
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(partnerLivingInUkForm:Form[TnrbEligibiltyModel],
 tnrbModel: TnrbEligibiltyModel,
@@ -39,7 +40,7 @@ cancelUrl:Call, registrationDetails: RegistrationDetails)(implicit request:Reque
 ){
     @ihtHelpers.custom.error_summary(partnerLivingInUkForm)
 
-    @helpers.form(action = iht.controllers.application.tnrb.routes.PermanentHomeController.onSubmit,'autoComplete -> "off") {
+    @form(action = iht.controllers.application.tnrb.routes.PermanentHomeController.onSubmit,'autoComplete -> "off") {
 
         @ihtHelpers.standard.input_yes_no_radio_group(
             partnerLivingInUkForm("isPartnerLivingInUk"),

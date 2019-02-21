@@ -16,24 +16,22 @@
 
 package iht.utils
 
-import iht.connector.CachingConnector
 import iht.constants.IhtProperties
 import iht.models.RegistrationDetails
 import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, FormError, Forms}
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Request
+import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.collection.immutable.ListMap
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success, Try}
-import uk.gov.hmrc.http.HeaderCarrier
 
 object IhtFormValidator extends IhtFormValidator
 
 trait IhtFormValidator extends FormValidator {
-  def cachingConnector: CachingConnector = CachingConnector
 
   def getGiftValueOrErrors(errors: ListBuffer[FormError], data: Map[String, String], key: String): Either[List[FormError], Option[String]] = {
     if (errors.isEmpty) {

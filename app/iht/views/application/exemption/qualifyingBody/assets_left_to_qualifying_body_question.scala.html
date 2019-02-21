@@ -14,13 +14,13 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.models.application.exemptions._
 @import iht.models._
 @import iht.utils._
-@import iht.constants.IhtProperties._
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.models.RegistrationDetails
+@import iht.constants.IhtProperties._
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(assetsLeftToQualifyingBodyQuestionForm: Form[iht.models.application.exemptions.BasicExemptionElement],
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
@@ -51,7 +51,7 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 ){
 
 @ihtHelpers.custom.error_summary(assetsLeftToQualifyingBodyQuestionForm)
-@helpers.form(action = iht.controllers.application.exemptions.qualifyingBody.routes.AssetsLeftToQualifyingBodyQuestionController.onSubmit,
+@form(action = iht.controllers.application.exemptions.qualifyingBody.routes.AssetsLeftToQualifyingBodyQuestionController.onSubmit,
                        'autocomplete -> "off") {
 
 

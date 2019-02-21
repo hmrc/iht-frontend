@@ -14,14 +14,14 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-
 @import iht.models.RegistrationDetails
-@import iht.models.application.tnrb._
-@import iht.utils.tnrb.TnrbHelper
+@import iht.models.application.tnrb.TnrbEligibiltyModel
 @import iht.utils._
+@import iht.utils.tnrb.TnrbHelper
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.models.application.tnrb.WidowCheck
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(deceasedWidowCheckQuestionForm:Form[WidowCheck],
 widowCheckModel: WidowCheck,
@@ -54,7 +54,7 @@ cancelLinkText:String
 ){
 @ihtHelpers.custom.error_summary(deceasedWidowCheckQuestionForm)
 
-@helpers.form(action = iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onSubmit,'autoComplete -> "off") {
+@form(action = iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onSubmit,'autoComplete -> "off") {
 
 @ihtHelpers.standard.input_yes_no_radio_group(
     deceasedWidowCheckQuestionForm("widowed"),

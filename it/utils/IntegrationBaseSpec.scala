@@ -30,7 +30,7 @@ trait IntegrationBaseSpec extends UnitSpec
     .configure(Configuration("application.router" -> "testOnlyDoNotUseInAppConf.Routes"))
     .configure(Configuration("microservice.services.iht.port" -> s"${WiremockHelper.wiremockPort}"))
     .configure(Configuration("auditing.consumer.baseUri.port" -> s"${WiremockHelper.wiremockPort}"))
-    .configure(Configuration("metrics.enabled" -> false))
+    .configure(Configuration("metrics.enabled" -> true))
     .configure(Configuration(additionalConfiguration: _*))
     .build()
 

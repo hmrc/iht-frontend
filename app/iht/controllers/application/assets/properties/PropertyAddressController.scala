@@ -16,12 +16,11 @@
 
 package iht.controllers.application.assets.properties
 
-import iht.config.{AppConfig, FrontendAuthConnector}
-import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
+import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms.propertyAddressForm
-import iht.metrics.Metrics
+import iht.metrics.IhtMetrics
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.Property
@@ -33,18 +32,17 @@ import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Call, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
-import uk.gov.hmrc.http.HeaderCarrier
 
-/**
-  * Created by james on 17/06/16.
-  */
-class PropertyAddressControllerImpl @Inject()() extends PropertyAddressController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
+class PropertyAddressControllerImpl @Inject()(val metrics: IhtMetrics,
+                                              val ihtConnector: IhtConnector,
+                                              val cachingConnector: CachingConnector,
+                                              val authConnector: AuthConnector,
+                                              val formPartialRetriever: FormPartialRetriever) extends PropertyAddressController
 
 trait PropertyAddressController extends EstateController {
 

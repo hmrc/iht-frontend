@@ -14,29 +14,26 @@
  * limitations under the License.
  *@
 
-@import iht.models._
-@import iht.models.application.basicElements.BasicEstateElement
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-
-@import iht.utils._
 @import iht.constants.Constants
 @import iht.constants.IhtProperties._
+@import iht.models.application.basicElements.BasicEstateElement
 @import iht.utils._
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.models.RegistrationDetails
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(otherForm: Form[BasicEstateElement],
 registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
-@deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+@deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, wrapName = true)}
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.other.title"),
-    browserTitle = Some(Messages("page.iht.application.assets.other.browserTitle")),
-    isFullWidth = false
+    browserTitle = Some(Messages("page.iht.application.assets.other.browserTitle"))
 ) {
     @ihtHelpers.custom.error_summary_override_keys(otherForm, Constants.AppSectionOther)
 
-    @helpers.form(action = iht.controllers.application.assets.routes.OtherController.onSubmit, 'autoComplete -> "off") {
+    @form(action = iht.controllers.application.assets.routes.OtherController.onSubmit, 'autoComplete -> "off") {
 
         <div class="form-group">
             <p>@Messages("page.iht.application.assets.other.description.p1")</p>

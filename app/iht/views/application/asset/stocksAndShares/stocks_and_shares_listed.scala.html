@@ -14,15 +14,14 @@
  * limitations under the License.
  *@
 
-@import iht.models._
-@import iht.models.application.assets.StockAndShare
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-
-@import iht.utils._
 @import iht.constants.Constants
 @import iht.constants.IhtProperties._
+@import iht.models.application.assets.StockAndShare
+@import iht.utils._
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.models.RegistrationDetails
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(stockAndSharesListed: Form[StockAndShare],
 registrationDetails: RegistrationDetails
@@ -36,7 +35,7 @@ registrationDetails: RegistrationDetails
 
     @ihtHelpers.custom.error_summary_override_keys(stockAndSharesListed, Constants.AppSectionStockAndShare)
 
-    @helpers.form(action = iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesListedController.onSubmit(),'autoComplete -> "off") {
+    @form(action = iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesListedController.onSubmit(),'autoComplete -> "off") {
 
         <div data-exclude="true" class="form-group">
             @ihtHelpers.standard.input_yes_no_radio_group(stockAndSharesListed("isListed"),

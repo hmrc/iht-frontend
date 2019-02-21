@@ -16,17 +16,22 @@
 
 package iht.controllers
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.MockFormPartialRetriever
+import play.api.i18n.MessagesApi
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class SessionManagementControllerTest extends ApplicationControllerTest {
 
+  implicit val fakedMessagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
   def ihtMainController = new SessionManagementController {
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+    override def messagesApi: MessagesApi = fakedMessagesApi
+    override def authConnector: AuthConnector = mockAuthConnector
   }
 
   implicit val request = FakeRequest()

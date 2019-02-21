@@ -14,12 +14,8 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.constants.FieldMappings
-@import iht.constants.Constants._
-@import iht.constants.IhtProperties._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.constants.Constants._
 
 @(country: String, jointAssets: Option[Boolean] = None,
 estimatedValue: Option[String] = None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)

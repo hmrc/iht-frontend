@@ -16,31 +16,31 @@
 
 package iht.controllers.application.tnrb
 
-import iht.config.AppConfig
-import iht.connector.IhtConnectors
+import iht.connector.{CachingConnector, IhtConnector}
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
-import iht.metrics.Metrics
+import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.TnrbEligibiltyModel
-import iht.models.RegistrationDetails
 import iht.utils._
 import iht.utils.tnrb.TnrbHelper
-import play.api.mvc.{Request, Result}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
 import javax.inject.Inject
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
+import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.auth.core.PlayAuthConnector
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
-import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
-class PartnerNameControllerImpl @Inject()() extends PartnerNameController with IhtConnectors {
-  def metrics: Metrics = Metrics
+class PartnerNameControllerImpl @Inject()(val ihtConnector: IhtConnector,
+                                          val cachingConnector: CachingConnector,
+                                          val authConnector: AuthConnector,
+                                          val formPartialRetriever: FormPartialRetriever) extends PartnerNameController {
+
 }
 
 trait PartnerNameController extends EstateController {

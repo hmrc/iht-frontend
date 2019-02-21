@@ -19,13 +19,12 @@ package iht.utils
 import java.net.URLEncoder
 
 import iht.config.ApplicationConfig
-import uk.gov.hmrc.play.config.AppName
 
 object IhtSection extends Enumeration {
   val Registration, Application = Value
 }
 
-trait AuthHelper extends AppName {
+trait AuthHelper {
   def getIVUrlForFailedConfidenceLevel(ihtSection: IhtSection.Value, requiredConfidenceLevel: Int): String = {
     lazy val ivUpliftUrl = ApplicationConfig.ivUrlUplift
 

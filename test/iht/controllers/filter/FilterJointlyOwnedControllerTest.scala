@@ -27,12 +27,14 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class FilterJointlyOwnedControllerTest extends ApplicationControllerTest with HtmlSpec {
 
-  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit val fakedMessagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit val request = FakeRequest()
-  val messages = messagesApi.preferred(request)
+  val messages = fakedMessagesApi.preferred(request)
 
   def controller = new FilterJointlyOwnedController {
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+
+    override def messagesApi: MessagesApi = fakedMessagesApi
   }
 
   "Filter Jointly Owned Controller" must {

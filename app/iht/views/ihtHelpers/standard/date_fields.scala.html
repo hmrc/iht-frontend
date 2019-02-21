@@ -24,8 +24,8 @@
 
 @import play.api.i18n._
 @import views.html.helper._
+@import iht.views.html.ihtHelpers.standard.date_input
 @import uk.gov.hmrc.play.mappers.DateFields._
-
 
 @childFormField={@if(!childFormName.getOrElse("").isEmpty){@childFormName.getOrElse("").}else{}}
 @elements = @{ new FieldElements(formItem(childFormField+fieldName).id, formItem(childFormField+fieldName),null,args.toMap, messages) }

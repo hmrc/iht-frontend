@@ -14,13 +14,10 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
-@import iht.models.application.exemptions._
-@import iht.models._
-@import iht.utils.CommonHelper._
-@import iht.constants.IhtProperties._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.constants.IhtProperties._
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(qualifyingBody: iht.models.application.exemptions.QualifyingBody,
 submitUrl:Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
@@ -28,7 +25,7 @@ submitUrl:Call)(implicit request:Request[_], messages: Messages, ihtFormPartialR
 @iht_main_template_application(title = Messages("iht.estateReport.exemptions.qualifyingBodies.confirmDeleteQualifyingBody"),
 browserTitle = Some(Messages("page.iht.application.exemptions.qualifyingBodyDelete.browserTitle")),
 isFullWidth=false){
-@helpers.form(action = submitUrl, 'autoComplete -> "off") {
+@form(action = submitUrl, 'autoComplete -> "off") {
 <div>
     <div id="qualifying-body-name" class="panel panel-border-wide">
         <p>

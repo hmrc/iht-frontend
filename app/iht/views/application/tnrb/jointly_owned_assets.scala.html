@@ -14,12 +14,10 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
-
-@import iht.models.application.tnrb._
-@import iht.models.RegistrationDetails
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.models.application.tnrb.TnrbEligibiltyModel
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(jointAssetPassedForm:Form[TnrbEligibiltyModel],
 deceasedName:String,
@@ -33,7 +31,7 @@ cancelUrl:Call)(implicit request:Request[_], messages: Messages, ihtFormPartialR
 ){
     @ihtHelpers.custom.error_summary(jointAssetPassedForm)
 
-    @helpers.form(action = iht.controllers.application.tnrb.routes.JointlyOwnedAssetsController.onSubmit,'autoComplete -> "off") {
+    @form(action = iht.controllers.application.tnrb.routes.JointlyOwnedAssetsController.onSubmit,'autoComplete -> "off") {
 
         @ihtHelpers.standard.input_yes_no_radio_group(
             jointAssetPassedForm("isJointAssetPassed"),

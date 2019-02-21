@@ -19,7 +19,6 @@ package iht.controllers.registration.executor
 import iht.connector.CachingConnector
 import iht.controllers.registration.{RegistrationControllerTest, routes => registrationRoutes}
 import iht.forms.registration.CoExecutorForms._
-import iht.metrics.Metrics
 import iht.models.{DeceasedDateOfDeath, RegistrationDetails}
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
@@ -33,7 +32,6 @@ class OthersApplyingForProbateControllerTest extends RegistrationControllerTest 
 
   //Create controller object and pass in mock.
   def othersApplyingForProbateController = new OthersApplyingForProbateController {
-    override def metrics: Metrics = Metrics
     override def cachingConnector: CachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 
@@ -41,7 +39,6 @@ class OthersApplyingForProbateControllerTest extends RegistrationControllerTest 
   }
 
   def othersApplyingForProbateControllerNotAuthorised = new OthersApplyingForProbateController {
-    override def metrics: Metrics = Metrics
     override def cachingConnector: CachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 

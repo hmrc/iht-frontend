@@ -16,29 +16,23 @@
 
 package iht.controllers.filter
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.MockFormPartialRetriever
+import iht.testhelpers.{MockFormPartialRetriever, UseService}
 import iht.views.HtmlSpec
-import play.api.i18n.{Messages, MessagesApi}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
-import iht.testhelpers.UseService
 
-/**
-  * Created by adwelly on 25/10/2016.
-  */
 class UseServiceControllerTest extends ApplicationControllerTest with HtmlSpec with UseService {
 
-  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-
+  implicit val fakedMessagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
   def controller = new UseServiceController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+
+    override def messagesApi: MessagesApi = fakedMessagesApi
   }
 
   "UseServiceController" must {
@@ -48,7 +42,7 @@ class UseServiceControllerTest extends ApplicationControllerTest with HtmlSpec w
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() must be(messagesApi("iht.shouldUseOnlineService"))
+      titleElement.text() must be(fakedMessagesApi("iht.shouldUseOnlineService"))
     }
 
     "show paragraph 0 for the under 325000 estimate" in {
@@ -57,7 +51,7 @@ class UseServiceControllerTest extends ApplicationControllerTest with HtmlSpec w
 
       val doc = asDocument(contentAsString(result))
       val paragraph0 = doc.getElementById("paragraph0")
-      paragraph0.text() must be(messagesApi("page.iht.filter.useService.under325000.paragraph0"))
+      paragraph0.text() must be(fakedMessagesApi("page.iht.filter.useService.under325000.paragraph0"))
     }
 
     "show paragraph 0 for the between estimate" in {

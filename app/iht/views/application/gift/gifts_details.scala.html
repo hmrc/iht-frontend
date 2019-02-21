@@ -14,15 +14,16 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
 @import iht.constants.Constants
-@import iht.models._
-@import iht.models.application.gifts._
-@import iht.utils._
-@import uk.gov.hmrc.play.language.LanguageUtils.Dates
+@import iht.models.RegistrationDetails
+@import iht.models.application.gifts.PreviousYearsGifts
+@import iht.views.html.iht_main_template_application
+@import iht.views.html.ihtHelpers.custom.error_summary_override_keys
+@import iht.views.html.ihtHelpers.custom.input_estate_value
 @import org.joda.time.LocalDate
+@import uk.gov.hmrc.play.language.LanguageUtils.Dates
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(previousYearGiftsForm:Form[PreviousYearsGifts],
 registrationDetails:RegistrationDetails,
@@ -42,11 +43,11 @@ title = (Messages("page.iht.application.giftsDetails.subtitle",startDateFormatte
     cancelLabel = cancelLabel
 ) {
 
-@ihtHelpers.custom.error_summary_override_keys(previousYearGiftsForm, Constants.AppSectionEstateGifts)
+@error_summary_override_keys(previousYearGiftsForm, Constants.AppSectionEstateGifts)
 
-@ihtHelpers.standard.form(id="giftsDetails-form", action = iht.controllers.application.gifts.routes.GiftsDetailsController.onSubmit,'autoComplete -> "off") {
+@form(action = iht.controllers.application.gifts.routes.GiftsDetailsController.onSubmit,'autoComplete -> "off") {
 
-    @ihtHelpers.custom.input_estate_value(previousYearGiftsForm("value"),
+    @input_estate_value(previousYearGiftsForm("value"),
     '_label -> Messages("page.iht.application.giftsDetails.value.label", startDateFormatted, endDateFormatted),
     '_sectionName -> "gifts-value",
     '_divJsHide -> false,
@@ -56,7 +57,7 @@ title = (Messages("page.iht.application.giftsDetails.subtitle",startDateFormatte
     '_ariaControls -> "value-of-gifts-added",
     '_inputClass -> "form-control")
 
-    @ihtHelpers.custom.input_estate_value(previousYearGiftsForm("exemptions"),
+    @input_estate_value(previousYearGiftsForm("exemptions"),
     '_label -> Messages("page.iht.application.giftsDetails.exemptions.label", startDateFormatted, endDateFormatted),
     '_sectionName -> "gifts-exemption",
     '_divJsHide -> false,

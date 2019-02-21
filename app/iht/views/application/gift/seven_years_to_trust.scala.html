@@ -14,17 +14,13 @@
  * limitations under the License.
  *@
 
-@import iht.models._
 @import iht.models.application.gifts.AllGifts
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-
 @import iht.utils._
-@import iht.forms.ApplicationForms._
-@import iht.utils.CommonHelper._
-@import iht.constants.Constants._
-@import iht.constants.IhtProperties._
+@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import iht.models.RegistrationDetails
+@import iht.constants.IhtProperties._
 
 @(GiftSevenYearsToTrustForm: Form[AllGifts],
 registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
@@ -35,7 +31,7 @@ browserTitle = Some(Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeat
 
 @ihtHelpers.custom.error_summary(GiftSevenYearsToTrustForm)
 
-@helpers.form(action = iht.controllers.application.gifts.routes.SevenYearsToTrustController.onSubmit,'autoComplete -> "off") {
+@form(action = iht.controllers.application.gifts.routes.SevenYearsToTrustController.onSubmit,'autoComplete -> "off") {
 
 <div id="seven-years-to-trust-question">
         @ihtHelpers.standard.input_yes_no_radio_group(
