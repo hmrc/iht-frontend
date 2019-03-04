@@ -1,0 +1,38 @@
+@*
+ * Copyright 2019 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.views.html._
+@import uk.gov.hmrc.play.views.html.helpers.form
+
+@(returnToUrl: Call,
+returnLinkText: String = "")(content: String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+
+@iht_main_template_registration(title=Messages("iht.notPossibleToUseService"),
+browserTitle = Some(Messages("iht.notPossibleToUseService")),
+hasTimeOut=true) {
+
+    <div class="form-group">
+        <p>@content</p>
+        <a id="return-button" href="@returnToUrl">@if(returnLinkText.isEmpty){@Messages("iht.registration.kickout.returnToTheLastPageVisited")}else {@returnLinkText}</a>
+    </div>
+
+	<div id="continue-button">
+	    @form(action = iht.controllers.registration.routes.KickoutRegController.onSubmit) {
+	    <input id="finish" class='button' type='submit' value='@Messages("iht.exitToGovUK")'>
+	    }
+	</div>
+}

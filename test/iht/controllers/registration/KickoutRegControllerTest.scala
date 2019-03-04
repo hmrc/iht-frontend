@@ -54,7 +54,11 @@ class KickoutRegControllerTest extends RegistrationControllerTest {
         (RegistrationKickOutHelper.KickoutApplicantDetailsProbateScotland,
           "page.iht.registration.applicantDetails.kickout.probate.summary"),
         (RegistrationKickOutHelper.KickoutApplicantDetailsProbateNi,
-          "page.iht.registration.applicantDetails.kickout.probate.summary")
+          "page.iht.registration.applicantDetails.kickout.probate.summary"),
+        (RegistrationKickOutHelper.KickoutNotApplyingForProbate,
+          "page.iht.registration.notApplyingForProbate.kickout.summary"),
+        (RegistrationKickOutHelper.KickoutNotAnExecutor,
+          "page.iht.registration.notAnExecutor.kickout.p1")
       ).foreach{kickout=>
         createMockToGetSingleValueFromCache(mockCachingConnector, any(), Some(kickout._1))
         val result: Future[Result] = controller.onPageLoad(request)

@@ -38,6 +38,18 @@ object ApplicantForms {
     )
   )
 
+  val areYouAnExecutorForm = Form(
+    mapping(
+      "areYouAnExecutor" -> yesNoQuestion("error.applicantAreYouAnExecutor.select")
+    )
+    (
+      (isAnExecutor) => ApplicantDetails(isAnExecutor = isAnExecutor)
+    )
+    (
+      (a: ApplicantDetails) => Some(a.isAnExecutor)
+    )
+  )
+
   def probateLocationForm(implicit messages: Messages) = Form(
     mapping(
       "country" -> of(radioOptionString("error.applicantProbateLocation.select", FieldMappings.applicantCountryMap))

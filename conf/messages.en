@@ -134,6 +134,7 @@ iht.finishAndDeleteThisEstateReport = Finish and delete this estate report
 iht.the.deceased = the person who has died
 iht.ifYouWantToChangeYourAnswer = If you want to change your answer
 iht.ifYouWantToChangeValue =  If you want to change the value
+iht.changeYourAnswer = Change your answer
 iht.exitToGovUK = Exit to GOV.UK
 iht.firstName = First name
 iht.firstName.hint = You do not have to give any middle names
@@ -437,10 +438,13 @@ page.iht.registration.applicant.probateLocation.title = Where are you going to a
 page.iht.registration.applicant.probateLocation.browserTitle = Probate location
 
 page.iht.registration.applicant.applyingForProbate.browserTitle = Apply for probate
-page.iht.registration.applicant.applyingForProbate.p1 = If you are applying for probate, you will also be filling in a PA1 - Probate application form.
-page.iht.registration.applicant.applyingForProbate.p2 = You will be named as an executor of the estate if {0} left a will. If there was not a will, you would have been named as the administrator of the estate by a court.
-page.iht.registration.applicant.applyingForProbate = Are you applying for probate for {0}’s estate?
+page.iht.registration.applicant.applyingForProbate = Do you need probate for {0}’s estate?
 iht.registration.applicant.applyingForProbate = Are you applying for probate for the estate?
+
+#Registration - Applicant Are You An Executor
+page.iht.registration.applicant.areYouExecutor.browserTitle = Are you an executor?
+page.iht.registration.applicant.areYouExecutor.p1 = You need to be an executor of the estate being named on the probate application, or intend to apply to be named as an administrator (if there was no will).
+page.iht.registration.applicant.areYouExecutor = Are you one of the executors for {0}’s estate?
 
 #Registration - Applicant tell us about yourself
 page.iht.registration.applicantTellUsAboutYourself.question.label = Do you live in the UK?
@@ -563,9 +567,9 @@ page.iht.registration.duplicateRegistration.ref.title = You can start this estat
 page.iht.registration.duplicateRegistration.ref.text = If any details have changed, phone the Inheritance Tax helpline on 0300 123 1072 to make any changes. Call +44 300 123 1072 if you are outside of the UK.
 
 page.iht.registration.others-applying-for-probate.sectionName = others-applying-for-probate
-page.iht.registration.others-applying-for-probate.sectionTitle = Are there any other executors applying for probate for this estate?
+page.iht.registration.others-applying-for-probate.sectionTitle = Are there any other people applying for probate?
 page.iht.registration.others-applying-for-probate.browserTitle = Other probate applicants
-page.iht.registration.others-applying-for-probate.description = If you are filling in a PA1 – Probate application form, you can add up to 3 other people on the form.
+page.iht.registration.others-applying-for-probate.description = You have to add the details for the executors or administrators who will also apply for probate for this estate.
 
 page.iht.registration.executor-overview.sectionName = executor-overview
 page.iht.registration.executor-overview.browserTitle = Other applicants
@@ -585,9 +589,24 @@ page.iht.registration.applicantDetails.kickout.role.summary = This is because yo
 page.iht.registration.applicantDetails.kickout.role.p2 = If you want to change your role, you can return to the last page you visited.
 page.iht.registration.applicantDetails.kickout.probateRole.summary = This is because you are not intending to apply for probate in England or Wales and you are not an executor or an administrator for the deceased’s estate.
 
-page.iht.registration.notApplyingForProbate.kickout.summary = This is because you are not applying for probate for {0}’s estate.
-page.iht.registration.notApplyingForProbate.kickout.p1 = The executor or administrator for {0}’s estate should complete an Inheritance Tax estate report.
-page.iht.registration.notApplyingForProbate.kickout.p2 = If you want to change your answer, you can return to the last page you visited.
+page.iht.registration.notApplyingForProbate.kickout.summary = This service is only for ‘excepted’ estates where probate is needed.
+page.iht.registration.notApplyingForProbate.kickout.p1 = Your previous answers about the value of the estate suggest that it may be excepted.
+page.iht.registration.notApplyingForProbate.kickout.p2 = If you do not need probate, then you do not have to report anything to HMRC as long as the estate is excepted.
+page.iht.registration.notApplyingForProbate.kickout.checkExcepted = Check if the estate is excepted.
+page.iht.registration.notApplyingForProbate.kickout.expander.p1 = Make sure the estate meets one of the excepted estate conditions.
+page.iht.registration.notApplyingForProbate.kickout.expander.p2 = The estate is excepted if it has either:
+page.iht.registration.notApplyingForProbate.kickout.expander.bullet1 = a gross value (before deducting debts) of less than £325,000
+page.iht.registration.notApplyingForProbate.kickout.expander.bullet2 = a gross value of less than £650,000 if you are transferring £325,000 nil-rate band from another person (the full amount must be transferred)
+page.iht.registration.notApplyingForProbate.kickout.expander.p3 = For an estate where some assets have been left to the surviving spouse or civil partner,or  a charity or community amateur sports club, it is has exemptions, and is excepted if it has either:
+page.iht.registration.notApplyingForProbate.kickout.expander.bullet3 = a net value of less than £325,000
+page.iht.registration.notApplyingForProbate.kickout.expander.bullet4 = a net value of less than £650,000 if you are transferring £325,000 nil-rate band from another person (the full amount must be transferred)
+page.iht.registration.notApplyingForProbate.kickout.expander.p4 = Where an estate has exemptions you can subtract the exemptions and any debts such as mortgages or loans to give the net value.
+page.iht.registration.notApplyingForProbate.kickout.expander.p5 = In all cases the gross value of the estate must be below £1 million.
+page.iht.registration.notApplyingForProbate.kickout.expander.p6 = If you are not sure if the estate is excepted, call the Inheritance Tax helpline on 0300 123 1072 (44 300 123 1072 from overseas).
+page.iht.registration.notApplyingForProbate.kickout.p3 = If the estate is not excepted, you must complete a <a href="{0}" id="iht400">full return (IHT400)</a> whether you need probate or not, and whether Inheritance Tax is payable or not. If you do not complete a return, you may get a penalty.
+
+page.iht.registration.notAnExecutor.kickout.p1 = The Inheritance Tax return needs to be made by an executor of the estate who is being named on the probate application, or who is intending to apply to be named as an administrator (if there was no will).
+
 iht.registration.kickout.content = You should complete the Inheritance Tax estate report using either an IHT205 or IHT400 paper form.
 iht.registration.kickout.ifWantChangeDeceasedLocation = If you want to change the location of the person who has died’s permanent home
 iht.registration.kickout.ifWantChangeProbateLocation = If you want to change the location of where you intend to apply for probate
@@ -662,13 +681,13 @@ page.iht.application.overview.common.viewcopy = View a copy of this estate repor
 
 page.iht.application.overview.inreview.p1 = We might take up to 2 months to review this estate report from the date you sent it. We will contact you if we have any questions.
 page.iht.application.overview.inreview.p2 = You can check the status of this estate report at any time by choosing it from your Inheritance Tax estate reports. When we have finished the review, we will either contact you or the estate report will be closed.
-page.iht.application.overview.common.ifYouNeed = If you need to continue your PA1 - Probate application
+page.iht.application.overview.common.ifYouNeed = To continue your probate application
 page.iht.application.overview.common.ifYouFind = If you find anything else in the estate
 page.iht.application.overview.common.p4 = You will only need to tell us if the value of those things increase the value of the estate over the threshold. There will be Inheritance Tax to pay.
 page.iht.application.overview.common.youWillNeedTo = You will need to
 page.iht.application.overview.common.tellHMRC = tell us about the estate by using an IHT400 form
 page.iht.application.overview.common.needDetails = I need the IHT Identifier, Gross Estate Figure and Net Estate Figure
-page.iht.application.overview.common.p1 = Write these details on your probate form.
+page.iht.application.overview.common.p1 = You can apply for probate from the <a href="{0}">Wills and probate page.</a> These are the details you will need:
 
 #Estate report - Estate overview
 page.iht.application.estateOverview.noValue = No value given
@@ -1779,12 +1798,12 @@ page.iht.application.declaration_received.subheading1 = HMRC will review this es
 page.iht.application.declaration_received.subheading2 = Getting your statutory certificate of discharge
 page.iht.application.declaration_received.subheading3 = Keeping records for the future
 iht.iht.estateReport.declaration.acceptanceOfDeclaration = Anyone who is applying to the Probate Service should accept this declaration. By signing this form, you are accepting this.
-page.iht.application.declaration_received.continue=View the details you need for your probate form
+page.iht.application.declaration_received.continue=View details for probate
 
 page.iht.application.declaration_received.pdf.link = Save a copy of this estate report (PDF, size is less than 500KB)
 page.iht.application.declaration_received.guidance.indent=You can choose this estate report from your Inheritance Tax estate reports to get a copy of it at any time.
 page.iht.application.declaration_received.guidance.retention=We recommend that you keep a copy of this estate report along with any other paperwork you have used to help you complete it. You should keep these details for 5 years.
-page.iht.application.declaration_received.guidance.probate=You need some details to finish your PA1 - Probate application form.
+page.iht.application.declaration_received.guidance.probate=The details you need for your probate application are ready to view.
 
 #Estate report - Probate Details
 page.iht.application.probateDetails.content2 = You will need the following details to write on your PA1 – Probate application form:
@@ -1801,11 +1820,11 @@ page.iht.application.probateDetails.guidance.bullet3 = the net estate figure is 
 
 page.iht.application.probateDetails.probateDetailsNotAvailableText = You will need to complete your Probate Application form (PA1) with some details from the estate report before you post it off. You can find these details by viewing this estate report on your Inheritance Tax estate reports page.
 
-page.iht.application.probate.title=Details you need for your probate form
+page.iht.application.probate.title=Details you need for probate
 page.iht.application.probate.browserTitle=Probate form details
 page.iht.application.probate.print = Download or print this page
 page.iht.application.probate.guidance.p1=Write these details on the PA1 - Probate application form for {0}’s estate.
-page.iht.application.probate.guidance.indent=You will still be able to see these details by choosing this estate report from your Inheritance Tax estate reports.
+page.iht.application.probate.guidance.indent=These details are also saved on your estate report page.
 page.iht.application.probate.data.visuallyHiddenCaption=PA1 - Probate application form details for {0}'s estate
 page.iht.application.probate.data.ihtIdentifier = IHT Identifier
 page.iht.application.probate.data.grossEstateFigure = Gross Estate Figure
@@ -2422,7 +2441,8 @@ error.deceasedDateOfBirth.giveBeforeDateOfDeath = Give a date of birth that is b
 #Errors - Registration - Applicant
 error.applicant.insufficientCoExecutors = Add details of the other person applying for probate
 error.applicant.selectIfAnyoneElseApplyingForProbate = Select if anyone else is applying for probate
-error.applicantIsApplyingForProbate.select = Give an answer for if you are applying for probate
+error.applicantIsApplyingForProbate.select = Give an answer for if you need probate
+error.applicantAreYouAnExecutor.select = Give an answer for if you are an executor
 error.applicantProbateLocation.select = Select where you are applying for probate
 
 #Errors - Estate report

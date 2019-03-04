@@ -42,6 +42,7 @@ object RegistrationKickOutHelper {
   lazy val KickoutApplicantDetailsProbateNi = "KickoutApplicantDetailsProbateNi"
 
   lazy val KickoutNotApplyingForProbate = "KickoutNotApplyingForProbate"
+  lazy val KickoutNotAnExecutor = "KickoutNotAnExecutor"
 
   def kickoutReasonDeceasedDateOfDeathInternal(deceasedDateOfDeath:DeceasedDateOfDeath): Option[String] =
     deceasedDateOfDeath.dateOfDeath match {
@@ -73,6 +74,13 @@ object RegistrationKickOutHelper {
     rd.applicantDetails.flatMap(_.isApplyingForProbate).flatMap{
       case true => None
       case _ => Some(RegistrationKickOutHelper.KickoutNotApplyingForProbate)
+    }
+  }
+
+  def checkNotAnExecutorKickout(rd: RegistrationDetails): Option[String] = {
+    rd.applicantDetails.flatMap(_.isAnExecutor).flatMap{
+      case true => None
+      case _ => Some(RegistrationKickOutHelper.KickoutNotAnExecutor)
     }
   }
 

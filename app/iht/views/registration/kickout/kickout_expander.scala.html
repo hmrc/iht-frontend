@@ -1,0 +1,68 @@
+@*
+ * Copyright 2019 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.views.html._
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import iht.constants.IhtProperties._
+
+@(summary: String,
+returnToUrl: Call,
+returnLinkText: String = "")(contentLines: Seq[String])(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+
+@iht_main_template_registration(title=Messages("iht.notPossibleToUseService"),
+browserTitle = Some(Messages("iht.notPossibleToUseService")),
+hasTimeOut=true) {
+
+<div class="panel panel-border-wide">
+    <p id="kickout-message">@summary</p>
+</div>
+
+<div class="form-group">
+    @contentLines.map { line => <p>@line</p>}
+    <details class="form-group" id="checkExcepted">
+        <summary><span class="summary">@Messages("page.iht.registration.notApplyingForProbate.kickout.checkExcepted")</span></summary>
+
+        <div class="panel panel-border-narrow">
+            <p>@Messages("page.iht.registration.notApplyingForProbate.kickout.expander.p1")</p>
+            <p>@Messages("page.iht.registration.notApplyingForProbate.kickout.expander.p2")</p>
+            <ul class="list list-bullet">
+                <li>@Messages("page.iht.registration.notApplyingForProbate.kickout.expander.bullet1")</li>
+                <li>@Messages("page.iht.registration.notApplyingForProbate.kickout.expander.bullet2")</li>
+            </ul>
+            <p>@Messages("page.iht.registration.notApplyingForProbate.kickout.expander.p3")</p>
+            <ul class="list list-bullet">
+                <li>@Messages("page.iht.registration.notApplyingForProbate.kickout.expander.bullet3")</li>
+                <li>@Messages("page.iht.registration.notApplyingForProbate.kickout.expander.bullet4")</li>
+            </ul>
+            <p>@Messages("page.iht.registration.notApplyingForProbate.kickout.expander.p4")</p>
+            <p>@Messages("page.iht.registration.notApplyingForProbate.kickout.expander.p5")</p>
+            <p>@Messages("page.iht.registration.notApplyingForProbate.kickout.expander.p6")</p>
+
+        </div>
+    </details>
+    <div class="form-group">
+        <p>@Html(Messages("page.iht.registration.notApplyingForProbate.kickout.p3", "https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400"))</p>
+    </div>
+    <a id="return-button" href="@returnToUrl">@if(returnLinkText.isEmpty){@Messages("iht.registration.kickout.returnToTheLastPageVisited")}else {@returnLinkText}</a>.
+</div>
+
+<div id="continue-button">
+    @form(action = iht.controllers.registration.routes.KickoutRegController.onSubmit) {
+    <input id="finish" class='button' type='submit' value='@Messages("iht.exitToGovUK")'>
+    }
+</div>
+}

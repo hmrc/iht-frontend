@@ -45,12 +45,15 @@ class ProbateApplicationFormDetailsViewTest extends ViewTestHelper {
     "show correct title and browserTitle" in {
       val view = probateApplicationFormDetailsView().toString
       titleShouldBeCorrect(view, messagesApi("page.iht.application.probate.title"))
+
       browserTitleShouldBeCorrect(view, messagesApi("page.iht.application.probate.browserTitle"))
     }
 
     "show the correct guidance" in {
       val view = probateApplicationFormDetailsView().toString
-      messagesShouldBePresent(view, messagesApi("page.iht.application.probate.guidance.p1", deceasedName))
+      messagesShouldBePresent(view, messagesApi("page.iht.application.overview.common.p1",
+        "https://www.gov.uk/wills-probate-inheritance/applying-for-a-grant-of-representation"))
+
       messagesShouldBePresent(view, messagesApi("page.iht.application.probate.guidance.indent"))
     }
 
