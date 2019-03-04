@@ -30,46 +30,46 @@ import play.api.mvc.{AnyContent, Request}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-class ApplyingForProbateControllerImpl @Inject()(val ihtConnector: IhtConnector,
+class IsAnExecutorControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                  val cachingConnector: CachingConnector,
                                                  val authConnector: AuthConnector,
-                                                 val formPartialRetriever: FormPartialRetriever) extends ApplyingForProbateController {
+                                                 val formPartialRetriever: FormPartialRetriever) extends IsAnExecutorController {
 
 }
 
-trait ApplyingForProbateController extends RegistrationApplicantControllerWithEditMode {
-  def form = applyingForProbateForm
+trait IsAnExecutorController extends RegistrationApplicantControllerWithEditMode {
+  def form = areYouAnExecutorForm
 
-  override def guardConditions: Set[Predicate] = guardConditionsApplicantApplyingForProbateQuestion
+  override def guardConditions: Set[Predicate] = guardConditionsApplicantApplyingIsAnExecutorQuestion
 
-  override def getKickoutReason = RegistrationKickOutHelper.checkNotApplyingForProbateKickout
+  override def getKickoutReason = RegistrationKickOutHelper.checkNotAnExecutorKickout
 
-  override val storageFailureMessage = "Store registration details fails on applying for probate submission"
+  override val storageFailureMessage = "Store registration details fails on is an executor submission"
 
-  lazy val submitRoute = routes.ApplyingForProbateController.onSubmit
-  lazy val editSubmitRoute = routes.ApplyingForProbateController.onEditSubmit
+  lazy val submitRoute = routes.IsAnExecutorController.onSubmit
+  lazy val editSubmitRoute = routes.IsAnExecutorController.onEditSubmit
 
   def okForPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.applying_for_probate(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), submitRoute)
+    Ok(views.are_you_an_executor(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), submitRoute)
     (request, language, applicationMessages, formPartialRetriever))
 
   def okForEditPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.applying_for_probate(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, cancelToRegSummary)
+    Ok(views.are_you_an_executor(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, cancelToRegSummary)
     (request, language, applicationMessages, formPartialRetriever))
 
   def badRequestForSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.applying_for_probate(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), submitRoute)
+    BadRequest(views.are_you_an_executor(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), submitRoute)
     (request, language, applicationMessages, formPartialRetriever))
 
   def badRequestForEditSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.applying_for_probate(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, cancelToRegSummary)
+    BadRequest(views.are_you_an_executor(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, cancelToRegSummary)
     (request, language, applicationMessages, formPartialRetriever))
 
   def applyChangesToRegistrationDetails(rd: RegistrationDetails, ad: ApplicantDetails, mode: Mode.Value) = {
     val x = rd.applicantDetails.getOrElse(new ApplicantDetails) copy (
-      isApplyingForProbate = ad.isApplyingForProbate)
+      isAnExecutor = ad.isAnExecutor)
     rd copy (applicantDetails = Some(x))
   }
 
-  def onwardRoute(rd: RegistrationDetails) = routes.IsAnExecutorController.onPageLoad
+  def onwardRoute(rd: RegistrationDetails) = routes.ProbateLocationController.onPageLoad
 }

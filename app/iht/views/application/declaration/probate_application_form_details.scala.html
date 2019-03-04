@@ -27,7 +27,7 @@
     browserTitle = Some(Messages("page.iht.application.probate.browserTitle"))
 ){
     <div class="form-group">
-        <p>@Messages("page.iht.application.probate.guidance.p1", DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+        <p>@Html(Messages("page.iht.application.overview.common.p1", "https://www.gov.uk/wills-probate-inheritance/applying-for-a-grant-of-representation"))</p>
     
         <table>
             <caption class="visually-hidden">@Messages("page.iht.application.probate.data.visuallyHiddenCaption", DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails))</caption>

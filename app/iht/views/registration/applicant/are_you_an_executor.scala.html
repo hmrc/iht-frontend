@@ -14,32 +14,36 @@
  * limitations under the License.
  *@
 
+@import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
-@import org.apache.commons.lang3.StringEscapeUtils
+@import iht.utils._
+@import iht.controllers.ControllerHelper._
+@import iht.utils._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import uk.gov.hmrc.play.views.html.helpers.form
+@import org.apache.commons.lang3.StringEscapeUtils
 
-@(applyingForProbateForm:Form[iht.models.ApplicantDetails], deceasedName: String,
+@(areYouAnExecutorForm:Form[iht.models.ApplicantDetails], deceasedName: String,
     actionLocation: Call,
     cancelLocation: Option[Call] = None)(implicit request:Request[_], lang: play.api.i18n.Lang, messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_registration(title = "",
-browserTitle = Some(Messages("page.iht.registration.applicant.applyingForProbate.browserTitle")),
+browserTitle = Some(Messages("page.iht.registration.applicant.areYouExecutor.browserTitle")),
 isFullWidth=false,
 cancelUrl=cancelLocation,
 hasTimeOut=true) {
 
-@ihtHelpers.custom.error_summary(applyingForProbateForm)
+@ihtHelpers.custom.error_summary(areYouAnExecutorForm)
 
-@form(action = actionLocation,'autoComplete -> "off") {
+@helpers.form(action = actionLocation,'autoComplete -> "off") {
 
   @ihtHelpers.standard.input_yes_no_radio_group(
-    applyingForProbateForm("isApplyingForProbate"),
-    '_legend -> Messages("page.iht.registration.applicant.applyingForProbate", ihtHelpers.custom.name(deceasedName).toString),
+    areYouAnExecutorForm("areYouAnExecutor"),
+    '_legend -> Messages("page.iht.registration.applicant.areYouExecutor", ihtHelpers.custom.name(deceasedName).toString),
     '_legendClass -> Some("legend-with-heading"),
-    '_fieldsetId -> "applying-for-probate",
+    '_fieldsetId -> "are-you-an-executor",
     '_divClass -> "form-group",
-    '_legendIsHeading -> true
+    '_legendIsHeading -> true,
+    '_extraText -> Html("<p class=\"lede\">" + Messages("page.iht.registration.applicant.areYouExecutor.p1") + "</p>")
   )
 
 @ihtHelpers.custom.continue_button()

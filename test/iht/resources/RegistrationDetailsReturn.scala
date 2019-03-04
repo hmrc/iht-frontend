@@ -104,6 +104,7 @@ case class RegistrationDetailsReturn(applicantDetails: ApplicantDetails, decease
                 <ukAddressLine4>addr4</ukAddressLine4>
             </ukAddress>
             <doesLiveInUK>true</doesLiveInUK>
+            <isAnExecutor>true</isAnExecutor>
             <isApplyingForProbate>true</isApplyingForProbate>
             <phoneNo>${applicantDetails.phoneNo.get}</phoneNo>
             <nino>${applicantDetails.nino.get}</nino>

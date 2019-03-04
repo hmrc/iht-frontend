@@ -24,7 +24,7 @@ trait ApplicationStatusViewBehaviour extends GenericNonSubmittablePageBehaviour 
 
   def commonGuidanceParagraphs = Set(
     messagesApi("page.iht.application.overview.common.ifYouNeed"),
-    messagesApi("page.iht.application.overview.common.p1"),
+    messagesApi("page.iht.application.overview.common.p1", "https://www.gov.uk/wills-probate-inheritance/applying-for-a-grant-of-representation"),
     messagesApi("page.iht.application.probate.data.ihtIdentifier"),
     messagesApi("page.iht.application.probate.data.grossEstateFigure"),
     messagesApi("page.iht.application.probate.data.netEstateFigure"),

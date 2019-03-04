@@ -51,6 +51,7 @@ trait KickoutRegController extends RegistrationController {
   lazy val deceasedPermHomePageLoad = iht.controllers.registration.deceased.routes.DeceasedPermanentHomeController.onPageLoad()
   lazy val deceasedDateOfDeathPageLoad = iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad()
   lazy val applicantApplyingForProbatePageLoad = iht.controllers.registration.applicant.routes.ApplyingForProbateController.onPageLoad()
+  lazy val applicantIsAnExecutorPageLoad = iht.controllers.registration.applicant.routes.IsAnExecutorController.onPageLoad()
 
   def probateKickoutView(contentLines: Seq[String])(implicit request: Request[_], messages:Messages) =
     kickout_template(messages("page.iht.registration.applicantDetails.kickout.probate.summary"),
@@ -69,9 +70,12 @@ trait KickoutRegController extends RegistrationController {
     kickout_template(messages("page.iht.registration.deceasedDateOfDeath.kickout.date.other.summary"),
       deceasedDateOfDeathPageLoad)(contentLines)(request, applicationMessages,formPartialRetriever)
 
-  def notApplyingForProbateKickoutView(contentLines: Seq[String])(implicit request: Request[_], messages:Messages, deceasedName: String) =
-    kickout_template(messages("page.iht.registration.notApplyingForProbate.kickout.summary", deceasedName),
-      applicantApplyingForProbatePageLoad)(contentLines)(request, applicationMessages, formPartialRetriever)
+  def notApplyingForProbateKickoutView(contentLines: Seq[String])(implicit request: Request[_], messages:Messages) =
+    kickout_expander(messages("page.iht.registration.notApplyingForProbate.kickout.summary"),
+      applicantApplyingForProbatePageLoad, messages("iht.changeYourAnswer"))(contentLines)(request, applicationMessages, formPartialRetriever)
+
+  def notAnExecutorKickoutView(content: String)(implicit request: Request[_], messages:Messages) =
+    kickout_template_simple(applicantIsAnExecutorPageLoad, messages("iht.changeYourAnswer"))(content)(request, applicationMessages, formPartialRetriever)
 
   def content(implicit messages:Messages, deceasedName: String): Map[String, Request[_] => HtmlFormat.Appendable] = Map(
     KickoutApplicantDetailsProbateScotland ->
@@ -112,9 +116,13 @@ trait KickoutRegController extends RegistrationController {
       ))(request, messages)),
     KickoutNotApplyingForProbate ->
       (request => notApplyingForProbateKickoutView(Seq(
-        messages("page.iht.registration.notApplyingForProbate.kickout.p1", deceasedName),
-        messages("iht.ifYouWantToChangeYourAnswer")
-      ))(request, messages, deceasedName)))
+        messages("page.iht.registration.notApplyingForProbate.kickout.p1"),
+        messages("page.iht.registration.notApplyingForProbate.kickout.p2")
+      ))(request, messages)),
+    KickoutNotAnExecutor ->
+      (request => notAnExecutorKickoutView(
+        messages("page.iht.registration.notAnExecutor.kickout.p1"))(request, messages))
+  )
 
   def onPageLoad = authorisedForIht {
     implicit request => {

@@ -153,7 +153,8 @@ object CommonBuilder {
     phoneNo = Some(DefaultPhoneNo),
     role = Some(DefaultRole),
     doesLiveInUK = Some(true),
-    isApplyingForProbate = Some(true)
+    isApplyingForProbate = Some(true),
+    isAnExecutor = Some(true)
   )
 
   // Creates the DeceasedDetails with default values
