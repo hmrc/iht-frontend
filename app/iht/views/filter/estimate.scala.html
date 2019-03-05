@@ -27,7 +27,7 @@ browserTitle = Some(Messages("iht.roughEstimateEstateWorth")),
 isFullWidth = false,
 hasSignOut = false,
 hasTimeOut = false,
-headingClass = "heading-medium"){
+headingClass = "heading-xlarge"){
 
 @form(action = submitRoute,'autoComplete -> "off") {
 
@@ -44,7 +44,8 @@ FieldMappings.estimateChoices.toSeq,
 '_legend -> Html(Messages("iht.roughEstimateEstateWorth")),
 '_groupClass -> "form-group",
 '_labelClass -> "block-label radio-label",
-'_labelTextClass -> "form-label-bold")
+'_labelTextClass -> "form-label-bold",
+'_legendIsHeading -> true)
 
 <div id="continue-button" class="form-group">
     <input id='continue' class='button' type='submit' value='@Messages("iht.continue")'>
