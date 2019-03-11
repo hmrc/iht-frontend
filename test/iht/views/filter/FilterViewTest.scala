@@ -136,12 +136,5 @@ class FilterViewTest extends ViewTestHelper with HtmlSpec with FakeIhtApp {
 
       formElement.attr("action") must be(iht.controllers.filter.routes.FilterController.onSubmit().url)
     }
-
-    "contain content related to user research" in {
-      val result = filter_view(filterForm)(fakeRequest, applicationMessages, formPartialRetriever)
-      val content = contentAsString(result)
-      content must include(messagesApi("site.userResearchLink.link"))
-      content must include(messagesApi("site.userResearchLink.text"))
-    }
   }
 }

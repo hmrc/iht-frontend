@@ -20,7 +20,6 @@
 @import iht.utils.StringHelper
 @import iht.views.html.ihtHelpers.custom
 @import iht.views.html.ihtHelpers.custom.full_width_banner
-@import iht.views.html.ihtHelpers.custom.full_width_banner_content_ur
 @import iht.views.html.ihtHelpers.standard
 @import uk.gov.hmrc.play.language.LanguageUtils
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
@@ -41,7 +40,6 @@
         headingClass: String = "",
         headingName: String = "",
         isRegistration: Boolean = false,
-        isUserResearchBannerVisible:Boolean = false,
         highlightBoxClass:Option[String] = None,
         optionContentBelowTitle: Option[Html] = None
 )(mainContent: Html)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
@@ -151,18 +149,6 @@
     @standard.header_nav(headerTitle, None, Some(navLinks))
 }
 
-    @afterHeader = {
-    @if(isUserResearchBannerVisible) {
-        @full_width_banner(Some(full_width_banner_content_ur(
-            messages("site.userResearchLink.link"),
-            IhtProperties.linkUser,
-            Some(messages("site.userResearchLink.text"))
-        )
-        )
-        )
-    }
-}
-
     @mainContentIht = {
     @if(title > ""){
         @highlightBoxClass.map{css=>
@@ -229,7 +215,7 @@
     head = layouts.head(linkElem = Some(linkElement), headScripts = None),
     bodyEnd = bodyEnd,
     insideHeader = insideHeader,
-    afterHeader = afterHeader,
+    afterHeader = HtmlFormat.empty,
     footerTop = HtmlFormat.empty,
     footerLinks = Some(iht.views.html.ihtHelpers.standard.footer_links()),
     nav = true)(content)

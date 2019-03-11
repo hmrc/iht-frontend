@@ -86,13 +86,6 @@ site.headers.overview.section = Section
 site.headers.overview.values = Information Provided
 site.headers.overview.action = Action
 
-site.dismissBanner = No thanks
-site.dismissBanner.screenreader = I don’t want to answer any questions about joining the research panel
-site.userResearchLink.title = Help improve GOV.UK
-site.userResearchLink.link = Help us to improve GOV.UK by testing this service.
-site.userResearchLink.text = Testing is anonymous and takes 10 minutes.
-
-
 iht.notStarted = Not started
 iht.notStarted.screenreader = {0} is not started
 iht.inComplete = Incomplete
