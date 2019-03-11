@@ -38,15 +38,15 @@ object ApplicantForms {
     )
   )
 
-  val areYouAnExecutorForm = Form(
+  val executorOfEstateForm = Form(
     mapping(
-      "areYouAnExecutor" -> yesNoQuestion("error.applicantAreYouAnExecutor.select")
+      "executorOfEstate" -> yesNoQuestion("error.applicantExecutorOfEstate.select")
     )
     (
-      (isAnExecutor) => ApplicantDetails(isAnExecutor = isAnExecutor)
+      (executorOfEstate) => ApplicantDetails(executorOfEstate = executorOfEstate)
     )
     (
-      (a: ApplicantDetails) => Some(a.isAnExecutor)
+      (a: ApplicantDetails) => Some(a.executorOfEstate)
     )
   )
 

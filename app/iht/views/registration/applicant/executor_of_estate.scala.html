@@ -22,28 +22,28 @@
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import org.apache.commons.lang3.StringEscapeUtils
 
-@(areYouAnExecutorForm:Form[iht.models.ApplicantDetails], deceasedName: String,
+@(executorOfEstateForm:Form[iht.models.ApplicantDetails], deceasedName: String,
     actionLocation: Call,
     cancelLocation: Option[Call] = None)(implicit request:Request[_], lang: play.api.i18n.Lang, messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_registration(title = "",
-browserTitle = Some(Messages("page.iht.registration.applicant.areYouExecutor.browserTitle")),
+browserTitle = Some(Messages("page.iht.registration.applicant.executorOfEstate.browserTitle")),
 isFullWidth=false,
 cancelUrl=cancelLocation,
 hasTimeOut=true) {
 
-@ihtHelpers.custom.error_summary(areYouAnExecutorForm)
+@ihtHelpers.custom.error_summary(executorOfEstateForm)
 
 @helpers.form(action = actionLocation,'autoComplete -> "off") {
 
   @ihtHelpers.standard.input_yes_no_radio_group(
-    areYouAnExecutorForm("areYouAnExecutor"),
-    '_legend -> Messages("page.iht.registration.applicant.areYouExecutor", ihtHelpers.custom.name(deceasedName).toString),
+    executorOfEstateForm("executorOfEstate"),
+    '_legend -> Messages("page.iht.registration.applicant.executorOfEstate", ihtHelpers.custom.name(deceasedName).toString),
     '_legendClass -> Some("legend-with-heading"),
-    '_fieldsetId -> "are-you-an-executor",
+    '_fieldsetId -> "executor-of-estate",
     '_divClass -> "form-group",
     '_legendIsHeading -> true,
-    '_extraText -> Html("<p class=\"lede\">" + Messages("page.iht.registration.applicant.areYouExecutor.p1") + "</p>")
+    '_extraText -> Html("<p class=\"lede\">" + Messages("page.iht.registration.applicant.executorOfEstate.p1") + "</p>")
   )
 
 @ihtHelpers.custom.continue_button()

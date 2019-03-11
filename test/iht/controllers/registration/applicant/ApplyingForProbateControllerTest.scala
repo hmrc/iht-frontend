@@ -148,7 +148,7 @@ class ApplyingForProbateControllerTest
       val result = controller.onSubmit(request)
       status(result) must be(SEE_OTHER)
       redirectLocation(result) must be(
-        Some(iht.controllers.registration.applicant.routes.IsAnExecutorController.onPageLoad().url))
+        Some(iht.controllers.registration.applicant.routes.executorOfEstateController.onPageLoad().url))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val applicant = capturedValue.applicantDetails.get

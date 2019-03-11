@@ -54,7 +54,7 @@ trait RegistrationController extends FrontendController with IhtBaseController {
 
   lazy val guardConditionsApplicantApplyingForProbateQuestion = Set(isThereADeceasedAddress)
 
-  lazy val guardConditionsApplicantApplyingIsAnExecutorQuestion = Set(isApplicantApplyingForProbateQuestionAnswered)
+  lazy val guardConditionsApplicantExecutorOfEstateQuestion = Set(isApplicantApplyingForProbateQuestionAnswered)
 
   lazy val guardConditionsApplicantProbateLocation = Set(isApplicantAnExecutorAnswered)
 

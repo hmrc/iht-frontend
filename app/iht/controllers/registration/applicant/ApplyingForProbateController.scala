@@ -71,5 +71,5 @@ trait ApplyingForProbateController extends RegistrationApplicantControllerWithEd
     rd copy (applicantDetails = Some(x))
   }
 
-  def onwardRoute(rd: RegistrationDetails) = routes.IsAnExecutorController.onPageLoad
+  def onwardRoute(rd: RegistrationDetails) = routes.executorOfEstateController.onPageLoad
 }

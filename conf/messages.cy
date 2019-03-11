@@ -110,11 +110,11 @@ page.iht.registration.deceasedDetails.maritalStatus.label=Beth oedd statws priod
 page.iht.application.overview.exemptions.screenReader.moreDetails.link=Rhowch ragor o fanylion ynghylch eithriadau''r ystâd
 
 page.iht.registration.applicant.applyingForProbate=A oes angen profiant arnoch ar gyfer ystâd {0}?
-page.iht.registration.applicant.areYouExecutor.browserTitle=A ydych yn ysgutor?
-page.iht.registration.applicant.areYouExecutor=A ydych yn un o’r ysgutorion ar gyfer ystâd {0}?
-page.iht.registration.applicant.areYouExecutor.p1=Mae’n rhaid i chi fod yn un o ysgutorion yr ystâd a enwir ar y cais am brofiant, neu’n bwriadu gwneud cais i gael eich enwi fel gweinyddwr (os nad oedd ewyllys).
+page.iht.registration.applicant.executorOfEstate.browserTitle=A ydych yn ysgutor?
+page.iht.registration.applicant.executorOfEstate=A ydych yn un o’r ysgutorion ar gyfer ystâd {0}?
+page.iht.registration.applicant.executorOfEstate.p1=Mae’n rhaid i chi fod yn un o ysgutorion yr ystâd a enwir ar y cais am brofiant, neu’n bwriadu gwneud cais i gael eich enwi fel gweinyddwr (os nad oedd ewyllys).
 page.iht.registration.notAnExecutor.kickout.p1=Mae angen i un o ysgutorion yr ystâd a enwir ar y cais am brofiant, neu sy’n bwriadu gwneud cais i gael ei enwi fel gweinyddwr (os nad oedd ewyllys), lenwi’r Ffurflen Treth Etifeddiant.
-error.applicantAreYouAnExecutor.select=Atebwch y cwestiwn sy’n gofyn a ydych yn ysgutor
+error.applicantExecutorOfEstate.select=Atebwch y cwestiwn sy’n gofyn a ydych yn ysgutor
 
 iht.inheritanceTaxEstateReport=Adroddiad Treth Etifeddiant ynghylch yr ystâd
 page.iht.application.insurance.policies.section6.guidance=Caiff blwydd-dal ei dalu drwy gyfrwng nifer o daliadau rheolaidd. Gall hynny, weithiau, fod oddi wrth gwmni yswiriant pan fo rhywun yn cael taliad rheolaidd yn hytrach na un taliad sengl. Dylech gymryd eich amser i wirio gyda darparwyr ariannol gwahanol i weld a brynwyd blwydd-dal.

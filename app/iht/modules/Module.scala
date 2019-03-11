@@ -192,7 +192,7 @@ class Module extends AbstractModule {
     bind(classOf[ApplicantAddressController]).to(classOf[ApplicantAddressControllerImpl]).asEagerSingleton
     bind(classOf[ApplicantTellUsAboutYourselfController]).to(classOf[ApplicantTellUsAboutYourselfControllerImpl]).asEagerSingleton
     bind(classOf[ApplyingForProbateController]).to(classOf[ApplyingForProbateControllerImpl]).asEagerSingleton
-    bind(classOf[IsAnExecutorController]).to(classOf[IsAnExecutorControllerImpl]).asEagerSingleton
+    bind(classOf[executorOfEstateController]).to(classOf[executorOfEstateControllerImpl]).asEagerSingleton
     bind(classOf[ProbateLocationController]).to(classOf[ProbateLocationControllerImpl]).asEagerSingleton
     bind(classOf[AboutDeceasedController]).to(classOf[AboutDeceasedControllerImpl]).asEagerSingleton
     bind(classOf[DeceasedAddressDetailsOutsideUKController]).to(classOf[DeceasedAddressDetailsOutsideUKControllerImpl]).asEagerSingleton

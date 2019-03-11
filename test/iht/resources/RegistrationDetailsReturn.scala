@@ -92,6 +92,7 @@ case class RegistrationDetailsReturn(applicantDetails: ApplicantDetails, decease
             <firstName>${applicantDetails.firstName.get}</firstName>
             <lastName>${applicantDetails.lastName.get}</lastName>
             <country>England or Wales</country>
+            <executorOfEstate>true</executorOfEstate>
             <role>Lead Executor</role>
             <middleName/>
             <dateOfBirth>1998-12-12</dateOfBirth>
@@ -104,7 +105,6 @@ case class RegistrationDetailsReturn(applicantDetails: ApplicantDetails, decease
                 <ukAddressLine4>addr4</ukAddressLine4>
             </ukAddress>
             <doesLiveInUK>true</doesLiveInUK>
-            <isAnExecutor>true</isAnExecutor>
             <isApplyingForProbate>true</isApplyingForProbate>
             <phoneNo>${applicantDetails.phoneNo.get}</phoneNo>
             <nino>${applicantDetails.nino.get}</nino>

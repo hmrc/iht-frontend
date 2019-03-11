@@ -16,29 +16,29 @@
 
 package iht.views.registration.applicant
 
-import iht.forms.registration.ApplicantForms.areYouAnExecutorForm
+import iht.forms.registration.ApplicantForms.executorOfEstateForm
 import iht.models.ApplicantDetails
 import iht.testhelpers.CommonBuilder
-import iht.views.html.registration.applicant.are_you_an_executor
+import iht.views.html.registration.applicant.executor_of_estate
 import iht.views.registration.YesNoQuestionViewBehaviour
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
 
-class AreYouAnExecutorViewTest extends YesNoQuestionViewBehaviour[ApplicantDetails] {
+class ExecutorOfEstateViewTest extends YesNoQuestionViewBehaviour[ApplicantDetails] {
 
   lazy val name = CommonBuilder.firstNameGenerator
 
-  override def guidanceParagraphs = Set(messagesApi("page.iht.registration.applicant.areYouExecutor.p1"))
+  override def guidanceParagraphs = Set(messagesApi("page.iht.registration.applicant.executorOfEstate.p1"))
 
-  override def pageTitle = messagesApi("page.iht.registration.applicant.areYouExecutor", name)
+  override def pageTitle = messagesApi("page.iht.registration.applicant.executorOfEstate", name)
 
-  override def browserTitle = messagesApi("page.iht.registration.applicant.areYouExecutor.browserTitle")
+  override def browserTitle = messagesApi("page.iht.registration.applicant.executorOfEstate.browserTitle")
 
-  override def form: Form[ApplicantDetails] = areYouAnExecutorForm
+  override def form: Form[ApplicantDetails] = executorOfEstateForm
 
   override def formToView: Form[ApplicantDetails] => Appendable =
-    form => are_you_an_executor(form, name, CommonBuilder.DefaultCall1)
+    form => executor_of_estate(form, name, CommonBuilder.DefaultCall1)
 
   "Applying For Probate View" must {
     behave like yesNoQuestion

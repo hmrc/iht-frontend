@@ -442,9 +442,9 @@ page.iht.registration.applicant.applyingForProbate = Do you need probate for {0}
 iht.registration.applicant.applyingForProbate = Are you applying for probate for the estate?
 
 #Registration - Applicant Are You An Executor
-page.iht.registration.applicant.areYouExecutor.browserTitle = Are you an executor?
-page.iht.registration.applicant.areYouExecutor.p1 = You need to be an executor of the estate being named on the probate application, or intend to apply to be named as an administrator (if there was no will).
-page.iht.registration.applicant.areYouExecutor = Are you one of the executors for {0}’s estate?
+page.iht.registration.applicant.executorOfEstate.browserTitle = Are you an executor?
+page.iht.registration.applicant.executorOfEstate.p1 = You need to be an executor of the estate being named on the probate application, or intend to apply to be named as an administrator (if there was no will).
+page.iht.registration.applicant.executorOfEstate = Are you one of the executors for {0}’s estate?
 
 #Registration - Applicant tell us about yourself
 page.iht.registration.applicantTellUsAboutYourself.question.label = Do you live in the UK?
@@ -2442,7 +2442,7 @@ error.deceasedDateOfBirth.giveBeforeDateOfDeath = Give a date of birth that is b
 error.applicant.insufficientCoExecutors = Add details of the other person applying for probate
 error.applicant.selectIfAnyoneElseApplyingForProbate = Select if anyone else is applying for probate
 error.applicantIsApplyingForProbate.select = Give an answer for if you need probate
-error.applicantAreYouAnExecutor.select = Give an answer for if you are an executor
+error.applicantExecutorOfEstate.select = Give an answer for if you are an executor
 error.applicantProbateLocation.select = Select where you are applying for probate
 
 #Errors - Estate report

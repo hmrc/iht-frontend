@@ -114,7 +114,7 @@ class ProbateLocationControllerTest
     }
 
     "respond appropriately to an invalid submit: Missing mandatory fields" in {
-      val applicantDetails = ApplicantDetails(isAnExecutor = Some(true), country = None)
+      val applicantDetails = ApplicantDetails(executorOfEstate = Some(true), country = None)
       val registrationDetails = CommonBuilder.buildRegistrationDetailsWithDeceasedDetails copy (
         applicantDetails = Some(applicantDetails))
       val filledForm = probateLocationForm.fill(applicantDetails)
@@ -175,7 +175,7 @@ class ProbateLocationControllerTest
 
     "return true if the guard conditions are true" in {
       val rd = CommonBuilder.buildRegistrationDetails copy (applicantDetails =
-        Some(ApplicantDetails(isAnExecutor = Some(true))),
+        Some(ApplicantDetails(executorOfEstate = Some(true))),
         deceasedDetails = Some(CommonBuilder.buildDeceasedDetails))
       controller.checkGuardCondition(rd, "") mustBe true
     }
