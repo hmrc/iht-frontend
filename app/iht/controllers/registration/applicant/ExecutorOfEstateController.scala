@@ -30,44 +30,44 @@ import play.api.mvc.{AnyContent, Request}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-class IsAnExecutorControllerImpl @Inject()(val ihtConnector: IhtConnector,
+class executorOfEstateControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                  val cachingConnector: CachingConnector,
                                                  val authConnector: AuthConnector,
-                                                 val formPartialRetriever: FormPartialRetriever) extends IsAnExecutorController {
+                                                 val formPartialRetriever: FormPartialRetriever) extends executorOfEstateController {
 
 }
 
-trait IsAnExecutorController extends RegistrationApplicantControllerWithEditMode {
-  def form = areYouAnExecutorForm
+trait executorOfEstateController extends RegistrationApplicantControllerWithEditMode {
+  def form = executorOfEstateForm
 
-  override def guardConditions: Set[Predicate] = guardConditionsApplicantApplyingIsAnExecutorQuestion
+  override def guardConditions: Set[Predicate] = guardConditionsApplicantExecutorOfEstateQuestion
 
   override def getKickoutReason = RegistrationKickOutHelper.checkNotAnExecutorKickout
 
   override val storageFailureMessage = "Store registration details fails on is an executor submission"
 
-  lazy val submitRoute = routes.IsAnExecutorController.onSubmit
-  lazy val editSubmitRoute = routes.IsAnExecutorController.onEditSubmit
+  lazy val submitRoute = routes.executorOfEstateController.onSubmit
+  lazy val editSubmitRoute = routes.executorOfEstateController.onEditSubmit
 
   def okForPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.are_you_an_executor(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), submitRoute)
+    Ok(views.executor_of_estate(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), submitRoute)
     (request, language, applicationMessages, formPartialRetriever))
 
   def okForEditPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.are_you_an_executor(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, cancelToRegSummary)
+    Ok(views.executor_of_estate(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, cancelToRegSummary)
     (request, language, applicationMessages, formPartialRetriever))
 
   def badRequestForSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.are_you_an_executor(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), submitRoute)
+    BadRequest(views.executor_of_estate(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), submitRoute)
     (request, language, applicationMessages, formPartialRetriever))
 
   def badRequestForEditSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.are_you_an_executor(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, cancelToRegSummary)
+    BadRequest(views.executor_of_estate(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, cancelToRegSummary)
     (request, language, applicationMessages, formPartialRetriever))
 
   def applyChangesToRegistrationDetails(rd: RegistrationDetails, ad: ApplicantDetails, mode: Mode.Value) = {
     val x = rd.applicantDetails.getOrElse(new ApplicantDetails) copy (
-      isAnExecutor = ad.isAnExecutor)
+      executorOfEstate = ad.executorOfEstate)
     rd copy (applicantDetails = Some(x))
   }
 

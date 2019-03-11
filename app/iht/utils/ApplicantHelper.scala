@@ -19,7 +19,7 @@ package iht.utils
 
 object ApplicantHelper {
   val isApplicantApplyingForProbateQuestionAnswered: Predicate = (rd, _) => rd.applicantDetails.flatMap(_.isApplyingForProbate).isDefined
-  val isApplicantAnExecutorAnswered: Predicate = (rd, _) => rd.applicantDetails.flatMap(_.isAnExecutor).isDefined
+  val isApplicantAnExecutorAnswered: Predicate = (rd, _) => rd.applicantDetails.flatMap(_.executorOfEstate).isDefined
   val isThereAnApplicantProbateLocation: Predicate = (rd, _) => rd.applicantDetails.flatMap(_.country).isDefined
   val isThereAnApplicantPhoneNo: Predicate = (rd, _) => rd.applicantDetails.flatMap(_.phoneNo).isDefined
 

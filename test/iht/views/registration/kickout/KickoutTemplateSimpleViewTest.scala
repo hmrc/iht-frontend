@@ -25,7 +25,7 @@ import play.api.i18n.Messages.Implicits._
   */
 class KickoutTemplateSimpleViewTest extends ViewTestHelper{
 
-  val returnLinkUrl = iht.controllers.registration.applicant.routes.IsAnExecutorController.onPageLoad
+  val returnLinkUrl = iht.controllers.registration.applicant.routes.executorOfEstateController.onPageLoad
   val Contents = messagesApi("page.iht.registration.notAnExecutor.kickout.p1")
 
   def kickOutTemplateView() = {

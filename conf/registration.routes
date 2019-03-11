@@ -59,11 +59,11 @@ POST        /change-your-role                                   @iht.controllers
 
 ## applicant - executor of estate ##
 
-GET         /are-you-an-executor                                @iht.controllers.registration.applicant.IsAnExecutorController.onPageLoad
-POST        /are-you-an-executor                                @iht.controllers.registration.applicant.IsAnExecutorController.onSubmit
+GET         /executor-of-estate                                 @iht.controllers.registration.applicant.executorOfEstateController.onPageLoad
+POST        /executor-of-estate                                 @iht.controllers.registration.applicant.executorOfEstateController.onSubmit
 
-GET         /change-are-you-an-executor                         @iht.controllers.registration.applicant.IsAnExecutorController.onEditPageLoad
-POST        /change-are-you-an-executor                         @iht.controllers.registration.applicant.IsAnExecutorController.onEditSubmit
+GET         /change-executor-of-estate                          @iht.controllers.registration.applicant.executorOfEstateController.onEditPageLoad
+POST        /change-executor-of-estate                          @iht.controllers.registration.applicant.executorOfEstateController.onEditSubmit
 
 ## applicant - probate location ##
 

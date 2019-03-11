@@ -39,7 +39,7 @@ case class ApplicantDetails(firstName: Option[String] = None,
                             role: Option[String] = Some(IhtProperties.roleLeadExecutor),
                             doesLiveInUK: Option[Boolean] = None,
                             isApplyingForProbate: Option[Boolean] = None,
-                            isAnExecutor: Option[Boolean] = None
+                            executorOfEstate: Option[Boolean] = None
                            ) {
 
   val name = firstName.getOrElse("") + " " + lastName.getOrElse("")

@@ -78,7 +78,7 @@ object RegistrationKickOutHelper {
   }
 
   def checkNotAnExecutorKickout(rd: RegistrationDetails): Option[String] = {
-    rd.applicantDetails.flatMap(_.isAnExecutor).flatMap{
+    rd.applicantDetails.flatMap(_.executorOfEstate).flatMap{
       case true => None
       case _ => Some(RegistrationKickOutHelper.KickoutNotAnExecutor)
     }
