@@ -20,8 +20,6 @@ import iht.config.IhtPropertiesReader._
 import org.joda.time.LocalDate
 import play.api.Logger
 
-import scala.util.Random
-
 /**
   * Created by yasar on 25/11/15.
   */
@@ -86,13 +84,6 @@ object IhtProperties {
   lazy val linkIHT205PDF: String = getProperty("linkIHT205PDF")
   lazy val linkContactHMRC: String = getProperty("linkContactHMRC")
   lazy val linkLandRegistry: String = getProperty("linkLandRegistry")
-
-  def linkUser = if (Random.nextBoolean()){
-    getProperty("linkUserResearch1")
-  } else {
-    getProperty("linkUserResearch2")
-  }
-
   lazy val linkPayEarly: String = getProperty("linkPayEarly")
   lazy val charityLink: String = getProperty("charityLink")
   lazy val correctiveAccountsLink: String = getProperty("correctiveAccountLink")
