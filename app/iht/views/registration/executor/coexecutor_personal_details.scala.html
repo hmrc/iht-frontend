@@ -31,7 +31,7 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
   isFullWidth=false,
   cancelUrl=cancelLocation,
   hasTimeOut=true,
-  headingClass=Some("heading-large")) {
+  headingClass="heading-xlarge") {
 
 @ihtHelpers.custom.error_summary(coExecutorDetails, Some(
     Map(
