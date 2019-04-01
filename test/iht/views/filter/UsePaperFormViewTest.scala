@@ -74,7 +74,6 @@ class UsePaperFormViewTest extends ViewTestHelper {
       val doc = getPageAsDoc("iht.countries.scotland")
       val link = doc.getElementById("scottish-courts-link")
       link.text must be(messagesApi("page.iht.filter.paperform.scotland.link.text"))
-      link.attr("rel") must be("external")
       link.attr("href") must be(IhtProperties.linkScottishCourtAndTribunal)
     }
 
@@ -136,7 +135,6 @@ class UsePaperFormViewTest extends ViewTestHelper {
       val doc = getPageAsDoc("iht.countries.northernIreland")
       val link = doc.getElementById("nidirect-link")
       link.text must be(messagesApi("page.iht.filter.paperform.northern.ireland.nidirect.link.text"))
-      link.attr("rel") must be("external")
       link.attr("href") must be("https://www.nidirect.gov.uk/articles/applying-probate")
     }
 

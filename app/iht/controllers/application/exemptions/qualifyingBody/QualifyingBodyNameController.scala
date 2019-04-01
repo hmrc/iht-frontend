@@ -46,7 +46,7 @@ trait QualifyingBodyNameController extends EstateController {
 
 
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(routes.QualifyingBodyNameController.onSubmit(), Some(ExemptionsOtherNameID))
-  val cancelUrl = routes.QualifyingBodyDetailsOverviewController.onPageLoad()
+  def cancelUrl = routes.QualifyingBodyDetailsOverviewController.onPageLoad()
 
   private def editCancelUrl(id: String) = routes.QualifyingBodyDetailsOverviewController.onEditPageLoad(id)
   private def editSubmitUrl(id: String) = CommonHelper.addFragmentIdentifier(routes.QualifyingBodyNameController.onEditSubmit(id), Some(ExemptionsOtherNameID))

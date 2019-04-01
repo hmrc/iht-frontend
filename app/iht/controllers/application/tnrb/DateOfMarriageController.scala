@@ -49,7 +49,7 @@ class DateOfMarriageControllerImpl @Inject()(val ihtConnector: IhtConnector,
 
 trait DateOfMarriageController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
-  lazy val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
+  def cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
   private def predeceasedName(appDetails: ApplicationDetails)(implicit messages: Messages) = {
     TnrbHelper.spouseOrCivilPartnerLabelPossessive(

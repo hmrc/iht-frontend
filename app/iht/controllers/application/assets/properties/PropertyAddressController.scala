@@ -58,7 +58,7 @@ trait PropertyAddressController extends EstateController {
   def locationAfterSuccessfulSave(id: String) = CommonHelper.addFragmentIdentifier(
     routes.PropertyDetailsOverviewController.onEditPageLoad(id), Some(AssetsPropertiesPropertyAddressID))
 
-  lazy val cancelUrl = routes.PropertyDetailsOverviewController.onPageLoad()
+  def cancelUrl = routes.PropertyDetailsOverviewController.onPageLoad()
   lazy val submitUrl = routes.PropertyAddressController.onSubmit()
   lazy val cancelLabel = Messages("iht.estateReport.assets.properties.returnToAddAProperty")
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionProperties)

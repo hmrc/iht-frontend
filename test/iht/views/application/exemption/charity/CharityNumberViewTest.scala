@@ -61,7 +61,7 @@ class CharityNumberViewTest extends ValueViewBehaviour[Charity] {
 
     behave like link("charity-register",
       charityLink,
-      messagesApi("page.iht.application.exemptions.charityNumber.linkText"))
+      (messagesApi("page.iht.application.exemptions.charityNumber.linkText")))
     
   }
 }

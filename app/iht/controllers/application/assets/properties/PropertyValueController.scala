@@ -47,7 +47,7 @@ trait PropertyValueController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionProperties)
   lazy val cancelRedirectLocation = routes.PropertiesOverviewController.onPageLoad()
   lazy val submitUrl = iht.controllers.application.assets.properties.routes.PropertyValueController.onSubmit()
-  lazy val cancelUrl = iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad()
+  def cancelUrl = iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad()
 
   def editCancelUrl(id: String) = iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onEditPageLoad(id)
 

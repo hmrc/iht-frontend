@@ -46,7 +46,7 @@ trait CharityNumberController extends EstateController {
 
 
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(routes.CharityNumberController.onSubmit(), Some(ExemptionsCharitiesNumberID))
-  val cancelUrl = routes.CharityDetailsOverviewController.onPageLoad()
+  def cancelUrl = iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onPageLoad
 
   val updateApplicationDetails: (ApplicationDetails, Option[String], Charity) => (ApplicationDetails, Option[String]) =
     (appDetails, id, charity) => {

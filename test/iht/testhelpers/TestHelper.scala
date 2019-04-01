@@ -83,7 +83,7 @@ object TestHelper {
   val LinkPayEarly = "https://www.gov.uk/paying-inheritance-tax/pay-early"
 
   val ExemptionsGuidanceSeen = "ExemptionGuidanceSeen"
-  val charityLink = "https://www.gov.uk/government/organisations/charity-commission"
+  val charityLink = "http://apps.charitycommission.gov.uk/showcharity/registerofcharities/RegisterHomePage.aspx"
 
   val GiftsGuidanceSeen = "GiftsGuidanceSeen"
   val GiftsMaxValue = 150000
