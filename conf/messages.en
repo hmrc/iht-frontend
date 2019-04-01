@@ -60,6 +60,7 @@ site.link.giveNumber = Give number
 site.link.giveDetails = Give details
 site.link.giveValue = Give value
 site.link.giveAValue = Give a value
+site.link.externalLink = (opens in a new window)
 site.noneInEstate = None in estate
 site.noDebts = No debts owed
 site.noAssets = No assets
@@ -1503,9 +1504,8 @@ page.iht.application.exemptions.assetLeftToCharity.p2 = You should add each indi
 page.iht.application.exemptions.assetLeftToCharity.screenreader.ident = Charity {0}.
 
 page.iht.application.exemptions.charityNumber.browserTitle = Charity number
-page.iht.application.exemptions.charityNumber.p1 = You can find the registered charity number by
-page.iht.application.exemptions.charityNumber.linkText = searching the charity register
-page.iht.application.exemptions.charityNumber.p2 = on the Charity Commission website
+page.iht.application.exemptions.charityNumber.p1 = You can find the registered charity number on the Charity Commission website by
+page.iht.application.exemptions.charityNumber.linkText = searching the charity register (opens in a new window or tab).
 
 page.iht.application.exemptions.charityDelete.sectionTitle = Confirm that you want to delete this charity
 page.iht.application.exemptions.charityDelete.browserTitle = Delete charity

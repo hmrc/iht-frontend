@@ -28,7 +28,7 @@ import iht.views.html.application.exemption.charity.charity_name
 import javax.inject.Inject
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Call, Request}
+import play.api.mvc.{Action, AnyContent, Call, Request}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
@@ -43,13 +43,13 @@ class CharityNameControllerImpl @Inject()(val cachingConnector: CachingConnector
 trait CharityNameController extends EstateController {
 
 
-  lazy val submitUrl = CommonHelper.addFragmentIdentifier(routes.CharityNameController.onSubmit(), Some(ExemptionsCharitiesNameID))
-  val cancelUrl = routes.CharityDetailsOverviewController.onPageLoad()
+  lazy val submitUrl: Call = CommonHelper.addFragmentIdentifier(routes.CharityNameController.onSubmit(), Some(ExemptionsCharitiesNameID))
+  def cancelUrl: Call = routes.CharityDetailsOverviewController.onPageLoad()
 
-  def editCancelUrl(id: String) = routes.CharityDetailsOverviewController.onEditPageLoad(id)
-  def editSubmitUrl(id: String) = CommonHelper.addFragmentIdentifier(routes.CharityNameController.onEditSubmit(id), Some(ExemptionsCharitiesNameID))
+  def editCancelUrl(id: String): Call = routes.CharityDetailsOverviewController.onEditPageLoad(id)
+  def editSubmitUrl(id: String): Call = CommonHelper.addFragmentIdentifier(routes.CharityNameController.onEditSubmit(id), Some(ExemptionsCharitiesNameID))
 
-  def locationAfterSuccessfulSave(optionID: Option[String]) = CommonHelper.getOrException(
+  def locationAfterSuccessfulSave(optionID: Option[String]): Call = CommonHelper.getOrException(
     optionID.map(id=>routes.CharityDetailsOverviewController.onEditPageLoad(id)))
 
   val updateApplicationDetails: (ApplicationDetails, Option[String], Charity) => (ApplicationDetails, Option[String]) =
@@ -70,7 +70,7 @@ trait CharityNameController extends EstateController {
     }
 
 
-  def onPageLoad = authorisedForIht {
+  def onPageLoad: Action[AnyContent] = authorisedForIht {
     implicit request => {
       withRegistrationDetails { regDetails =>
         Future.successful(Ok(iht.views.html.application.exemption.charity.charity_name(charityNameForm,

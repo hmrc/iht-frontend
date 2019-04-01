@@ -45,7 +45,7 @@ class PartnerNameControllerImpl @Inject()(val ihtConnector: IhtConnector,
 
 trait PartnerNameController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
-  lazy val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
+  def cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
 

@@ -47,7 +47,7 @@ class PropertyTypeControllerImpl @Inject()(val metrics: IhtMetrics,
 trait PropertyTypeController extends EstateController {
 
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionProperties)
-  val cancelUrl = routes.PropertyDetailsOverviewController.onPageLoad()
+  def cancelUrl = routes.PropertyDetailsOverviewController.onPageLoad()
   lazy val submitUrl = routes.PropertyTypeController.onSubmit()
 
   def editCancelUrl(id: String) = routes.PropertyDetailsOverviewController.onEditPageLoad(id)
