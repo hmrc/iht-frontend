@@ -16,6 +16,7 @@
 
 package iht.controllers.registration.applicant
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, CitizenDetailsConnector}
 import iht.controllers.ControllerHelper.Mode
 import iht.controllers.registration.{routes => registrationRoutes}
@@ -25,14 +26,14 @@ import iht.models.{ApplicantDetails, CidPerson, RegistrationDetails}
 import iht.utils.{SessionHelper, StringHelper}
 import iht.views.html.registration.{applicant => views}
 import javax.inject.Inject
-import play.api.Play.current
 import play.api.data.Form
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{AnyContent, Call, Request, Result}
+import play.api.i18n.Messages
+import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.http.NotFoundException
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -41,10 +42,13 @@ class ApplicantTellUsAboutYourselfControllerImpl @Inject()(val citizenDetailsCon
                                                            val metrics: IhtMetrics,
                                                            val cachingConnector: CachingConnector,
                                                            val authConnector: AuthConnector,
-                                                           val formPartialRetriever: FormPartialRetriever) extends ApplicantTellUsAboutYourselfController
+                                                           val formPartialRetriever: FormPartialRetriever,
+                                                           implicit val appConfig: AppConfig,
+                                                           val cc: MessagesControllerComponents)
+  extends FrontendController(cc) with ApplicantTellUsAboutYourselfController
 
-trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantControllerWithEditMode {
-  def form = applicantTellUsAboutYourselfForm
+trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantControllerWithEditMode with StringHelper {
+  def form(implicit messsages: Messages) = applicantTellUsAboutYourselfForm
 
   override def guardConditions: Set[Predicate] = guardConditionsApplicantContactDetails
 
@@ -56,8 +60,7 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
   lazy val editSubmitRoute = routes.ApplicantTellUsAboutYourselfController.onEditSubmit
 
   def okForPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.applicant_tell_us_about_yourself(form, Mode.Standard, submitRoute)
-    (request, language, applicationMessages, formPartialRetriever))
+    Ok(views.applicant_tell_us_about_yourself(form, Mode.Standard, submitRoute))
 
   override def pageLoad(mode: Mode.Value) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
@@ -74,16 +77,13 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
   }
 
   def okForEditPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.applicant_tell_us_about_yourself(form, Mode.Edit, editSubmitRoute, cancelToRegSummary)
-    (request, language, applicationMessages, formPartialRetriever))
+    Ok(views.applicant_tell_us_about_yourself(form, Mode.Edit, editSubmitRoute, cancelToRegSummary))
 
   def badRequestForSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.applicant_tell_us_about_yourself(form, Mode.Standard, submitRoute)
-    (request, language, applicationMessages, formPartialRetriever))
+    BadRequest(views.applicant_tell_us_about_yourself(form, Mode.Standard, submitRoute))
 
   def badRequestForEditSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.applicant_tell_us_about_yourself(form, Mode.Edit, editSubmitRoute, cancelToRegSummary)
-  (request, language, applicationMessages, formPartialRetriever))
+    BadRequest(views.applicant_tell_us_about_yourself(form, Mode.Edit, editSubmitRoute, cancelToRegSummary))
 
   // Implementation not required as we are overriding the submit method
   def applyChangesToRegistrationDetails(rd: RegistrationDetails, ad: ApplicantDetails, mode: Mode.Value = Mode.Standard) = ???
@@ -114,16 +114,16 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
             }
           },
           ad => {
-            val nino = Nino(StringHelper.getNino(userNino))
+            val nino = Nino(getNino(userNino))
             val citizenDetailsPersonFuture: Future[CidPerson] = citizenDetailsConnector.getCitizenDetails(nino)
             val applicantDetailsFuture = citizenDetailsPersonFuture.map {
               person: CidPerson => {
                 if (mode == Mode.Standard) {
-                  rd.applicantDetails.getOrElse(new ApplicantDetails) copy(firstName = person.firstName,
+                  rd.applicantDetails.getOrElse(new ApplicantDetails(role = Some(appConfig.roleLeadExecutor))) copy(firstName = person.firstName,
                     lastName = person.lastName, dateOfBirth = person.dateOfBirthLocalDate,
                     nino = Some(nino.nino)) copy(phoneNo = ad.phoneNo, doesLiveInUK = ad.doesLiveInUK)
                 } else {
-                  rd.applicantDetails.getOrElse(new ApplicantDetails) copy (phoneNo = ad.phoneNo)
+                  rd.applicantDetails.getOrElse(new ApplicantDetails(role = Some(appConfig.roleLeadExecutor))) copy (phoneNo = ad.phoneNo)
                 }
               }
             }

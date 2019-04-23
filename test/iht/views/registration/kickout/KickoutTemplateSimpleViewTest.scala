@@ -18,14 +18,13 @@ package iht.views.registration.kickout
 
 import iht.views.ViewTestHelper
 import iht.views.html.registration.kickout.kickout_template_simple
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 
-/**
-  * Created by vineet on 15/11/16.
-  */
+
 class KickoutTemplateSimpleViewTest extends ViewTestHelper{
 
-  val returnLinkUrl = iht.controllers.registration.applicant.routes.executorOfEstateController.onPageLoad
+  val returnLinkUrl = iht.controllers.registration.applicant.routes.ExecutorOfEstateController.onPageLoad
   val Contents = messagesApi("page.iht.registration.notAnExecutor.kickout.p1")
 
   def kickOutTemplateView() = {

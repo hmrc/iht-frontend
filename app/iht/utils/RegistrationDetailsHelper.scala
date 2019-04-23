@@ -16,17 +16,16 @@
 
 package iht.utils
 
-import iht.constants.IhtProperties
+import iht.config.AppConfig
 import iht.models._
 import iht.models.application.ApplicationDetails
 
 import scala.collection.immutable.ListMap
 
-/**
-  *
-  * This object contains all the common functionalities that can be reused
-  */
-object RegistrationDetailsHelper {
+case class RegistrationDetailsHelperFixture(implicit val appConfig: AppConfig) extends RegistrationDetailsHelper
+
+trait RegistrationDetailsHelper {
+  implicit val appConfig: AppConfig
 
   /**
     * Iterates through ListMap of ApplicationDetails->Boolean functions, executing each one in turn, passing in the
@@ -62,9 +61,7 @@ object RegistrationDetailsHelper {
     * @param ad : ApplicationDetails
     * @return
     */
-  def isExemptionsCompleted(rd: RegistrationDetails,
-                            ad: ApplicationDetails) = {
-
+  def isExemptionsCompleted(rd: RegistrationDetails, ad: ApplicationDetails): Boolean = {
     def isExemptionsCompleted(ad:ApplicationDetails) = ad.isCompleteCharities.getOrElse(false) &&
       ad.isCompleteQualifyingBodies.getOrElse(false) &&
       ad.allExemptions.flatMap(_.partner.flatMap(_.isComplete)).getOrElse(false)
@@ -75,9 +72,10 @@ object RegistrationDetailsHelper {
         case _ => false
       }
 
-    !rd.deceasedDetails.flatMap(_.maritalStatus).contains(IhtProperties.statusMarried) match {
-      case true => isExemptionsCompletedWithoutPartnerExemption(ad)
-      case false => isExemptionsCompleted(ad)
+    if (!rd.deceasedDetails.flatMap(_.maritalStatus).contains(appConfig.statusMarried)) {
+      isExemptionsCompletedWithoutPartnerExemption(ad)
+    } else {
+      isExemptionsCompleted(ad)
     }
   }
 

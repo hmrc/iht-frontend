@@ -16,7 +16,7 @@
 
 package iht.views.registration.executor
 
-import iht.forms.registration.CoExecutorForms.{coExecutorAddressAbroadForm, coExecutorAddressUkForm}
+import iht.forms.registration.CoExecutorForms
 import iht.models.UkAddress
 import iht.testhelpers.CommonBuilder
 import iht.utils.StringHelper
@@ -24,17 +24,16 @@ import iht.views.ViewTestHelper
 import iht.views.html.registration.executor.others_applying_for_probate_address
 import iht.views.registration.RegistrationPageBehaviour
 import play.api.data.Form
-import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
 
-trait OthersApplyingForProbateAddressViewTest extends ViewTestHelper {
+trait OthersApplyingForProbateAddressViewTest extends ViewTestHelper with StringHelper with CoExecutorForms {
   def guidance: Seq[String] = Seq(messagesApi("page.iht.registration.others-applying-for-probate-address.address.guidance"))
   def executorName: String = CommonBuilder.firstNameGenerator
 }
 
 class OthersApplyingForProbateAddressViewInUKModeTest extends RegistrationPageBehaviour[UkAddress] with OthersApplyingForProbateAddressViewTest {
   override def pageTitle = messagesApi("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
-    StringHelper.addApostrophe(executorName))
+    addApostrophe(executorName))
   override def browserTitle = messagesApi("page.iht.registration.others-applying-for-probate-address.browserTitle")
 
   override def form:Form[UkAddress] = coExecutorAddressUkForm
@@ -50,7 +49,7 @@ class OthersApplyingForProbateAddressViewInUKModeTest extends RegistrationPageBe
 
 class OthersApplyingForProbateAddressViewInAbroadModeTest extends RegistrationPageBehaviour[UkAddress] with OthersApplyingForProbateAddressViewTest {
   override def pageTitle = messagesApi("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
-    StringHelper.addApostrophe(executorName))
+    addApostrophe(executorName))
   override def browserTitle = messagesApi("page.iht.registration.others-applying-for-probate-address.browserTitle")
 
   override def form:Form[UkAddress] = coExecutorAddressAbroadForm

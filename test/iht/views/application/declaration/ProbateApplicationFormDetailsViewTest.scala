@@ -20,7 +20,8 @@ import iht.testhelpers.CommonBuilder
 import iht.utils.DeceasedInfoHelper
 import iht.views.ViewTestHelper
 import iht.views.html.application.declaration.probate_application_form_details
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 
 class ProbateApplicationFormDetailsViewTest extends ViewTestHelper {
 

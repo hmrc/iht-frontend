@@ -16,22 +16,27 @@
 
 package iht.controllers.application.assets.money
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
+import iht.controllers.application.exemptions.charity.CharityNameController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
 import iht.utils.CommonHelper
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.{contentAsString, _}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-/**
-  * Created by vineet on 01/07/16.
-  */
+
 
 class MoneyJointlyOwnedControllerTest extends ApplicationControllerTest {
 
-
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with MoneyJointlyOwnedController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
   def setUpTests(applicationDetails: ApplicationDetails) = {
     createMocksForApplication(mockCachingConnector,
@@ -42,21 +47,19 @@ class MoneyJointlyOwnedControllerTest extends ApplicationControllerTest {
       storeAppDetailsInCache = true)
   }
 
-  def moneyJointlyOwnedController = new MoneyJointlyOwnedController {
+  def moneyJointlyOwnedController = new TestController {
     val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def moneyJointlyOwnedControllerNotAuthorised = new MoneyJointlyOwnedController {
+  def moneyJointlyOwnedControllerNotAuthorised = new TestController {
     val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
-
-
 
   "MoneyJointlyOwnedController" must {
 

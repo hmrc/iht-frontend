@@ -16,12 +16,16 @@
 
 package iht.controllers.application.exemptions
 
+import iht.config.AppConfig
 import iht.constants.Constants
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.MockObjectBuilder._
+import iht.controllers.application.tnrb.PermanentHomeController
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import org.mockito.ArgumentMatchers._
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
@@ -30,10 +34,13 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class ExemptionsGuidanceIncreasingThresholdControllerTest extends ApplicationControllerTest {
 
-
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with ExemptionsGuidanceIncreasingThresholdController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
   // Create controller object and pass in mock.
-  def controller = new ExemptionsGuidanceIncreasingThresholdController {
+  def controller = new TestController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
@@ -41,7 +48,7 @@ class ExemptionsGuidanceIncreasingThresholdControllerTest extends ApplicationCon
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def controllerNotAuthorised = new ExemptionsGuidanceIncreasingThresholdController {
+  def controllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector

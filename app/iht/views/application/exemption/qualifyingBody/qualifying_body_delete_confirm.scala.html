@@ -16,11 +16,12 @@
 
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.constants.IhtProperties._
+@import iht.config.AppConfig
+
 @import uk.gov.hmrc.play.views.html.helpers.form
 
 @(qualifyingBody: iht.models.application.exemptions.QualifyingBody,
-submitUrl:Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+submitUrl:Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_application(title = Messages("iht.estateReport.exemptions.qualifyingBodies.confirmDeleteQualifyingBody"),
 browserTitle = Some(Messages("page.iht.application.exemptions.qualifyingBodyDelete.browserTitle")),
@@ -43,7 +44,7 @@ isFullWidth=false){
     @ihtHelpers.custom.return_link(
         Messages("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies"),
         Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad()),
-        ExemptionsOtherDeleteID + qualifyingBody.id.getOrElse("")
+        appConfig.ExemptionsOtherDeleteID + qualifyingBody.id.getOrElse("")
     )
 </div>
 }

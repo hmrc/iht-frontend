@@ -25,9 +25,10 @@ import iht.utils.CommonHelper._
 import iht.views.application.{CancelComponent, SubmittableApplicationPageBehaviour}
 import iht.views.html.application.gift.given_away
 import play.api.data.Form
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
-import iht.constants.IhtProperties._
+
 import org.joda.time.LocalDate
 import play.api.i18n.Lang
 
@@ -45,7 +46,7 @@ class GivenAwayViewTest extends SubmittableApplicationPageBehaviour[AllGifts] {
   override def browserTitle = messagesApi("iht.estateReport.gifts.givenAway.title")
 
   def getDateBeforeSevenYears(date: LocalDate) = {
-    date.minusYears(IhtProperties.giftsYears.toInt).plusDays(1)
+    date.minusYears(appConfig.giftsYears.toInt).plusDays(1)
   }
 
   override def guidance = guidance(
@@ -53,8 +54,8 @@ class GivenAwayViewTest extends SubmittableApplicationPageBehaviour[AllGifts] {
       messagesApi("page.iht.application.gifts.lastYears.givenAway.p1",
         deceasedName,
         getDateBeforeSevenYears(
-          getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath).toString(IhtProperties.dateFormatForDisplay),
-        getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath.toString(IhtProperties.dateFormatForDisplay)),
+          getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath).toString(appConfig.dateFormatForDisplay),
+        getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath.toString(appConfig.dateFormatForDisplay)),
       messagesApi("page.iht.application.gifts.lastYears.givenAway.p2", deceasedName)
     )
   )
@@ -92,7 +93,7 @@ class GivenAwayViewTest extends SubmittableApplicationPageBehaviour[AllGifts] {
       link.text mustBe messagesApi("page.iht.application.gifts.return.to.givenAwayBy",
         getOrException(registrationDetails.deceasedDetails).name)
       link.attr("href") mustBe
-        iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad().url + "#" + GiftsGivenAwayQuestionID
+        iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad().url + "#" + appConfig.GiftsGivenAwayQuestionID
     }
 
     "show all previous years as bullet points in the correct order" in {

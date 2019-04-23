@@ -21,12 +21,13 @@ import iht.models.application.tnrb.WidowCheck
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.tnrb.TnrbHelper
 import iht.views.application.YesNoQuestionViewBehaviour
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import iht.views.html.application.tnrb.deceased_widow_check_question
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 
-class DeceasedWidowCheckQuestionViewTest extends YesNoQuestionViewBehaviour[WidowCheck] {
+class DeceasedWidowCheckQuestionViewTest extends YesNoQuestionViewBehaviour[WidowCheck] with TnrbHelper {
 
   override def guidance = noGuidance
 
@@ -39,8 +40,8 @@ class DeceasedWidowCheckQuestionViewTest extends YesNoQuestionViewBehaviour[Wido
     "iht.estateReport.tnrb.partner.married",
     CommonBuilder.buildDeceasedDetails.firstName.get + " "
       + CommonBuilder.buildDeceasedDetails.lastName.get,
-    TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheck.dateOfPreDeceased),
-    TnrbHelper.spouseOrCivilPartnerMessage(widowCheck.dateOfPreDeceased))
+    preDeceasedMaritalStatusSubLabel(widowCheck.dateOfPreDeceased),
+    spouseOrCivilPartnerMessage(widowCheck.dateOfPreDeceased))
 
   override def browserTitle = messagesApi("iht.estateReport.tnrb.increasingIHTThreshold")
 

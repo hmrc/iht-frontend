@@ -19,7 +19,8 @@ package iht.views
 import iht.views.html.iht_main_template
 import play.api.mvc.Call
 import play.twirl.api.HtmlFormat
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.api.i18n.MessagesApi
 
 class IhtMainTemplateTest extends ViewTestHelper {

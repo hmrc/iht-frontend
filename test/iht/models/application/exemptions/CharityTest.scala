@@ -20,15 +20,12 @@ import iht.FakeIhtApp
 import iht.testhelpers.CommonBuilder
 import org.scalatest.mock.MockitoSugar
 import play.api.i18n.{Lang, Messages, MessagesApi}
-import uk.gov.hmrc.play.test.UnitSpec
 
-/**
-  * Created by vineet on 06/11/16.
-  */
 class CharityTest extends FakeIhtApp with MockitoSugar {
 
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-  implicit val messages: Messages = messagesApi.preferred(Seq(Lang("en")))
+  implicit val lang: Lang = Lang("en")
+  implicit val messages: Messages = messagesApi.preferred(Seq(lang))
 
   "isComplete" must {
 

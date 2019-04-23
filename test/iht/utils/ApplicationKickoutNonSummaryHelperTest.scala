@@ -17,6 +17,7 @@
 package iht.utils
 
 import iht.FakeIhtApp
+import iht.config.AppConfig
 import iht.models.UkAddress
 import iht.models.application.assets.Property
 import iht.models.application.basicElements.ShareableBasicEstateElement
@@ -26,7 +27,9 @@ import iht.testhelpers.CommonBuilder._
 import org.scalatest.mockito.MockitoSugar
 import uk.gov.hmrc.play.test.UnitSpec
 
-class ApplicationKickoutNonSummaryHelperTest extends FakeIhtApp with MockitoSugar {
+class ApplicationKickoutNonSummaryHelperTest extends FakeIhtApp with MockitoSugar with ApplicationKickOutNonSummaryHelper {
+  implicit val mockAppConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  val appConfig: AppConfig = mockAppConfig
 
   val registrationDetails = CommonBuilder.buildRegistrationDetails copy(
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails),
@@ -36,7 +39,7 @@ class ApplicationKickoutNonSummaryHelperTest extends FakeIhtApp with MockitoSuga
   "update application details with correct kickout reason and status for TrustsMoreThanOne" in {
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.TrustsMoreThanOne) foreach { ad => {
       val result =
-        ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsInTrust),
+        check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsInTrust),
             registrationDetails=registrationDetails, applicationDetails=ad,
             sectionTotal=Seq(BigDecimal(0)))
         result mustBe Some(KickOutReason.TrustsMoreThanOne)
@@ -47,7 +50,7 @@ class ApplicationKickoutNonSummaryHelperTest extends FakeIhtApp with MockitoSuga
   "update application details with correct kickout reason and status for ForeignAssetsValueMoreThanMax" in {
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.ForeignAssetsValueMoreThanMax) foreach { ad =>
       val result =
-        ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsForeign),
+        check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsForeign),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
       result mustBe Some(KickOutReason.ForeignAssetsValueMoreThanMax)
     }
@@ -56,7 +59,7 @@ class ApplicationKickoutNonSummaryHelperTest extends FakeIhtApp with MockitoSuga
   "update application details with correct kickout reason and status for TrustValueMoreThanMax" in {
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.TrustValueMoreThanMax) foreach { ad =>
       val result =
-        ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyDeceasedOwned),
+        check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyDeceasedOwned),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
       result mustBe Some(KickOutReason.TrustValueMoreThanMax)
     }
@@ -65,7 +68,7 @@ class ApplicationKickoutNonSummaryHelperTest extends FakeIhtApp with MockitoSuga
   "update application details with correct kickout reason and status for PensionDisposedLastTwoYears" in {
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.PensionDisposedLastTwoYears) foreach { ad =>
       val result =
-        ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsPensions),
+        check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsPensions),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
       result mustBe Some(KickOutReason.PensionDisposedLastTwoYears)
     }
@@ -75,7 +78,7 @@ class ApplicationKickoutNonSummaryHelperTest extends FakeIhtApp with MockitoSuga
   "update application details with correct kickout reason and status for InTrustLessThanSevenYears" in {
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.InTrustLessThanSevenYears) foreach { ad =>
       val result =
-        ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsInTrust),
+        check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsInTrust),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
       result mustBe Some(KickOutReason.InTrustLessThanSevenYears)
     }
@@ -84,7 +87,7 @@ class ApplicationKickoutNonSummaryHelperTest extends FakeIhtApp with MockitoSuga
   "update application details with correct kickout reason and status for InsuranceMoreThanMax" in {
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.InsuranceMoreThanMax) foreach { ad =>
       val result =
-        ApplicationKickOutNonSummaryHelper.check(prioritySection=
+        check(prioritySection=
           Some(ApplicationKickOutHelper.ApplicationSectionAssetsInsurancePoliciesMoreThanMax),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
       result mustBe Some(KickOutReason.InsuranceMoreThanMax)
@@ -94,7 +97,7 @@ class ApplicationKickoutNonSummaryHelperTest extends FakeIhtApp with MockitoSuga
   "update application details with correct kickout reason and status for GiftsWithReservationOfBenefit" in {
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.GiftsWithReservationOfBenefit) foreach { ad =>
       val result =
-        ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation),
+        check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
       result mustBe Some(KickOutReason.GiftsWithReservationOfBenefit)
     }
@@ -103,7 +106,7 @@ class ApplicationKickoutNonSummaryHelperTest extends FakeIhtApp with MockitoSuga
   "update application details with correct kickout reason and status for GiftsGivenInPast" in {
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.GiftsGivenInPast) foreach { ad =>
       val result =
-        ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionGiftsGivenAway),
+        check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionGiftsGivenAway),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
       result mustBe Some(KickOutReason.GiftsToTrust)
     }
@@ -112,7 +115,7 @@ class ApplicationKickoutNonSummaryHelperTest extends FakeIhtApp with MockitoSuga
   "update application details with correct kickout reason and status for GiftsToTrust" in {
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.GiftsToTrust) foreach { ad =>
       val result =
-        ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionGiftsGivenAway),
+        check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionGiftsGivenAway),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
       result mustBe Some(KickOutReason.GiftsGivenInPast)
     }
@@ -121,7 +124,7 @@ class ApplicationKickoutNonSummaryHelperTest extends FakeIhtApp with MockitoSuga
   "update application details with correct kickout reason and status for GiftsMaxValue" in {
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.GiftsMaxValue) foreach { ad =>
       val result =
-        ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionGiftsGivenAway),
+        check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionGiftsGivenAway),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
       result mustBe Some(KickOutReason.GiftsMaxValue)
     }
@@ -131,7 +134,7 @@ class ApplicationKickoutNonSummaryHelperTest extends FakeIhtApp with MockitoSuga
     "all asset sections filled in with value" in {
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.AssetsTotalValueMoreThanMax) foreach { ad =>
       val result =
-        ApplicationKickOutNonSummaryHelper.check(prioritySection=None,
+        check(prioritySection=None,
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
       result mustBe Some(KickOutReason.AssetsTotalValueMoreThanMax)
     }
@@ -142,7 +145,7 @@ class ApplicationKickoutNonSummaryHelperTest extends FakeIhtApp with MockitoSuga
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.TrustsMoreThanOne) foreach { ad =>
       CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.TrustValueMoreThanMax) foreach { ad =>
         val result =
-          ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyDeceasedOwned),
+          check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyDeceasedOwned),
             registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(1000001)))
         result mustBe Some(KickOutReason.SingleSectionMoreThanMax)
       }
@@ -152,7 +155,7 @@ class ApplicationKickoutNonSummaryHelperTest extends FakeIhtApp with MockitoSuga
   "update application details with correct kickout reason and status for PartnerHomeInUK" in {
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.PartnerHomeInUK) foreach { ad =>
       val result =
-        ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionGiftsGivenAway),
+        check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionGiftsGivenAway),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
       result mustBe Some(KickOutReason.PartnerHomeInUK)
     }
@@ -172,7 +175,7 @@ class ApplicationKickoutNonSummaryHelperTest extends FakeIhtApp with MockitoSuga
         Some("1"),Some("testCharity"),Some("123456"), Some(BigDecimal(40000)))))
 
 
-    val result = ApplicationKickOutNonSummaryHelper.updateKickout(checks =ApplicationKickOutNonSummaryHelper.checksBackend,
+    val result = appKickoutUpdateKickout(checks =checksBackend,
           registrationDetails=registrationDetails, applicationDetails=appDetails)
       result.kickoutReason mustBe Some(KickOutReason.AssetsTotalValueMoreThanThresholdAfterExemption)
 
@@ -204,7 +207,7 @@ class ApplicationKickoutNonSummaryHelperTest extends FakeIhtApp with MockitoSuga
     ApplicationKickOutHelper.ApplicationSectionProperties -> Tuple2(Seq(BigDecimal(300)), Some("3"))
     ).foreach { section =>
       "get section total should calculate correct total for " + section._1 + " section " + section._2._2.fold("")(xx=>"(" + xx + ")") in {
-        ApplicationKickOutNonSummaryHelper.getSectionTotal(Some(section._1), section._2._2,
+        getSectionTotal(Some(section._1), section._2._2,
            ad) mustBe section._2._1
     }
   }

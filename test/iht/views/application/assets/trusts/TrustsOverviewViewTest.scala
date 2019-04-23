@@ -16,14 +16,15 @@
 
 package iht.views.application.assets.trusts
 
-import iht.constants.IhtProperties._
+
 import iht.controllers.application.assets.trusts.routes
 import iht.models.application.assets.HeldInTrust
 import iht.testhelpers.CommonBuilder
 import iht.utils.CommonHelper
 import iht.views.helpers.GenericOverviewHelper
 import iht.views.html.application.asset.trusts.trusts_overview
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 
 class TrustsOverviewViewTest extends GenericOverviewHelper {
 
@@ -82,7 +83,7 @@ class TrustsOverviewViewTest extends GenericOverviewHelper {
 
       val link = view.getElementById("return-button")
       link.text mustBe messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
-      link.attr("href") mustBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad.url + "#" + AppSectionHeldInTrustID
+      link.attr("href") mustBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad.url + "#" + appConfig.AppSectionHeldInTrustID
     }
   }
 

@@ -17,13 +17,12 @@
 package iht.views.registration.kickout
 
 import iht.views.ViewTestHelper
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.twirl.api.Html
 import iht.views.html.registration.kickout.iht_kickout_template
 
-/**
-  * Created by vineet on 15/11/16.
-  */
+
 class IhtKickoutTemplateViewTest extends ViewTestHelper{
 
   val title = "selected title"

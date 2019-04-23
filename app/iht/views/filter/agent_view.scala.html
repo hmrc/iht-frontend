@@ -14,11 +14,11 @@
  * limitations under the License.
  *@
 
-@import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.constants.IhtProperties._
+@import iht.views.html._
+@import iht.config.AppConfig
 
-@()(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+@()(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_registration(title = Messages("iht.noChangeToHowReportToHMRC"),
   browserTitle = Some(Messages("iht.noChangeToHowReportToHMRC")),
@@ -28,7 +28,7 @@
   <p id="agent-content">@Messages("page.iht.filter.agent.content")</p>
 
   <p>
-    <a href="@linkExitToGovUKIHTForms" id="exit" class="button"> @Messages("iht.exitToGovUK")</a>
+    <a href="@appConfig.linkExitToGovUKIHTForms" id="exit" class="button"> @Messages("iht.exitToGovUK")</a>
   </p>
   <p>
     <a href="@iht.controllers.filter.routes.FilterController.onPageLoad().url" id="back"> @Messages("iht.back")</a>

@@ -16,22 +16,20 @@
 
 package iht.controllers.application.exemptions.partner
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.RegistrationDetails
 import iht.models.application.exemptions._
 import iht.utils.CommonHelper._
-import iht.utils.{ApplicationKickOutNonSummaryHelper, StringHelper}
 import iht.views.html.application.exemption.partner.partner_date_of_birth
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Request, Result}
+import play.api.mvc.{MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -42,7 +40,9 @@ import scala.concurrent.Future
 class PartnerDateOfBirthControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                                  val ihtConnector: IhtConnector,
                                                  val authConnector: AuthConnector,
-                                                 override implicit val formPartialRetriever: FormPartialRetriever) extends PartnerDateOfBirthController
+                                                 override implicit val formPartialRetriever: FormPartialRetriever,
+implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with PartnerDateOfBirthController
 
 trait PartnerDateOfBirthController extends EstateController {
 
@@ -65,7 +65,7 @@ trait PartnerDateOfBirthController extends EstateController {
         boundForm.fold(
           formWithErrors =>
             Future.successful(Ok(iht.views.html.application.exemption.partner.partner_date_of_birth(formWithErrors, regDetails))),
-          pe => saveApplication(StringHelper.getNino(userNino), pe, regDetails)
+          pe => saveApplication(getNino(userNino), pe, regDetails)
         )
       }
     }
@@ -79,14 +79,14 @@ trait PartnerDateOfBirthController extends EstateController {
         val updatedAllExemptions = ad.allExemptions.fold(new AllExemptions(partner = Some(pe)))(
           _ copy (partner = existingOptionPartnerExemption.map(_ copy (dateOfBirth = pe.dateOfBirth))))
         val copyOfAD = ad copy (allExemptions = Some(updatedAllExemptions))
-        val applicationDetails = ApplicationKickOutNonSummaryHelper.updateKickout(
-          checks = ApplicationKickOutNonSummaryHelper.checksEstate,
+        val applicationDetails = appKickoutUpdateKickout(
+          checks = checksEstate,
           prioritySection = applicationSection,
           registrationDetails = regDetails,
           applicationDetails = copyOfAD)
       ihtConnector.saveApplication(nino, applicationDetails, regDetails.acknowledgmentReference).flatMap { _ =>
         Future.successful(Redirect(applicationDetails.kickoutReason.fold(
-          addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(ExemptionsPartnerDobID))
+          addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(appConfig.ExemptionsPartnerDobID))
         )(_ => kickoutRedirectLocation)))
         }
     }

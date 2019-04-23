@@ -19,11 +19,15 @@ package iht.views.ihtHelpers.custom
 import iht.FakeIhtApp
 import iht.views.HtmlSpec
 import iht.views.html.ihtHelpers.custom._
-import play.api.i18n.Messages.Implicits._
-import uk.gov.hmrc.play.test.UnitSpec
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.mvc.MessagesControllerComponents
 
 
 class GenericOverviewItemTest extends FakeIhtApp with HtmlSpec {
+
+  val mockControllerComponents: MessagesControllerComponents = app.injector.instanceOf[MessagesControllerComponents]
+  override val messagesApi: MessagesApi = mockControllerComponents.messagesApi
+  implicit val messages: Messages = messagesApi.preferred(Seq(lang)).messages
 
   "GenericOverviewItem helper" must {
 //    implicit val request = createFakeRequest()

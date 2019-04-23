@@ -25,13 +25,12 @@ import iht.views.html.application.gift.seven_years_to_trust
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import iht.constants.Constants._
-import iht.constants.IhtProperties._
 
-/**
-  * Created by vineet on 15/11/16.
-  */
+
+
 class SevenYearsToTrustViewTest extends SubmittableApplicationPageBehaviour[AllGifts] {
   val ihtReference = Some("ABC1A1A1A")
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
@@ -64,7 +63,7 @@ class SevenYearsToTrustViewTest extends SubmittableApplicationPageBehaviour[AllG
     )
   )
 
-  override def linkHash = GiftsSevenYearsQuestionID2
+  override def linkHash = appConfig.GiftsSevenYearsQuestionID2
 
   override def form: Form[AllGifts] = giftSevenYearsGivenInLast7YearsForm
 

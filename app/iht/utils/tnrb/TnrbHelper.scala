@@ -16,22 +16,23 @@
 
 package iht.utils.tnrb
 
-import iht.constants.{Constants, IhtProperties}
+import iht.config.AppConfig
+import iht.constants.Constants
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
 import iht.utils.CommonHelper
 import iht.views.html._
+import org.apache.commons.lang3.StringEscapeUtils
 import org.joda.time.LocalDate
 import play.api.i18n.Messages
 import play.api.mvc.Results.Redirect
 import play.api.mvc.{Call, Result}
-import org.apache.commons.lang3.StringEscapeUtils
 
-/**
-  * Created by vineet on 27/04/16.
-  */
-object TnrbHelper {
+case class TnrbHelperFixture(implicit val appConfig: AppConfig) extends TnrbHelper
+
+trait TnrbHelper {
+  implicit val appConfig: AppConfig
 
   val tnrbOverviewPage = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
   val deceasedWidowCheckDatePage = iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad()
@@ -158,7 +159,7 @@ object TnrbHelper {
   }
 
   def cancelLinkUrlForWidowCheckPages(appDetails: ApplicationDetails, linkHash: Option[String] = None) = if (appDetails.isWidowCheckSectionCompleted) {
-    CommonHelper.addFragmentIdentifier(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad, linkHash)
+    CommonHelper.addFragmentIdentifier(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad(), linkHash)
   } else {
     iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(CommonHelper.getOrException(appDetails.ihtRef))
   }
@@ -185,7 +186,7 @@ object TnrbHelper {
     Due to the welsh grammatical rule of "consonant soft mutation" the word
     "priod" ("marriage") changes to "briod" when preceded by the word "gan".
  */
-  def mutateContent(s:String, language:String) = {
+  def mutateContent(s:String, language:String): String = {
     if (language == "cy") {
       s.replace(Constants.contentMutation._1, Constants.contentMutation._2)
     } else {
@@ -193,7 +194,7 @@ object TnrbHelper {
     }
   }
 
-  def vowelConsciousAnd(predeceasedName: String, language:String) = {
+  def vowelConsciousAnd(predeceasedName: String, language:String): String = {
     val firstLetterOfPDName = predeceasedName.trim.toLowerCase.charAt(0)
     if(language == "en") {
       "page.iht.application.tnrbEligibilty.partner.additional.label.and"
@@ -207,7 +208,7 @@ object TnrbHelper {
   }
 
   private def isBeforeCivilPartnershipDate(dateOfPreDeceased: LocalDate): Boolean = {
-    val civilPartnerDate = IhtProperties.dateOfCivilPartnershipInclusion
+    val civilPartnerDate = appConfig.dateOfCivilPartnershipInclusion
     dateOfPreDeceased.isBefore(civilPartnerDate)
   }
 
@@ -219,10 +220,11 @@ object TnrbHelper {
     * @return
     */
   def getEntryPointForTnrb(rd: RegistrationDetails,
-                           ad: ApplicationDetails) = {
-    ad.isWidowCheckSectionCompleted match {
-      case true => tnrbOverviewPage
-      case _ => urlForIncreasingThreshold(CommonHelper.getOrException(rd.deceasedDetails.flatMap(_.maritalStatus)))
+                           ad: ApplicationDetails): Call = {
+    if (ad.isWidowCheckSectionCompleted) {
+      tnrbOverviewPage
+    } else {
+      urlForIncreasingThreshold(CommonHelper.getOrException(rd.deceasedDetails.flatMap(_.maritalStatus)))
     }
   }
 
@@ -230,8 +232,8 @@ object TnrbHelper {
     * Partial function, which will throw an exception if Marital Status value is not in range
     */
   val urlForIncreasingThreshold: PartialFunction[String, Call] = {
-    case IhtProperties.statusWidowed => deceasedWidowCheckDatePage
-    case maritalStatus if maritalStatus == IhtProperties.statusMarried || maritalStatus == IhtProperties.statusDivorced =>
+    case appConfig.statusWidowed => deceasedWidowCheckDatePage
+    case maritalStatus if maritalStatus == appConfig.statusMarried || maritalStatus == appConfig.statusDivorced =>
       deceasedWidowCheckQuestionPage
   }
 

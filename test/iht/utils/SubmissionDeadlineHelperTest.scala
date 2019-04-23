@@ -16,31 +16,33 @@
 
 package iht.utils
 
+import iht.config.AppConfig
 import iht.connector.IhtConnector
 import iht.models.application.IhtApplication
-import iht.testhelpers.CommonBuilder
-import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.{CommonBuilder, MockObjectBuilder}
 import iht.{FakeIhtApp, TestUtils}
 import org.joda.time.LocalDate
-import org.scalatest.BeforeAndAfter
+import org.mockito.Mockito._
+import org.scalatest.BeforeAndAfterEach
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.mock.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
-
-import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
-class SubmissionDeadlineHelperTest extends FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter with ScalaFutures {
+import scala.concurrent.Future
 
-  var mockIhtConnector = mock[IhtConnector]
+class SubmissionDeadlineHelperTest extends FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfterEach with ScalaFutures with MockObjectBuilder {
 
-  before {
-    mockIhtConnector = mock[IhtConnector]
+  implicit val mockAppConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  val mockIhtConnector: IhtConnector = mock[IhtConnector]
+
+  override def beforeEach(): Unit = {
+    reset(mockIhtConnector)
+    super.beforeEach()
   }
 
   "Submission deadline helper" must {
     "return a date of thirteen months minus a day when given a sensible nino, ihtReference, and ihtConnector" in {
-      implicit val headerCarrier = new HeaderCarrier()
+      implicit val headerCarrier = HeaderCarrier()
 
       val registrationDate = new LocalDate() //today
 
@@ -55,19 +57,19 @@ class SubmissionDeadlineHelperTest extends FakeIhtApp with MockitoSugar with Tes
           role = CommonBuilder.DefaultRole,
           registrationDate = registrationDate,
           currentStatus = CommonBuilder.DefaultCurrentStatus,
-          acknowledgmentReference = CommonBuilder.DefaultAcknowledgmentReference
+          acknowledgmentReference = CommonBuilder.defaultAckRef
         )
       createMockToGetCaseList(mockIhtConnector, Seq(application.copy(CommonBuilder.DefaultIhtRefNo)))
 
       val result: Future[LocalDate] = SubmissionDeadlineHelper(fakeNino, CommonBuilder.DefaultIhtRefNo, mockIhtConnector, headerCarrier)
 
       whenReady(result){ r =>
-        r must equal (registrationDate plusMonths(13) minusDays(1))
+        r must equal (registrationDate plusMonths 13 minusDays 1)
       }
     }
 
     "throw a runtime exception with an appropriate diagnostic message if the reference is not found" in {
-      implicit val headerCarrier = new HeaderCarrier()
+      implicit val headerCarrier = HeaderCarrier()
 
       createMockToGetCaseList(mockIhtConnector, Nil)
 

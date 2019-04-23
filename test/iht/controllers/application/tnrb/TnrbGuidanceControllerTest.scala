@@ -16,28 +16,32 @@
 
 package iht.controllers.application.tnrb
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
 import iht.views.HtmlSpec
 import org.jsoup.nodes.Element
-import play.api.i18n.MessagesApi
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-class TnrbGuidanceControllerTest  extends ApplicationControllerTest with HtmlSpec {
+class TnrbGuidanceControllerTest extends ApplicationControllerTest with HtmlSpec {
 
-  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with TnrbGuidanceController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
-
-  def controller = new TnrbGuidanceController {
+  def controller = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def controllerNotAuthorised = new TnrbGuidanceController {
+  def controllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

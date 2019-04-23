@@ -16,21 +16,25 @@
 
 package iht.viewmodels.application.overview
 
-import iht.models.application.debts.AllLiabilities
+import iht.config.AppConfig
 import iht.models.application.assets.{AllAssets, Properties}
+import iht.models.application.debts.AllLiabilities
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.TestHelper._
 import iht.{FakeIhtApp, TestUtils}
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.MessagesApi
-import play.api.i18n.Messages.Implicits._
-import uk.gov.hmrc.play.test.UnitSpec
-import iht.testhelpers.TestHelper._
+import play.api.i18n.{Lang, Messages, MessagesApi}
+import play.api.mvc.MessagesControllerComponents
 
 class OtherDetailsSectionViewModelTest
   extends FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
 
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  val mockControllerComponents: MessagesControllerComponents = app.injector.instanceOf[MessagesControllerComponents]
+  implicit val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  implicit val lang: Lang = Lang.defaultLang
+  val messagesApi: MessagesApi = mockControllerComponents.messagesApi
+  implicit val messages: Messages = messagesApi.preferred(Seq(lang)).messages
 
   val applicationDetailsGuidanceSeen = CommonBuilder.buildApplicationDetails copy (hasSeenExemptionGuidance=Some(true))
   val applicationDetailsGuidanceNotSeen = CommonBuilder.buildApplicationDetails copy (hasSeenExemptionGuidance=Some(false))

@@ -23,7 +23,8 @@ import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.applicant.applicant_tell_us_about_yourself
 import iht.views.registration.{PersonalDetailsViewBehaviour, YesNoQuestionViewBehaviour}
 import play.api.data.Form
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
 
 class TellUsAboutYourselfViewTest extends YesNoQuestionViewBehaviour[ApplicantDetails] with PersonalDetailsViewBehaviour[ApplicantDetails]{

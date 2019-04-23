@@ -19,15 +19,9 @@ package iht.testhelpers
 import java.io._
 
 import iht.utils.CommonHelper._
-import play.api.Play
-import play.api.Play.current
-import play.api.i18n.{I18nSupport, Messages}
-import play.api.i18n.Messages.Implicits._
-import play.i18n.MessagesApi
+import play.api.Environment
 
-import scala.collection.immutable.ListMap
-import scala.io.{BufferedSource, Source}
-import scala.util.{Failure, Success, Try}
+import scala.io.BufferedSource
 
 trait MessagesTidier {
   val messages: Map[String, Map[String, String]]
@@ -60,8 +54,8 @@ trait MessagesTidier {
     }
   }
 
-  def readTuples(filePath: String): Seq[(String, String)] = {
-    val inputStream = getOrException(Play.resourceAsStream(filePath),
+  def readTuples(filePath: String)(implicit env: Environment): Seq[(String, String)] = {
+    val inputStream = getOrException(env.resourceAsStream(filePath),
       "Unable to find Play resource in class path: " + filePath)
     val bufferedSource = new BufferedSource(inputStream)
     bufferedSource.getLines().map(line => parseLine(line)).toSeq.flatten
@@ -71,7 +65,7 @@ trait MessagesTidier {
 
   def duplicatedKeys(mapOfKeys: Map[String, Set[String]]): Map[String, Set[String]] = mapOfKeys.filter(_._2.size > 1)
 
-  def readMessageFile(filePath: String): Either[Map[String, Set[String]], Map[String, String]] = {
+  def readMessageFile(filePath: String)(implicit env: Environment): Either[Map[String, Set[String]], Map[String, String]] = {
     val tuples = readTuples(filePath)
     val consolidatedMap = createConsolidatedMap(tuples)
 
@@ -115,7 +109,7 @@ trait MessagesTidier {
     sb.toString
   }
 
-  def compareMessageFileKeys(): Set[String] = {
+  def compareMessageFileKeys()(implicit env: Environment): Set[String] = {
     val english = readMessageFile("messages.en").right.get
     val welsh = readMessageFile("messages.cy").right.get
     val result = (english.keySet -- welsh.keySet) ++ (welsh.keySet -- english.keySet)
@@ -130,8 +124,4 @@ trait MessagesTidier {
     result
   }
 
-}
-
-object MessagesTidier extends MessagesTidier {
-  override val messages: Map[String, Map[String, String]] = Messages.Implicits.applicationMessagesApi.messages
 }

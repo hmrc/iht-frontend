@@ -16,23 +16,22 @@
 
 package iht.controllers.application.tnrb
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
-import iht.utils.tnrb.TnrbHelper._
-import iht.utils.{ApplicationKickOutHelper, ApplicationKickOutNonSummaryHelper, CommonHelper, IhtFormValidator, StringHelper}
+import iht.utils.tnrb.TnrbHelper
+import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator, StringHelper}
 import javax.inject.Inject
 import play.api.Logger
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Request, Result}
+import play.api.mvc.{MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -41,11 +40,12 @@ import scala.concurrent.Future
 class DeceasedWidowCheckQuestionControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                          val cachingConnector: CachingConnector,
                                                          val authConnector: AuthConnector,
-                                                         val formPartialRetriever: FormPartialRetriever) extends DeceasedWidowCheckQuestionController {
+                                                         val formPartialRetriever: FormPartialRetriever,
+                                                         implicit val appConfig: AppConfig,
+                                                         val cc: MessagesControllerComponents)
+  extends FrontendController(cc) with DeceasedWidowCheckQuestionController
 
-}
-
-trait DeceasedWidowCheckQuestionController extends EstateController {
+trait DeceasedWidowCheckQuestionController extends EstateController with TnrbHelper with StringHelper {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -53,13 +53,12 @@ trait DeceasedWidowCheckQuestionController extends EstateController {
       implicit request => {
         withRegistrationDetails { registrationDetails =>
           for {
-            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
+            applicationDetails <- ihtConnector.getApplication(getNino(userNino),
               CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
               registrationDetails.acknowledgmentReference)
           } yield {
             applicationDetails match {
-              case Some(appDetails) => {
-
+              case Some(appDetails) =>
                 val filledForm = deceasedWidowCheckQuestionForm.fill(appDetails.widowCheck.getOrElse(
                   WidowCheck(None, None)))
 
@@ -69,9 +68,8 @@ trait DeceasedWidowCheckQuestionController extends EstateController {
                   appDetails.increaseIhtThreshold.fold(
                     TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                   registrationDetails,
-                  cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseMartialStatusID)),
+                  cancelLinkUrlForWidowCheckPages(appDetails, Some(appConfig.TnrbSpouseMartialStatusID)),
                   cancelLinkTextForWidowCheckPages(appDetails)))
-              }
               case _ => InternalServerError("Application details not found")
             }
           }
@@ -84,7 +82,7 @@ trait DeceasedWidowCheckQuestionController extends EstateController {
       implicit request => {
         withRegistrationDetails { regDetails =>
 
-          val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(userNino),
+          val applicationDetailsFuture = ihtConnector.getApplication(getNino(userNino),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
@@ -100,11 +98,11 @@ trait DeceasedWidowCheckQuestionController extends EstateController {
                     appDetails.increaseIhtThreshold.fold(
                       TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                     regDetails,
-                    cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseMartialStatusID)),
+                    cancelLinkUrlForWidowCheckPages(appDetails, Some(appConfig.TnrbSpouseMartialStatusID)),
                     cancelLinkTextForWidowCheckPages(appDetails))))
                 },
                 widowModel => {
-                  saveApplication(StringHelper.getNino(userNino), widowModel, appDetails, regDetails)
+                  saveApplication(getNino(userNino), widowModel, appDetails, regDetails)
                 }
               )
             }
@@ -122,7 +120,7 @@ trait DeceasedWidowCheckQuestionController extends EstateController {
 
     val updatedAppDetails = getUpdatedAppDetails(appDetails, widowModel)
 
-    val updatedAppDetailsWithKickOutReason = ApplicationKickOutNonSummaryHelper.updateKickout(checks = ApplicationKickOutNonSummaryHelper.checksWidowOpc,
+    val updatedAppDetailsWithKickOutReason = appKickoutUpdateKickout(checks = checksWidowOpc,
       registrationDetails = regDetails,
       applicationDetails = updatedAppDetails)
 
@@ -138,7 +136,7 @@ trait DeceasedWidowCheckQuestionController extends EstateController {
         appDetails =>
           if (appDetails.widowCheck.fold(false)(_.widowed.fold(false)(identity))) {
             appDetails.isWidowCheckSectionCompleted match {
-              case true => Redirect(CommonHelper.addFragmentIdentifier(routes.TnrbOverviewController.onPageLoad(), Some(TnrbSpouseMartialStatusID)))
+              case true => Redirect(CommonHelper.addFragmentIdentifier(routes.TnrbOverviewController.onPageLoad(), Some(appConfig.TnrbSpouseMartialStatusID)))
               case _ => Redirect(routes.DeceasedWidowCheckDateController.onPageLoad())
             }
 
@@ -164,16 +162,13 @@ trait DeceasedWidowCheckQuestionController extends EstateController {
     val widowCheckWithNoPredeceasedDate = new WidowCheck(widowed = widowModel.widowed, dateOfPreDeceased = None)
 
     widowModel.widowed match {
-      case Some(true) => {
+      case Some(true) =>
         appDetails.copy(widowCheck = Some(appDetails.widowCheck.fold(widowCheckWithNoPredeceasedDate)
         (_.copy(widowed = widowModel.widowed))))
-      }
-
-      case Some(false) => {
+      case Some(false) =>
         appDetails.copy(widowCheck = Some(appDetails.widowCheck.fold(widowCheckWithNoPredeceasedDate)
         (_.copy(widowed = widowModel.widowed, dateOfPreDeceased = None))),
           increaseIhtThreshold = None)
-      }
       case _ => {
         Logger.warn("WidowCheck question has not been answered")
         throw new RuntimeException("WidowCheck question has not been answered")

@@ -16,28 +16,28 @@
 
 package iht.controllers.testonly
 
-import iht.config.IhtFormPartialRetriever
+import iht.config.{AppConfig, IhtFormPartialRetriever}
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationController
 import iht.forms.testonly.TestOnlyForms.{storeRegistrationDetailsForm, _}
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import iht.utils.StringHelper
 import javax.inject.Inject
 import play.api.Logger
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
 import play.api.libs.json.Json
-import play.api.mvc.{Action, AnyContent}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 import scala.concurrent.Future
 
 class TestOnlyControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                        val cachingConnector: CachingConnector,
                                        val authConnector: AuthConnector,
-                                       implicit val formPartialRetriever: IhtFormPartialRetriever) extends TestOnlyController
+                                       implicit val formPartialRetriever: IhtFormPartialRetriever,
+                                       implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with TestOnlyController
 
 trait TestOnlyController extends ApplicationController {
   def ihtConnector: IhtConnector
@@ -45,7 +45,7 @@ trait TestOnlyController extends ApplicationController {
 
   def deleteFirstCase: Action[AnyContent] = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
-      val nino = StringHelper.getNino(userNino)
+      val nino = getNino(userNino)
       ihtConnector.getCaseList(nino).map {
         list => {
           list.foreach {
@@ -60,7 +60,7 @@ trait TestOnlyController extends ApplicationController {
   def fillApplication: Action[AnyContent] = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       withApplicationDetails(userNino) { registrationDetails => applicationDetails =>
-        ihtConnector.saveApplication(StringHelper.getNino(userNino),
+        ihtConnector.saveApplication(getNino(userNino),
           TestOnlyDataGenerator.buildApplicationDetails(registrationDetails.ihtReference),
           registrationDetails.acknowledgmentReference)
           .map {

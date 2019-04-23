@@ -15,8 +15,11 @@
  *@
 
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.views.html.iht_main_template
+@import play.twirl.api.HtmlFormat
 
+@import iht.config.AppConfig
 @(title: String,
 browserTitle: Option[String] = None,
 contentHeader: Option[Html] = None,
@@ -32,7 +35,7 @@ headingName: String = "",
 highlightBoxClass:Option[String] = None,
 optionContentBelowTitle: Option[Html] = None,
 signOutCall: Option[Call] = Some(iht.controllers.routes.FeedbackSurveyController.redirectExitSurvey)
-)(mainContent: Html)(implicit  request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+)(mainContent: Html)(implicit  request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template(
     title = title,

@@ -16,24 +16,22 @@
 
 package iht.utils
 
+import iht.config.AppConfig
 import iht.constants.Constants.MaxIterationValueForGiftYears
-import iht.constants.IhtProperties
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.PreviousYearsGifts
 import iht.utils.CommonHelper._
 import org.joda.time.LocalDate
-import play.api.Play.current
 import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
 
 object GiftsHelper {
-  def createPreviousYearsGiftsLists(dateOfDeath: LocalDate): Seq[PreviousYearsGifts] = {
+  def createPreviousYearsGiftsLists(dateOfDeath: LocalDate)(implicit appConfig: AppConfig): Seq[PreviousYearsGifts] = {
     def previousYearsGifts(dateOfDeath: LocalDate): Seq[PreviousYearsGifts] = {
       val startingDate = new LocalDate(dateOfDeath.getYear,
-        IhtProperties.giftsStartMonth,
-        IhtProperties.giftsStartDay)
+        appConfig.giftsStartMonth,
+        appConfig.giftsStartDay)
 
-      val giftYears = IhtProperties.giftsYears
+      val giftYears = appConfig.giftsYears
       val noOfYearsToCalculate = if(startingDate.minusDays(1).isEqual(dateOfDeath)) { giftYears } else {giftYears + 1}
       val sevenYearsPriorDate = dateOfDeath.minusYears(giftYears).plusDays(1)
 
@@ -44,13 +42,10 @@ object GiftsHelper {
       }
 
       val endDate: LocalDate = periodDate.minusDays(1)
-      val startDateString: String = periodDate.monthOfYear().get() + "-" + periodDate.getDayOfMonth()
+      val startDateString: String = periodDate.monthOfYear().get() + "-" + periodDate.getDayOfMonth
       val endDateString: String = endDate.monthOfYear().get() + "-" + endDate.getDayOfMonth
 
-      {
-        1 to noOfYearsToCalculate
-      }.map { x =>
-
+      (1 to noOfYearsToCalculate) map { x =>
         val endDateStringForPage = getEndDateString(x, dateOfDeath, periodDate,endDateString)
 
         val startDateStringForPage = getStartDateString(x, dateOfDeath, sevenYearsPriorDate, startingDate,
@@ -67,9 +62,6 @@ object GiftsHelper {
     previousYearsGifts(dateOfDeath)
   }
 
-  /**
-    * Get the start date string
-    */
   private def getStartDateString(noOfIteration: Int,
                                  dateOfDeath: LocalDate,
                                  sevenYearsPriorDate: LocalDate,
@@ -82,13 +74,10 @@ object GiftsHelper {
     noOfIteration match {
       case `MaxIterationValueForGiftYears` =>
         sevenYearsPriorDate.getYear + "-" + sevenYearsPriorDate.monthOfYear().get() + "-" + sevenYearsPriorDate.getDayOfMonth
-      case _ => s"${(periodDate.getYear - (noOfIteration - 1))}${"-" + startDateString}"
+      case _ => s"${periodDate.getYear - (noOfIteration - 1)}${"-" + startDateString}"
     }
   }
 
-  /**
-    * Get the end date string
-    */
   private def getEndDateString(noOfIteration: Int,
                                dateOfDeath: LocalDate,
                                periodDate: LocalDate,
@@ -99,14 +88,15 @@ object GiftsHelper {
     }
   }
 
-  def correctGiftDateFormats(ad:ApplicationDetails): ApplicationDetails = {
-    val optionSeqPreviousYearsGifts: Option[Seq[PreviousYearsGifts]] = ad.giftsList.map{ (seqPreviousYearsGifts: Seq[PreviousYearsGifts]) =>
-      seqPreviousYearsGifts.map{ (previousYearsGifts: PreviousYearsGifts) =>
-        val optionStartDate: Option[String] = previousYearsGifts.startDate.map{ (startDate: String) =>
-          StringHelper.parseOldAndNewDatesFormats(startDate)
+  def correctGiftDateFormats(ad:ApplicationDetails)(implicit appConfig: AppConfig): ApplicationDetails = {
+    val optionSeqPreviousYearsGifts: Option[Seq[PreviousYearsGifts]] = ad.giftsList.map{ seqPreviousYearsGifts: Seq[PreviousYearsGifts] =>
+      seqPreviousYearsGifts.map{ previousYearsGifts: PreviousYearsGifts =>
+        val fixture = StringHelperFixture()
+        val optionStartDate: Option[String] = previousYearsGifts.startDate.map{ startDate: String =>
+          fixture.parseOldAndNewDatesFormats(startDate)
         }
-        val optionEndDate: Option[String] = previousYearsGifts.endDate.map{ (endDate: String) =>
-          StringHelper.parseOldAndNewDatesFormats(endDate)
+        val optionEndDate: Option[String] = previousYearsGifts.endDate.map{ endDate: String =>
+          fixture.parseOldAndNewDatesFormats(endDate)
         }
         previousYearsGifts copy (
           startDate = optionStartDate , endDate = optionEndDate
@@ -116,7 +106,7 @@ object GiftsHelper {
     ad copy ( giftsList = optionSeqPreviousYearsGifts)
   }
 
-  def previousYearsGiftsAccessibility(element: PreviousYearsGifts) = {
+  def previousYearsGiftsAccessibility(element: PreviousYearsGifts)(implicit messages: Messages): String = {
     val messageFileSectionKey = "page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.link.screenReader"
     val startDate = getOrException(element.startDate)
     val endDate = getOrException(element.endDate)
@@ -125,25 +115,25 @@ object GiftsHelper {
     val amountAddedToEstate = totalGifts - totalExemptions
 
     mapBigDecimalPair(element.value, element.exemptions,
-      Messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
-      Messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
-      Messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
-      Messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate))
+      messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
+      messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
+      messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
+      messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate))
   }
 
   def previousYearsGiftsAccessibilityTotals(totalPastYearsGifts: BigDecimal,
                                             totalExemptionsValue: BigDecimal,
                                             totalPastYearsGiftsValueExcludingExemptions: BigDecimal,
-                                            elements: Seq[PreviousYearsGifts]): Option[(String, String, String)] = {
+                                            elements: Seq[PreviousYearsGifts])(implicit messages: Messages): Option[(String, String, String)] = {
     val messageFileSectionKey = "page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.total"
     val sortedGifts = elements.sortWith((a, b) => getOrException(a.startDate) < getOrException(b.startDate))
     val earliestDate = getOrException(sortedGifts.head.startDate)
     val latestDate = getOrException(sortedGifts.reverse.head.endDate)
 
     Some(
-      (Messages(s"$messageFileSectionKey.gifts.screenReader", earliestDate, latestDate, totalPastYearsGifts),
-        Messages(s"$messageFileSectionKey.exemptions.screenReader", earliestDate, latestDate, totalExemptionsValue),
-        Messages(s"$messageFileSectionKey.estate.screenReader", earliestDate, latestDate, totalPastYearsGiftsValueExcludingExemptions))
+      (messages(s"$messageFileSectionKey.gifts.screenReader", earliestDate, latestDate, totalPastYearsGifts),
+        messages(s"$messageFileSectionKey.exemptions.screenReader", earliestDate, latestDate, totalExemptionsValue),
+        messages(s"$messageFileSectionKey.estate.screenReader", earliestDate, latestDate, totalPastYearsGiftsValueExcludingExemptions))
     )
   }
 }

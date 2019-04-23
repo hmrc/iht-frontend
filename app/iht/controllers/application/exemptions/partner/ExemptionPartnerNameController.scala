@@ -16,22 +16,21 @@
 
 package iht.controllers.application.exemptions.partner
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.RegistrationDetails
 import iht.models.application.exemptions._
+import iht.utils.ApplicationKickOutHelper
 import iht.utils.CommonHelper._
-import iht.utils.{ApplicationKickOutHelper, ApplicationKickOutNonSummaryHelper, StringHelper}
 import iht.views.html.application.exemption.partner.partner_name
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Request, Result}
+import play.api.mvc.{MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -42,7 +41,9 @@ import scala.concurrent.Future
 class ExemptionPartnerNameControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                                    val ihtConnector: IhtConnector,
                                                    val authConnector: AuthConnector,
-                                                   override implicit val formPartialRetriever: FormPartialRetriever) extends ExemptionPartnerNameController
+                                                   override implicit val formPartialRetriever: FormPartialRetriever,
+implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with ExemptionPartnerNameController
 
 trait ExemptionPartnerNameController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionExemptionsSpouse)
@@ -70,7 +71,7 @@ trait ExemptionPartnerNameController extends EstateController {
               formWithErrors, regDetails)))
           },
           partnerExemption => {
-            saveApplication(StringHelper.getNino(userNino), partnerExemption, regDetails, userNino)
+            saveApplication(getNino(userNino), partnerExemption, regDetails, userNino)
           }
         )
       }
@@ -91,15 +92,15 @@ trait ExemptionPartnerNameController extends EstateController {
             new AllExemptions(partner = Some(pe)))(_.copy(Some(existingPartnerExemptions.copy(
             firstName = pe.firstName, lastName = pe.lastName))))
 
-          val applicationDetails = ApplicationKickOutNonSummaryHelper.updateKickout(
-            checks = ApplicationKickOutNonSummaryHelper.checksEstate,
+          val applicationDetails = appKickoutUpdateKickout(
+            checks = checksEstate,
             prioritySection = applicationSection,
             registrationDetails = regDetails,
             applicationDetails = appDetails.copy(allExemptions = Some(appDetailsCopy)))
 
           ihtConnector.saveApplication(nino, applicationDetails, regDetails.acknowledgmentReference).map { _ =>
             Redirect(applicationDetails.kickoutReason.fold(
-              addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(ExemptionsPartnerNameID))
+              addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(appConfig.ExemptionsPartnerNameID))
             )(_ => kickoutRedirectLocation))
           }
     }

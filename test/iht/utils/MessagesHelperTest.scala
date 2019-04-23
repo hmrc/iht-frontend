@@ -17,55 +17,33 @@
 package iht.utils
 
 import iht.FakeIhtApp
+import iht.views.helpers.MessagesHelper
+import org.mockito.Mockito
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import play.api.i18n.{I18nSupport, Lang, Messages, MessagesApi}
-import uk.gov.hmrc.play.test.UnitSpec
+import play.api.mvc.MessagesControllerComponents
+import play.api.test.FakeRequest
 
-/**
- *
- * This Class contains the Unit Tests for iht.utils.CommonHelper
- */
-class MessagesHelperTest extends FakeIhtApp with MockitoSugar with I18nSupport {
+class MessagesHelperTest extends FakeIhtApp with MockitoSugar with I18nSupport with MessagesHelper {
 
-  val msg = Map("en" -> Map("a.a"->"a"), "cy" -> Map("a.a" -> "w"))
-  implicit val messagesApi: MessagesApi = mock[MessagesApi]
-  val referrerURL="http://localhost:9070/inheritance-tax/registration/addExecutor"
-  val host="localhost:9070"
+  val msg: Map[String, Map[String, String]] = Map("en" -> Map("a.a" -> "a"), "cy" -> Map("a.a" -> "w"))
+  val referrerURL = "http://localhost:9070/inheritance-tax/registration/addExecutor"
+  val host = "localhost:9070"
 
-  val lang = Lang("en")
-  val messages = new Messages(lang, messagesApi)
-
-  "translateToPreferredLanguage" must {
-    "return content when language same" in {
-      when(messagesApi.messages).thenReturn(msg)
-      MessagesHelper.translateToPreferredLanguage("a", messages, "en") mustBe "a"
-    }
-    "return content translated when language different" in {
-      when(messagesApi.messages).thenReturn(msg)
-      MessagesHelper.translateToPreferredLanguage("a", messages, "cy") mustBe "w"
-    }
-  }
-
-  "messagesForLang" must {
-    "return english messages file when language in en" in {
-      when(messagesApi.messages).thenReturn(msg)
-      MessagesHelper.messagesForLang(messages, "en").lang mustBe Lang("en")
-    }
-    "return welsh messages file when language in cy" in {
-      when(messagesApi.messages).thenReturn(msg)
-      MessagesHelper.messagesForLang(messages, "cy").lang mustBe Lang("cy")
-    }
-  }
+  lazy val mockControllerComponents: MessagesControllerComponents = app.injector.instanceOf[MessagesControllerComponents]
+  implicit lazy val messagesApi: MessagesApi = mockControllerComponents.messagesApi
+  lazy val messagesApiSpy: MessagesApi = Mockito.spy(mockControllerComponents.messagesApi)
+  lazy val messages: Messages = messagesApiSpy.preferred(Seq(Lang.defaultLang)).messages
 
   "englishMessages" must {
     "return item from englishMessages when the key exists" in {
-      when(messagesApi.messages).thenReturn(msg)
-      MessagesHelper.englishMessages("a.a", messages) mustBe Some("a")
+      when(messagesApiSpy.messages).thenReturn(msg)
+      MessagesHelper.englishMessages("a.a", messages)(FakeRequest()) mustBe Some("a")
     }
     "return None from englishMessages when the key does not exist" in {
-      when(messagesApi.messages).thenReturn(msg)
-      MessagesHelper.englishMessages("x.a", messages) mustBe None
+      when(messagesApiSpy.messages).thenReturn(msg)
+      MessagesHelper.englishMessages("x.a", messages)(FakeRequest()) mustBe None
     }
   }
 }

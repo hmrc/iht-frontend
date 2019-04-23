@@ -23,12 +23,13 @@ import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_deceased_own
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 import iht.constants.Constants._
-import iht.constants.IhtProperties._
+
 
 class InsurancePolicyDetailsDeceasedOwnViewTest extends ShareableElementInputViewBehaviour[InsurancePolicy]{
 
@@ -47,7 +48,7 @@ class InsurancePolicyDetailsDeceasedOwnViewTest extends ShareableElementInputVie
     override def returnLinkText = messagesApi("site.link.return.insurance.policies")
     override def returnLinkUrl = routes.InsurancePolicyOverviewController.onPageLoad().url
     override def formTarget =Some(routes.InsurancePolicyDetailsDeceasedOwnController.onSubmit)
-    override def linkHash = InsurancePayingToDeceasedYesNoID
+    override def linkHash = appConfig.InsurancePayingToDeceasedYesNoID
 
     "InsurancePolicyDetailsDeceasedOwn view" must {
       behave like yesNoValueViewWithErrorSummaryBox()

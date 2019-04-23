@@ -21,13 +21,12 @@ import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
 import iht.views.application.{ApplicationPageBehaviour, CancelComponent}
 import iht.views.html.application.debts.mortgages_overview
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import iht.constants.Constants._
-import iht.constants.IhtProperties._
 
-/**
-  * Created by vineet on 15/11/16.
-  */
+
+
 class MortgagesOverviewViewTest extends ApplicationPageBehaviour {
   val ihtReference = Some("ABC1A1A1A")
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
@@ -52,7 +51,7 @@ class MortgagesOverviewViewTest extends ApplicationPageBehaviour {
   override def browserTitle = messagesApi("iht.estateReport.debts.mortgages")
 
   override def formTarget = None
-  override def linkHash = DebtsMortgagesID
+  override def linkHash = appConfig.DebtsMortgagesID
 
   override def cancelComponent = Some(
     CancelComponent(
@@ -67,7 +66,7 @@ class MortgagesOverviewViewTest extends ApplicationPageBehaviour {
   override def view = mortgages_overview(List(CommonBuilder.property, CommonBuilder.property2),
     Nil,
     FieldMappings.typesOfOwnership(deceasedName),
-    regDetails, debtsOverviewPageUrl, returnLinkText)(fakeRequest, applicationMessages, formPartialRetriever).toString
+    regDetails, debtsOverviewPageUrl, returnLinkText)(fakeRequest, messages, formPartialRetriever, appConfig).toString
 
   val addressTableId = "properties"
 

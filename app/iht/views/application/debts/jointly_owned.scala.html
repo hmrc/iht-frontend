@@ -14,17 +14,17 @@
  * limitations under the License.
  *@
 
-@import iht.constants.IhtProperties._
+@import iht.config.AppConfig
 @import iht.constants.Constants._
-@import uk.gov.hmrc.play.views.html.helpers.form
+@import iht.models.RegistrationDetails
 @import iht.models.application.debts.BasicEstateElementLiabilities
 @import iht.utils._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.models.RegistrationDetails
+@import uk.gov.hmrc.play.views.html.helpers.form
 
 @(jointlyOwnedDebtsForm: Form[BasicEstateElementLiabilities],
-  registrationDetails: RegistrationDetails)(implicit request: Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+  registrationDetails: RegistrationDetails)(implicit request: Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
@@ -57,7 +57,7 @@
         @ihtHelpers.custom.return_link(
             Messages("site.link.return.debts"),
             Some(iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()),
-            DebtsOwedJointlyID
+            appConfig.DebtsOwedJointlyID
         )
 
     }

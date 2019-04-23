@@ -16,20 +16,21 @@
 
 package iht.connector
 
+import iht.config.AppConfig
 import iht.controllers.ControllerHelper
 import iht.models._
 import iht.models.application.{ApplicationDetails, IhtApplication, ProbateDetails}
 import iht.models.des.ihtReturn.IHTReturn
-import iht.utils.{GiftsHelper, RegistrationDetailsHelper, StringHelper}
+import iht.utils.{GiftsHelper, RegistrationDetailsHelper, RegistrationDetailsHelperFixture, StringHelper}
 import javax.inject.Inject
 import models.des.EventRegistration
-import play.api.{Configuration, Environment, Logger}
+import play.api.Logger
 import play.api.http.Status._
 import play.api.libs.json.{JsError, JsValue, Json}
 import play.api.mvc.Request
-import uk.gov.hmrc.http.{BadRequestException, ConflictException, GatewayTimeoutException, HeaderCarrier, HttpDelete, HttpGet, HttpPost, HttpPut, HttpResponse, NotFoundException, Upstream4xxResponse, Upstream5xxResponse}
-import uk.gov.hmrc.play.bootstrap.http.HttpClient
-import uk.gov.hmrc.play.config.ServicesConfig
+import uk.gov.hmrc.http._
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
+import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -76,23 +77,21 @@ trait IhtConnector {
   def getSubmittedApplicationDetails(nino: String, ihtReference: String, returnId: String)(implicit headerCarrier: HeaderCarrier): Future[Option[IHTReturn]]
 }
 
-class IhtConnectorImpl @Inject()(val http: HttpClient,
-                                 val runModeConfiguration: Configuration,
-                                 environment: Environment) extends IhtConnector with ServicesConfig {
-  override val mode = environment.mode
-  lazy val serviceUrl = baseUrl("iht")
+class IhtConnectorImpl @Inject()(val http: DefaultHttpClient,
+                                 val config: ServicesConfig,
+                                 implicit val appConfig: AppConfig) extends IhtConnector with StringHelper {
+  lazy val serviceUrl: String = config.baseUrl("iht")
 
-  override def deleteApplication(nino: String, ihtReference: String)(implicit headerCarrier: HeaderCarrier) = {
+  override def deleteApplication(nino: String, ihtReference: String)(implicit headerCarrier: HeaderCarrier): Unit = {
     Logger.info("Calling IHT micro-service to delete application")
     http.GET(s"$serviceUrl/iht/$nino/application/delete/$ihtReference")
   }
 
   private def ihtHeaders(implicit request: Request[_]) = Seq("path"->request.headers.get("Referer").getOrElse(""))
 
-  override def submitRegistration(nino: String, rd: RegistrationDetails)(implicit headerCarrier: HeaderCarrier, request: Request[_]):
-  Future[String] = {
+  override def submitRegistration(nino: String, rd: RegistrationDetails)(implicit headerCarrier: HeaderCarrier, request: Request[_]): Future[String] = {
     val er = EventRegistration.fromRegistrationDetails(rd)
-    val ninoFormatted = StringHelper.trimAndUpperCaseNino(nino)
+    val ninoFormatted = trimAndUpperCaseNino(nino)
     Logger.info("Calling IHT micro-service to submit registration")
     http.POST(s"$serviceUrl/iht/$ninoFormatted/registration/submit", er, ihtHeaders) map {
       response => {
@@ -104,22 +103,18 @@ class IhtConnectorImpl @Inject()(val http: HttpClient,
         }
       }
     } recoverWith {
-      case Upstream4xxResponse(message, CONFLICT, _, _) => {
+      case Upstream4xxResponse(message, CONFLICT, _, _) =>
         Logger.warn(s"CONFLICT Failure response for duplicate case. Error message: $message")
         Future.failed(new ConflictException(message))
-      }
-      case ex: GatewayTimeoutException => {
+      case ex: GatewayTimeoutException =>
         Logger.warn("5xx Response returned : " + ex.getMessage)
         Future.failed(new GatewayTimeoutException(ex.getMessage))
-      }
-      case ex : Upstream5xxResponse => {
+      case ex : Upstream5xxResponse =>
         Logger.warn("5xx Response returned : " + ex.getMessage)
         Future.failed(ex)
-      }
-      case ex => {
+      case ex =>
         Logger.warn("5xx Response returned : " + ex.getMessage)
         Future.failed(Upstream5xxResponse(ex.getMessage, INTERNAL_SERVER_ERROR, INTERNAL_SERVER_ERROR))
-      }
     }
   }
 
@@ -134,137 +129,116 @@ class IhtConnectorImpl @Inject()(val http: HttpClient,
       response <- future_response
     } yield {
       response.status match {
-        case OK => {
+        case OK =>
           Logger.info("Successful return from right for save application")
           Some(data)
-        }
-        case (_) => {
+        case _ =>
           Logger.warn("Problem saving application details")
           throw new RuntimeException("Problem saving application details")
-        }
       }
     }
   }
 
-  override def getApplication(nino: String, ihtRef: String, acknowledgmentReference: String)(implicit headerCarrier: HeaderCarrier):
-  Future[Option[ApplicationDetails]] = exceptionCheckForResponses {
+  override def getApplication(nino: String, ihtRef: String, acknowledgmentReference: String)
+                             (implicit headerCarrier: HeaderCarrier): Future[Option[ApplicationDetails]] = exceptionCheckForResponses {
     Logger.info("Getting application from Secure Storage")
     val future_response = http.GET(s"$serviceUrl/iht/$nino/application/get/$ihtRef/$acknowledgmentReference")
     for {
       response <- future_response
     } yield {
       response.status match {
-        case OK => {
+        case OK =>
           Logger.info("Successfully received data from SecStore")
           Some(Json.fromJson[ApplicationDetails](Json.parse(response.body)).get)
             .map(ad=> GiftsHelper.correctGiftDateFormats(ad))
-        }
-        case NO_CONTENT => {
+        case NO_CONTENT =>
           Logger.info("Empty return from Secure Storage")
           None
-        }
-        case (_) => {
+        case _ =>
           Logger.warn("Problem retrieving application details")
           throw new RuntimeException("Problem retrieving application details")
-        }
       }
     }
   }
 
-  override def getCaseList(nino: String)(implicit headerCarrier: HeaderCarrier):
-  Future[Seq[IhtApplication]] = exceptionCheckForResponses {
+  override def getCaseList(nino: String)(implicit headerCarrier: HeaderCarrier): Future[Seq[IhtApplication]] = exceptionCheckForResponses {
     Logger.info("Getting Case List")
     http.GET(s"$serviceUrl/iht/$nino/home/listCases").map {
       response => {
         response.status match {
-          case OK => {
+          case OK =>
             Logger.info("Successfully return from Get Case List")
             Json.fromJson[Seq[IhtApplication]](Json.parse(response.body)).getOrElse(Nil)
-          }
-          case NO_CONTENT => {
+          case NO_CONTENT =>
             Logger.info("Empty return from Get Case List")
             Nil
-          }
-          case (_) => {
+          case _ =>
             Logger.warn("Problem retrieving Case List")
             throw new RuntimeException("Problem retrieving Case List")
-          }
         }
       }
     }
   }
 
-  override def getCaseDetails(nino: String, ihtReference: String)(implicit headerCarrier: HeaderCarrier):
-  Future[RegistrationDetails] = exceptionCheckForResponses {
+  override def getCaseDetails(nino: String, ihtReference: String)
+                             (implicit headerCarrier: HeaderCarrier): Future[RegistrationDetails] = exceptionCheckForResponses {
     Logger.info("Getting Case Details")
     http.GET(s"$serviceUrl/iht/$nino/home/caseDetails/$ihtReference").map {
       response => {
         response.status match {
-          case OK => {
+          case OK =>
             Logger.info("Returned Case Details")
             val js: JsValue = Json.parse(response.body)
             Json.fromJson[RegistrationDetails](js) match {
-              case JsError(_) => {
+              case JsError(_) =>
                 Logger.warn("JSON parse error. Although returned - Failure to create Registration Details")
                 throw new RuntimeException("JSON parse error. Although returned - Failure to create Registration Details")
-              }
-              case x => {
+              case x =>
                 Logger.info("Correctly returned for registration details")
-                RegistrationDetailsHelper.getOrExceptionNoRegistration(x.asOpt)
-              }
+                new RegistrationDetailsHelperFixture().getOrExceptionNoRegistration(x.asOpt)
             }
-          }
-          case (_) => {
+          case _ =>
             Logger.warn("Problem retrieving Case Details")
             throw new RuntimeException("Problem retrieving Case Details")
-          }
         }
-
       }
     }
   }
 
-  override def submitApplication(ihtAppReference: String, nino: String, applicationDetails: ApplicationDetails)(implicit
-                 headerCarrier: HeaderCarrier, request: Request[_]):
-  Future[Option[String]] = {
+  private def connectorRecovery[A]: PartialFunction[Throwable, Future[A]] = PartialFunction {
+    case e: GatewayTimeoutException =>
+      Logger.warn("Gateway Timeout Response Returned ::: " + e.getMessage)
+      Future.failed(new GatewayTimeoutException(e.message))
+    case e: BadRequestException =>
+      Logger.warn("BadRequest Response Returned ::: " + e.getMessage)
+      Future.failed(new BadRequestException(e.message))
+    case e: Upstream4xxResponse =>
+      Logger.warn("Upstream4xxResponse Returned ::: " + e.getMessage)
+      Future.failed(Upstream4xxResponse(e.message, e.upstreamResponseCode, e.reportAs))
+    case e: Upstream5xxResponse =>
+      Logger.warn("Upstream5xxResponse Returned ::: " + e.getMessage)
+      Future.failed(Upstream5xxResponse(e.message, e.upstreamResponseCode, e.reportAs))
+    case e: NotFoundException =>
+      Logger.warn("Upstream4xxResponse Returned ::: " + e.getMessage)
+      Future.failed(Upstream4xxResponse(e.message, ControllerHelper.notFoundExceptionCode, ControllerHelper.notFoundExceptionCode))
+    case e: Exception =>
+      Logger.warn("Exception Returned ::: " + e.getMessage)
+      Future.failed(new Exception(e.getMessage))
+  }
+
+  override def submitApplication(ihtAppReference: String, nino: String, applicationDetails: ApplicationDetails)
+                                (implicit headerCarrier: HeaderCarrier, request: Request[_]): Future[Option[String]] = {
     Logger.info("Submitting application")
     http.POST(s"$serviceUrl/iht/$nino/$ihtAppReference/application/submit", applicationDetails, ihtHeaders).map(
       response => response.status match {
-        case OK => {
+        case OK =>
           Logger.info("Response received from Right for application submit")
           Some(response.body.split(":").last.trim)
-        }
-        case (_) => {
+        case _ =>
           Logger.warn("Problem with the submission of the application details")
           throw new RuntimeException("Problem with the submission of the application details")
-        }
       }
-    ).recoverWith {
-      case e: GatewayTimeoutException => {
-        Logger.warn("Gateway Timeout Response Returned ::: " + e.getMessage)
-        Future.failed(new GatewayTimeoutException(e.message))
-      }
-      case e: BadRequestException => {
-        Logger.warn("BadRequest Response Returned ::: " + e.getMessage)
-        Future.failed(new BadRequestException(e.message))
-      }
-      case e: Upstream4xxResponse => {
-        Logger.warn(" Upstream4xxResponse Returned ::: " + e.getMessage)
-        Future.failed(new Upstream4xxResponse(e.message, e.upstreamResponseCode, e.reportAs))
-      }
-      case e: Upstream5xxResponse => {
-        Logger.warn("Upstream5xxResponse Returned ::: " + e.getMessage)
-        Future.failed(new Upstream5xxResponse(e.message, e.upstreamResponseCode, e.reportAs))
-      }
-      case e: NotFoundException => {
-        Logger.warn("Upstream4xxResponse Returned ::: " + e.getMessage)
-        Future.failed(new Upstream4xxResponse(e.message, ControllerHelper.notFoundExceptionCode, ControllerHelper.notFoundExceptionCode))
-      }
-      case e: Exception => {
-        Logger.warn("Exception Returned ::: " + e.getMessage)
-        Future.failed(new Exception(e.getMessage))
-      }
-    }
+    ) recoverWith connectorRecovery
   }
 
   def realtimeRiskingMessageResponseMatch(response: HttpResponse): Option[String] = {
@@ -288,50 +262,23 @@ class IhtConnectorImpl @Inject()(val http: HttpClient,
     Logger.info("Getting realtime risking message")
     http.GET(s"$serviceUrl/iht/$nino/application/getRealtimeRiskingMessage/$ihtAppReference") map {
       response => realtimeRiskingMessageResponseMatch(response)
-    } recoverWith {
-      case e: GatewayTimeoutException => {
-        Logger.warn("Gateway Timeout Response Returned ::: " + e.getMessage)
-        Future.failed(new GatewayTimeoutException(e.message))
-      }
-      case e: BadRequestException => {
-        Logger.warn("BadRequest Response Returned ::: " + e.getMessage)
-        Future.failed(new BadRequestException(e.message))
-      }
-      case e: Upstream4xxResponse => {
-        Logger.warn(" Upstream4xxResponse Returned ::: " + e.getMessage)
-        Future.failed(new Upstream4xxResponse(e.message, e.upstreamResponseCode, e.reportAs))
-      }
-      case e: Upstream5xxResponse => {
-        Logger.warn("Upstream5xxResponse Returned ::: " + e.getMessage)
-        Future.failed(new Upstream5xxResponse(e.message, e.upstreamResponseCode, e.reportAs))
-      }
-      case e: NotFoundException => {
-        Logger.warn("Upstream4xxResponse Returned ::: " + e.getMessage)
-        Future.failed(new Upstream4xxResponse(e.message, ControllerHelper.notFoundExceptionCode, ControllerHelper.notFoundExceptionCode))
-      }
-      case e: Exception => {
-        Logger.warn("Exception Returned ::: " + e.getMessage)
-        Future.failed(new Exception(e.getMessage))
-      }
-    }
+    } recoverWith connectorRecovery
   }
 
-  override def requestClearance(nino: String, ihtReference: String)(implicit headerCarrier: HeaderCarrier):
-  Future[Boolean] = {
+  override def requestClearance(nino: String, ihtReference: String)
+                               (implicit headerCarrier: HeaderCarrier): Future[Boolean] = {
     Logger.info("Requesting clearance")
     val future_response = http.GET(s"$serviceUrl/iht/$nino/$ihtReference/application/requestClearance")
     for {
       response <- future_response
     } yield {
       response.status match {
-        case OK => {
+        case OK =>
           Logger.info("Received response from DES")
           true
-        }
-        case (_) => {
+        case _ =>
           Logger.warn("Problem requesting clearance")
           throw new RuntimeException("Problem requesting clearance")
-        }
       }
     }
   }
@@ -353,97 +300,46 @@ class IhtConnectorImpl @Inject()(val http: HttpClient,
         Logger.info("Returned Probate Details")
         val js: JsValue = Json.parse(response.body)
         returnProbateDetails(js)
-      case (_) =>
+      case _ =>
         Logger.warn("Problem retrieving Probate Details")
         throw new RuntimeException("Problem retrieving Probate Details")
     }
   }
 
-  override def getProbateDetails(nino: String, ihtReference: String, ihtReturnId: String)(implicit headerCarrier: HeaderCarrier):
-  Future[Option[ProbateDetails]] = {
+  override def getProbateDetails(nino: String, ihtReference: String, ihtReturnId: String)
+                                (implicit headerCarrier: HeaderCarrier): Future[Option[ProbateDetails]] = {
     Logger.info("Getting Probate Details")
     http.GET(s"$serviceUrl/iht/$nino/application/probateDetails/$ihtReference/$ihtReturnId") map { response =>
       retrieveProbateDetails(response)
-    } recoverWith {
-      case e: GatewayTimeoutException =>
-        Logger.warn("Gateway Timeout Response Returned ::: " + e.getMessage)
-        Future.failed(new GatewayTimeoutException(e.message))
-      case e: BadRequestException =>
-        Logger.warn("BadRequest Response Returned ::: " + e.getMessage)
-        Future.failed(new BadRequestException(e.message))
-      case e: Upstream4xxResponse =>
-        Logger.warn(" Upstream4xxResponse Returned ::: " + e.getMessage)
-        Future.failed(new Upstream4xxResponse(e.message, e.upstreamResponseCode, e.reportAs))
-      case e: Upstream5xxResponse =>
-        Logger.warn("Upstream5xxResponse Returned ::: " + e.getMessage)
-        Future.failed(new Upstream5xxResponse(e.message, e.upstreamResponseCode, e.reportAs))
-      case e: NotFoundException =>
-        Logger.warn("Upstream4xxResponse Returned ::: " + e.getMessage)
-        Future.failed(new Upstream4xxResponse(e.message, ControllerHelper.notFoundExceptionCode, ControllerHelper.notFoundExceptionCode))
-      case e: Exception =>
-        Logger.warn("Exception Returned ::: " + e.getMessage)
-        Future.failed(new Exception(e.getMessage))
-    }
+    } recoverWith connectorRecovery
   }
 
-  override def getSubmittedApplicationDetails(nino: String, ihtReference: String, returnId: String)(implicit headerCarrier: HeaderCarrier):
-  Future[Option[IHTReturn]] = exceptionCheckForResponses {
-    Logger.info("Getting the submitted IHT return details")
-    val future_response = http.GET(s"$serviceUrl/iht/$nino/$ihtReference/$returnId/application/getSubmittedApplicationDetails")
-    for {
-      response <- future_response
-    } yield {
-      response.status match {
-        case OK => {
-          Logger.info("getSubmittedApplicationDetails response OK")
-          val js: JsValue = Json.parse(response.body)
-          Json.fromJson[IHTReturn](js) match {
-            case JsError(_) => {
-              Logger.warn("JSON parse error. Although returned - Failure to create an IHTReturn")
-              throw new RuntimeException("JSON parse error. Although returned - Failure to create an IHTReturn")
+  override def getSubmittedApplicationDetails(nino: String, ihtReference: String, returnId: String)
+                                             (implicit headerCarrier: HeaderCarrier): Future[Option[IHTReturn]] =
+    exceptionCheckForResponses {
+      Logger.info("Getting the submitted IHT return details")
+      http.GET(s"$serviceUrl/iht/$nino/$ihtReference/$returnId/application/getSubmittedApplicationDetails") map { response =>
+        response.status match {
+          case OK =>
+            Logger.info("getSubmittedApplicationDetails response OK")
+            val js: JsValue = Json.parse(response.body)
+            Json.fromJson[IHTReturn](js) match {
+              case JsError(_) =>
+                Logger.warn("JSON parse error. Although returned - Failure to create an IHTReturn")
+                throw new RuntimeException("JSON parse error. Although returned - Failure to create an IHTReturn")
+              case iht_ret =>
+                Logger.info("Correctly retrieved the IHT return details")
+                Some(iht_ret.get)
             }
-            case iht_ret => {
-              Logger.info("Correctly retrieved the IHT return details")
-              Some(iht_ret.get)
-            }
-          }
-        }
-        case (_) => {
-          Logger.warn("Problem retrieving the IHT return details")
-          throw new RuntimeException("Problem retrieving the IHT return details")
+          case _ =>
+            Logger.warn("Problem retrieving the IHT return details")
+            throw new RuntimeException("Problem retrieving the IHT return details")
         }
       }
     }
-  }
 
   /**
    * Checks the relevant response exceptions for the code to be executed
    */
-  private def exceptionCheckForResponses[A](x: Future[A]): Future[A] =
-    x.recoverWith {
-      case e: GatewayTimeoutException => {
-        Logger.warn("Gateway Timeout Response Returned ::: " + e.getMessage)
-        Future.failed(new GatewayTimeoutException(e.message))
-      }
-      case e: BadRequestException => {
-        Logger.warn("BadRequest Response Returned ::: " + e.getMessage)
-        Future.failed(new BadRequestException(e.message))
-      }
-      case e: Upstream4xxResponse => {
-        Logger.warn(" Upstream4xxResponse Returned ::: " + e.getMessage)
-        Future.failed(new Upstream4xxResponse(e.message, e.upstreamResponseCode, e.reportAs))
-      }
-      case e: Upstream5xxResponse => {
-        Logger.warn("Upstream5xxResponse Returned ::: " + e.getMessage)
-        Future.failed(new Upstream5xxResponse(e.message, e.upstreamResponseCode, e.reportAs))
-      }
-      case e: NotFoundException => {
-        Logger.warn("Upstream4xxResponse Returned ::: " + e.getMessage)
-        Future.failed(new Upstream4xxResponse(e.message, NOT_FOUND, NOT_FOUND))
-      }
-      case e: Exception => {
-        Logger.warn("Exception Returned ::: " + e.getMessage)
-        Future.failed(new Exception(e.getMessage))
-      }
-    }
+  private def exceptionCheckForResponses[A](x: Future[A]): Future[A] = x recoverWith connectorRecovery
 }

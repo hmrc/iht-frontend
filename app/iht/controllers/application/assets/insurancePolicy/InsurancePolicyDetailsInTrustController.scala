@@ -16,6 +16,7 @@
 
 package iht.controllers.application.assets.insurancePolicy
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
@@ -24,17 +25,19 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_in_trust
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class InsurancePolicyDetailsInTrustControllerImpl @Inject()(val metrics: IhtMetrics,
                                                             val ihtConnector: IhtConnector,
                                                             val cachingConnector: CachingConnector,
                                                             val authConnector: AuthConnector,
-                                                            val formPartialRetriever: FormPartialRetriever) extends InsurancePolicyDetailsInTrustController {
+                                                            val formPartialRetriever: FormPartialRetriever,
+                                                            implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with InsurancePolicyDetailsInTrustController {
 
 }
 
@@ -51,7 +54,7 @@ trait InsurancePolicyDetailsInTrustController extends EstateController {
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       val blankUnapplicableQuestions: InsurancePolicy => InsurancePolicy = insurancePolicy => {
-        if(!insurancePolicy.isInTrust.fold(true)(identity)) {
+        if (!insurancePolicy.isInTrust.fold(true)(identity)) {
           insurancePolicy copy (
             sevenYearsBefore = None
             )
@@ -64,15 +67,15 @@ trait InsurancePolicyDetailsInTrustController extends EstateController {
         (ApplicationDetails, Option[String]) =
         (appDetails, _, insurancePolicy) => {
           val updatedAD = appDetails.copy(allAssets = Some(appDetails.allAssets.fold
-            (new AllAssets(action = None, insurancePolicy = Some(insurancePolicy))) (allAssets=>
+          (new AllAssets(action = None, insurancePolicy = Some(insurancePolicy)))(allAssets =>
             updateAllAssetsWithInsurancePolicy(allAssets, insurancePolicy, blankUnapplicableQuestions))
           ))
           (updatedAD, None)
         }
       estateElementOnSubmitConditionalRedirect[InsurancePolicy](insurancePolicyInTrustForm,
         insurance_policy_details_in_trust.apply, updateApplicationDetails,
-        (ad, _) =>  ad.allAssets.flatMap(allAssets=>allAssets.insurancePolicy).flatMap(_.isInTrust)
-          .fold(insurancePoliciesRedirectLocation)(_=>
+        (ad, _) => ad.allAssets.flatMap(allAssets => allAssets.insurancePolicy).flatMap(_.isInTrust)
+          .fold(insurancePoliciesRedirectLocation)(_ =>
             iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsFinalGuidanceController.onPageLoad()
           ),
         userNino

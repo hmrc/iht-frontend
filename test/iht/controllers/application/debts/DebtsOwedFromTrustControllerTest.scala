@@ -16,22 +16,30 @@
 
 package iht.controllers.application.debts
 
-import iht.constants.IhtProperties._
+
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
+import iht.controllers.application.gifts.SevenYearsToTrustController
 import iht.forms.ApplicationForms._
 import iht.models.application.debts.BasicEstateElementLiabilities
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
 
   implicit val hc = new HeaderCarrier()
 
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with DebtsOwedFromATrustController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
-  def debtsOwedFromTrustController = new DebtsOwedFromATrustController {
+  def debtsOwedFromTrustController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
@@ -43,8 +51,6 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails),
     ihtReference = Some("ABC1234567890")
     )
-
-
 
   "DebtsOwedFromTrust" must {
     "return OK on page load" in {
@@ -73,7 +79,7 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
 
       val result = debtsOwedFromTrustController.onSubmit()(request)
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(routes.DebtsOverviewController.onPageLoad().url + "#" + DebtsOwedFromTrustID))
+      redirectLocation(result) must be(Some(routes.DebtsOverviewController.onPageLoad().url + "#" + appConfig.DebtsOwedFromTrustID))
     }
 
     "respond with bad request on submit when request is malformed" in {
@@ -125,7 +131,7 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
 
       val result = debtsOwedFromTrustController.onSubmit()(request)
       status(result) must be(SEE_OTHER)
-      redirectLocation(result).get must be(routes.DebtsOverviewController.onPageLoad().url + "#" + DebtsOwedFromTrustID)
+      redirectLocation(result).get must be(routes.DebtsOverviewController.onPageLoad().url + "#" + appConfig.DebtsOwedFromTrustID)
 
       val capturedValue = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
       val expectedAppDetails = applicationDetails.copy(allLiabilities = applicationDetails.allLiabilities.map(_.copy(

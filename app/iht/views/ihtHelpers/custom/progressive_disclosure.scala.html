@@ -14,17 +14,17 @@
  * limitations under the License.
  *@
 
-@import iht.config.ApplicationConfig
 @import iht.utils.ProgressiveDisclosureHelper._
 
-@(location: String)(implicit request:Request[_], messages: Messages)
+@import iht.config.AppConfig
+@(location: String)(implicit request:Request[_], messages: Messages, appConfig: AppConfig)
 
 <script type="text/javascript">
-var reportProblemAjaxUrl = "@{Html(ApplicationConfig.reportAProblemPartialUrl)}"
+    var reportProblemAjaxUrl = "@{Html(appConfig.reportAProblemPartialUrl)}"
 </script>
 
 <div class = "form-group">
-    <a class="u-mt--3 u--no-print form-group column-two-thirds js-hidden" href="@ApplicationConfig.reportAProblemNonJSUrl">@messages("site.progressiveDisclosure")</a>
+    <a class="u-mt--3 u--no-print form-group column-two-thirds js-hidden" href="@appConfig.reportAProblemNonJSUrl">@messages("site.progressiveDisclosure")</a>
 </div>
 
 <details id="get-help" class="form-group js-visible">

@@ -20,9 +20,7 @@ import iht.forms.FormTestHelper
 import iht.models.application.basicElements.ShareableBasicEstateElement
 import play.api.data.Form
 
-/**
-  * Created by vineet on 15/12/16.
-  */
+
 trait ShareableBasicEstateElementFormBehaviour extends FormTestHelper{
 
   def deceasedOwnedForm(form: Form[ShareableBasicEstateElement], selectErrorKey:String = "error.selectAnswer") = {

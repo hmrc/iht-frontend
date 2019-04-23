@@ -19,7 +19,8 @@ package iht.views.estateReports
 import iht.views.ViewTestHelper
 import iht.views.html.estateReports.save_your_estate_report
 import org.jsoup.Jsoup
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.api.test.FakeRequest
 
 class SaveYourEstateReportViewTest extends ViewTestHelper {

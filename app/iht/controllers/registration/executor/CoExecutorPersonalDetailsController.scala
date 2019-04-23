@@ -16,8 +16,8 @@
 
 package iht.controllers.registration.executor
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties
 import iht.controllers.ControllerHelper.Mode
 import iht.controllers.registration.RegistrationController
 import iht.forms.registration.CoExecutorForms
@@ -25,12 +25,11 @@ import iht.models.{CoExecutor, RegistrationDetails}
 import iht.views.html.registration.{executor => views}
 import javax.inject.Inject
 import play.api.Logger
-import play.api.Play.current
 import play.api.data.Form
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.Call
+import play.api.mvc.{Call, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -38,14 +37,12 @@ import scala.concurrent.Future
 class CoExecutorPersonalDetailsControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                         val cachingConnector: CachingConnector,
                                                         val authConnector: AuthConnector,
-                                                        val formPartialRetriever: FormPartialRetriever) extends CoExecutorPersonalDetailsController {
+                                                        val formPartialRetriever: FormPartialRetriever,
+                                                        implicit val appConfig: AppConfig,
+                                                        val cc: MessagesControllerComponents) extends FrontendController(cc) with CoExecutorPersonalDetailsController
 
-  override def coExecutorForms = CoExecutorForms
-}
-
-trait CoExecutorPersonalDetailsController extends RegistrationController {
+trait CoExecutorPersonalDetailsController extends RegistrationController with CoExecutorForms {
   def cachingConnector: CachingConnector
-  def coExecutorForms: CoExecutorForms
 
   override def guardConditions = guardConditionsCoExecutorPersonalDetails
 
@@ -56,21 +53,20 @@ trait CoExecutorPersonalDetailsController extends RegistrationController {
   def pageLoad(id: Option[String], actionCall: Call, mode: Mode.Value = Mode.Standard,
                   cancelCall: Option[Call] = None) = authorisedForIht {
     implicit request =>
-      withRegistrationDetailsRedirectOnGuardCondition { (rd: RegistrationDetails) =>
+      withRegistrationDetailsRedirectOnGuardCondition { rd: RegistrationDetails =>
 
         val form: Form[CoExecutor] = id match {
           case None =>
-            if (rd.coExecutors.length >= IhtProperties.maxCoExecutors) {
+            if (rd.coExecutors.length >= appConfig.maxCoExecutors) {
               throw new Exception("Attempting to add too many co-executors")
-            }
-            else {
-              coExecutorForms.coExecutorPersonalDetailsForm()
+            } else {
+              coExecutorPersonalDetailsForm()
             }
           case Some(identifier) =>
             val coExecutor = rd.coExecutors.find(_.id == id)
             coExecutor match {
               case None => throw new Exception(s"Could not find co-executor with id: $identifier")
-              case Some(coExec) => coExecutorForms.coExecutorPersonalDetailsForm().fill(coExec)
+              case Some(coExec) => coExecutorPersonalDetailsForm().fill(coExec)
             }
         }
 
@@ -79,7 +75,7 @@ trait CoExecutorPersonalDetailsController extends RegistrationController {
   }
 
   private def submitNewCoExecutor(rd: RegistrationDetails, coExecutor: CoExecutor, mode: Mode.Value)(implicit hc: HeaderCarrier) = {
-    if (rd.coExecutors.length >= IhtProperties.maxCoExecutors) {
+    if (rd.coExecutors.length >= appConfig.maxCoExecutors) {
       throw new Exception("Attempting to add too many co-executors")
     }
     else {
@@ -113,13 +109,13 @@ trait CoExecutorPersonalDetailsController extends RegistrationController {
   def submit(id: Option[String], onFailureActionCall: Call, mode: Mode.Value = Mode.Standard,
              cancelCall: Option[Call] = None) = authorisedForIht {
     implicit request =>
-      withRegistrationDetailsRedirectOnGuardCondition { (rd: RegistrationDetails) =>
+      withRegistrationDetailsRedirectOnGuardCondition { rd: RegistrationDetails =>
 
         val formType =
           if (mode == Mode.Standard) {
-            coExecutorForms.coExecutorPersonalDetailsForm(Some(rd))
+            coExecutorPersonalDetailsForm(Some(rd))
           } else {
-            coExecutorForms.coExecutorPersonalDetailsEditForm(Some(rd))
+            coExecutorPersonalDetailsEditForm(Some(rd))
           }
 
         val boundForm = formType.bindFromRequest()

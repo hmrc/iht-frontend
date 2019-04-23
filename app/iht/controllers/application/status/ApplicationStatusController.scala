@@ -32,7 +32,7 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 import scala.concurrent.Future
 
 
-trait ApplicationStatusController extends EstateController {
+trait ApplicationStatusController extends EstateController with StringHelper {
 
   def cachingConnector: CachingConnector
 
@@ -42,7 +42,7 @@ trait ApplicationStatusController extends EstateController {
 
   def onPageLoad(ihtReference: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
-      val nino = StringHelper.getNino(userNino)
+      val nino = getNino(userNino)
       cachingConnector.storeSingleValue(Constants.PDFIHTReference, ihtReference).flatMap{ _ =>
         ihtConnector.getCaseDetails(nino, ihtReference).flatMap { caseDetails =>
           val futureAD = getApplicationDetails(ihtReference, caseDetails.acknowledgmentReference, userNino)

@@ -17,10 +17,10 @@
 package iht.models.des.ihtReturn
 
 import play.api.libs.json.Json
+import play.api.libs.json.JodaWrites._
+import play.api.libs.json.JodaReads._
 
-/**
-  * Created by vineet on 06/07/17.
-  */
+
 case class FreeEstate(estateAssets: Option[Set[Asset]] = None,
                       interestInOtherEstate: Option[InterestInOtherEstate] = None,
                       estateLiabilities: Option[Set[Liability]] = None,

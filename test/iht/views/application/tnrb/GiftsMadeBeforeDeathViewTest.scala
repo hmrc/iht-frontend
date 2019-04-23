@@ -17,7 +17,8 @@
 package iht.views.application.tnrb
 
 import iht.forms.TnrbForms._
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.testhelpers.CommonBuilder
 import iht.utils.tnrb.TnrbHelper
@@ -27,7 +28,7 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 
-class GiftsMadeBeforeDeathViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
+class GiftsMadeBeforeDeathViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] with TnrbHelper {
 
   def tnrbModel = CommonBuilder.buildTnrbEligibility
 
@@ -36,7 +37,7 @@ class GiftsMadeBeforeDeathViewTest extends YesNoQuestionViewBehaviour[TnrbEligib
   val deceasedDetailsName = CommonBuilder.buildDeceasedDetails.name
 
   override def pageTitle = messagesApi("iht.estateReport.tnrb.giftsMadeBeforeDeath.question",
-    TnrbHelper.spouseOrCivilPartnerLabelGenitive(
+    spouseOrCivilPartnerLabelGenitive(
       tnrbModel, widowCheck,
       messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the")))
 
@@ -44,7 +45,7 @@ class GiftsMadeBeforeDeathViewTest extends YesNoQuestionViewBehaviour[TnrbEligib
 
   override def guidance = guidance(
     Set(messagesApi("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1",
-      TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
+      spouseOrCivilPartnerName(tnrbModel,
         messagesApi("page.iht.application.tnrb.spouseOrCivilPartner.hint"))),
       messagesApi("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2"))
   )

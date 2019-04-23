@@ -16,19 +16,20 @@
 
 package iht.controllers.application.assets.household
 
-import iht.constants.IhtProperties._
+
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.CommonHelper
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.{contentAsString, _}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class HouseholdDeceasedOwnControllerTest extends ApplicationControllerTest {
-
-
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails copy (
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails), ihtReference = Some("AbC123"))
@@ -43,22 +44,24 @@ class HouseholdDeceasedOwnControllerTest extends ApplicationControllerTest {
       storeAppDetailsInCache = true)
   }
 
-  def householdDeceasedOwnController = new HouseholdDeceasedOwnController {
+  def householdDeceasedOwnController = new TestController {
     val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def householdDeceasedOwnControllerNotAuthorised = new HouseholdDeceasedOwnController {
+  def householdDeceasedOwnControllerNotAuthorised = new TestController {
     val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-
-
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with HouseholdDeceasedOwnController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
   "HouseholdDeceasedOwnController" must {
 
     "redirect to login page on PageLoad if the user is not logged in" in {
@@ -89,7 +92,7 @@ class HouseholdDeceasedOwnControllerTest extends ApplicationControllerTest {
 
       val result = householdDeceasedOwnController.onSubmit()(request)
       status(result) must be (SEE_OTHER)
-      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.HouseholdOverviewController.onPageLoad.url, AssetsHouseholdOwnID)))
+      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.HouseholdOverviewController.onPageLoad.url, mockAppConfig.AssetsHouseholdOwnID)))
     }
 
     "wipe out the household value if user selects No, save application and go to household overview page on submit" in {
@@ -107,7 +110,7 @@ class HouseholdDeceasedOwnControllerTest extends ApplicationControllerTest {
 
       val result = householdDeceasedOwnController.onSubmit()(request)
       status(result) must be (SEE_OTHER)
-      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.HouseholdOverviewController.onPageLoad.url, AssetsHouseholdOwnID)))
+      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.HouseholdOverviewController.onPageLoad.url, mockAppConfig.AssetsHouseholdOwnID)))
 
       val capturedValue = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
       val expectedAppDetails = applicationDetails.copy(allAssets = applicationDetails.allAssets.map(_.copy(
@@ -136,7 +139,7 @@ class HouseholdDeceasedOwnControllerTest extends ApplicationControllerTest {
 
       val result = householdDeceasedOwnController.onSubmit()(request)
       status(result) must be (SEE_OTHER)
-      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.HouseholdOverviewController.onPageLoad().url, AssetsHouseholdOwnID)))
+      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.HouseholdOverviewController.onPageLoad().url, mockAppConfig.AssetsHouseholdOwnID)))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {

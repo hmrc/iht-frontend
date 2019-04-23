@@ -16,8 +16,8 @@
 
 package iht.controllers.application.assets
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.IhtMetrics
@@ -27,17 +27,19 @@ import iht.models.application.basicElements.BasicEstateElement
 import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import iht.views.html.application.asset._
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class MoneyOwedControllerImpl @Inject()(val metrics: IhtMetrics,
                                         val ihtConnector: IhtConnector,
                                         val cachingConnector: CachingConnector,
                                         val authConnector: AuthConnector,
-                                        val formPartialRetriever: FormPartialRetriever) extends MoneyOwedController {
+                                        val formPartialRetriever: FormPartialRetriever,
+                                        implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with MoneyOwedController {
 }
 
 trait MoneyOwedController extends EstateController {
@@ -55,7 +57,7 @@ trait MoneyOwedController extends EstateController {
         (ApplicationDetails, Option[String]) =
         (appDetails, _, moneyOwed) => {
           val updatedAD = appDetails.copy(allAssets = Some(appDetails.allAssets.fold
-            (new AllAssets(action = None, moneyOwed = Some(moneyOwed)))
+          (new AllAssets(action = None, moneyOwed = Some(moneyOwed)))
 
           (moneyOwed.isOwned match {
             case Some(true) => _.copy(moneyOwed = Some(moneyOwed))
@@ -69,7 +71,7 @@ trait MoneyOwedController extends EstateController {
       estateElementOnSubmit[BasicEstateElement](moneyOwedForm,
         money_owed.apply,
         updateApplicationDetails,
-        CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionMoneyOwedID)),
+        CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(appConfig.AppSectionMoneyOwedID)),
         userNino
       )
     }

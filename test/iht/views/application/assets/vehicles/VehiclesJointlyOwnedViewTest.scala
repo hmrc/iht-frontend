@@ -24,7 +24,8 @@ import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.vehicles.vehicles_jointly_owned
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 import iht.testhelpers.TestHelper._
@@ -45,7 +46,7 @@ class VehiclesJointlyOwnedViewTest extends ShareableElementInputViewBehaviour[Sh
   override def valueQuestionHelp = ""
   override def returnLinkText = messagesApi("site.link.return.vehicles")
   override def returnLinkUrl = VehiclesOverviewController.onPageLoad().url
-  override def linkHash = AssetsVehiclesSharedID
+  override def linkHash = appConfig.AssetsVehiclesSharedID
   override def formTarget =Some(routes.VehiclesJointlyOwnedController.onSubmit)
 
   "Vehicles Jointly Owned view" must {

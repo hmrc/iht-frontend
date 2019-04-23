@@ -19,16 +19,18 @@ package iht.views.estateReports
 import iht.connector.IhtConnector
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.CommonBuilder
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.viewmodels.estateReports.YourEstateReportsRowViewModel
 import iht.views.ViewTestHelper
 import iht.views.html.estateReports.your_estate_reports
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
 import iht.testhelpers.viewSpecshelper.estateReport.EstateReportMessage
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 
 class YourEstateReportsViewTest extends ViewTestHelper with ApplicationControllerTest with EstateReportMessage {
 

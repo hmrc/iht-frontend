@@ -17,24 +17,22 @@
 package iht.views.application.tnrb
 
 import iht.forms.TnrbForms._
-import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.testhelpers.CommonBuilder
 import iht.utils.CommonHelper
 import iht.utils.tnrb.TnrbHelper
 import iht.views.ViewTestHelper
 import iht.views.html.application.tnrb.date_of_marriage
-import play.api.i18n.Messages.Implicits._
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
 
-class DateOfMarriageViewTest extends ViewTestHelper {
+
+class DateOfMarriageViewTest extends ViewTestHelper with TnrbHelper {
   val tnrbModel = CommonBuilder.buildTnrbEligibility
   val widowCheckModel = CommonBuilder.buildWidowedCheck
 
   lazy val pageTitle = messagesApi("iht.estateReport.tnrb.dateOfMarriage",
-    TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel))
+    marriageOrCivilPartnerShipLabel(widowCheckModel))
 
   lazy val guidanceParagraphs = Set(messagesApi("iht.estateReport.tnrb.dateOfMarriage.hint",
-    TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel), deceasedName, predeceasedName))
+    marriageOrCivilPartnerShipLabel(widowCheckModel), deceasedName, predeceasedName))
 
   lazy val returnLinkId = "cancel-button"
   lazy val returnLinkText = messagesApi("page.iht.application.tnrb.returnToIncreasingThreshold")
@@ -87,10 +85,10 @@ class DateOfMarriageViewTest extends ViewTestHelper {
     "show the correct return link with text" in {
       implicit val request = createFakeRequest()
 
-      val view = date_of_marriage(dateOfMarriageForm, widowCheckModel, deceasedName, predeceasedName, CommonHelper.addFragmentIdentifier(returnLinkTargetUrl, Some(TnrbSpouseDateOfMarriageID))).toString
+      val view = date_of_marriage(dateOfMarriageForm, widowCheckModel, deceasedName, predeceasedName, CommonHelper.addFragmentIdentifier(returnLinkTargetUrl, Some(appConfig.TnrbSpouseDateOfMarriageID))).toString
 
       val returnLink = asDocument(view).getElementById(returnLinkId)
-      returnLink.attr("href") mustBe returnLinkTargetUrl.url + "#" + TnrbSpouseDateOfMarriageID
+      returnLink.attr("href") mustBe returnLinkTargetUrl.url + "#" + appConfig.TnrbSpouseDateOfMarriageID
       returnLink.text() mustBe returnLinkText
     }
   }

@@ -16,23 +16,9 @@
 
 package iht.constants
 
-import java.net.URL
-import java.nio.file.{Path, Paths}
-
-import play.api.Play
-import play.api.Play.current
-
-import scala.collection.immutable.ListMap
-import iht.constants.IhtProperties._
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-
-/**
-  * Created by dbeer on 04/08/15.
-  */
 object Constants {
 
-  val insurancePolicyFormFieldsWithExtraContentLineInErrorSummary = Set(
+  val insurancePolicyFormFieldsWithExtraContentLineInErrorSummary: Set[String] = Set(
     "policyInDeceasedName", "isJointlyOwned", "isInsurancePremiumsPayedForSomeoneElse", "isAnnuitiesBought", "isInTrust"
   )
 
@@ -108,28 +94,6 @@ object Constants {
   lazy val under325000 = "under-325000"
   lazy val between325000and1million = "between-325000-and-1million"
   lazy val moreThan1million = "more-than-1million"
-
-  lazy val ETMPAssetCodesToIHTMessageKeys = ListMap(
-    ETMPAssetCodeMoney -> "iht.estateReport.assets.money.upperCaseInitial",
-    ETMPAssetCodeHouseHold -> "iht.estateReport.assets.householdAndPersonalItems.title",
-    ETMPAssetCodePrivatePension -> "iht.estateReport.assets.privatePensions",
-    ETMPAssetCodeStockShareNotListed -> "iht.estateReport.assets.stocksAndSharesNotListed",
-    ETMPAssetCodeStockShareListed -> "iht.estateReport.assets.stocksAndSharesListed",
-    ETMPAssetCodeInsurancePolicy -> "iht.estateReport.assets.insurancePolicies",
-    ETMPAssetCodeBusinessInterest -> "iht.estateReport.assets.businessInterests.title",
-    ETMPAssetCodeNominatedAsset -> "iht.estateReport.assets.nominated",
-    ETMPAssetCodeForeignAsset -> "iht.estateReport.assets.foreign.title",
-    ETMPAssetCodeMoneyOwed -> "iht.estateReport.assets.moneyOwed",
-    ETMPAssetCodeOtherAsset -> "page.iht.application.assets.main-section.other.title",
-    ETMPAssetCodeTrust -> "iht.estateReport.assets.heldInATrust.title",
-    ETMPAssetCodeDeceasedsHome -> "page.iht.application.assets.propertyType.deceasedHome.label"
-  )
-
-  lazy val ETMPExemptionTypesToIHTMessageKeys = ListMap(
-    ETMPExemptionTypeCharity -> "pdf.exemption.charity",
-    ETMPExemptionTypeSpouse -> "pdf.exemption.spouse",
-    ETMPExemptionTypeGNCP -> "pdf.exemption.otherQualifyingBodies"
-  )
 
   lazy val  NINO= "customerNino"
 

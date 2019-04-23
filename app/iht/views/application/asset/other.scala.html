@@ -15,16 +15,17 @@
  *@
 
 @import iht.constants.Constants
-@import iht.constants.IhtProperties._
+
 @import iht.models.application.basicElements.BasicEstateElement
 @import iht.utils._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.models.RegistrationDetails
 @import uk.gov.hmrc.play.views.html.helpers.form
 
 @(otherForm: Form[BasicEstateElement],
-registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, wrapName = true)}
 
@@ -56,7 +57,7 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
             @ihtHelpers.custom.return_link(
                 Messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(dd.name)),
                 Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
-                AppSectionOtherID
+                appConfig.AppSectionOtherID
             )
         }
     }

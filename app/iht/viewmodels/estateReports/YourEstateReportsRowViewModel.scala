@@ -18,12 +18,11 @@ package iht.viewmodels.estateReports
 
 import iht.connector.IhtConnector
 import iht.models.application.IhtApplication
+import iht.utils.CustomLanguageUtils.Dates
 import iht.utils.{ApplicationStatus => AppStatus}
-import play.api.i18n.Messages.Implicits._
-import play.api.i18n.{Lang, Messages}
+import play.api.Logger
+import play.api.i18n.Messages
 import play.api.mvc.Call
-import play.api.{Application, Logger}
-import uk.gov.hmrc.play.language.LanguageUtils.Dates
 import uk.gov.hmrc.http.HeaderCarrier
 
 case class YourEstateReportsRowViewModel(deceasedName: String,
@@ -35,10 +34,9 @@ case class YourEstateReportsRowViewModel(deceasedName: String,
                                linkScreenreader: String)
 
 object YourEstateReportsRowViewModel {
-  def apply(nino: String, ihtApp: IhtApplication, ihtConnector: IhtConnector, currentStatus: String)(implicit headerCarrier: HeaderCarrier,
-                                                    lang: Lang, application: Application) = {
+  def apply(nino: String, ihtApp: IhtApplication, ihtConnector: IhtConnector, currentStatus: String)
+           (implicit headerCarrier: HeaderCarrier, messages: Messages): YourEstateReportsRowViewModel = {
 
-    implicit val messages: Messages = applicationMessages(lang, application)
     val ihtRef = ihtApp.ihtRefNo
 
     new YourEstateReportsRowViewModel(deceasedName = s"${ihtApp.firstName} ${ihtApp.lastName}",

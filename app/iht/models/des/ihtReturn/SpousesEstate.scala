@@ -18,9 +18,7 @@ package iht.models.des.ihtReturn
 
 import play.api.libs.json.Json
 
-/**
-  * Created by vineet on 06/07/17.
-  */
+
 case class SpousesEstate(domiciledInUk: Option[Boolean]= None,
                          whollyExempt: Option[Boolean]= None,
                          jointAssetsPassingToOther: Option[Boolean]= None,

@@ -16,6 +16,7 @@
 
 package iht.controllers.application.assets.properties
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
@@ -24,16 +25,15 @@ import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.models.application.debts.AllLiabilities
-import iht.utils.{CommonHelper, PropertyAndMortgageHelper, StringHelper}
+import iht.utils.{CommonHelper, PropertyAndMortgageHelper}
 import iht.views.html.application.asset.properties.properties_owned_question
 import javax.inject.Inject
 import play.api.Logger
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Request, Result}
+import play.api.mvc.{MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -43,8 +43,11 @@ class PropertiesOwnedQuestionControllerImpl @Inject()(val metrics: IhtMetrics,
                                                       val ihtConnector: IhtConnector,
                                                       val cachingConnector: CachingConnector,
                                                       val authConnector: AuthConnector,
-                                                      val formPartialRetriever: FormPartialRetriever) extends PropertiesOwnedQuestionController
-trait PropertiesOwnedQuestionController extends EstateController {
+                                                      val formPartialRetriever: FormPartialRetriever,
+                                                      implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with PropertiesOwnedQuestionController
+
+trait PropertiesOwnedQuestionController extends EstateController with PropertyAndMortgageHelper {
 
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -56,7 +59,7 @@ trait PropertiesOwnedQuestionController extends EstateController {
     implicit request => {
       withRegistrationDetails { regDetails =>
 
-        val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(userNino),
+        val applicationDetailsFuture = ihtConnector.getApplication(getNino(userNino),
           CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
           regDetails.acknowledgmentReference)
 
@@ -69,7 +72,7 @@ trait PropertiesOwnedQuestionController extends EstateController {
                 Future.successful(BadRequest(properties_owned_question(formWithErrors, regDetails)))
               },
               propertiesModel => {
-                saveApplication(StringHelper.getNino(userNino), propertiesModel, appDetails, regDetails)
+                saveApplication(getNino(userNino), propertiesModel, appDetails, regDetails)
               }
             )
           case _ => Future.successful(InternalServerError("Application details not found"))
@@ -88,12 +91,12 @@ trait PropertiesOwnedQuestionController extends EstateController {
     val updatedAppDetails = appDetails.copy(
       allAssets = Some(appDetails.allAssets.fold(new AllAssets(properties = Some(properties)))(_.copy(
         properties = Some(properties)))),
-      propertyList = PropertyAndMortgageHelper.updatePropertyList(properties, appDetails),
+      propertyList = updatePropertyList(properties, appDetails),
       allLiabilities = Some(appDetails.allLiabilities.fold(new AllLiabilities())(_.copy(
-        mortgages = PropertyAndMortgageHelper.updateMortgages(properties, appDetails))))
+        mortgages = updateMortgages(properties, appDetails))))
     )
 
-    val adAfterUpdatedForKickout = updateKickout(registrationDetails = regDetails, applicationDetails = updatedAppDetails)
+    val adAfterUpdatedForKickout = appKickoutUpdateKickout(registrationDetails = regDetails, applicationDetails = updatedAppDetails)
     ihtConnector.saveApplication(nino, adAfterUpdatedForKickout, regDetails.acknowledgmentReference)
       .map { savedApplicationDetails =>
         savedApplicationDetails.fold[Result] {
@@ -102,7 +105,7 @@ trait PropertiesOwnedQuestionController extends EstateController {
         } { _ =>
           adAfterUpdatedForKickout.kickoutReason match {
             case Some(_) => Redirect(iht.controllers.application.routes.KickoutAppController.onPageLoad())
-            case _ => PropertyAndMortgageHelper.determineRedirectLocationForPropertiesOwnedQuestion(properties, appDetails)
+            case _ => determineRedirectLocationForPropertiesOwnedQuestion(properties, appDetails)
           }
         }
       }

@@ -16,34 +16,43 @@
 
 package iht.controllers.application.status
 
+import iht.config.AppConfig
 import iht.constants.Constants
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import org.mockito.ArgumentMatchers._
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.Request
+import play.api.mvc.{MessagesControllerComponents, Request}
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class ApplicationStatusControllerTest extends ApplicationControllerTest {
 
+  val applicationMessages = messages
 
-  def applicationStatusController = new ApplicationStatusController {
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with ApplicationStatusController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def applicationStatusController = new TestController {
     def getView = (ihtReference, deceasedName, probateDetails) => (request: Request[_], formPartialRetriever: FormPartialRetriever) =>
       iht.views.html.application.status.in_review_application(ihtReference,
                                                       deceasedName,
-                                                      probateDetails)(request, applicationMessages, formPartialRetriever)
+                                                      probateDetails)(request, applicationMessages, formPartialRetriever, mockAppConfig)
 
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+    override implicit val appConfig: AppConfig = mockAppConfig
+    override val cc: MessagesControllerComponents = mockControllerComponents
   }
 
   def createMocksForRegistrationAndApplication(rd: RegistrationDetails, ad: ApplicationDetails) = {

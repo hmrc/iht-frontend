@@ -16,8 +16,8 @@
 
 package iht.controllers.application.tnrb
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
 import iht.models.RegistrationDetails
@@ -27,12 +27,11 @@ import iht.utils.tnrb.TnrbHelper
 import iht.utils.{CommonHelper, _}
 import javax.inject.Inject
 import play.api.Logger
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Request, Result}
+import play.api.mvc.{MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -41,11 +40,11 @@ import scala.concurrent.Future
 class BenefitFromTrustControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                val cachingConnector: CachingConnector,
                                                val authConnector: AuthConnector,
-                                               val formPartialRetriever: FormPartialRetriever) extends BenefitFromTrustController {
+                                               val formPartialRetriever: FormPartialRetriever,
+                                               implicit val appConfig: AppConfig,
+                                               val cc: MessagesControllerComponents) extends FrontendController(cc) with BenefitFromTrustController
 
-}
-
-trait BenefitFromTrustController extends EstateController {
+trait BenefitFromTrustController extends EstateController with StringHelper with TnrbHelper {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   def cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
@@ -54,7 +53,7 @@ trait BenefitFromTrustController extends EstateController {
       implicit request => {
         withRegistrationDetails { registrationDetails =>
           for {
-            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
+            applicationDetails <- ihtConnector.getApplication(getNino(userNino),
               CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
               registrationDetails.acknowledgmentReference)
           } yield {
@@ -71,7 +70,7 @@ trait BenefitFromTrustController extends EstateController {
                   appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                   appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
                   deceasedName,
-                  CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbSpouseBenefitFromTrustID)))
+                  CommonHelper.addFragmentIdentifier(cancelUrl, Some(appConfig.TnrbSpouseBenefitFromTrustID)))
                 )
               }
               case _ => InternalServerError("Application details not found")
@@ -88,7 +87,7 @@ trait BenefitFromTrustController extends EstateController {
 
           val deceasedName = CommonHelper.getOrException(regDetails.deceasedDetails).name
 
-          val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(userNino),
+          val applicationDetailsFuture = ihtConnector.getApplication(getNino(userNino),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
@@ -105,7 +104,7 @@ trait BenefitFromTrustController extends EstateController {
                     cancelUrl)))
                 },
                 tnrbModel => {
-                  saveApplication(StringHelper.getNino(userNino), tnrbModel, appDetails, regDetails)
+                  saveApplication(getNino(userNino), tnrbModel, appDetails, regDetails)
                 }
               )
             }
@@ -125,7 +124,7 @@ trait BenefitFromTrustController extends EstateController {
       fold(new TnrbEligibiltyModel(None, None, None, None, isPartnerBenFromTrust = tnrbModel.isPartnerBenFromTrust,
         None, None, None, None, None, None))(_.copy(isPartnerBenFromTrust = tnrbModel.isPartnerBenFromTrust))))
 
-    val updatedAppDetailsWithKickOutReason = ApplicationKickOutNonSummaryHelper.updateKickout(checks = ApplicationKickOutNonSummaryHelper.checksTnrbEligibility,
+    val updatedAppDetailsWithKickOutReason = appKickoutUpdateKickout(checks = checksTnrbEligibility,
       registrationDetails = regDetails,
       applicationDetails = updatedAppDetails)
 
@@ -138,7 +137,7 @@ trait BenefitFromTrustController extends EstateController {
       } { _ =>
         updatedAppDetailsWithKickOutReason.kickoutReason match {
           case Some(reason) => Redirect(iht.controllers.application.routes.KickoutAppController.onPageLoad())
-          case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(TnrbSpouseBenefitFromTrustID))
+          case _ => successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(appConfig.TnrbSpouseBenefitFromTrustID))
         }
       }
     }

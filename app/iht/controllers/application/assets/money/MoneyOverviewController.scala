@@ -16,41 +16,37 @@
 
 package iht.controllers.application.assets.money
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.EstateController
 import iht.metrics.IhtMetrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.basicElements.ShareableBasicEstateElement
-import iht.utils.{CommonHelper, StringHelper}
+import iht.utils.CommonHelper
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
-
-
-/**
-  * Created by jennygj on 30/06/16.
-  */
 
 class MoneyOverviewControllerImpl @Inject()(val metrics: IhtMetrics,
                                             val ihtConnector: IhtConnector,
                                             val cachingConnector: CachingConnector,
                                             val authConnector: AuthConnector,
-                                            val formPartialRetriever: FormPartialRetriever) extends MoneyOverviewController {
+                                            val formPartialRetriever: FormPartialRetriever,
+                                            implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with MoneyOverviewController {
 
 }
 
 trait MoneyOverviewController extends EstateController {
-
-
-  def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+  def onPageLoad: Action[AnyContent] = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       withRegistrationDetails { registrationDetails =>
         for {
           applicationDetails: Option[ApplicationDetails] <- ihtConnector.getApplication(
-            StringHelper.getNino(userNino),
+            getNino(userNino),
             CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
             registrationDetails.acknowledgmentReference
           )

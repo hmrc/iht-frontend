@@ -16,14 +16,18 @@
 
 package iht.controllers.application.exemptions.partner
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
+import iht.controllers.application.debts.MortgagesOverviewController
 import iht.forms.ApplicationForms._
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.TestHelper._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.CommonHelper._
 import org.joda.time.LocalDate
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -33,9 +37,12 @@ import scala.concurrent.Future
  */
 class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
 
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with PartnerDateOfBirthController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
-
-  def partnerDateOfBirthController = new PartnerDateOfBirthController {
+  def partnerDateOfBirthController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
@@ -43,7 +50,7 @@ class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def partnerDateOfBirthControllerNotAuthorised = new PartnerDateOfBirthController {
+  def partnerDateOfBirthControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector

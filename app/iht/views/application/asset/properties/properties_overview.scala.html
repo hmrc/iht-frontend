@@ -21,12 +21,13 @@
 @import iht.views.html._
 @import iht.views.html.ihtHelpers.custom._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.models.RegistrationDetails
-@import iht.constants.IhtProperties._
+
 
 @(propertyList: List[Property] = List.empty[Property],
     properties:Option[Properties],
-    registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+    registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
@@ -43,7 +44,7 @@ isFullWidth=false
 
 <div id="property-table" class="form-group" @if(propertyList.isEmpty){}>
         <ul class="tabular-data tabular-data--list">
-        @generic_overview_table_item(id = AssetsPropertiesOwnedID,
+        @generic_overview_table_item(id = appConfig.AssetsPropertiesOwnedID,
             questionText = Messages("page.iht.application.assets.properties.question.question",
                                       DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
             questionScreenReaderText= Messages("page.iht.application.assets.properties.question.question", Messages("iht.the.deceased")),
@@ -77,7 +78,7 @@ isFullWidth=false
                     <span class="js-propertyValInput js-toFormat">@element.value.map(x=> "£"+CommonHelper.numberWithCommas(x))</span>
                 </div>
                 <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
-                    <a href='@iht.controllers.application.assets.properties.routes.DeletePropertyController.onPageLoad(element.id.getOrElse("")).url' id='@AssetsPropertiesDeleteID@element.id.getOrElse("")'>
+                    <a href='@iht.controllers.application.assets.properties.routes.DeletePropertyController.onPageLoad(element.id.getOrElse("")).url' id='@appConfig.AssetsPropertiesDeleteID@element.id.getOrElse("")'>
                         <span aria-hidden="true">
                         @Messages("iht.delete")
                         </span>
@@ -85,7 +86,7 @@ isFullWidth=false
                     </a>
                 </div>
                 <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
-                    <a href='@iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onEditPageLoad(element.id.getOrElse("")).url' id='@AssetsPropertiesChangeID@element.id.getOrElse("")'>
+                    <a href='@iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onEditPageLoad(element.id.getOrElse("")).url' id='@appConfig.AssetsPropertiesChangeID@element.id.getOrElse("")'>
                         @if(element.isComplete) {
                             <span aria-hidden="true">@Messages("iht.change")</span>
                             <span class="visually-hidden">@Messages("page.iht.application.assets.property.address.property.change", (i + 1))</span>
@@ -104,13 +105,13 @@ isFullWidth=false
 
 
 <div class="form-group" id="add-property-link">
-    <a id="@AssetsPropertiesAddPropertyID" href="@iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad()"> @Messages("iht.estateReport.assets.propertyAdd") </a>
+    <a id="@appConfig.AssetsPropertiesAddPropertyID" href="@iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad()"> @Messages("iht.estateReport.assets.propertyAdd") </a>
 </div>
 
 @ihtHelpers.custom.return_link(
     Messages("site.link.return.assets"),
     Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
-    AppSectionPropertiesID
+    appConfig.AppSectionPropertiesID
 )
 
 }

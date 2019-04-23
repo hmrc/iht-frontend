@@ -16,22 +16,21 @@
 
 package iht.controllers.application.gifts
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.AllGifts
 import iht.utils.CommonHelper._
-import iht.utils.ExemptionsGuidanceHelper._
 import iht.utils.OverviewHelper._
 import iht.utils._
 import javax.inject.Inject
-import play.api.Play.current
 import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -39,11 +38,11 @@ import scala.concurrent.Future
 class GiftsOverviewControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                             val cachingConnector: CachingConnector,
                                             val authConnector: AuthConnector,
-                                            val formPartialRetriever: FormPartialRetriever) extends GiftsOverviewController {
+                                            val formPartialRetriever: FormPartialRetriever,
+                                            implicit val appConfig: AppConfig,
+                                            val cc: MessagesControllerComponents) extends FrontendController(cc) with GiftsOverviewController
 
-}
-
-trait GiftsOverviewController extends EstateController {
+trait GiftsOverviewController extends EstateController with ExemptionsGuidanceHelper {
 
 
   private def givenAwayYesNoItems(allGifts: AllGifts, rd: RegistrationDetails) = {
@@ -88,7 +87,7 @@ trait GiftsOverviewController extends EstateController {
       implicit request => {
         withRegistrationDetails { regDetails =>
           val applicationDetailsFuture: Future[Option[ApplicationDetails]] = ihtConnector
-            .getApplication(StringHelper.getNino(userNino), getOrExceptionNoIHTRef(regDetails.ihtReference),
+            .getApplication(getNino(userNino), getOrExceptionNoIHTRef(regDetails.ihtReference),
               regDetails.acknowledgmentReference)
 
           applicationDetailsFuture.flatMap { optionApplicationDetails =>
@@ -127,7 +126,7 @@ trait GiftsOverviewController extends EstateController {
     questionTitlesMessagesFileItems = Seq(messages("page.iht.application.gifts.lastYears.givenAway.question", deceasedName)),
     ad,
     regDetails,
-    questionLinkIds = Seq(GiftsGivenAwayQuestionID)
+    questionLinkIds = Seq(appConfig.GiftsGivenAwayQuestionID)
   )
 
   private def createReservationQuestion(regDetails: RegistrationDetails,
@@ -141,8 +140,8 @@ trait GiftsOverviewController extends EstateController {
     questionTitlesMessagesFileItems = Seq(messages("iht.estateReport.gifts.reservation.question", deceasedName)),
     ad,
     regDetails,
-    sectionLinkId = GiftsReservationBenefitSectionID,
-    questionLinkIds = Seq(GiftsReservationBenefitQuestionID)
+    sectionLinkId = appConfig.GiftsReservationBenefitSectionID,
+    questionLinkIds = Seq(appConfig.GiftsReservationBenefitQuestionID)
   )
 
   private def createSevenYearsQuestion(regDetails: RegistrationDetails,
@@ -157,8 +156,8 @@ trait GiftsOverviewController extends EstateController {
       messages("page.iht.application.gifts.trust.question", deceasedName)),
     ad,
     regDetails,
-    sectionLinkId = GiftsSevenYearsSectionID,
-    questionLinkIds = Seq(GiftsSevenYearsQuestionID, GiftsSevenYearsQuestionID2)
+    sectionLinkId = appConfig.GiftsSevenYearsSectionID,
+    questionLinkIds = Seq(appConfig.GiftsSevenYearsQuestionID, appConfig.GiftsSevenYearsQuestionID2)
   )
 
   private def createValueGivenAwayQuestion(regDetails: RegistrationDetails,
@@ -177,8 +176,8 @@ trait GiftsOverviewController extends EstateController {
     questionTitlesMessagesFilePrefix = "page.iht.application.gifts.overview.value",
     _.isValueEnteredForPastYearsGifts,
     ad,
-    sectionLinkId = GiftsValueOfGiftsSectionID,
-    questionLinkId = GiftsValueOfGiftsQuestionID
+    sectionLinkId = appConfig.GiftsValueOfGiftsSectionID,
+    questionLinkId = appConfig.GiftsValueOfGiftsQuestionID
   )
 
   private def createSeqOfQuestions(regDetails: RegistrationDetails,

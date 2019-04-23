@@ -21,15 +21,16 @@
 @import iht.views.html.ihtHelpers.custom.error_summary_override_keys
 @import iht.views.html.ihtHelpers.custom.input_estate_value
 @import org.joda.time.LocalDate
-@import uk.gov.hmrc.play.language.LanguageUtils.Dates
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.utils.CustomLanguageUtils.Dates
+@import iht.config.AppConfig
 @import uk.gov.hmrc.play.views.html.helpers.form
 
 @(previousYearGiftsForm:Form[PreviousYearsGifts],
 registrationDetails:RegistrationDetails,
 cancelUrl: Option[Call],
 cancelLabel: => Option[String]
-)(implicit request:Request[_], messages: Messages, lang : play.api.i18n.Lang, ihtFormPartialRetriever: FormPartialRetriever)
+)(implicit request:Request[_], messages: Messages, lang : play.api.i18n.Lang, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @startDate = @{previousYearGiftsForm("startDate").value.getOrElse("")}
 @endDate = @{previousYearGiftsForm("endDate").value.getOrElse("")}

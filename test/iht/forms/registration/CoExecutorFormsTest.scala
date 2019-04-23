@@ -17,9 +17,8 @@
 package iht.forms.registration
 
 import iht.FakeIhtApp
-import iht.connector.CachingConnector
+import iht.config.AppConfig
 import iht.forms.FormTestHelper
-import iht.forms.registration.CoExecutorForms._
 import iht.models._
 import iht.testhelpers.{CommonBuilder, NinoBuilder}
 import iht.utils.IhtFormValidator
@@ -29,16 +28,18 @@ import org.mockito.Mockito._
 import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, Form, FormError, Forms}
 import play.api.i18n.Lang
-import play.api.mvc.Request
-
-import scala.concurrent.ExecutionContext
-import scala.concurrent.ExecutionContext.Implicits.global
+import play.api.mvc.{AnyContentAsEmpty, Request}
+import play.api.test.FakeRequest
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.logging.SessionId
 
-class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
+import scala.concurrent.ExecutionContext
+import scala.concurrent.ExecutionContext.Implicits.global
+
+class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp with CoExecutorForms {
 
   implicit val lang = Lang.defaultLang
+
   implicit val msg = messages
 
   def othersApplyingForProbate(value: String) = Map("areOthersApplyingForProbate" -> value)
@@ -78,11 +79,12 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
 
   lazy val completeAddressAbroad = address("Line 1", "Line 2", "Line 3", "Line 4", "AA111AA", "AU") - "postCode"
 
-  def coExecutorForms = {
-    val mockIhtFormValidator = new IhtFormValidator {
+  def coExecutorForms: CoExecutorForms = {
+    new CoExecutorForms {
+      override implicit lazy val appConfig: AppConfig = mockAppConfig
       override def ninoForCoExecutor(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String,
                                      coExecutorIDKey:String, oRegDetails: Option[RegistrationDetails])(
-                                     implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] = {
+                                      implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext, appConfig: AppConfig): FieldMapping[String] = {
         val formatter = new Formatter[String] {
           override val format: Option[(String, Seq[Any])] = None
 
@@ -93,9 +95,6 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
         val fieldMapping: FieldMapping[String] = Forms.of(formatter)
         fieldMapping
       }
-    }
-    new CoExecutorForms {
-      override def ihtFormValidator: IhtFormValidator = mockIhtFormValidator
     }
   }
 
@@ -159,15 +158,18 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
     checkForError(coExecutorForms.coExecutorPersonalDetailsEditForm(oRegDetails), data, expectedErrors)
   }
 
-  def coExecutorFormsWithIhtFormValidatorMockedToFail = {
+  def coExecutorFormsWithIhtFormValidatorMockedToFail: CoExecutorForms = {
     val formatter = mock[Formatter[String]]
     when(formatter.bind(any(), any())).thenReturn(Left(Seq(FormError("nino", "error.nino.alreadyGiven"))))
-    val fieldMapping: FieldMapping[String] = Forms.of(formatter)
-    val mockIhtFormValidator = mock[IhtFormValidator]
-    when(mockIhtFormValidator.ninoForCoExecutor(any(), any(), any(), any(), any())(any(), any(), any()))
-      .thenReturn(fieldMapping)
-    val coExecutorForms = new CoExecutorForms {
-      override def ihtFormValidator: IhtFormValidator = mockIhtFormValidator
+    when(formatter.format).thenReturn(None)
+
+    val coExecutorForms: CoExecutorForms = new CoExecutorForms {
+      override implicit lazy val appConfig: AppConfig = mockAppConfig
+      override def ninoForCoExecutor(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String,
+                                     coExecutorIDKey: String, oRegDetails: Option[RegistrationDetails])
+                                    (implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext, appConfig: AppConfig): FieldMapping[String] = {
+        Forms.of(formatter)
+      }
     }
     coExecutorForms
   }
@@ -175,12 +177,15 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
   def coExecutorFormsWithIhtFormValidatorMockedToSucceed(nino:String): CoExecutorForms = {
     val formatter = mock[Formatter[String]]
     when(formatter.bind(any(), any())).thenReturn(Right(nino))
-    val fieldMapping: FieldMapping[String] = Forms.of(formatter)
-    val mockIhtFormValidator = mock[IhtFormValidator]
-    when(mockIhtFormValidator.ninoForCoExecutor(any(), any(), any(), any(), any())(any(), any(), any()))
-      .thenReturn(fieldMapping)
-    val coExecutorForms = new CoExecutorForms {
-      override def ihtFormValidator: IhtFormValidator = mockIhtFormValidator
+    when(formatter.format).thenReturn(None)
+
+    val coExecutorForms: CoExecutorForms = new CoExecutorForms {
+      override implicit lazy val appConfig: AppConfig = mockAppConfig
+      override def ninoForCoExecutor(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String,
+                                     coExecutorIDKey: String, oRegDetails: Option[RegistrationDetails])
+                                    (implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext, appConfig: AppConfig): FieldMapping[String] = {
+        Forms.of(formatter)
+      }
     }
     coExecutorForms
   }
@@ -191,8 +196,8 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
 
       val nino = NinoBuilder.randomNino.toString
       def bindForm(map: Map[String, String]) = {
-        implicit val request = createFakeRequest()
-        implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
+        implicit val request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
+        implicit val hc = HeaderCarrier(sessionId = Some(SessionId("1")))
         coExecutorFormsWithIhtFormValidatorMockedToSucceed(nino).coExecutorPersonalDetailsForm().bind(map)
       }
 
@@ -874,5 +879,5 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
     }
   }
 
-  //endregion
+  override implicit val appConfig: AppConfig = mockAppConfig
 }

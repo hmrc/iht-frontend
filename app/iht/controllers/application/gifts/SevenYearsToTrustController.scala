@@ -16,8 +16,8 @@
 
 package iht.controllers.application.gifts
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
@@ -25,16 +25,18 @@ import iht.models.application.gifts.AllGifts
 import iht.utils.{CommonHelper, ApplicationStatus => AppStatus}
 import iht.views.html.application.gift.seven_years_to_trust
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class SevenYearsToTrustControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                 val cachingConnector: CachingConnector,
                                                 val authConnector: AuthConnector,
-                                                val formPartialRetriever: FormPartialRetriever) extends SevenYearsToTrustController {
+                                                val formPartialRetriever: FormPartialRetriever,
+implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with SevenYearsToTrustController {
 
 }
 
@@ -58,7 +60,7 @@ trait SevenYearsToTrustController extends EstateController {
       estateElementOnSubmit[AllGifts](giftSevenYearsToTrustForm,
         seven_years_to_trust.apply,
         updateApplicationDetails,
-        CommonHelper.addFragmentIdentifier(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad(), Some(GiftsSevenYearsQuestionID2)),
+        CommonHelper.addFragmentIdentifier(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad(), Some(appConfig.GiftsSevenYearsQuestionID2)),
         userNino
       )
     }

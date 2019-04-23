@@ -17,16 +17,22 @@
 package iht.utils
 
 import iht.FakeIhtApp
+import iht.config.AppConfig
 import iht.models.DeceasedDateOfDeath
 import iht.testhelpers._
 import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.{I18nSupport, MessagesApi}
-import uk.gov.hmrc.play.test.UnitSpec
+import play.api.i18n.{I18nSupport, Lang, MessagesApi}
+import play.api.mvc.MessagesControllerComponents
 
 class DeceasedInfoHelperTest extends FakeIhtApp with MockitoSugar with I18nSupport {
 
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit val controllerComponents: MessagesControllerComponents = app.injector.instanceOf[MessagesControllerComponents]
+  implicit val mockAppConfig: AppConfig = app.injector.instanceOf[AppConfig]
+
+  implicit val lang = Lang.defaultLang
+  implicit val messagesApi = controllerComponents.messagesApi
+  implicit val messages = messagesApi.preferred(Seq(lang)).messages
 
   "getDeceasedNameOrDefaultString" must {
     val firstName = "first"

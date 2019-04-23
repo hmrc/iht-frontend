@@ -16,23 +16,30 @@
 
 package iht.controllers.filter
 
+import iht.config.AppConfig
 import iht.constants.Constants._
 import iht.controllers.application.ApplicationControllerTest
+import iht.controllers.application.exemptions.ExemptionsOverviewController
 import iht.forms.FilterForms._
 import iht.testhelpers.MockFormPartialRetriever
 import iht.views.HtmlSpec
 import play.api.i18n.MessagesApi
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
 
   implicit val fakedMessagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit val request = FakeRequest()
-  val messages = messagesApi.preferred(request)
 
-  def controller = new DomicileController {
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with DomicileController {
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def controller = new TestController {
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
 
     override def messagesApi: MessagesApi = fakedMessagesApi

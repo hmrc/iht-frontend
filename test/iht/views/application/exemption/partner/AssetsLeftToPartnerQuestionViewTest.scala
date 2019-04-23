@@ -21,7 +21,8 @@ import iht.models.application.exemptions.PartnerExemption
 import iht.testhelpers.CommonBuilder
 import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
 import iht.views.html.application.exemption.partner.assets_left_to_partner_question
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import iht.testhelpers.TestHelper._
 
 class AssetsLeftToPartnerQuestionViewTest extends YesNoQuestionViewBehaviour[PartnerExemption] {

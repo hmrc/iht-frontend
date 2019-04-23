@@ -16,6 +16,7 @@
 
 package iht.viewmodels.application.overview
 
+import iht.config.AppConfig
 import iht.models.application.exemptions.BasicExemptionElement
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.{FakeIhtApp, TestUtils}
@@ -24,9 +25,16 @@ import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
 import uk.gov.hmrc.play.test.UnitSpec
 import iht.testhelpers.TestHelper._
+import play.api.i18n.{Lang, Messages, MessagesApi}
+import play.api.mvc.MessagesControllerComponents
 
 class DeclarationSectionViewModelTest
   extends FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
+
+  val mockControllerComponents: MessagesControllerComponents = app.injector.instanceOf[MessagesControllerComponents]
+  implicit val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  implicit val lang: Lang = Lang.defaultLang
+  implicit val messages: Messages = mockControllerComponents.messagesApi.preferred(Seq(lang)).messages
 
   val applicationDetails = CommonBuilder.buildApplicationDetails
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(

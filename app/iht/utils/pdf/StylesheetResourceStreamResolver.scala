@@ -14,23 +14,20 @@
  * limitations under the License.
  */
 
-package iht.connector
+package iht.utils.pdf
 
 import javax.inject.Inject
-import play.api.Logger
-import uk.gov.hmrc.play.audit.http.connector.AuditConnector
-import uk.gov.hmrc.play.audit.model.DataEvent
-import uk.gov.hmrc.play.http.logging.MdcLoggingExecutionContext._
-import uk.gov.hmrc.http.HeaderCarrier
+import javax.xml.transform.{Source, URIResolver}
+import play.api.{Environment, Logger}
 
-class ExplicitAuditConnectorImpl @Inject()(val auditConnector: AuditConnector) extends ExplicitAuditConnector
+class DefaultStylesheetResourceStreamResolver @Inject()(val environment: Environment) extends StylesheetResourceStreamResolver
 
-trait ExplicitAuditConnector {
+trait StylesheetResourceStreamResolver extends URIResolver with BaseResourceStreamResolver {
+  val environment: Environment
 
-  val auditConnector: AuditConnector
+  override def resolve(href: String, base: String): Source = {
+    Logger.info("[StylesheetResolver] Stylesheet location to convert " + href)
 
-  def sendEvent(event: DataEvent)(implicit hc: HeaderCarrier): Unit = {
-    Logger.info("Auditing event")
-    auditConnector.sendEvent(event)
+    resolvePath(href.substring(href.lastIndexOf("/pdf") + 1))
   }
 }

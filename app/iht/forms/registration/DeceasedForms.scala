@@ -16,7 +16,8 @@
 
 package iht.forms.registration
 
-import iht.constants.{FieldMappings, IhtProperties}
+import iht.config.AppConfig
+import iht.constants.FieldMappings
 import iht.forms.mappings.DateMapping
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails, UkAddress}
 import iht.utils.IhtFormValidator
@@ -26,15 +27,13 @@ import play.api.data.Form
 import play.api.data.Forms._
 import play.api.i18n.Messages
 import play.api.mvc.Request
+import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.ExecutionContext
-import uk.gov.hmrc.http.HeaderCarrier
 
 object DeceasedForms extends DeceasedForms
 
-trait DeceasedForms {
-
-  def ihtFormValidator: IhtFormValidator = IhtFormValidator
+trait DeceasedForms extends IhtFormValidator {
 
   val deceasedDateOfDeathForm = Form(
     mapping(
@@ -42,7 +41,7 @@ trait DeceasedForms {
     )(DeceasedDateOfDeath.apply)(DeceasedDateOfDeath.unapply)
   )
 
-  def deceasedPermanentHomeForm(implicit messages: Messages): Form[DeceasedDetails] = Form(
+  def deceasedPermanentHomeForm(implicit messages: Messages, appConfig: AppConfig): Form[DeceasedDetails] = Form(
     mapping(
       "domicile" -> of(radioOptionString("error.deceasedPermanentHome.selectLocation", FieldMappings.domicileMap))
     )
@@ -55,18 +54,18 @@ trait DeceasedForms {
   )
 
   def aboutDeceasedForm(dateOfDeath: LocalDate = LocalDate.now(), oRegDetails: Option[RegistrationDetails] = None)
-                       (implicit messages: Messages, request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = Form(
+                       (implicit messages: Messages, request: Request[_], hc: HeaderCarrier, ec: ExecutionContext, appConfig: AppConfig) = Form(
     mapping(
       "firstName" -> ihtNonEmptyText("error.firstName.give")
-        .verifying("error.firstName.giveUsingXCharsOrLess", f => f.length <= IhtProperties.validationMaxLengthFirstName)
+        .verifying("error.firstName.giveUsingXCharsOrLess", f => f.length <= appConfig.validationMaxLengthFirstName)
         .verifying("error.firstName.giveUsingOnlyValidChars", f => nameAndAddressRegex.findFirstIn(f).fold(false)(_=>true)),
       "lastName" -> ihtNonEmptyText("error.lastName.give")
-        .verifying("error.lastName.giveUsingXCharsOrLess", f => f.length <= IhtProperties.validationMaxLengthLastName)
+        .verifying("error.lastName.giveUsingXCharsOrLess", f => f.length <= appConfig.validationMaxLengthLastName)
         .verifying("error.lastName.giveUsingOnlyValidChars", f => nameAndAddressRegex.findFirstIn(f).fold(false)(_=>true)),
-      "nino" -> ihtFormValidator.ninoForDeceased(
+      "nino" -> ninoForDeceased(
         "error.nino.give","error.nino.giveUsing8Or9Characters","error.nino.giveUsingOnlyLettersAndNumbers", oRegDetails),
       "dateOfBirth" -> DateMapping.dateOfBirth.verifying("error.deceasedDateOfBirth.giveBeforeDateOfDeath", x => isDobBeforeDod(dateOfDeath, x)),
-      "maritalStatus" -> of(radioOptionString("error.deceasedMaritalStatus.select", FieldMappings.maritalStatusMap(messages))))
+      "maritalStatus" -> of(radioOptionString("error.deceasedMaritalStatus.select", FieldMappings.maritalStatusMap(messages, appConfig))))
     (
       (firstName, lastName, nino, dateOfBirth, maritalStatus) =>
         DeceasedDetails(Some(firstName), None, Some(lastName), Some(nino), None, Some(dateOfBirth), None, maritalStatus, None)
@@ -93,7 +92,7 @@ trait DeceasedForms {
     )
   )
 
-  val deceasedAddressDetailsUKForm = Form(
+  def deceasedAddressDetailsUKForm(implicit appConfig: AppConfig) = Form(
     mapping(
       "ukAddress.ukAddressLine1" -> of(ihtAddress(
         "ukAddress.ukAddressLine2", "ukAddress.ukAddressLine3",

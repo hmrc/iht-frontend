@@ -15,13 +15,14 @@
  *@
 
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.views.html._
 @import uk.gov.hmrc.play.views.html.helpers.form
-@import iht.constants.IhtProperties._
+
 
 @(summary: String,
 returnToUrl: Call,
-returnLinkText: String = "")(contentLines: Seq[String])(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+returnLinkText: String = "")(contentLines: Seq[String])(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_registration(title=Messages("iht.notPossibleToUseService"),
 browserTitle = Some(Messages("iht.notPossibleToUseService")),

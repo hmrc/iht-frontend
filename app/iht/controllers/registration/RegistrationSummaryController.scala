@@ -16,6 +16,7 @@
 
 package iht.controllers.registration
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.ControllerHelper
 import iht.metrics.IhtMetrics
@@ -25,11 +26,11 @@ import iht.models.enums.StatsSource
 import iht.utils._
 import javax.inject.Inject
 import play.api.Logger
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Request, Result}
+import play.api.i18n.Lang
+import play.api.mvc.{MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.http._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -39,17 +40,21 @@ class RegistrationSummaryControllerImpl @Inject()(val ihtConnector: IhtConnector
                                                   val cachingConnector: CachingConnector,
                                                   val metrics: IhtMetrics,
                                                   val authConnector: AuthConnector,
-                                                  val formPartialRetriever: FormPartialRetriever) extends RegistrationSummaryController
+                                                  val formPartialRetriever: FormPartialRetriever,
+                                                  implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with RegistrationSummaryController
 
-trait RegistrationSummaryController extends RegistrationController {
+trait RegistrationSummaryController extends RegistrationController with StringHelper with RegistrationDetailsHelper {
   override def guardConditions: Set[Predicate] = guardConditionsRegistrationSummary
 
   def cachingConnector: CachingConnector
   def metrics: IhtMetrics
   def ihtConnector: IhtConnector
-
+  
   def onPageLoad = authorisedForIht {
     implicit request => {
+      implicit val request2Lang: Lang = messagesApi.preferred(request).lang
+
       withRegistrationDetailsRedirectOnGuardCondition { rd =>
         Future.successful(Ok(iht.views.html.registration.registration_summary(rd, additionalApplicantType(rd.applicantDetails.get.role))))
       }
@@ -97,9 +102,9 @@ trait RegistrationSummaryController extends RegistrationController {
 
       // In order to set up stub data correctly,
       // need to know what the acknowledgement reference will be
-      val ackRef = StringHelper.generateAcknowledgeReference
+      val ackRef = generateAcknowledgeReference
       val futureRegistrationDetails = cachingConnector.getRegistrationDetails
-        .map(optRegDetails => RegistrationDetailsHelper.getOrExceptionNoRegistration(optRegDetails))
+        .map(optRegDetails => getOrExceptionNoRegistration(optRegDetails))
       futureRegistrationDetails.flatMap(registrationDetails => {
         val ihtReference = ihtConnector.submitRegistration(
           CommonHelper.getOrException(registrationDetails.applicantDetails).nino,

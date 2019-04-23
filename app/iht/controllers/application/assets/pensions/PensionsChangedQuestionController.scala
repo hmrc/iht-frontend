@@ -16,8 +16,8 @@
 
 package iht.controllers.application.assets.pensions
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.IhtMetrics
@@ -26,10 +26,10 @@ import iht.models.application.assets._
 import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import iht.views.html.application.asset.pensions.pensions_changed_question
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 
@@ -37,15 +37,15 @@ class PensionsChangedQuestionControllerImpl @Inject()(val metrics: IhtMetrics,
                                                       val ihtConnector: IhtConnector,
                                                       val cachingConnector: CachingConnector,
                                                       val authConnector: AuthConnector,
-                                                      val formPartialRetriever: FormPartialRetriever) extends PensionsChangedQuestionController {
-
-}
+                                                      val formPartialRetriever: FormPartialRetriever,
+                                                      implicit val appConfig: AppConfig,
+                                                      val cc: MessagesControllerComponents) extends FrontendController(cc) with PensionsChangedQuestionController
 
 trait PensionsChangedQuestionController extends EstateController {
 
 
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad(), Some(AssetsPensionChangesID))
+    iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad(), Some(appConfig.AssetsPensionChangesID))
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsPensions)
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -62,9 +62,9 @@ trait PensionsChangedQuestionController extends EstateController {
           val existingValue = appDetails.allAssets.flatMap(_.privatePension.flatMap(_.value))
           val existingIsOwned = appDetails.allAssets.flatMap(_.privatePension.flatMap(_.isOwned))
 
-         val updatedAD = appDetails.copy(allAssets = Some(appDetails.allAssets.fold
+          val updatedAD = appDetails.copy(allAssets = Some(appDetails.allAssets.fold
           (new AllAssets(action = None, privatePension = Some(privatePension)))
-          (_.copy(privatePension = Some(privatePension.copy(value = existingValue, isOwned = existingIsOwned) )))
+          (_.copy(privatePension = Some(privatePension.copy(value = existingValue, isOwned = existingIsOwned))))
           ))
           (updatedAD, None)
         }

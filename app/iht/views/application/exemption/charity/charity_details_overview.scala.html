@@ -19,14 +19,15 @@
 @import iht.utils._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.constants.IhtProperties._
+@import iht.config.AppConfig
 
-@(charity:Option[Charity]=None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+
+@(charity:Option[Charity]=None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @returnId() = @{
     defining(charity.flatMap(_.id)) {
-        case Some(id) => ExemptionsCharitiesChangeID + id
-        case None => ExemptionsCharitiesAddID
+        case Some(id) => appConfig.ExemptionsCharitiesChangeID + id
+        case None     => appConfig.ExemptionsCharitiesAddID
     }
 }
 
@@ -41,7 +42,7 @@ isFullWidth = false) {
                 @ihtHelpers.custom.generic_overview_item(
                     title = Messages("iht.estateReport.exemptions.charities.charityName.title"),
                     name = "charity.detailsOverview.name",
-                    id = ExemptionsCharitiesNameID,
+                    id = appConfig.ExemptionsCharitiesNameID,
                     value = ihtHelpers.custom.name(charityName).toString(),
                     valueScreenReader = "",
                     link = charityId match {
@@ -68,7 +69,7 @@ isFullWidth = false) {
                 @ihtHelpers.custom.generic_overview_item(
                     title = Messages("iht.estateReport.exemptions.charities.registeredCharityNo"),
                     name = "charity.detailsOverview.number",
-                    id = ExemptionsCharitiesNumberID,
+                    id = appConfig.ExemptionsCharitiesNumberID,
                     value = charityNumber,
                     valueScreenReader = "",
                     link = charityId match {
@@ -94,7 +95,7 @@ isFullWidth = false) {
                 @ihtHelpers.custom.generic_overview_item(
                     title = Messages("iht.estateReport.exemptions.charities.totalValueOfAssetsCharityReceived"),
                     name = "charity.detailsOverview.value",
-                    id = ExemptionsCharitiesValueID,
+                    id = appConfig.ExemptionsCharitiesValueID,
                     value = charityValue match {
                             case Some(x) => {"£" + CommonHelper.numberWithCommas(x)}
                             case None => {""}

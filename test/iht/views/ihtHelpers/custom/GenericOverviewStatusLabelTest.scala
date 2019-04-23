@@ -19,10 +19,13 @@ package iht.views.ihtHelpers.custom
 import iht.FakeIhtApp
 import iht.views.HtmlSpec
 import iht.views.html.ihtHelpers.custom.generic_overview_status_label
-import play.api.i18n.Messages.Implicits._
-import uk.gov.hmrc.play.test.UnitSpec
+import play.api.i18n.Lang
+import play.api.mvc.MessagesControllerComponents
 
 class GenericOverviewStatusLabelTest extends FakeIhtApp with HtmlSpec {
+
+  override implicit val lang = Lang.defaultLang
+  implicit val messages = app.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(Seq(lang)).messages
 
   "GenericOverviewStatusLabel helper" must {
    "return 'NOT STARTED' label when item has not been started" in {

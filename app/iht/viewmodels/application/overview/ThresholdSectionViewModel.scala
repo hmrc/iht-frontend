@@ -16,12 +16,11 @@
 
 package iht.viewmodels.application.overview
 
-import iht.constants.IhtProperties
-import iht.constants.IhtProperties._
+import iht.config.AppConfig
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
+import iht.utils.tnrb.TnrbHelperFixture
 import iht.utils.{CommonHelper, DateHelper}
-import iht.utils.tnrb.TnrbHelper
 import org.joda.time.LocalDate
 import play.api.i18n.Messages
 
@@ -41,14 +40,15 @@ object ThresholdSectionViewModel {
 
 
   def apply(registrationDetails: RegistrationDetails, applicationDetails: ApplicationDetails)
-           (implicit messages: Messages): ThresholdSectionViewModel = {
+           (implicit messages: Messages, appConfig: AppConfig): ThresholdSectionViewModel = {
 
     val thresholdIncreased = applicationDetails.isSuccessfulTnrbCase
     val thresholdIncreaseSectionAccessed = applicationDetails.isWidowCheckQuestionAnswered
 
-    val thresholdValueMessage = thresholdIncreased match {
-      case true => messages("site.tnrb.value.display")
-      case _ => messages("site.threshold.value.display")
+    val thresholdValueMessage = if (thresholdIncreased) {
+      messages("site.tnrb.value.display")
+    } else {
+      messages("site.threshold.value.display")
     }
 
     val showIncreaseThresholdLink = {
@@ -57,7 +57,7 @@ object ThresholdSectionViewModel {
         .fold[LocalDate](new LocalDate)(identity))
 
       CommonHelper.getOrException(registrationDetails.deceasedDetails).maritalStatus match {
-        case Some(IhtProperties.statusSingle) => false
+        case Some(appConfig.statusSingle) => false
         case _ => !thresholdIncreaseSectionAccessed && claimDateInRange
       }
     }
@@ -69,7 +69,7 @@ object ThresholdSectionViewModel {
 
     ThresholdSectionViewModel(
       thresholdRow = OverviewRowWithoutLink(
-        id = EstateIncreasingID,
+        id = appConfig.EstateIncreasingID,
         label = messages("iht.estateReport.ihtThreshold"),
         value = thresholdValueMessage,
         qualifyingText = "",
@@ -84,7 +84,7 @@ object ThresholdSectionViewModel {
   def buildIncreaseThresholdRow(registrationDetails: RegistrationDetails,
                                 applicationDetails: ApplicationDetails,
                                 thresholdIncreased: Boolean,
-                                thresholdIncreaseSectionAccessed: Boolean)(implicit messages: Messages): OverviewRow = {
+                                thresholdIncreaseSectionAccessed: Boolean)(implicit messages: Messages, appConfig: AppConfig): OverviewRow = {
 
     val thresholdIncreaseNotAvailable = applicationDetails.widowCheck match {
       case Some(widowCheck) if widowCheck.widowed.isDefined && !CommonHelper.getOrException(widowCheck.widowed) => true
@@ -106,11 +106,11 @@ object ThresholdSectionViewModel {
     }
 
     OverviewRow(
-      id = EstateIncreasingID,
+      id = appConfig.EstateIncreasingID,
       label = messages("iht.estateReport.tnrb.increasingThreshold"),
       value = thresholdRowValue,
       completionStatus = if (thresholdIncreased || thresholdIncreaseNotAvailable) Complete else PartiallyComplete,
-      linkUrl = TnrbHelper.getEntryPointForTnrb(registrationDetails, applicationDetails),
+      linkUrl = new TnrbHelperFixture().getEntryPointForTnrb(registrationDetails, applicationDetails),
       qualifyingText = thresholdScreenreaderText
     )
   }

@@ -20,9 +20,7 @@ import iht.testhelpers.CommonBuilder
 import org.scalatest.mock.MockitoSugar
 import uk.gov.hmrc.play.test.UnitSpec
 
-/**
-  * Created by vineet on 03/11/16.
-  */
+
 class InsurancePolicyTest extends UnitSpec with MockitoSugar{
 
   val completeInsurancePolicy = CommonBuilder.buildInsurancePolicy.copy(isAnnuitiesBought = Some(false),

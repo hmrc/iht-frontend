@@ -19,12 +19,13 @@
 @import iht.utils.DeceasedInfoHelper._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import uk.gov.hmrc.play.views.html.helpers.form
 @import iht.models.RegistrationDetails
-@import iht.constants.IhtProperties._
+
 
 @(propertiesForm: Form[Properties],
-registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @deceasedName() = @{getDeceasedNameOrDefaultString(registrationDetails)}
 
@@ -59,7 +60,7 @@ isFullWidth=false){
         @ihtHelpers.custom.return_link(
             Messages("page.iht.application.return.to.assetsOf",ihtHelpers.custom.name(dd.name)),
             Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
-            AppSectionPropertiesID
+            appConfig.AppSectionPropertiesID
         )
         }
 }

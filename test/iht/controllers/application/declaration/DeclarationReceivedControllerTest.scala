@@ -16,23 +16,29 @@
 
 package iht.controllers.application.declaration
 
+import iht.config.AppConfig
 import iht.constants.Constants
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import org.mockito.ArgumentMatchers._
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 
 class DeclarationReceivedControllerTest extends ApplicationControllerTest {
-  implicit val headerCarrier = FakeHeaders()
+  implicit val headeDeclarationReceivedControllerrCarrier = FakeHeaders()
   implicit val hc = new HeaderCarrier
 
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with DeclarationReceivedController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
-  def declarationReceivedController = new DeclarationReceivedController{
+  def declarationReceivedController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 
@@ -40,7 +46,7 @@ class DeclarationReceivedControllerTest extends ApplicationControllerTest {
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def declarationReceivedControllerNotAuthorised = new DeclarationReceivedController{
+  def declarationReceivedControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 

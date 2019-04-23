@@ -16,6 +16,7 @@
 
 package iht.forms
 
+import iht.config.AppConfig
 import iht.constants.IhtProperties
 import iht.forms.mappings.DateMapping
 import iht.forms.validators.{MandatoryCurrencyForOptions, OptionalCurrency}
@@ -27,11 +28,11 @@ import iht.models.application.exemptions._
 import iht.models.application.gifts._
 import iht.utils.IhtFormValidator
 import iht.utils.IhtFormValidator._
-import play.api.data.Form
+import play.api.data.{Form, Mapping}
 import play.api.data.Forms._
 
 object ApplicationForms {
-  val addressMapping = mapping(
+  def addressMapping(implicit appConfig: AppConfig): Mapping[UkAddress] = mapping(
     "ukAddressLine1" -> of(ihtAddress("address.ukAddressLine2", "address.ukAddressLine3",
       "address.ukAddressLine4", "address.postCode", "address.countryCode",
       "error.address.give", "error.address.giveInLine1And2",
@@ -92,7 +93,7 @@ object ApplicationForms {
   ((property: Property) => property.tenure)
   )
 
-  val propertyAddressForm = Form(mapping(
+  def propertyAddressForm(implicit appConfig: AppConfig) = Form(mapping(
     "address" -> addressMapping
   )(
     (address) => Property(None, Some(address), None, None, None, None)
@@ -407,7 +408,7 @@ object ApplicationForms {
   )
   )
 
-  val partnerNinoForm = Form(mapping(
+  def partnerNinoForm(implicit appConfig: AppConfig) = Form(mapping(
     "nino" -> nino
   )(
     (nino) => PartnerExemption(None, None, None, None, None, Some(nino), None)
@@ -429,12 +430,12 @@ object ApplicationForms {
   )
 
 
-  lazy val charityNumberForm = Form(mapping(
+  def charityNumberForm(implicit appConfig: AppConfig) = Form(mapping(
     "charityNumber" -> ihtNonEmptyText("error.charityNumber.give")
       .verifying("error.charityNumber.enterUsingOnly6Or7Numbers",
-        f => f.length <= IhtProperties.validationMaxCharityNumberLength)
+        f => f.length <= appConfig.validationMaxCharityNumberLength)
       .verifying("error.charityNumber.enterUsingOnly6Or7Numbers",
-        f => f.length >= IhtProperties.validationMinCharityNumberLength || f.length == 0)
+        f => f.length >= appConfig.validationMinCharityNumberLength || f.length == 0)
   )(
     (charityNumber) => Charity(None, None, Some(charityNumber), None)
   )
@@ -453,7 +454,7 @@ object ApplicationForms {
   )
   )
 
-  val partnerExemptionNameForm = Form(mapping(
+  def partnerExemptionNameForm(implicit appConfig: AppConfig) = Form(mapping(
     "firstName" -> of(IhtFormValidator.validatePartnerName(
       "lastName"
     )),
@@ -488,9 +489,9 @@ object ApplicationForms {
   )
   )
 
-  lazy val charityNameForm = Form(mapping(
+  def charityNameForm(implicit appConfig: AppConfig) = Form(mapping(
     "name" -> name(
-      IhtProperties.validationMaxLengthCharityName,
+      appConfig.validationMaxLengthCharityName,
       "error.charityName.enterName",
       "error.charityName.giveUsing35CharactersOrLess",
       "error.charityName.giveUsingOnlyValidChars"))
@@ -511,9 +512,9 @@ object ApplicationForms {
   )
   )
 
-  lazy val qualifyingBodyNameForm: Form[QualifyingBody] = Form(mapping(
+  def qualifyingBodyNameForm(implicit appConfig: AppConfig): Form[QualifyingBody] = Form(mapping(
     "name" -> name(
-      IhtProperties.validationMaxLengthQualifyingBodyName,
+      appConfig.validationMaxLengthQualifyingBodyName,
       "error.qualifyingBodyName.enterName",
       "error.qualifyingBodyName.giveUsing35CharactersOrLess",
       "error.qualifyingBodyName.giveUsingOnlyValidChars"))
@@ -526,7 +527,7 @@ object ApplicationForms {
   val assetsLeftToQualifyingBodyQuestionForm = Form(mapping(
     "isAssetForQualifyingBody" -> yesNoQuestion("error.isAssetForQualifyingBody.select")
   )(
-    (isAssetForQualifyingBody) => BasicExemptionElement(isAssetForQualifyingBody)
+    isAssetForQualifyingBody => BasicExemptionElement(isAssetForQualifyingBody)
   )
   (
     (basicExemption: BasicExemptionElement) => Some(basicExemption.isSelected)

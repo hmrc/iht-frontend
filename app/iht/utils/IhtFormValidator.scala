@@ -16,6 +16,7 @@
 
 package iht.utils
 
+import iht.config.AppConfig
 import iht.constants.IhtProperties
 import iht.models.RegistrationDetails
 import play.api.data.format.Formatter
@@ -185,7 +186,7 @@ trait IhtFormValidator extends FormValidator {
 
   private def validatePostcode(postcode: String, postcodeKey: String, blankPostcodeMessageKey: String,
                                invalidPostcodeMessageKey: String,
-                               errors: scala.collection.mutable.ListBuffer[FormError]) = {
+                               errors: scala.collection.mutable.ListBuffer[FormError])(implicit appConfig: AppConfig) = {
     postcode match {
       case a if a.length == 0 => errors += FormError(postcodeKey, blankPostcodeMessageKey)
       case a if a.length > 0 && !containsValidPostCodeCharacters(a) =>
@@ -197,10 +198,10 @@ trait IhtFormValidator extends FormValidator {
   }
 
   private def validateIntlCountryCode(countryCodeKey: String, countryCode: String, errorMessageKey: String,
-                                      errors: scala.collection.mutable.ListBuffer[FormError])(implicit lang: Lang, messages: Messages) = {
+                                      errors: scala.collection.mutable.ListBuffer[FormError])(implicit messages: Messages, appConfig: AppConfig) = {
     countryCode match {
       case a if a.length == 0 => errors += FormError(countryCodeKey, errorMessageKey)
-      case a if !validateInternationalCountryCode(a)(lang, messages) => errors += FormError(countryCodeKey, errorMessageKey)
+      case a if !validateInternationalCountryCode(a)(messages, appConfig) => errors += FormError(countryCodeKey, errorMessageKey)
       case _ =>
     }
   }
@@ -210,7 +211,7 @@ trait IhtFormValidator extends FormValidator {
                  blankFirstTwoAddrLinesMessageKey: String, invalidAddressLineMessageKey: String,
                  invalidCharsMessageKey: String,
                  blankPostcodeMessageKey: String, invalidPostcodeMessageKey: String,
-                 blankCountryCode: String) = new Formatter[String] {
+                 blankCountryCode: String)(implicit appConfig: AppConfig) = new Formatter[String] {
     override def bind(key: String, data: Map[String, String]) = {
       val errors = new scala.collection.mutable.ListBuffer[FormError]()
       val addr = getAddrDetails(data, key, addr2Key, addr3Key, addr4Key, postcodeKey, countryCodeKey)
@@ -220,29 +221,29 @@ trait IhtFormValidator extends FormValidator {
         errors += FormError(addr2Key, "")
       } else {
         validateMandatoryAddressLine(key, addr._1,
-          IhtProperties.validationMaxLengthAddresslines,
+          appConfig.validationMaxLengthAddresslines,
           blankFirstTwoAddrLinesMessageKey,
           invalidAddressLineMessageKey,
           invalidCharsMessageKey,
           errors)
         validateMandatoryAddressLine(addr2Key, addr._2,
-          IhtProperties.validationMaxLengthAddresslines,
+          appConfig.validationMaxLengthAddresslines,
           blankFirstTwoAddrLinesMessageKey,
           invalidAddressLineMessageKey,
           invalidCharsMessageKey,
           errors)
         validateOptionalAddressLine(addr3Key, addr._3,
-          IhtProperties.validationMaxLengthAddresslines,
+          appConfig.validationMaxLengthAddresslines,
           invalidAddressLineMessageKey,
           invalidCharsMessageKey,
           errors)
         validateOptionalAddressLine(addr4Key, addr._4,
-          IhtProperties.validationMaxLengthAddresslines,
+          appConfig.validationMaxLengthAddresslines,
           invalidAddressLineMessageKey,
           invalidCharsMessageKey,
           errors)
       }
-      if (addr._6.length == 0 || addr._6 == IhtProperties.ukIsoCountryCode) {
+      if (addr._6.length == 0 || addr._6 == appConfig.ukIsoCountryCode) {
         validatePostcode(addr._5, postcodeKey, blankPostcodeMessageKey, invalidPostcodeMessageKey, errors)
       }
       if (errors.isEmpty) {
@@ -262,7 +263,8 @@ trait IhtFormValidator extends FormValidator {
                               blankFirstTwoAddrLinesMessageKey: String,
                               invalidAddressLineMessageKey: String, invalidChars: String,
                               blankCountryCode: String,
-                              blankBothFirstTwoAddrLinesMessageKey: Option[String] = None)(implicit lang: Lang, messages: Messages) = new Formatter[String] {
+                              blankBothFirstTwoAddrLinesMessageKey: Option[String] = None)
+                             (implicit messages: Messages, appConfig: AppConfig) = new Formatter[String] {
     override def bind(key: String, data: Map[String, String]) = {
       val errors = new scala.collection.mutable.ListBuffer[FormError]()
       val addr = getIntlAddrDetails(data, key, addr2Key, addr3Key, addr4Key, countryCodeKey)
@@ -275,29 +277,29 @@ trait IhtFormValidator extends FormValidator {
         errors += FormError(addr2Key, "")
       } else {
         validateMandatoryAddressLine(key, addr._1,
-          IhtProperties.validationMaxLengthAddresslines,
+          appConfig.validationMaxLengthAddresslines,
           blankFirstTwoAddrLinesMessageKey,
           invalidAddressLineMessageKey,
           invalidChars,
           errors)
         validateMandatoryAddressLine(addr2Key, addr._2,
-          IhtProperties.validationMaxLengthAddresslines,
+          appConfig.validationMaxLengthAddresslines,
           blankFirstTwoAddrLinesMessageKey,
           invalidAddressLineMessageKey,
           invalidChars,
           errors)
         validateOptionalAddressLine(addr3Key, addr._3,
-          IhtProperties.validationMaxLengthAddresslines,
+          appConfig.validationMaxLengthAddresslines,
           invalidAddressLineMessageKey,
           invalidChars,
           errors)
         validateOptionalAddressLine(addr4Key, addr._4,
-          IhtProperties.validationMaxLengthAddresslines,
+          appConfig.validationMaxLengthAddresslines,
           invalidAddressLineMessageKey,
           invalidChars,
           errors)
       }
-      validateIntlCountryCode(countryCodeKey, addr._5, blankCountryCode, errors)(lang, messages)
+      validateIntlCountryCode(countryCodeKey, addr._5, blankCountryCode, errors)(messages, appConfig)
       if (errors.isEmpty) {
         Right(addr._1)
       } else {
@@ -420,7 +422,7 @@ trait IhtFormValidator extends FormValidator {
   /**
     * Validate the First and LastName in Tnrb Partner Page
     */
-  def validatePartnerName(lastNameKey: String) = new Formatter[Option[String]] {
+  def validatePartnerName(lastNameKey: String)(implicit appConfig: AppConfig) = new Formatter[Option[String]] {
     override def bind(key: String, data: Map[String, String]) = {
       val errors = new scala.collection.mutable.ListBuffer[FormError]()
 
@@ -429,7 +431,7 @@ trait IhtFormValidator extends FormValidator {
 
       checkForNameError(
         key = key,
-        maxLength = IhtProperties.validationMaxLengthFirstName,
+        maxLength = appConfig.validationMaxLengthFirstName,
         blankMessageKey = "error.firstName.give",
         invalidLengthMessageKey = "error.firstName.giveUsingXCharsOrLess",
         invalidCharsMessageKey = "error.firstName.giveUsingOnlyValidChars",
@@ -440,7 +442,7 @@ trait IhtFormValidator extends FormValidator {
 
       checkForNameError(
         key = lastNameKey,
-        maxLength = IhtProperties.validationMaxLengthLastName,
+        maxLength = appConfig.validationMaxLengthLastName,
         blankMessageKey = "error.lastName.give",
         invalidLengthMessageKey = "error.lastName.giveUsingXCharsOrLess",
         invalidCharsMessageKey = "error.lastName.giveUsingOnlyValidChars",
@@ -495,15 +497,16 @@ trait IhtFormValidator extends FormValidator {
 
   def yesNoQuestion(blankMessageKey: String) = Forms.of(optionalYesNoQuestionFormatter(blankMessageKey))
 
-  private def ninoFormatter(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String) =
+  private def ninoFormatter(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String)
+                           (implicit appConfig: AppConfig) =
     new Formatter[String] {
       override def bind(key: String, data: Map[String, String]) = {
         val value = data.get(key).fold("")(identity)
         lazy val valueMinusSpaces = value.replaceAll("\\s", "")
         value match {
           case n if n.isEmpty => Left(Seq(FormError(key, blankMessageKey)))
-          case _ if valueMinusSpaces.length < IhtProperties.validationMinLengthNINO ||
-            valueMinusSpaces.length > IhtProperties.validationMaxLengthNINO => Left(Seq(FormError(key, lengthMessageKey)))
+          case _ if valueMinusSpaces.length < appConfig.validationMinLengthNINO ||
+            valueMinusSpaces.length > appConfig.validationMaxLengthNINO => Left(Seq(FormError(key, lengthMessageKey)))
           case _ if !valueMinusSpaces.matches(ninoRegex) => Left(Seq(FormError(key, formatMessageKey)))
           case n => Right(n)
         }
@@ -516,14 +519,16 @@ trait IhtFormValidator extends FormValidator {
 
   def nino(blankMessageKey: String,
            lengthMessageKey: String,
-           formatMessageKey: String) = Forms.of(ninoFormatter(blankMessageKey, lengthMessageKey, formatMessageKey))
+           formatMessageKey: String)(implicit appConfig: AppConfig) =
+    Forms.of(ninoFormatter(blankMessageKey, lengthMessageKey, formatMessageKey))
 
-  val nino: FieldMapping[String] = nino("error.nino.give", "error.nino.giveUsing8Or9Characters", "error.nino.giveUsingOnlyLettersAndNumbers")
+  def nino(implicit appConfig: AppConfig): FieldMapping[String] =
+    nino("error.nino.give", "error.nino.giveUsing8Or9Characters", "error.nino.giveUsingOnlyLettersAndNumbers")
 
   private def ninoForCoExecutorFormatter(blankMessageKey: String, lengthMessageKey: String,
                                          formatMessageKey: String, coExecutorIDKey: String,
-                                         oRegDetails: Option[RegistrationDetails])(
-                                          implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = new Formatter[String] {
+                                         oRegDetails: Option[RegistrationDetails])
+                                        (implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext, appConfig: AppConfig) = new Formatter[String] {
 
     def normalize(s: String) = s.replaceAll("\\s", "").toUpperCase
 
@@ -562,7 +567,7 @@ trait IhtFormValidator extends FormValidator {
 
   private def ninoForDeceasedFormatter(blankMessageKey: String, lengthMessageKey: String,
                                        formatMessageKey: String, oRegDetails: Option[RegistrationDetails])(
-                                        implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = new Formatter[String] {
+                                        implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext, appConfig: AppConfig) = new Formatter[String] {
 
     def normalize(s: String) = s.replaceAll("\\s", "").toUpperCase
 
@@ -597,12 +602,12 @@ trait IhtFormValidator extends FormValidator {
 
   def ninoForCoExecutor(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String,
                         coExecutorIDKey: String, oRegDetails: Option[RegistrationDetails])(
-                        implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] =
+                        implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext, appConfig: AppConfig): FieldMapping[String] =
     Forms.of(ninoForCoExecutorFormatter(blankMessageKey, lengthMessageKey, formatMessageKey, coExecutorIDKey, oRegDetails))
 
   def ninoForDeceased(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String,
                       oRegDetails: Option[RegistrationDetails])(
-                      implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] =
+                      implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext, appConfig: AppConfig): FieldMapping[String] =
     Forms.of(ninoForDeceasedFormatter(blankMessageKey, lengthMessageKey, formatMessageKey, oRegDetails))
 
 }

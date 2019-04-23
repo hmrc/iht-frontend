@@ -16,8 +16,9 @@
 
 package iht.forms
 
+import iht.config.AppConfig
 import iht.forms.mappings.DateMapping
-import iht.models.application.tnrb.{WidowCheck, TnrbEligibiltyModel}
+import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
 import iht.utils._
 import org.joda.time.LocalDate
 import play.api.data.Form
@@ -27,7 +28,7 @@ import iht.utils.IhtFormValidator
 import iht.utils.IhtFormValidator._
 
 /**
- * Created by Vineet Tyagi on 23/04/15.
+
  *
  * Form for iht.views.application.tnrb_Eligibilty Page
  *
@@ -135,7 +136,7 @@ object TnrbForms {
   )
   )
 
-  val partnerNameForm = Form(mapping(
+  def partnerNameForm(implicit appConfig: AppConfig) = Form(mapping(
     "firstName" -> of(IhtFormValidator.validatePartnerName(
       "lastName"
     )),

@@ -16,8 +16,8 @@
 
 package iht.controllers.application.assets.properties
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.IhtMetrics
@@ -27,12 +27,11 @@ import iht.models.application.assets.Property
 import iht.utils._
 import javax.inject.Inject
 import play.api.Logger
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Call, Request, Result}
+import play.api.mvc.{Call, MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -41,11 +40,11 @@ class PropertyOwnershipControllerImpl @Inject()(val metrics: IhtMetrics,
                                                 val ihtConnector: IhtConnector,
                                                 val cachingConnector: CachingConnector,
                                                 val authConnector: AuthConnector,
-                                                val formPartialRetriever: FormPartialRetriever) extends PropertyOwnershipController
+                                                val formPartialRetriever: FormPartialRetriever,
+                                                implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with PropertyOwnershipController
 
-trait PropertyOwnershipController extends EstateController {
-
-
+trait PropertyOwnershipController extends EstateController with StringHelper {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionProperties)
 
   def cancelUrl = iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad()
@@ -57,7 +56,7 @@ trait PropertyOwnershipController extends EstateController {
   def editSubmitUrl(id: String) = iht.controllers.application.assets.properties.routes.PropertyOwnershipController.onEditSubmit(id)
 
   def locationAfterSuccessfulSave(id: String) = CommonHelper.addFragmentIdentifier(
-    routes.PropertyDetailsOverviewController.onEditPageLoad(id), Some(AssetsPropertiesPropertyOwnershipID))
+    routes.PropertyDetailsOverviewController.onEditPageLoad(id), Some(appConfig.AssetsPropertiesPropertyOwnershipID))
 
   def ihtConnector: IhtConnector
 
@@ -84,7 +83,7 @@ trait PropertyOwnershipController extends EstateController {
         val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
 
         for {
-          applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
+          applicationDetails <- ihtConnector.getApplication(getNino(userNino),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
         } yield {
@@ -150,7 +149,7 @@ trait PropertyOwnershipController extends EstateController {
             deceasedName)))
         },
         property => {
-          processSubmit(StringHelper.getNino(userNino), property, propertyId)
+          processSubmit(getNino(userNino), property, propertyId)
         }
       )
     }
@@ -201,16 +200,14 @@ trait PropertyOwnershipController extends EstateController {
   def addPropertyToPropertyList(property: Property, propertyList: List[Property]): (List[Property], String) = {
     val seekID = property.id.getOrElse("")
     propertyList.find(x => x.id.getOrElse("") equals seekID) match {
-      case None => {
+      case None =>
         val nextID = nextId(propertyList)
         val updatedList = propertyList :+ property.copy(id = Some(nextID))
         (updatedList, nextID)
-      }
-      case Some(matchedProperty) => {
+      case Some(matchedProperty) =>
         val updatedProperty = matchedProperty.copy(id = property.id, typeOfOwnership = property.typeOfOwnership)
         val updatedList: List[Property] = propertyList.updated(propertyList.indexOf(matchedProperty), updatedProperty)
         (updatedList, seekID)
-      }
     }
   }
 }

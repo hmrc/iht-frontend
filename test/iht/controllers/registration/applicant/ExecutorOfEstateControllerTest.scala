@@ -16,37 +16,48 @@
 
 package iht.controllers.registration.applicant
 
+import iht.config.AppConfig
 import iht.forms.registration.ApplicantForms._
-import iht.models.{ApplicantDetails, DeceasedDateOfDeath}
-import iht.testhelpers.MockObjectBuilder._
+import iht.models.ApplicantDetails
+
 import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
 import iht.utils.{DeceasedInfoHelper, RegistrationKickOutHelper}
-import org.joda.time.LocalDate
-import play.api.mvc.Result
+import play.api.i18n.{Lang, Messages}
+import play.api.mvc.{MessagesControllerComponents, Result}
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-class executorOfEstateControllerTest
-  extends RegistrationApplicantControllerWithEditModeBehaviour[executorOfEstateController] {
+class ExecutorOfEstateControllerTest
+  extends RegistrationApplicantControllerWithEditModeBehaviour[ExecutorOfEstateController] with RegistrationKickOutHelper {
+
+  implicit val messages: Messages = mockControllerComponents.messagesApi.preferred(Seq(Lang.defaultLang)).messages
+  val appConfig = mockAppConfig
 
   // Create controller object and pass in mock.
-  def controller = new executorOfEstateController {
+
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with ExecutorOfEstateController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def controller: TestController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def controllerNotAuthorised = new executorOfEstateController {
+  def controllerNotAuthorised: TestController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  "executorOfEstateController" must {
+  "ExecutorOfEstateController" must {
 
     behave like securedRegistrationApplicantController()
 
@@ -75,7 +86,7 @@ class executorOfEstateControllerTest
     "load when revisited after answering Yes" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector,
         Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails copy (applicantDetails =
-          Some(new ApplicantDetails(isApplyingForProbate = Some(true))))))
+          Some(new ApplicantDetails(isApplyingForProbate = Some(true), role = Some(mockAppConfig.roleLeadExecutor))))))
 
       val result: Future[Result] = controller.onPageLoad(createFakeRequest())
 
@@ -85,7 +96,7 @@ class executorOfEstateControllerTest
     "load when revisited after answering No" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector,
         Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails copy (applicantDetails =
-          Some(new ApplicantDetails(isApplyingForProbate = Some(false))))))
+          Some(new ApplicantDetails(isApplyingForProbate = Some(false), role = Some(mockAppConfig.roleLeadExecutor))))))
 
       val result = controller.onPageLoad(createFakeRequest())
 
@@ -95,7 +106,7 @@ class executorOfEstateControllerTest
     "load in edit mode and show Continue and Cancel links" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector,
         Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails copy (applicantDetails =
-          Some(new ApplicantDetails(isApplyingForProbate = Some(true))))))
+          Some(new ApplicantDetails(isApplyingForProbate = Some(true), role = Some(mockAppConfig.roleLeadExecutor))))))
 
       val result = controller.onEditPageLoad(createFakeRequest())
 
@@ -116,7 +127,7 @@ class executorOfEstateControllerTest
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
 
-      val form = executorOfEstateForm.fill(ApplicantDetails(executorOfEstate = Some(true)))
+      val form = executorOfEstateForm.fill(ApplicantDetails(executorOfEstate = Some(true), role = Some(mockAppConfig.roleLeadExecutor)))
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
         host = host, data = form.data.toSeq, authRetrieveNino = false)
 
@@ -130,7 +141,7 @@ class executorOfEstateControllerTest
       createMockToStoreRegDetailsInCache(mockCachingConnector,
         Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails))
 
-      val form = executorOfEstateForm.fill(ApplicantDetails()).data.toSeq
+      val form = executorOfEstateForm.fill(ApplicantDetails(role = Some(mockAppConfig.roleLeadExecutor))).data.toSeq
       val seq = form filter { case (key: String, value: String) => key != "executorOfEstate"}
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
         host = host, data = seq, authRetrieveNino = false)
@@ -147,7 +158,7 @@ class executorOfEstateControllerTest
       createMockToStoreRegDetailsInCache(mockCachingConnector,
         Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails))
 
-      val form = executorOfEstateForm.fill(ApplicantDetails(executorOfEstate = Some(true)))
+      val form = executorOfEstateForm.fill(ApplicantDetails(executorOfEstate = Some(true), role = Some(mockAppConfig.roleLeadExecutor)))
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
         host = host, data = form.data.toSeq, authRetrieveNino = false)
@@ -169,11 +180,11 @@ class executorOfEstateControllerTest
       createMockToStoreRegDetailsInCache(mockCachingConnector,
         Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails))
       createMockToGetSingleValueFromCache(mockCachingConnector,
-        singleValueReturn = Some(RegistrationKickOutHelper.KickoutNotAnExecutor))
+        singleValueReturn = Some(KickoutNotAnExecutor))
       createMockToStoreSingleValueInCache(mockCachingConnector,
-        singleValueReturn = Some(RegistrationKickOutHelper.KickoutNotAnExecutor))
+        singleValueReturn = Some(KickoutNotAnExecutor))
 
-      val form = executorOfEstateForm.fill(ApplicantDetails(executorOfEstate = Some(false)))
+      val form = executorOfEstateForm.fill(ApplicantDetails(executorOfEstate = Some(false), role = Some(mockAppConfig.roleLeadExecutor)))
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
         host = host, data = form.data.toSeq, authRetrieveNino = false)
@@ -187,8 +198,8 @@ class executorOfEstateControllerTest
       applicant.executorOfEstate mustBe Some(false)
 
       val storeResult = verifyAndReturnStoredSingleValue(mockCachingConnector)
-      storeResult._1 mustBe RegistrationKickOutHelper.RegistrationKickoutReasonCachingKey
-      storeResult._2 mustBe RegistrationKickOutHelper.KickoutNotAnExecutor
+      storeResult._1 mustBe RegistrationKickoutReasonCachingKey
+      storeResult._2 mustBe KickoutNotAnExecutor
     }
 
     "save and redirect correctly on submit in edit mode when answering Yes" in {
@@ -196,7 +207,7 @@ class executorOfEstateControllerTest
         Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails copy(applicantDetails = Some(applicantDetails))))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails))
 
-      val form = executorOfEstateForm.fill(ApplicantDetails(executorOfEstate = Some(true)))
+      val form = executorOfEstateForm.fill(ApplicantDetails(executorOfEstate = Some(true), role = Some(mockAppConfig.roleLeadExecutor)))
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host, data = form.data.toSeq, authRetrieveNino = false)
 
@@ -214,7 +225,7 @@ class executorOfEstateControllerTest
         Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails copy(applicantDetails = Some(applicantDetails))))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails))
 
-      val form = executorOfEstateForm.fill(ApplicantDetails(executorOfEstate = Some(true)))
+      val form = executorOfEstateForm.fill(ApplicantDetails(executorOfEstate = Some(true), role = Some(mockAppConfig.roleLeadExecutor)))
 
       implicit val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(("executorOfEstate", ""))
       val result = controller.onEditSubmit(request)
@@ -227,11 +238,11 @@ class executorOfEstateControllerTest
       createMockToStoreRegDetailsInCache(mockCachingConnector,
         Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails))
       createMockToGetSingleValueFromCache(mockCachingConnector,
-        singleValueReturn = Some(RegistrationKickOutHelper.KickoutNotAnExecutor))
+        singleValueReturn = Some(KickoutNotAnExecutor))
       createMockToStoreSingleValueInCache(mockCachingConnector,
-        singleValueReturn = Some(RegistrationKickOutHelper.KickoutNotAnExecutor))
+        singleValueReturn = Some(KickoutNotAnExecutor))
 
-      val form = executorOfEstateForm.fill(ApplicantDetails(executorOfEstate = Some(false)))
+      val form = executorOfEstateForm.fill(ApplicantDetails(executorOfEstate = Some(false), role = Some(mockAppConfig.roleLeadExecutor)))
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host, data = form.data.toSeq, authRetrieveNino = false)
 
@@ -244,8 +255,8 @@ class executorOfEstateControllerTest
       applicant.executorOfEstate mustBe Some(false)
 
       val storeResult = verifyAndReturnStoredSingleValue(mockCachingConnector)
-      storeResult._1 mustBe RegistrationKickOutHelper.RegistrationKickoutReasonCachingKey
-      storeResult._2 mustBe RegistrationKickOutHelper.KickoutNotAnExecutor
+      storeResult._1 mustBe RegistrationKickoutReasonCachingKey
+      storeResult._2 mustBe KickoutNotAnExecutor
     }
   }
 }

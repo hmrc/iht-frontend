@@ -18,10 +18,11 @@
 @import iht.utils._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.models.RegistrationDetails
 
 @(probateDetails: ProbateDetails,
-        registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+        registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_application(title = Messages("page.iht.application.probate.title"),
     browserTitle = Some(Messages("page.iht.application.probate.browserTitle"))

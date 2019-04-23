@@ -17,9 +17,10 @@
 @import iht.models.RegistrationDetails
 @import iht.models.application.tnrb._
 @import iht.utils._
-@import iht.utils.tnrb.TnrbHelper
+@import iht.utils.tnrb.TnrbHelperFixture
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.models.application.tnrb.TnrbEligibiltyModel
 @import iht.models.application.tnrb.WidowCheck
 @import uk.gov.hmrc.play.views.html.helpers.form
@@ -27,10 +28,10 @@
 @(partnerLivingInUkForm:Form[TnrbEligibiltyModel],
 tnrbModel: TnrbEligibiltyModel,
 widowCheck: WidowCheck,
-cancelUrl:Call, registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+cancelUrl:Call, registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @deceasedName() = @{CommonHelper.getOrException(registrationDetails.deceasedDetails).name}
-@partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheck, deceasedName, true)}
+@partnerName() = @{TnrbHelperFixture().spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheck, deceasedName, true)}
 
 @iht_main_template_application(
     title = "",

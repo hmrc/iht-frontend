@@ -15,10 +15,11 @@
  *@
 
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.views.html._
 @import uk.gov.hmrc.play.views.html.helpers.form
 
-@()(implicit request:Request[_], messages: Messages, lang: play.api.i18n.Lang, ihtFormPartialRetriever: FormPartialRetriever)
+@()(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_application(title = "Store Registration Details",
     browserTitle = Some("Store Registration Details"),

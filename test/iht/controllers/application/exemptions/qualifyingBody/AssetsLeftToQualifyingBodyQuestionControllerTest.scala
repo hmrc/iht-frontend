@@ -16,12 +16,15 @@
 
 package iht.controllers.application.exemptions.qualifyingBody
 
+import iht.config.AppConfig
+import iht.controllers.IVWayfinderController
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms.assetsLeftToQualifyingBodyQuestionForm
 import iht.models.application.exemptions.BasicExemptionElement
-import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
@@ -29,16 +32,19 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
  */
 class AssetsLeftToQualifyingBodyQuestionControllerTest extends ApplicationControllerTest {
 
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with AssetsLeftToQualifyingBodyQuestionController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
-
-  def assetsLeftToQualifyingBodyQuestionController = new AssetsLeftToQualifyingBodyQuestionController {
+  def assetsLeftToQualifyingBodyQuestionController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def assetsLeftToQualifyingBodyQuestionControllerNotAuthorised = new AssetsLeftToQualifyingBodyQuestionController {
+  def assetsLeftToQualifyingBodyQuestionControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

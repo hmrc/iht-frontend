@@ -18,9 +18,7 @@ package iht.models.des.ihtReturn
 
 import play.api.libs.json.Json
 
-/**
-  * Created by vineet on 06/07/17.
-  */
+
 case class Liability(liabilityType: Option[String] = None,
                      liabilityAmount: Option[BigDecimal] = None,
                      liabilityOwner: Option[String] = None)

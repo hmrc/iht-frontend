@@ -16,33 +16,29 @@
 
 package iht.controllers.application.exemptions
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties
 import iht.controllers.application.ApplicationController
 import iht.models.RegistrationDetails
 import iht.models.application.exemptions._
 import iht.utils.StringHelper
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-/**
- *
- * Created by Vineet Tyagi on 07/12/15.
- *
- */
-
 class ExemptionsOverviewControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                                  val ihtConnector: IhtConnector,
                                                  val authConnector: AuthConnector,
-                                                 override implicit val formPartialRetriever: FormPartialRetriever) extends ExemptionsOverviewController
+                                                 override implicit val formPartialRetriever: FormPartialRetriever,
+                                                 implicit val appConfig: AppConfig,
+                                                 val cc: MessagesControllerComponents) extends FrontendController(cc) with ExemptionsOverviewController
 
-trait ExemptionsOverviewController extends ApplicationController{
+trait ExemptionsOverviewController extends ApplicationController with StringHelper {
 
 
   def cachingConnector: CachingConnector
@@ -62,7 +58,7 @@ trait ExemptionsOverviewController extends ApplicationController{
           rd))
         if (!ad.hasSeenExemptionGuidance.getOrElse(false)) {
           val changedAppDetails = ad copy (hasSeenExemptionGuidance = Some(true))
-          ihtConnector.saveApplication(StringHelper.getNino(userNino), changedAppDetails, rd.acknowledgmentReference).map(_=>response)
+          ihtConnector.saveApplication(getNino(userNino), changedAppDetails, rd.acknowledgmentReference).map(_=>response)
         } else {
           Future.successful(response)
         }
@@ -77,5 +73,5 @@ trait ExemptionsOverviewController extends ApplicationController{
    * @return
    */
   private def isEligible(registrationDetails: RegistrationDetails): Boolean =
-    registrationDetails.deceasedDetails.map(_.maritalStatus.contains(IhtProperties.statusMarried)).fold(false)(identity)
+    registrationDetails.deceasedDetails.map(_.maritalStatus.contains(appConfig.statusMarried)).fold(false)(identity)
 }

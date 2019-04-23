@@ -20,7 +20,8 @@ import iht.views.ViewTestHelper
 import iht.views.html.application.tnrb.tnrb_guidance
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 
 class TnrbGuidanceViewTest extends ViewTestHelper {
 

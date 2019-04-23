@@ -16,60 +16,57 @@
 
 package iht.controllers.registration.applicant
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.ControllerHelper.Mode
 import iht.forms.registration.ApplicantForms._
 import iht.models.{ApplicantDetails, RegistrationDetails}
-import iht.utils.{DeceasedInfoHelper, RegistrationKickOutHelper}
+import iht.utils.DeceasedInfoHelper
 import iht.views.html.registration.{applicant => views}
 import javax.inject.Inject
-import play.api.Play.current
 import play.api.data.Form
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{AnyContent, Request}
+import play.api.i18n.Messages
+import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class ApplyingForProbateControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                  val cachingConnector: CachingConnector,
                                                  val authConnector: AuthConnector,
-                                                 val formPartialRetriever: FormPartialRetriever) extends ApplyingForProbateController {
-
-}
+                                                 val formPartialRetriever: FormPartialRetriever,
+                                                 implicit val appConfig: AppConfig,
+                                                 val cc: MessagesControllerComponents) extends FrontendController(cc) with ApplyingForProbateController
 
 trait ApplyingForProbateController extends RegistrationApplicantControllerWithEditMode {
-  def form = applyingForProbateForm
+  def form(implicit messsages: Messages): Form[ApplicantDetails] = applyingForProbateForm
 
   override def guardConditions: Set[Predicate] = guardConditionsApplicantApplyingForProbateQuestion
 
-  override def getKickoutReason = RegistrationKickOutHelper.checkNotApplyingForProbateKickout
+  override def getKickoutReason: RegistrationDetails => Option[String] = checkNotApplyingForProbateKickout
 
   override val storageFailureMessage = "Store registration details fails on applying for probate submission"
 
-  lazy val submitRoute = routes.ApplyingForProbateController.onSubmit
-  lazy val editSubmitRoute = routes.ApplyingForProbateController.onEditSubmit
+  lazy val submitRoute: Call = routes.ApplyingForProbateController.onSubmit()
+  lazy val editSubmitRoute: Call = routes.ApplyingForProbateController.onEditSubmit()
 
-  def okForPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.applying_for_probate(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), submitRoute)
-    (request, language, applicationMessages, formPartialRetriever))
+  def okForPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]): Result =
+    Ok(views.applying_for_probate(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), submitRoute))
 
-  def okForEditPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.applying_for_probate(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, cancelToRegSummary)
-    (request, language, applicationMessages, formPartialRetriever))
+  def okForEditPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]): Result =
+    Ok(views.applying_for_probate(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, cancelToRegSummary))
 
-  def badRequestForSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.applying_for_probate(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), submitRoute)
-    (request, language, applicationMessages, formPartialRetriever))
+  def badRequestForSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]): Result =
+    BadRequest(views.applying_for_probate(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), submitRoute))
 
-  def badRequestForEditSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.applying_for_probate(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, cancelToRegSummary)
-    (request, language, applicationMessages, formPartialRetriever))
+  def badRequestForEditSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]): Result =
+    BadRequest(views.applying_for_probate(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, cancelToRegSummary))
 
-  def applyChangesToRegistrationDetails(rd: RegistrationDetails, ad: ApplicantDetails, mode: Mode.Value) = {
-    val x = rd.applicantDetails.getOrElse(new ApplicantDetails) copy (
+  def applyChangesToRegistrationDetails(rd: RegistrationDetails, ad: ApplicantDetails, mode: Mode.Value): RegistrationDetails = {
+    val x = rd.applicantDetails.getOrElse(new ApplicantDetails(role = Some(appConfig.roleLeadExecutor))) copy (
       isApplyingForProbate = ad.isApplyingForProbate)
     rd copy (applicantDetails = Some(x))
   }
 
-  def onwardRoute(rd: RegistrationDetails) = routes.executorOfEstateController.onPageLoad
+  def onwardRoute(rd: RegistrationDetails): Call = routes.ExecutorOfEstateController.onPageLoad()
 }

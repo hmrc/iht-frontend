@@ -16,8 +16,10 @@
 
 package iht.views.application
 
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
+import play.api.mvc.MessagesControllerComponents
+import iht.config.AppConfig
 import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
 

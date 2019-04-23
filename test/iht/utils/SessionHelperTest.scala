@@ -17,6 +17,7 @@
 package iht.utils
 
 import iht.FakeIhtApp
+import iht.config.AppConfig
 import iht.constants.Constants
 import iht.testhelpers._
 import org.scalatest.mockito.MockitoSugar
@@ -25,6 +26,8 @@ import play.api.test.FakeRequest
 
 
 class SessionHelperTest extends FakeIhtApp with MockitoSugar {
+
+  implicit val mockAppConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
   "getNinoFromSession" must {
     "return the nino when it is present in the session" in {

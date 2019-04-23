@@ -16,29 +16,34 @@
 
 package iht.controllers.application.exemptions.qualifyingBody
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.MockObjectBuilder._
+import iht.controllers.application.exemptions.ExemptionsOverviewController
+
 import iht.testhelpers.TestHelper._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.CommonHelper._
 import org.scalatest.BeforeAndAfter
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class QualifyingBodyDeleteConfirmControllerTest extends ApplicationControllerTest with BeforeAndAfter {
 
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with QualifyingBodyDeleteConfirmController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
-
-
-
-  def qualifyingBodyDeleteConfirmController = new QualifyingBodyDeleteConfirmController {
+  def qualifyingBodyDeleteConfirmController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def qualifyingBodyDeleteControllerNotAuthorised = new QualifyingBodyDeleteConfirmController {
+  def qualifyingBodyDeleteControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

@@ -17,32 +17,38 @@
 package iht.utils.pdf
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream, File}
-import javax.xml.transform.sax.SAXResult
-import javax.xml.transform.stream.StreamSource
-import javax.xml.transform.{ErrorListener, Transformer, TransformerException, TransformerFactory}
 
+import iht.config.AppConfig
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.des.ihtReturn.IHTReturn
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.xml.ModelToXMLSource
 import iht.utils.{CommonHelper, _}
+import javax.inject.{Inject, Singleton}
+import javax.xml.transform.sax.SAXResult
+import javax.xml.transform.stream.StreamSource
+import javax.xml.transform.{ErrorListener, Transformer, TransformerException, TransformerFactory}
 import org.apache.fop.apps._
 import org.apache.fop.events.model.EventSeverity
 import org.apache.fop.events.{Event, EventFormatter, EventListener}
 import org.apache.xmlgraphics.util.MimeConstants
 import org.joda.time.LocalDate
-import play.api.Play.current
+import play.api.Logger
 import play.api.i18n.Messages
-import play.api.{Logger, Play}
-import uk.gov.hmrc.play.language.LanguageUtils.Dates
+import iht.utils.CustomLanguageUtils.Dates
 
-/**
-  * Created by david-beer on 07/06/16.
-  */
-object XmlFoToPDF extends XmlFoToPDF
+@Singleton
+class DefaultXmlFoToPDF @Inject()(val stylesheetResourceStreamResolver: StylesheetResourceStreamResolver,
+                                  val resourceStreamResolver: BaseResourceStreamResolver,
+                                  val fopURIResolver: FopURIResolver,
+                                  implicit val appConfig: AppConfig) extends XmlFoToPDF
 
-trait XmlFoToPDF {
+trait XmlFoToPDF extends PdfHelper with TnrbHelper {
+  val resourceStreamResolver: BaseResourceStreamResolver
+  val stylesheetResourceStreamResolver: StylesheetResourceStreamResolver
+  val fopURIResolver: FopURIResolver
+
   private val filePathForFOPConfig = "pdf/fop.xconf"
   private val folderForPDFTemplates = "pdf/templates"
   private val filePathForClearanceXSL = s"$folderForPDFTemplates/clearance/main.xsl"
@@ -52,7 +58,7 @@ trait XmlFoToPDF {
   def createPreSubmissionPDF(registrationDetails: RegistrationDetails, applicationDetails: ApplicationDetails,
                              declarationType: String, messages: Messages): Array[Byte] = {
     val rd = PdfFormatter.transform(registrationDetails, messages)
-    val ad = PdfFormatter.transform(applicationDetails, registrationDetails, messages)
+    val ad = PdfFormatter.transformWithApplicationDetails(applicationDetails, registrationDetails, messages)
     val declaration = if (declarationType.isEmpty) false else true
     Logger.debug(s"Declaration value = $declaration and declaration type = $declarationType")
 
@@ -69,7 +75,7 @@ trait XmlFoToPDF {
   def createPostSubmissionPDF(registrationDetails: RegistrationDetails,
                               ihtReturn: IHTReturn, messages: Messages): Array[Byte] = {
     val rd = PdfFormatter.transform(registrationDetails, messages)
-    val ad = PdfFormatter.createApplicationDetails(
+    val ad = createApplicationDetails(
       ihtReturn.freeEstate.flatMap(_.estateAssets),
       ihtReturn.trusts)
     val modelAsXMLStream: StreamSource = new StreamSource(new ByteArrayInputStream(ModelToXMLSource.
@@ -100,10 +106,10 @@ trait XmlFoToPDF {
   private def createClearanceTransformer(registrationDetails: RegistrationDetails,
                                          declarationDate: LocalDate,
                                          messages: Messages): Transformer = {
-    val template: StreamSource = new StreamSource(
-      Play.classloader.getResourceAsStream(filePathForClearanceXSL))
+    val template: StreamSource = resourceStreamResolver.resolvePath(filePathForClearanceXSL)
     val transformerFactory: TransformerFactory = TransformerFactory.newInstance
-    transformerFactory.setURIResolver(new StylesheetResolver)
+    transformerFactory.setURIResolver(stylesheetResourceStreamResolver)
+
     val transformer: Transformer = transformerFactory.newTransformer(template)
     setupTransformerEventHandling(transformer)
 
@@ -115,10 +121,10 @@ trait XmlFoToPDF {
   private def createPreSubmissionTransformer(registrationDetails: RegistrationDetails,
                                              applicationDetails: ApplicationDetails,
                                              messages: Messages): Transformer = {
-    val template: StreamSource = new StreamSource(Play.classloader
-      .getResourceAsStream(filePathForPreSubmissionXSL))
+    val template: StreamSource = resourceStreamResolver.resolvePath(filePathForPreSubmissionXSL)
     val transformerFactory: TransformerFactory = TransformerFactory.newInstance
-    transformerFactory.setURIResolver(new StylesheetResolver)
+    transformerFactory.setURIResolver(stylesheetResourceStreamResolver)
+
     val transformer: Transformer = transformerFactory.newTransformer(template)
     setupTransformerEventHandling(transformer)
     val preDeceasedName = applicationDetails.increaseIhtThreshold.map(
@@ -137,8 +143,7 @@ trait XmlFoToPDF {
 
     transformer.setParameter("estateValue", assetsNetValue(applicationDetails))
     transformer.setParameter("thresholdValue", applicationDetails.currentThreshold)
-    transformer.setParameter("marriedOrCivilPartnershipLabel",
-      TnrbHelper.preDeceasedMaritalStatusSubLabel(dateOfPredeceased)(messages))
+    transformer.setParameter("marriedOrCivilPartnershipLabel", preDeceasedMaritalStatusSubLabel(dateOfPredeceased)(messages))
     transformer.setParameter("kickout", applicationDetails.kickoutReason.isEmpty)
     transformer.setParameter("estateOverviewDisplayMode",PdfFormatter.estateOverviewDisplayMode(applicationDetails))
     transformer
@@ -147,9 +152,10 @@ trait XmlFoToPDF {
   private def createPostSubmissionTransformer(registrationDetails: RegistrationDetails,
                                               ihtReturn: IHTReturn,
                                               messages: Messages): Transformer = {
-    val templateSource: StreamSource = new StreamSource(Play.classloader.getResourceAsStream(filePathForPostSubmissionXSL))
+    val templateSource: StreamSource = resourceStreamResolver.resolvePath(filePathForPostSubmissionXSL)
     val transformerFactory: TransformerFactory = TransformerFactory.newInstance
-    transformerFactory.setURIResolver(new StylesheetResolver)
+    transformerFactory.setURIResolver(stylesheetResourceStreamResolver)
+
     val transformer: Transformer = transformerFactory.newTransformer(templateSource)
     setupTransformerEventHandling(transformer)
     val preDeceasedName = ihtReturn.deceased.flatMap(_.transferOfNilRateBand.flatMap(_.deceasedSpouses.head
@@ -201,7 +207,7 @@ trait XmlFoToPDF {
                                                          totalLiabilitiesValue: BigDecimal,
                                                          totalExemptionsValue: BigDecimal,
                                                          totalPastYearsGiftsValue: BigDecimal,
-                                                         messages: Messages) = {
+                                                         messages: Messages): Unit = {
     setupCommonTransformerParameters(transformer, messages)
     transformer.setParameter("ihtReference", formattedIHTReference(registrationDetails.ihtReference.fold("")(identity)))
     transformer.setParameter("assetsTotal", totalAssetsValue)
@@ -210,23 +216,22 @@ trait XmlFoToPDF {
     transformer.setParameter("giftsTotal", totalPastYearsGiftsValue)
     transformer.setParameter("deceasedName", registrationDetails.deceasedDetails.fold("")(_.name))
     transformer.setParameter("preDeceasedName", preDeceasedName)
-    transformer.setParameter("marriageLabel", TnrbHelper.marriageOrCivilPartnerShipLabelForPdf(dateOfMarriage)(messages))
+    transformer.setParameter("marriageLabel", marriageOrCivilPartnerShipLabelForPdf(dateOfMarriage)(messages))
   }
 
-  private def fop(pdfoutStream: ByteArrayOutputStream): Fop = {
-    val BASEURI = new File(".").toURI
-    val fopURIResolver = new FopURIResolver
-    val confBuilder = new FopConfParser(Play.classloader.getResourceAsStream(filePathForFOPConfig),
-      EnvironmentalProfileFactory.createRestrictedIO(BASEURI, fopURIResolver)).getFopFactoryBuilder
+  private def fop(pdfOutStream: ByteArrayOutputStream): Fop = {
+    val restrictedIO: EnvironmentProfile = EnvironmentalProfileFactory.createRestrictedIO(new File(".").toURI, fopURIResolver)
+
+    val confBuilder = new FopConfParser(resourceStreamResolver.resolvePath(filePathForFOPConfig).getInputStream, restrictedIO).getFopFactoryBuilder
     val fopFactory: FopFactory = confBuilder.build
     val foUserAgent: FOUserAgent = fopFactory.newFOUserAgent
 
     setupFOPEventHandling(foUserAgent)
 
-    fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, pdfoutStream)
+    fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, pdfOutStream)
   }
 
-  private def setupTransformerEventHandling(transformer: Transformer) = {
+  private def setupTransformerEventHandling(transformer: Transformer): Unit = {
     val errorListener = new ErrorListener {
       override def warning(exception: TransformerException): Unit =
         Logger.debug(exception.getMessageAndLocation)
@@ -244,7 +249,7 @@ trait XmlFoToPDF {
     transformer.setErrorListener(errorListener)
   }
 
-  private def setupFOPEventHandling(foUserAgent: FOUserAgent) = {
+  private def setupFOPEventHandling(foUserAgent: FOUserAgent): Unit = {
     val eventListener = new EventListener {
       override def processEvent(event: Event): Unit = {
         val messages = EventFormatter.format(event)

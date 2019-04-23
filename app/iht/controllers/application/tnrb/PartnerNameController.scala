@@ -16,8 +16,8 @@
 
 package iht.controllers.application.tnrb
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
 import iht.models.RegistrationDetails
@@ -26,12 +26,11 @@ import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.utils._
 import iht.utils.tnrb.TnrbHelper
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Request, Result}
+import play.api.mvc.{MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -39,11 +38,13 @@ import scala.concurrent.Future
 class PartnerNameControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                           val cachingConnector: CachingConnector,
                                           val authConnector: AuthConnector,
-                                          val formPartialRetriever: FormPartialRetriever) extends PartnerNameController {
+                                          val formPartialRetriever: FormPartialRetriever,
+                                          implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with PartnerNameController {
 
 }
 
-trait PartnerNameController extends EstateController {
+trait PartnerNameController extends EstateController with StringHelper with TnrbHelper {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   def cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
@@ -52,7 +53,7 @@ trait PartnerNameController extends EstateController {
       implicit request => {
         withRegistrationDetails { registrationDetails =>
           for {
-            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
+            applicationDetails <- ihtConnector.getApplication(getNino(userNino),
               CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
               registrationDetails.acknowledgmentReference)
           } yield {
@@ -65,7 +66,7 @@ trait PartnerNameController extends EstateController {
                 Ok(iht.views.html.application.tnrb.partner_name(
                   filledForm,
                   CommonHelper.getOrException(appDetails.widowCheck).dateOfPreDeceased,
-                  CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbSpouseNameID))
+                  CommonHelper.addFragmentIdentifier(cancelUrl, Some(appConfig.TnrbSpouseNameID))
                 )
                 )
               }
@@ -80,7 +81,7 @@ trait PartnerNameController extends EstateController {
 
       implicit request => {
         withRegistrationDetails { regDetails =>
-          val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(userNino),
+          val applicationDetailsFuture = ihtConnector.getApplication(getNino(userNino),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
@@ -94,7 +95,7 @@ trait PartnerNameController extends EstateController {
                     CommonHelper.getOrException(appDetails.widowCheck).dateOfPreDeceased, cancelUrl)))
                 },
                 tnrbModel => {
-                  saveApplication(StringHelper.getNino(userNino), tnrbModel, appDetails, regDetails)
+                  saveApplication(getNino(userNino), tnrbModel, appDetails, regDetails)
                 }
               )
             }
@@ -116,6 +117,6 @@ trait PartnerNameController extends EstateController {
       (_.copy(firstName = tnrbModel.firstName, lastName = tnrbModel.lastName))))
 
     ihtConnector.saveApplication(nino, updatedAppDetails, regDetails.acknowledgmentReference) map (_ =>
-      TnrbHelper.successfulTnrbRedirect(updatedAppDetails, Some(TnrbSpouseNameID)))
+      successfulTnrbRedirect(updatedAppDetails, Some(appConfig.TnrbSpouseNameID)))
   }
 }

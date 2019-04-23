@@ -16,29 +16,34 @@
 
 package iht.controllers.application.exemptions
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.controllers.application.exemptions.charity.CharitiesOverviewController
 import iht.models.application.exemptions.Charity
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
 import iht.utils._
 import org.mockito.Mockito.when
-import play.api.i18n.{Lang, Messages}
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class CharitiesOverviewControllerTest extends ApplicationControllerTest {
 
   implicit val hc = new HeaderCarrier()
 
-  implicit val messages: Messages = messagesApi.preferred(Seq(Lang("en")))
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with CharitiesOverviewController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
   val applicationDetailsWithCharityLeftTrue = CommonBuilder.buildApplicationDetails.copy(
     allExemptions = Some(CommonBuilder.buildAllExemptions.copy(
       charity = Some(CommonBuilder.buildBasicExemptionElement.copy(isSelected = Some(true))))))
 
-  def charitiesOverviewController = new CharitiesOverviewController {
+  def charitiesOverviewController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
@@ -46,7 +51,7 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def charitiesOverviewControllerNotAuthorised = new CharitiesOverviewController {
+  def charitiesOverviewControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector

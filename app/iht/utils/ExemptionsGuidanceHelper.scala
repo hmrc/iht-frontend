@@ -16,6 +16,7 @@
 
 package iht.utils
 
+import iht.config.AppConfig
 import iht.connector.CachingConnector
 import iht.constants.Constants
 import iht.models.application.ApplicationDetails
@@ -24,29 +25,11 @@ import play.api.mvc._
 import scala.concurrent.{ExecutionContext, Future}
 import uk.gov.hmrc.http.HeaderCarrier
 
-object ExemptionsGuidanceHelper {
-  /**
-    * The guidanceRedirect method is used with the original destination of the controller that calls it. It checks to
-    * see whether or not the TNRB guidance page should be displayed first. If it does not need to be displayed it returns
-    * None signalling that the calling controller should behave as usual. If guidance should be displayed, it returns the new
-    * destination - the guidance page - for the calling controller to redirect to. The guidance page will use the
-    * finalDestination Call to allow the user to go to the original destination of the calling controller once the
-    * guidance page has been read.
-    *
-    * In pseudo code:
-    *
-    * Calculate the threshold
-    * Check if guidance is appropriate (over the current threshold, and the guidance flag is not set, and the continue url is not set in the keystore.
-    * if we are going to show guidance:
-    * Update the key store with the continue url
-    * return the guidance redirect
-    * (the exemptions overview onload method that is reached from the guidance page must mark the application model with the seen guidance flag)
-    * else:
-    * Remove the continue url from the keystore if it's there
-    * return None
-    */
-  def guidanceRedirect(finalDestination: Call, applicationDetails: ApplicationDetails, connector: CachingConnector)(
-    implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[Call]] = {
+trait ExemptionsGuidanceHelper {
+  implicit val appConfig: AppConfig
+
+  def guidanceRedirect(finalDestination: Call, applicationDetails: ApplicationDetails, connector: CachingConnector)
+                      (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[Call]] = {
 
     def isEstateOverThreshold(ad: ApplicationDetails): Boolean = ad.netValueAfterExemptionAndDebtsForPositiveExemption > ad.currentThreshold
 
@@ -64,10 +47,6 @@ object ExemptionsGuidanceHelper {
     }
   }
 
-  /**
-    * Retrieves from keystore the final destination that should have been stored by guidanceRedirect. If no final
-    * destination is found in keystore then the estate overview is stored in keystore and returned.
-    */
   def finalDestination(ihtReference: String, connector: CachingConnector)
                       (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Call] = {
     connector.getSingleValue(Constants.ExemptionsGuidanceContinueUrlKey).flatMap {

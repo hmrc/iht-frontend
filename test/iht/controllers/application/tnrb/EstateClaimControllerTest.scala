@@ -16,33 +16,33 @@
 
 package iht.controllers.application.tnrb
 
-import iht.constants.IhtProperties._
+
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.TnrbForms._
-import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import org.joda.time.LocalDate
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-/**
- *
- * Created by Vineet Tyagi on 14/01/16.
- *
- */
+
 class EstateClaimControllerTest  extends ApplicationControllerTest {
 
-//  val mockCachingConnector = mock[CachingConnector]
-//  val mockIhtConnector = mock[IhtConnector]
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with EstateClaimController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
-  def estateClaimController = new EstateClaimController {
+  def estateClaimController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def estateClaimControllerNotAuthorised = new EstateClaimController {
+  def estateClaimControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
@@ -110,7 +110,7 @@ class EstateClaimControllerTest  extends ApplicationControllerTest {
 
       val result = estateClaimController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + TnrbEstateReliefID))
+      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + mockAppConfig.TnrbEstateReliefID))
     }
 
     "go to KickOut page if estate claimed any business" in {

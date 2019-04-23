@@ -15,17 +15,18 @@
  *@
 
 @import iht.constants.Constants
-@import iht.constants.IhtProperties._
+
 @import iht.models.application.basicElements.ShareableBasicEstateElement
 @import iht.utils._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import uk.gov.hmrc.play.views.html.helpers.form
 @import iht.models.RegistrationDetails
 
 @(vehicles: Form[ShareableBasicEstateElement],
 registrationDetails: RegistrationDetails
-)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, false)}
 @deceasedNameWrap() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
@@ -59,7 +60,7 @@ registrationDetails: RegistrationDetails
     @ihtHelpers.custom.return_link(
         Messages("site.link.return.vehicles"),
         Some(iht.controllers.application.assets.vehicles.routes.VehiclesOverviewController.onPageLoad()),
-        AssetsVehiclesOwnID
+        appConfig.AssetsVehiclesOwnID
     )
 
 }

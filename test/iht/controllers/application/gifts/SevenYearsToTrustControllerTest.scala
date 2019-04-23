@@ -16,31 +16,32 @@
 
 package iht.controllers.application.gifts
 
-import iht.constants.IhtProperties._
+
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-/**
- *
- * Created by Vineet Tyagi on 14/01/16.
- *l
- */
 class SevenYearsToTrustControllerTest  extends ApplicationControllerTest{
 
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with SevenYearsToTrustController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
-
-  def sevenYearsToTrustController = new SevenYearsToTrustController {
+  def sevenYearsToTrustController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def sevenYearsToTrustControllerNotAuthorised = new SevenYearsToTrustController {
+  def sevenYearsToTrustControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
@@ -95,7 +96,7 @@ class SevenYearsToTrustControllerTest  extends ApplicationControllerTest{
 
       val result = sevenYearsToTrustController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be (Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad().url + "#" + GiftsSevenYearsQuestionID2))
+      redirectLocation(result) must be (Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad().url + "#" + appConfig.GiftsSevenYearsQuestionID2))
     }
 
     "display error if user submit the page without selecting the answer " in {

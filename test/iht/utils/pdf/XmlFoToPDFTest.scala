@@ -16,39 +16,42 @@
 
 package iht.utils.pdf
 
-import iht.FakeIhtApp
+import iht.config.AppConfig
 import iht.forms.FormTestHelper
 import iht.testhelpers.CommonBuilder
 import org.joda.time.LocalDate
-import org.scalatest.mock.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
-import play.api.i18n.MessagesApi
 
-/**
-  * Created by david-beer on 21/11/16.
-  */
 class XmlFoToPDFTest extends FormTestHelper {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val appDetails = CommonBuilder.buildApplicationDetails
 
+  class Setup {
+    val xmlFoToPDF: XmlFoToPDF = new XmlFoToPDF {
+      override val resourceStreamResolver: BaseResourceStreamResolver = app.injector.instanceOf[BaseResourceStreamResolver]
+      override val stylesheetResourceStreamResolver: StylesheetResourceStreamResolver = app.injector.instanceOf[StylesheetResourceStreamResolver]
+      override val fopURIResolver: FopURIResolver = app.injector.instanceOf[FopURIResolver]
+      override implicit val appConfig: AppConfig = mockAppConfig
+    }
+  }
+
   "XmlFoToPDF.createClearancePDF" must {
-    "have correct contents for the certificate" in {
+    "have correct contents for the certificate" in new Setup {
       val declarationDate = new LocalDate(2015, 10, 10)
 
-      val result: Array[Byte] = XmlFoToPDF.createClearancePDF(regDetails, declarationDate, messages)
+      val result: Array[Byte] = xmlFoToPDF.createClearancePDF(regDetails, declarationDate, messages)
       result.length must be >0
     }
 
-    "have correct contents for the Pre Submission PDF" in {
-      val result: Array[Byte] = XmlFoToPDF.createPreSubmissionPDF(regDetails, appDetails, "declaration_type", messages)
+    "have correct contents for the Pre Submission PDF" in new Setup {
+      val result: Array[Byte] = xmlFoToPDF.createPreSubmissionPDF(regDetails, appDetails, "declaration_type", messages)
       result.length must be >0
     }
 
-    "have correct contents for the Post Submission PDF" in {
+    "have correct contents for the Post Submission PDF" in new Setup {
       lazy val ihtReturn = CommonBuilder.buildIHTReturn
 
-      val result: Array[Byte] = XmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn, messages)
+      val result: Array[Byte] = xmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn, messages)
       result.length must be >0
     }
   }

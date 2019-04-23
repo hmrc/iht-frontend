@@ -16,8 +16,8 @@
 
 package iht.controllers.application.assets.pensions
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.IhtMetrics
@@ -26,23 +26,25 @@ import iht.models.application.assets._
 import iht.utils.CommonHelper
 import iht.views.html.application.asset.pensions.pensions_owned_question
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class PensionsOwnedQuestionControllerImpl @Inject()(val metrics: IhtMetrics,
                                                     val ihtConnector: IhtConnector,
                                                     val cachingConnector: CachingConnector,
                                                     val authConnector: AuthConnector,
-                                                    val formPartialRetriever: FormPartialRetriever) extends PensionsOwnedQuestionController
+                                                    val formPartialRetriever: FormPartialRetriever,
+                                                    implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with PensionsOwnedQuestionController
 
 trait PensionsOwnedQuestionController extends EstateController {
 
 
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad(), Some(AssetsPensionsOwnedID))
+    iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad(), Some(appConfig.AssetsPensionsOwnedID))
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
@@ -59,9 +61,9 @@ trait PensionsOwnedQuestionController extends EstateController {
           val existingChanged = appDetails.allAssets.flatMap(_.privatePension.flatMap(_.isChanged))
 
           val updatedAD = appDetails.copy(allAssets = Some(appDetails.allAssets.fold
-            (new AllAssets(action = None, privatePension = Some(privatePension)))
+          (new AllAssets(action = None, privatePension = Some(privatePension)))
           (privatePension.isOwned match {
-            case Some(true) => _.copy(privatePension = Some(privatePension.copy(value = existingValue, isChanged = existingChanged) ))
+            case Some(true) => _.copy(privatePension = Some(privatePension.copy(value = existingValue, isChanged = existingChanged)))
             case Some(false) => _.copy(privatePension = Some(privatePension))
             case None => throw new RuntimeException
           }
@@ -73,9 +75,9 @@ trait PensionsOwnedQuestionController extends EstateController {
         pensionsOwnedQuestionForm,
         pensions_owned_question.apply,
         updateApplicationDetails,
-        (ad, _) =>  ad.allAssets.flatMap(allAssets=>allAssets.privatePension).flatMap(_.isOwned) match {
+        (ad, _) => ad.allAssets.flatMap(allAssets => allAssets.privatePension).flatMap(_.isOwned) match {
           case Some(true) => submitUrl
-          case Some(false) => CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionPrivatePensionID))
+          case Some(false) => CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(appConfig.AppSectionPrivatePensionID))
           case _ => throw new RuntimeException("Pensions value does not exist")
         },
         userNino

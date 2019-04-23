@@ -17,12 +17,15 @@
 package iht.utils
 
 import iht.FakeIhtApp
+import iht.config.AppConfig
 import iht.constants.FieldMappings
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.{MessagesApi, Messages}
-import uk.gov.hmrc.play.test.UnitSpec
+import play.api.i18n.{Lang, MessagesApi}
 
 class FieldMappingsTest extends FakeIhtApp with MockitoSugar {
+
+  implicit val lang: Lang = Lang.defaultLang
+  val mockAppConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
   "FieldMappings" must {
     "create type of ownership with correct data" in {
@@ -32,7 +35,7 @@ class FieldMappingsTest extends FakeIhtApp with MockitoSugar {
 
       val deceasedName = "John"
 
-      val ownership = FieldMappings.typesOfOwnership(deceasedName)(messages)
+      val ownership = FieldMappings.typesOfOwnership(deceasedName)(messages, mockAppConfig)
       val deceasedOnlyLabel = ownership.get("Deceased only").fold("")( _._1)
       val deceasedOnlyLabelHint = ownership.get("Deceased only").fold(Some(""))( _._2)
       val jointOwnershipLabel = ownership.get("Joint").fold("")( _._1)
@@ -55,7 +58,7 @@ class FieldMappingsTest extends FakeIhtApp with MockitoSugar {
 
       val deceasedName = "John"
 
-      val tenures = FieldMappings.tenures(deceasedName)(messages)
+      val tenures = FieldMappings.tenures(deceasedName)(messages, mockAppConfig)
       val freeHoldLabelHint = tenures.get("Freehold").fold(Some(""))( _._2)
       val leaseHoldLabelHint = tenures.get("Leasehold").fold(Some(""))( _._2)
 

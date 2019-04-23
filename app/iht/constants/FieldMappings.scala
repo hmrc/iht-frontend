@@ -16,12 +16,10 @@
 
 package iht.constants
 
-import iht.constants.IhtProperties._
-import play.api.i18n.Messages
+import iht.config.AppConfig
 import iht.constants.Constants._
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import play.api.mvc.Request
+import play.api.i18n.Messages
+
 import scala.collection.immutable.ListMap
 
 object FieldMappings {
@@ -29,68 +27,68 @@ object FieldMappings {
   val Yes="1"
   val No="0"
 
-  def applicantCountryMap(implicit messages: Messages) = ListMap(
-    createMapEntry(applicantCountryEnglandOrWales, "iht.countries.englandOrWales")(messages),
-    createMapEntry(applicantCountryScotland, "iht.countries.scotland")(messages),
-    createMapEntry(applicantCountryNorthernIreland, "iht.countries.northernIreland")(messages)
+  def applicantCountryMap(implicit messages: Messages, appConfig: AppConfig) = ListMap(
+    createMapEntry(appConfig.applicantCountryEnglandOrWales, "iht.countries.englandOrWales")(messages),
+    createMapEntry(appConfig.applicantCountryScotland, "iht.countries.scotland")(messages),
+    createMapEntry(appConfig.applicantCountryNorthernIreland, "iht.countries.northernIreland")(messages)
   )
 
-  def domicileMap(implicit messages: Messages) = ListMap(
-    createMapEntry(domicileEnglandOrWales, "iht.countries.englandOrWales")(messages),
-    createMapEntry(domicileScotland, "iht.countries.scotland")(messages),
-    createMapEntry(domicileNorthernIreland, "iht.countries.northernIreland")(messages),
-    createMapEntry(domicileOther, "iht.common.other")(messages)
+  def domicileMap(implicit messages: Messages, appConfig: AppConfig) = ListMap(
+    createMapEntry(appConfig.domicileEnglandOrWales, "iht.countries.englandOrWales")(messages),
+    createMapEntry(appConfig.domicileScotland, "iht.countries.scotland")(messages),
+    createMapEntry(appConfig.domicileNorthernIreland, "iht.countries.northernIreland")(messages),
+    createMapEntry(appConfig.domicileOther, "iht.common.other")(messages)
   )
 
-  def maritalStatusMap (implicit messages: Messages) = ListMap(
-    createMapEntry(statusMarried,"page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.label")(messages),
-    createMapEntry(statusDivorced,"page.iht.registration.deceasedDetails.maritalStatus.civilPartner.label")(messages),
-    createMapEntry(statusWidowed,"page.iht.registration.deceasedDetails.maritalStatus.widowed.label")(messages),
-    createMapEntry(statusSingle,"page.iht.registration.deceasedDetails.maritalStatus.single.label")(messages)
+  def maritalStatusMap (implicit messages: Messages, appConfig: AppConfig) = ListMap(
+    createMapEntry(appConfig.statusMarried,"page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.label")(messages),
+    createMapEntry(appConfig.statusDivorced,"page.iht.registration.deceasedDetails.maritalStatus.civilPartner.label")(messages),
+    createMapEntry(appConfig.statusWidowed,"page.iht.registration.deceasedDetails.maritalStatus.widowed.label")(messages),
+    createMapEntry(appConfig.statusSingle,"page.iht.registration.deceasedDetails.maritalStatus.single.label")(messages)
   )
 
-  def propertyType(implicit messages: Messages): ListMap[String, String] = ListMap(
-    createMapEntry(propertyTypeDeceasedHome , "page.iht.application.assets.propertyType.deceasedHome.label")(messages),
-    createMapEntry(propertyTypeOtherResidentialBuilding , "page.iht.application.assets.propertyType.otherResidential.label")(messages),
-    createMapEntry(propertyTypeNonResidential , "page.iht.application.assets.propertyType.nonResidential.label")(messages)
+  def propertyType(implicit messages: Messages, appConfig: AppConfig): ListMap[String, String] = ListMap(
+    createMapEntry(appConfig.propertyTypeDeceasedHome , "page.iht.application.assets.propertyType.deceasedHome.label")(messages),
+    createMapEntry(appConfig.propertyTypeOtherResidentialBuilding , "page.iht.application.assets.propertyType.otherResidential.label")(messages),
+    createMapEntry(appConfig.propertyTypeNonResidential , "page.iht.application.assets.propertyType.nonResidential.label")(messages)
   )
 
-  def typesOfOwnership(deceasedName: String)(implicit messages: Messages): ListMap[String, (String, Some[String], Some[Boolean])] = ListMap(
-    ownershipDeceasedOnly -> ((messages("page.iht.application.assets.typeOfOwnership.deceasedOnly.label", deceasedName),
+  def typesOfOwnership(deceasedName: String)(implicit messages: Messages, appConfig: AppConfig): ListMap[String, (String, Some[String], Some[Boolean])] = ListMap(
+    appConfig.ownershipDeceasedOnly -> ((messages("page.iht.application.assets.typeOfOwnership.deceasedOnly.label", deceasedName),
       Some(messages("page.iht.application.assets.typeOfOwnership.deceasedOnly.hint", deceasedName)), Some(false))),
-    ownershipJoint -> ((messages("page.iht.application.assets.typeOfOwnership.joint.label"),
+    appConfig.ownershipJoint -> ((messages("page.iht.application.assets.typeOfOwnership.joint.label"),
       Some(messages("page.iht.application.assets.typeOfOwnership.joint.hint", deceasedName)), Some(true))),
-    ownershipInCommon -> ((messages("page.iht.application.assets.typeOfOwnership.inCommon.label"),
+    appConfig.ownershipInCommon -> ((messages("page.iht.application.assets.typeOfOwnership.inCommon.label"),
       Some(messages("page.iht.application.assets.typeOfOwnership.inCommon.hint", deceasedName)), Some(true)))
   )
 
-  def tenures(deceasedName: String)(implicit messages: Messages) = ListMap(
-    tenureFreehold -> ((messages("page.iht.application.assets.tenure.freehold.label"),
+  def tenures(deceasedName: String)(implicit messages: Messages, appConfig: AppConfig) = ListMap(
+    appConfig.tenureFreehold -> ((messages("page.iht.application.assets.tenure.freehold.label"),
       Some(messages("page.iht.application.assets.tenure.freehold.hint", deceasedName)), Some(false))),
-    tenureLeasehold -> ((messages("page.iht.application.assets.tenure.leasehold.label"),
+    appConfig.tenureLeasehold -> ((messages("page.iht.application.assets.tenure.leasehold.label"),
       Some(messages("page.iht.application.assets.tenure.leasehold.hint", deceasedName)), Some(false)))
   )
 
-  def questionnaireEasyToUse (implicit messages: Messages) = ListMap(
-    createMapEntry(questionnaireEasyToUseVeryEasy,"page.iht.questionnaire.easy-to-use.very-easy")(messages),
-    createMapEntry(questionnaireEasyToUseEasy,"page.iht.questionnaire.easy-to-use.easy")(messages),
-    createMapEntry(questionnaireEasyToUseNeither,"page.iht.questionnaire.easy-to-use.neither")(messages),
-    createMapEntry(questionnaireEasyToUseDifficult,"page.iht.questionnaire.easy-to-use.difficult")(messages),
-    createMapEntry(questionnaireEasyToUseVeryDifficult,"page.iht.questionnaire.easy-to-use.very-difficult")(messages)
+  def questionnaireEasyToUse (implicit messages: Messages, appConfig: AppConfig) = ListMap(
+    createMapEntry(appConfig.questionnaireEasyToUseVeryEasy,"page.iht.questionnaire.easy-to-use.very-easy")(messages),
+    createMapEntry(appConfig.questionnaireEasyToUseEasy,"page.iht.questionnaire.easy-to-use.easy")(messages),
+    createMapEntry(appConfig.questionnaireEasyToUseNeither,"page.iht.questionnaire.easy-to-use.neither")(messages),
+    createMapEntry(appConfig.questionnaireEasyToUseDifficult,"page.iht.questionnaire.easy-to-use.difficult")(messages),
+    createMapEntry(appConfig.questionnaireEasyToUseVeryDifficult,"page.iht.questionnaire.easy-to-use.very-difficult")(messages)
   )
 
-  def questionnaireFeelingAboutExperience(implicit messages: Messages) = ListMap(
-    createMapEntry(questionnaireFeelingAboutExperienceVerySatisfied,"page.iht.questionnaire.feelingAboutExperience.verySatisfied")(messages),
-    createMapEntry(questionnaireFeelingAboutExperienceSatisfied,"page.iht.questionnaire.feelingAboutExperience.satisfied")(messages),
-    createMapEntry(questionnaireFeelingAboutExperienceNeither,"page.iht.questionnaire.feelingAboutExperience.neither")(messages),
-    createMapEntry(questionnaireFeelingAboutExperienceDissatisfied,"page.iht.questionnaire.feelingAboutExperience.dissatisfied")(messages),
-    createMapEntry(questionnaireFeelingAboutExperienceVeryDissatisfied,"page.iht.questionnaire.feelingAboutExperience.veryDissatisfied")(messages)
+  def questionnaireFeelingAboutExperience(implicit messages: Messages, appConfig: AppConfig) = ListMap(
+    createMapEntry(appConfig.questionnaireFeelingAboutExperienceVerySatisfied,"page.iht.questionnaire.feelingAboutExperience.verySatisfied")(messages),
+    createMapEntry(appConfig.questionnaireFeelingAboutExperienceSatisfied,"page.iht.questionnaire.feelingAboutExperience.satisfied")(messages),
+    createMapEntry(appConfig.questionnaireFeelingAboutExperienceNeither,"page.iht.questionnaire.feelingAboutExperience.neither")(messages),
+    createMapEntry(appConfig.questionnaireFeelingAboutExperienceDissatisfied,"page.iht.questionnaire.feelingAboutExperience.dissatisfied")(messages),
+    createMapEntry(appConfig.questionnaireFeelingAboutExperienceVeryDissatisfied,"page.iht.questionnaire.feelingAboutExperience.veryDissatisfied")(messages)
   )
 
-  def questionnaireActivity(implicit messages: Messages) = ListMap(
-    createMapEntry(questionnaireActivityRegister, "page.iht.questionnaire.activity.register")(messages),
-    createMapEntry(questionnaireActivityEstateReport, "page.iht.questionnaire.activity.estateReport")(messages),
-    createMapEntry(questionnaireActivityDeclareApp, "page.iht.questionnaire.activity.declare-app")(messages)
+  def questionnaireActivity(implicit messages: Messages, appConfig: AppConfig) = ListMap(
+    createMapEntry(appConfig.questionnaireActivityRegister, "page.iht.questionnaire.activity.register")(messages),
+    createMapEntry(appConfig.questionnaireActivityEstateReport, "page.iht.questionnaire.activity.estateReport")(messages),
+    createMapEntry(appConfig.questionnaireActivityDeclareApp, "page.iht.questionnaire.activity.declare-app")(messages)
   )
 
   def filterChoices(implicit messages: Messages): ListMap[String, (String, Option[String], None.type)] = ListMap(

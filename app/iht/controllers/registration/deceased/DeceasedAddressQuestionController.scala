@@ -16,6 +16,7 @@
 
 package iht.controllers.registration.deceased
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.ControllerHelper.Mode
 import iht.forms.registration.DeceasedForms._
@@ -24,22 +25,24 @@ import iht.utils.DeceasedInfoHelper
 import iht.views.html.registration.{deceased => views}
 import javax.inject.Inject
 import play.api.Logger
-import play.api.Play.current
 import play.api.data.Form
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{AnyContent, Request}
+import play.api.i18n.Messages
+import play.api.mvc.{AnyContent, MessagesControllerComponents, Request}
 import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class DeceasedAddressQuestionControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                       val cachingConnector: CachingConnector,
                                                       val authConnector: AuthConnector,
-                                                      val formPartialRetriever: FormPartialRetriever) extends DeceasedAddressQuestionController {
+                                                      val formPartialRetriever: FormPartialRetriever,
+                                                      implicit val appConfig: AppConfig,
+                                                      val cc: MessagesControllerComponents) extends FrontendController(cc) with DeceasedAddressQuestionController {
 
 }
 
 trait DeceasedAddressQuestionController extends RegistrationDeceasedController {
-  def form = deceasedAddressQuestionForm
+  def form(implicit messsages: Messages) = deceasedAddressQuestionForm
 
   override def guardConditions: Set[Predicate] = guardConditionsDeceasedLastContactAddressQuestion
 
@@ -49,13 +52,13 @@ trait DeceasedAddressQuestionController extends RegistrationDeceasedController {
     Ok(views.deceased_address_question(form,
       DeceasedInfoHelper.getDeceasedNameOrDefaultString(name),
       routes.DeceasedAddressQuestionController.onSubmit())
-    (request, language, applicationMessages, formPartialRetriever))
+    )
 
   def badRequestForSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.deceased_address_question(form,
       DeceasedInfoHelper.getDeceasedNameOrDefaultString(name),
       routes.DeceasedAddressQuestionController.onSubmit())
-    (request, language, applicationMessages, formPartialRetriever))
+    )
 
   def onwardRoute(rd: RegistrationDetails) = {
     val addressInUk = rd.deceasedDetails.flatMap(_.isAddressInUK)

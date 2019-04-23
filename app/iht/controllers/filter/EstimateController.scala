@@ -16,16 +16,15 @@
 
 package iht.controllers.filter
 
-import iht.config.IhtFormPartialRetriever
+import iht.config.{AppConfig, IhtFormPartialRetriever}
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.Constants
 import iht.forms.FilterForms._
 import javax.inject.Inject
-import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{Action, AnyContent, Call}
+import play.api.i18n.I18nSupport
+import play.api.mvc.{Action, AnyContent, Call, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
-import uk.gov.hmrc.play.bootstrap.controller.UnauthorisedAction._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -33,13 +32,15 @@ import scala.concurrent.Future
 class EstimateControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                        val cachingConnector: CachingConnector,
                                        val authConnector: AuthConnector,
-                                       val messagesApi: MessagesApi,
-                                       implicit val formPartialRetriever: IhtFormPartialRetriever) extends EstimateController
+                                       val cc: MessagesControllerComponents,
+                                       implicit val formPartialRetriever: IhtFormPartialRetriever,
+                                       implicit val appConfig: AppConfig) extends FrontendController(cc) with EstimateController
 
 trait EstimateController extends FrontendController with I18nSupport {
   implicit val formPartialRetriever: FormPartialRetriever
+  implicit val appConfig: AppConfig
 
-  def onPageLoad(jointAssets: Boolean, submitRoute: Call): Action[AnyContent] = async {
+  def onPageLoad(jointAssets: Boolean, submitRoute: Call): Action[AnyContent] = Action.async {
     implicit request => {
       Future.successful(Ok(iht.views.html.filter.estimate(estimateForm, jointAssets,
         submitRoute)))
@@ -50,7 +51,7 @@ trait EstimateController extends FrontendController with I18nSupport {
 
   def onPageLoadWithoutJointAssets: Action[AnyContent] = onPageLoad(jointAssets = false, iht.controllers.filter.routes.EstimateController.onSubmitWithoutJointAssets())
 
-  private def onSubmit(jointAssets: Boolean, submitRoute: Call) = async {
+  private def onSubmit(jointAssets: Boolean, submitRoute: Call) = Action.async {
     implicit request => {
       val boundForm = estimateForm.bindFromRequest()
 

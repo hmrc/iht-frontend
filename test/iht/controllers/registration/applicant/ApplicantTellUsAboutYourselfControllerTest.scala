@@ -16,25 +16,28 @@
 
 package iht.controllers.registration.applicant
 
+import iht.config.AppConfig
 import iht.connector.CitizenDetailsConnector
+import iht.controllers.application.assets.trusts.TrustsMoreThanOneQuestionController
 import iht.controllers.registration.{routes => registrationRoutes}
 import iht.forms.registration.ApplicantForms._
 import iht.metrics.IhtMetrics
 import iht.models.{ApplicantDetails, RegistrationDetails, _}
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, NinoBuilder}
 import org.joda.time.LocalDate
 import org.mockito.Mockito._
-import play.api.i18n.Messages
+import play.api.i18n.{Lang, Messages}
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.domain.TaxIds
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class ApplicantTellUsAboutYourselfControllerTest
-  extends RegistrationApplicantControllerWithEditModeBehaviour[ApplicantTellUsAboutYourselfController]
-{
+  extends RegistrationApplicantControllerWithEditModeBehaviour[ApplicantTellUsAboutYourselfController] {
 
   val mockCitizenDetailsConnector = mock[CitizenDetailsConnector]
 
@@ -43,7 +46,13 @@ class ApplicantTellUsAboutYourselfControllerTest
   val userDetails = CidPerson(Some(CidNames(Some(CidName(Some(firstName), Some(surname))), None)),
     TaxIds(NinoBuilder.randomNino), Some("01011950"))
 
- def controller = new ApplicantTellUsAboutYourselfController {
+  implicit val messages: Messages = mockControllerComponents.messagesApi.preferred(Seq(Lang.defaultLang)).messages
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with ApplicantTellUsAboutYourselfController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+ def controller = new TestController {
    override val cachingConnector = mockCachingConnector
    override val authConnector = mockAuthConnector
    override val metrics: IhtMetrics = mock[IhtMetrics]
@@ -52,7 +61,7 @@ class ApplicantTellUsAboutYourselfControllerTest
    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
  }
 
-  def controllerNotAuthorised = new ApplicantTellUsAboutYourselfController {
+  def controllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val metrics: IhtMetrics = mock[IhtMetrics]
@@ -334,12 +343,14 @@ class ApplicantTellUsAboutYourselfControllerTest
     }
 
     "return true if the guard conditions are true" in {
-      val rd = CommonBuilder.buildRegistrationDetails copy (applicantDetails = Some(ApplicantDetails(country=Some(CommonBuilder.DefaultCountry))))
+      val rd = CommonBuilder.buildRegistrationDetails copy (applicantDetails = Some(
+        ApplicantDetails(country=Some(CommonBuilder.DefaultCountry), role=Some(mockAppConfig.roleLeadExecutor))))
       controller.checkGuardCondition(rd, "") mustBe true
     }
 
     "return false if the guard conditions are false" in {
-      val rd = CommonBuilder.buildRegistrationDetails copy (applicantDetails = Some(ApplicantDetails(country=None)))
+      val rd = CommonBuilder.buildRegistrationDetails copy (applicantDetails = Some(
+        ApplicantDetails(country=None, role=Some(mockAppConfig.roleLeadExecutor))))
       controller.checkGuardCondition(rd, "") mustBe false
     }
   }

@@ -16,24 +16,22 @@
 
 package iht.controllers.application
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper._
-import iht.utils.RegistrationDetailsHelper._
 import iht.utils.tnrb.TnrbHelper
-import iht.utils.{ApplicationKickOutNonSummaryHelper, ApplicationStatus, EstateNotDeclarableHelper, ExemptionsGuidanceHelper, StringHelper, SubmissionDeadlineHelper}
+import iht.utils.{ApplicationKickOutNonSummaryHelper, ApplicationStatus, EstateNotDeclarableHelper, ExemptionsGuidanceHelper, RegistrationDetailsHelper, StringHelper, SubmissionDeadlineHelper}
 import iht.viewmodels.application.overview.EstateOverviewViewModel
 import javax.inject.Inject
 import org.joda.time.LocalDate
 import play.api.Logger
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc._
+import play.api.mvc.{MessagesControllerComponents, _}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -41,9 +39,12 @@ import scala.concurrent.Future
 class EstateOverviewControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                              val cachingConnector: CachingConnector,
                                              val authConnector: AuthConnector,
-                                             val formPartialRetriever: FormPartialRetriever) extends EstateOverviewController
+                                             val formPartialRetriever: FormPartialRetriever,
+                                             implicit val appConfig: AppConfig,
+                                             val cc: MessagesControllerComponents) extends FrontendController(cc) with EstateOverviewController
 
-trait EstateOverviewController extends ApplicationController {
+trait EstateOverviewController extends ApplicationController with ExemptionsGuidanceHelper
+  with EstateNotDeclarableHelper with ApplicationKickOutNonSummaryHelper with TnrbHelper with StringHelper with RegistrationDetailsHelper {
 
   lazy val checkedEverythingQuestionPage = iht.controllers.application.declaration.routes.CheckedEverythingQuestionController.onPageLoad()
 
@@ -64,7 +65,7 @@ trait EstateOverviewController extends ApplicationController {
           InternalServerError(iht.views.html.application.overview.estate_overview_json_error())
         }
       }
-      val nino = StringHelper.getNino(userNino)
+      val nino = getNino(userNino)
 
       ihtConnector.getCaseDetails(nino, ihtReference).flatMap {
         caseDetails =>
@@ -74,8 +75,9 @@ trait EstateOverviewController extends ApplicationController {
                 Some(registrationDetails) <- cachingConnector.storeRegistrationDetails(caseDetails)
                 applicationDetails <- getApplicationDetails(ihtReference, registrationDetails.acknowledgmentReference, userNino)
                 deadlineDate <- getDeadline(applicationDetails, userNino)
-                redirectCall: Option[Call] <- ExemptionsGuidanceHelper.guidanceRedirect(
-                  routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference), applicationDetails, cachingConnector)
+                redirectCall: Option[Call] <- guidanceRedirect(
+                  routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference), applicationDetails, cachingConnector
+                )
               } yield {
                 redirectCall match {
                   case Some(call) => Redirect(call)
@@ -101,12 +103,12 @@ trait EstateOverviewController extends ApplicationController {
     */
   def onContinueOrDeclarationRedirect(ihtReference: String): Action[AnyContent] = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
-      val nino = StringHelper.getNino(userNino)
+      val nino = getNino(userNino)
       withRegistrationDetails { regDetails =>
         for {
           appDetails <- getApplicationDetails(ihtReference, regDetails.acknowledgmentReference, userNino)
-          appDetailsWithKickOutUpdatedOpt <- ihtConnector.saveApplication(nino, ApplicationKickOutNonSummaryHelper.updateKickout(
-            checks = ApplicationKickOutNonSummaryHelper.checksBackend,
+          appDetailsWithKickOutUpdatedOpt <- ihtConnector.saveApplication(nino, appKickoutUpdateKickout(
+            checks = checksBackend,
             registrationDetails = regDetails,
             applicationDetails = appDetails), regDetails.acknowledgmentReference)
 
@@ -120,22 +122,23 @@ trait EstateOverviewController extends ApplicationController {
     }
   }
 
-  private def getDeadline(ad: ApplicationDetails, userNino: Option[String])(
-    implicit headerCarrier: HeaderCarrier): Future[LocalDate] = {
-    SubmissionDeadlineHelper(StringHelper.getNino(userNino), ad.ihtRef.getOrElse(""), ihtConnector, headerCarrier)
+  private def getDeadline(ad: ApplicationDetails, userNino: Option[String])
+                         (implicit headerCarrier: HeaderCarrier): Future[LocalDate] = {
+    SubmissionDeadlineHelper(getNino(userNino), ad.ihtRef.getOrElse(""), ihtConnector, headerCarrier)
   }
 
-  private def getRedirect(regDetails: RegistrationDetails, appDetails: ApplicationDetails)(implicit hc: HeaderCarrier) = {
+  private def getRedirect(regDetails: RegistrationDetails, appDetails: ApplicationDetails)
+                         (implicit hc: HeaderCarrier) = {
     val netEstateValue = appDetails.netValueAfterExemptionAndDebtsForPositiveExemption
     val tnrb = appDetails.increaseIhtThreshold
     val maritalStatus = getMaritalStatus(regDetails)
     val kickOutReason = appDetails.kickoutReason
 
-    val declarableCondition1 = netEstateValue <= exemptionsThresholdValue.toInt &&
+    val declarableCondition1 = netEstateValue <= appConfig.exemptionsThresholdValue.toInt &&
                                 tnrb.isEmpty && kickOutReason.isEmpty
 
-    val declarableCondition2 = netEstateValue <= transferredNilRateBand.toInt &&
-      tnrb.isDefined && !maritalStatus.equals(statusSingle) && kickOutReason.isEmpty
+    val declarableCondition2 = netEstateValue <= appConfig.transferredNilRateBand.toInt &&
+      tnrb.isDefined && !maritalStatus.equals(appConfig.statusSingle) && kickOutReason.isEmpty
 
     if (declarableCondition1 || declarableCondition2) {
       Future.successful(Redirect(checkedEverythingQuestionPage))
@@ -149,16 +152,16 @@ trait EstateOverviewController extends ApplicationController {
                                         appDetails: ApplicationDetails)
                                       (implicit headerCarrier: HeaderCarrier): Future[Result] ={
 
-    if (EstateNotDeclarableHelper.isEstateOverGrossEstateLimit(appDetails)) {
+    if (isEstateOverGrossEstateLimit(appDetails)) {
       Future.successful(Redirect(kickOutPage))
-    } else if (EstateNotDeclarableHelper.isEstateValueMoreThanTaxThresholdBeforeExemptionsStarted(appDetails)) {
+    } else if (isEstateValueMoreThanTaxThresholdBeforeExemptionsStarted(appDetails)) {
       getExemptionsGuidanceRedirect(getOrException(regDetails.ihtReference), appDetails, cachingConnector).map(opCall =>
         Redirect(getExemptionsLinkUrlForContinueButton(opCall))
       )
-    } else if (EstateNotDeclarableHelper.isEstateValueMoreThanTaxThresholdBeforeTnrbStarted(appDetails, regDetails)) {
+    } else if (isEstateValueMoreThanTaxThresholdBeforeTnrbStarted(appDetails, regDetails)) {
       Future.successful(Redirect(getTnrbLinkUrlForContinueButton(regDetails, appDetails)))
-    } else if (EstateNotDeclarableHelper.isEstateValueMoreThanTaxThresholdBeforeTnrbFinished(appDetails, regDetails)) {
-      Future.successful(Redirect(TnrbHelper.getEntryPointForTnrb(regDetails, appDetails)))
+    } else if (isEstateValueMoreThanTaxThresholdBeforeTnrbFinished(appDetails, regDetails)) {
+      Future.successful(Redirect(getEntryPointForTnrb(regDetails, appDetails)))
     } else {
       Future.successful(Redirect(kickOutPage))
     }
@@ -174,7 +177,7 @@ trait EstateOverviewController extends ApplicationController {
 
   private def getTnrbLinkUrlForContinueButton(regDetails: RegistrationDetails, appDetails: ApplicationDetails) = {
     if (appDetails.isWidowCheckQuestionAnswered) {
-      TnrbHelper.getEntryPointForTnrb(regDetails, appDetails)
+      getEntryPointForTnrb(regDetails, appDetails)
     } else {
       tnrbGuidancePage
     }
@@ -189,10 +192,8 @@ trait EstateOverviewController extends ApplicationController {
     * @param headerCarrier
     * @return
     */
-  private def getExemptionsGuidanceRedirect(ihtReference: String,
-                                 appDetails: ApplicationDetails,
-                                 cachingConnector: CachingConnector)
-                                (implicit headerCarrier: HeaderCarrier): Future[Option[Call]] = {
-   ExemptionsGuidanceHelper.guidanceRedirect(routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference), appDetails, cachingConnector)
+  private def getExemptionsGuidanceRedirect(ihtReference: String, appDetails: ApplicationDetails, cachingConnector: CachingConnector)
+                                           (implicit headerCarrier: HeaderCarrier): Future[Option[Call]] = {
+   guidanceRedirect(routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference), appDetails, cachingConnector)
   }
 }

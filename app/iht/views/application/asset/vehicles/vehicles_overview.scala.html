@@ -20,12 +20,13 @@
 @import iht.views.html._
 @import iht.views.html.ihtHelpers.custom._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.utils.OverviewHelper._
 @import iht.models.RegistrationDetails
-@import iht.constants.IhtProperties._
+
 
 @(vehicles:Option[ShareableBasicEstateElement],
-  registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+  registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
@@ -49,7 +50,7 @@ isFullWidth=false
             generic_overview_table_section(
                     "deceased-own-vehicles-section",
                     vehicles.flatMap(_.isOwned),
-                    generic_overview_table_heading_item(AssetsVehiclesOwnID,
+                    generic_overview_table_heading_item(appConfig.AssetsVehiclesOwnID,
                         Messages("iht.estateReport.assets.vehiclesOwned", deceasedName),
                         Messages("iht.estateReport.assets.vehiclesOwned", Messages("iht.the.deceased")),
                         Some(iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onPageLoad),
@@ -58,7 +59,7 @@ isFullWidth=false
                             Messages("page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.noValue", deceasedName)),
                         vehicles.flatMap(_.isOwned).isEmpty
                         ),
-                        generic_overview_table_item(id = AssetsVehiclesOwnID,
+                        generic_overview_table_item(id = appConfig.AssetsVehiclesOwnID,
                             questionText = Messages("iht.estateReport.assets.vehicles.ownName.question", deceasedName),
                             questionScreenReaderText= Messages("iht.estateReport.assets.vehicles.ownName.question",
                                                                 Messages("iht.the.deceased")),
@@ -82,7 +83,7 @@ isFullWidth=false
             generic_overview_table_section(
                     "deceased-shared-vehicles-section",
                     vehicles.flatMap(_.isOwnedShare),
-                    generic_overview_table_heading_item(AssetsVehiclesSharedID,
+                    generic_overview_table_heading_item(appConfig.AssetsVehiclesSharedID,
                         Messages("page.iht.application.assets.vehicles.overview.joint.title", deceasedName),
                         Messages("page.iht.application.assets.vehicles.overview.joint.title", Messages("iht.the.deceased")),
                         Some(iht.controllers.application.assets.vehicles.routes.VehiclesJointlyOwnedController.onPageLoad),
@@ -92,7 +93,7 @@ isFullWidth=false
                             Messages("page.iht.application.assets.vehicles.jointly.owned.screenreader.link.noValue")),
                         vehicles.flatMap(_.isOwnedShare).isEmpty
                         ),
-                        generic_overview_table_item(id = AssetsVehiclesSharedID,
+                        generic_overview_table_item(id = appConfig.AssetsVehiclesSharedID,
                             questionText = Messages("iht.estateReport.assets.vehicles.jointly.owned.question", deceasedName),
                             questionScreenReaderText= Messages("iht.estateReport.assets.vehicles.jointly.owned.question",
                                                                 Messages("iht.the.deceased")),
@@ -115,7 +116,7 @@ isFullWidth=false
         @registrationDetails.deceasedDetails.map{ dd=>
                 @ihtHelpers.custom.return_link(Messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(dd.name)),
                         Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
-                        AppSectionVehiclesID
+                        appConfig.AppSectionVehiclesID
                 )
         }
 }

@@ -19,10 +19,15 @@ package iht.views.ihtHelpers.custom
 import iht.FakeIhtApp
 import iht.views.HtmlSpec
 import iht.views.html.ihtHelpers.custom.generic_overview_status_link
-import play.api.i18n.Messages.Implicits._
-import uk.gov.hmrc.play.test.UnitSpec
+import play.api.i18n.{Lang, Messages, MessagesApi}
+import play.api.mvc.MessagesControllerComponents
 
 class GenericOverviewStatusLinkTest extends FakeIhtApp with HtmlSpec {
+
+  val mockControllerComponents: MessagesControllerComponents = app.injector.instanceOf[MessagesControllerComponents]
+  override implicit val lang: Lang = Lang.defaultLang
+  override val messagesApi: MessagesApi = mockControllerComponents.messagesApi
+  implicit val messages: Messages = messagesApi.preferred(Seq(lang)).messages
 
   "GenericOverviewStatusLink helper" must {
 

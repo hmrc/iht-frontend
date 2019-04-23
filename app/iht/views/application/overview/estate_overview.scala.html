@@ -18,21 +18,22 @@
 @import iht.viewmodels.application.overview._
 @import iht.views.html.ihtHelpers.custom._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.viewmodels.application.overview.EstateOverviewViewModel
 @import iht.views.html._
 @import iht.views.html.application.overview._
 
-@(model: EstateOverviewViewModel)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+@(model: EstateOverviewViewModel)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @checkNameSize(name: String) = @{
-  var nameislong = false;
-  var nameParts = name.split(" ");
+  var nameislong = false
+  var nameParts = name.split(" ")
   for (name <- nameParts) {
-    if(name.length() > IhtProperties.nameRestrictLength){
-      nameislong = true;
+    if(name.length() > appConfig.nameRestrictLength){
+      nameislong = true
     }
   }
-  nameislong;
+  nameislong
 }
 
 @iht_main_template_application(title = Messages("page.iht.application.overview.title2", model.deceasedName),

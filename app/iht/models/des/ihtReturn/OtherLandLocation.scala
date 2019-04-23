@@ -18,9 +18,7 @@ package iht.models.des.ihtReturn
 
 import play.api.libs.json.Json
 
-/**
-  * Created by vineet on 06/07/17.
-  */
+
 case class OtherLandLocation(locationDescription: Option[String] = None)
 
 object OtherLandLocation {

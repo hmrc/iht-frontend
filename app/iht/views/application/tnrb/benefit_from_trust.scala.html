@@ -14,9 +14,10 @@
  * limitations under the License.
  *@
 
-@import iht.utils.tnrb.TnrbHelper
+@import iht.utils.tnrb.TnrbHelperFixture
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.models.application.tnrb.TnrbEligibiltyModel
 @import iht.models.application.tnrb.WidowCheck
 @import uk.gov.hmrc.play.views.html.helpers.form
@@ -26,9 +27,9 @@ tnrbModel: TnrbEligibiltyModel,
 widowCheck: WidowCheck,
 deceasedName: String,
 cancelUrl:Call
-)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
-@partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheck, deceasedName, true)}
+@partnerName() = @{TnrbHelperFixture().spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheck, deceasedName, true)}
 
 @iht_main_template_application(
     title = "",

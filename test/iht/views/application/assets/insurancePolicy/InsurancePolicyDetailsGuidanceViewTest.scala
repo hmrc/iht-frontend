@@ -34,7 +34,7 @@ class InsurancePolicyDetailsGuidanceViewTest extends ApplicationPageBehaviour {
   override def browserTitle = messagesApi("iht.estateReport.assets.insurancePolicies.premiumsPaidByOther", messagesApi("iht.the.deceased"))
 
   override def view:String = insurance_policy_details_final_guidance(giftsLocation, deceasedName)(
-    createFakeRequest(isAuthorised = false), applicationMessages, formPartialRetriever).toString()
+    createFakeRequest(isAuthorised = false), messages, formPartialRetriever, appConfig).toString()
 
   override def guidance: Guidance = guidance(Set(messagesApi("page.iht.application.insurance.policies.section7.guidance", deceasedName),
     messagesApi("page.iht.application.insurance.policies.section7.guidance2", deceasedName)))

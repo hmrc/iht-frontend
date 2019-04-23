@@ -15,10 +15,11 @@
  *@
 
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import uk.gov.hmrc.play.views.html.helpers.form
 @import iht.views.html.iht_main_template_application
 
-@(ihtReference:String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+@(ihtReference:String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_application(title = Messages("page.iht.application.exemptions.guidance.increasing.threshold.title"),
     browserTitle = Some(Messages("page.iht.application.exemptions.guidance.increasing.threshold.title")),

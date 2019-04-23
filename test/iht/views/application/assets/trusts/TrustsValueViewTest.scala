@@ -22,7 +22,8 @@ import iht.testhelpers.CommonBuilder
 import iht.views.application.{CancelComponent, ValueViewBehaviour}
 import iht.views.html.application.asset.trusts.trusts_value
 import play.api.data.Form
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
 import iht.testhelpers.TestHelper._
 

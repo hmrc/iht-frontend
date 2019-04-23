@@ -16,13 +16,14 @@
 
 package iht.controllers.application.exemptions.partner
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationController
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -30,7 +31,9 @@ import scala.concurrent.Future
 class PartnerOverviewControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                               val ihtConnector: IhtConnector,
                                               val authConnector: AuthConnector,
-                                              override implicit val formPartialRetriever: FormPartialRetriever) extends PartnerOverviewController
+                                              override implicit val formPartialRetriever: FormPartialRetriever,
+                                              implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with PartnerOverviewController
 
 trait PartnerOverviewController extends ApplicationController {
 

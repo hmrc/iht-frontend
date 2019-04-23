@@ -16,21 +16,24 @@
 
 package iht.controllers.filter
 
+import iht.config.AppConfig
 import javax.inject.Inject
-import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{Action, AnyContent}
-import uk.gov.hmrc.play.bootstrap.controller.{FrontendController, UnauthorisedAction}
+import play.api.i18n.I18nSupport
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-class AgentControllerImpl @Inject()(val messagesApi: MessagesApi,
-                                    val formPartialRetriever: FormPartialRetriever) extends AgentController
+class AgentControllerImpl @Inject()(val formPartialRetriever: FormPartialRetriever,
+                                    implicit val appConfig: AppConfig,
+                                    val cc: MessagesControllerComponents) extends FrontendController(cc) with AgentController
 
 trait AgentController extends FrontendController with I18nSupport {
   implicit val formPartialRetriever: FormPartialRetriever
+  implicit val appConfig: AppConfig
 
-  def onPageLoad: Action[AnyContent] = UnauthorisedAction.async {
+  def onPageLoad: Action[AnyContent] = Action.async {
     implicit request => {
       Future.successful(Ok(iht.views.html.filter.agent_view()))
     }

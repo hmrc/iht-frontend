@@ -16,11 +16,12 @@
 
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import uk.gov.hmrc.play.views.html.helpers.form
-@import iht.constants.IhtProperties._
+
 
 @(charity: iht.models.application.exemptions.Charity,
-  submitUrl:Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+  submitUrl:Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_application(title = Messages("page.iht.application.exemptions.charityDelete.sectionTitle"),
 browserTitle = Some(Messages("page.iht.application.exemptions.charityDelete.browserTitle")),
@@ -49,7 +50,7 @@ isFullWidth=false){
     @ihtHelpers.custom.return_link(
         Messages("iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities"),
         Some(iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad()),
-        ExemptionsCharitiesDeleteID + charity.id.getOrElse("")
+        appConfig.ExemptionsCharitiesDeleteID + charity.id.getOrElse("")
     )
 
 }

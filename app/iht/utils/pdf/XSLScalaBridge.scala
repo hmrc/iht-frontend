@@ -18,14 +18,10 @@ package iht.utils.pdf
 
 import org.joda.time.LocalDate
 import play.api.i18n.Messages
-import uk.gov.hmrc.play.language.LanguageUtils.Dates
-
-/**
-  * Created by grant on 02/12/16.
-  */
+import iht.utils.CustomLanguageUtils.Dates
 
 object XSLScalaBridge {
-  def apply(messages: Messages):XSLScalaBridge = new XSLScalaBridge(messages)
+  def apply(messages: Messages): XSLScalaBridge = new XSLScalaBridge(messages)
 }
 
 class XSLScalaBridge private(messages: Messages) {
@@ -42,10 +38,9 @@ class XSLScalaBridge private(messages: Messages) {
   def getDateForDisplay(inputDate: String): String = {
     inputDate match {
       case "" => inputDate
-      case _ => {
+      case _ =>
         val jodaDate = LocalDate.parse(inputDate)
         Dates.formatDate(jodaDate)(messages)
-      }
     }
   }
 }

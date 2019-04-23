@@ -18,8 +18,6 @@ package iht.views.registration
 
 import iht.views.ViewTestHelper
 import iht.views.html.registration.timeout_registration
-import play.api.i18n.Messages.Implicits._
-import iht.config.ApplicationConfig
 
 class TimeoutRegistrationViewTest extends ViewTestHelper {
   private lazy val viewAsDocument = {

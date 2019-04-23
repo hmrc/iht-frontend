@@ -15,24 +15,25 @@
  *@
 
 @import iht.constants.Constants
-@import iht.constants.IhtProperties._
+
 @import iht.models.application.assets.Property
 @import iht.utils._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.models.RegistrationDetails
 @import uk.gov.hmrc.play.views.html.helpers.form
 
 @(mortgagesForm: Form[iht.models.application.debts.Mortgage],
 property: Property,
 submitUrl: Call,
-regDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+regDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails, false)}
 
 @iht_main_template_application(title = Messages("page.iht.application.debts.mortgageValue.title", deceasedName),
     browserTitle = Some(Messages("page.iht.application.debts.mortgageValue.browserTitle")),
-    cancelUrl = Some(CommonHelper.addFragmentIdentifier(iht.controllers.application.debts.routes.MortgagesOverviewController.onPageLoad, Some(DebtsMortgagesPropertyID + property.id.getOrElse("")))),
+    cancelUrl = Some(CommonHelper.addFragmentIdentifier(iht.controllers.application.debts.routes.MortgagesOverviewController.onPageLoad, Some(appConfig.DebtsMortgagesPropertyID + property.id.getOrElse("")))),
     cancelLabel = Some(Messages("site.link.return.mortgage.overview")),
     isFullWidth = false,
     headingName = deceasedName,
@@ -55,7 +56,7 @@ regDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages
             assetType = Constants.AssetTypeSingle,
             questionLabel= Messages("page.iht.application.debts.mortgageValue.title", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails, true)),
             legendClass = "visually-hidden",
-            inputTextLabel = if(property.typeOfOwnership.getOrElse(ownershipDeceasedOnly)== ownershipDeceasedOnly)
+            inputTextLabel = if(property.typeOfOwnership.getOrElse(appConfig.ownershipDeceasedOnly) == appConfig.ownershipDeceasedOnly)
                                      Messages("page.iht.application.debts.mortgage.inputText.value")
                                 else Messages("iht.estateReport.debts.mortgage.valueOfDeceasedsShare"),
             sharableElementForm = mortgagesForm,

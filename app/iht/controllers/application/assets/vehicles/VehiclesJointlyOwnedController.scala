@@ -16,8 +16,8 @@
 
 package iht.controllers.application.assets.vehicles
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
@@ -26,16 +26,18 @@ import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import iht.views.html.application.asset.vehicles.vehicles_jointly_owned
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class VehiclesJointlyOwnedControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                    val cachingConnector: CachingConnector,
                                                    val authConnector: AuthConnector,
-                                                   val formPartialRetriever: FormPartialRetriever) extends VehiclesJointlyOwnedController {
+                                                   val formPartialRetriever: FormPartialRetriever,
+                                                   implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with VehiclesJointlyOwnedController {
 
 }
 
@@ -45,11 +47,11 @@ trait VehiclesJointlyOwnedController extends EstateController {
 
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
     iht.controllers.application.assets.vehicles.routes.VehiclesOverviewController.onPageLoad(),
-    Some(AssetsVehiclesSharedID))
+    Some(appConfig.AssetsVehiclesSharedID))
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
-      estateElementOnPageLoad[ShareableBasicEstateElement](vehiclesJointlyOwnedForm, vehicles_jointly_owned.apply,_.allAssets.flatMap(_.vehicles), userNino)
+      estateElementOnPageLoad[ShareableBasicEstateElement](vehiclesJointlyOwnedForm, vehicles_jointly_owned.apply, _.allAssets.flatMap(_.vehicles), userNino)
     }
   }
 
@@ -65,9 +67,9 @@ trait VehiclesJointlyOwnedController extends EstateController {
           (new AllAssets(action = None, vehicles = Some(vehicles)))
 
           (vehicles.isOwnedShare match {
-            case Some(true) => _.copy(vehicles = Some(vehicles.copy(value = existingValue, isOwned = existingIsOwned) ))
+            case Some(true) => _.copy(vehicles = Some(vehicles.copy(value = existingValue, isOwned = existingIsOwned)))
             case Some(false) => _.copy(vehicles = Some(vehicles.copy(shareValue = None, value = existingValue,
-                                                                    isOwned = existingIsOwned) ))
+              isOwned = existingIsOwned)))
             case None => throw new RuntimeException("Not able to retrieve the value of VehiclesJointlyOwned question")
           })
           ))

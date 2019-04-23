@@ -30,6 +30,8 @@ class MessagesTidierTest extends FakeIhtApp {
   val mockedMessagesFileWithoutDuplicateKeys = "/messages_without_duplicates"
   val mockedMessagesFileWithDuplicateKeys = "/messages_with_duplicates"
 
+  implicit lazy val environment = app.environment
+
   val mockedMessagesFileWithoutDuplicateKeysAsSeqOfTuples = Seq(
     ("a.b.c", "one"),
     ("d.e.f", "two"),
@@ -102,7 +104,7 @@ class MessagesTidierTest extends FakeIhtApp {
       "u.w.q" -> "flff'f"
     )
 
-    override def compareMessageFileKeys(): Set[String] = (mockedEnglishMessages.keySet -- mockedWelshMessages.keySet) ++
+    def compareMessageFileKeys(): Set[String] = (mockedEnglishMessages.keySet -- mockedWelshMessages.keySet) ++
         (mockedWelshMessages.keySet -- mockedEnglishMessages.keySet)
 
     def compareMessageFileKeysWelshFailure: Set[String] = (mockedEnglishMessages.keySet -- mockedWelshMessagesForFailure.keySet) ++
@@ -191,12 +193,12 @@ class MessagesTidierTest extends FakeIhtApp {
   "Using real messages file" must {
     "readMessageFile" must {
       "not contain any duplicate keys" in {
-        val result = MessagesTidier.readMessageFile(messagesFile)
+        val result = mockedMessagesTidier.readMessageFile(messagesFile)
         if (result.isRight) {
           assert(true)
         } else {
           val duplicates: Map[String, Set[String]] = result.left.getOrElse(throw new RuntimeException("Problem with left"))
-          fail("Messages file contains duplicate keys: " + MessagesTidier.prettyPrintMapOfDuplicateKeys(duplicates))
+          fail("Messages file contains duplicate keys: " + mockedMessagesTidier.prettyPrintMapOfDuplicateKeys(duplicates))
         }
       }
     }
@@ -215,7 +217,7 @@ class MessagesTidierTest extends FakeIhtApp {
       }
 
       "not fail with real messages files" in {
-        val result = MessagesTidier.compareMessageFileKeys()
+        val result = mockedMessagesTidier.compareMessageFileKeys()
         assert(result.isEmpty, "\n \n There are message keys missing from messages.en and/or messages.cy - " +
           "see the file /home/" + System.getProperty("user.name") + "/missingKeysAndValues.csv for more info")
       }

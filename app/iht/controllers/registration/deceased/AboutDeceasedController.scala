@@ -16,6 +16,7 @@
 
 package iht.controllers.registration.deceased
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.ControllerHelper.Mode
 import iht.controllers.registration.{RegistrationController, routes => registrationRoutes}
@@ -26,12 +27,11 @@ import iht.utils.{DeceasedInfoHelper, SessionHelper}
 import iht.views.html.registration.{deceased => views}
 import javax.inject.Inject
 import org.joda.time.LocalDate
-import play.api.Play.current
 import play.api.data.Form
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc._
+import play.api.mvc.{MessagesControllerComponents, _}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -39,7 +39,9 @@ import scala.concurrent.Future
 class AboutDeceasedControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                             val cachingConnector: CachingConnector,
                                             val authConnector: AuthConnector,
-                                            val formPartialRetriever: FormPartialRetriever) extends AboutDeceasedController {
+                                            val formPartialRetriever: FormPartialRetriever,
+                                            implicit val appConfig: AppConfig,
+                                            val cc: MessagesControllerComponents) extends FrontendController(cc) with AboutDeceasedController {
 
   override def deceasedForms = DeceasedForms
 }
@@ -77,10 +79,10 @@ trait AboutDeceasedController extends RegistrationController {
   def onwardRouteInEditMode(rd: RegistrationDetails): Call = registrationRoutes.RegistrationSummaryController.onPageLoad()
 
   def okForPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.about_deceased(form, submitRoute)(request, applicationMessages, formPartialRetriever))
+    Ok(views.about_deceased(form, submitRoute))
 
   def okForEditPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.about_deceased(form, editSubmitRoute, cancelToRegSummary)(request, applicationMessages, formPartialRetriever))
+    Ok(views.about_deceased(form, editSubmitRoute, cancelToRegSummary))
 
   def onSubmit: Action[AnyContent] = submit(routes.AboutDeceasedController.onSubmit())
   def onEditSubmit: Action[AnyContent] = {
@@ -121,8 +123,8 @@ trait AboutDeceasedController extends RegistrationController {
   }
 
   def badRequestForSubmit(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
-    BadRequest(views.about_deceased(form, submitRoute)(request, applicationMessages, formPartialRetriever))
+    BadRequest(views.about_deceased(form, submitRoute))
 
   def badRequestForEditSubmit(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
-    BadRequest(views.about_deceased(form, editSubmitRoute, cancelToRegSummary)(request, applicationMessages, formPartialRetriever))
+    BadRequest(views.about_deceased(form, editSubmitRoute, cancelToRegSummary))
 }

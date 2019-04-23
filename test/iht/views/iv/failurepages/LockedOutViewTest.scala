@@ -18,7 +18,8 @@ package iht.views.iv.failurepages
 
 import iht.views.html.iv.failurepages.locked_out
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 
 class LockedOutViewTest extends GenericNonSubmittablePageBehaviour {
 
@@ -30,7 +31,7 @@ class LockedOutViewTest extends GenericNonSubmittablePageBehaviour {
 
   def browserTitle = messagesApi("page.iht.iv.failure.lockedOut.heading")
 
-  def view: String = locked_out()(createFakeRequest(), applicationMessages, formPartialRetriever).toString
+  def view: String = locked_out()(createFakeRequest(), messages, formPartialRetriever, appConfig).toString
 
   override def exitComponent = None
 

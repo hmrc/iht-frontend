@@ -16,12 +16,10 @@
 
 package iht.views.filter
 
-import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.html.filter.estimate
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.i18n.Messages.Implicits._
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{contentAsString, _}
@@ -33,7 +31,7 @@ class EstimateViewTest extends ViewTestHelper {
   val submitRoute = iht.controllers.filter.routes.EstimateController.onSubmitWithoutJointAssets()
 
   def getPageAsDoc(form: Form[Option[String]] = fakeForm, request: FakeRequest[AnyContentAsEmpty.type] = fakeRequest) = {
-    val result = estimate(form, false, submitRoute)(request, applicationMessages, formPartialRetriever)
+    val result = estimate(form, false, submitRoute)(request, messages, formPartialRetriever, appConfig)
     asDocument(contentAsString(result))
   }
 

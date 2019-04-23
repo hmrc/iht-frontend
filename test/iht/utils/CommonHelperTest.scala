@@ -17,6 +17,7 @@
 package iht.utils
 
 import iht.FakeIhtApp
+import iht.config.AppConfig
 import iht.models.{DeceasedDetails, RegistrationDetails}
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
@@ -33,6 +34,8 @@ import uk.gov.hmrc.play.test.UnitSpec
 class CommonHelperTest extends FakeIhtApp with MockitoSugar with I18nSupport {
 
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit val mockAppConfig: AppConfig = app.injector.instanceOf[AppConfig]
+
   val referrerURL="http://localhost:9070/inheritance-tax/registration/addExecutor"
   val host="localhost:9070"
 

@@ -19,7 +19,8 @@ package iht.views.application.overview
 import iht.viewmodels.application.overview.{NotStarted, OverviewRow, OverviewRowWithoutLink, ThresholdSectionViewModel}
 import iht.views.ViewTestHelper
 import iht.views.html.application.overview.threshold_section
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.api.mvc.Call
 
 class ThresholdSectionViewTest extends ViewTestHelper {

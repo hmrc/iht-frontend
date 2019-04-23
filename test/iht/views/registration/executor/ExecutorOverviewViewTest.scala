@@ -16,17 +16,16 @@
 
 package iht.views.registration.executor
 
-import iht.forms.registration.CoExecutorForms._
+import iht.forms.registration.CoExecutorForms
 import iht.models.CoExecutor
 import iht.testhelpers.CommonBuilder
+import iht.views.html._
 import iht.views.html.registration.executor.executor_overview
 import iht.views.registration.YesNoQuestionViewBehaviour
 import play.api.data.Form
-import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
-import iht.views.html._
 
-class ExecutorOverviewViewTest extends YesNoQuestionViewBehaviour[Option[Boolean]] {
+class ExecutorOverviewViewTest extends YesNoQuestionViewBehaviour[Option[Boolean]] with CoExecutorForms {
 
   override def guidanceParagraphs = Set(messagesApi("page.iht.registration.executor-overview.description"),
     messagesApi("page.iht.registration.executor-overview.othersApplyingStatement.are"))
@@ -40,14 +39,14 @@ class ExecutorOverviewViewTest extends YesNoQuestionViewBehaviour[Option[Boolean
   override def formToView: Form[Option[Boolean]] => Appendable =
     form => executor_overview(form, true,
       Seq(CommonBuilder.DefaultCoExecutor1, CommonBuilder.DefaultCoExecutor2),
-      CommonBuilder.DefaultCall1)(createFakeRequest(), applicationMessages, formPartialRetriever)
+      CommonBuilder.DefaultCall1)(createFakeRequest(), messages, formPartialRetriever, appConfig)
 
   def editModeViewAsDocument = {
     implicit val request = createFakeRequest()
     val view = executor_overview(form,
       true, Seq(),
       CommonBuilder.DefaultCall1,
-      Some(CommonBuilder.DefaultCall2))(createFakeRequest(), applicationMessages, formPartialRetriever)
+      Some(CommonBuilder.DefaultCall2))(createFakeRequest(), messages, formPartialRetriever, appConfig)
     asDocument(view)
   }
 

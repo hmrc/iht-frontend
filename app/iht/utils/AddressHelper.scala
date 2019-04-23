@@ -16,40 +16,31 @@
 
 package iht.utils
 
+import iht.config.AppConfig
 import iht.models._
-import iht.views.html._
-import play.api.i18n.{Lang, Messages}
+import iht.views.html.ihtHelpers.custom._
+import play.api.i18n.Messages
 import play.twirl.api.Html
 
 object AddressHelper {
-
   val isThereAnApplicantAddress: Predicate = (rd, _) => rd.applicantDetails.flatMap(_.ukAddress).isDefined
 
-  def addressFormater(applicantAddress: UkAddress)(implicit messages: Messages): String = {
-    var address: String = ihtHelpers.custom.name(applicantAddress.ukAddressLine1.toString) +
-      " \n" + ihtHelpers.custom.name(applicantAddress.ukAddressLine2.toString).toString.replace("\n", "")
-
-    if (applicantAddress.ukAddressLine3.isDefined) {
-      address += " \n" + ihtHelpers.custom.name(applicantAddress.ukAddressLine3.getOrElse("").toString).toString.replace("\n", "")
+  private implicit class HtmlOps(html: Html) {
+    def formatHtml: String = {
+      html.toString.replace("\n", "")
     }
-
-    if (applicantAddress.ukAddressLine4.isDefined) {
-      address += " \n" + ihtHelpers.custom.name(applicantAddress.ukAddressLine4.getOrElse("").toString).toString.replace("\n", "")
-    }
-
-    if (applicantAddress.postCode.toString != "") {
-      address += " \n" + applicantAddress.postCode.toString
-    }
-
-    if (countryName(applicantAddress.countryCode) != "" && applicantAddress.countryCode != "GB") {
-      address += " \n" + countryName(applicantAddress.countryCode)
-    }
-
-    address.toString().trim()
   }
 
-  def addressLayout(address: UkAddress)(implicit messages: Messages): Html = {
-    Html(AddressHelper.addressFormater(address).replace("\n", "<br/>"))
-  }
+  def addressFormatter(address: UkAddress)(implicit messages: Messages, appConfig: AppConfig): String =
+    Seq(
+      Some(name(address.ukAddressLine1)),
+      Some(name(address.ukAddressLine2).formatHtml),
+      address.ukAddressLine3.map(line => name(line).formatHtml),
+      address.ukAddressLine4.map(line => name(line).formatHtml),
+      Some(address.postCode).filter(_.nonEmpty),
+      Some(address.countryCode).filter(code => code.nonEmpty && code != "GB").map(countryName)
+    ).flatten.mkString("\n").trim
 
+  def addressLayout(address: UkAddress)(implicit messages: Messages, appConfig: AppConfig): Html =
+    Html(AddressHelper.addressFormatter(address).replace("\n", "<br/>"))
 }

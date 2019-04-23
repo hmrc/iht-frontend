@@ -17,10 +17,11 @@
 @import iht.constants.IhtProperties
 @import iht.utils._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 
-@(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+@(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 <p>@messages("page.iht.deadlines.p1")</p>
-<p>@messages("page.iht.deadlines.p2") <a id="pay-early" href="@IhtProperties.linkPayEarly">@messages("page.iht.deadlines.anchorText")</a>.</p>
+<p>@messages("page.iht.deadlines.p2") <a id="pay-early" href="@appConfig.linkPayEarly">@messages("page.iht.deadlines.anchorText")</a>.</p>
 <p>@messages("page.iht.deadlines.p3")</p>
 
-<a id="exit-to-iht400" class="button" href="@CommonHelper.getEnglishOrWelsh(IhtProperties.linkEstateReportKickOut, IhtProperties.linkEstateReportKickOutWelsh, messages.lang)">@messages("page.iht.filter.paperform.million.exit")</a>
+<a id="exit-to-iht400" class="button" href="@CommonHelper.getEnglishOrWelsh(appConfig.linkEstateReportKickOut, appConfig.linkEstateReportKickOutWelsh, messages.lang)">@messages("page.iht.filter.paperform.million.exit")</a>

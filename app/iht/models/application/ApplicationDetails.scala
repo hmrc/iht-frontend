@@ -16,6 +16,7 @@
 
 package iht.models.application
 
+import iht.config.AppConfig
 import iht.constants.IhtProperties
 import iht.models.application.assets._
 import iht.models.application.debts.AllLiabilities
@@ -63,7 +64,7 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
   def isCompleteProperties: Option[Boolean] = {
     val propertiesIsOwned = allAssets.flatMap(_.properties).flatMap(_.isOwned)
     val allPropertiesComplete = propertiesIsOwned.map(isOwned =>
-      if(isOwned) propertyList.nonEmpty && !propertyList.exists(!_.isComplete) else true )
+      if(isOwned) propertyList.nonEmpty && propertyList.forall(_.isComplete) else true )
 
     (propertiesIsOwned, allPropertiesComplete) match {
       case (None, _) => None
@@ -152,7 +153,7 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
 
   //Debts section starts
 
-  def areAllDebtsCompleted =
+  def areAllDebtsCompleted: Option[Boolean] =
     CommonHelper.aggregateOfSeqOfOption{
       Seq(allLiabilities.flatMap(_.areAllDebtsExceptMortgagesCompleted), isCompleteMortgages)
     }
@@ -280,8 +281,8 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
 
   def totalNetValue:BigDecimal = (totalAssetsValue + CommonHelper.getOrZero(totalPastYearsGiftsOption)) - totalExemptionsValue - totalLiabilitiesValue
 
-  def currentThreshold: BigDecimal =
-    if (isSuccessfulTnrbCase) IhtProperties.transferredNilRateBand else IhtProperties.exemptionsThresholdValue
+  def currentThreshold(implicit appConfig: AppConfig): BigDecimal =
+    if (isSuccessfulTnrbCase) appConfig.transferredNilRateBand else appConfig.exemptionsThresholdValue
 }
 
 object ApplicationDetails {

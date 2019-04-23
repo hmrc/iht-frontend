@@ -19,17 +19,19 @@ package iht.utils
 import java.util.Locale
 import java.util.UUID.randomUUID
 
-import iht.constants.IhtProperties
+import iht.config.AppConfig
 import iht.utils.CommonHelper.withValue
 import org.joda.time.format.DateTimeFormat
-import play.api.Play.current
 import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
 
 import scala.collection.mutable.ListBuffer
 import scala.util.{Failure, Success, Try}
 
-object StringHelper {
+case class StringHelperFixture(implicit val appConfig: AppConfig) extends StringHelper
+
+trait StringHelper {
+  implicit val appConfig: AppConfig
+
   private val StartOfPrefix = 0
   private val EndOfPrefix = 2
   private val SuffixCharacter = 8
@@ -54,31 +56,10 @@ object StringHelper {
     }
   }
 
-  def yesNoFormat(v: Option[Boolean]): String = v match {
-    case Some(true) => Messages("iht.yes")
-    case Some(false) => Messages("iht.no")
+  def yesNoFormat(v: Option[Boolean])(implicit messages: Messages): String = v match {
+    case Some(true) => messages("iht.yes")
+    case Some(false) => messages("iht.no")
     case _ => ""
-  }
-
-  /**
-    * Parses a string in the form xx=yy,aa=cc,... into a seq of
-    * tuples.
-    */
-  def parseAssignmentsToSeqTuples(listOfAssignments:String): Seq[(String, String)] = {
-    if (listOfAssignments.trim.length == 0) {
-      Seq()
-    } else {
-      val splitItems: Array[String] = listOfAssignments.split(",")
-      splitItems.toSeq.map { property =>
-        withValue(property.trim.split("=")) { splitProperty =>
-          if(splitProperty.length == 2) {
-            Tuple2(splitProperty(0).trim, splitProperty(1).trim)
-          } else {
-            throw new RuntimeException("Invalid property-value assignment: " + splitProperty)
-          }
-        }
-      }
-    }
   }
 
   def parseOldAndNewDatesFormats(date:String): String ={
@@ -94,18 +75,18 @@ object StringHelper {
     }
   }
 
-  def trimAndUpperCaseNino(nino: String) = {
+  def trimAndUpperCaseNino(nino: String): String = {
     nino.trim.replace(" ", "").toUpperCase
   }
 
   def generateAcknowledgeReference: String = {
-    randomUUID.toString().replaceAll("-", "")
+    randomUUID.toString.replaceAll("-", "")
   }
 
   /**
     * Convert the second element of array (Array created by input string) to Lowercase
     */
-  def formatStatus(inputStatus: String) = {
+  def formatStatus(inputStatus: String): String = {
 
     val arrayStatus = inputStatus match {
       case ApplicationStatus.KickOut => ApplicationStatus.InProgress.split(" ")
@@ -127,9 +108,10 @@ object StringHelper {
   }
 
   def booleanToYesNo(boolean: Boolean): String = {
-    boolean match {
-      case true => "Yes"
-      case false => "No"
+    if (boolean) {
+      "Yes"
+    } else {
+      "No"
     }
   }
 
@@ -141,12 +123,12 @@ object StringHelper {
     */
   def isNameLong(name: String): Boolean = {
     var restrictName: Boolean = false;
-    val nameArr = name.split(" ");
+    val nameArr = name.split(" ")
     for (namePart <- nameArr) {
       var subparts = namePart.split("-")
       for (subpart <- subparts) {
-        if (subpart.length > IhtProperties.nameRestrictLength) {
-          restrictName = true;
+        if (subpart.length > appConfig.nameRestrictLength) {
+          restrictName = true
         }
       }
     }

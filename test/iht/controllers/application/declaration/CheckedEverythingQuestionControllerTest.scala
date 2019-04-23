@@ -16,15 +16,17 @@
 
 package iht.controllers.application.declaration
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.RegistrationDetails
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.CommonHelper
 import play.api.i18n.MessagesApi
-import play.api.mvc.Result
+import play.api.mvc.{MessagesControllerComponents, Result}
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -35,16 +37,19 @@ import scala.concurrent.Future
 
 class CheckedEverythingQuestionControllerTest extends ApplicationControllerTest{
 
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with CheckedEverythingQuestionController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
-
-  lazy val checkedEverythingQuestionController = new CheckedEverythingQuestionController {
+  lazy val checkedEverythingQuestionController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  lazy val checkedEverythingQuestionNotAuthorised = new CheckedEverythingQuestionController {
+  lazy val checkedEverythingQuestionNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

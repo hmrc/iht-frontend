@@ -16,13 +16,10 @@
 
 package iht.models.des.ihtReturn
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, OFormat}
 
-/**
-  * Created by vineet on 06/07/17.
-  */
 case class Submitter(submitterRole: Option[String] = None)
 
 object Submitter {
-  implicit val formats = Json.format[Submitter]
+  implicit val formats: OFormat[Submitter] = Json.format[Submitter]
 }

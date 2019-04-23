@@ -16,6 +16,7 @@
 
 package iht.controllers.registration.applicant
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.registration.RegistrationController
 import iht.controllers.registration.executor.{routes => executorRoutes}
@@ -23,10 +24,9 @@ import iht.forms.registration.ApplicantForms._
 import iht.utils.CommonHelper
 import iht.views.html.registration.{applicant => views}
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.Call
+import play.api.mvc.{Call, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -34,7 +34,9 @@ import scala.concurrent.Future
 class ApplicantAddressControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                val cachingConnector: CachingConnector,
                                                val authConnector: AuthConnector,
-                                               val formPartialRetriever: FormPartialRetriever) extends ApplicantAddressController {
+                                               val formPartialRetriever: FormPartialRetriever,
+                                               implicit val appConfig: AppConfig,
+                                               val cc: MessagesControllerComponents) extends FrontendController(cc) with ApplicantAddressController {
 
 }
 

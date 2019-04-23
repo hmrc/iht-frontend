@@ -16,18 +16,25 @@
 
 package iht.controllers.application.exemptions.qualifyingBody
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.MockObjectBuilder._
+import iht.controllers.registration.applicant.ApplicantTellUsAboutYourselfController
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class QualifyingBodyDetailsOverviewControllerTest extends ApplicationControllerTest {
 
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with QualifyingBodyDetailsOverviewController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
-  def qualifyingBodyDetailsOverviewController = new QualifyingBodyDetailsOverviewController {
+  def qualifyingBodyDetailsOverviewController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
@@ -35,7 +42,7 @@ class QualifyingBodyDetailsOverviewControllerTest extends ApplicationControllerT
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def qualifyingBodyDetailsOverviewControllerNotAuthorised = new QualifyingBodyDetailsOverviewController {
+  def qualifyingBodyDetailsOverviewControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector

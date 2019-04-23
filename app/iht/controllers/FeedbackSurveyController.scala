@@ -16,17 +16,21 @@
 
 package iht.controllers
 
-
-import iht.config.ApplicationConfig
-import play.api.mvc.{Action, AnyContent}
+import iht.config.AppConfig
+import javax.inject.Inject
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 import scala.concurrent.Future
 
-object FeedbackSurveyController extends FeedbackSurveyController
+class DefaultFeedbackSurveyController @Inject()(val cc: MessagesControllerComponents,
+                                                implicit val appConfig: AppConfig)
+  extends FrontendController(cc) with FeedbackSurveyController
 
 trait FeedbackSurveyController extends FrontendController {
+  implicit val appConfig: AppConfig
+
   def redirectExitSurvey: Action[AnyContent] = Action.async { implicit request =>
-    Future.successful(Redirect(ApplicationConfig.feedbackSurvey).withNewSession)
+    Future.successful(Redirect(appConfig.feedbackSurvey).withNewSession)
   }
 }

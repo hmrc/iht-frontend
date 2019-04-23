@@ -16,23 +16,25 @@
 
 package iht.controllers.application.assets.household
 
-import iht.constants.IhtProperties._
+
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.CommonHelper
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
-
-/**
-  * Created by vineet on 01/07/16.
-  */
 
 class HouseholdJointlyOwnedControllerTest extends ApplicationControllerTest {
 
-
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with HouseholdJointlyOwnedController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails copy (
                     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails), ihtReference = Some("AbC123"))
@@ -47,14 +49,14 @@ class HouseholdJointlyOwnedControllerTest extends ApplicationControllerTest {
       storeAppDetailsInCache = true)
   }
 
-  def householdJointlyOwnedController = new HouseholdJointlyOwnedController {
+  def householdJointlyOwnedController = new TestController {
     val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def householdJointlyOwnedControllerNotAuthorised = new HouseholdJointlyOwnedController {
+  def householdJointlyOwnedControllerNotAuthorised = new TestController {
     val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
@@ -94,7 +96,7 @@ class HouseholdJointlyOwnedControllerTest extends ApplicationControllerTest {
 
       val result = householdJointlyOwnedController.onSubmit()(request)
       status(result) must be (SEE_OTHER)
-      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.HouseholdOverviewController.onPageLoad.url, AssetsHouseholdSharedID)))
+      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.HouseholdOverviewController.onPageLoad.url, mockAppConfig.AssetsHouseholdSharedID)))
     }
 
     "wipe out the household value if user selects No, save application and go to vehicles overview page on submit" in {
@@ -112,7 +114,7 @@ class HouseholdJointlyOwnedControllerTest extends ApplicationControllerTest {
 
       val result = householdJointlyOwnedController.onSubmit()(request)
       status(result) must be (SEE_OTHER)
-      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.HouseholdOverviewController.onPageLoad.url, AssetsHouseholdSharedID)))
+      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.HouseholdOverviewController.onPageLoad.url, mockAppConfig.AssetsHouseholdSharedID)))
 
       val capturedValue = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
       val expectedAppDetails = applicationDetails.copy(allAssets = applicationDetails.allAssets.map(_.copy(
@@ -141,7 +143,7 @@ class HouseholdJointlyOwnedControllerTest extends ApplicationControllerTest {
 
       val result = householdJointlyOwnedController.onSubmit()(request)
       status(result) must be (SEE_OTHER)
-      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.HouseholdOverviewController.onPageLoad().url, AssetsHouseholdSharedID)))
+      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.HouseholdOverviewController.onPageLoad().url, mockAppConfig.AssetsHouseholdSharedID)))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {

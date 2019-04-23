@@ -18,9 +18,6 @@ package iht.models.des.ihtReturn
 
 import play.api.libs.json.Json
 
-/**
-  * Created by vineet on 06/07/17.
-  */
 case class Trust(trustName: Option[String] = None,
                  trustUtr: Option[String] = None,
                  trustees: Option[Set[Trustee]] = None,

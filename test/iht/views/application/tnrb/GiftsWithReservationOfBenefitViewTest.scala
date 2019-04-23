@@ -21,12 +21,13 @@ import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.tnrb.TnrbHelper
 import iht.views.application.YesNoQuestionViewBehaviour
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import iht.views.html.application.tnrb.{gifts_with_reservation_of_benefit, jointly_owned_assets}
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 
-class GiftsWithReservationOfBenefitViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
+class GiftsWithReservationOfBenefitViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] with TnrbHelper {
 
   def tnrbModel = CommonBuilder.buildTnrbEligibility
 
@@ -40,9 +41,9 @@ class GiftsWithReservationOfBenefitViewTest extends YesNoQuestionViewBehaviour[T
   
   override def guidance = guidance(
     Set(messagesApi("page.iht.application.tnrb.giftsWithReservationOfBenefit.question.hint",
-      TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
+      spouseOrCivilPartnerName(tnrbModel,
         messagesApi("iht.estateReport.tnrb.thSouseAndCivilPartner")), deceasedDetailsName,
-      TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
+      spouseOrCivilPartnerName(tnrbModel,
         messagesApi("iht.estateReport.tnrb.thSouseAndCivilPartner"))))
   )
 

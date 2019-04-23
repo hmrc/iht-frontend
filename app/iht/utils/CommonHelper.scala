@@ -16,16 +16,13 @@
 
 package iht.utils
 
-import iht.connector.CachingConnector
+import iht.config.AppConfig
 import iht.constants.Constants
-import iht.constants.IhtProperties.statusMarried
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.InsurancePolicy
-import play.api.Play.current
 import play.api.data.{Form, FormError}
 import play.api.i18n.{Lang, Messages}
-import play.api.i18n.Messages.Implicits.applicationMessages
 import play.api.mvc.{Call, Request}
 
 import scala.util.{Failure, Success, Try}
@@ -83,8 +80,9 @@ object CommonHelper {
 
   def getEmptyStringOrElse[A](option: Option[A], noneValue: String): String = option.fold(noneValue)(_ => "")
 
-  def mapMaritalStatus(rd: RegistrationDetails, newValueMarried: String = "married", newValueNotMarried: String = "notMarried"): String =
-    if (getOrException(rd.deceasedDetails.map(_.maritalStatus)).contains(statusMarried)) newValueMarried else newValueNotMarried
+  def mapMaritalStatus(rd: RegistrationDetails, newValueMarried: String = "married", newValueNotMarried: String = "notMarried")
+                      (implicit appConfig: AppConfig): String =
+    if (getOrException(rd.deceasedDetails.map(_.maritalStatus)).contains(appConfig.statusMarried)) newValueMarried else newValueNotMarried
 
   def mapBigDecimalPair(first: Option[BigDecimal],
                         second: Option[BigDecimal],
@@ -112,9 +110,9 @@ object CommonHelper {
 
   def isSectionComplete[T](inputSection: Seq[Option[T]]): Boolean = inputSection.forall(_.isDefined)
 
-  def getMessageKeyValueOrBlank(key: String): String = if (key.length == 0) key else Messages(key)
+  def getMessageKeyValueOrBlank(key: String)(implicit messages: Messages): String = if (key.length == 0) key else Messages(key)
 
-  def withValue[A, B](value: A)(func: A => B) = func(value)
+  def withValue[A, B](value: A)(func: A => B): B = func(value)
 
   /**
     * returns Some(true) if all the values are true, Some(false) if any false or None.

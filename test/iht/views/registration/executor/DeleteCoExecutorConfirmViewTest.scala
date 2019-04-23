@@ -19,7 +19,8 @@ package iht.views.registration.executor
 import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.html.registration.executor.delete_coexecutor_confirm
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import iht.utils._
 import play.api.test.Helpers.contentAsString
 

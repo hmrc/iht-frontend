@@ -21,9 +21,7 @@ import play.twirl.api.Html
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.http.HttpGet
 
-/**
-  * Created by vineet on 09/08/17.
-  */
+
 object MockFormPartialRetriever extends FormPartialRetriever {
 
   override def crypto: (String) => String = ???

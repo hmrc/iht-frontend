@@ -16,14 +16,14 @@
 
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import uk.gov.hmrc.play.views.html.helpers.form
 @import iht.constants.FieldMappings._
 
 @(probateLocationForm:Form[iht.models.ApplicantDetails],
     actionLocation: Call, cancelLocation: Option[Call] = None)(implicit request:Request[_],
-                                                                        lang: play.api.i18n.Lang,
                                                                         messages: Messages,
-                                                                        ihtFormPartialRetriever: FormPartialRetriever)
+                                                                        ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_registration(title = "",
 browserTitle = Some(Messages("page.iht.registration.applicant.probateLocation.browserTitle")),
@@ -37,7 +37,7 @@ hasTimeOut=true) {
 
     @ihtHelpers.standard.input_radio_group(
         probateLocationForm("country"),
-        applicantCountryMap(messages).toSeq,
+        applicantCountryMap(messages, appConfig).toSeq,
         '_fieldsetId -> "country",
         '_groupClass -> "form-group",
         '_labelClass -> "form-label block-label",

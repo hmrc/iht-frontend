@@ -14,11 +14,11 @@
  * limitations under the License.
  *@
 
-@import iht.constants.IhtProperties.linkIHT205PDF
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 
-@()(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+@()(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_registration(title = Messages("page.iht.iv.failure.technicalIssue.heading"),
     hasTimeOut=true) {
@@ -31,7 +31,7 @@
             <li class="ga-track-anchor-click"
             data-ga-event-category="click"
             data-ga-event-action='Clicked-on-form-link'
-            data-ga-event-label='IHT205PDF'>@Html(Messages("page.iht.iv.failure.reportWithPaperForm", linkIHT205PDF))</li>
+            data-ga-event-label='IHT205PDF'>@Html(Messages("page.iht.iv.failure.reportWithPaperForm", appConfig.linkIHT205PDF))</li>
             <li>@Messages("page.iht.iv.failure.askForHelp")</li>
         </ul>
     </div>

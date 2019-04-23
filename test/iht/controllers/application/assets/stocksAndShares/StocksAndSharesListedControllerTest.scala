@@ -16,24 +16,23 @@
 
 package iht.controllers.application.assets.stocksAndShares
 
-/**
-  * Created by vineet on 04/07/16.  */
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.TestHelper._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.CommonHelper
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.{contentAsString, _}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class StocksAndSharesListedControllerTest extends ApplicationControllerTest {
 
-
   val submitUrl = CommonHelper.addFragmentIdentifierToUrl(routes.StocksAndSharesOverviewController.onPageLoad().url, AssetsStocksListedID)
-
 
   def setUpTests(applicationDetails: ApplicationDetails) = {
     createMocksForApplication(mockCachingConnector,
@@ -44,22 +43,26 @@ class StocksAndSharesListedControllerTest extends ApplicationControllerTest {
       storeAppDetailsInCache = true)
   }
 
-  def stocksAndSharesListedController = new StocksAndSharesListedController {
+  def stocksAndSharesListedController = new TestController {
     val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def stocksAndSharesListedControllerNotAuthorised = new StocksAndSharesListedController {
+  def stocksAndSharesListedControllerNotAuthorised = new TestController {
     val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with StocksAndSharesListedController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
-
+  
   "StocksAndSharesListedController" must {
 
     "redirect to login page on PageLoad if the user is not logged in" in {

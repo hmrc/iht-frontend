@@ -19,9 +19,7 @@ package iht.models.application.assets
 import iht.models.application.basicElements.{BasicEstateElement, ShareableBasicEstateElement}
 import play.api.libs.json.Json
 
-/**
-  * Created by vineet on 02/11/16.
-  */
+
 case class AllAssets(action: Option[String]=None,
                      money: Option[ShareableBasicEstateElement] = None,
                      household: Option[ShareableBasicEstateElement] = None,

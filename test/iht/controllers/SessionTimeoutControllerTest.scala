@@ -16,7 +16,7 @@
 
 package iht.controllers
 
-import iht.connector.ExplicitAuditConnector
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.MockFormPartialRetriever
 import play.api.http.Status._
@@ -24,14 +24,18 @@ import play.api.i18n.MessagesApi
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{status => playStatus}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class SessionTimeoutControllerTest extends ApplicationControllerTest {
   implicit val hc = HeaderCarrier()
-  val mockAuditConnector = mock[ExplicitAuditConnector]
   implicit val fakedMessagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
-  def controller = new SessionTimeoutController{
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with SessionTimeoutController {
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def controller = new TestController {
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
 
     override def messagesApi: MessagesApi = fakedMessagesApi

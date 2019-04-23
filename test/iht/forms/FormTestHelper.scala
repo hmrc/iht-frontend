@@ -16,6 +16,7 @@
 
 package iht.forms
 
+import iht.config.AppConfig
 import iht.models.UkAddress
 import iht.testhelpers.CommonBuilder
 import iht.{FakeIhtApp, TestUtils}
@@ -24,7 +25,6 @@ import play.api.data.{Form, FormError}
 import play.api.i18n.MessagesApi
 import play.api.libs.json.JsValue
 import play.api.test.FakeRequest
-import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.collection.immutable.ListMap
 
@@ -33,6 +33,7 @@ trait FormTestHelper extends FakeIhtApp with MockitoSugar with TestUtils {
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit val request = FakeRequest()
   val messages = messagesApi.preferred(request)
+  implicit val mockAppConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
   def addressMap(line1: String, line2: String, line3: String, line4: String, postCode: String, countryCode: String) =
     Map("address.ukAddressLine1" -> line1,

@@ -25,15 +25,19 @@ import iht.testhelpers.IHTReturnTestHelper.{buildIHTReturnCorrespondingToApplica
 import iht.testhelpers.{CommonBuilder, IHTReturnTestHelper, TestHelper}
 import iht.views.html.application.asset.{foreign, nominated, other}
 import org.joda.time.LocalDate
+import play.api.i18n.Lang
 
 import scala.collection.immutable.ListMap
 
 /**
   * Created by david-beer on 21/11/16.
   */
-class PdfFormatterTest extends FormTestHelper {
+class PdfFormatterTest extends FormTestHelper with PdfHelper {
 
   val regDetails = CommonBuilder.buildRegistrationDetails1
+  val appConfig = mockAppConfig
+
+  implicit val lang: Lang = Lang.defaultLang
 
   def incompleteTnrbIncreaseThreshold(ad: ApplicationDetails) = {
     ad copy(
@@ -97,7 +101,7 @@ class PdfFormatterTest extends FormTestHelper {
       )
       asset copy (assetDescription = newAssetDescription)
     }
-    val result = PdfFormatter.transform(ihtReturn, regDetails, messages)
+    val result = transform(ihtReturn, regDetails, messages)
     val setOfAssets = result.freeEstate.flatMap(_.estateAssets).fold[Set[Asset]](Set.empty)(identity)
     setOfAssets.foreach { asset =>
       val expectedAssetDescription = expectedSetOfAssets
@@ -127,7 +131,7 @@ class PdfFormatterTest extends FormTestHelper {
 
     "map the tenure value from messages file" in {
       val appDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = CommonBuilder.buildPropertyList)
-      val appDetailsAfterFormatting = PdfFormatter.transform(appDetails, regDetails, messages)
+      val appDetailsAfterFormatting = PdfFormatter.transformWithApplicationDetails(appDetails, regDetails, messages)
 
       val result = appDetailsAfterFormatting.propertyList.head.tenure
       result mustBe Some(messagesApi("page.iht.application.assets.tenure.freehold.label"))
@@ -135,7 +139,7 @@ class PdfFormatterTest extends FormTestHelper {
 
     "map the property type value from messages file" in {
       val appDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = CommonBuilder.buildPropertyList)
-      val appDetailsAfterFormatting = PdfFormatter.transform(appDetails, regDetails, messages)
+      val appDetailsAfterFormatting = PdfFormatter.transformWithApplicationDetails(appDetails, regDetails, messages)
 
       val result = appDetailsAfterFormatting.propertyList.head.propertyType
       result mustBe Some(messagesApi("page.iht.application.assets.propertyType.deceasedHome.label"))
@@ -144,7 +148,7 @@ class PdfFormatterTest extends FormTestHelper {
     "map the property ownership value from messages file" in {
       val appDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = CommonBuilder.buildPropertyList)
       val regDetails = CommonBuilder.buildRegistrationDetails1
-      val appDetailsAfterFormatting = PdfFormatter.transform(appDetails, regDetails, messages)
+      val appDetailsAfterFormatting = PdfFormatter.transformWithApplicationDetails(appDetails, regDetails, messages)
 
       val result = appDetailsAfterFormatting.propertyList.head.typeOfOwnership
       result mustBe Some(messagesApi("page.iht.application.assets.typeOfOwnership.deceasedOnly.label",
@@ -432,7 +436,7 @@ class PdfFormatterTest extends FormTestHelper {
 
       val optionSetTrust = Some(IHTReturnTestHelper.buildTrusts)
 
-      val result = PdfFormatter.createApplicationDetails(optionSetAsset, optionSetTrust)
+      val result = createApplicationDetails(optionSetAsset, optionSetTrust)
 
       result.allAssets mustBe expectedResult.allAssets
       result.propertyList mustBe expectedResult.propertyList
@@ -445,22 +449,22 @@ class PdfFormatterTest extends FormTestHelper {
 
     "set the isOwned flag to true for Other Residential Building asset (0017)" in {
       val tstAsset = Asset(assetCode = Some("0017"))
-      PdfFormatter.transformAssets2(emptyAssets, tstAsset) mustBe Some(assetsWithPropertyTag)
+      transformAssets2(emptyAssets, tstAsset) mustBe Some(assetsWithPropertyTag)
     }
 
     "set the isOwned flag to true for Non-Residential asset (0018)" in {
       val tstAsset = Asset(assetCode = Some("0018"))
-      PdfFormatter.transformAssets2(emptyAssets, tstAsset) mustBe Some(assetsWithPropertyTag)
+      transformAssets2(emptyAssets, tstAsset) mustBe Some(assetsWithPropertyTag)
     }
 
     "Return None if no asset code is provided" in {
       val tstAsset = Asset(assetCode = None)
-      PdfFormatter.transformAssets2(emptyAssets, tstAsset) mustBe None
+      transformAssets2(emptyAssets, tstAsset) mustBe None
     }
 
     "Return None if an unknown asset code is provided" in {
       val tstAsset = Asset(assetCode = Some("8888"))
-      PdfFormatter.transformAssets2(emptyAssets, tstAsset) mustBe None
+      transformAssets2(emptyAssets, tstAsset) mustBe None
     }
   }
 }

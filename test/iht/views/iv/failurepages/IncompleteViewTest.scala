@@ -19,7 +19,8 @@ package iht.views.iv.failurepages
 import iht.testhelpers.CommonBuilder
 import iht.views.html.iv.failurepages.incomplete
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 
 class IncompleteViewTest extends GenericNonSubmittablePageBehaviour {
 
@@ -31,7 +32,7 @@ class IncompleteViewTest extends GenericNonSubmittablePageBehaviour {
 
   def browserTitle = messagesApi("page.iht.iv.failure.incomplete.heading")
 
-  def view: String = incomplete(CommonBuilder.DefaultCall1.url)(createFakeRequest(), applicationMessages, formPartialRetriever).toString
+  def view: String = incomplete(CommonBuilder.DefaultCall1.url)(createFakeRequest(), messages, formPartialRetriever, appConfig).toString
 
   override def exitComponent = Some(
     ExitComponent(

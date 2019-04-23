@@ -16,8 +16,8 @@
 
 package iht.controllers.application.exemptions.charity
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models._
@@ -26,11 +26,10 @@ import iht.models.application.exemptions._
 import iht.utils.CommonHelper
 import iht.views.html.application.exemption.charity.charity_name
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent, Call, Request}
+import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -38,16 +37,18 @@ import scala.concurrent.Future
 class CharityNameControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                           val ihtConnector: IhtConnector,
                                           val authConnector: AuthConnector,
-                                          override implicit val formPartialRetriever: FormPartialRetriever) extends CharityNameController
+                                          override implicit val formPartialRetriever: FormPartialRetriever,
+                                          implicit val appConfig: AppConfig,
+                                          val cc: MessagesControllerComponents) extends FrontendController(cc) with CharityNameController
 
 trait CharityNameController extends EstateController {
 
 
-  lazy val submitUrl: Call = CommonHelper.addFragmentIdentifier(routes.CharityNameController.onSubmit(), Some(ExemptionsCharitiesNameID))
+  lazy val submitUrl: Call = CommonHelper.addFragmentIdentifier(routes.CharityNameController.onSubmit(), Some(appConfig.ExemptionsCharitiesNameID))
   def cancelUrl: Call = routes.CharityDetailsOverviewController.onPageLoad()
 
   def editCancelUrl(id: String): Call = routes.CharityDetailsOverviewController.onEditPageLoad(id)
-  def editSubmitUrl(id: String): Call = CommonHelper.addFragmentIdentifier(routes.CharityNameController.onEditSubmit(id), Some(ExemptionsCharitiesNameID))
+  def editSubmitUrl(id: String): Call = CommonHelper.addFragmentIdentifier(routes.CharityNameController.onEditSubmit(id), Some(appConfig.ExemptionsCharitiesNameID))
 
   def locationAfterSuccessfulSave(optionID: Option[String]): Call = CommonHelper.getOrException(
     optionID.map(id=>routes.CharityDetailsOverviewController.onEditPageLoad(id)))

@@ -17,16 +17,15 @@
 package iht.views
 
 import iht.views.html.iht_error_template
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 
 class IhtErrorTemplateViewTest extends ViewTestHelper {
   val title = "Sorry, there is a problem with the service"
   val messages1 = "Try again later to sign in to the service at https://www.tax.service.gov.uk/inheritance-tax/estate-report (save this link)."
   val messages2 = "We saved your progress on the estate report."
   val messages3 = "If you see this message several times, you can choose to report the estate value using the IHT205 paper form instead."
-  def view: String = iht_error_template()(createFakeRequest(),
-                                         applicationMessages,
-                                         formPartialRetriever).toString
+  def view: String = iht_error_template()(createFakeRequest(), messages, formPartialRetriever, appConfig).toString
 
   "Application error template" must {
     "have no message keys in html" in {

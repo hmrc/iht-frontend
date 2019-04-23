@@ -16,14 +16,15 @@
 
 package iht.controllers.application
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.testhelpers.MockObjectBuilder.createMockToGetRegDetailsFromCache
+import iht.testhelpers.MockObjectBuilder
 import iht.utils.IhtSection
 import iht.views.ViewTestHelper
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito._
 import play.api.i18n.MessagesApi
-import play.api.mvc.{AnyContentAsEmpty, Result}
+import play.api.mvc.{AnyContentAsEmpty, ControllerComponents, MessagesControllerComponents, Result}
 import play.api.test.Helpers.{SEE_OTHER, redirectLocation, status => playStatus}
 import play.api.test.{DefaultAwaitTimeout, FakeRequest}
 import uk.gov.hmrc.auth.core.{AuthConnector, AuthenticateHeaderParser}
@@ -31,11 +32,11 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-trait ApplicationControllerTest extends ViewTestHelper with DefaultAwaitTimeout {
+trait ApplicationControllerTest extends ViewTestHelper with DefaultAwaitTimeout with MockObjectBuilder {
   def loginUrl = buildLoginUrl(IhtSection.Application)
 
   def controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector: => CachingConnector,
-                                                            func: => Future[Result]) = {
+                                                            func: => Future[Result]): Unit = {
     "respond with redirect to application overview when no registration details found in cache" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, None)
       val result = func
@@ -49,8 +50,11 @@ trait ApplicationControllerTest extends ViewTestHelper with DefaultAwaitTimeout 
   val mockAuthConnector: AuthConnector = mock[AuthConnector]
   val mockPartialRetriever: FormPartialRetriever = mock[FormPartialRetriever]
   val mockMessagesApi: MessagesApi = mock[MessagesApi]
+  val mockAppConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
-  override def createFakeRequest(isAuthorised: Boolean = true, referer: Option[String] = None, authRetrieveNino: Boolean = true): FakeRequest[AnyContentAsEmpty.type] = {
+  override def createFakeRequest(isAuthorised: Boolean = true,
+                                 referer: Option[String] = None,
+                                 authRetrieveNino: Boolean = true): FakeRequest[AnyContentAsEmpty.type] = {
     if (isAuthorised) {
       if (authRetrieveNino) {
         when(mockAuthConnector.authorise[Option[String]](any(), any())(any(), any())).thenReturn(Future.successful(Some(fakeNino)))

@@ -18,21 +18,17 @@ package iht.connector
 
 import iht.models.CidPerson
 import javax.inject.Inject
-import play.api.Mode.Mode
-import play.api.{Configuration, Environment, Logger}
+import play.api.Logger
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.http._
-import uk.gov.hmrc.play.bootstrap.http.HttpClient
-import uk.gov.hmrc.play.config.ServicesConfig
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
+import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class CitizenDetailsConnectorImpl @Inject()(override val http: HttpClient,
-                                            val environment: Environment,
-                                            val config: Configuration) extends CitizenDetailsConnector with ServicesConfig {
-  lazy val serviceUrl: String = baseUrl("citizen-details")
-  val mode: Mode = environment.mode
-  override def runModeConfiguration: Configuration = config
+class CitizenDetailsConnectorImpl @Inject()(val http: DefaultHttpClient,
+                                            val config: ServicesConfig) extends CitizenDetailsConnector {
+  lazy val serviceUrl: String = config.baseUrl("citizen-details")
 }
 
 trait CitizenDetailsConnector {

@@ -16,25 +16,26 @@
 
 package iht.controllers.application.tnrb
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.MockObjectBuilder._
+import iht.controllers.application.exemptions.ExemptionsOverviewController
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-/**
- * Created by Vineet Tyagi on 21/04/15.
- *
- * Test Class for iht.controllers.application.TnrbEligibiltyController
- *
- */
 class TnrbSuccessControllerTest extends ApplicationControllerTest {
 
-  // Implicit objects required by play framework.
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with TnrbSuccessController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit lazy val appConfig: AppConfig = mockAppConfig
+  }
 
   implicit val headerCarrier = FakeHeaders()
   implicit val request = FakeRequest()
@@ -46,7 +47,7 @@ class TnrbSuccessControllerTest extends ApplicationControllerTest {
       ihtReference=Some("AI123456")
     )
 
-  def tnrbSuccessController = new TnrbSuccessController {
+  def tnrbSuccessController = new TestController {
     override val cachingConnector = mockCachingConnector
 	  override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
@@ -54,10 +55,9 @@ class TnrbSuccessControllerTest extends ApplicationControllerTest {
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def tnrbSuccessControllerNotAuthorised = new TnrbSuccessController {
+  def tnrbSuccessControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-//    override val authConnector = mockAuthConnector
     override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever

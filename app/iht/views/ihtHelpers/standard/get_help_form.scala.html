@@ -17,11 +17,11 @@
 @import iht.config.AppConfig
 @import play.api.i18n.Messages
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 
 @(supportLinkEnabled: Boolean = true,
-includeGridWrapper: Boolean = true,
-appConfig: AppConfig)(implicit  messages: Messages,
-                                requestHeader: RequestHeader,
-                                ihtFormPartialRetriever: FormPartialRetriever)
+includeGridWrapper: Boolean = true)(implicit  messages: Messages,
+                                    requestHeader: RequestHeader,
+                                    ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @ihtFormPartialRetriever.getPartialContent(appConfig.reportAProblemPartialUrl)(requestHeader)

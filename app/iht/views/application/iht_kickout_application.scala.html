@@ -14,8 +14,9 @@
  * limitations under the License.
  *@
 
-@import iht.utils.tnrb.TnrbHelper
+@import iht.utils.tnrb.TnrbHelperFixture
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.models.application.ApplicationDetails
 @import uk.gov.hmrc.play.views.html.helpers.form
 
@@ -24,7 +25,7 @@ applicationDetails: ApplicationDetails,
 applicationLastSection: Option[String],
 applicationLastID: Option[String],
 summaryParameter1:String,
-deceasedName: String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+deceasedName: String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @import iht.utils._
 @import iht.views.html._
@@ -34,9 +35,9 @@ deceasedName: String)(implicit request:Request[_], messages: Messages, ihtFormPa
     <div class="panel panel-border-wide">
         @ApplicationKickOutSummaryHelper.summary.find( _._1 == kickoutReason).map{summary =>
             <p id="kickout-message">
-                @TnrbHelper.mutateContent(Messages(summary._2, summaryParameter1, deceasedName), messages.lang.code)
+                @TnrbHelperFixture().mutateContent(Messages(summary._2, summaryParameter1, deceasedName), messages.lang.code)
             </p>}
-        @if(!ApplicationKickOutSummaryHelper.summaryBullets(kickoutReason).isEmpty) {
+        @if(ApplicationKickOutSummaryHelper.summaryBullets(kickoutReason).nonEmpty) {
         <ul class="bullets" id="summary-bullets">
             @ApplicationKickOutSummaryHelper.summaryBullets(kickoutReason).map{txt=>
             <li>@txt</li>
@@ -52,7 +53,7 @@ deceasedName: String)(implicit request:Request[_], messages: Messages, ihtFormPa
             </div>
                 <div class="grid-layout__column--1-4">
                 @if(applicationDetails.allAssets.isDefined || applicationDetails.allGifts.isDefined ||
-                applicationDetails.allLiabilities.isDefined || applicationDetails.propertyList.size>0) {
+                applicationDetails.allLiabilities.isDefined || applicationDetails.propertyList.nonEmpty) {
                     @if(applicationDetails.allExemptions.isDefined && applicationDetails.totalExemptionsValue > 0) {
                         &pound;@CommonHelper.numberWithCommas(if(applicationDetails.totalNetValue<0) 0 else applicationDetails.totalNetValue)
                     } else {
@@ -71,10 +72,10 @@ deceasedName: String)(implicit request:Request[_], messages: Messages, ihtFormPa
 
     <div class="subsection">
         <h2 id="iht.nextSteps" class="heading-medium">@Messages("iht.nextSteps")</h2>
-        @ApplicationKickOutNonSummaryHelper.nextSteps1.find( _._1 == kickoutReason).map{nextSteps1=><p>@nextSteps1._2</p>}
-        @ApplicationKickOutNonSummaryHelper.nextSteps2.find( _._1 == kickoutReason).map{nextSteps2=><p>
+        @AppKickoutFixture().nextSteps1.find( _._1 == kickoutReason).map{nextSteps1=><p>@nextSteps1._2</p>}
+        @AppKickoutFixture().nextSteps2.find( _._1 == kickoutReason).map{nextSteps2=><p>
         @nextSteps2._2@Messages("iht.comma") @ApplicationKickOutHelper.returnLinkUrl( kickoutReason, applicationDetails.ihtRef.fold("")(identity), applicationLastSection, applicationLastID ).map{ url=>
-        <a id="back-button" href=@url>@ApplicationKickOutNonSummaryHelper.nextSteps2ReturnLinkText.find( _._1 == kickoutReason).map{linkText => @linkText._2}</a>.
+        <a id="back-button" href=@url>@AppKickoutFixture().nextSteps2ReturnLinkText.find( _._1 == kickoutReason).map{linkText => @linkText._2}</a>.
         }</p>}
 
     </div>

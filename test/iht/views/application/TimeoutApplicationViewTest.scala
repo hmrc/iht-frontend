@@ -18,8 +18,6 @@ package iht.views.application
 
 import iht.views.ViewTestHelper
 import iht.views.html.application.timeout_application
-import play.api.i18n.Messages.Implicits._
-import iht.config.ApplicationConfig
 
 class TimeoutApplicationViewTest extends ViewTestHelper {
   private lazy val viewAsDocument = {

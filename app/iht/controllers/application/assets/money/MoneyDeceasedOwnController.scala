@@ -16,8 +16,8 @@
 
 package iht.controllers.application.assets.money
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.IhtMetrics
@@ -27,10 +27,10 @@ import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import iht.views.html.application.asset.money.money_deceased_own
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 
@@ -38,7 +38,9 @@ class MoneyDeceasedOwnControllerImpl @Inject()(val metrics: IhtMetrics,
                                                val ihtConnector: IhtConnector,
                                                val cachingConnector: CachingConnector,
                                                val authConnector: AuthConnector,
-                                               val formPartialRetriever: FormPartialRetriever) extends MoneyDeceasedOwnController {
+                                               val formPartialRetriever: FormPartialRetriever,
+                                               implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with MoneyDeceasedOwnController {
 
 }
 
@@ -47,7 +49,7 @@ trait MoneyDeceasedOwnController extends EstateController {
 
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyDeceasedOwned)
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad(), Some(AssetsMoneyOwnID))
+    iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad(), Some(appConfig.AssetsMoneyOwnID))
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {

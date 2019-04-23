@@ -16,10 +16,12 @@
 
 package iht.controllers.application
 
+import iht.config.AppConfig
 import iht.models.application.assets._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.{ApplicationStatus, KickOutReason}
-import uk.gov.hmrc.http.HeaderCarrier
+import play.api.mvc.MessagesControllerComponents
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class EstateControllerTest extends ApplicationControllerTest {
@@ -28,7 +30,12 @@ class EstateControllerTest extends ApplicationControllerTest {
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails),
     ihtReference = Some("ABC123"))
 
-  def estateController = new EstateController {
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with EstateController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def estateController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
@@ -38,7 +45,7 @@ class EstateControllerTest extends ApplicationControllerTest {
   "EstateController" must {
     "update application details with correct kickout reason and status for TrustsMoreThanOne" in {
       CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.TrustsMoreThanOne) foreach { ad =>
-        val result = estateController.updateKickout(registrationDetails=registrationDetails, applicationDetails=ad)(createFakeRequest(), new HeaderCarrier)
+        val result = estateController.appKickoutUpdateKickout(registrationDetails = registrationDetails, applicationDetails=ad)
         result.status mustBe ApplicationStatus.KickOut
         result.kickoutReason mustBe Some(KickOutReason.TrustsMoreThanOne)
       }

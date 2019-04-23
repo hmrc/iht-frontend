@@ -16,26 +16,28 @@
 
 package iht.controllers.application.gifts
 
-import iht.constants.IhtProperties._
-import iht.controllers.application.ApplicationControllerTest
+
+import iht.config.AppConfig
+import iht.controllers.application.{ApplicationControllerTest, EstateOverviewController}
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.PreviousYearsGifts
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import play.api.http.Status._
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.{await, contentAsString, redirectLocation, status => playStatus}
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
-
-/**
- * Created by jamestuttle on 09/10/15.
- */
 
 class GiftsDetailsControllerTests extends ApplicationControllerTest {
 
-
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with GiftsDetailsController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
   val registrationDetails = CommonBuilder.buildRegistrationDetails copy (
     deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath),
@@ -44,7 +46,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
     )
 
   // Create gift details controller object and pass in mock.
-  def giftsDetailsController = new GiftsDetailsController {
+  def giftsDetailsController = new TestController {
 
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
@@ -53,7 +55,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def giftsDetailsControllerNotAuthorised = new GiftsDetailsController {
+  def giftsDetailsControllerNotAuthorised = new TestController {
 
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
@@ -144,7 +146,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
 
       val result = giftsDetailsController.onSubmit()(request)
       playStatus(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(routes.SevenYearsGiftsValuesController.onPageLoad().url + "#" + GiftsValueDetailID + "1"))
+      redirectLocation(result) must be(Some(routes.SevenYearsGiftsValuesController.onPageLoad().url + "#" + appConfig.GiftsValueDetailID + "1"))
     }
 
     "On processSubmit if no Gift found then redirect" in {

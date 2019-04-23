@@ -20,7 +20,8 @@ import iht.testhelpers.CommonBuilder
 import iht.viewmodels.application.overview.ReducingEstateValueSectionViewModel
 import iht.views.ViewTestHelper
 import iht.views.html.application.overview.reducing_estate_value_section
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import iht.testhelpers.TestHelper._
 
 class ReducingEstateValueSectionViewTest extends ViewTestHelper {

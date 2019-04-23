@@ -16,12 +16,8 @@
 
 package iht.controllers.application.gifts
 
-/**
- * Created by xavierzanatta on 8/5/15.
- */
-
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.RegistrationDetails
@@ -29,15 +25,14 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.PreviousYearsGifts
 import iht.utils.CommonHelper._
 import iht.utils.GiftsHelper._
-import iht.utils.{ApplicationKickOutHelper, CommonHelper, LogHelper, StringHelper}
+import iht.utils.{ApplicationKickOutHelper, CommonHelper, LogHelper}
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Call, Request, Result}
+import play.api.i18n.{Lang, Messages}
+import play.api.mvc.{Call, MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -45,7 +40,9 @@ import scala.concurrent.Future
 class GiftsDetailsControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                            val cachingConnector: CachingConnector,
                                            val authConnector: AuthConnector,
-                                           val formPartialRetriever: FormPartialRetriever) extends GiftsDetailsController {
+                                           val formPartialRetriever: FormPartialRetriever,
+                                           implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with GiftsDetailsController {
 
 }
 
@@ -77,6 +74,7 @@ trait GiftsDetailsController extends EstateController {
 
   private def doPageLoad(id: String, cancelUrl: Option[Call], cancelLabel: => Option[String], userNino: Option[String])(implicit request: Request[_]) = {
     withApplicationDetails(userNino) { rd => ad =>
+      implicit val lang: Lang = messagesApi.preferred(request).lang
       val result = getOrException(rd.deceasedDateOfDeath.map { ddod =>
         withValue {
           val prevYearsGifts = ad.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
@@ -90,7 +88,7 @@ trait GiftsDetailsController extends EstateController {
             iht.views.html.application.gift.gifts_details(
               form,
               rd,
-              Some(CommonHelper.addFragmentIdentifier(cancelUrl.get, Some(GiftsValueDetailID + id.toString))),
+              Some(CommonHelper.addFragmentIdentifier(cancelUrl.get, Some(appConfig.GiftsValueDetailID + id.toString))),
               cancelLabel
             )
           )
@@ -102,6 +100,7 @@ trait GiftsDetailsController extends EstateController {
 
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
+      implicit val lang: Lang = messagesApi.preferred(request).lang
       withApplicationDetails(userNino) { rd => ad =>
         val boundForm = previousYearsGiftsForm.bindFromRequest
         boundForm.fold(
@@ -121,7 +120,7 @@ trait GiftsDetailsController extends EstateController {
             }
           },
           previousYearsGifts => {
-            processSubmit(StringHelper.getNino(userNino), previousYearsGifts, rd, ad)
+            processSubmit(getNino(userNino), previousYearsGifts, rd, ad)
           }
         )
       }
@@ -151,7 +150,7 @@ trait GiftsDetailsController extends EstateController {
         }{newAD =>
           ihtConnector.saveApplication(nino, newAD, rd.acknowledgmentReference).map(_ =>
             Redirect(newAD.kickoutReason.fold(CommonHelper.addFragmentIdentifier(
-              sevenYearsGiftsRedirectLocation, Some(GiftsValueDetailID + (idToUpdate + 1).toString))) {
+              sevenYearsGiftsRedirectLocation, Some(appConfig.GiftsValueDetailID + (idToUpdate + 1).toString))) {
               _ => {
                 cachingConnector.storeSingleValue(
                   ApplicationKickOutHelper.applicationLastSectionKey, applicationSection.fold("")(identity))

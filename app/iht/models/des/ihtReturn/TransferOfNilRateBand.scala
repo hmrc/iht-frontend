@@ -18,9 +18,7 @@ package iht.models.des.ihtReturn
 
 import play.api.libs.json.Json
 
-/**
-  * Created by vineet on 06/07/17.
-  */
+
 case class TransferOfNilRateBand(totalNilRateBandTransferred: Option[BigDecimal] = None,
                                  deceasedSpouses: Set[TNRBForm])
 

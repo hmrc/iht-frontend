@@ -18,9 +18,7 @@ package iht.models.application
 
 import play.api.libs.json.Json
 
-/**
-  * Created by vineet on 03/11/16.
-  */
+
 case class ProbateDetails(grossEstateforIHTPurposes : BigDecimal,
                           grossEstateforProbatePurposes: BigDecimal,
                           totalDeductionsForProbatePurposes: BigDecimal,

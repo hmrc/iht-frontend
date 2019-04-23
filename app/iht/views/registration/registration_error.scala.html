@@ -15,16 +15,17 @@
  *@
 
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.views.html._
 
 
-@(errorType:String)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+@(errorType:String)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_registration(title = Messages("error.problem")) {
 @{
 errorType match {
-case "requestTimeOut" => registration_error_timeOut(request, messages, ihtFormPartialRetriever)
-case _ => registration_error_systemError(request, messages, ihtFormPartialRetriever)
+case "requestTimeOut" => registration_error_timeOut(request, messages, ihtFormPartialRetriever, appConfig)
+case _ => registration_error_systemError(request, messages, ihtFormPartialRetriever, appConfig)
 }
 }
 }

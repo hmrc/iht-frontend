@@ -16,26 +16,25 @@
 
 package iht.controllers.application.exemptions.partner
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions._
 import iht.utils.CommonHelper._
-import iht.utils.{ApplicationKickOutNonSummaryHelper, CommonHelper, IhtFormValidator, StringHelper}
+import iht.utils.{CommonHelper, IhtFormValidator}
 import iht.views.html._
 import iht.views.html.application.exemption.partner.partner_permanent_home_question
 import javax.inject.Inject
 import play.api.Logger
-import play.api.Play.current
 import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Call, Request, Result}
+import play.api.mvc.{Call, MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -43,7 +42,9 @@ import scala.concurrent.Future
 class PartnerPermanentHomeQuestionControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                            val cachingConnector: CachingConnector,
                                                            val authConnector: AuthConnector,
-                                                           val formPartialRetriever: FormPartialRetriever) extends PartnerPermanentHomeQuestionController {
+                                                           val formPartialRetriever: FormPartialRetriever,
+implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with PartnerPermanentHomeQuestionController {
 
 }
 
@@ -52,8 +53,8 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
 
   lazy val partnerPermanentHomePage = routes.PartnerPermanentHomeQuestionController.onPageLoad()
   lazy val exemptionsOverviewPage = addFragmentIdentifier(
-    iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsPartnerHomeID))
-  lazy val partnerOverviewPage = addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(ExemptionsPartnerHomeID))
+    iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(appConfig.ExemptionsPartnerHomeID))
+  lazy val partnerOverviewPage = addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(appConfig.ExemptionsPartnerHomeID))
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
 
@@ -61,7 +62,7 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
 
         withRegistrationDetails { registrationDetails =>
           for {
-            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
+            applicationDetails <- ihtConnector.getApplication(getNino(userNino),
               CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
               registrationDetails.acknowledgmentReference)
           } yield {
@@ -94,7 +95,7 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
           val boundForm = IhtFormValidator.addDeceasedNameToAllFormErrors(partnerPermanentHomeQuestionForm
             .bindFromRequest, regDetails.deceasedDetails.fold("")(_.name))
 
-          val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(userNino),
+          val applicationDetailsFuture = ihtConnector.getApplication(getNino(userNino),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
@@ -109,7 +110,7 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
                     returnUrl(regDetails, appDetails))))
                 },
                 partnerExemption => {
-                  saveApplication(StringHelper.getNino(userNino), partnerExemption, regDetails, appDetails)
+                  saveApplication(getNino(userNino), partnerExemption, regDetails, appDetails)
                 }
               )
             }
@@ -143,7 +144,7 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
       nino = existingNino,
       totalAssets = existingTotalAssets)
 
-    val applicationDetails = ApplicationKickOutNonSummaryHelper.updateKickout(checks = ApplicationKickOutNonSummaryHelper.checksEstate,
+    val applicationDetails = appKickoutUpdateKickout(checks = checksEstate,
       prioritySection = applicationSection,
       registrationDetails = regDetails,
       applicationDetails = appDetails.copy(allExemptions = Some(appDetails.allExemptions.fold(new

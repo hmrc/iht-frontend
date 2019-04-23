@@ -21,13 +21,13 @@ import iht.views.HtmlSpec
 import iht.views.html.ihtHelpers.standard.input_radio_group_with_hints
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.i18n.Messages.Implicits._
-import uk.gov.hmrc.play.test.UnitSpec
+import play.api.i18n.Messages
+import play.api.mvc.MessagesControllerComponents
 
-/**
- * Created by jennygj on 28/10/16.
- */
 class InputRadioGroupWithHintsTest extends FakeIhtApp with HtmlSpec {
+
+  val mockControllerComponents: MessagesControllerComponents = app.injector.instanceOf[MessagesControllerComponents]
+  implicit val messages: Messages = mockControllerComponents.messagesApi.preferred(Seq(lang)).messages
 
   "input radio group with hints" must {
 

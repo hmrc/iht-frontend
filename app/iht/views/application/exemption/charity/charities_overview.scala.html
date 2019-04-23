@@ -20,12 +20,13 @@
 @import iht.utils._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.constants.IhtProperties._
+@import iht.config.AppConfig
+
 @import iht.views.html.ihtHelpers.custom._
 
 @(charities: Seq[Charity],
 registrationDetails: RegistrationDetails,
-isAssetLeftToCharity: Boolean)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+isAssetLeftToCharity: Boolean)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_application(title = Messages("iht.estateReport.exemptions.charities.assetsLeftToCharities.title",
 CommonHelper.getOrException(registrationDetails.deceasedDetails).name),
@@ -35,7 +36,7 @@ isFullWidth=false
 
     <section id="charity-table">
         <ul>
-        @generic_overview_table_item(id = ExemptionsCharitiesAssetsID,
+        @generic_overview_table_item(id = appConfig.ExemptionsCharitiesAssetsID,
         questionText = Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
                                 DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
         questionScreenReaderText= Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question"),
@@ -60,7 +61,7 @@ isFullWidth=false
               </div>
               <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
                 <a href='@iht.controllers.application.exemptions.charity.routes.CharityDeleteConfirmController.onPageLoad(element.id.getOrElse("")).url'
-                   id='@ExemptionsCharitiesDeleteID@element.id.getOrElse("")'>
+                   id='@appConfig.ExemptionsCharitiesDeleteID@element.id.getOrElse("")'>
                     <span aria-hidden="true">@Messages("iht.delete")</span><span class="visually-hidden">@Messages("page.iht.application.charity.delete.screenReader", element.name match {
                         case Some(name) => {name}
                         case _ => {""}
@@ -69,7 +70,7 @@ isFullWidth=false
               </div>
               <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
                   <a href='@iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onEditPageLoad(element.id.getOrElse("")).url'
-                     id='@ExemptionsCharitiesChangeID@element.id.getOrElse("")'>
+                     id='@appConfig.ExemptionsCharitiesChangeID@element.id.getOrElse("")'>
                       <span aria-hidden="true">@Messages("iht.change")</span><span class="visually-hidden">@Messages("page.iht.application.charity.edit.screenReader", element.name match {
                           case Some(name) => {name}
                           case _ => {""}
@@ -90,7 +91,7 @@ isFullWidth=false
 </p>
 
 <p>
-    <a id="@ExemptionsCharitiesAddID" href='@iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onPageLoad.url'>
+    <a id="@appConfig.ExemptionsCharitiesAddID" href='@iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onPageLoad.url'>
         @Messages("page.iht.application.exemptions.assetLeftToCharity.addCharity") </a>
 </p>
 
@@ -98,7 +99,7 @@ isFullWidth=false
     @registrationDetails.deceasedDetails.map{ dd=>
     @ihtHelpers.custom.return_link(Messages("page.iht.application.return.to.exemptionsOf", ihtHelpers.custom.name(dd.name)),
     Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()),
-    ExemptionsCharityID
+    appConfig.ExemptionsCharityID
     )
     }
 </p>

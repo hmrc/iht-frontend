@@ -16,28 +16,25 @@
 
 package iht.views.filter
 
-import iht.constants.IhtProperties
 import iht.views.ViewTestHelper
 import iht.views.html.filter.agent_view
-import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
-/**
-  * Created by adwelly on 21/10/2016.
-  */
+
 class AgentViewTest extends ViewTestHelper {
 
   val fakeRequest = createFakeRequest(isAuthorised = false)
+  val applicationMessages = messages
 
   "FilterView" must {
 
     "have no message keys in html" in {
-      val result = agent_view()(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = agent_view()(fakeRequest, applicationMessages, formPartialRetriever, appConfig)
       val view = asDocument(contentAsString(result)).toString
       noMessageKeysShouldBePresent(view)
     }
 
     "generate appropriate content for the title" in {
-      val result = agent_view()(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = agent_view()(fakeRequest, applicationMessages, formPartialRetriever, appConfig)
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
 
@@ -45,7 +42,7 @@ class AgentViewTest extends ViewTestHelper {
     }
 
     "generate appropriate content for the browser title" in {
-      val result = agent_view()(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = agent_view()(fakeRequest, applicationMessages, formPartialRetriever, appConfig)
       val doc = asDocument(contentAsString(result))
       val browserTitleElement = doc.getElementsByTag("title").first
 
@@ -53,7 +50,7 @@ class AgentViewTest extends ViewTestHelper {
     }
 
     "generate content text informing the agent that there is no change" in {
-      val result = agent_view()(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = agent_view()(fakeRequest, applicationMessages, formPartialRetriever, appConfig)
       val doc = asDocument(contentAsString(result))
       val contentPara = doc.getElementById("agent-content")
 
@@ -61,7 +58,7 @@ class AgentViewTest extends ViewTestHelper {
     }
 
     "contain a link with the button class with the text 'Exit to GOV.UK'" in {
-      val result = agent_view()(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = agent_view()(fakeRequest, applicationMessages, formPartialRetriever, appConfig)
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 
@@ -69,24 +66,23 @@ class AgentViewTest extends ViewTestHelper {
     }
 
     "contain a link with a button class with the correct exit link" in {
-      val result = agent_view()(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = agent_view()(fakeRequest, applicationMessages, formPartialRetriever, appConfig)
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 
-      button.attr("href") must be(IhtProperties.linkExitToGovUKIHTForms)
+      button.attr("href") must be(appConfig.linkExitToGovUKIHTForms)
     }
 
     "contain a link with id 'back' with the text 'Back'" in {
-      val result = agent_view()(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = agent_view()(fakeRequest, applicationMessages, formPartialRetriever, appConfig)
       val doc = asDocument(contentAsString(result))
       val button = doc.getElementById("back")
 
       button.text() must be(messagesApi("iht.back"))
     }
 
-
     "contain a link with id 'back' with the href that points to the main filter page" in {
-      val result = agent_view()(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = agent_view()(fakeRequest, applicationMessages, formPartialRetriever, appConfig)
       val doc = asDocument(contentAsString(result))
       val button = doc.getElementById("back")
 

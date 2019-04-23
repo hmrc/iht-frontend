@@ -16,43 +16,36 @@
 
 package iht.viewmodels.application.overview
 
-import iht.constants.IhtProperties
+import iht.config.AppConfig
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper._
-import iht.utils.RegistrationDetailsHelper._
-import iht.utils.{ApplicationKickOutNonSummaryHelper, CommonHelper}
+import iht.utils.{AppKickoutFixture, CommonHelper, RegistrationDetailsHelperFixture}
 
-/**
-  * Created by vineet on 17/10/16.
-  */
 
 sealed abstract class DeclarationSectionStatus
 
 case object InComplete extends DeclarationSectionStatus
-
 case object NotDeclarable extends DeclarationSectionStatus
-
 case object Declarable extends DeclarationSectionStatus
-
 case class DeclarationSectionViewModel(ihtReference: String,
                                        declarationSectionStatus: DeclarationSectionStatus)
 
 object DeclarationSectionViewModel {
 
-  def apply(regDetails: RegistrationDetails,
-            appDetails: ApplicationDetails): DeclarationSectionViewModel =
+  def apply(regDetails: RegistrationDetails, appDetails: ApplicationDetails)(implicit appConfig: AppConfig): DeclarationSectionViewModel =
     DeclarationSectionViewModel(
       ihtReference = CommonHelper.getOrException(regDetails.ihtReference),
       declarationSectionStatus = isReadyToDeclare(regDetails, appDetails))
 
 
   private def isReadyToDeclare(regDetails: RegistrationDetails,
-                               appDetails: ApplicationDetails): DeclarationSectionStatus = {
+                               appDetails: ApplicationDetails)(implicit appConfig: AppConfig): DeclarationSectionStatus = {
 
-    areAllSectionsCompleted(regDetails, appDetails) match {
-      case false => InComplete
-      case _ => getDeclarationStatus(regDetails, appDetails)
+    if (areAllSectionsCompleted(regDetails, appDetails)) {
+      getDeclarationStatus(regDetails, appDetails)
+    } else {
+      InComplete
     }
   }
 
@@ -65,9 +58,9 @@ object DeclarationSectionViewModel {
     * @return
     */
   private def areAllSectionsCompleted(regDetails: RegistrationDetails,
-                                      appDetails: ApplicationDetails) = {
+                                      appDetails: ApplicationDetails)(implicit appConfig: AppConfig) = {
     appDetails.areAllAssetsGiftsAndDebtsCompleted && appDetails.allExemptions.fold(true) {
-      _ => isExemptionsCompleted(regDetails, appDetails)
+      _ => RegistrationDetailsHelperFixture().isExemptionsCompleted(regDetails, appDetails)
     } && isTrnrbFlowCompleted(appDetails)
   }
 
@@ -81,23 +74,23 @@ object DeclarationSectionViewModel {
     * @param appDetails
     * @return
     */
-  private def getDeclarationStatus(regDetails: RegistrationDetails,
-                                   appDetails: ApplicationDetails): DeclarationSectionStatus = {
+  private def getDeclarationStatus(regDetails: RegistrationDetails, appDetails: ApplicationDetails)
+                                  (implicit appConfig: AppConfig): DeclarationSectionStatus = {
 
     val netEstateValue = appDetails.netValueAfterExemptionAndDebtsForPositiveExemption
     val tnrb = appDetails.increaseIhtThreshold
-    val appDetailsUpdatedWithKickOut = ApplicationKickOutNonSummaryHelper.updateKickout(
-                                                checks = ApplicationKickOutNonSummaryHelper.checksBackend,
+    val appDetailsUpdatedWithKickOut = AppKickoutFixture().appKickoutUpdateKickout(
+                                                checks = AppKickoutFixture().checksBackend,
                                                 registrationDetails = regDetails,
                                                 applicationDetails = appDetails)
     val kickOutReason = appDetailsUpdatedWithKickOut.kickoutReason
     val maritalStatus = getOrException(getOrException(regDetails.deceasedDetails).maritalStatus)
 
-    if (netEstateValue <= IhtProperties.exemptionsThresholdValue.toInt
+    if (netEstateValue <= appConfig.exemptionsThresholdValue.toInt
       && tnrb.isEmpty && kickOutReason.isEmpty) {
       Declarable
-    } else if (netEstateValue <= IhtProperties.transferredNilRateBand.toInt &&
-      tnrb.isDefined && !maritalStatus.equals(IhtProperties.statusSingle) && kickOutReason.isEmpty) {
+    } else if (netEstateValue <= appConfig.transferredNilRateBand.toInt &&
+      tnrb.isDefined && !maritalStatus.equals(appConfig.statusSingle) && kickOutReason.isEmpty) {
       Declarable
     } else {
       NotDeclarable

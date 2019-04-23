@@ -18,7 +18,7 @@ package iht.utils
 
 /**
  *
- * Created by Vineet Tyagi on 22/09/15.
+
  *
  * Contains the various Application status values. This status is actually two
  * different types of status: the etmp status and the front end status.

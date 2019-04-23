@@ -14,11 +14,11 @@
  * limitations under the License.
  *@
 
-@import iht.constants.IhtProperties.linkGovUkIht
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.views.html._
 
-@()(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+@()(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_application(title = Messages("global.error.InternalServerError500.title"),  browserTitle = Some(Messages("global.error.InternalServerError500.title"))) {
 
@@ -28,7 +28,7 @@
 
 <div id="gov-uk-button">
     <p>
-        <a href =@linkGovUkIht>
+        <a href =@appConfig.linkGovUkIht>
             @Messages("iht.exitToGovUK")
         </a>
     </p>

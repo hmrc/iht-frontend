@@ -16,21 +16,25 @@
 
 package iht.utils
 
-import iht.constants.IhtProperties
+import iht.config.AppConfig
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.utils.ApplicationKickOutHelper._
 import iht.utils.CommonHelper._
 import iht.utils.KickOutReason._
-import iht.utils.{ApplicationStatus => AppStatus, KickOutReason => KickOut}
+import iht.utils.{ApplicationStatus => AppStatus}
 import org.joda.time.LocalDate
 import play.api.Logger
 import play.api.i18n.Messages
 
 import scala.collection.immutable.ListMap
 
-object ApplicationKickOutNonSummaryHelper {
+case class AppKickoutFixture(implicit val appConfig: AppConfig) extends ApplicationKickOutNonSummaryHelper
+
+trait ApplicationKickOutNonSummaryHelper extends RegistrationDetailsHelper {
+  implicit val appConfig: AppConfig
+
   private val stockAndShareValues: Option[StockAndShare] => Seq[BigDecimal] =
     _.fold[Seq[BigDecimal]](Nil)(xx => Seq(getOrZero(xx.valueListed), getOrZero(xx.valueNotListed)))
 
@@ -243,12 +247,12 @@ object ApplicationKickOutNonSummaryHelper {
 
   private lazy val checksAllSectionsMaxValue: FunctionListMap = ListMap(
     AssetsTotalValueMoreThanMax -> { (registrationDetails, applicationDetails, sectionTotal) =>
-      (applicationDetails.totalAssetsValue + CommonHelper.getOrZero(applicationDetails.totalPastYearsGiftsOption)) > IhtProperties.validationTotalAssetMaxValue
+      (applicationDetails.totalAssetsValue + CommonHelper.getOrZero(applicationDetails.totalPastYearsGiftsOption)) > appConfig.validationTotalAssetMaxValue
     })
 
   private lazy val checksActiveSectionOnlyMaxValue: FunctionListMap = ListMap(
     SingleSectionMoreThanMax -> { (registrationDetails, applicationDetails, sectionTotal) =>
-      sectionTotal.exists(_ > IhtProperties.validationTotalAssetMaxValue)
+      sectionTotal.exists(_ > appConfig.validationTotalAssetMaxValue)
     }
   )
 
@@ -262,7 +266,7 @@ object ApplicationKickOutNonSummaryHelper {
     },
     PensionsValueMoreThanMax -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.allAssets.flatMap(_.privatePension.
-        flatMap(_.value)).fold(BigDecimal(0))(identity) > IhtProperties.validationTotalAssetMaxValue
+        flatMap(_.value)).fold(BigDecimal(0))(identity) > appConfig.validationTotalAssetMaxValue
     },
     AnnuitiesOnInsurance -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.allAssets.flatMap(_.insurancePolicy
@@ -279,39 +283,39 @@ object ApplicationKickOutNonSummaryHelper {
     },
     ForeignAssetsValueMoreThanMax -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.allAssets.flatMap(_.foreign
-        .flatMap(_.value)).fold(BigDecimal(0))(identity) > IhtProperties.validationForeignAssetMaxValue
+        .flatMap(_.value)).fold(BigDecimal(0))(identity) > appConfig.validationForeignAssetMaxValue
     },
     AssetsMoneyOwed -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.allAssets.flatMap(_.moneyOwed
-        .flatMap(_.value)).fold(BigDecimal(0))(identity) > IhtProperties.validationTotalAssetMaxValue
+        .flatMap(_.value)).fold(BigDecimal(0))(identity) > appConfig.validationTotalAssetMaxValue
     },
     AssetsDeceasedMoneyOwed -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.allAssets.flatMap(_.money
-        .flatMap(_.value)).fold(BigDecimal(0))(identity) > IhtProperties.validationTotalAssetMaxValue
+        .flatMap(_.value)).fold(BigDecimal(0))(identity) > appConfig.validationTotalAssetMaxValue
     },
     AssetsMoneyJointlyOwed -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.allAssets.flatMap(_.money
-        .flatMap(_.shareValue)).fold(BigDecimal(0))(identity) > IhtProperties.validationTotalAssetMaxValue
+        .flatMap(_.shareValue)).fold(BigDecimal(0))(identity) > appConfig.validationTotalAssetMaxValue
     },
     AssetsHouseholdDeceasedOwed -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.allAssets.flatMap(_.household
-        .flatMap(_.value)).fold(BigDecimal(0))(identity) > IhtProperties.validationTotalAssetMaxValue
+        .flatMap(_.value)).fold(BigDecimal(0))(identity) > appConfig.validationTotalAssetMaxValue
     },
     AssetsHouseholdJointlyOwed -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.allAssets.flatMap(_.household
-        .flatMap(_.shareValue)).fold(BigDecimal(0))(identity) > IhtProperties.validationTotalAssetMaxValue
+        .flatMap(_.shareValue)).fold(BigDecimal(0))(identity) > appConfig.validationTotalAssetMaxValue
     },
     AssetsVehiclesDeceasedOwned -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.allAssets.flatMap(_.vehicles
-        .flatMap(_.value)).fold(BigDecimal(0))(identity) > IhtProperties.validationTotalAssetMaxValue
+        .flatMap(_.value)).fold(BigDecimal(0))(identity) > appConfig.validationTotalAssetMaxValue
     },
     AssetsVehiclesJointlyOwned -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.allAssets.flatMap(_.vehicles
-        .flatMap(_.shareValue)).fold(BigDecimal(0))(identity) > IhtProperties.validationTotalAssetMaxValue
+        .flatMap(_.shareValue)).fold(BigDecimal(0))(identity) > appConfig.validationTotalAssetMaxValue
     },
     TrustValueMoreThanMax -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.allAssets.flatMap(_.heldInTrust
-        .flatMap(_.value)).fold(BigDecimal(0))(identity) > IhtProperties.validationTrustMaxValue
+        .flatMap(_.value)).fold(BigDecimal(0))(identity) > appConfig.validationTrustMaxValue
     },
     InsuranceMoreThanMax -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.allAssets.flatMap(_.insurancePolicy.flatMap(_.moreThanMaxValue)).fold(false)(identity)
@@ -326,7 +330,7 @@ object ApplicationKickOutNonSummaryHelper {
       applicationDetails.allGifts.flatMap(_.isToTrust).fold(false)(_.booleanValue)
     },
     GiftsMaxValue -> { (registrationDetails, applicationDetails, sectionTotal) =>
-      applicationDetails.totalPastYearsGiftsValueExcludingExemptions > IhtProperties.giftsMaxValue
+      applicationDetails.totalPastYearsGiftsValueExcludingExemptions > appConfig.giftsMaxValue
     },
     PartnerHomeInUK -> { (registrationDetails, applicationDetails, sectionTotal) =>
       !applicationDetails.allExemptions.flatMap(_.partner.flatMap(_.isPartnerHomeInUK)).fold(true)(identity)
@@ -342,8 +346,8 @@ object ApplicationKickOutNonSummaryHelper {
     },
     PartnerDiedBeforeMinDate -> { (registrationDetails, applicationDetails, sectionTotal) => {
       def preDeceasedDiedEligible(x: LocalDate) =
-        x.isAfter(IhtProperties.dateOfPredeceasedForTnrbEligibility) ||
-          x.isEqual(IhtProperties.dateOfPredeceasedForTnrbEligibility)
+        x.isAfter(appConfig.dateOfPredeceasedForTnrbEligibility) ||
+          x.isEqual(appConfig.dateOfPredeceasedForTnrbEligibility)
 
       applicationDetails.widowCheck.flatMap(_.dateOfPreDeceased).fold(false) {
         dateOfPreDeceased => !preDeceasedDiedEligible(dateOfPreDeceased)
@@ -358,8 +362,8 @@ object ApplicationKickOutNonSummaryHelper {
   lazy val checksWidowOpc: FunctionListMap = ListMap(
     PartnerDiedBeforeMinDateOpc -> { (registrationDetails, applicationDetails, sectionTotal) => {
       def preDeceasedDiedEligible(x: LocalDate) =
-        x.isAfter(IhtProperties.dateOfPredeceasedForTnrbEligibility) ||
-          x.isEqual(IhtProperties.dateOfPredeceasedForTnrbEligibility)
+        x.isAfter(appConfig.dateOfPredeceasedForTnrbEligibility) ||
+          x.isEqual(appConfig.dateOfPredeceasedForTnrbEligibility)
 
       applicationDetails.widowCheck.flatMap(_.dateOfPreDeceased).fold(false) {
         dateOfPreDeceased => !preDeceasedDiedEligible(dateOfPreDeceased)
@@ -374,12 +378,12 @@ object ApplicationKickOutNonSummaryHelper {
   lazy val checksBackend: FunctionListMap = ListMap(
     TnrbEstateMoreThanThreshold -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.netValueAfterExemptionAndDebtsForPositiveExemption >
-        2 * IhtProperties.tnrbThresholdLimit
+        2 * appConfig.tnrbThresholdLimit
     },
     AssetsTotalValueMoreThanThresholdAfterExemption -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.netValueAfterExemptionAndDebtsForPositiveExemption >
-        IhtProperties.exemptionsThresholdValue && applicationDetails.increaseIhtThreshold.isEmpty &&
-        RegistrationDetailsHelper.isExemptionsCompleted(registrationDetails, applicationDetails)
+        appConfig.exemptionsThresholdValue && applicationDetails.increaseIhtThreshold.isEmpty &&
+        isExemptionsCompleted(registrationDetails, applicationDetails)
     }
   )
 
@@ -439,7 +443,7 @@ object ApplicationKickOutNonSummaryHelper {
         .fold(emptyFunctionListMap)(identity) ++ checksAllSectionsMaxValue ++ checksNonActiveSectionsOnly
     }
 
-    val kickoutReason = RegistrationDetailsHelper.findFirstTrue(registrationDetails, applicationDetails, sectionTotal, getChecks)
+    val kickoutReason = findFirstTrue(registrationDetails, applicationDetails, sectionTotal, getChecks)
     Logger.debug("Kickout check returns: " + kickoutReason)
     kickoutReason
   }
@@ -452,16 +456,16 @@ object ApplicationKickOutNonSummaryHelper {
     * ID for section total is relevant only for kickouts which are to be applied to a specific section for a specific
     * ID, currently only for the kickout logic stored in checksActiveSectionOnlyMaxValue, above.
     */
-  def updateKickout(checks: FunctionListMap = ApplicationKickOutNonSummaryHelper.checksEstate,
-                    prioritySection: Option[String] = None,
-                    registrationDetails: RegistrationDetails,
-                    applicationDetails: ApplicationDetails,
-                    idForSectionTotal: Option[String] = None): ApplicationDetails = {
-    val kickoutReason = ApplicationKickOutNonSummaryHelper.check(checks = checks,
+  def appKickoutUpdateKickout(checks: FunctionListMap = checksEstate,
+                              prioritySection: Option[String] = None,
+                              registrationDetails: RegistrationDetails,
+                              applicationDetails: ApplicationDetails,
+                              idForSectionTotal: Option[String] = None): ApplicationDetails = {
+    val kickoutReason = check(checks = checks,
       prioritySection = prioritySection,
       registrationDetails = registrationDetails,
       applicationDetails = applicationDetails,
-      sectionTotal = ApplicationKickOutNonSummaryHelper.getSectionTotal(prioritySection, idForSectionTotal, applicationDetails))
+      sectionTotal = getSectionTotal(prioritySection, idForSectionTotal, applicationDetails))
 
     val status = kickoutReason.fold(AppStatus.InProgress)(_ => AppStatus.KickOut)
     applicationDetails copy(status = status, kickoutReason = kickoutReason)

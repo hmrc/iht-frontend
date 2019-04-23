@@ -17,6 +17,7 @@
 @import iht.models.application.assets.Property
 @import iht.models.application.debts._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.models.RegistrationDetails
 @import iht.models.application.debts.Mortgage
 
@@ -25,9 +26,9 @@ mortgageList: List[Mortgage] = List.empty[Mortgage],
 typesOfOwnership: scala.collection.immutable.ListMap[String, (String, Option[String],Option[Boolean])],
 registrationDetails: RegistrationDetails,
 onCancel: Call,
-onCancelMessageKey: String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+onCancelMessageKey: String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
-@import iht.constants.IhtProperties._
+
 @import iht.utils.{CommonHelper, _}
 @import iht.views.html._
 
@@ -74,7 +75,7 @@ isFullWidth= false) {
                             }
                         </div>
                         <div class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right">
-                            <a href='@iht.controllers.application.debts.routes.MortgageValueController.onPageLoad(element.id.getOrElse("")).url' id='@DebtsMortgagesPropertyID@element.id.getOrElse("")'>
+                            <a href='@iht.controllers.application.debts.routes.MortgageValueController.onPageLoad(element.id.getOrElse("")).url' id='@appConfig.DebtsMortgagesPropertyID@element.id.getOrElse("")'>
 
 
                                     @mortgageList.find(_.id equals element.id.getOrElse("")) match{
@@ -114,6 +115,6 @@ isFullWidth= false) {
     @ihtHelpers.custom.return_link(
         Messages(onCancelMessageKey),
         Some(onCancel),
-        DebtsMortgagesID
+        appConfig.DebtsMortgagesID
     )
 }

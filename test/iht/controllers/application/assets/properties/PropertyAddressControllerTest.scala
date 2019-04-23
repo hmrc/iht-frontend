@@ -16,15 +16,18 @@
 
 package iht.controllers.application.assets.properties
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
+import iht.controllers.application.tnrb.GiftsWithReservationOfBenefitController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
-import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
 import iht.utils.CommonHelper
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
@@ -43,7 +46,12 @@ class PropertyAddressControllerTest extends ApplicationControllerTest {
       storeAppDetailsInCache = true)
   }
 
-  def propertyAddressController = new PropertyAddressController {
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with PropertyAddressController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def propertyAddressController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
@@ -51,7 +59,7 @@ class PropertyAddressControllerTest extends ApplicationControllerTest {
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def propertyAddressControllerNotAuthorised = new PropertyAddressController {
+  def propertyAddressControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector

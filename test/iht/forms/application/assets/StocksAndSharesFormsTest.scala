@@ -20,9 +20,7 @@ import iht.forms.ApplicationForms._
 import iht.forms.FormTestHelper
 import iht.models.application.assets.StockAndShare
 
-/**
-  * Created by vineet on 15/12/16.
-  */
+
 class StocksAndSharesFormsTest extends FormTestHelper {
 
   lazy val stocksAndSharesListedErrorMsgKey = "error.assets.stocksAndShares.listed.select"

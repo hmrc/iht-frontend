@@ -19,12 +19,13 @@
 @import iht.utils._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import uk.gov.hmrc.play.views.html.helpers.form
 
 @(coExecutorDetails:Form[iht.models.CoExecutor],
 mode: Mode.Value = Mode.Standard,
 actionLocation: Call,
-cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_registration(title = Messages("page.iht.registration.co-executor-personal-details.title"),
   browserTitle = Some(Messages("page.iht.registration.co-executor-personal-details.browserTitle")),
@@ -45,7 +46,7 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
     <input type="hidden" name="id" value='@coExecutorDetails.data.get("id")'>
 
       @ihtHelpers.standard.input_with_help(coExecutorDetails("firstName"),
-          '_maxlength -> IhtProperties.validationMaxLengthFirstName,
+          '_maxlength -> appConfig.validationMaxLengthFirstName,
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
@@ -53,7 +54,7 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
           '_hintText -> Html(Messages("iht.firstName.hint")))
 
       @ihtHelpers.standard.input_with_help(coExecutorDetails("lastName"),
-          '_maxlength -> IhtProperties.validationMaxLengthLastName,
+          '_maxlength -> appConfig.validationMaxLengthLastName,
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
@@ -80,7 +81,7 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
 
 
       @ihtHelpers.standard.input_with_help(coExecutorDetails("phoneNo"),
-          '_maxlength -> IhtProperties.validationMaxLengthPhoneNo,
+          '_maxlength -> appConfig.validationMaxLengthPhoneNo,
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",

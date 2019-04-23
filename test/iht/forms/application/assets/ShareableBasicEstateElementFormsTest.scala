@@ -18,9 +18,7 @@ package iht.forms.application.assets
 
 import iht.forms.ApplicationForms._
 
-/**
-  * Created by vineet on 15/12/16.
-  */
+
 class ShareableBasicEstateElementFormsTest extends ShareableBasicEstateElementFormBehaviour {
 
   "MoneyDeceasedOwned form " must {

@@ -16,23 +16,26 @@
 
 package iht.controllers.application.assets.properties
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
 import iht.utils.CommonHelper
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-/**
- * Created by Vineet on 22/06/16.
- */
 class PropertyTenureControllerTest extends ApplicationControllerTest {
 
-
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with PropertyTenureController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
   def setUpTests(applicationDetails: Option[ApplicationDetails] = None) = {
     createMocksForApplication(mockCachingConnector,
@@ -43,7 +46,7 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
       storeAppDetailsInCache = true)
   }
 
-  def propertyTenureController = new PropertyTenureController {
+  def propertyTenureController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
@@ -51,7 +54,7 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def propertyTenureControllerNotAuthorised = new PropertyTenureController {
+  def propertyTenureControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
@@ -148,7 +151,7 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
       val result = propertyTenureController.onSubmit()(request)
 
       status(result) must be (SEE_OTHER)
-      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertyDetailsOverviewController.onEditPageLoad("1").url, TestHelper.AssetsPropertiesTenureID)))
+      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onEditPageLoad("1").url, TestHelper.AssetsPropertiesTenureID)))
     }
 
     "redirect to PropertyDetails overview page on submit in edit mode" in {
@@ -168,7 +171,7 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
       val result = propertyTenureController.onEditSubmit(propertyId)(request)
 
       status(result) must be (SEE_OTHER)
-      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertyDetailsOverviewController.onEditPageLoad(propertyId).url, TestHelper.AssetsPropertiesTenureID)))
+      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onEditPageLoad(propertyId).url, TestHelper.AssetsPropertiesTenureID)))
     }
   }
 }

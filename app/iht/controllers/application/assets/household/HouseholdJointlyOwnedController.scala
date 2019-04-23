@@ -16,8 +16,8 @@
 
 package iht.controllers.application.assets.household
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.IhtMetrics
@@ -27,30 +27,31 @@ import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import iht.views.html.application.asset.household.household_jointly_owned
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class HouseholdJointlyOwnedControllerImpl @Inject()(val metrics: IhtMetrics,
                                                     val ihtConnector: IhtConnector,
                                                     val cachingConnector: CachingConnector,
                                                     val authConnector: AuthConnector,
-                                                    val formPartialRetriever: FormPartialRetriever) extends HouseholdJointlyOwnedController {
+                                                    val formPartialRetriever: FormPartialRetriever,
+                                                    implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with HouseholdJointlyOwnedController {
 
 }
 
 trait HouseholdJointlyOwnedController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsHouseholdJointlyOwned)
 
-
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad(), Some(AssetsHouseholdSharedID))
+    iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad(), Some(appConfig.AssetsHouseholdSharedID))
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
-      estateElementOnPageLoad[ShareableBasicEstateElement](householdJointlyOwnedForm, household_jointly_owned.apply,_.allAssets.flatMap(_.household), userNino)
+      estateElementOnPageLoad[ShareableBasicEstateElement](householdJointlyOwnedForm, household_jointly_owned.apply, _.allAssets.flatMap(_.household), userNino)
     }
   }
 
@@ -68,7 +69,7 @@ trait HouseholdJointlyOwnedController extends EstateController {
           (household.isOwnedShare match {
             case Some(true) => _.copy(household = Some(household.copy(value = existingValue, isOwned = existingIsOwned)))
             case Some(false) => _.copy(household = Some(household.copy(shareValue = None, value = existingValue,
-                                                                        isOwned = existingIsOwned)))
+              isOwned = existingIsOwned)))
             case None => throw new RuntimeException("Not able to retrieve the value of household jointly owed question")
           })
           ))

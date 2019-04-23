@@ -20,7 +20,7 @@ import iht.utils.{KickOutReason => KickOut}
 
 /**
  *
- * Created by Vineet Tyagi on 22/09/15.
+
  *
  * Contains the KickOut reasons
  */

@@ -16,12 +16,13 @@
 
 package iht.models.application.debts
 
-import iht.testhelpers.{TestHelper, AssetsWithAllSectionsSetToNoBuilder, CommonBuilder}
+import iht.FakeIhtApp
+import iht.config.AppConfig
+import iht.testhelpers.{AssetsWithAllSectionsSetToNoBuilder, CommonBuilder, TestHelper}
 import org.scalatest.mock.MockitoSugar
 import uk.gov.hmrc.play.test.UnitSpec
 
 class AllLiabilitiesTest extends UnitSpec with MockitoSugar {
-
 
   private def buildProperty(id: Option[String] = None,
                             value: Option[BigDecimal] = None) = {

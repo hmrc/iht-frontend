@@ -27,7 +27,7 @@ import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.Future
 
-trait ApplicationController extends IhtBaseController {
+trait ApplicationController extends IhtBaseController with StringHelper {
   override lazy val ihtSection: IhtSection.Value = IhtSection.Application
 
   def cachingConnector: CachingConnector
@@ -37,7 +37,7 @@ trait ApplicationController extends IhtBaseController {
                             (implicit request: Request[_], hc: HeaderCarrier): Future[Result] = {
     withRegistrationDetails { registrationDetails =>
       val optionApplicationDetailsFuture = ihtConnector.getApplication(
-        StringHelper.getNino(userNino),
+        getNino(userNino),
         CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
         registrationDetails.acknowledgmentReference)
 
@@ -52,7 +52,7 @@ trait ApplicationController extends IhtBaseController {
                            (implicit request: Request[_], hc: HeaderCarrier): Future[ApplicationDetails] = {
     for {
       Some(applicationDetails) <- ihtConnector.getApplication(
-        StringHelper.getNino(userNino),
+        getNino(userNino),
         CommonHelper.getOrExceptionNoIHTRef(Some(ihtReference)),
         acknowledgementReference)
     } yield applicationDetails

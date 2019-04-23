@@ -16,29 +16,34 @@
 
 package iht.utils.pdf
 
-import javax.xml.transform.stream.StreamSource
-
 import iht.FakeIhtApp
+import javax.xml.transform.stream.StreamSource
 import org.scalatest.mock.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
+import play.api.Environment
 
 /**
   * Created by david-beer on 28/10/16.
   */
 class StylesheetResolverTest extends FakeIhtApp with MockitoSugar {
 
-  "Must return a valid StreamSource" in {
+  class Setup {
+    val resourceStreamResolver: BaseResourceStreamResolver = new BaseResourceStreamResolver {
+      override val environment: Environment = app.environment
+    }
+  }
+
+  "Must return a valid StreamSource" in new Setup {
     val inputResource = "/pdf/templates/postsubmission/iht-return.xsl"
-    val result = new StylesheetResolver().resolve(inputResource, "")
+    val result = resourceStreamResolver.resolvePath(inputResource)
 
     result mustBe a[StreamSource]
     result mustNot equal(null)
   }
 
-  "Must throw exception if Resource is not valid" in {
+  "Must throw exception if Resource is not valid" in new Setup {
     val inputResource = "/invalid-resource"
     a[RuntimeException] shouldBe thrownBy {
-      new StylesheetResolver().resolve(inputResource, "")
+      resourceStreamResolver.resolvePath(inputResource)
     }
   }
 }

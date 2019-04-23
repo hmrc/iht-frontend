@@ -16,7 +16,6 @@
 
 package iht.config
 
-import iht.constants.IhtProperties
 import iht.utils.CommonHelper
 import org.jsoup.Jsoup
 import play.api.Configuration
@@ -34,14 +33,16 @@ class ApplicationGlobalTest extends UnitSpec with WithFakeApplication {
   val fakedMessagesApi: MessagesApi = fakeApplication.injector.instanceOf[MessagesApi]
   val fakedConfiguration: Configuration = fakeApplication.injector.instanceOf[Configuration]
   val fakedPartialRetriever: IhtFormPartialRetriever = fakeApplication.injector.instanceOf[IhtFormPartialRetriever]
+  implicit val appConfig: AppConfig = fakeApplication.injector.instanceOf[AppConfig]
 
   def fakeRequest(path: String) = FakeRequest("POST", path)
 
   class Setup {
     val errorHandler = new IHTErrorHandler(
-      fakedMessagesApi,
       fakedConfiguration,
-      fakedPartialRetriever
+      fakedMessagesApi,
+      fakedPartialRetriever,
+      appConfig
     )
   }
 
@@ -81,9 +82,9 @@ class ApplicationGlobalTest extends UnitSpec with WithFakeApplication {
     }
 
     "return SEE_OTHER on Upstream4xxResponse" in new Setup {
-      val exception = ApplicationException("test", Results.Redirect(CommonHelper.addFragmentIdentifier(
+      val exception = ApplicationException(Results.Redirect(CommonHelper.addFragmentIdentifier(
         iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
-        Some(IhtProperties.AppSectionPropertiesID))), "401")
+        Some(appConfig.AppSectionPropertiesID))), "test")
       val result = errorHandler.resolveError(FakeRequest(), exception)
 
       result.header.status shouldBe SEE_OTHER

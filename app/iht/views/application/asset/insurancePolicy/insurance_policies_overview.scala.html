@@ -18,17 +18,18 @@
 @import iht.utils._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import uk.gov.hmrc.play.views.html.helpers.form
 @import iht.models.RegistrationDetails
 @import iht.views.html.application._
 @import iht.utils.OverviewHelper.Section
-@import iht.constants.IhtProperties._
+
 
 @(registrationDetails:RegistrationDetails,
 seqRows:Seq[Section],
 returnToCall: Option[Call],
 returnToMessagesKey: String
-)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 
 @deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
@@ -48,7 +49,7 @@ returnToMessagesKey: String
     returnToCall = returnToCall,
     returnToMessagesKey = returnToMessagesKey,
     showStatus = false,
-    returnHash = AppSectionInsurancePolicyID,
+    returnHash = appConfig.AppSectionInsurancePolicyID,
     messagesFileBullets = Seq(
         Messages("page.iht.application.assets.insurance.policies.overview.guidance.bullet1"),
         Messages("page.iht.application.assets.insurance.policies.overview.guidance.bullet2"),

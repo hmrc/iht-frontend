@@ -20,17 +20,17 @@
 @import iht.controllers.ControllerHelper._
 @import iht.utils._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import org.apache.commons.lang3.StringEscapeUtils
 
 @(executorOfEstateForm:Form[iht.models.ApplicantDetails], deceasedName: String,
     actionLocation: Call,
-    cancelLocation: Option[Call] = None)(implicit request:Request[_], lang: play.api.i18n.Lang, messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+    cancelLocation: Option[Call] = None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
-@iht_main_template_registration(title = "",
-browserTitle = Some(Messages("page.iht.registration.applicant.executorOfEstate.browserTitle")),
-isFullWidth=false,
-cancelUrl=cancelLocation,
-hasTimeOut=true) {
+@iht_main_template_registration(
+    title = "",
+    browserTitle = Some(Messages("page.iht.registration.applicant.executorOfEstate.browserTitle")),
+    cancelUrl=cancelLocation) {
 
 @ihtHelpers.custom.error_summary(executorOfEstateForm)
 

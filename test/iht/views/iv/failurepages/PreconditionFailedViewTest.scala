@@ -16,10 +16,8 @@
 
 package iht.views.iv.failurepages
 
-import iht.constants.IhtProperties
+import iht.views.GenericNonSubmittablePageBehaviour
 import iht.views.html.iv.failurepages.precondition_failed
-import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import play.api.i18n.Messages.Implicits._
 
 class PreconditionFailedViewTest extends GenericNonSubmittablePageBehaviour {
 
@@ -31,7 +29,7 @@ class PreconditionFailedViewTest extends GenericNonSubmittablePageBehaviour {
 
   def browserTitle = messagesApi("page.iht.iv.failure.preconditionFailed.heading")
 
-  def view: String = precondition_failed()(createFakeRequest(), applicationMessages, formPartialRetriever).toString
+  def view: String = precondition_failed()(createFakeRequest(), messages, formPartialRetriever, appConfig).toString
 
   override def exitComponent = None
 

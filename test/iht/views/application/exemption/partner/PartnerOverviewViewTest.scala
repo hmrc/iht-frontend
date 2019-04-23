@@ -24,7 +24,8 @@ import iht.utils.CommonHelper._
 import iht.views.html.application.exemption.partner.partner_overview
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
 import org.joda.time.LocalDate
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import iht.testhelpers.TestHelper._

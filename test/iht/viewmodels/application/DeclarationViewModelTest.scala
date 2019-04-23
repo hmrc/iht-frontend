@@ -19,7 +19,7 @@ package iht.viewmodels.application
 import iht.connector.IhtConnector
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.CommonBuilder._
-import iht.testhelpers.MockObjectBuilder._
+
 import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.hmrc.http.HeaderCarrier

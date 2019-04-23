@@ -17,12 +17,13 @@
 package iht.utils
 
 import iht.FakeIhtApp
+import iht.config.AppConfig
 import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.{I18nSupport, MessagesApi}
-import uk.gov.hmrc.play.test.UnitSpec
 
 class DateHelperTest extends FakeIhtApp with MockitoSugar {
+
+  implicit val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
   "createDate should return None" in {
     val result = DateHelper.createDate(Some(""), Some("01"), Some("10"))
@@ -31,13 +32,13 @@ class DateHelperTest extends FakeIhtApp with MockitoSugar {
 
   "verify the input date is within range" in {
     val date = LocalDate.now.plusMonths(12)
-    assert(DateHelper.isDateWithInRange(date) == true, "Given date must be with in next 24 months from last " +
+    assert(DateHelper.isDateWithInRange(date), "Given date must be with in next 24 months from last " +
       "day of the month of the given date")
   }
 
   "verify the input date is not within range" in {
     val date = LocalDate.now.minusMonths(27)
-    assert(DateHelper.isDateWithInRange(date) == false, "Given date must be out of next 24 months from last" +
+    assert(!DateHelper.isDateWithInRange(date), "Given date must be out of next 24 months from last" +
       "day of the month of the given date")
   }
  }

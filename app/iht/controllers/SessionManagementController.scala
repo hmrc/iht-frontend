@@ -16,27 +16,29 @@
 
 package iht.controllers
 
-import iht.config.IhtFormPartialRetriever
+import iht.config.{AppConfig, IhtFormPartialRetriever}
 import iht.controllers.auth.IhtBaseController
 import iht.utils.IhtSection
 import javax.inject.Inject
-import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{Action, AnyContent}
+import play.api.i18n.I18nSupport
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.play.bootstrap.controller.UnauthorisedAction
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class SessionManagementControllerImpl @Inject()(val authConnector: AuthConnector,
-                                                val messagesApi: MessagesApi,
-                                                implicit val formPartialRetriever: IhtFormPartialRetriever) extends SessionManagementController
+                                                implicit val formPartialRetriever: IhtFormPartialRetriever,
+                                                implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents)
+  extends FrontendController(cc) with SessionManagementController
 
 trait SessionManagementController extends IhtBaseController with I18nSupport {
   override lazy val ihtSection: IhtSection.Value = IhtSection.Application
   implicit val formPartialRetriever: FormPartialRetriever
 
-  def signOut: Action[AnyContent] = UnauthorisedAction.async {
+  def signOut: Action[AnyContent] = Action.async {
     implicit request => {
       Future.successful(Ok(iht.views.html.sign_out()).withNewSession)
     }

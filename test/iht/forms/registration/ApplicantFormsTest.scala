@@ -17,11 +17,10 @@
 package iht.forms.registration
 
 import iht.FakeIhtApp
-import iht.constants.IhtProperties._
 import iht.forms.FormTestHelper
 import iht.forms.registration.ApplicantForms._
 import iht.models.{ApplicantDetails, UkAddress}
-import play.api.i18n.{Lang, Messages, MessagesApi}
+import play.api.i18n.Lang
 
 class ApplicantFormsTest extends FormTestHelper with FakeIhtApp {
 
@@ -55,12 +54,12 @@ class ApplicantFormsTest extends FormTestHelper with FakeIhtApp {
 
     "not give an error when answered Yes" in {
       val data = applyingForProbate("true")
-      applyingForProbateForm.bind(data).get mustBe ApplicantDetails(isApplyingForProbate = Some(true))
+      applyingForProbateForm.bind(data).get mustBe ApplicantDetails(isApplyingForProbate = Some(true), role = Some(mockAppConfig.roleLeadExecutor))
     }
 
     "not give an error when answered No" in {
       val data = applyingForProbate("false")
-      applyingForProbateForm.bind(data).get mustBe ApplicantDetails(isApplyingForProbate = Some(false))
+      applyingForProbateForm.bind(data).get mustBe ApplicantDetails(isApplyingForProbate = Some(false), role = Some(mockAppConfig.roleLeadExecutor))
     }
 
     "give an error when the question is not answered" in {
@@ -85,28 +84,29 @@ class ApplicantFormsTest extends FormTestHelper with FakeIhtApp {
   "Probate Location form" must {
 
     "not give an error for a valid answer" in {
-      val data = probateLocation(applicantCountryEnglandOrWales)
-      probateLocationForm(messages).bind(data).get mustBe ApplicantDetails(country = Some(applicantCountryEnglandOrWales))
+      val data = probateLocation(mockAppConfig.applicantCountryEnglandOrWales)
+      probateLocationForm(messages, mockAppConfig).bind(data).get mustBe
+        ApplicantDetails(country = Some(mockAppConfig.applicantCountryEnglandOrWales), role = Some(mockAppConfig.roleLeadExecutor))
     }
 
     "give an error when a blank value is supplied" in {
       val data = probateLocation("")
       val expectedErrors = error("country", "error.invalid")
 
-      checkForError(probateLocationForm(messages), data, expectedErrors)
+      checkForError(probateLocationForm(messages, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when invalid data is supplied" in {
       val data = probateLocation("INVALID")
       val expectedErrors = error("country", "error.invalid")
 
-      checkForError(probateLocationForm(messages), data, expectedErrors)
+      checkForError(probateLocationForm(messages, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when no data is supplied" in {
       val expectedErrors = error("country", "error.applicantProbateLocation.select")
 
-      checkForError(probateLocationForm(messages), emptyForm, expectedErrors)
+      checkForError(probateLocationForm(messages, mockAppConfig), emptyForm, expectedErrors)
     }
   }
 

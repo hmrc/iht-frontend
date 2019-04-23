@@ -19,7 +19,8 @@ package iht.views.application.declaration
 import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.html.application.declaration.declaration_received
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import iht.utils._
 
 class DeclarationReceivedViewTest extends ViewTestHelper {

@@ -16,15 +16,16 @@
 
 package iht.controllers.application.exemptions.qualifyingBody
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.EstateController
-import iht.utils.{CommonHelper, StringHelper}
+import iht.utils.CommonHelper
 import javax.inject.Inject
 import play.api.Logger
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -36,7 +37,10 @@ import scala.concurrent.Future
 class QualifyingBodyDetailsOverviewControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                             val cachingConnector: CachingConnector,
                                                             val authConnector: AuthConnector,
-                                                            val formPartialRetriever: FormPartialRetriever) extends QualifyingBodyDetailsOverviewController {
+                                                            val formPartialRetriever: FormPartialRetriever,
+                                                            implicit val appConfig: AppConfig,
+                                                            val cc: MessagesControllerComponents)
+  extends FrontendController(cc) with QualifyingBodyDetailsOverviewController {
 
 }
 
@@ -61,7 +65,7 @@ trait QualifyingBodyDetailsOverviewController extends EstateController {
 
       withRegistrationDetails { registrationDetails =>
         for {
-          applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
+          applicationDetails <- ihtConnector.getApplication(getNino(userNino),
             CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
             registrationDetails.acknowledgmentReference)
         } yield {

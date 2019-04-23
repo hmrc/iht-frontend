@@ -16,10 +16,12 @@
 
 package iht.controllers.application.assets.stocksAndShares
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
@@ -27,18 +29,20 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
  */
 class StocksAndSharesOverviewControllerTest extends ApplicationControllerTest {
 
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with StocksAndSharesOverviewController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
   "StocksAndSharesOverviewControllerTest" must {
-
-
-
-    def stocksAndSharesOverviewController = new StocksAndSharesOverviewController {
+    def stocksAndSharesOverviewController = new TestController {
       override val authConnector = mockAuthConnector
       override val cachingConnector = mockCachingConnector
       override val ihtConnector = mockIhtConnector
       override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
     }
 
-    def stocksAndSharesOverviewControllerNotAuthorised = new StocksAndSharesOverviewController {
+    def stocksAndSharesOverviewControllerNotAuthorised = new TestController {
       override val authConnector = mockAuthConnector
       override val cachingConnector = mockCachingConnector
       override val ihtConnector = mockIhtConnector

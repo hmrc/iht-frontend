@@ -20,9 +20,7 @@ import iht.forms.FormTestHelper
 import iht.models.application.basicElements.BasicEstateElement
 import play.api.data.Form
 
-/**
-  * Created by vineet on 15/12/16.
-  */
+
 trait BasicEstateElementFormBehaviour extends FormTestHelper{
 
   def basicEstateElementForm(form: Form[BasicEstateElement], selectErrorKey:String = "error.selectAnswer") = {

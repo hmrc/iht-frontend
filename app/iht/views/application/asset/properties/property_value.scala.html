@@ -17,18 +17,19 @@
 @import iht.utils._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import uk.gov.hmrc.play.views.html.helpers.form
-@import iht.constants.IhtProperties._
+
 
 @(propertyValueForm: Form[iht.models.application.assets.Property],
 submitUrl:Call,
 cancelUrl:Call,
-deceasedName: String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+deceasedName: String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_application(title = "",
 browserTitle = Some(Messages("page.iht.application.property.value.browserTitle")),
 isFullWidth=false,
-cancelUrl=Some(CommonHelper.addFragmentIdentifier(cancelUrl, Some(AssetsPropertiesPropertyValueID))),
+cancelUrl=Some(CommonHelper.addFragmentIdentifier(cancelUrl, Some(appConfig.AssetsPropertiesPropertyValueID))),
 cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty"))
 ){
     @ihtHelpers.custom.error_summary(propertyValueForm)

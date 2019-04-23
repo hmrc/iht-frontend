@@ -18,9 +18,7 @@ package iht.models.application.assets
 
 import play.api.libs.json.Json
 
-/**
-  * Created by vineet on 03/11/16.
-  */
+
 case class Properties(isOwned: Option[Boolean])
 
 object Properties {

@@ -16,6 +16,7 @@
 
 package iht.controllers.application.tnrb
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.EstateController
 import iht.models.application.ApplicationDetails
@@ -23,10 +24,11 @@ import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
 import iht.utils.CommonHelper._
 import iht.utils.{CommonHelper, StringHelper}
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.i18n.Lang
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -34,19 +36,19 @@ import scala.concurrent.Future
 class TnrbOverviewControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                            val cachingConnector: CachingConnector,
                                            val authConnector: AuthConnector,
-                                           val formPartialRetriever: FormPartialRetriever) extends TnrbOverviewController {
+                                           val formPartialRetriever: FormPartialRetriever,
+                                           implicit val appConfig: AppConfig,
+                                           val cc: MessagesControllerComponents) extends FrontendController(cc) with TnrbOverviewController
 
-}
-
-trait TnrbOverviewController extends EstateController {
+trait TnrbOverviewController extends EstateController with StringHelper {
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
-
       implicit request => {
+        implicit val lang: Lang = messagesApi.preferred(request).lang
 
         withRegistrationDetails { regDetails =>
           val applicationDetailsFuture: Future[Option[ApplicationDetails]] = ihtConnector
-            .getApplication(StringHelper.getNino(userNino), getOrExceptionNoIHTRef(regDetails.ihtReference),
+            .getApplication(getNino(userNino), getOrExceptionNoIHTRef(regDetails.ihtReference),
               regDetails.acknowledgmentReference)
 
           applicationDetailsFuture.map { optionApplicationDetails =>

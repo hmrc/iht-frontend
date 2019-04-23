@@ -18,25 +18,24 @@ package iht.config
 
 import javax.inject.Inject
 import play.api.Configuration
-import play.api.i18n.{Lang, Messages, MessagesApi}
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.mvc.Results.InternalServerError
-import play.api.mvc.{Request, RequestHeader, Result}
+import play.api.mvc.{MessagesControllerComponents, Request, RequestHeader, Result}
 import play.twirl.api.Html
 import uk.gov.hmrc.http.Upstream5xxResponse
 import uk.gov.hmrc.play.bootstrap.http.FrontendErrorHandler
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-class IHTErrorHandler @Inject()(val messagesApi: MessagesApi,
-                                val configuration: Configuration,
-                                implicit val formPartialRetriever: FormPartialRetriever) extends FrontendErrorHandler {
+class IHTErrorHandler @Inject()(val configuration: Configuration,
+                                val messagesApi: MessagesApi,
+                                implicit val formPartialRetriever: FormPartialRetriever,
+                                implicit val appConfig: AppConfig) extends FrontendErrorHandler {
 
   override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: Request[_]): Html = {
-    implicit val lang: Lang = new Lang(s"${request.cookies.get("PLAY_LANG").map(_.value).getOrElse("en")}")
     iht.views.html.iht_error_template()
   }
 
   private[config] def desInternalServerErrorTemplate(implicit request: Request[_]): Html = {
-    implicit val lang: Lang = new Lang(s"${request.cookies.get("PLAY_LANG").map(_.value).getOrElse("en")}")
     request.uri match {
       case s: String if s.contains("/registration/") => iht.views.html.registration.registration_generic_error()
       case s: String if s.contains("/estate-report/") => iht.views.html.application.application_generic_error()

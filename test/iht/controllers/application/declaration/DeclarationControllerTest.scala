@@ -16,9 +16,10 @@
 
 package iht.controllers.application.declaration
 
+import iht.config.AppConfig
 import iht.connector.IhtConnector
 import iht.controllers.ControllerHelper
-import iht.controllers.application.ApplicationControllerTest
+import iht.controllers.application.{ApplicationControllerTest, KickoutAppController}
 import iht.forms.ApplicationForms._
 import iht.metrics.IhtMetrics
 import iht.models.application.assets._
@@ -26,15 +27,16 @@ import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.models.application.exemptions.{AllExemptions, PartnerExemption}
 import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.models.enums.StatsSource
-import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.ApplicationStatus
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito.when
 import play.api.http.Status.OK
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.http.{GatewayTimeoutException, HeaderCarrier, Upstream5xxResponse}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -49,7 +51,12 @@ class DeclarationControllerTest extends ApplicationControllerTest {
 
   val ihtReferenceNo = "XXX"
 
-  def declarationController = new DeclarationController {
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with DeclarationController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def declarationController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
@@ -58,7 +65,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def declarationControllerNotAuthorised = new DeclarationController {
+  def declarationControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector

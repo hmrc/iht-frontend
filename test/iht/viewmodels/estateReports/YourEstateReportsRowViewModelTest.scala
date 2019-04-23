@@ -20,7 +20,7 @@ import iht.connector.IhtConnector
 import iht.constants.IhtProperties
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.CommonBuilder
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.utils.ApplicationStatus
 import org.joda.time.LocalDate
 import uk.gov.hmrc.http.HeaderCarrier
@@ -47,7 +47,7 @@ class YourEstateReportsRowViewModelTest extends ApplicationControllerTest {
     }
 
     "should be created from IhtApplication with deceased date of death" in {
-      viewModel.dateOfDeath mustBe new LocalDate(2014, 10, 5).toString(IhtProperties.dateFormatForDisplay)
+      viewModel.dateOfDeath mustBe new LocalDate(2014, 10, 5).toString(appConfig.dateFormatForDisplay)
     }
 
     "should be created from IhtApplication with status of not started" in {

@@ -16,20 +16,27 @@
 
 package iht.controllers.application.debts
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import play.api.http.Status._
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.{await, status => playStatus}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class DebtsOverviewControllerTest extends ApplicationControllerTest {
 
   implicit val hc = new HeaderCarrier()
 
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with DebtsOverviewController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
-  def debtsOverviewController = new DebtsOverviewController {
+  def debtsOverviewController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector

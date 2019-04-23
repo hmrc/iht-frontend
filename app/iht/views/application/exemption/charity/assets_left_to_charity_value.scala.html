@@ -14,23 +14,23 @@
  * limitations under the License.
  *@
 
-@import iht.constants.IhtProperties._
 @import iht.models.RegistrationDetails
 @import iht.models.application.exemptions._
 @import iht.utils.CommonHelper._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import uk.gov.hmrc.play.views.html.helpers.form
 
 @(assetsLeftToCharityValueForm: Form[Charity],
         rd: RegistrationDetails,
         submitUrl: Call,
-        cancelUrl: Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+        cancelUrl: Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_application(
     title = "",
     browserTitle = Some(Messages("page.iht.application.exemptions.charityValue.browserTitle")),
-    cancelUrl = Some(addFragmentIdentifier(cancelUrl, Some(ExemptionsCharitiesValueID))),
+    cancelUrl = Some(addFragmentIdentifier(cancelUrl, Some(appConfig.ExemptionsCharitiesValueID))),
     cancelLabel = Some(Messages("iht.estateReport.exemptions.charities.returnToAddACharity")),
     isFullWidth = false
 ) {

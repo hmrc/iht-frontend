@@ -16,20 +16,24 @@
 
 package iht.viewmodels.application.overview
 
+import iht.config.AppConfig
 import iht.models.application.tnrb.WidowCheck
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.TestHelper._
 import iht.{FakeIhtApp, TestUtils}
 import org.joda.time.LocalDate
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.{I18nSupport, Messages, MessagesApi}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import uk.gov.hmrc.play.test.UnitSpec
-import iht.testhelpers.TestHelper._
+import play.api.i18n.{I18nSupport, Lang, Messages, MessagesApi}
+import play.api.mvc.MessagesControllerComponents
 
 class ThresholdSectionViewModelTest extends FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter with I18nSupport {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  val mockControllerComponents: MessagesControllerComponents = app.injector.instanceOf[MessagesControllerComponents]
+  implicit val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  implicit val lang: Lang = Lang.defaultLang
+  override val messagesApi: MessagesApi = mockControllerComponents.messagesApi
+  implicit val messages: Messages = messagesApi.preferred(Seq(lang)).messages
+
   val dodWithInClaimDate = LocalDate.now().minusYears(1)
   val deceasedDateOfDeath = CommonBuilder.buildDeceasedDateOfDeath.copy(dodWithInClaimDate)
 

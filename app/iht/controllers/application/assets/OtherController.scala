@@ -16,8 +16,8 @@
 
 package iht.controllers.application.assets
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.IhtMetrics
@@ -27,18 +27,19 @@ import iht.models.application.basicElements.BasicEstateElement
 import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import iht.views.html.application.asset._
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class OtherControllerImpl @Inject()(val metrics: IhtMetrics,
                                     val ihtConnector: IhtConnector,
                                     val cachingConnector: CachingConnector,
                                     val authConnector: AuthConnector,
-                                    val formPartialRetriever: FormPartialRetriever) extends OtherController {
-}
+                                    val formPartialRetriever: FormPartialRetriever,
+                                    implicit val appConfig: AppConfig,
+                                    val cc: MessagesControllerComponents) extends FrontendController(cc) with OtherController
 
 trait OtherController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsOther)
@@ -59,7 +60,7 @@ trait OtherController extends EstateController {
 
           (other.isOwned match {
             case Some(true) => _.copy(other = Some(other))
-            case Some(false) => _.copy(other = Some(other.copy(value= None)))
+            case Some(false) => _.copy(other = Some(other.copy(value = None)))
             case None => throw new RuntimeException("Not able to retrieve the value of OtherAsset question")
           })
           ))
@@ -69,7 +70,7 @@ trait OtherController extends EstateController {
       estateElementOnSubmit[BasicEstateElement](otherForm,
         other.apply,
         updateApplicationDetails,
-        CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionOtherID)),
+        CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(appConfig.AppSectionOtherID)),
         userNino
       )
     }

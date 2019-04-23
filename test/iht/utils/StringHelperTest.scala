@@ -17,49 +17,12 @@
 package iht.utils
 
 import iht.FakeIhtApp
+import iht.config.AppConfig
 import iht.testhelpers.CommonBuilder
 import org.scalatest.mock.MockitoSugar
 
-class StringHelperTest extends FakeIhtApp with MockitoSugar {
-  "parseAssignmentsToSeqTuples" must {
-    "parse correctly a valid seq of 2 assignments with spaces before or after key values" in {
-      val result = StringHelper.parseAssignmentsToSeqTuples(
-        "aaa  =bbb,ccc=  ddd"
-      )
-      result mustBe Seq(
-        ("aaa", "bbb"),
-        ("ccc", "ddd")
-      )
-    }
-
-    "parse correctly a valid seq of 1 assignment with spaces before and after key values" in {
-      val result = StringHelper.parseAssignmentsToSeqTuples(
-        "aaa  =   bbb"
-      )
-      result mustBe Seq(
-        ("aaa", "bbb")
-      )
-    }
-
-    "parse correctly an empty string" in {
-      val result = StringHelper.parseAssignmentsToSeqTuples(
-        ""
-      )
-      result mustBe Seq()
-    }
-
-    "throw an exception if invalid assignments are given (no equals symbols)" in {
-      a[RuntimeException] mustBe thrownBy {
-        StringHelper.parseAssignmentsToSeqTuples("aaa,bbb")
-      }
-    }
-
-    "throw an exception if invalid assignments are given (too many equals symbols)" in {
-      a[RuntimeException] mustBe thrownBy {
-        StringHelper.parseAssignmentsToSeqTuples("aaa=bbb=ccc")
-      }
-    }
-  }
+class StringHelperTest extends FakeIhtApp with MockitoSugar with StringHelper {
+  implicit val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
   "split" must {
     "return portions and delimiters" in {
@@ -72,7 +35,7 @@ class StringHelperTest extends FakeIhtApp with MockitoSugar {
         "six" -> Some('-'),
         "seven" -> None
       )
-      val result: Seq[(String, Option[Char])] = StringHelper.split("one two three-four five six-seven", Seq(' ', '-'))
+      val result: Seq[(String, Option[Char])] = split("one two three-four five six-seven", Seq(' ', '-'))
       result mustBe expectedResult
     }
 
@@ -86,13 +49,13 @@ class StringHelperTest extends FakeIhtApp with MockitoSugar {
         "six" -> Some('-'),
         "" -> None
       )
-      val result: Seq[(String, Option[Char])] = StringHelper.split("one two three-four five six-", Seq(' ', '-'))
+      val result: Seq[(String, Option[Char])] = split("one two three-four five six-", Seq(' ', '-'))
       result mustBe expectedResult
     }
 
     "return empty Seq where empty string" in {
       val expectedResult = Seq.empty
-      val result: Seq[(String, Option[Char])] = StringHelper.split("", Seq(' ', '-'))
+      val result: Seq[(String, Option[Char])] = split("", Seq(' ', '-'))
       result mustBe expectedResult
     }
 
@@ -101,7 +64,7 @@ class StringHelperTest extends FakeIhtApp with MockitoSugar {
         "" -> Some(' '),
         "" -> None
       )
-      val result: Seq[(String, Option[Char])] = StringHelper.split(" ", Seq(' ', '-'))
+      val result: Seq[(String, Option[Char])] = split(" ", Seq(' ', '-'))
       result mustBe expectedResult
     }
 
@@ -111,7 +74,7 @@ class StringHelperTest extends FakeIhtApp with MockitoSugar {
         "" -> Some('-'),
         "" -> None
       )
-      val result: Seq[(String, Option[Char])] = StringHelper.split(" -", Seq(' ', '-'))
+      val result: Seq[(String, Option[Char])] = split(" -", Seq(' ', '-'))
       result mustBe expectedResult
     }
   }
@@ -119,52 +82,52 @@ class StringHelperTest extends FakeIhtApp with MockitoSugar {
   "splitAndMapElements" must {
     "map elements using space and dash as delimiters" in {
       val expectedResult = "xxx two xxx-three xxx four xxx-xxx five xxx six"
-      val result = StringHelper.splitAndMapElements("one two one-three one four one-one five one six", Seq(' ', '-'), x => if (x == "one") "xxx" else x)
+      val result = splitAndMapElements("one two one-three one four one-one five one six", Seq(' ', '-'), x => if (x == "one") "xxx" else x)
       result mustBe expectedResult
     }
   }
 
   "parseOldAndNewDatesFormats" must {
     "return the string passed in if in YYYY-MM-DD format" in {
-      StringHelper.parseOldAndNewDatesFormats("2000-11-13") mustBe "2000-11-13"
+      parseOldAndNewDatesFormats("2000-11-13") mustBe "2000-11-13"
     }
     "return the string passed in if in YYYY-M-DD format" in {
-      StringHelper.parseOldAndNewDatesFormats("2000-1-13") mustBe "2000-1-13"
+      parseOldAndNewDatesFormats("2000-1-13") mustBe "2000-1-13"
     }
     "give exception in if in YYYY- -DD format" in {
       a[RuntimeException] mustBe thrownBy {
-        StringHelper.parseOldAndNewDatesFormats("2000- -13")
+        parseOldAndNewDatesFormats("2000- -13")
       }
     }
     "return the string converted to new format if date is in old format DD Month YYYY" in {
-      StringHelper.parseOldAndNewDatesFormats("5 April 2008") mustBe "2008-04-05"
+      parseOldAndNewDatesFormats("5 April 2008") mustBe "2008-04-05"
     }
     "return the string converted to new format if date is in old format D MMM YYYY" in {
-      StringHelper.parseOldAndNewDatesFormats("5 Apr 2008") mustBe "2008-04-05"
+      parseOldAndNewDatesFormats("5 Apr 2008") mustBe "2008-04-05"
     }
     "return the string converted to new format if date is in old format DD MMM YYYY" in {
-      StringHelper.parseOldAndNewDatesFormats("05 Apr 2008") mustBe "2008-04-05"
+      parseOldAndNewDatesFormats("05 Apr 2008") mustBe "2008-04-05"
     }
   }
 
   "trimAndUpperCaseNino should return correctly formatted nino" in {
     val nino = CommonBuilder.DefaultNino
-    val result = StringHelper.trimAndUpperCaseNino(" " + nino.toLowerCase + " ")
+    val result = trimAndUpperCaseNino(" " + nino.toLowerCase + " ")
     result mustBe nino
   }
 
   "generateAcknowledgeReference should not contain a dash" in {
-    val result = StringHelper.generateAcknowledgeReference
+    val result = generateAcknowledgeReference
     result mustNot contain("-")
   }
 
   "booleanToYesNo should return Yes as a String" in {
-    val result = StringHelper.booleanToYesNo(boolean = true)
+    val result = booleanToYesNo(boolean = true)
     result must be("Yes")
   }
 
   "booleanToYesNo should return No as a String" in {
-    val result = StringHelper.booleanToYesNo(boolean = false)
+    val result = booleanToYesNo(boolean = false)
     result must be("No")
   }
 
@@ -176,25 +139,25 @@ class StringHelperTest extends FakeIhtApp with MockitoSugar {
   "Must convert the application status in proper format" in {
 
     val inputStatus = "Awaiting Return"
-    val result = StringHelper.formatStatus(inputStatus)
+    val result = formatStatus(inputStatus)
 
     assert(result.equals("Awaiting return"), "Reformatted status is Awaiting return")
 
   }
 
   "format status must format a status" in {
-    val formattedStatus = StringHelper.formatStatus("All gOod")
+    val formattedStatus = formatStatus("All gOod")
     assert(formattedStatus == "All good")
   }
 
   "format status must replace kickout with in progress" in {
-    val formattedStatus = StringHelper.formatStatus(ApplicationStatus.KickOut)
-    val formattedInProgress = StringHelper.formatStatus(ApplicationStatus.InProgress)
+    val formattedStatus = formatStatus(ApplicationStatus.KickOut)
+    val formattedInProgress = formatStatus(ApplicationStatus.InProgress)
     assert(formattedStatus == formattedInProgress)
   }
 
   "format status must capitalise the first letter of the first word" in {
-    val formattedStatus = StringHelper.formatStatus("lower CASES")
+    val formattedStatus = formatStatus("lower CASES")
     assert(formattedStatus == "Lower cases")
   }
 }

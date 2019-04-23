@@ -16,14 +16,18 @@
 
 package iht.controllers.application.assets.properties
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
+import iht.controllers.application.assets.money.MoneyDeceasedOwnController
 import iht.models.application.ApplicationDetails
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
 import iht.utils.CommonHelper
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
@@ -36,10 +40,12 @@ class DeletePropertyControllerTest extends ApplicationControllerTest {
   implicit val headerCarrier = FakeHeaders()
   implicit val hc = new HeaderCarrier
 
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with DeletePropertyController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
-
-
-  def deletePropertyController = new DeletePropertyController {
+  def deletePropertyController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
@@ -47,7 +53,7 @@ class DeletePropertyControllerTest extends ApplicationControllerTest {
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def deletePropertyControllerNotAuthorised = new DeletePropertyController {
+  def deletePropertyControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector

@@ -16,6 +16,7 @@
 
 package iht.controllers
 
+import iht.config.AppConfig
 import iht.connector.IdentityVerificationConnector
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.enums.IdentityVerificationResult
@@ -23,9 +24,11 @@ import iht.models.enums.IdentityVerificationResult.IdentityVerificationResult
 import iht.testhelpers.MockFormPartialRetriever
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
-import play.api.mvc.Result
+import play.api.i18n.{Lang, Messages}
+import play.api.mvc.{MessagesControllerComponents, Result}
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -34,7 +37,13 @@ class IVUpliftFailureControllerTest extends ApplicationControllerTest {
   implicit val hc = new HeaderCarrier
   val mockIdentityVerificationConnector = mock[IdentityVerificationConnector]
 
-  def controller = new IVUpliftFailureController {
+  override implicit val messages: Messages = mockControllerComponents.messagesApi.preferred(Seq(Lang.defaultLang)).messages
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with IVUpliftFailureController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def controller = new TestController {
     override val identityVerificationConnector = mockIdentityVerificationConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }

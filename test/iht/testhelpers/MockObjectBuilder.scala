@@ -16,6 +16,7 @@
 
 package iht.testhelpers
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, CitizenDetailsConnector, IhtConnector}
 import iht.constants.Constants
 import iht.models._
@@ -23,17 +24,21 @@ import iht.models.application.{ApplicationDetails, IhtApplication, ProbateDetail
 import iht.models.des.ihtReturn.IHTReturn
 import iht.testhelpers.CommonBuilder._
 import org.mockito.ArgumentMatchers._
-import org.mockito.ArgumentMatchers.{eq => eqTo}
 import org.mockito.Mockito._
 import org.mockito.stubbing.OngoingStubbing
-import uk.gov.hmrc.http.{HttpResponse, NotFoundException}
+import uk.gov.hmrc.http.NotFoundException
 
 import scala.concurrent.Future
 
-/**
-  * Created by vineet on 16/03/16.
-  */
-object MockObjectBuilder {
+
+trait MockObjectBuilder {
+  implicit val mockAppConfig: AppConfig
+
+  def createMockToGetCaseDetails(ihtConnector: IhtConnector,
+                                 regDetails: Future[RegistrationDetails] = Future.successful(buildRegistrationDetailsWithDeceasedAndIhtRefDetails))  = {
+    when(ihtConnector.getCaseDetails(any(), any())(any()))
+      .thenReturn(regDetails)
+  }
 
   val defaultAppDetails = ApplicationDetails(allAssets= None,
     propertyList = Nil,
@@ -50,11 +55,8 @@ object MockObjectBuilder {
     ihtRef = Some("AH6566565656565"),
     reasonForBeingBelowLimit = None)
 
-  val defaultRegDetails = CommonBuilder.buildRegistrationDetails.copy(acknowledgmentReference =
-    "This has been kept to be used to distinguish from other registration details objects")
-
   // Creates Registration Details with Default Deceased Details and ihtRef=ABC123
-  val buildRegistrationDetailsWithDeceasedAndIhtRefDetails = buildRegistrationDetails copy (
+  def buildRegistrationDetailsWithDeceasedAndIhtRefDetails = buildRegistrationDetails copy (
     deceasedDetails = Some(buildDeceasedDetails), ihtReference = Some("AbC123"))
 
   def createMockToGetCitizenDetails(connector: CitizenDetailsConnector, person: CidPerson) =
@@ -67,73 +69,20 @@ object MockObjectBuilder {
     when(connector.getCitizenDetails(any())(any(), any())).thenReturn(Future.failed(new NotFoundException("")))
 
   /**
-    * Creates mock to get the RegistrationDetails from the cache using CachingConnector
-    */
-  def createMockToGetRegDetailsFromCache(cachingConnector: CachingConnector,
-                                      regDetails: Future[Option[RegistrationDetails]] = Future.successful(Some(buildRegistrationDetails)))  = {
-    when(cachingConnector.getRegistrationDetails(any(), any())).thenReturn(regDetails)
-  }
-
-  /**
-    * Creates Mock To get Existing RegistrationDetails using CachingConnector
-    */
-  def createMockToGetRegDetailsFromCacheNoOption(cachingConnector: CachingConnector,
-                                                 regDetails: Future[Option[RegistrationDetails]] = Future.successful(Some(buildRegistrationDetailsWithDeceasedAndIhtRefDetails))) = {
-    when(cachingConnector.getRegistrationDetails(any(), any()))
-      .thenReturn(regDetails)
-  }
-
-  /**
-    * Creates Mock to store RegistrationDetails in Cache using CachingConnector
-    */
-  def createMockToStoreRegDetailsInCache(cachingConnector: CachingConnector,
-                                         regDetails: Future[Option[RegistrationDetails]] = Future.successful(Some(buildRegistrationDetails))) = {
-    when(cachingConnector.storeRegistrationDetails(any())(any(), any()))
-      .thenReturn(regDetails)
-  }
-
-  /**
     * Creates Mock to store RegistrationDetails in Cache using CachingConnector
     */
   def createMockToStoreRegDetailsInCacheWithFailure(cachingConnector: CachingConnector,
-                                         regDetails: Option[RegistrationDetails] = Some(buildRegistrationDetails)) = {
+                                                    regDetails: Option[RegistrationDetails] = Some(buildRegistrationDetails)) = {
     when(cachingConnector.storeRegistrationDetails(any())(any(), any()))
       .thenReturn(Future.successful(None))
-  }
-
-  /**
-    * Creates Mock To get ApplicationDetails using IhtConnector
-    */
-  def createMockToGetApplicationDetails(ihtConnector: IhtConnector,
-                                         appDetails: Option[ApplicationDetails] = Some(buildApplicationDetails)) = {
-    when(ihtConnector.getApplication(any(), any(), any())(any()))
-      .thenReturn(Future.successful(appDetails))
-  }
-
-  /**
-    * Creates Mock To get ApplicationDetails using CachingConnector
-    */
-  def createMockToGetApplicationDetailsFromCache(cachingConnector: CachingConnector,
-                                                 appDetails: Option[ApplicationDetails] = Some(buildApplicationDetails)) = {
-    when(cachingConnector.getApplicationDetails(any(), any()))
-      .thenReturn(Future.successful(appDetails))
   }
 
   /**
     * Creates Mock To store ApplicationDetails using CachingConnector
     */
   def createMockToStoreApplicationDetailsInCache(cachingConnector: CachingConnector,
-                                          appDetails: Option[ApplicationDetails] = Some(buildApplicationDetails)) = {
+                                                 appDetails: Option[ApplicationDetails] = Some(buildApplicationDetails)) = {
     when(cachingConnector.storeApplicationDetails(any())(any(), any()))
-      .thenReturn(Future.successful(appDetails))
-    }
-
-  /**
-    * Creates Mock To save ApplicationDetails using IhtConnector
-    */
-  def createMockToSaveApplicationDetails(ihtConnector: IhtConnector,
-                                        appDetails: Option[ApplicationDetails] = Some(buildApplicationDetails)) = {
-    when(ihtConnector.saveApplication(any(), any(), any())(any(), any()))
       .thenReturn(Future.successful(appDetails))
   }
 
@@ -149,12 +98,6 @@ object MockObjectBuilder {
   /**
     * Creates mock to getCaseDetails using IhtConnector
     */
-
-  def createMockToGetCaseDetails(ihtConnector: IhtConnector,
-                                 regDetails: Future[RegistrationDetails] = Future.successful(buildRegistrationDetailsWithDeceasedAndIhtRefDetails))  = {
-    when(ihtConnector.getCaseDetails(any(), any())(any()))
-      .thenReturn(regDetails)
-  }
 
   /**
     * Creates mock to getCaseList using IhtConnector
@@ -176,8 +119,8 @@ object MockObjectBuilder {
   /**
     * Creates mock to getProbateDetails from cache using CacheConnector
     */
- def createMockToGetProbateDetailsFromCache(cachingConnector: CachingConnector,
-                                           probateDetails: Option[ProbateDetails] = Some(buildProbateDetails)) = {
+  def createMockToGetProbateDetailsFromCache(cachingConnector: CachingConnector,
+                                             probateDetails: Option[ProbateDetails] = Some(buildProbateDetails)) = {
     when(cachingConnector.getProbateDetails(any(), any()))
       .thenReturn(Future.successful(probateDetails))
   }
@@ -230,34 +173,6 @@ object MockObjectBuilder {
   }
 
   /**
-    * Create mock to getSingleValueSync from cache using CachingConnector
-    */
-
-  def createMockToGetSingleValueFromCache(cachingConnector: CachingConnector,
-                                          singleValueFormKey: String = any(),
-                                          singleValueReturn: Option[String]) = {
-    when(cachingConnector.getSingleValue(singleValueFormKey)(any(), any()))
-      .thenReturn(Future.successful(singleValueReturn))
-  }
-
-  /**
-    * Creates mock to store single value in cache using CachingConnector
-    */
-  def createMockToStoreSingleValueInCache(cachingConnector: CachingConnector,
-                                          singleValueFormKey: String = any(),
-                                          singleValueReturn: Option[String]) = {
-    when(cachingConnector.storeSingleValue(singleValueFormKey, any())(any(), any()))
-      .thenReturn(Future.successful(singleValueReturn))
-  }
-
-  /**
-    * Creates mock to delete key from Cache
-    */
-  def createMockToDeleteKeyFromCache[A](cachingConnector: CachingConnector, key: A): OngoingStubbing[Future[Any]] = {
-    when(cachingConnector.cacheDelete(any())(any(), any())).thenReturn(Future.successful(key))
-  }
-
-  /**
     * Creates mock to doNothing when deleteSingleValue sync from cache using CachingConnector
     */
   def createMockToDoNothingWhenDeleteSingleValueFromCache(cachingConnector: CachingConnector)={
@@ -272,7 +187,7 @@ object MockObjectBuilder {
   }
 
   def createMockToRequestClearance(ihtConnector: IhtConnector,
-                                    clearanceResponse: Boolean = true) = {
+                                   clearanceResponse: Boolean = true) = {
     when(ihtConnector.requestClearance(any(),any())(any()))
       .thenReturn(Future.successful(clearanceResponse))
   }
@@ -281,19 +196,19 @@ object MockObjectBuilder {
     * Creates mock for default registration object and for others as per the supplied arguements.
     */
   def createMocksForApplication(cachingConnector: CachingConnector,
-                   ihtConnector: IhtConnector,
-                   regDetails: RegistrationDetails = buildRegistrationDetailsWithDeceasedAndIhtRefDetails,
-                   appDetails: Option[ApplicationDetails] = Some(buildApplicationDetails),
-                   singleValue: Option[String] = None,
-                   getAppDetailsObject: Option[ApplicationDetails] = Some(defaultAppDetails),
-                   getAppDetailsFromCacheObject: Option[ApplicationDetails]  = Some(defaultAppDetails),
-                   saveAppDetailsObject: Option[ApplicationDetails] = Some(defaultAppDetails),
-                   storeAppDetailsInCacheObject: Option[ApplicationDetails] = Some(defaultAppDetails),
-                   getAppDetails: Boolean = false,
-                   getAppDetailsFromCache: Boolean = false,
-                   saveAppDetails: Boolean = false,
-                   storeAppDetailsInCache: Boolean = false,
-                   getSingleValueFromCache: Boolean = false) = {
+                                ihtConnector: IhtConnector,
+                                regDetails: RegistrationDetails = buildRegistrationDetailsWithDeceasedAndIhtRefDetails,
+                                appDetails: Option[ApplicationDetails] = Some(buildApplicationDetails),
+                                singleValue: Option[String] = None,
+                                getAppDetailsObject: Option[ApplicationDetails] = Some(defaultAppDetails),
+                                getAppDetailsFromCacheObject: Option[ApplicationDetails]  = Some(defaultAppDetails),
+                                saveAppDetailsObject: Option[ApplicationDetails] = Some(defaultAppDetails),
+                                storeAppDetailsInCacheObject: Option[ApplicationDetails] = Some(defaultAppDetails),
+                                getAppDetails: Boolean = false,
+                                getAppDetailsFromCache: Boolean = false,
+                                saveAppDetails: Boolean = false,
+                                storeAppDetailsInCache: Boolean = false,
+                                getSingleValueFromCache: Boolean = false) = {
 
     createMockToGetRegDetailsFromCacheNoOption(cachingConnector, Future.successful(Some(regDetails)))
 
@@ -313,6 +228,42 @@ object MockObjectBuilder {
     if (getSingleValueFromCache) {
       createMockToGetSingleValueFromCache(cachingConnector, singleValueReturn = singleValue)
     }
+  }
+
+  /**
+    * Creates Mock To get Existing RegistrationDetails using CachingConnector
+    */
+  def createMockToGetRegDetailsFromCacheNoOption(cachingConnector: CachingConnector,
+                                                 regDetails: Future[Option[RegistrationDetails]] = Future.successful(Some(buildRegistrationDetailsWithDeceasedAndIhtRefDetails))) = {
+    when(cachingConnector.getRegistrationDetails(any(), any()))
+      .thenReturn(regDetails)
+  }
+
+  /**
+    * Creates Mock To get ApplicationDetails using IhtConnector
+    */
+  def createMockToGetApplicationDetails(ihtConnector: IhtConnector,
+                                        appDetails: Option[ApplicationDetails] = Some(buildApplicationDetails)) = {
+    when(ihtConnector.getApplication(any(), any(), any())(any()))
+      .thenReturn(Future.successful(appDetails))
+  }
+
+  /**
+    * Creates Mock To get ApplicationDetails using CachingConnector
+    */
+  def createMockToGetApplicationDetailsFromCache(cachingConnector: CachingConnector,
+                                                 appDetails: Option[ApplicationDetails] = Some(buildApplicationDetails)) = {
+    when(cachingConnector.getApplicationDetails(any(), any()))
+      .thenReturn(Future.successful(appDetails))
+  }
+
+  /**
+    * Creates Mock To save ApplicationDetails using IhtConnector
+    */
+  def createMockToSaveApplicationDetails(ihtConnector: IhtConnector,
+                                         appDetails: Option[ApplicationDetails] = Some(buildApplicationDetails)) = {
+    when(ihtConnector.saveApplication(any(), any(), any())(any(), any()))
+      .thenReturn(Future.successful(appDetails))
   }
 
   private def getUpdatedAppDetailsObject(appDetails: Option[ApplicationDetails],
@@ -343,13 +294,31 @@ object MockObjectBuilder {
 
     if(getExistingRegDetailsFromCache){
       createMockToGetRegDetailsFromCacheNoOption(cachingConnector, getUpdatedRegDetailsObject(regDetails,
-                                                Some(getExistingRegDetailsFromCacheObject)))
+        Some(getExistingRegDetailsFromCacheObject)))
     }
 
     if(storeRegDetailsInCache) {
       createMockToStoreRegDetailsInCache(cachingConnector, getUpdatedRegDetailsObject(regDetails, storeRegDetailsInCacheObject))
     }
 
+  }
+
+  /**
+    * Creates mock to get the RegistrationDetails from the cache using CachingConnector
+    */
+  def createMockToGetRegDetailsFromCache(cachingConnector: CachingConnector,
+                                         regDetails: Future[Option[RegistrationDetails]] = Future.successful(Some(buildRegistrationDetails)))
+                                          = {
+    when(cachingConnector.getRegistrationDetails(any(), any())).thenReturn(regDetails)
+  }
+
+  /**
+    * Creates Mock to store RegistrationDetails in Cache using CachingConnector
+    */
+  def createMockToStoreRegDetailsInCache(cachingConnector: CachingConnector,
+                                         regDetails: Future[Option[RegistrationDetails]] = Future.successful(Some(buildRegistrationDetails))) = {
+    when(cachingConnector.storeRegistrationDetails(any())(any(), any()))
+      .thenReturn(regDetails)
   }
 
   private def getUpdatedRegDetailsObject(regDetails: Option[RegistrationDetails],
@@ -365,8 +334,11 @@ object MockObjectBuilder {
     }
   }
 
+  def defaultRegDetails = CommonBuilder.buildRegistrationDetails.copy(acknowledgmentReference =
+    "This has been kept to be used to distinguish from other registration details objects")
+
   def createMocksForExemptionsGuidanceSingleValue(cachingConnector: CachingConnector,
-                                       finalDestinationURL: String) = {
+                                                  finalDestinationURL: String) = {
     createMockToGetSingleValueFromCache(cachingConnector,
       same(Constants.ExemptionsGuidanceContinueUrlKey), None)
 
@@ -374,6 +346,34 @@ object MockObjectBuilder {
       same(Constants.ExemptionsGuidanceContinueUrlKey),
       Some(finalDestinationURL))
     createMockToDeleteKeyFromCache(cachingConnector, Constants.ExemptionsGuidanceContinueUrlKey)
+  }
+
+  /**
+    * Create mock to getSingleValueSync from cache using CachingConnector
+    */
+
+  def createMockToGetSingleValueFromCache(cachingConnector: CachingConnector,
+                                          singleValueFormKey: String = any(),
+                                          singleValueReturn: Option[String]) = {
+    when(cachingConnector.getSingleValue(singleValueFormKey)(any(), any()))
+      .thenReturn(Future.successful(singleValueReturn))
+  }
+
+  /**
+    * Creates mock to store single value in cache using CachingConnector
+    */
+  def createMockToStoreSingleValueInCache(cachingConnector: CachingConnector,
+                                          singleValueFormKey: String = any(),
+                                          singleValueReturn: Option[String]) = {
+    when(cachingConnector.storeSingleValue(singleValueFormKey, any())(any(), any()))
+      .thenReturn(Future.successful(singleValueReturn))
+  }
+
+  /**
+    * Creates mock to delete key from Cache
+    */
+  def createMockToDeleteKeyFromCache[A](cachingConnector: CachingConnector, key: A): OngoingStubbing[Future[Any]] = {
+    when(cachingConnector.cacheDelete(any())(any(), any())).thenReturn(Future.successful(key))
   }
 
 }

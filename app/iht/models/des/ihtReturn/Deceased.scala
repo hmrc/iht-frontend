@@ -16,15 +16,11 @@
 
 package iht.models.des.ihtReturn
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, OFormat}
 
-/**
-  * Created by vineet on 06/07/17.
-  */
-// Deceased here differs from that in Event Registration
 case class Deceased(survivingSpouse: Option[SurvivingSpouse] = None,
                     transferOfNilRateBand: Option[TransferOfNilRateBand] = None)
 
 object Deceased {
-  implicit val formats = Json.format[Deceased]
+  implicit val formats: OFormat[Deceased] = Json.format[Deceased]
 }

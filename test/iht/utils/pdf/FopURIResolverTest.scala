@@ -21,25 +21,28 @@ import java.net.URI
 import iht.FakeIhtApp
 import org.apache.xmlgraphics.io.Resource
 import org.scalatest.mock.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
+import play.api.Environment
 
 /**
   * Created by david-beer on 27/10/16.
   */
 class FopURIResolverTest extends FakeIhtApp with MockitoSugar {
 
-  "Must return a valid Resource" in {
+  class Setup {
+    val fopURIResolver = new FopURIResolver {
+      override val environment: Environment = app.environment
+    }
+  }
 
+  "Must return a valid Resource" in new Setup {
     val inputResource = new URI("/pdf/templates/clearance/main.xsl")
-    val fopURIResolver = new FopURIResolver
     val result = fopURIResolver.getResource(inputResource)
 
     result mustBe a[Resource]
   }
 
-  "Must throw an exception if Resource is not valid" in {
+  "Must throw an exception if Resource is not valid" in new Setup {
     val inputResource = new URI("/invalid-resource")
-    val fopURIResolver = new FopURIResolver
     a[RuntimeException] shouldBe thrownBy {
       fopURIResolver.getResource(inputResource)
     }

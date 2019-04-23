@@ -14,24 +14,24 @@
  * limitations under the License.
  *@
 
-@import iht.constants.IhtProperties._
 @import iht.constants._
 @import iht.models._
 @import iht.models.application.exemptions._
 @import iht.utils.CommonHelper._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import uk.gov.hmrc.play.views.html.helpers.form
 
 @(qualifyingBodyNameForm: Form[QualifyingBody],
 rd: RegistrationDetails,
 submitUrl: Call,
-cancelUrl: Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+cancelUrl: Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_application(
     title = "",
     browserTitle = Some(Messages("page.iht.application.exemptions.qualifyingBody.name.browserTitle")),
-    cancelUrl = Some(addFragmentIdentifier(cancelUrl, Some(ExemptionsOtherNameID))),
+    cancelUrl = Some(addFragmentIdentifier(cancelUrl, Some(appConfig.ExemptionsOtherNameID))),
     cancelLabel = Some(Messages("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody")),
     isFullWidth=false
 ){
@@ -40,7 +40,7 @@ cancelUrl: Call)(implicit request:Request[_], messages: Messages, ihtFormPartial
 
 
     @ihtHelpers.standard.input_with_help(qualifyingBodyNameForm("name"),
-    '_maxlength -> IhtProperties.validationMaxLengthQualifyingBodyName,
+    '_maxlength -> appConfig.validationMaxLengthQualifyingBodyName,
     '_divClass -> "form-group ",
     '_inputClass -> "form-control",
     '_label -> Html(Messages("page.iht.application.exemptions.qualifyingBody.name.sectionTitle")),

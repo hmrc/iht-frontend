@@ -16,8 +16,8 @@
 
 package iht.controllers.application.exemptions.partner
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models._
@@ -28,13 +28,12 @@ import iht.utils.{ApplicationKickOutNonSummaryHelper, CommonHelper, IhtFormValid
 import iht.views.html.application.exemption.partner.assets_left_to_partner_question
 import javax.inject.Inject
 import play.api.Logger
-import play.api.Play.current
 import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Call, Request, Result}
+import play.api.mvc.{Call, MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -42,33 +41,30 @@ import scala.concurrent.Future
 class AssetsLeftToPartnerQuestionControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                           val cachingConnector: CachingConnector,
                                                           val authConnector: AuthConnector,
-                                                          val formPartialRetriever: FormPartialRetriever) extends AssetsLeftToPartnerQuestionController {
+                                                          val formPartialRetriever: FormPartialRetriever,
+                                                          implicit val appConfig: AppConfig,
+                                                          val cc: MessagesControllerComponents)
+  extends FrontendController(cc) with AssetsLeftToPartnerQuestionController
 
-}
-
-trait AssetsLeftToPartnerQuestionController extends EstateController {
-
+trait AssetsLeftToPartnerQuestionController extends EstateController with ApplicationKickOutNonSummaryHelper with StringHelper {
 
   lazy val partnerPermanentHomePage = routes.PartnerPermanentHomeQuestionController.onPageLoad()
 
   lazy val exemptionsOverviewPage = addFragmentIdentifier(
-    iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsPartnerID))
+    iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(appConfig.ExemptionsPartnerID))
 
-  lazy val partnerOverviewPage = addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(ExemptionsPartnerAssetsID))
+  lazy val partnerOverviewPage = addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(appConfig.ExemptionsPartnerAssetsID))
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
-
       implicit request =>
-
         withRegistrationDetails { registrationDetails =>
           for {
-            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
+            applicationDetails <- ihtConnector.getApplication(getNino(userNino),
               CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
               registrationDetails.acknowledgmentReference)
           } yield {
             applicationDetails match {
-              case Some(appDetails) => {
-
+              case Some(appDetails) =>
                 val filledForm = appDetails.allExemptions.flatMap(_.partner)
                   .fold(assetsLeftToSpouseQuestionForm)(assetsLeftToSpouseQuestionForm.fill)
 
@@ -77,11 +73,9 @@ trait AssetsLeftToPartnerQuestionController extends EstateController {
                   returnLabel(registrationDetails, appDetails),
                   returnUrl(registrationDetails, appDetails)
                 ))
-              }
-              case _ => {
+              case _ =>
                 Logger.warn("Application Details not found")
                 InternalServerError("Application details not found")
-              }
             }
           }
         }
@@ -89,12 +83,11 @@ trait AssetsLeftToPartnerQuestionController extends EstateController {
 
 
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
-
-      implicit request => {
+      implicit request =>
         withRegistrationDetails { regDetails =>
           val boundForm = assetsLeftToSpouseQuestionForm.bindFromRequest
 
-          val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(userNino),
+          val applicationDetailsFuture = ihtConnector.getApplication(getNino(userNino),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
@@ -109,7 +102,7 @@ trait AssetsLeftToPartnerQuestionController extends EstateController {
                     returnUrl(regDetails, appDetails))))
                 },
                 partnerExemption => {
-                  saveApplication(StringHelper.getNino(userNino), partnerExemption, regDetails, appDetails)
+                  saveApplication(getNino(userNino), partnerExemption, regDetails, appDetails)
                 }
               )
             }
@@ -119,7 +112,6 @@ trait AssetsLeftToPartnerQuestionController extends EstateController {
             }
           }
         }
-      }
   }
 
   def saveApplication(nino: String,
@@ -130,7 +122,7 @@ trait AssetsLeftToPartnerQuestionController extends EstateController {
 
     val updatedPartnerExemption = getUpdatedPartnerExemption(appDetails, pe)
 
-    val applicationDetails = ApplicationKickOutNonSummaryHelper.updateKickout(checks = ApplicationKickOutNonSummaryHelper.checksEstate,
+    val applicationDetails = appKickoutUpdateKickout(checks = checksEstate,
       prioritySection = applicationSection,
       registrationDetails = regDetails,
       applicationDetails = appDetails.copy(allExemptions = Some(appDetails.allExemptions.fold(new
@@ -190,29 +182,25 @@ trait AssetsLeftToPartnerQuestionController extends EstateController {
     val deceasedName = regDetails.deceasedDetails.map(_.name)
     val partner = appDetails.allExemptions.flatMap(_.partner)
     partner match {
-      case Some(x) => {
+      case Some(x) =>
         if (x.isAssetForDeceasedPartner.isDefined && x.isPartnerHomeInUK.isDefined) {
           messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse")
         } else {
           messages("page.iht.application.return.to.exemptionsOf", deceasedName.getOrElse(""))
         }
-      }
-      case None => {
-        messages("page.iht.application.return.to.exemptionsOf", deceasedName.getOrElse(""))
-      }
+      case None => messages("page.iht.application.return.to.exemptionsOf", deceasedName.getOrElse(""))
     }
   }
 
   private def returnUrl(regDetails: RegistrationDetails, appDetails: ApplicationDetails): Call = {
     val partner = appDetails.allExemptions.flatMap(_.partner)
     partner match {
-      case Some(x) => {
+      case Some(x) =>
         if (x.isAssetForDeceasedPartner.isDefined && x.isPartnerHomeInUK.isDefined) {
           routes.PartnerOverviewController.onPageLoad()
         } else {
           exemptionsOverviewPage
         }
-      }
       case None => exemptionsOverviewPage
     }
   }

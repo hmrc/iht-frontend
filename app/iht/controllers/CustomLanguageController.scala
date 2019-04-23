@@ -16,29 +16,42 @@
 
 package iht.controllers
 
-import iht.config.ApplicationConfig
+import iht.config.AppConfig
+import javax.inject.{Inject, Singleton}
 import play.api.Play
-import play.api.Play.current
-import play.api.i18n.Lang
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent, Call}
-import uk.gov.hmrc.play.language.{LanguageController, LanguageUtils}
+import play.api.i18n.{I18nSupport, Lang, MessagesApi}
+import play.api.mvc.{Action, AnyContent, Call, MessagesControllerComponents, RequestHeader}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.language.LanguageUtils
 
-object CustomLanguageController extends LanguageController {
+import scala.util.Try
+
+object LanguageControlUtils {
+  def getCurrentLang(implicit request: RequestHeader, messagesApi: MessagesApi): Lang = {
+    Play.maybeApplication.map { implicit app =>
+      val maybeLangFromCookie = request.cookies.get(Play.langCookieName).flatMap(c => Lang.get(c.value))
+      maybeLangFromCookie.getOrElse(messagesApi.preferred(request.acceptLanguages).lang)
+    }.getOrElse(request.acceptLanguages.headOption.getOrElse(Lang.defaultLang))
+  }
+}
+
+@Singleton
+class CustomLanguageController @Inject()(val appConfig: AppConfig,
+                                         val cc: MessagesControllerComponents) extends FrontendController(cc) with I18nSupport {
   /** Converts a string to a URL, using the route to this controller. **/
   val englishLang = Lang("en")
 
   def langToCall(lang: String): Call = {
-    if(ApplicationConfig.isWelshEnabled) {
+    if(appConfig.isWelshEnabled) {
       iht.controllers.routes.CustomLanguageController.switchToLanguage(lang)
     } else {
       iht.controllers.routes.CustomLanguageController.switchToLanguage("english")
     }
   }
 
-  override def switchToLanguage(language: String): Action[AnyContent] =  Action { implicit request =>
+  def switchToLanguage(language: String): Action[AnyContent] = Action { implicit request =>
     val lang =
-      if(ApplicationConfig.isWelshEnabled) {
+      if(appConfig.isWelshEnabled) {
         languageMap.getOrElse(language, LanguageUtils.getCurrentLang)
       } else {
         englishLang
@@ -49,9 +62,13 @@ object CustomLanguageController extends LanguageController {
   }
 
   /** Provides a fallback URL if there is no referer in the request header. **/
-  override protected def fallbackURL: String = Play.current.configuration.getString(s"language.fallbackUrl").getOrElse("/")
+  protected def fallbackURL: String =
+    Try(appConfig.servicesConfig.getString(s"language.fallbackUrl")).getOrElse("/")
 
   /** Returns a mapping between strings and the corresponding Lang object. **/
-  override def languageMap: Map[String, Lang] = Map("english" -> Lang("en"),
-    "cymraeg" -> Lang("cy"))
+  def languageMap: Map[String, Lang] =
+    Map(
+      "english" -> Lang("en"),
+      "cymraeg" -> Lang("cy")
+    )
 }

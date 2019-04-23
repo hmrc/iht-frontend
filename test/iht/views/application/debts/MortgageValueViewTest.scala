@@ -21,16 +21,15 @@ import iht.models.application.debts.{Mortgage, BasicEstateElementLiabilities}
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.DeceasedInfoHelper
 import iht.views.application.CancelComponent
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import iht.views.html.application.debts.{funeral_expenses, mortgage_value}
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 import iht.testhelpers.TestHelper._
 
 import iht.controllers.application.debts.routes
-/**
-  * Created by vineet on 15/11/16.
-  */
+
 
 class MortgageValueViewTest extends DebtsElementViewBehaviour[Mortgage]{
 

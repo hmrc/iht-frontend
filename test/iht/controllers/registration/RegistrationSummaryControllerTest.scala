@@ -16,18 +16,21 @@
 
 package iht.controllers.registration
 
+import iht.config.AppConfig
 import iht.metrics.IhtMetrics
 import iht.models._
 import iht.models.application.ApplicationDetails
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
 import org.joda.time.LocalDate
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.{GatewayTimeoutException, Upstream5xxResponse}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.duration.Duration
@@ -35,7 +38,12 @@ import scala.concurrent.{Await, Future}
 
 class RegistrationSummaryControllerTest extends RegistrationControllerTest{
 
-  def controller = new RegistrationSummaryController {
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with RegistrationSummaryController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def controller = new TestController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
@@ -44,7 +52,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def controllerNotAuthorised = new RegistrationSummaryController {
+  def controllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector

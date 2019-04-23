@@ -17,28 +17,27 @@
 @import iht.utils.tnrb.TnrbHelper
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.models.application.tnrb.TnrbEligibiltyModel
 @import iht.models.application.tnrb.WidowCheck
 @import uk.gov.hmrc.play.views.html.helpers.form
 
+@import iht.utils.tnrb.TnrbHelperFixture
 @(dateOfMarriageForm: Form[TnrbEligibiltyModel],
         widowCheckModel: WidowCheck,
         deceasedName: String,
         predeceasedName: String,
         cancelUrl: Call
-)(implicit request: Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+)(implicit request: Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @defining(Messages("iht.estateReport.tnrb.dateOfMarriage",
-    TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel))) { pageTitle =>
+    TnrbHelperFixture().marriageOrCivilPartnerShipLabel(widowCheckModel))) { pageTitle =>
     @iht_main_template_application(
         title = "",
         browserTitle = Some(pageTitle),
         cancelLabel = Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
         cancelUrl = Some(cancelUrl)
     ) {
-
-
-
         @form(action = iht.controllers.application.tnrb.routes.DateOfMarriageController.onSubmit, 'autoComplete -> "off") {
 
 
@@ -57,9 +56,9 @@
                 "",
                 None,
                 '_extraText -> Html("<p>" + Messages("iht.estateReport.tnrb.dateOfMarriage.hint",
-                    TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel),
+                    TnrbHelperFixture().marriageOrCivilPartnerShipLabel(widowCheckModel),
                     deceasedName, predeceasedName,
-                    TnrbHelper.vowelConsciousAnd(predeceasedName, messages.lang.code)) + "</p>"),
+                    TnrbHelperFixture().vowelConsciousAnd(predeceasedName, messages.lang.code)) + "</p>"),
                 '_hintText -> Messages("iht.dateExample2"),
                 '_hintId -> "domHint",
                 '_groupId -> "responsibleFromDateFieldSet",

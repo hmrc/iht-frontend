@@ -16,11 +16,15 @@
 
 package iht.controllers.application.assets.properties
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.MockObjectBuilder._
+import iht.controllers.application.exemptions.ExemptionsOverviewController
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.CommonHelper
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
@@ -29,16 +33,19 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 class PropertiesOverviewControllerTest extends ApplicationControllerTest {
 
 
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with PropertiesOverviewController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
-
-  def propertiesOverviewController = new PropertiesOverviewController {
+  def propertiesOverviewController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def propertiesOverviewControllerNotAuthorised = new PropertiesOverviewController {
+  def propertiesOverviewControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

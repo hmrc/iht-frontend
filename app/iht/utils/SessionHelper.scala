@@ -16,14 +16,15 @@
 
 package iht.utils
 
+import iht.config.AppConfig
 import iht.constants.Constants
 import play.api.mvc.{Request, Session}
 
 
 object SessionHelper {
 
-  def ensureSessionHasNino(session: Session, userNino: Option[String]): Session =
-    CommonHelper.withValue(StringHelper.getNino(userNino)) { currentNino =>
+  def ensureSessionHasNino(session: Session, userNino: Option[String])(implicit appConfig: AppConfig): Session =
+    CommonHelper.withValue(StringHelperFixture().getNino(userNino)) { currentNino =>
       val optionSession = session.get(Constants.NINO).fold[Option[Session]](
         None
       ) { foundNino =>

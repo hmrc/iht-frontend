@@ -16,14 +16,15 @@
 
 package iht.utils
 
-import iht.constants.IhtProperties.{AppSectionPropertiesID, AssetsPropertiesOwnedID}
+import iht.config.AppConfig
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.{Properties, Property}
 import iht.models.application.debts.{Mortgage, MortgageEstateElement}
 import play.api.Logger
 import play.api.mvc._
 
-object PropertyAndMortgageHelper {
+trait PropertyAndMortgageHelper {
+  implicit val appConfig: AppConfig
 
   def previousValueOfIsPropertyOwned(appDetails: ApplicationDetails): Option[Boolean] = {
     appDetails.allAssets.flatMap(_.properties.flatMap(_.isOwned))
@@ -59,22 +60,22 @@ object PropertyAndMortgageHelper {
   def determineRedirectLocationForPropertiesOwnedQuestion(properties: Properties,
                                                           appDetails: ApplicationDetails): Result = {
     (properties.isOwned,
-      PropertyAndMortgageHelper.previousValueOfIsPropertyOwned(appDetails),
-      PropertyAndMortgageHelper.doesPropertyListContainProperties(appDetails)) match {
+      previousValueOfIsPropertyOwned(appDetails),
+      doesPropertyListContainProperties(appDetails)) match {
       case (Some(false), _, _) => Results.Redirect(CommonHelper.addFragmentIdentifier(
         iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
-        Some(AppSectionPropertiesID)))
+        Some(appConfig.AppSectionPropertiesID)))
       case (Some(true), Some(true), _) =>
         Results.Redirect(CommonHelper.addFragmentIdentifier(
           iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad(),
-          Some(AssetsPropertiesOwnedID)))
+          Some(appConfig.AssetsPropertiesOwnedID)))
       case (Some(true), _, false) =>
         Results.Redirect(
           iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad())
       case (_, _, true) =>
         Results.Redirect(CommonHelper.addFragmentIdentifier(
           iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad(),
-          Some(AssetsPropertiesOwnedID)))
+          Some(appConfig.AssetsPropertiesOwnedID)))
       case _ =>
         Logger.warn("Problem storing Application details. Redirecting to InternalServerError")
         Results.InternalServerError

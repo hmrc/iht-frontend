@@ -20,7 +20,8 @@ import iht.forms.ApplicationForms._
 import iht.models.RegistrationDetails
 import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import iht.utils.CommonHelper._
 
 class CheckedEverythingViewTest extends ViewTestHelper {

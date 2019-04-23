@@ -19,11 +19,7 @@ package iht.testhelpers
 import iht.models.application.basicElements.ShareableBasicEstateElement
 import org.joda.time.LocalDate
 
-/**
- *
- * Created by Vineet Tyagi on 20/09/15.
- *
- */
+
 
 object TestHelper {
   val PreIHTKickOut = "preIHT"

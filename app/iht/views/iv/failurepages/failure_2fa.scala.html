@@ -16,8 +16,9 @@
 
 @import iht.views.html.iht_main_template_application
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 
-@(tryAgainRoute: String)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+@(tryAgainRoute: String)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 
 @defining(Messages("page.iht.iv.failure.2fa.heading")) { pageTitle =>

@@ -16,32 +16,36 @@
 
 package iht.controllers.application.exemptions.partner
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.exemptions.PartnerExemption
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.TestHelper._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.CommonHelper._
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-/**
- * Created by Vineet Tyagi on 29/07/16.
- */
+
 
 class PartnerPermanentHomeQuestionControllerTest extends ApplicationControllerTest{
 
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with PartnerPermanentHomeQuestionController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
-
-  def partnerPermanentHomeQuestionController = new PartnerPermanentHomeQuestionController {
+  def partnerPermanentHomeQuestionController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def partnerPermanentHomeQuestionControllerNotAuthorised = new PartnerPermanentHomeQuestionController {
+  def partnerPermanentHomeQuestionControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

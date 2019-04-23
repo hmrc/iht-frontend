@@ -16,9 +16,7 @@
 
 package iht.models.application.basicElements
 
-/**
-  * Created by vineet on 03/11/16.
-  */
+
 trait Shareable {
   val shareValue: Option[BigDecimal]
 }

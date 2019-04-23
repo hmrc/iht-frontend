@@ -16,17 +16,7 @@
 
 package iht.controllers
 
-import iht.constants.IhtProperties
-
-
-/**
- *
- * Created by Vineet Tyagi on 18/09/15.
- *
- */
 object ControllerHelper {
-
-  val CacheKeyShouldDisplayRealtimeRiskingMessage = "shouldDisplayRealtimeRiskingMessage"
 
   val SourceMultipleExecutor="multipleExecutors"
   val SourceRegSummary="registrationSummary"
@@ -61,10 +51,6 @@ object ControllerHelper {
   // displayed table the 'Back' link should still not be visible if the page was
   // accessed via this route.
   val noBackLinkAvailableKey = "NoBackLinkAvailable"
-
-  val TaxThreshold = IhtProperties.taxThreshold
-  val GrossEstateLimit = IhtProperties.grossEstateLimit
-  val TransferredNilRateBand = IhtProperties.transferredNilRateBand
 
   // Values to differentiate timeout and system error
   val errorRequestTimeOut = "requestTimeOut"

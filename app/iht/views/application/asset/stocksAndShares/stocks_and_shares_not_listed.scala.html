@@ -15,17 +15,18 @@
  *@
 
 @import iht.constants.Constants
-@import iht.constants.IhtProperties._
+
 @import iht.models.RegistrationDetails
 @import iht.models.application.assets.StockAndShare
 @import iht.utils._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import uk.gov.hmrc.play.views.html.helpers.form
 
 @(stockAndSharesNotListed: Form[StockAndShare],
 registrationDetails: RegistrationDetails
-)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
@@ -65,7 +66,7 @@ registrationDetails: RegistrationDetails
     @ihtHelpers.custom.return_link(
         Messages("site.link.return.stocksAndShares"),
         Some(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad()),
-        AssetsStocksNotListedID
+        appConfig.AssetsStocksNotListedID
     )
 
 }

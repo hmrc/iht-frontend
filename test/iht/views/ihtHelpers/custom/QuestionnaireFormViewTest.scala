@@ -45,7 +45,7 @@ class QuestionnaireFormViewTest extends ViewTestHelper {
       )(QuestionnaireModel.apply)(QuestionnaireModel.unapply))
 
     val view: HtmlFormat.Appendable = questionnaire_form(form, call,
-      includeIntendReturnQuestion=true)(request, messagesApi.preferred(request))
+      includeIntendReturnQuestion=true)(request, messagesApi.preferred(request), appConfig)
     asDocument(view.toString)
   }
 

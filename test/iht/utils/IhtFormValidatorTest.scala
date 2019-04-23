@@ -17,26 +17,25 @@
 package iht.utils
 
 import iht.FakeIhtApp
+import iht.config.AppConfig
 import iht.connector.CachingConnector
 import iht.models.RegistrationDetails
 import iht.testhelpers.{CommonBuilder, NinoBuilder}
 import iht.utils.IhtFormValidator._
-import org.mockito.ArgumentMatchers._
-import org.mockito.Mockito._
 import org.scalatest.mockito.MockitoSugar
 import play.api.data.format.Formatter
-import play.api.data.{FieldMapping, Form, FormError}
-import uk.gov.hmrc.play.test.UnitSpec
-
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import play.api.data.{FieldMapping, FormError}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.logging.SessionId
+
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class IhtFormValidatorTest extends FakeIhtApp with MockitoSugar {
   val coExecutorIDKey = "id"
   val validName = "Axxlsk"
   val mapping: FieldMapping[String] = name(10, "blank", "length", "chars")
+
+  implicit val mockAppConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
   def ninoForCoExecutorMapping(rd: RegistrationDetails): FieldMapping[String] = {
     val mockCachingConnector = mock[CachingConnector]

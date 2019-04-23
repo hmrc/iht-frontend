@@ -22,7 +22,8 @@ import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.applicant.executor_of_estate
 import iht.views.registration.YesNoQuestionViewBehaviour
 import play.api.data.Form
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
 
 class ExecutorOfEstateViewTest extends YesNoQuestionViewBehaviour[ApplicantDetails] {

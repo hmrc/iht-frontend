@@ -16,14 +16,15 @@
 
 package iht.views.application.assets.stocksAndShares
 
-import iht.constants.IhtProperties._
+
 import iht.controllers.application.assets.stocksAndShares.routes._
 import iht.models.application.assets.StockAndShare
 import iht.testhelpers.CommonBuilder
 import iht.views.application.StocksAndSharesOverviewViewBehaviour
 import iht.views.html.application.asset.stocksAndShares.stocks_and_shares_overview
 import org.jsoup.nodes.Document
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 
 class StocksAndSharesOverviewViewTest extends StocksAndSharesOverviewViewBehaviour {
 
@@ -57,7 +58,7 @@ class StocksAndSharesOverviewViewTest extends StocksAndSharesOverviewViewBehavio
   override def stocksAndSharesNotListedValueRowId = "stocks-and-shares-not-listed-value-block"
   override def stocksAndSharesNotListedValueText = messagesApi("iht.estateReport.assets.stocksAndShares.valueOfNotListed")
 
-  override def linkHash = AppSectionStockAndShareID
+  override def linkHash = appConfig.AppSectionStockAndShareID
 
   "StocksAnsShares overview view" must {
 

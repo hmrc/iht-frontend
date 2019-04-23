@@ -20,7 +20,8 @@ import iht.testhelpers.CommonBuilder
 import iht.utils.DeceasedInfoHelper
 import iht.views.html.application.exemption.charity.charities_overview
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import iht.testhelpers.TestHelper._

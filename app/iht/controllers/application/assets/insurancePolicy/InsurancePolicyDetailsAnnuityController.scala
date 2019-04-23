@@ -16,6 +16,7 @@
 
 package iht.controllers.application.assets.insurancePolicy
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
@@ -25,17 +26,19 @@ import iht.models.application.assets._
 import iht.utils.ApplicationKickOutHelper
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_annuity
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class InsurancePolicyDetailsAnnuityControllerImpl @Inject()(val metrics: IhtMetrics,
                                                             val ihtConnector: IhtConnector,
                                                             val cachingConnector: CachingConnector,
                                                             val authConnector: AuthConnector,
-                                                            val formPartialRetriever: FormPartialRetriever) extends InsurancePolicyDetailsAnnuityController {
+                                                            val formPartialRetriever: FormPartialRetriever,
+                                                            implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with InsurancePolicyDetailsAnnuityController {
 
 }
 
@@ -55,8 +58,8 @@ trait InsurancePolicyDetailsAnnuityController extends EstateController {
       val updateApplicationDetails: (ApplicationDetails, Option[String], InsurancePolicy) =>
         (ApplicationDetails, Option[String]) =
         (appDetails, _, insurancePolicy) => {
-         val updatedAD = appDetails.copy(allAssets = Some(appDetails.allAssets.fold
-            (new AllAssets(action = None, insurancePolicy = Some(insurancePolicy))) (allAssets=>
+          val updatedAD = appDetails.copy(allAssets = Some(appDetails.allAssets.fold
+          (new AllAssets(action = None, insurancePolicy = Some(insurancePolicy)))(allAssets =>
             updateAllAssetsWithInsurancePolicy(allAssets, insurancePolicy, identity))
           ))
           (updatedAD, None)
@@ -64,9 +67,9 @@ trait InsurancePolicyDetailsAnnuityController extends EstateController {
 
       estateElementOnSubmitConditionalRedirect[InsurancePolicy](insurancePolicyAnnuityForm,
         insurance_policy_details_annuity.apply, updateApplicationDetails,
-        (ad, _) =>  ad.allAssets.flatMap(allAssets=>allAssets.insurancePolicy).flatMap(_.isAnnuitiesBought)
-          .fold(insurancePoliciesRedirectLocation)(_=>
-          iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsInTrustController.onPageLoad()),
+        (ad, _) => ad.allAssets.flatMap(allAssets => allAssets.insurancePolicy).flatMap(_.isAnnuitiesBought)
+          .fold(insurancePoliciesRedirectLocation)(_ =>
+            iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsInTrustController.onPageLoad()),
         userNino
       )
     }

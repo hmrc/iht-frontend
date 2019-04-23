@@ -21,16 +21,15 @@ import iht.models.application.debts.BasicEstateElementLiabilities
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.DeceasedInfoHelper
 import iht.views.html.application.debts.funeral_expenses
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 import iht.constants.Constants._
-import iht.constants.IhtProperties._
+
 import iht.controllers.application.debts.routes
 
-/**
-  * Created by vineet on 15/11/16.
-  */
+
 
 class FuneralExpensesViewTest extends DebtsElementViewBehaviour[BasicEstateElementLiabilities]{
 

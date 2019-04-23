@@ -16,38 +16,51 @@
 
 package iht.controllers.registration.applicant
 
-import iht.constants.IhtProperties
+import iht.config.AppConfig
 import iht.controllers.registration.{routes => registrationRoutes}
 import iht.forms.registration.ApplicantForms._
 import iht.metrics.IhtMetrics
 import iht.models.{ApplicantDetails, DeceasedDateOfDeath, RegistrationDetails}
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
-import iht.utils.RegistrationKickOutHelper._
+import iht.utils.RegistrationKickOutHelper
 import org.joda.time.LocalDate
+import play.api.i18n.{Lang, Messages}
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class ProbateLocationControllerTest
-  extends RegistrationApplicantControllerWithEditModeBehaviour[ProbateLocationController] {
+  extends RegistrationApplicantControllerWithEditModeBehaviour[ProbateLocationController] with RegistrationKickOutHelper {
 
- //Create controller object and pass in mock.
- def controller = new ProbateLocationController {
+  implicit val messages: Messages = mockControllerComponents.messagesApi.preferred(Seq(Lang.defaultLang)).messages
+  val appConfig: AppConfig = mockAppConfig
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with ProbateLocationController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+ def controller = new TestController {
    override val cachingConnector = mockCachingConnector
    override val authConnector = mockAuthConnector
    override val metrics: IhtMetrics = mock[IhtMetrics]
 
    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+   override val cc: MessagesControllerComponents = mockControllerComponents
+   override implicit val appConfig: AppConfig = mockAppConfig
  }
 
-  def controllerNotAuthorised = new ProbateLocationController {
+  def controllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val metrics: IhtMetrics = mock[IhtMetrics]
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
   }
 
   "ProbateLocationController" must {
@@ -114,7 +127,7 @@ class ProbateLocationControllerTest
     }
 
     "respond appropriately to an invalid submit: Missing mandatory fields" in {
-      val applicantDetails = ApplicantDetails(executorOfEstate = Some(true), country = None)
+      val applicantDetails = ApplicantDetails(executorOfEstate = Some(true), country = None, role = Some(mockAppConfig.roleLeadExecutor))
       val registrationDetails = CommonBuilder.buildRegistrationDetailsWithDeceasedDetails copy (
         applicantDetails = Some(applicantDetails))
       val filledForm = probateLocationForm.fill(applicantDetails)
@@ -149,13 +162,13 @@ class ProbateLocationControllerTest
 
     "save valid data correctly when returning to this screen" in {
       val existingApplicantDetails = CommonBuilder.buildApplicantDetails copy (country =
-        Some(IhtProperties.applicantCountryNorthernIreland))
+        Some(mockAppConfig.applicantCountryNorthernIreland))
       val existingDeceasedDetails = CommonBuilder.buildDeceasedDetails
       val existingDod = DeceasedDateOfDeath(new LocalDate(1980, 1, 1))
 
       val existingRegistrationDetails = RegistrationDetails(Some(existingDod),
         Some(existingApplicantDetails), Some(existingDeceasedDetails))
-      val applicantDetails = ApplicantDetails(country = Some(IhtProperties.applicantCountryEnglandOrWales))
+      val applicantDetails = ApplicantDetails(country = Some(mockAppConfig.applicantCountryEnglandOrWales), role = Some(mockAppConfig.roleLeadExecutor))
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(existingRegistrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(existingRegistrationDetails))
@@ -175,7 +188,7 @@ class ProbateLocationControllerTest
 
     "return true if the guard conditions are true" in {
       val rd = CommonBuilder.buildRegistrationDetails copy (applicantDetails =
-        Some(ApplicantDetails(executorOfEstate = Some(true))),
+        Some(ApplicantDetails(executorOfEstate = Some(true), role = Some(mockAppConfig.roleLeadExecutor))),
         deceasedDetails = Some(CommonBuilder.buildDeceasedDetails))
       controller.checkGuardCondition(rd, "") mustBe true
     }

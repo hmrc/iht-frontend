@@ -18,24 +18,25 @@ package iht.utils
 
 import iht.FakeIhtApp
 import iht.constants.Constants
-import iht.models.application.assets.InsurancePolicy
-import iht.models.application.debts.BasicEstateElementLiabilities
+import iht.models.application.assets.{AllAssets, InsurancePolicy}
+import iht.models.application.debts.{AllLiabilities, BasicEstateElementLiabilities}
 import iht.testhelpers._
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.{Lang, Messages, MessagesApi}
-import uk.gov.hmrc.play.test.UnitSpec
+import play.api.i18n.{Lang, Messages}
+import play.api.mvc.MessagesControllerComponents
 
 class OverviewHelperTest extends FakeIhtApp with MockitoSugar {
-  implicit val messages = new Messages(Lang("en"), app.injector.instanceOf[MessagesApi])
+  val mockControllerComponents: MessagesControllerComponents = app.injector.instanceOf[MessagesControllerComponents]
+  implicit val messages: Messages = mockControllerComponents.messagesApi.preferred(Seq(Lang.defaultLang)).messages
 
-  val allAssetsAllFilled = CommonBuilder.buildAllAssetsWithAllSectionsFilled copy(
+  val allAssetsAllFilled: AllAssets = CommonBuilder.buildAllAssetsWithAllSectionsFilled copy(
     insurancePolicy = Some(InsurancePolicy(policyInDeceasedName = Some(false), isJointlyOwned = Some(false),
     isInsurancePremiumsPayedForSomeoneElse = Some(false), isAnnuitiesBought = None,
       value = Some(BigDecimal(55.44)), shareValue = Some(BigDecimal(66.7)), isInTrust = None,
     coveredByExemption = None, sevenYearsBefore = None, moreThanMaxValue = None))
   )
 
-  val allLiabilitiesAllFilled = CommonBuilder.buildAllLiabilitiesWithAllSectionsFilled
+  val allLiabilitiesAllFilled: AllLiabilities = CommonBuilder.buildAllLiabilitiesWithAllSectionsFilled
 
   "displayValue" must {
 

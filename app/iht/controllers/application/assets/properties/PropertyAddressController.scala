@@ -16,8 +16,8 @@
 
 package iht.controllers.application.assets.properties
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms.propertyAddressForm
 import iht.metrics.IhtMetrics
@@ -27,13 +27,12 @@ import iht.models.application.assets.Property
 import iht.utils.{ApplicationKickOutHelper, CommonHelper, LogHelper, StringHelper}
 import javax.inject.Inject
 import play.api.Logger
-import play.api.Play.current
 import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Call, Request, Result}
+import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.{FrontendController, FrontendHeaderCarrierProvider}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -42,9 +41,11 @@ class PropertyAddressControllerImpl @Inject()(val metrics: IhtMetrics,
                                               val ihtConnector: IhtConnector,
                                               val cachingConnector: CachingConnector,
                                               val authConnector: AuthConnector,
-                                              val formPartialRetriever: FormPartialRetriever) extends PropertyAddressController
+                                              val formPartialRetriever: FormPartialRetriever,
+                                              implicit val appConfig: AppConfig,
+                                              val cc: MessagesControllerComponents) extends FrontendController(cc) with PropertyAddressController
 
-trait PropertyAddressController extends EstateController {
+trait PropertyAddressController extends EstateController with FrontendHeaderCarrierProvider with StringHelper {
 
 
   def ihtConnector: IhtConnector
@@ -56,11 +57,12 @@ trait PropertyAddressController extends EstateController {
   def editSubmitUrl(id: String) = routes.PropertyAddressController.onEditSubmit(id)
 
   def locationAfterSuccessfulSave(id: String) = CommonHelper.addFragmentIdentifier(
-    routes.PropertyDetailsOverviewController.onEditPageLoad(id), Some(AssetsPropertiesPropertyAddressID))
+    routes.PropertyDetailsOverviewController.onEditPageLoad(id), Some(appConfig.AssetsPropertiesPropertyAddressID))
 
   def cancelUrl = routes.PropertyDetailsOverviewController.onPageLoad()
+
   lazy val submitUrl = routes.PropertyAddressController.onSubmit()
-  lazy val cancelLabel = Messages("iht.estateReport.assets.properties.returnToAddAProperty")
+  def cancelLabel(implicit request: Request[_]) = Messages("iht.estateReport.assets.properties.returnToAddAProperty")
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionProperties)
 
   def onPageLoad = authorisedForIht {
@@ -72,36 +74,31 @@ trait PropertyAddressController extends EstateController {
     }
   }
 
-  def onEditPageLoad(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
-    implicit request => {
-
+  def onEditPageLoad(id: String): Action[AnyContent] = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request =>
       withRegistrationDetails { registrationData =>
         for {
-          applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
+          applicationDetails <- ihtConnector.getApplication(getNino(userNino),
             CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference),
-            registrationData.acknowledgmentReference)
+            registrationData.acknowledgmentReference)(hc)
         } yield {
           applicationDetails match {
-            case Some(applicationDetails) => {
-              applicationDetails.propertyList.find(property => property.id.getOrElse("") equals id).fold {
+            case Some(appDetails) =>
+              appDetails.propertyList.find(property => property.id.getOrElse("") equals id).fold {
                 throw new RuntimeException("No Property found for the id")
-              } {
-                (matchedProperty) =>
-                  Ok(iht.views.html.application.asset.properties.property_address(
-                    propertyAddressForm.fill(matchedProperty),
-                    editCancelUrl(id),
-                    editSubmitUrl(id)
-                  ))
+              } { matchedProperty =>
+                Ok(iht.views.html.application.asset.properties.property_address(
+                  propertyAddressForm.fill(matchedProperty),
+                  editCancelUrl(id),
+                  editSubmitUrl(id)
+                ))
               }
-            }
-            case _ => {
+            case _ =>
               Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
               InternalServerError("No Application Details found")
-            }
           }
         }
       }
-    }
   }
 
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -141,7 +138,7 @@ trait PropertyAddressController extends EstateController {
           submitUrl)))
       },
       property => {
-        processSubmit(StringHelper.getNino(userNino), property, propertyId)
+        processSubmit(getNino(userNino), property, propertyId)
       }
     )
   }
@@ -169,7 +166,7 @@ trait PropertyAddressController extends EstateController {
           applicationID = Some(propertyID))
 
         ihtConnector.saveApplication(nino, ad, registrationData.acknowledgmentReference) map {
-          case Some(_) => {
+          case Some(_) =>
             Redirect(ad.kickoutReason.fold(locationAfterSuccessfulSave(propertyID)) {
               _ => {
                 cachingConnector.storeSingleValue(ApplicationKickOutHelper.applicationLastSectionKey, applicationSection.fold("")(identity))
@@ -177,11 +174,9 @@ trait PropertyAddressController extends EstateController {
                 kickoutRedirectLocation
               }
             })
-          }
-          case _ => {
+          case _ =>
             Logger.warn("Problem saving Application details. Redirecting to InternalServerError")
             InternalServerError
-          }
         }
       }
     }
@@ -192,18 +187,16 @@ trait PropertyAddressController extends EstateController {
     val seekID = property.id.getOrElse("")
 
     propertyList.find(x => x.id.getOrElse("") equals seekID) match {
-      case None => {
+      case None =>
         val nextID = nextId(propertyList)
         val updatedList = propertyList :+ property.copy(id = Some(nextID))
 
         (updatedList, nextID)
-      }
-      case Some(matchedProperty) => {
+      case Some(matchedProperty) =>
         val updatedProperty = matchedProperty.copy(id = property.id, address = property.address)
         val updatedList: List[Property] = propertyList.updated(propertyList.indexOf(matchedProperty), updatedProperty)
 
         (updatedList, seekID)
-      }
     }
   }
 }

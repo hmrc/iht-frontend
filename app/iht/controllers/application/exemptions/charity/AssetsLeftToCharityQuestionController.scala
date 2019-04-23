@@ -16,8 +16,8 @@
 
 package iht.controllers.application.exemptions.charity
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
@@ -25,30 +25,31 @@ import iht.models.application.exemptions.{AllExemptions, BasicExemptionElement}
 import iht.utils.CommonHelper
 import iht.views.html.application.exemption.charity.assets_left_to_charity_question
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class AssetsLeftToCharityQuestionControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                           val cachingConnector: CachingConnector,
                                                           val authConnector: AuthConnector,
-                                                          val formPartialRetriever: FormPartialRetriever) extends AssetsLeftToCharityQuestionController {
-
-}
+                                                          val formPartialRetriever: FormPartialRetriever,
+                                                          implicit val appConfig: AppConfig,
+                                                          val cc: MessagesControllerComponents)
+  extends FrontendController(cc) with AssetsLeftToCharityQuestionController
 
 trait AssetsLeftToCharityQuestionController extends EstateController {
 
 
   lazy val exemptionsOverviewPage = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsCharityID))
+    iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(appConfig.ExemptionsCharityID))
 
   lazy val charityOverviewPage = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad(), Some(ExemptionsCharitiesAssetsID))
+    iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad(), Some(appConfig.ExemptionsCharitiesAssetsID))
 
   lazy val charityDetailsOverviewPage = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onPageLoad(), Some(ExemptionsCharitiesAssetsID))
+    iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onPageLoad(), Some(appConfig.ExemptionsCharitiesAssetsID))
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {

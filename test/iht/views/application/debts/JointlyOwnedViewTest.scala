@@ -16,22 +16,14 @@
 
 package iht.views.application.debts
 
+import iht.controllers.application.debts.routes
 import iht.forms.ApplicationForms._
 import iht.models.application.debts.BasicEstateElementLiabilities
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.DeceasedInfoHelper
-import play.api.i18n.Messages.Implicits._
 import iht.views.html.application.debts.jointly_owned
-import iht.views.html.application.debts.{funeral_expenses, jointly_owned}
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
-import iht.controllers.application.debts.routes
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
-
-/**
-  * Created by vineet on 15/11/16.
-  */
 
 class JointlyOwnedViewTest extends DebtsElementViewBehaviour[BasicEstateElementLiabilities]{
 

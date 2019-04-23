@@ -20,9 +20,7 @@ import iht.testhelpers.{AssetsWithAllSectionsSetToNoBuilder, CommonBuilder}
 import org.scalatest.mock.MockitoSugar
 import uk.gov.hmrc.play.test.UnitSpec
 
-/**
-  * Created by vineet on 03/11/16.
-  */
+
 class AllAssetsTest extends UnitSpec with MockitoSugar{
 
   "totalValueWithoutProperties" must {

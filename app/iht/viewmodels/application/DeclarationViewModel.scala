@@ -16,13 +16,13 @@
 
 package iht.viewmodels.application
 
+import iht.config.AppConfig
 import iht.connector.IhtConnector
 import iht.models.application.ApplicationDetails
 import iht.models.{CoExecutor, RegistrationDetails}
 import iht.utils.DeclarationHelper
 import play.api.data.Form
 import play.api.mvc.Request
-
 import uk.gov.hmrc.http.HeaderCarrier
 
 case class DeclarationViewModel(declarationForm: Form[Boolean],
@@ -38,7 +38,7 @@ object DeclarationViewModel {
             regDetails: RegistrationDetails,
             nino: String,
             ihtConnector: IhtConnector,
-            riskMsgFromEdh: Option[String])(implicit request: Request[_], hc: HeaderCarrier): DeclarationViewModel = {
+            riskMsgFromEdh: Option[String])(implicit request: Request[_], hc: HeaderCarrier, appConfig: AppConfig): DeclarationViewModel = {
 
     new DeclarationViewModel(
       form,
