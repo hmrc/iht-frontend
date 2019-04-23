@@ -45,7 +45,7 @@ class DeadlinesRegistrationViewTest extends GenericNonSubmittablePageBehaviour {
   )
 
   override def view =
-    deadlines_registration(request, messagesApi.preferred(request), formPartialRetriever).toString
+    deadlines_registration(request, messages, formPartialRetriever, appConfig).toString
 
   "Deadlines view" must {
     behave like nonSubmittablePage()

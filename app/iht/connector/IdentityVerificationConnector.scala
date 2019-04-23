@@ -16,34 +16,30 @@
 
 package iht.connector
 
-import iht.config.ApplicationConfig
+import iht.config.AppConfig
 import iht.models.enums.IdentityVerificationResult.IdentityVerificationResult
 import javax.inject.Inject
-import play.api.data.validation.ValidationError
-import play.api.libs.json.{JsPath, Json}
-import play.api.{Configuration, Environment, Logger}
-import uk.gov.hmrc.http.{HeaderCarrier, HttpGet, HttpResponse}
-import uk.gov.hmrc.play.bootstrap.http.HttpClient
-import uk.gov.hmrc.play.config.ServicesConfig
+import play.api.Logger
+import play.api.libs.json.{JsPath, Json, JsonValidationError, OFormat}
+import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
+import uk.gov.hmrc.play.bootstrap.http.{DefaultHttpClient, HttpClient}
 import uk.gov.hmrc.play.http.logging.MdcLoggingExecutionContext._
 
 import scala.concurrent.Future
 
 
-class IdentityVerificationConnectorImpl @Inject()(override val http: HttpClient,
-                                                  override val runModeConfiguration: Configuration,
-                                                  environment: Environment) extends IdentityVerificationConnector {
-  override val mode = environment.mode
-}
+class IdentityVerificationConnectorImpl @Inject()(val http: DefaultHttpClient,
+                                                  val appConfig: AppConfig) extends IdentityVerificationConnector
 
-trait IdentityVerificationConnector extends ServicesConfig {
-  def http: HttpGet
+trait IdentityVerificationConnector {
+  def http: HttpClient
+  val appConfig: AppConfig
 
   private case class IdentityVerificationResponse(result: IdentityVerificationResult)
-  private implicit val formats = Json.format[IdentityVerificationResponse]
+  private implicit val formats: OFormat[IdentityVerificationResponse] = Json.format[IdentityVerificationResponse]
 
   def identityVerificationResponse(journeyId: String)(implicit hc: HeaderCarrier): Future[IdentityVerificationResult] = {
-    val url = ApplicationConfig.ivUrlJourney + journeyId
+    val url = appConfig.ivUrlJourney + journeyId
     Logger.debug(s"Calling identity verification frontend service with url: $url")
     http.GET[HttpResponse](url).flatMap { httpResponse =>
       Logger.debug(Json.prettyPrint(httpResponse.json))
@@ -57,7 +53,7 @@ trait IdentityVerificationConnector extends ServicesConfig {
     }
   }
 
-  private def formatJsonErrors(errors: Seq[(JsPath, Seq[ValidationError])]): String = {
+  private def formatJsonErrors(errors: Seq[(JsPath, Seq[JsonValidationError])]): String = {
     errors.map(p => p._1 + " - " + p._2.map(_.message).mkString(",")).mkString(" | ")
   }
 

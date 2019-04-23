@@ -17,41 +17,37 @@
 package iht.controllers.application.declaration
 
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.Constants
 import iht.controllers.application.ApplicationController
 import iht.utils.CommonHelper
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-/**
-  * Created by vineet on 01/12/16.
-  */
-
 class DeclarationReceivedControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                                   val ihtConnector: IhtConnector,
                                                   val authConnector: AuthConnector,
-                                                  override implicit val formPartialRetriever: FormPartialRetriever) extends DeclarationReceivedController
+                                                  override implicit val formPartialRetriever: FormPartialRetriever,
+                                                  implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with DeclarationReceivedController
 
 trait DeclarationReceivedController extends ApplicationController {
-
-
   def cachingConnector: CachingConnector
 
-  def onPageLoad = authorisedForIht {
-
-      implicit request => {
-        withRegistrationDetails { rd =>
-          val ihtReference = CommonHelper.getOrException(rd.ihtReference)
-          cachingConnector.storeSingleValue(Constants.PDFIHTReference, ihtReference).flatMap { _ =>
-            Future.successful(Ok(iht.views.html.application.declaration.declaration_received(rd)))
-          }
+  def onPageLoad: Action[AnyContent] = authorisedForIht {
+    implicit request => {
+      withRegistrationDetails { rd =>
+        val ihtReference = CommonHelper.getOrException(rd.ihtReference)
+        cachingConnector.storeSingleValue(Constants.PDFIHTReference, ihtReference).flatMap { _ =>
+          Future.successful(Ok(iht.views.html.application.declaration.declaration_received(rd)))
         }
       }
+    }
   }
 }

@@ -19,9 +19,7 @@ package iht.models.application.assets
 import iht.models.application.basicElements.EstateElement
 import play.api.libs.json.Json
 
-/**
-  * Created by vineet on 02/11/16.
-  */
+
 case class PrivatePension(isChanged: Option[Boolean],
                           value: Option[BigDecimal],
                           isOwned: Option[Boolean] = None) extends EstateElement {

@@ -16,65 +16,62 @@
 
 package iht.views.filter
 
-import iht.constants.IhtProperties
 import iht.views.ViewTestHelper
 import iht.views.html.filter.use_iht400
-import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers.{contentAsString, _}
 
-/**
- * Created by jennygj on 25/10/16.
- */
 class UseIHT400ViewTest extends ViewTestHelper {
 
   val fakeRequest = createFakeRequest(isAuthorised = false)
   val iht400PaperFormLink = "https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400"
 
+  val applicationMessages = messages
+
   "Use Paper Form view, when rendering for an estate exceeding £1 million" must {
 
     "have no message keys in html" in {
-      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever, appConfig)
       val view = asDocument(contentAsString(result)).toString
       noMessageKeysShouldBePresent(view)
     }
 
     "display the correct title" in {
-      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever, appConfig)
       val doc = asDocument(contentAsString(result))
       val title = doc.getElementsByTag("h1").first
       title.text must be(messagesApi("iht.useIHT400PaperForm"))
     }
 
     "display the correct browser title" in {
-      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever, appConfig)
       val doc = asDocument(contentAsString(result))
       val browserTitle = doc.getElementsByTag("title").first
       browserTitle.text must include(messagesApi("iht.useIHT400PaperForm"))
     }
 
     "contain content advising why you must use a paper IHT-400 form" in {
-      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever, appConfig)
       val content = contentAsString(result)
       content must include(messagesApi("page.iht.filter.paperform.million.p1"))
       content must include(messagesApi("page.iht.filter.paperform.million.p2"))
     }
 
     "contain content with link to IHT-400 paper form" in {
-      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever, appConfig)
       val doc = asDocument(contentAsString(result))
       val linkElement = doc.getElementById("form-link")
       linkElement.text must be(messagesApi("page.iht.filter.paperform.iht400.link.text"))
     }
 
     "contain link to IHT-400 paper form" in {
-      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever, appConfig)
       val doc = asDocument(contentAsString(result))
       val linkElement = doc.getElementById("form-link")
       linkElement.attr("href") must be(iht400PaperFormLink)
     }
 
     "contain a link with the button class with the text 'Exit to IHT-400 paper form'" in {
-      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever, appConfig)
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 
@@ -82,7 +79,7 @@ class UseIHT400ViewTest extends ViewTestHelper {
     }
 
     "contain a link with the button class with href attribute pointing to ???" in {
-      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever, appConfig)
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 
@@ -90,13 +87,13 @@ class UseIHT400ViewTest extends ViewTestHelper {
     }
 
     "contain a 'Previous answers' section" in {
-      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever, appConfig)
       val doc = asDocument(contentAsString(result))
       assertRenderedById(doc, "previous-answers")
     }
 
     "contain a 'Start again' link to go back to the domicile page" in {
-      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever, appConfig)
       val doc = asDocument(contentAsString(result))
       val link = doc.getElementById("start-again")
       link.text() must be(messagesApi("iht.startAgain"))
@@ -104,7 +101,7 @@ class UseIHT400ViewTest extends ViewTestHelper {
     }
 
     "contain a row showing the user's answer to the previous domicile question" in {
-      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever, appConfig)
       val doc = asDocument(contentAsString(result))
       val row = doc.getElementById("domicile-row")
       row.text() must include(messagesApi("page.iht.registration.deceasedPermanentHome.title"))
@@ -112,7 +109,7 @@ class UseIHT400ViewTest extends ViewTestHelper {
     }
 
     "contain a 'Change' link to go back to the domicile page" in {
-      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever, appConfig)
       val doc = asDocument(contentAsString(result))
       val link = doc.getElementById("change-domicile")
       link.text() must include(messagesApi("iht.change"))
@@ -120,7 +117,7 @@ class UseIHT400ViewTest extends ViewTestHelper {
     }
 
     "contain a row showing the user's answer to the previous estimate question when given the under 32500 parameter" in {
-      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever, appConfig)
       val doc = asDocument(contentAsString(result))
       val row = doc.getElementById("estimate-row")
       row.text() must include(messagesApi("iht.roughEstimateEstateWorth"))
@@ -128,7 +125,7 @@ class UseIHT400ViewTest extends ViewTestHelper {
     }
 
     "contain a row showing the user's answer to the previous estimate question when given the between parameter" in {
-      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever, appConfig)
       val doc = asDocument(contentAsString(result))
       val row = doc.getElementById("estimate-row")
       row.text() must include(messagesApi("iht.roughEstimateEstateWorth"))
@@ -136,7 +133,7 @@ class UseIHT400ViewTest extends ViewTestHelper {
     }
 
     "contain a 'Change' link to go back to the estimate page" in {
-      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = use_iht400()(fakeRequest, applicationMessages, formPartialRetriever, appConfig)
       val doc = asDocument(contentAsString(result))
       val link = doc.getElementById("change-estimate")
       link.text() must include(messagesApi("iht.change"))

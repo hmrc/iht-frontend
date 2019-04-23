@@ -20,30 +20,25 @@ import java.io
 
 import iht.models._
 import iht.models.application.{ApplicationDetails, ProbateDetails}
-import javax.inject.Inject
-import play.api.Mode.Mode
+import javax.inject.{Inject, Named}
 import play.api.libs.json._
-import play.api.{Configuration, Environment}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.cache.client.SessionCache
-import uk.gov.hmrc.play.bootstrap.http.HttpClient
-import uk.gov.hmrc.play.config.ServicesConfig
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
+import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
-class CachingConnectorImpl @Inject()(val http: HttpClient,
-                                     override val runModeConfiguration: Configuration,
-                                     environment: Environment) extends CachingConnector {
-  override lazy val baseUri: String = baseUrl("cachable.session-cache")
-  override lazy val domain: String = getConfString("cachable.session-cache.domain",
+class CachingConnectorImpl @Inject()(val http: DefaultHttpClient,
+                                     config: ServicesConfig,
+                                     @Named("appName") val defaultSource: String) extends CachingConnector {
+  override lazy val baseUri: String = config.baseUrl("cachable.session-cache")
+  override lazy val domain: String = config.getConfString("cachable.session-cache.domain",
     throw new Exception(s"Could not find config 'cachable.session-cache.domain'"))
-
-  override protected def mode: Mode = environment.mode
-  override def defaultSource: String = runModeConfiguration.getString("appName").getOrElse("APP NAME NOT SET")
 }
 
-trait CachingConnector extends SessionCache with ServicesConfig {
+trait CachingConnector extends SessionCache {
   private val registrationDetailsFormKey = "registrationDetails"
   private val applicationDetailsFormKey = "applicationDetails"
   private val kickoutDetailsKey = "kickoutDetails"
@@ -120,12 +115,10 @@ trait CachingConnector extends SessionCache with ServicesConfig {
   def getSingleValue(formKey: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[String]] =
     getChangeData[String](formKey)
 
-  def storeProbateDetails(data: ProbateDetails)(implicit hc: HeaderCarrier, ec: ExecutionContext):
-  Future[Option[ProbateDetails]] =
+  def storeProbateDetails(data: ProbateDetails)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[ProbateDetails]] =
     storeChangeData[ProbateDetails](probateDetailsKey, data)
 
-  def getProbateDetails(implicit hc: HeaderCarrier, ec: ExecutionContext):
-  Future[Option[ProbateDetails]] =
+  def getProbateDetails(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[ProbateDetails]] =
     getChangeData[ProbateDetails](probateDetailsKey)
 
   def deleteSingleValue(key: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Unit ={

@@ -17,20 +17,19 @@
 package iht.views.registration.executor
 
 import iht.controllers.ControllerHelper.Mode
-import iht.forms.registration.CoExecutorForms._
+import iht.forms.registration.CoExecutorForms
 import iht.models.CoExecutor
 import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.executor.coexecutor_personal_details
 import iht.views.registration.{PersonalDetailsViewBehaviour, YesNoQuestionViewBehaviour}
 import org.jsoup.nodes.Document
 import play.api.data.Form
-import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
-import play.api.mvc.Call
-import scala.concurrent.ExecutionContext.Implicits.global
 import uk.gov.hmrc.http.HeaderCarrier
 
-class CoexecutorPersonalDetailsViewTest extends YesNoQuestionViewBehaviour[CoExecutor] with PersonalDetailsViewBehaviour[CoExecutor] {
+import scala.concurrent.ExecutionContext.Implicits.global
+
+class CoexecutorPersonalDetailsViewTest extends YesNoQuestionViewBehaviour[CoExecutor] with PersonalDetailsViewBehaviour[CoExecutor] with CoExecutorForms {
 
   override def guidanceParagraphs = Set.empty
 
@@ -47,7 +46,7 @@ class CoexecutorPersonalDetailsViewTest extends YesNoQuestionViewBehaviour[CoExe
   override def formToView: Form[CoExecutor] => Appendable =
     form => coexecutor_personal_details(form,
       Mode.Standard,
-      CommonBuilder.DefaultCall1)(createFakeRequest(), applicationMessages, formPartialRetriever)
+      CommonBuilder.DefaultCall1)(createFakeRequest(), messages, formPartialRetriever, appConfig)
 
 
   def editModeViewAsDocument(): Document = {

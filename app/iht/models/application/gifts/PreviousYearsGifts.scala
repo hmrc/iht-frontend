@@ -18,9 +18,7 @@ package iht.models.application.gifts
 
 import play.api.libs.json.Json
 
-/**
-  * Created by vineet on 03/11/16.
-  */
+
 case class PreviousYearsGifts(
                                yearId: Option[String],
                                value: Option[BigDecimal],

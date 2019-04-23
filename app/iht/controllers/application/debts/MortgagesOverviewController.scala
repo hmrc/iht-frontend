@@ -16,17 +16,17 @@
 
 package iht.controllers.application.debts
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.FieldMappings
 import iht.controllers.application.ApplicationController
 import iht.models.application.assets.Properties
-import iht.utils.{CommonHelper, PropertyAndMortgageHelper, StringHelper}
+import iht.utils.{CommonHelper, PropertyAndMortgageHelper}
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Call, Request}
+import play.api.mvc.{Call, MessagesControllerComponents, Request}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -34,9 +34,11 @@ import scala.concurrent.Future
 class MortgagesOverviewControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                                 val ihtConnector: IhtConnector,
                                                 val authConnector: AuthConnector,
-                                                override implicit val formPartialRetriever: FormPartialRetriever) extends MortgagesOverviewController
+                                                override implicit val formPartialRetriever: FormPartialRetriever,
+implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with MortgagesOverviewController
 
-trait MortgagesOverviewController extends ApplicationController {
+trait MortgagesOverviewController extends ApplicationController with PropertyAndMortgageHelper {
 
 
   private val MessageKeyReturnToDebts = "site.link.return.debts"
@@ -60,13 +62,13 @@ trait MortgagesOverviewController extends ApplicationController {
                          isVisiblePropertyWarningAndLink: Boolean,
                          userNino: Option[String])(implicit request: Request[_]) = {
     withRegistrationDetails { regDetails =>
-      ihtConnector.getApplication(StringHelper.getNino(userNino),
+      ihtConnector.getApplication(getNino(userNino),
         CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
         regDetails.acknowledgmentReference) flatMap {
         case Some(applicationDetails) => {
           val propertyList = applicationDetails.propertyList
           val properties = applicationDetails.allAssets.flatMap(_.properties).getOrElse(Properties(None))
-          val updatedMortgages = PropertyAndMortgageHelper.updateMortgages(properties, applicationDetails)
+          val updatedMortgages = updateMortgages(properties, applicationDetails)
           val mortgageList = if(updatedMortgages.getOrElse(None) == None) Nil else { updatedMortgages.get.mortgageList }
 
           Future.successful(Ok(iht.views.html.application.debts.mortgages_overview(propertyList,

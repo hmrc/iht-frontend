@@ -14,9 +14,10 @@
  * limitations under the License.
  *@
 
-@import iht.utils.tnrb.TnrbHelper._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.utils.tnrb.TnrbHelperFixture
+@import iht.config.AppConfig
 @import iht.models.application.tnrb.TnrbEligibiltyModel
 @import iht.models.application.tnrb.WidowCheck
 @import uk.gov.hmrc.play.views.html.helpers.form
@@ -24,7 +25,7 @@
 @(partnerGiftWithResToOtherForm:Form[TnrbEligibiltyModel],
 tnrbModel:TnrbEligibiltyModel,
 deceasedName:String,
-cancelUrl:Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+cancelUrl:Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_application(
     title = "",
@@ -39,9 +40,9 @@ cancelUrl:Call)(implicit request:Request[_], messages: Messages, ihtFormPartialR
         @ihtHelpers.standard.input_yes_no_radio_group(
             partnerGiftWithResToOtherForm("isPartnerGiftWithResToOther"),
             '_hintText -> Html(Messages("page.iht.application.tnrb.giftsWithReservationOfBenefit.question.hint",
-                            spouseOrCivilPartnerName(tnrbModel, Messages("iht.estateReport.tnrb.thSouseAndCivilPartner")),
+                            TnrbHelperFixture().spouseOrCivilPartnerName(tnrbModel, Messages("iht.estateReport.tnrb.thSouseAndCivilPartner")),
                             ihtHelpers.custom.name(deceasedName),
-                                spouseOrCivilPartnerName(tnrbModel, Messages("iht.estateReport.tnrb.thSouseAndCivilPartner")))),
+                            TnrbHelperFixture().spouseOrCivilPartnerName(tnrbModel, Messages("iht.estateReport.tnrb.thSouseAndCivilPartner")))),
             '_divClass -> Some("-change form-group"),
             '_legend -> Messages("iht.estateReport.tnrb.giftsWithReservationOfBenefit.question", ihtHelpers.custom.name(deceasedName)),
             '_legendClass -> Some("legend-with-heading"),

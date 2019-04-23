@@ -16,26 +16,24 @@
 
 package iht.utils.pdf
 
+import javax.inject.Inject
 import javax.xml.transform.stream.StreamSource
 import javax.xml.transform.{Source, URIResolver}
+import play.api.{Environment, Logger}
 
-import play.api.Play.current
-import play.api.{Logger, Play}
+class DefaultResourceStreamResolver @Inject()(val environment: Environment) extends BaseResourceStreamResolver
 
-/**
-  * Created by david-beer on 29/09/16.
-  */
-class StylesheetResolver extends URIResolver {
-  override def resolve(href: String, base: String): Source = {
-    Logger.info("Stylesheet location to convert " + href)
-    val resource: String = href.substring(href.lastIndexOf("/pdf") + 1)
-    Option(Play.classloader.getResourceAsStream(resource)) match {
+trait BaseResourceStreamResolver {
+  val environment: Environment
+
+  def resolvePath(filePath: String): StreamSource = {
+    environment.resourceAsStream(filePath) match {
       case None =>
-        Logger.info ("No input stream")
-        throw new RuntimeException("No stylesheet resolver stream available")
-      case Some(inputStream) =>
-    Logger.info ("Valid input stream")
-    new StreamSource (inputStream)
+        Logger.error("[ResourceStreamResolver] No resolver stream available")
+        throw new RuntimeException("[ResourceStreamResolver] No resolver stream available")
+      case Some(stream) =>
+        Logger.info("[ResourceStreamResolver] Valid input stream found")
+        new StreamSource(stream)
     }
   }
 }

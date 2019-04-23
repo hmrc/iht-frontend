@@ -18,27 +18,28 @@ package iht.config
 
 import java.net.URLEncoder
 
+import iht.constants.IhtProperties
 import javax.inject.Inject
-import play.api.Mode.Mode
-import play.api.{Configuration, Play}
-import uk.gov.hmrc.play.config.ServicesConfig
+import play.api.Environment
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
-trait AppConfig extends ServicesConfig {
-  lazy val mode: Mode = Play.current.mode
-  lazy val runModeConfiguration: Configuration = Play.current.configuration
+import scala.util.Try
 
-  def readFromConfig(key: String): String = runModeConfiguration.getString(key).getOrElse(throw new Exception(s"Missing key: $key")).toString.trim
+class DefaultAppConfig @Inject()(val servicesConfig: ServicesConfig,
+                                 val propertiesReader: IhtPropertyRetriever,
+                                 val environment: Environment) extends AppConfig
 
-  /**
-    *This method is used where the environment is not Local and separate host and port values are not needed
-    */
-  def readOrEmpty(key: String): String = runModeConfiguration.getString(key).getOrElse("")
+trait AppConfig extends IhtProperties {
+  val servicesConfig: ServicesConfig
 
-  lazy val analyticsToken: Option[String] = runModeConfiguration.getString("google-analytics.token")
-  lazy val analyticsHost: String = runModeConfiguration.getString("google-analytics.host").getOrElse("auto")
+  def readFromConfig(key: String): String = servicesConfig.getString(key).trim
+  def readOrEmpty(key: String): String = servicesConfig.getString(key)
 
-  private lazy val contactFrontendService = baseUrl("contact-frontend")
-  private lazy val contactFrontendHost = runModeConfiguration.getString("microservice.services.contact-frontend.host").getOrElse("")
+  lazy val analyticsToken: Option[String] = Some(servicesConfig.getString("google-analytics.token"))
+  lazy val analyticsHost: String = Try(servicesConfig.getString("google-analytics.host")).getOrElse("auto")
+
+  private lazy val contactFrontendService = servicesConfig.baseUrl("contact-frontend")
+  private lazy val contactFrontendHost = Try(servicesConfig.getString("microservice.services.contact-frontend.host")).getOrElse("")
 
   lazy val contactFormServiceIdentifier = "IHT"
   lazy val contactFrontendPartialBaseUrl = s"$contactFrontendService"
@@ -46,12 +47,12 @@ trait AppConfig extends ServicesConfig {
   lazy val reportAProblemNonJSUrl = s"$contactFrontendHost/contact/problem_reports_nonjs?service=$contactFormServiceIdentifier"
   lazy val feedbackSurvey: String = readFromConfig(s"feedback-survey-frontend.url")
 
-  lazy val runningEnvironment: String =  runModeConfiguration.getString("current-environment").getOrElse("local")
+  lazy val runningEnvironment: String = Try(servicesConfig.getString("current-environment")).getOrElse("local")
 
-  lazy val timeOutSeconds: Int = runModeConfiguration.getString("session.timeoutSeconds").getOrElse("900").toInt
-  lazy val timeOutCountdownSeconds: Int = runModeConfiguration.getString("session.time-out-countdown-seconds").getOrElse("300").toInt
+  lazy val timeOutSeconds: Int = Try(servicesConfig.getString("session.timeoutSeconds")).getOrElse("900").toInt
+  lazy val timeOutCountdownSeconds: Int = Try(servicesConfig.getString("session.time-out-countdown-seconds")).getOrElse("300").toInt
   lazy val refreshInterval: Int = timeOutSeconds + 10
-  lazy val enableRefresh: Boolean = runModeConfiguration.getBoolean("enableRefresh").getOrElse(true)
+  lazy val enableRefresh: Boolean = Try(servicesConfig.getBoolean("enableRefresh")).getOrElse(true)
 
   //IV redirect urls.
   lazy val postSignInRedirectUrlRegistration: String = readFromConfig("microservice.iv.login-pass.registration.url")
@@ -62,7 +63,7 @@ trait AppConfig extends ServicesConfig {
   lazy val notAuthorisedRedirectUrlApplication: String = readFromConfig("microservice.iv.not-authorised-callback.application.url")
 
   //IV hosts.
-  lazy val ivUrlJourney:String = baseUrl("identity-verification") + "/mdtp/journey/journeyId/"
+  lazy val ivUrlJourney:String = servicesConfig.baseUrl("identity-verification") + "/mdtp/journey/journeyId/"
   lazy val ivUrl: String =  readOrEmpty("microservice.iv.identity-verification-frontend.host")
   lazy val ivUrlUplift:String = s"$ivUrl/mdtp/uplift?origin=IHT&"
   lazy val ggSignInUrl: String = readFromConfig("microservice.iv.government-gateway-sign-in.host")
@@ -72,12 +73,8 @@ trait AppConfig extends ServicesConfig {
     s"continue=${URLEncoder.encode(postSignInRedirectUrlApplication, "UTF-8")}&origin=iht-frontend"
 
   //IV confidence level.
-  lazy val ivUpliftConfidenceLevel: Int = runModeConfiguration.getString("iv-uplift.confidence-level").getOrElse("50").toInt
+  lazy val ivUpliftConfidenceLevel: Int = Try(servicesConfig.getString("iv-uplift.confidence-level")).getOrElse("50").toInt
   // If you want to the default visibility for Welsh language toggle then you need to add this key in the respective env
   // Default visibility - off in PROD and on in every other env
-  lazy val isWelshEnabled: Boolean  = runModeConfiguration.getBoolean("welsh.enabled").getOrElse(runningEnvironment != "PROD")
+  lazy val isWelshEnabled: Boolean = Try(servicesConfig.getBoolean("welsh.enabled")).getOrElse(runningEnvironment != "PROD")
 }
-
-class ApplicationConfigImpl @Inject()() extends AppConfig
-
-object ApplicationConfig extends AppConfig

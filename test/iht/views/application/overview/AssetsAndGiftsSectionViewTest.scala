@@ -19,7 +19,8 @@ package iht.views.application.overview
 import iht.viewmodels.application.overview.{AssetsAndGiftsSectionViewModel, NotStarted, OverviewRow, OverviewRowWithoutLink}
 import iht.views.ViewTestHelper
 import iht.views.html.application.overview.assets_and_gifts_section
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.api.mvc.Call
 
 class AssetsAndGiftsSectionViewTest extends ViewTestHelper {

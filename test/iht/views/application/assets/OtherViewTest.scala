@@ -23,11 +23,12 @@ import iht.models.application.basicElements.BasicEstateElement
 import iht.testhelpers.CommonBuilder
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.other
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 import iht.constants.Constants._
-import iht.constants.IhtProperties._
+
 
 class OtherViewTest extends ShareableElementInputViewBehaviour[BasicEstateElement] {
 
@@ -46,7 +47,7 @@ class OtherViewTest extends ShareableElementInputViewBehaviour[BasicEstateElemen
   override def returnLinkText = messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
   override def returnLinkUrl = AssetsOverviewController.onPageLoad().url
   override def formTarget =Some(routes.OtherController.onSubmit)
-  override def linkHash = AppSectionOtherID
+  override def linkHash = appConfig.AppSectionOtherID
 
   "Money Owed view" must {
     behave like yesNoValueView

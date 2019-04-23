@@ -16,17 +16,23 @@
 
 package iht.controllers.filter
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.MockFormPartialRetriever
 import iht.views.HtmlSpec
 import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class TransitionControllerTest extends ApplicationControllerTest with HtmlSpec {
 
   implicit val fakedMessagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-  def controller: TransitionController = new TransitionController {
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with TransitionController {
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def controller: TransitionController = new TestController {
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
 
     override def messagesApi: MessagesApi = fakedMessagesApi

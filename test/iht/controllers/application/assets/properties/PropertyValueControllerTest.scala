@@ -16,26 +16,28 @@
 
 package iht.controllers.application.assets.properties
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers._
 import iht.utils.{CommonHelper, DeceasedInfoHelper}
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-/**
- * Created by james on 16/06/16.
- */
 class PropertyValueControllerTest extends ApplicationControllerTest {
 
-//  val mockCachingConnector = mock[CachingConnector]
-//  val mockIhtConnector = mock[IhtConnector]
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with PropertyValueController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails copy (
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails), ihtReference = Some("AbC123"))
@@ -52,7 +54,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
       storeAppDetailsInCache = true)
   }
 
-  def propertyValueController = new PropertyValueController {
+  def propertyValueController = new TestController {
     override val cachingConnector = mockCachingConnector
 //    override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
@@ -61,7 +63,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def propertyValueControllerNotAuthorised = new PropertyValueController {
+  def propertyValueControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector

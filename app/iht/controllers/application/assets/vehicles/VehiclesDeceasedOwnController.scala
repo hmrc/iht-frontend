@@ -16,8 +16,8 @@
 
 package iht.controllers.application.assets.vehicles
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
@@ -26,18 +26,18 @@ import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import iht.views.html.application.asset.vehicles.vehicles_deceased_own
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class VehiclesDeceasedOwnControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                   val cachingConnector: CachingConnector,
                                                   val authConnector: AuthConnector,
-                                                  val formPartialRetriever: FormPartialRetriever) extends VehiclesDeceasedOwnController {
-
-}
+                                                  val formPartialRetriever: FormPartialRetriever,
+                                                  implicit val appConfig: AppConfig,
+                                                  val cc: MessagesControllerComponents) extends FrontendController(cc) with VehiclesDeceasedOwnController
 
 trait VehiclesDeceasedOwnController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsVehiclesDeceasedOwned)
@@ -45,11 +45,11 @@ trait VehiclesDeceasedOwnController extends EstateController {
 
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
     iht.controllers.application.assets.vehicles.routes.VehiclesOverviewController.onPageLoad(),
-    Some(AssetsVehiclesOwnID))
+    Some(appConfig.AssetsVehiclesOwnID))
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
-      estateElementOnPageLoad[ShareableBasicEstateElement](vehiclesFormOwn, vehicles_deceased_own.apply,_.allAssets.flatMap(_.vehicles), userNino)
+      estateElementOnPageLoad[ShareableBasicEstateElement](vehiclesFormOwn, vehicles_deceased_own.apply, _.allAssets.flatMap(_.vehicles), userNino)
     }
   }
 
@@ -62,13 +62,13 @@ trait VehiclesDeceasedOwnController extends EstateController {
           val existingIsOwnedShare = appDetails.allAssets.flatMap(_.vehicles.flatMap(_.isOwnedShare))
 
           val updatedAD = appDetails.copy(allAssets = Some(appDetails.allAssets.fold
-            (new AllAssets(action = None, vehicles = Some(vehicles)))
+          (new AllAssets(action = None, vehicles = Some(vehicles)))
 
           (vehicles.isOwned match {
             case Some(true) => _.copy(vehicles = Some(vehicles.copy(shareValue = existingShareValue,
-                                                                    isOwnedShare = existingIsOwnedShare) ))
+              isOwnedShare = existingIsOwnedShare)))
             case Some(false) => _.copy(vehicles = Some(vehicles.copy(value = None, shareValue = existingShareValue,
-                                                                    isOwnedShare = existingIsOwnedShare) ))
+              isOwnedShare = existingIsOwnedShare)))
             case None => throw new RuntimeException("Not able to retrieve the value of VehiclesDeceasedOwned question")
           })
           ))
@@ -81,7 +81,7 @@ trait VehiclesDeceasedOwnController extends EstateController {
         updateApplicationDetails,
         submitUrl,
         userNino
-        )
+      )
     }
   }
 }

@@ -25,7 +25,8 @@ import iht.views.html.application.asset.properties.{property_ownership, property
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import iht.testhelpers.TestHelper
 
 class PropertyOwnershipViewTest extends SubmittableApplicationPageBehaviour[Property] {
@@ -94,6 +95,6 @@ class PropertyOwnershipViewTest extends SubmittableApplicationPageBehaviour[Prop
   )
 
 
-  behave like link("land-registry-link", IhtProperties.linkLandRegistry,
+  behave like link("land-registry-link", appConfig.linkLandRegistry,
     messagesApi("iht.estateReport.assets.property.findOutFromLandRegistry"))
 }

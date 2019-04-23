@@ -17,12 +17,11 @@
 package iht.views.application
 
 import iht.views.ViewTestHelper
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import iht.views.html.application.iht_kickout_final_application
 
-/**
-  * Created by vineet on 15/11/16.
-  */
+
 
 class IhtKickoutFinalApplicationViewTest extends ViewTestHelper{
 

@@ -16,19 +16,22 @@
 
 package iht.controllers.registration.executor
 
+import iht.config.AppConfig
 import iht.connector.CachingConnector
+import iht.controllers.application.assets.household.HouseholdDeceasedOwnController
 import iht.controllers.registration.RegistrationControllerTest
 import iht.forms.registration.CoExecutorForms
 import iht.models.{CoExecutor, RegistrationDetails}
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.IhtFormValidator
 import org.scalatest.BeforeAndAfter
 import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, Form, FormError, Forms}
-import play.api.mvc.{Request, Result}
+import play.api.mvc.{MessagesControllerComponents, Request, Result}
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -36,74 +39,75 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest with BeforeAndAfter {
 
-  // Create controller object and pass in mock.
-  def controller(coExecutorForms2:CoExecutorForms) = new CoExecutorPersonalDetailsController {
-    override val cachingConnector = mockCachingConnector
-    override val authConnector = mockAuthConnector
-
-    override def coExecutorForms = coExecutorForms2
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with CoExecutorPersonalDetailsController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
   }
 
-  def controllerNotAuthorised = new CoExecutorPersonalDetailsController {
+  // Create controller object and pass in mock.
+  def controller(coExecutorForms2:CoExecutorForms) = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 
-    override def coExecutorForms = CoExecutorForms
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+
+    override def ninoForCoExecutor(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String,
+                                   coExecutorIDKey: String, oRegDetails: Option[RegistrationDetails])
+                                  (implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext, appConfig: AppConfig): FieldMapping[String] = {
+      coExecutorForms2
+        .ninoForCoExecutor(blankMessageKey, lengthMessageKey, formatMessageKey, coExecutorIDKey, oRegDetails)(request, hc, ec, appConfig)
+    }
+  }
+
+  def controllerNotAuthorised = new TestController {
+    override val cachingConnector = mockCachingConnector
+    override val authConnector = mockAuthConnector
+
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def formWithMockedNinoValidation(coExecutor: CoExecutor, mockCachingConnector: CachingConnector): CoExecutorForms = {
     def coExecutorForms: CoExecutorForms = {
-      val mockIhtFormValidator = new IhtFormValidator {
+      new CoExecutorForms {
+        override implicit lazy val appConfig: AppConfig = mockAppConfig
         override def ninoForCoExecutor(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String,
-                                       coExecutorIDKey:String, oRegDetails: Option[RegistrationDetails])(
-                                       implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] = {
+                                       coExecutorIDKey:String, oRegDetails: Option[RegistrationDetails])
+                                      (implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext, appConfig: AppConfig): FieldMapping[String] = {
           val formatter = new Formatter[String] {
             override val format: Option[(String, Seq[Any])] = None
-
             override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], String] = Right(coExecutor.nino)
-
             override def unbind(key: String, value: String): Map[String, String] = Map(key -> value)
           }
           val fieldMapping: FieldMapping[String] = Forms.of(formatter)
           fieldMapping
         }
       }
-      new CoExecutorForms {
-        override def ihtFormValidator: IhtFormValidator = mockIhtFormValidator
-      }
     }
     implicit val request = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host, authRetrieveNino = false)
-    implicit val hc = new HeaderCarrier()
+    implicit val hc = HeaderCarrier()
     coExecutorForms
   }
 
   def formWithMockedNinoValidationNoCoExecutor(mockCachingConnector: CachingConnector): CoExecutorForms = {
     def coExecutorForms: CoExecutorForms = {
-      val mockIhtFormValidator = new IhtFormValidator {
+      new CoExecutorForms {
+        override implicit lazy val appConfig: AppConfig = mockAppConfig
         override def ninoForCoExecutor(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String,
-                                       coExecutorIDKey:String, oRegDetails: Option[RegistrationDetails])(
-                                       implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] = {
+                                       coExecutorIDKey: String, oRegDetails: Option[RegistrationDetails])
+                                      (implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext, appConfig: AppConfig): FieldMapping[String] = {
           val formatter = new Formatter[String] {
             override val format: Option[(String, Seq[Any])] = None
-
             override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], String] = Right("")
-
             override def unbind(key: String, value: String): Map[String, String] = Map(key -> value)
           }
           val fieldMapping: FieldMapping[String] = Forms.of(formatter)
           fieldMapping
         }
       }
-      new CoExecutorForms {
-        override def ihtFormValidator: IhtFormValidator = mockIhtFormValidator
-      }
     }
     implicit val request = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host, authRetrieveNino = false)
-    implicit val hc = new HeaderCarrier()
+    implicit val hc = HeaderCarrier()
     coExecutorForms
-    //coExecutorForms.coExecutorPersonalDetailsForm.fill(coExecutor)
   }
 
   "CoExecutorPersonalDetailsController" must {
@@ -277,8 +281,6 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
         val result = controller(coExecutorForms).onPageLoad(None)(createFakeRequest(authRetrieveNino = false))
         status(result) mustBe SEE_OTHER
     }
-
-
 
     "save a valid new co-executor located in the uk" in {
       val applicantDetails = CommonBuilder.buildApplicantDetails

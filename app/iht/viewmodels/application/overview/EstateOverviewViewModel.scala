@@ -19,17 +19,11 @@ package iht.viewmodels.application.overview
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper
-import org.joda.time.LocalDate
-import org.joda.time.Months
-import org.joda.time.DateTime
-
-import scala.util.{Failure, Try}
-//import play.api.Application
-import play.api.i18n.{Lang, Messages}
+import org.joda.time.{LocalDate, Months}
+import iht.config.AppConfig
+import iht.utils.CustomLanguageUtils.Dates
+import play.api.i18n.Messages
 import play.api.mvc.Call
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import uk.gov.hmrc.play.language.LanguageUtils.Dates
 
 sealed abstract class RowCompletionStatus
 case object NotStarted extends RowCompletionStatus
@@ -37,10 +31,10 @@ case object PartiallyComplete extends RowCompletionStatus
 case object Complete extends RowCompletionStatus
 
 object RowCompletionStatus {
-  def apply(isComplete: Option[Boolean]) = isComplete match {
-    case None => NotStarted
-    case Some(false) => PartiallyComplete
-    case _ => Complete
+  def apply(isComplete: Option[Boolean]): RowCompletionStatus = isComplete match {
+    case None         => NotStarted
+    case Some(false)  => PartiallyComplete
+    case _            => Complete
   }
 }
 
@@ -50,7 +44,7 @@ case class CurrentValue(value: BigDecimal) extends EstateOverviewValue
 case class AllAnsweredNo(messageKey: String) extends EstateOverviewValue
 
 object DisplayValue {
-  def apply(value: EstateOverviewValue)(implicit messages: Messages) = value match {
+  def apply(value: EstateOverviewValue)(implicit messages: Messages): String = value match {
     case NoValueEntered => ""
     case CurrentValue(amount) => "£" + CommonHelper.numberWithCommas(amount)
     case AllAnsweredNo(key) => messages(key)
@@ -58,7 +52,7 @@ object DisplayValue {
 }
 
 object DisplayValueAsNegative {
-  def apply(value: EstateOverviewValue, areThereNoExemptions: Boolean = false)(implicit messages: Messages) =
+  def apply(value: EstateOverviewValue, areThereNoExemptions: Boolean = false)(implicit messages: Messages): String =
     (value, areThereNoExemptions) match {
       case (NoValueEntered, _) => ""
       case (CurrentValue(amount), _) if amount <= BigDecimal(0) => "£" + CommonHelper.numberWithCommas(amount)
@@ -75,7 +69,7 @@ case class OverviewRow(id: String,
                        linkUrl: Call,
                        qualifyingText: String)(implicit messages: Messages) {
 
-  def linkText(implicit messages: Messages) = this.completionStatus match {
+  def linkText(implicit messages: Messages): String = this.completionStatus match {
     case NotStarted => messages("iht.start")
     case PartiallyComplete => messages("iht.giveMoreDetails")
     case _ => messages("iht.viewOrChange")
@@ -106,20 +100,20 @@ object EstateOverviewViewModel {
 
   def apply(registrationDetails: RegistrationDetails,
             applicationDetails: ApplicationDetails,
-            deadlineDate: LocalDate)(implicit messages: Messages, lang : play.api.i18n.Lang): EstateOverviewViewModel = {
+            deadlineDate: LocalDate)(implicit messages: Messages, appConfig: AppConfig): EstateOverviewViewModel = {
 
     val isExemptionsGreaterThanZero = applicationDetails.totalExemptionsValue > BigDecimal(0)
 
     val otherDetailsSection = if(isExemptionsGreaterThanZero) {
         None
       } else {
-        Some(OtherDetailsSectionViewModel(applicationDetails, registrationDetails.ihtReference.getOrElse(""))(messages))
+        Some(OtherDetailsSectionViewModel(applicationDetails, registrationDetails.ihtReference.getOrElse(""))(messages, appConfig))
       }
 
     val reducingEstateValueSection =
       (applicationDetails.hasSeenExemptionGuidance, isExemptionsGreaterThanZero) match {
         case (Some(hasSeen), aboveZero) if hasSeen || aboveZero =>
-          Some(ReducingEstateValueSectionViewModel(applicationDetails, registrationDetails)(messages))
+          Some(ReducingEstateValueSectionViewModel(applicationDetails, registrationDetails)(messages, appConfig))
         case _ => None
       }
 
@@ -128,22 +122,22 @@ object EstateOverviewViewModel {
       deceasedName = registrationDetails.deceasedDetails.fold("")(_.name),
       submissionDeadline = Dates.formatDate(deadlineDate)(messages).toString,
       assetsAndGiftsSection = AssetsAndGiftsSectionViewModel(applicationDetails,
-        behaveAsIncreasingTheEstateSection = applicationDetails.hasSeenExemptionGuidance.getOrElse(false))(messages),
+        behaveAsIncreasingTheEstateSection = applicationDetails.hasSeenExemptionGuidance.getOrElse(false))(messages, appConfig),
       reducingEstateValueSection = reducingEstateValueSection,
       otherDetailsSection = otherDetailsSection,
-      thresholdSection = ThresholdSectionViewModel(registrationDetails, applicationDetails)(messages),
+      thresholdSection = ThresholdSectionViewModel(registrationDetails, applicationDetails)(messages, appConfig),
       grandTotalRow = buildTotalRow(applicationDetails),
       declarationSection = DeclarationSectionViewModel(registrationDetails, applicationDetails),
-      increasingThresholdRow = ThresholdSectionViewModel(registrationDetails, applicationDetails)(messages).increasingThresholdRow,
+      increasingThresholdRow = ThresholdSectionViewModel(registrationDetails, applicationDetails)(messages, appConfig).increasingThresholdRow,
       submissionMonthsLeft = getMonthsLeft(new LocalDate(), new LocalDate(deadlineDate))
       )
   }
 
   private def getMonthsLeft(currentDate: LocalDate, deadlineDate: LocalDate) = {
-    Months.monthsBetween(new LocalDate(), new LocalDate(deadlineDate)).getMonths() + 1
+    Months.monthsBetween(new LocalDate(), new LocalDate(deadlineDate)).getMonths + 1
   }
 
-  private def buildTotalRow(applicationDetails: ApplicationDetails) = {
+  private def buildTotalRow(applicationDetails: ApplicationDetails)(implicit messages: Messages) = {
     (applicationDetails.hasSeenExemptionGuidance, applicationDetails.isValueEnteredForExemptions) match {
       case (Some(hasSeen), isEntered) if hasSeen || isEntered => Some(OverviewRowWithoutLink(
         id = "grand-total-section",
@@ -154,12 +148,12 @@ object EstateOverviewViewModel {
     }
   }
 
-  def createTotalRowLabel(applicationDetails: ApplicationDetails): String = applicationDetails.totalExemptionsValueOption match {
+  def createTotalRowLabel(applicationDetails: ApplicationDetails)(implicit messages: Messages): String = applicationDetails.totalExemptionsValueOption match {
     case Some(x) if x > 0 => Messages("page.iht.application.estateOverview.totalValueOfTheEstate")
     case _ => Messages("page.iht.application.estateOverview.valueOfAssetsAndGifts")
   }
 
-  def createTotalRowValue(applicationDetails: ApplicationDetails): String = applicationDetails.totalExemptionsValueOption match {
+  def createTotalRowValue(applicationDetails: ApplicationDetails)(implicit messages: Messages): String = applicationDetails.totalExemptionsValueOption match {
     case Some(x) if x > 0 => DisplayValue(CurrentValue(applicationDetails.totalNetValue.max(0)))
     case _ => DisplayValue(CurrentValue(applicationDetails.totalValue))
   }

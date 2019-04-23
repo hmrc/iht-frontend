@@ -16,6 +16,7 @@
 
 package iht.controllers.application
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.metrics.IhtMetrics
 import iht.models.RegistrationDetails
@@ -25,12 +26,11 @@ import iht.utils.tnrb._
 import iht.utils.{ApplicationKickOutHelper, CommonHelper, DeceasedInfoHelper, StringHelper, ApplicationStatus => AppStatus}
 import javax.inject.Inject
 import play.api.Logger
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent, Request}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -39,11 +39,11 @@ class KickoutAppControllerImpl @Inject()(val metrics: IhtMetrics,
                                          val ihtConnector: IhtConnector,
                                          val cachingConnector: CachingConnector,
                                          val authConnector: AuthConnector,
-                                         implicit val formPartialRetriever: FormPartialRetriever) extends KickoutAppController
-trait KickoutAppController extends ApplicationController {
-
-
-  val storageFailureMessage = "Failed to successfully store kickout flag"
+                                         implicit val formPartialRetriever: FormPartialRetriever,
+                                         implicit val appConfig: AppConfig,
+                                         val cc: MessagesControllerComponents) extends FrontendController(cc) with KickoutAppController
+trait KickoutAppController extends ApplicationController with StringHelper with TnrbHelper {
+  val storageFailureMessage = "Failed to successfully store kick out flag"
 
   def cachingConnector: CachingConnector
 
@@ -84,15 +84,15 @@ trait KickoutAppController extends ApplicationController {
 
   def fetchAppDetailsFromIHT(userNino: Option[String], regDetails: RegistrationDetails)
                             (implicit headerCarrier: HeaderCarrier): Future[Option[ApplicationDetails]] = {
-    ihtConnector.getApplication(StringHelper.getNino(userNino),
+    ihtConnector.getApplication(getNino(userNino),
       CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
       regDetails.acknowledgmentReference)
   }
 
-  def getKickoutDetails(kickoutReason: String, deceasedName: String, applicationDetails: ApplicationDetails): String ={
+  def getKickoutDetails(kickoutReason: String, deceasedName: String, applicationDetails: ApplicationDetails)(implicit request: Request[_]): String ={
     ApplicationKickOutHelper.sources
       .find(source => source._1 == kickoutReason && source._2 == KickOutSource.TNRB).map(_ =>
-      TnrbHelper.previousSpouseOrCivilPartner(
+      previousSpouseOrCivilPartner(
         applicationDetails.increaseIhtThreshold,
         applicationDetails.widowCheck,
         deceasedName
@@ -119,7 +119,7 @@ trait KickoutAppController extends ApplicationController {
             updateMetrics(regDetails, userNino).flatMap(isUpdated => {
               cachingConnector.deleteSingleValue(ApplicationKickOutHelper.SeenFirstKickoutPageCacheKey)
               withRegistrationDetails { regDetails =>
-                ihtConnector.deleteApplication(StringHelper.getNino(userNino), CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference))
+                ihtConnector.deleteApplication(getNino(userNino), CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference))
                 if (!isUpdated) {
                   Logger.info("Application deleted after a kickout but unable to update metrics")
                 }
@@ -132,7 +132,7 @@ trait KickoutAppController extends ApplicationController {
   }
 
   private def updateMetrics(regDetails:RegistrationDetails, userNino: Option[String])(implicit request: Request[_]): Future[Boolean] = {
-    val futureOptionAD = ihtConnector.getApplication(StringHelper.getNino(userNino),
+    val futureOptionAD = ihtConnector.getApplication(getNino(userNino),
       CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
       regDetails.acknowledgmentReference)
     futureOptionAD map { optionAD =>

@@ -16,11 +16,9 @@
 
 package iht.viewmodels.application.overview
 
+import iht.config.AppConfig
 import iht.models.application.ApplicationDetails
 import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.constants.IhtProperties._
 
 case class OtherDetailsSectionViewModel(debtRow: OverviewRow,
                                         showClaimExemptionLink: Boolean,
@@ -28,7 +26,7 @@ case class OtherDetailsSectionViewModel(debtRow: OverviewRow,
 
 object OtherDetailsSectionViewModel {
 
-  def apply(applicationDetails: ApplicationDetails, ihtReference: String)(implicit messages: Messages): OtherDetailsSectionViewModel = {
+  def apply(applicationDetails: ApplicationDetails, ihtReference: String)(implicit messages: Messages, appConfig: AppConfig): OtherDetailsSectionViewModel = {
 
     val debtsScreenreaderText = getScreenReaderQualifyingText(
       RowCompletionStatus(applicationDetails.areAllAssetsCompleted),
@@ -39,7 +37,7 @@ object OtherDetailsSectionViewModel {
 
     OtherDetailsSectionViewModel(
       debtRow = OverviewRow(
-        id = EstateDebtsID,
+        id = appConfig.EstateDebtsID,
         label = messages("iht.estateReport.debts.owedFromEstate"),
         value = DisplayValueAsNegative(getDebtsDisplayValue(applicationDetails), areThereNoExemptions = true)(messages),
         completionStatus = RowCompletionStatus(applicationDetails.areAllDebtsCompleted),

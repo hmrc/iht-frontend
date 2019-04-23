@@ -16,11 +16,13 @@
 
 package iht.controllers.filter
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.Constants._
 import javax.inject.Inject
-import play.api.i18n.{I18nSupport, MessagesApi}
-import uk.gov.hmrc.play.bootstrap.controller.{FrontendController, UnauthorisedAction}
+import play.api.i18n.I18nSupport
+import play.api.mvc.MessagesControllerComponents
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -28,16 +30,18 @@ import scala.concurrent.Future
 class UseServiceControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                          val ihtConnector: IhtConnector,
                                          val formPartialRetriever: FormPartialRetriever,
-                                         val messagesApi: MessagesApi) extends UseServiceController {
+                                         val cc: MessagesControllerComponents,
+                                         implicit val appConfig: AppConfig) extends FrontendController(cc) with UseServiceController {
 }
 
 trait UseServiceController extends FrontendController with I18nSupport {
+  implicit val appConfig: AppConfig
   def cachingConnector: CachingConnector
   def ihtConnector: IhtConnector
 
   implicit val formPartialRetriever: FormPartialRetriever
 
-  private def onPageLoad(estimatedValue: String, jointAssets: Boolean, titleStr: String) = UnauthorisedAction.async {
+  private def onPageLoad(estimatedValue: String, jointAssets: Boolean, titleStr: String) = Action.async {
     implicit request => {
       Future.successful(Ok(iht.views.html.filter.use_service(estimatedValue, jointAssets, titleStr)))
     }

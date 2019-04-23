@@ -16,14 +16,17 @@
 
 package iht.controllers.application.assets.vehicles
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.TestHelper._
 import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
 import iht.utils._
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.{contentAsString, _}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
@@ -32,7 +35,10 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class VehiclesDeceasedOwnControllerTest extends ApplicationControllerTest {
 
-
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with VehiclesDeceasedOwnController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails copy (
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails), ihtReference = Some("AbC123"))
@@ -48,14 +54,14 @@ class VehiclesDeceasedOwnControllerTest extends ApplicationControllerTest {
       storeAppDetailsInCache = true)
   }
 
-  def vehiclesDeceasedOwnController = new VehiclesDeceasedOwnController {
+  def vehiclesDeceasedOwnController = new TestController {
     val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def vehiclesDeceasedOwnControllerNotAuthorised = new VehiclesDeceasedOwnController {
+  def vehiclesDeceasedOwnControllerNotAuthorised = new TestController {
     val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

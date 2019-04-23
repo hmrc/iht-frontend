@@ -16,43 +16,39 @@
 
 package iht.controllers.application.tnrb
 
-import iht.constants.IhtProperties._
+
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.TnrbForms._
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.WidowCheck
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
 import iht.utils.CommonHelper
 import iht.utils.tnrb.TnrbHelper
 import iht.views.HtmlSpec
 import org.joda.time.LocalDate
 import org.scalatest.BeforeAndAfter
-import play.api.i18n.{Messages, MessagesApi}
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-/**
- *
- * Created by Vineet Tyagi on 14/01/16.
- *l
- */
-class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest with HtmlSpec with BeforeAndAfter {
+class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest with HtmlSpec with BeforeAndAfter with TnrbHelper {
 
-  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-  implicit val messages: Messages = mock[Messages]
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with DeceasedWidowCheckDateController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
-//  val mockCachingConnector = mock[CachingConnector]
-//  var mockIhtConnector = mock[IhtConnector]
-
-  def deceasedWidowCheckDateController = new DeceasedWidowCheckDateController {
+  def deceasedWidowCheckDateController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def deceasedWidowCheckDateControllerNotAuthorised = new DeceasedWidowCheckDateController {
+  def deceasedWidowCheckDateControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
 //    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
@@ -102,7 +98,7 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckDateForm.data.toSeq: _*)
 
       val result = deceasedWidowCheckDateController.onSubmit (request)
-      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + TnrbSpouseDateOfDeathID))
+      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + mockAppConfig.TnrbSpouseDateOfDeathID))
     }
 
     "when saving application must set the widowed field of the widowed check to Some(true)" in {
@@ -309,7 +305,7 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
       headers.size() mustBe 1
 
       val expectedTitle = messagesApi("page.iht.application.tnrbEligibilty.overview.partner.dod.question",
-        TnrbHelper.spouseOrCivilPartnerLabelGenitive(
+        spouseOrCivilPartnerLabelGenitive(
           CommonHelper.getOrException(ad.increaseIhtThreshold),
           CommonHelper.getOrException(ad.widowCheck),
           messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased")
@@ -363,7 +359,7 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
         getAppDetails = true,
         saveAppDetails = true)
 
-      val expectedUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad.url + "#" + TnrbSpouseDateOfDeathID
+      val expectedUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad.url + "#" + mockAppConfig.TnrbSpouseDateOfDeathID
 
       val result = deceasedWidowCheckDateController.onPageLoad (createFakeRequest())
       status(result) mustBe OK

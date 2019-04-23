@@ -17,13 +17,10 @@
 package iht.models.application
 
 import org.joda.time.LocalDate
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, OFormat}
+import play.api.libs.json.JodaWrites._
+import play.api.libs.json.JodaReads._
 
-/**
- *
- * Created by Vineet Tyagi on 19/06/15.
- *
- */
 case class IhtApplication(ihtRefNo: String,
                           firstName:String,
                           lastName:String,
@@ -37,5 +34,5 @@ case class IhtApplication(ihtRefNo: String,
                           acknowledgmentReference:String)
 
 object IhtApplication {
-  implicit val formats = Json.format[IhtApplication]
+  implicit val formats: OFormat[IhtApplication] = Json.format[IhtApplication]
 }

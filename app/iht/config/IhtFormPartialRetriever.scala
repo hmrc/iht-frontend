@@ -19,10 +19,10 @@ package iht.config
 import javax.inject.Inject
 import uk.gov.hmrc.crypto.PlainText
 import uk.gov.hmrc.play.bootstrap.filters.frontend.crypto.SessionCookieCrypto
+import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-class IhtFormPartialRetriever @Inject()(defaultWSHttp: DefaultWSHttp,
+class IhtFormPartialRetriever @Inject()(val httpGet: DefaultHttpClient,
                                         cookieCrypto: SessionCookieCrypto) extends FormPartialRetriever {
   override def crypto: String => String = (cookie: String) => cookieCrypto.crypto.encrypt(PlainText(cookie)).value
-  override val httpGet: DefaultWSHttp = defaultWSHttp
 }

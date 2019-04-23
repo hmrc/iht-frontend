@@ -14,13 +14,13 @@
  * limitations under the License.
  *@
 
-@import iht.constants.IhtProperties.linkIHT205PDF
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 
 @()(implicit request:Request[_],
         messages: Messages,
-        ihtFormPartialRetriever: FormPartialRetriever)
+        ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_application(title = Messages("page.iht.iv.failure.technicalIssue.heading"),
     browserTitle = Some(Messages("page.iht.iv.failure.technicalIssue.heading"))
@@ -29,5 +29,5 @@
     <p class="ga-track-anchor-click"
        data-ga-event-category="click"
        data-ga-event-action='Clicked-on-form-link'
-       data-ga-event-label='IHT205PDF'>@Html(Messages("error.estateOverview.jsonError.p2", linkIHT205PDF))</p>
+       data-ga-event-label='IHT205PDF'>@Html(Messages("error.estateOverview.jsonError.p2", appConfig.linkIHT205PDF))</p>
 }

@@ -16,11 +16,7 @@
 
 package iht.models.enums
 
-/**
- *
- * Created by Vineet Tyagi on 30/09/15.
- *
- */
+
 object StatsSource extends Enumeration{
   type StatsSource =Value
 

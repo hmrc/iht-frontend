@@ -16,16 +16,17 @@
 
 package iht.controllers.application.exemptions.charity
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.EstateController
 import iht.utils.StringHelper
 import iht.views.html.application.exemption.charity.charity_delete_confirm
 import javax.inject.Inject
 import play.api.Logger
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -33,11 +34,11 @@ import scala.concurrent.Future
 class CharityDeleteConfirmControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                    val cachingConnector: CachingConnector,
                                                    val authConnector: AuthConnector,
-                                                   val formPartialRetriever: FormPartialRetriever) extends CharityDeleteConfirmController {
+                                                   val formPartialRetriever: FormPartialRetriever,
+                                                   implicit val appConfig: AppConfig,
+                                                   val cc: MessagesControllerComponents) extends FrontendController(cc) with CharityDeleteConfirmController
 
-}
-
-trait CharityDeleteConfirmController extends EstateController {
+trait CharityDeleteConfirmController extends EstateController with StringHelper {
 
 
   def onPageLoad(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -66,7 +67,7 @@ trait CharityDeleteConfirmController extends EstateController {
             Future.successful(InternalServerError("Charity with id = " + id
               + " not found during onSubmit of delete confirmation"))
           } else {
-            val nino = StringHelper.getNino(userNino)
+            val nino = getNino(userNino)
             val newCharities = ad.charities.patch(index, Nil, 1)
             val newAppDetails = ad copy (charities = newCharities)
 

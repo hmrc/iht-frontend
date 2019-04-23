@@ -18,9 +18,10 @@
 @import iht.models.CoExecutor
 @import iht.utils._
 @import iht.views.html.ihtHelpers
-@import uk.gov.hmrc.play.language.LanguageUtils.Dates
+@import iht.utils.CustomLanguageUtils.Dates
+@import iht.config.AppConfig
 
-@(coExecutors: Seq[CoExecutor])(implicit request : Request[_], messages: Messages, lang : play.api.i18n.Lang)
+@(coExecutors: Seq[CoExecutor])(implicit request : Request[_], messages: Messages, lang : play.api.i18n.Lang, appConfig: AppConfig)
 <section class="section tabular-data">
   <h2 class="heading-medium additionalExecutorHeader">
       @Messages("iht.registration.othersApplyingForProbate")
@@ -88,7 +89,7 @@
 
                     @ihtHelpers.custom.summary_item(
                         label = Messages("iht.address.upperCaseInitial"),
-                        data = AddressHelper.addressFormater(CommonHelper.getOrException(coExecutor.ukAddress)),
+                        data = AddressHelper.addressFormatter(CommonHelper.getOrException(coExecutor.ukAddress)),
                         dataScreenReaderText = Messages("page.iht.registration.registrationSummary.deceasedInfo.address.data.screenReader", execName),
                         changeLink = if (CommonHelper.getOrException(coExecutor.isAddressInUk) == true) {
                             executorRoutes.OtherPersonsAddressController.onEditPageLoadUK(id).url + "#details" } else {

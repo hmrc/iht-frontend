@@ -20,7 +20,8 @@ import iht.views.ViewTestHelper
 import iht.views.html.filter.filter_jointly_owned
 import play.api.data.Form
 import play.api.data.Forms.{optional, single, text}
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{contentAsString, _}
@@ -33,7 +34,7 @@ class FilterJointlyOwnedViewTest extends ViewTestHelper {
   "filter_jointly_owned" must {
 
     "have no message keys in html" in {
-      val result = filter_jointly_owned(fakeForm)(fakeRequest, applicationMessages, formPartialRetriever)
+      val result = filter_jointly_owned(fakeForm)(fakeRequest, messages, formPartialRetriever, appConfig)
       val view = asDocument(contentAsString(result)).toString
       noMessageKeysShouldBePresent(view)
     }

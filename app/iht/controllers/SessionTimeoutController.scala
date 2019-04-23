@@ -16,32 +16,34 @@
 
 package iht.controllers
 
-import iht.config.IhtFormPartialRetriever
+import iht.config.{AppConfig, IhtFormPartialRetriever}
 import javax.inject.Inject
-import play.api.i18n.{I18nSupport, MessagesApi}
-import uk.gov.hmrc.play.bootstrap.controller.{FrontendController, UnauthorisedAction}
+import play.api.i18n.I18nSupport
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-class SessionTimeoutControllerImpl @Inject()(val messagesApi: MessagesApi,
-                                             val formPartialRetriever: IhtFormPartialRetriever) extends SessionTimeoutController
+class SessionTimeoutControllerImpl @Inject()(val formPartialRetriever: IhtFormPartialRetriever,
+                                             val cc: MessagesControllerComponents,
+                                             implicit val appConfig: AppConfig) extends FrontendController(cc) with SessionTimeoutController
 
 trait SessionTimeoutController extends FrontendController with I18nSupport {
-
+  implicit val appConfig: AppConfig
   implicit val formPartialRetriever: FormPartialRetriever
 
-  def onRegistrationPageLoad = UnauthorisedAction {
+  def onRegistrationPageLoad: Action[AnyContent] = Action {
     implicit request => {
       Ok(iht.views.html.registration.timeout_registration())
     }
   }
 
-  def onApplicationPageLoad = UnauthorisedAction {
+  def onApplicationPageLoad: Action[AnyContent] = Action {
     implicit request => {
       Ok(iht.views.html.application.timeout_application())
     }
   }
 
-  def onSaveAndExitPageLoad = UnauthorisedAction {
+  def onSaveAndExitPageLoad: Action[AnyContent] = Action {
     implicit request => {
       Ok(iht.views.html.estateReports.save_your_estate_report())
     }

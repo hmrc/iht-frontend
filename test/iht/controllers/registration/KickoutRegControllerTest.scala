@@ -16,24 +16,33 @@
 
 package iht.controllers.registration
 
+import iht.config.AppConfig
 import iht.metrics.IhtMetrics
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.RegistrationKickOutHelper
 import org.mockito.ArgumentMatchers._
-import play.api.mvc.Result
+import play.api.mvc.{MessagesControllerComponents, Result}
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-class KickoutRegControllerTest extends RegistrationControllerTest {
+class KickoutRegControllerTest extends RegistrationControllerTest with RegistrationKickOutHelper {
+
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with KickoutRegController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  val appConfig = mockAppConfig
 
   "RegistrationKickoutControllerTest" must {
     "respond suitably to onPageLoad" in {
       val request = createFakeRequest(isAuthorised = true, authRetrieveNino = false)
 
-      def controller = new KickoutRegController{
+      def controller = new TestController {
         override val authConnector = mockAuthConnector
         override lazy val metrics:IhtMetrics = mock[IhtMetrics]
         override val cachingConnector = mockCachingConnector
@@ -43,21 +52,21 @@ class KickoutRegControllerTest extends RegistrationControllerTest {
       val registrationDetails = CommonBuilder.buildRegistrationDetailsWithDeceasedDetails
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       Seq(
-        (RegistrationKickOutHelper.KickoutDeceasedDateOfDeathDateCapitalTax,
+        (KickoutDeceasedDateOfDeathDateCapitalTax,
           "page.iht.registration.deceasedDateOfDeath.kickout.date.capital.tax.summary"),
-        (RegistrationKickOutHelper.KickoutDeceasedDateOfDeathDateOther,
+        (KickoutDeceasedDateOfDeathDateOther,
           "page.iht.registration.deceasedDateOfDeath.kickout.date.other.summary"),
-        (RegistrationKickOutHelper.KickoutDeceasedDetailsLocationScotland,
+        (KickoutDeceasedDetailsLocationScotland,
           "page.iht.registration.deceasedDetails.kickout.location.summary"),
-        (RegistrationKickOutHelper.KickoutDeceasedDetailsLocationOther,
+        (KickoutDeceasedDetailsLocationOther,
           "page.iht.registration.deceasedDetails.kickout.location.summary"),
-        (RegistrationKickOutHelper.KickoutApplicantDetailsProbateScotland,
+        (KickoutApplicantDetailsProbateScotland,
           "page.iht.registration.applicantDetails.kickout.probate.summary"),
-        (RegistrationKickOutHelper.KickoutApplicantDetailsProbateNi,
+        (KickoutApplicantDetailsProbateNi,
           "page.iht.registration.applicantDetails.kickout.probate.summary"),
-        (RegistrationKickOutHelper.KickoutNotApplyingForProbate,
+        (KickoutNotApplyingForProbate,
           "page.iht.registration.notApplyingForProbate.kickout.summary"),
-        (RegistrationKickOutHelper.KickoutNotAnExecutor,
+        (KickoutNotAnExecutor,
           "page.iht.registration.notAnExecutor.kickout.p1")
       ).foreach{kickout=>
         createMockToGetSingleValueFromCache(mockCachingConnector, any(), Some(kickout._1))
@@ -69,7 +78,7 @@ class KickoutRegControllerTest extends RegistrationControllerTest {
 
     "redirect to homepage on submit" in {
       val request = createFakeRequest(isAuthorised = true, authRetrieveNino = false)
-      def controller = new KickoutRegController{
+      def controller = new TestController{
         override val authConnector = mockAuthConnector
         override lazy val metrics:IhtMetrics = mock[IhtMetrics]
         override val cachingConnector = mockCachingConnector

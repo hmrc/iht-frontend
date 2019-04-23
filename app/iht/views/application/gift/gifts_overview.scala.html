@@ -19,22 +19,23 @@
 @import iht.utils._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.models.RegistrationDetails
 @import iht.utils.OverviewHelper.Section
-@import iht.constants.IhtProperties._
+
 @import iht.views.html.application.generic_overview
 
 @(registrationDetails:RegistrationDetails,
 seqRows:Seq[Section],
 returnToCall: Option[Call],
 returnToMessagesKey: String
-)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 
 @deceasedName() = @{getOrException(registrationDetails.deceasedDetails.map(_.name))}
 @returnCall() = @{
     returnToCall match {
-        case Some(call) => CommonHelper.addFragmentIdentifier(call, Some(EstateGiftsID))
+        case Some(call) => CommonHelper.addFragmentIdentifier(call, Some(appConfig.EstateGiftsID))
     }
 
 }

@@ -17,14 +17,18 @@
 package iht.views
 
 import iht.FakeIhtApp
+import iht.config.AppConfig
 import iht.testhelpers.CommonBuilder
 import iht.utils.OverviewHelper.{Link, Question, Section}
 import iht.views.html.application.generic_overview
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.Call
-import uk.gov.hmrc.play.test.UnitSpec
+import play.api.i18n.{Lang, Messages}
+import play.api.mvc.{Call, MessagesControllerComponents}
 
 class GenericOverviewTest extends FakeIhtApp with HtmlSpec {
+
+  implicit val mockAppConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  override implicit val lang: Lang = Lang.defaultLang
+  implicit val messages: Messages = app.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(Seq(lang)).messages
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val call1 = CommonBuilder.DefaultCall1

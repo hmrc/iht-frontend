@@ -16,25 +16,24 @@
 
 package iht.controllers.application.assets.properties
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever, TestHelper}
 import iht.utils.CommonHelper
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-/**
- * Created by Vineet on 22/06/16.
- */
+
 class PropertyOwnershipControllerTest extends ApplicationControllerTest {
-
-
 
   val regDetails = CommonBuilder.buildRegistrationDetails1
   val deceasedName = regDetails.deceasedDetails.map(_.name).fold("")(identity)
@@ -49,7 +48,12 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
       storeAppDetailsInCache = true)
   }
 
-  def propertyOwnershipController = new PropertyOwnershipController {
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with PropertyOwnershipController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def propertyOwnershipController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
@@ -57,7 +61,7 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def propertyOwnershipControllerNotAuthorised = new PropertyOwnershipController {
+  def propertyOwnershipControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector

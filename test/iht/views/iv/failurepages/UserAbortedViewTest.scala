@@ -19,7 +19,6 @@ package iht.views.iv.failurepages
 import iht.testhelpers.CommonBuilder
 import iht.views.html.iv.failurepages.user_aborted
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import play.api.i18n.Messages.Implicits._
 
 class UserAbortedViewTest extends GenericNonSubmittablePageBehaviour {
 
@@ -32,9 +31,12 @@ class UserAbortedViewTest extends GenericNonSubmittablePageBehaviour {
 
   def browserTitle = messagesApi("page.iht.iv.failure.cannotConfirmIdentity")
 
-  def view: String = user_aborted(CommonBuilder.DefaultCall1.url)(createFakeRequest(),
-                                                                  applicationMessages,
-                                                                  formPartialRetriever).toString
+  def view: String = user_aborted(CommonBuilder.DefaultCall1.url)(
+    createFakeRequest(),
+    messages,
+    formPartialRetriever,
+    appConfig
+  ).toString
 
   override def exitComponent = Some(
     ExitComponent(

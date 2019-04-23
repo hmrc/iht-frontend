@@ -20,12 +20,10 @@ import iht.constants.Constants._
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper._
+import iht.utils.CustomLanguageUtils.Dates
 import org.joda.time.LocalDate
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Call
-import uk.gov.hmrc.play.language.LanguageUtils.Dates
 
 import scala.collection.immutable.ListMap
 
@@ -101,62 +99,64 @@ object OverviewHelper {
     }
   }
 
-  private def overviewDisplayValues(implicit lang: Lang): ListMap[String, ApplicationDetails => String] = ListMap(
-    AppSectionProperties -> { (ad) => createPropertiesDisplayValue(ad)},
-    AppSectionMoney -> { ad => ad.allAssets.flatMap(_.money).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_)) },
-    AppSectionHousehold -> { ad => ad.allAssets.flatMap(_.household).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_)) },
-    AppSectionVehicles -> { ad => ad.allAssets.flatMap(_.vehicles).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_)) },
-    AppSectionPrivatePension -> { ad => ad.allAssets.flatMap(_.privatePension).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_)) },
-    AppSectionStockAndShare -> { ad => ad.allAssets.flatMap(_.stockAndShare).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_)) },
-    AppSectionInsurancePolicy -> { ad => ad.allAssets.flatMap(_.insurancePolicy).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_)) },
-    AppSectionBusinessInterest -> { ad => ad.allAssets.flatMap(_.businessInterest).flatMap(_.value).fold("")("£" + numberWithCommas(_)) },
-    AppSectionNominated -> { ad => ad.allAssets.flatMap(_.nominated).flatMap(_.value).fold("")("£" + numberWithCommas(_)) },
-    AppSectionHeldInTrust -> { ad => ad.allAssets.flatMap(_.heldInTrust).flatMap(_.value).fold("")("£" + numberWithCommas(_)) },
-    AppSectionForeign -> { ad => ad.allAssets.flatMap(_.foreign).flatMap(_.value).fold("")("£" + numberWithCommas(_)) },
-    AppSectionMoneyOwed -> { ad => ad.allAssets.flatMap(_.moneyOwed).flatMap(_.value).fold("")("£" + numberWithCommas(_)) },
-    AppSectionOther -> { ad => ad.allAssets.flatMap(_.other).flatMap(_.value).fold("")("£" + numberWithCommas(_)) },
-    AppSectionMortgages -> { ad => createMortgagesDisplayValue(ad)},
-    AppSectionFuneralExpenses -> {
-      _.allLiabilities.flatMap(_.funeralExpenses).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_))
-    },
-    AppSectionDebtsOwedFromTrust -> {
-      _.allLiabilities.flatMap(_.trust).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_))
-    },
-    AppSectionDebtsOwedToAnyoneOutsideUK -> {
-      _.allLiabilities.flatMap(_.debtsOutsideUk).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_))
-    },
-    AppSectionDebtsOwedOnJointAssets -> {
-      _.allLiabilities.flatMap(_.jointlyOwned).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_))
-    },
-    AppSectionDebtsOther -> {
-      _.allLiabilities.flatMap(_.other).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_))
-    },
-    AppSectionExemptionsPartnerIsAssetForDeceasedPartner -> { ad =>
-      getMessageKeyValueOrBlank(
-        getBooleanDisplayValue(ad.allExemptions.flatMap(_.partner).flatMap(_.isAssetForDeceasedPartner)))
-    },
-    AppSectionExemptionsPartnerIsPartnerHomeInUK -> { ad =>
-      getMessageKeyValueOrBlank(
-        getBooleanDisplayValue(ad.allExemptions.flatMap(_.partner).flatMap(_.isPartnerHomeInUK)))
-    },
-    AppSectionExemptionsPartnerName -> { ad => ad.allExemptions.flatMap(_.partner).flatMap(_.name) },
-    AppSectionExemptionsPartnerDateOfBirth -> { ad => getDateDisplayValue(ad.allExemptions.flatMap(_.partner).flatMap(_.dateOfBirth)) },
-    AppSectionExemptionsPartnerNino -> { ad => ad.allExemptions.flatMap(_.partner).flatMap(_.nino).fold("")(identity) },
-    AppSectionExemptionsPartnerTotalAssets -> { ad => ad.allExemptions.flatMap(_.partner).flatMap(_.totalAssets).fold("")("£" + numberWithCommas(_)) },
-    AppSectionExemptionsCharityValue -> { (ad) => createCharitiesDisplayValue(ad) },
-    AppSectionExemptionsQualifyingBodyValue -> { (ad) => createQualifyingBodiesDisplayValue(ad) },
-    AppSectionEstateAssets -> { ad => totalAssetsValueOption(ad).fold("")(assetsValue => "£" + numberWithCommas(assetsValue))},
-    AppSectionEstateGifts -> { ad => ad.totalPastYearsGiftsOption.fold("")(giftsValue => "£" + numberWithCommas(giftsValue)) },
-    AppSectionEstateDebts -> { ad => ad.totalLiabilitiesValueOption.fold("")(debtValue => (if (
-      ad.totalExemptionsValue > BigDecimal(0)) { "-£" } else { "£" }) + numberWithCommas(debtValue))}
-  )
+  private def overviewDisplayValues(implicit messages: Messages): ListMap[String, ApplicationDetails => String] = {
+    implicit val lang: Lang = messages.lang
+
+    ListMap(
+      AppSectionProperties -> { ad => createPropertiesDisplayValue(ad)},
+      AppSectionMoney -> { ad => ad.allAssets.flatMap(_.money).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_)) },
+      AppSectionHousehold -> { ad => ad.allAssets.flatMap(_.household).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_)) },
+      AppSectionVehicles -> { ad => ad.allAssets.flatMap(_.vehicles).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_)) },
+      AppSectionPrivatePension -> { ad => ad.allAssets.flatMap(_.privatePension).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_)) },
+      AppSectionStockAndShare -> { ad => ad.allAssets.flatMap(_.stockAndShare).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_)) },
+      AppSectionInsurancePolicy -> { ad => ad.allAssets.flatMap(_.insurancePolicy).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_)) },
+      AppSectionBusinessInterest -> { ad => ad.allAssets.flatMap(_.businessInterest).flatMap(_.value).fold("")("£" + numberWithCommas(_)) },
+      AppSectionNominated -> { ad => ad.allAssets.flatMap(_.nominated).flatMap(_.value).fold("")("£" + numberWithCommas(_)) },
+      AppSectionHeldInTrust -> { ad => ad.allAssets.flatMap(_.heldInTrust).flatMap(_.value).fold("")("£" + numberWithCommas(_)) },
+      AppSectionForeign -> { ad => ad.allAssets.flatMap(_.foreign).flatMap(_.value).fold("")("£" + numberWithCommas(_)) },
+      AppSectionMoneyOwed -> { ad => ad.allAssets.flatMap(_.moneyOwed).flatMap(_.value).fold("")("£" + numberWithCommas(_)) },
+      AppSectionOther -> { ad => ad.allAssets.flatMap(_.other).flatMap(_.value).fold("")("£" + numberWithCommas(_)) },
+      AppSectionMortgages -> { ad => createMortgagesDisplayValue(ad)},
+      AppSectionFuneralExpenses -> {_.allLiabilities.flatMap(_.funeralExpenses).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_))},
+      AppSectionDebtsOwedFromTrust -> {_.allLiabilities.flatMap(_.trust).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_))},
+      AppSectionDebtsOwedToAnyoneOutsideUK -> {
+        _.allLiabilities.flatMap(_.debtsOutsideUk).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_))
+      },
+      AppSectionDebtsOwedOnJointAssets -> {
+        _.allLiabilities.flatMap(_.jointlyOwned).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_))
+      },
+      AppSectionDebtsOther -> {
+        _.allLiabilities.flatMap(_.other).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_))
+      },
+      AppSectionExemptionsPartnerIsAssetForDeceasedPartner -> { ad =>
+        getMessageKeyValueOrBlank(
+          getBooleanDisplayValue(ad.allExemptions.flatMap(_.partner).flatMap(_.isAssetForDeceasedPartner)))
+      },
+      AppSectionExemptionsPartnerIsPartnerHomeInUK -> { ad =>
+        getMessageKeyValueOrBlank(
+          getBooleanDisplayValue(ad.allExemptions.flatMap(_.partner).flatMap(_.isPartnerHomeInUK)))
+      },
+      AppSectionExemptionsPartnerName -> { ad => ad.allExemptions.flatMap(_.partner).flatMap(_.name) },
+      AppSectionExemptionsPartnerDateOfBirth -> { ad => getDateDisplayValue(ad.allExemptions.flatMap(_.partner).flatMap(_.dateOfBirth)) },
+      AppSectionExemptionsPartnerNino -> { ad => ad.allExemptions.flatMap(_.partner).flatMap(_.nino).fold("")(identity) },
+      AppSectionExemptionsPartnerTotalAssets -> { ad => ad.allExemptions.flatMap(_.partner).flatMap(_.totalAssets).fold("")("£" + numberWithCommas(_)) },
+      AppSectionExemptionsCharityValue -> { (ad) => createCharitiesDisplayValue(ad) },
+      AppSectionExemptionsQualifyingBodyValue -> { (ad) => createQualifyingBodiesDisplayValue(ad) },
+      AppSectionEstateAssets -> { ad => totalAssetsValueOption(ad).fold("")(assetsValue => "£" + numberWithCommas(assetsValue))},
+      AppSectionEstateGifts -> { ad => ad.totalPastYearsGiftsOption.fold("")(giftsValue => "£" + numberWithCommas(giftsValue)) },
+      AppSectionEstateDebts -> { ad => ad.totalLiabilitiesValueOption.fold("")(debtValue => (if (
+        ad.totalExemptionsValue > BigDecimal(0)) { "-£" } else { "£" }) + numberWithCommas(debtValue))}
+    )
+  }
 
   def displayValue(appDetails: ApplicationDetails,
                    section: String,
                    isComplete: Option[Boolean],
-                   noneMessage: Option[String] = Some("site.noneInEstate"))(implicit lang: Lang, messages: Messages) = {
-
-    overviewDisplayValues.find(_._1 == section).map(_._2).map(expr => expr(appDetails))
+                   noneMessage: Option[String] = Some("site.noneInEstate"))(implicit messages: Messages): String = {
+    overviewDisplayValues
+      .find(_._1 == section)
+      .map(_._2)
+      .map(expr => expr(appDetails))
       .fold(throw new RuntimeException("Attempt to display value for unknown section:" + section)) { displayValueFound =>
         (displayValueFound.isEmpty, isComplete) match {
           case (true, Some(true)) =>
@@ -167,16 +167,16 @@ object OverviewHelper {
       }
   }
 
-  def mapYesNoNone(value: String, yesValue: String, noValue: String, noneValue: String) =
+  def mapYesNoNone(value: String, yesValue: String, noValue: String, noneValue: String): String =
     value match {
       case `messagesFileYesValue` => yesValue
       case `messagesFileNoValue` => noValue
       case _ => noneValue
     }
 
-  def mapYesNoNoneDisplayValue(value: String, yesValue: String, noValue: String, noneValue: String) = {
-    lazy val yesDisplayValue = Messages(messagesFileYesValue)
-    lazy val noDisplayValue = Messages(messagesFileNoValue)
+  def mapYesNoNoneDisplayValue(value: String, yesValue: String, noValue: String, noneValue: String)(implicit messages: Messages): String = {
+    lazy val yesDisplayValue = messages(messagesFileYesValue)
+    lazy val noDisplayValue = messages(messagesFileNoValue)
     value match {
       case `yesDisplayValue` => yesValue
       case `noDisplayValue` => noValue
@@ -190,7 +190,7 @@ object OverviewHelper {
   def getDisplayValueForBoolean(inputValue: Boolean): String =
     if (inputValue) messagesFileYesValue else messagesFileNoValue
 
-  def getDateDisplayValue(optDate: Option[LocalDate])(implicit lang: Lang): String =
+  def getDateDisplayValue(optDate: Option[LocalDate])(implicit messages: Messages): String =
     optDate.fold("")(Dates.formatDate)
 
   def getBigDecimalDisplayValue(optBigDecimal: Option[BigDecimal]) =

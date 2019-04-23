@@ -14,7 +14,8 @@
  * limitations under the License.
  *@
 
-@(ihtForm: Form[_], postRoute: play.api.mvc.Call, includeIntendReturnQuestion: Boolean)(implicit request:Request[_], messages: Messages)
+@import iht.config.AppConfig
+@(ihtForm: Form[_], postRoute: play.api.mvc.Call, includeIntendReturnQuestion: Boolean)(implicit request:Request[_], messages: Messages, appConfig: AppConfig)
 
 @import iht.constants.FieldMappings._
 @import iht.views.html._

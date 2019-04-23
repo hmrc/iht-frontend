@@ -16,14 +16,18 @@
 
 package iht.controllers.registration.deceased
 
+import iht.config.AppConfig
+import iht.controllers.application.assets.pensions.PensionsOverviewController
 import iht.controllers.registration.applicant.{routes => applicantRoutes}
 import iht.controllers.registration.{routes => registrationRoutes}
 import iht.forms.registration.DeceasedForms._
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails, UkAddress}
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import org.joda.time.LocalDate
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -31,14 +35,19 @@ import scala.concurrent.Future
 class DeceasedAddressDetailsUKControllerTest
   extends RegistrationDeceasedControllerWithEditModeBehaviour[DeceasedAddressDetailsUKController] {
 
-  def controller = new DeceasedAddressDetailsUKController {
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with DeceasedAddressDetailsUKController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def controller = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def controllerNotAuthorised = new DeceasedAddressDetailsUKController {
+  def controllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 

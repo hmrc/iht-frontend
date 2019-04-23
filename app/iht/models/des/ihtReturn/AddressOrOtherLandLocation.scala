@@ -19,9 +19,7 @@ package iht.models.des.ihtReturn
 import models.des.Address
 import play.api.libs.json.Json
 
-/**
-  * Created by vineet on 06/07/17.
-  */
+
 case class AddressOrOtherLandLocation(address: Option[Address] = None,
                                       otherLandLocation: Option[OtherLandLocation] = None)
 

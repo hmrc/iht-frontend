@@ -23,15 +23,22 @@ import iht.testhelpers.CommonBuilder
 import iht.{FakeIhtApp, TestUtils}
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.MessagesApi
-import play.api.i18n.Messages.Implicits._
+import play.api.i18n.{Lang, Messages, MessagesApi}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import uk.gov.hmrc.play.test.UnitSpec
 import iht.testhelpers.TestHelper._
+import play.api.mvc.MessagesControllerComponents
 
 class ReducingEstateValueSectionViewModelTest
   extends FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
 
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  val mockControllerComponents: MessagesControllerComponents = app.injector.instanceOf[MessagesControllerComponents]
+  implicit val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  implicit val lang: Lang = Lang.defaultLang
+  val messagesApi: MessagesApi = mockControllerComponents.messagesApi
+  implicit val messages: Messages = messagesApi.preferred(Seq(lang)).messages
+
   val applicationDetails = CommonBuilder.buildApplicationDetails
   val regDetailsSinglePerson = CommonBuilder.buildRegistrationDetails3
   val regDetailsMarriedPerson = CommonBuilder.buildRegistrationDetails4

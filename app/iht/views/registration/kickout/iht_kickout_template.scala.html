@@ -15,6 +15,7 @@
  *@
 
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.views.html._
 @import uk.gov.hmrc.play.views.html.helpers.form
 
@@ -24,7 +25,7 @@ summaryMessage: String,
 returnToUrl: Call,
 hasTimeOut:Boolean = false)(nextStepsContent: Html)(implicit request : Request[_],
                                                     messages: Messages,
-                                                    ihtFormPartialRetriever: FormPartialRetriever)
+                                                    ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_registration(title=pageTitle,
 browserTitle = Some(pageTitle),

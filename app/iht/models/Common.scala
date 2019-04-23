@@ -16,12 +16,15 @@
 
 package iht.models
 
+import iht.config.AppConfig
 import iht.constants.IhtProperties
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.{DateTime, LocalDate}
 import play.api.libs.json.Json
 import uk.gov.hmrc.domain.TaxIds._
 import uk.gov.hmrc.domain.{Nino, SerialisableTaxId, TaxIds}
+import play.api.libs.json.JodaWrites._
+import play.api.libs.json.JodaReads._
 
 /**
  * Created by yasar on 2/4/15.
@@ -40,8 +43,8 @@ object UkAddress {
   def unapplyInternational(address: UkAddress): Option[(String, String, Option[String], Option[String], Option[String])] =
     Some((address.ukAddressLine1, address.ukAddressLine2, address.ukAddressLine3, address.ukAddressLine4, Some(address.countryCode)))
 
-  def applyUk(line1: String, line2: String, line3: Option[String], line4: Option[String], postCode: String) =
-    new UkAddress(line1, line2, line3, line4, postCode, IhtProperties.ukIsoCountryCode)
+  def applyUk(line1: String, line2: String, line3: Option[String], line4: Option[String], postCode: String)(implicit appConfig: AppConfig) =
+    new UkAddress(line1, line2, line3, line4, postCode, appConfig.ukIsoCountryCode)
 
   def unapplyUk(address: UkAddress): Option[(String, String, Option[String], Option[String], String)] =
   Some((address.ukAddressLine1, address.ukAddressLine2, address.ukAddressLine3, address.ukAddressLine4, address.postCode))

@@ -16,15 +16,12 @@
 
 package iht.models.des.ihtReturn
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, OFormat}
 
-/**
-  * Created by vineet on 06/07/17.
-  */
 case class Devolution(allocation: Option[Allocation] = None,
                       beneficiary: Option[Beneficiary] = None,
                       exemption: Option[Exemption] = None)
 
 object Devolution {
-  implicit val formats = Json.format[Devolution]
+  implicit val formats: OFormat[Devolution] = Json.format[Devolution]
 }

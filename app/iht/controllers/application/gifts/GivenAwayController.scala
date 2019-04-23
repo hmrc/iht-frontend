@@ -16,20 +16,20 @@
 
 package iht.controllers.application.gifts
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.AllGifts
 import iht.utils.GiftsHelper.createPreviousYearsGiftsLists
-import iht.utils.{CommonHelper, StringHelper, ApplicationStatus => AppStatus}
+import iht.utils.{CommonHelper, ApplicationStatus => AppStatus}
 import iht.views.html.application.gift.given_away
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -37,9 +37,9 @@ import scala.concurrent.Future
 class GivenAwayControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                         val cachingConnector: CachingConnector,
                                         val authConnector: AuthConnector,
-                                        val formPartialRetriever: FormPartialRetriever) extends GivenAwayController {
-
-}
+                                        val formPartialRetriever: FormPartialRetriever,
+                                        implicit val appConfig: AppConfig,
+                                        val cc: MessagesControllerComponents) extends FrontendController(cc) with GivenAwayController
 
 trait GivenAwayController extends EstateController {
 
@@ -83,11 +83,11 @@ trait GivenAwayController extends EstateController {
               })
             },
             estateElementModel => {
-              estatesSaveApplication(StringHelper.getNino(userNino),
+              estatesSaveApplication(getNino(userNino),
                 estateElementModel,
                 regDetails,
                 updateApplicationDetails,
-                redirectLocation = (_, _) => CommonHelper.addFragmentIdentifier(giftsRedirectLocation, Some(GiftsGivenAwayQuestionID)),
+                redirectLocation = (_, _) => CommonHelper.addFragmentIdentifier(giftsRedirectLocation, Some(appConfig.GiftsGivenAwayQuestionID)),
                 None
               )
             }

@@ -16,6 +16,7 @@
 
 package iht.utils
 
+import iht.config.AppConfig
 import iht.constants.IhtProperties
 import org.joda.time.LocalDate
 import play.api.data.Forms._
@@ -38,12 +39,12 @@ trait FormValidator {
   //lazy val nameAndAddressRegex = """^[A-Za-z0-9,. \(\)\&\-']*$""".r
   lazy val nameAndAddressRegex = """^.*$""".r
 
-  lazy val countryCodes = IhtProperties.validCountryCodes
+  def countryCodes(implicit appConfig: AppConfig) = appConfig.validCountryCodes
 
-  def validateCountryCode(x: String) = countryCodes.contains(x.toUpperCase)
+  def validateCountryCode(x: String)(implicit appConfig: AppConfig) = countryCodes.contains(x.toUpperCase)
 
-  def validateInternationalCountryCode(code: String)(implicit lang: Lang, messages: Messages) =
-    internationalCountries(lang, messages).map(_._1).contains(code.toUpperCase)
+  def validateInternationalCountryCode(code: String)(implicit messages: Messages, appConfig: AppConfig) =
+    internationalCountries(messages, appConfig).map(_._1).contains(code.toUpperCase)
 
   def isNotFutureDate = {
     date: LocalDate => !date.isAfter(LocalDate.now())
@@ -51,8 +52,8 @@ trait FormValidator {
 
   def isDobBeforeDod(dod: LocalDate, dob: LocalDate): Boolean = !dob.isAfter(dod)
 
-  def existsInKeys = {
-    (key: String, map: ListMap[String, String]) => map.keys.exists(v => (v == key))
+  def existsInKeys: (String, ListMap[String, String]) => Boolean = {
+    (key: String, map: ListMap[String, String]) => map.keys.exists(v => v == key)
   }
 
   def optionalCurrencyFormatterWithoutFieldName = new Formatter[Option[BigDecimal]] {
@@ -86,7 +87,7 @@ trait FormValidator {
 
   def mandatoryPhoneNumber(blankValueMessageKey: String,
                            invalidLengthMessageKey: String,
-                           invalidValueMessageKey: String) =
+                           invalidValueMessageKey: String)(implicit appConfig: AppConfig) =
     Forms.of[String](mandatoryPhoneNumberFormatter(Some(blankValueMessageKey), invalidLengthMessageKey, invalidValueMessageKey))
 
   def optionalCurrencyWithoutFieldName =
@@ -108,7 +109,7 @@ trait FormValidator {
 
   def mandatoryPhoneNumberFormatter(blankValueMessageKey: String,
                                     invalidLengthMessageKey: String,
-                                    invalidValueMessageKey: String) = new Formatter[String] {
+                                    invalidValueMessageKey: String)(implicit appConfig: AppConfig) = new Formatter[String] {
     override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], String] = {
       data.get(key) match {
         case Some(n) =>
@@ -117,7 +118,7 @@ trait FormValidator {
           t match {
             case p if p.length == 0 => Left(Seq(FormError(key, blankValueMessageKey)))
             case num => {
-              if (num.length > IhtProperties.validationMaxLengthPhoneNo) {
+              if (num.length > appConfig.validationMaxLengthPhoneNo) {
                 Left(Seq(FormError(key, invalidLengthMessageKey)))
               } else if (!validatePhoneNumber(num)) {
                 Left(Seq(FormError(key, invalidValueMessageKey)))
@@ -136,7 +137,7 @@ trait FormValidator {
 
   private def phoneNumberOptionStringFormatter(blankValueMessageKey: String,
                                                invalidLengthMessageKey: String,
-                                               invalidValueMessageKey: String) = new Formatter[Option[String]] {
+                                               invalidValueMessageKey: String)(implicit appConfig: AppConfig) = new Formatter[Option[String]] {
     override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Option[String]] = {
       data.get(key) match {
         case Some(n) =>
@@ -145,7 +146,7 @@ trait FormValidator {
           t match {
             case p if p.length == 0 => Left(Seq(FormError(key, blankValueMessageKey)))
             case num =>
-              if (num.length > IhtProperties.validationMaxLengthPhoneNo) {
+              if (num.length > appConfig.validationMaxLengthPhoneNo) {
                 Left(Seq(FormError(key, invalidLengthMessageKey)))
               } else if (!validatePhoneNumber(num)) {
                 Left(Seq(FormError(key, invalidValueMessageKey)))
@@ -163,7 +164,7 @@ trait FormValidator {
 
   def phoneNumberOptionString(blankValueMessageKey: String,
                               invalidLengthMessageKey: String,
-                              invalidValueMessageKey: String): FieldMapping[Option[String]] =
+                              invalidValueMessageKey: String)(implicit appConfig: AppConfig): FieldMapping[Option[String]] =
     of(phoneNumberOptionStringFormatter(blankValueMessageKey, invalidLengthMessageKey, invalidValueMessageKey))
 
   private def validatePhoneNumber = {
@@ -174,11 +175,11 @@ trait FormValidator {
   }
 
   def containsValidPostCodeCharacters(value: String): Boolean =
-    !postCodeFormat.r.findFirstIn(value).isEmpty
+    postCodeFormat.r.findFirstIn(value).isDefined
 
 
-  def ihtIsPostcodeLengthValid(value: String) = {
-    value.length <= IhtProperties.validationMaxLengthPostcode && isPostcodeLengthValid(value)
+  def ihtIsPostcodeLengthValid(value: String)(implicit appConfig: AppConfig): Boolean = {
+    value.length <= appConfig.validationMaxLengthPostcode && isPostcodeLengthValid(value)
   }
 
 

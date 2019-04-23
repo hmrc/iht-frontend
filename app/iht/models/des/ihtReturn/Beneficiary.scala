@@ -16,14 +16,13 @@
 
 package iht.models.des.ihtReturn
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, OFormat}
+import play.api.libs.json.JodaWrites._
+import play.api.libs.json.JodaReads._
 
-/**
-  * Created by vineet on 06/07/17.
-  */
 case class Beneficiary(passingToSpouse: Option[String] = None,
                        otherBeneficiary: Option[OtherBeneficiary] = None)
 
 object Beneficiary {
-  implicit val formats = Json.format[Beneficiary]
+  implicit val formats: OFormat[Beneficiary] = Json.format[Beneficiary]
 }

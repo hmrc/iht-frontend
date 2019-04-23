@@ -15,9 +15,10 @@
  *@
 
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.views.html._
 
-@()(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+@()(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @import iht.constants.IhtProperties
 
@@ -30,7 +31,7 @@ hasTimeOut=false) {
 
 <div class = "form-group">
     <a class='button'
-       href='@IhtProperties.linkGovUk'>@Messages("page.iht.sign-out.button.gov-uk.text")
+       href='@appConfig.linkGovUk'>@Messages("page.iht.sign-out.button.gov-uk.text")
     </a>
 </div>
 }

@@ -16,28 +16,37 @@
 
 package iht.controllers.registration.applicant
 
-import iht.constants.IhtProperties
+import iht.config.AppConfig
 import iht.controllers.registration.{RegistrationControllerTest, routes => registrationRoutes}
 import iht.forms.registration.ApplicantForms._
 import iht.models.{ApplicantDetails, UkAddress}
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import play.api.i18n.{Lang, Messages}
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class ApplicantAddressControllerTest extends RegistrationControllerTest  {
 
-  lazy val maxLength = IhtProperties.validationMaxLengthAddresslines.toInt
+  lazy val maxLength = mockAppConfig.validationMaxLengthAddresslines.toInt
+
+  implicit val messages: Messages = mockControllerComponents.messagesApi.preferred(Seq(Lang.defaultLang)).messages
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with ApplicantAddressController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
   // Create controller object and pass in mock.
-  def controller = new ApplicantAddressController {
+  def controller = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def controllerNotAuthorised = new ApplicantAddressController {
+  def controllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 
@@ -46,20 +55,20 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
 
   def registrationDetailsWithUkApplicant =
     CommonBuilder.buildRegistrationDetails copy (applicantDetails = Some(ApplicantDetails(doesLiveInUK = Some(true),
-      phoneNo = Some("SomeText"))))
+      phoneNo = Some("SomeText"), role = Some(mockAppConfig.roleLeadExecutor))))
 
   def registrationDetailsWithApplicantAbroad =
     CommonBuilder.buildRegistrationDetails copy (applicantDetails = Some(ApplicantDetails(doesLiveInUK = Some(false),
-      phoneNo = Some("SomeText"))))
+      phoneNo = Some("SomeText"), role = Some(mockAppConfig.roleLeadExecutor))))
 
   def ukAddress = UkAddress("UK Line 1", "UK Line 2", None, None, "AA1 1AA")
   def addressAbroad = UkAddress("Abroad Line 1", "Abroad Line 2", Some("Abroad Line 3"),
     Some("Abroad Line 4"), "", "US")
 
   def applicantWithUkAddress = ApplicantDetails(doesLiveInUK = Some(true), ukAddress = Some(ukAddress),
-    phoneNo = Some("SomeText"))
+    phoneNo = Some("SomeText"), role = Some(mockAppConfig.roleLeadExecutor))
   def applicantWithAddressAbroad = ApplicantDetails(doesLiveInUK = Some(false), ukAddress = Some(addressAbroad),
-    phoneNo = Some("SomeText"))
+    phoneNo = Some("SomeText"), role = Some(mockAppConfig.roleLeadExecutor))
 
   def registrationDetailsWithUkApplicantPopulated =
     CommonBuilder.buildRegistrationDetails copy (applicantDetails = Some(applicantWithUkAddress))
@@ -263,7 +272,7 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val applicant = capturedValue.applicantDetails.get
-      applicant.ukAddress mustBe Some(ukAddress copy (countryCode = IhtProperties.ukIsoCountryCode))
+      applicant.ukAddress mustBe Some(ukAddress copy (countryCode = mockAppConfig.ukIsoCountryCode))
       applicant.doesLiveInUK mustBe Some(true)
     }
 
@@ -301,7 +310,7 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val applicant = capturedValue.applicantDetails.get
-      applicant.ukAddress mustBe Some(ukAddress copy (countryCode = IhtProperties.ukIsoCountryCode))
+      applicant.ukAddress mustBe Some(ukAddress copy (countryCode = mockAppConfig.ukIsoCountryCode))
       applicant.doesLiveInUK mustBe Some(true)
     }
 

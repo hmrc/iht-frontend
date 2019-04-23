@@ -16,24 +16,26 @@
 
 package iht.controllers.application.assets.insurancePolicy
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.EstateController
 import iht.metrics.IhtMetrics
 import iht.utils._
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_final_guidance
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Call, Request, Result}
+import play.api.mvc.{Call, MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class InsurancePolicyDetailsFinalGuidanceControllerImpl @Inject()(val metrics: IhtMetrics,
                                                                   val ihtConnector: IhtConnector,
                                                                   val cachingConnector: CachingConnector,
                                                                   val authConnector: AuthConnector,
-                                                                  val formPartialRetriever: FormPartialRetriever) extends InsurancePolicyDetailsFinalGuidanceController {
+                                                                  val formPartialRetriever: FormPartialRetriever,
+                                                                  implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with InsurancePolicyDetailsFinalGuidanceController {
 
 }
 
@@ -46,7 +48,7 @@ trait InsurancePolicyDetailsFinalGuidanceController extends EstateController {
         val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)
 
         for {
-          applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
+          applicationDetails <- ihtConnector.getApplication(getNino(userNino),
             CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
             registrationDetails.acknowledgmentReference)
         } yield {

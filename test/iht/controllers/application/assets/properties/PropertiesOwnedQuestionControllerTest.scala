@@ -16,20 +16,26 @@
 
 package iht.controllers.application.assets.properties
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
+import iht.controllers.application.assets.pensions.PensionsChangedQuestionController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.Properties
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
 import iht.utils.CommonHelper
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
 
-//  val mockCachingConnector = mock[CachingConnector]
-//  val mockIhtConnector = mock[IhtConnector]
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with PropertiesOwnedQuestionController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
   def setUpTests(applicationDetails: Option[ApplicationDetails] = None) = {
     createMocksForApplication(mockCachingConnector,
@@ -40,14 +46,14 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
       storeAppDetailsInCache = true)
   }
 
-  def propertiesOwnedQuestionController = new PropertiesOwnedQuestionController {
+  def propertiesOwnedQuestionController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def propertiesOwnedQuestionControllerNotAuthorised = new PropertiesOwnedQuestionController {
+  def propertiesOwnedQuestionControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
 //    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector

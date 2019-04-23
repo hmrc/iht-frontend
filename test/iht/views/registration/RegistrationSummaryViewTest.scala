@@ -23,7 +23,8 @@ import iht.views.ViewTestHelper
 import iht.views.html.registration.registration_summary
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import iht.views.html._
@@ -142,7 +143,7 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
       )),
       coExecutors = Seq(coExecutor1, coExecutor2, coExecutor3),
       ihtReference = Some("ABC"),
-      acknowledgmentReference = CommonBuilder.DefaultAcknowledgmentReference
+      acknowledgmentReference = CommonBuilder.defaultAckRef
     )
   }
 

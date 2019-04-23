@@ -16,32 +16,37 @@
 
 package iht.controllers.application.assets.pensions
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import play.api.i18n.{Lang, Messages}
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-/**
- * Created by jennygj on 30/06/16.
- */
 class PensionsOverviewControllerTest extends ApplicationControllerTest {
 
+  override implicit val messages: Messages = mockControllerComponents.messagesApi.preferred(Seq(Lang.defaultLang)).messages
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with PensionsOverviewController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
+  def pensionsOverviewController = new TestController {
+    override val authConnector = mockAuthConnector
+    override val cachingConnector = mockCachingConnector
+    override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+  }
 
-    def pensionsOverviewController = new PensionsOverviewController {
-      override val authConnector = mockAuthConnector
-      override val cachingConnector = mockCachingConnector
-      override val ihtConnector = mockIhtConnector
-      override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
-    }
-
-    def pensionsOverviewControllerNotAuthorised = new PensionsOverviewController {
-      override val authConnector = mockAuthConnector
-      override val cachingConnector = mockCachingConnector
-      override val ihtConnector = mockIhtConnector
-      override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
-    }
+  def pensionsOverviewControllerNotAuthorised = new TestController {
+    override val authConnector = mockAuthConnector
+    override val cachingConnector = mockCachingConnector
+    override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+  }
   "PensionsOverviewController" must {
     "redirect to login page on PageLoad if the user is not logged in" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails

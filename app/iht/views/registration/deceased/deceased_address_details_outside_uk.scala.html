@@ -18,21 +18,19 @@
 @import iht.utils._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import uk.gov.hmrc.play.views.html.helpers.form
 
 @(deceasedAddressDetailsOutsideUKForm:Form[iht.models.DeceasedDetails], deceasedName: String,
     actionLocation: Call,
     changeNationalityLocation: Call,
     cancelLocation: Option[Call] = None)(implicit request:Request[_],
-                                                  lang: play.api.i18n.Lang,
                                                   messages: Messages,
-                                                  ihtFormPartialRetriever: FormPartialRetriever)
+                                                  ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_registration(title = Messages("iht.registration.deceased.lastContactAddress", deceasedName),
     browserTitle = Some(Messages("iht.registration.contactAddress")),
-    isFullWidth=false,
-    cancelUrl=cancelLocation,
-    hasTimeOut=true) {
+    cancelUrl=cancelLocation) {
 
 
     @ihtHelpers.custom.error_summary(deceasedAddressDetailsOutsideUKForm)
@@ -43,7 +41,7 @@
 
     @ihtHelpers.standard.input_with_help(
     deceasedAddressDetailsOutsideUKForm("ukAddress.ukAddressLine1"),
-    '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
+    '_maxlength -> appConfig.validationMaxLengthAddresslines,
     '_divClass -> "form-group ",
     '_inputClass -> "form-control",
     '_labelTextClass -> "bold ",
@@ -51,7 +49,7 @@
 
     @ihtHelpers.standard.input_with_help(
     deceasedAddressDetailsOutsideUKForm("ukAddress.ukAddressLine2"),
-    '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
+    '_maxlength -> appConfig.validationMaxLengthAddresslines,
     '_divClass -> "form-group ",
     '_inputClass -> "form-control",
     '_labelTextClass -> "bold ",
@@ -59,7 +57,7 @@
 
     @ihtHelpers.standard.input_with_help(
     deceasedAddressDetailsOutsideUKForm("ukAddress.ukAddressLine3"),
-    '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
+    '_maxlength -> appConfig.validationMaxLengthAddresslines,
     '_divClass -> "form-group ",
     '_inputClass -> "form-control",
     '_labelTextClass -> "bold ",
@@ -67,7 +65,7 @@
 
     @ihtHelpers.standard.input_with_help(
     deceasedAddressDetailsOutsideUKForm("ukAddress.ukAddressLine4"),
-    '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
+    '_maxlength -> appConfig.validationMaxLengthAddresslines,
     '_divClass -> "form-group ",
     '_inputClass -> "form-control",
     '_labelTextClass -> "bold",

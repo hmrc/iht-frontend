@@ -16,36 +16,37 @@
 
 package iht.controllers.application.assets.insurancePolicy
 
-import iht.constants.IhtProperties._
+
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.InsurancePolicy
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-/**
- *
- * Created by Yasar Acar on 18/02/16.
- *
- */
 class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControllerTest {
 
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with InsurancePolicyDetailsDeceasedOwnController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
-
-  def insurancePolicyDetailsDeceasedOwnController = new InsurancePolicyDetailsDeceasedOwnController {
+  def insurancePolicyDetailsDeceasedOwnController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
-  def insurancePolicyDetailsDeceasedOwnControllerNotAuthorised = new InsurancePolicyDetailsDeceasedOwnController {
+  def insurancePolicyDetailsDeceasedOwnControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
@@ -171,7 +172,7 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsDeceasedOwnController.onSubmit (request)
-      redirectLocation(result) must be (Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad().url + "#" + InsurancePayingToDeceasedYesNoID))
+      redirectLocation(result) must be (Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad().url + "#" + mockAppConfig.InsurancePayingToDeceasedYesNoID))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

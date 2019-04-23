@@ -16,22 +16,28 @@
 
 package iht.controllers.application.declaration
 
+import iht.config.AppConfig
 import iht.constants.Constants
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.MockObjectBuilder.{createMockToGetProbateDetailsFromCache, createMockToGetRegDetailsFromCache, createMockToStoreSingleValueInCache}
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import org.mockito.ArgumentMatchers._
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.FakeHeaders
 import play.api.test.Helpers.{OK, SEE_OTHER, redirectLocation, _}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class ProbateApplicationFormDetailsControllerTest extends ApplicationControllerTest {
   implicit val headerCarrier = FakeHeaders()
   implicit val hc = new HeaderCarrier
 
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with ProbateApplicationFormDetailsController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
-  def probateApplicationFormDetailsController = new ProbateApplicationFormDetailsController{
+  def probateApplicationFormDetailsController = new TestController{
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 
@@ -39,7 +45,7 @@ class ProbateApplicationFormDetailsControllerTest extends ApplicationControllerT
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def probateApplicationFormDetailsControllerNotAuthorised = new ProbateApplicationFormDetailsController{
+  def probateApplicationFormDetailsControllerNotAuthorised = new TestController{
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 

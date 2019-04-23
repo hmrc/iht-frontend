@@ -2,6 +2,7 @@ package controllers
 
 import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.client.WireMock._
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.declaration.DeclarationController
 import iht.forms.ApplicationForms.declarationForm
@@ -11,11 +12,13 @@ import org.mockito.Mockito.when
 import org.scalatest.mockito.MockitoSugar
 import play.api.data.Form
 import play.api.libs.json.Json
-import play.api.mvc.AnyContentAsFormUrlEncoded
+import play.api.mvc.{AnyContentAsFormUrlEncoded, MessagesControllerComponents, RequestHeader}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import play.twirl.api.Html
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.http.Upstream5xxResponse
+import uk.gov.hmrc.http.{HttpGet, Upstream5xxResponse}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import utils.WiremockHelper.{wiremockHost, wiremockPort}
 import utils.{IntegrationBaseSpec, TestDataUtil}
@@ -23,29 +26,44 @@ import utils.{IntegrationBaseSpec, TestDataUtil}
 import scala.concurrent.Future
 import scala.util.Try
 
+object MockFormPartialRetriever extends FormPartialRetriever {
+
+  override def crypto: (String) => String = ???
+
+  override def httpGet: HttpGet = ???
+
+  override def getPartialContent(url: String, templateParameters: Map[String, String], errorMessage: Html)(implicit request: RequestHeader): Html = Html("")
+}
+
+
 class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar with TestDataUtil {
 
   lazy val applicantDetailsForm: Form[Boolean] = declarationForm.fill(true)
   lazy val fakeRequest: FakeRequest[AnyContentAsFormUrlEncoded] = createFakeRequest().withFormUrlEncodedBody(applicantDetailsForm.data.toSeq: _*)
 
+  val mockCachingConnector = mock[CachingConnector]
+  val mockIhtMetrics = mock[IhtMetrics]
+  val mockFormPartialRetriever = mock[FormPartialRetriever]
+  lazy val mockAuthConnector = createFakeAuthConnector()
+  lazy val mockIhtConnector = app.injector.instanceOf[IhtConnector]
+  lazy val mockCC = app.injector.instanceOf[MessagesControllerComponents]
+  lazy val mockAppConfig = app.injector.instanceOf[AppConfig]
+
+  protected abstract class TestController extends FrontendController(mockCC) with DeclarationController {
+    override val cc: MessagesControllerComponents = mockCC
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  lazy val controller: TestController = new TestController {
+    override val cachingConnector = mockCachingConnector
+    override val ihtConnector = mockIhtConnector
+    override val authConnector = mockAuthConnector
+    override lazy val metrics: IhtMetrics = mock[IhtMetrics]
+
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+  }
+
   "Calling onSubmit" when {
-    val mockCachingConnector = mock[CachingConnector]
-    val mockIhtMetrics = mock[IhtMetrics]
-    val mockFormPartialRetriever = mock[FormPartialRetriever]
-    val mockAuthConnector = createFakeAuthConnector()
-
-    lazy val controller = new DeclarationController {
-      override def cachingConnector: CachingConnector = mockCachingConnector
-
-      override def ihtConnector: IhtConnector = injectedIhtConnector
-
-      override val metrics: IhtMetrics = mockIhtMetrics
-
-      override def authConnector: AuthConnector = mockAuthConnector
-
-      override implicit val formPartialRetriever: FormPartialRetriever = mockFormPartialRetriever
-    }
-
     when(mockCachingConnector.getRegistrationDetails(any(), any()))
       .thenReturn(Future.successful(Some(testRegistrationDetails)))
 
@@ -54,7 +72,7 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
 
     "a successful application submission occurs" should {
 
-      def result() = Try { await {
+      def result() = {
         WireMock.configureFor(wiremockHost, wiremockPort)
         stubGet("/iht/AA123456A/home/caseDetails/ABC1234567890", OK, Json.toJson(testRegistrationDetails).toString())
         stubGet("/iht/AA123456A/application/get/ABC1234567890/AAABBBCCC", OK, Json.toJson(testApplicationDetails).toString())
@@ -63,49 +81,65 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
         stubGet("/iht/AA123456A/application/delete/ABC1234567890", OK, "")
         stubGet("/iht/AA123456A/application/probateDetails/ABC1234567890/XX123456789X", OK, Json.toJson(testProbateDetails).toString())
         controller.onSubmit(fakeRequest)
-      }}
+      }
 
       "call the case registration details once" in {
-        result()
+        await {
+          result()
+        }
         verify(getRequestedFor(urlEqualTo("/iht/AA123456A/home/caseDetails/ABC1234567890")))
         wireMockServer.countRequestsMatching(getRequestedFor(urlEqualTo("/iht/AA123456A/home/caseDetails/ABC1234567890")).build()).getCount shouldBe 1
       }
 
       "retrieve the application details once" in {
-        result()
+        await {
+          result()
+        }
         verify(getRequestedFor(urlEqualTo("/iht/AA123456A/application/get/ABC1234567890/AAABBBCCC")))
         wireMockServer.countRequestsMatching(getRequestedFor(urlEqualTo("/iht/AA123456A/application/get/ABC1234567890/AAABBBCCC")).build()).getCount shouldBe 1
       }
 
       "save the application details once" in {
-        result()
+        await {
+          result()
+        }
         verify(postRequestedFor(urlEqualTo("/iht/AA123456A/application/save/AAABBBCCC"))
         .withRequestBody(equalToJson(Json.toJson(testSaveApplicationDetails).toString())))
         wireMockServer.countRequestsMatching(postRequestedFor(urlEqualTo("/iht/AA123456A/application/save/AAABBBCCC")).build()).getCount shouldBe 1
       }
 
       "submit the application details once" in {
-        result()
+        await {
+          result()
+        }
         verify(postRequestedFor(urlEqualTo("/iht/AA123456A/ABC1234567890/application/submit"))
         .withRequestBody(equalToJson(Json.toJson(testSaveApplicationDetails).toString())))
         wireMockServer.countRequestsMatching(postRequestedFor(urlEqualTo("/iht/AA123456A/ABC1234567890/application/submit")).build()).getCount shouldBe 1
       }
 
       "delete the old application details once" in {
-        result()
+        await {
+          result()
+        }
         verify(getRequestedFor(urlEqualTo("/iht/AA123456A/application/delete/ABC1234567890")))
         wireMockServer.countRequestsMatching(getRequestedFor(urlEqualTo("/iht/AA123456A/application/delete/ABC1234567890")).build()).getCount shouldBe 1
       }
 
       "retrieve the probate details once" in {
-        result()
+        await {
+          result()
+        }
         verify(getRequestedFor(urlEqualTo("/iht/AA123456A/application/probateDetails/ABC1234567890/XX123456789X")))
         wireMockServer.countRequestsMatching(getRequestedFor(urlEqualTo("/iht/AA123456A/application/probateDetails/ABC1234567890/XX123456789X")).build()).getCount shouldBe 1
       }
 
       "return the correct result" in {
-        status(result().get) shouldBe SEE_OTHER
-        redirectLocation(result().get) shouldBe Some(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad().url)
+        val res = await {
+          result()
+        }
+
+        status(res) shouldBe SEE_OTHER
+        redirectLocation(res) shouldBe Some(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad().url)
       }
     }
 

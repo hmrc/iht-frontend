@@ -18,13 +18,14 @@
 @import iht.models.CoExecutor
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import uk.gov.hmrc.play.views.html.helpers.form
 
 @(addMoreCoExecutorsForm: Form[Option[Boolean]],
   areOthersApplying: Boolean,
   coExecutors: Seq[CoExecutor],
   actionCall: Call,
-  cancelCall: Option[Call] = None)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+  cancelCall: Option[Call] = None)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_registration(title = Messages("iht.registration.othersApplyingForProbate"),
   browserTitle = Some(Messages("page.iht.registration.executor-overview.browserTitle")),
@@ -57,7 +58,7 @@
       }
   </ul>
 
-  @if(coExecutors.length < IhtProperties.maximumAdditionalCoExecutors) {
+  @if(coExecutors.length < appConfig.maximumAdditionalCoExecutors) {
     @defining( Messages("page.iht.registration.executor-overview.sectionName"))  { sectionName =>
       @defining( Messages("page.iht.registration.executor-overview.yesnoQuestion")) { legend =>
 

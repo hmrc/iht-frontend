@@ -24,7 +24,8 @@ import iht.views.html.application.gift.gifts_details
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 
 
 class GiftsDetailsViewTest extends SubmittableApplicationPageBehaviour[PreviousYearsGifts] {

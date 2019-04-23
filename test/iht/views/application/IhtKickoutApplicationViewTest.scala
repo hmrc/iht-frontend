@@ -21,11 +21,10 @@ import iht.testhelpers.CommonBuilder
 import iht.utils.{ApplicationKickOutHelper, KickOutReason}
 import iht.views.ViewTestHelper
 import iht.views.html.application.iht_kickout_application
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 
-/**
-  * Created by vineet on 15/11/16.
-  */
+
 
 class IhtKickoutApplicationViewTest extends ViewTestHelper{
 

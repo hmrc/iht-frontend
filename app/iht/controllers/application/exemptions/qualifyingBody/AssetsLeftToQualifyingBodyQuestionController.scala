@@ -16,8 +16,8 @@
 
 package iht.controllers.application.exemptions.qualifyingBody
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
@@ -25,11 +25,10 @@ import iht.models.application.exemptions._
 import iht.utils.CommonHelper
 import iht.views.html.application.exemption.qualifyingBody.assets_left_to_qualifying_body_question
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.Call
+import play.api.mvc.{Call, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
@@ -38,7 +37,9 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 class AssetsLeftToQualifyingBodyQuestionControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                                  val cachingConnector: CachingConnector,
                                                                  val authConnector: AuthConnector,
-                                                                 val formPartialRetriever: FormPartialRetriever) extends AssetsLeftToQualifyingBodyQuestionController {
+                                                                 val formPartialRetriever: FormPartialRetriever,
+                                                                 implicit val appConfig: AppConfig,
+                                                                 val cc: MessagesControllerComponents) extends FrontendController(cc) with AssetsLeftToQualifyingBodyQuestionController {
 
 }
 
@@ -46,10 +47,10 @@ trait AssetsLeftToQualifyingBodyQuestionController extends EstateController {
 
 
   lazy val exemptionsOverviewPage: Call = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsOtherID))
+    iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(appConfig.ExemptionsOtherID))
   lazy val qualifyingBodyOverviewPage: Call =
     CommonHelper.addFragmentIdentifier(
-      iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad(), Some(ExemptionsOtherAssetsID))
+      iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad(), Some(appConfig.ExemptionsOtherAssetsID))
   lazy val qualifyingBodyDetailsOverviewPage: Call =
     iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onPageLoad()
 

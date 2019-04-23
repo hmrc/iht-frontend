@@ -16,7 +16,7 @@
 
 package iht
 
-import iht.config.ApplicationConfig
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
@@ -37,9 +37,9 @@ trait TestUtils {
   implicit val exenapper = ArgumentCaptor.forClass(classOf[ExecutionContext])
   implicit val reqnapper = ArgumentCaptor.forClass(classOf[Request[_]])
 
-  def buildLoginUrl(ihtSection: IhtSection.Value) = ihtSection match {
-    case IhtSection.Registration => ApplicationConfig.ggSignInFullUrlRegistration
-    case IhtSection.Application => ApplicationConfig.ggSignInFullUrlApplication
+  def buildLoginUrl(ihtSection: IhtSection.Value)(implicit appConfig: AppConfig) = ihtSection match {
+    case IhtSection.Registration => appConfig.ggSignInFullUrlRegistration
+    case IhtSection.Application => appConfig.ggSignInFullUrlApplication
     case _ => throw new RuntimeException("Auth mechanism could not be retrieved from conf")
   }
 

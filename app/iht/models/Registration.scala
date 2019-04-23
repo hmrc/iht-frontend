@@ -16,13 +16,13 @@
 
 package iht.models
 
-import java.util.{List => JList}
-
-import iht.constants.IhtProperties
-import iht.utils.{StringHelper, ApplicationStatus => AppStatus}
+import iht.config.AppConfig
+import iht.utils.{StringHelperFixture, ApplicationStatus => AppStatus}
 import org.joda.time.LocalDate
 import play.api.Logger
 import play.api.libs.json.Json
+import play.api.libs.json.JodaWrites._
+import play.api.libs.json.JodaReads._
 
 /**
   * Created by yasar on 3/10/15.
@@ -36,7 +36,7 @@ case class ApplicantDetails(firstName: Option[String] = None,
                             ukAddress: Option[UkAddress] = None,
                             phoneNo: Option[String] = None,
                             country: Option[String] = None,
-                            role: Option[String] = Some(IhtProperties.roleLeadExecutor),
+                            role: Option[String],
                             doesLiveInUK: Option[Boolean] = None,
                             isApplyingForProbate: Option[Boolean] = None,
                             executorOfEstate: Option[Boolean] = None
@@ -44,8 +44,8 @@ case class ApplicantDetails(firstName: Option[String] = None,
 
   val name = firstName.getOrElse("") + " " + lastName.getOrElse("")
 
-  def ninoFormatted = nino match {
-    case Some(n) => StringHelper.ninoFormat(n)
+  def ninoFormatted(implicit appConfig: AppConfig) = nino match {
+    case Some(n) => StringHelperFixture().ninoFormat(n)
     case None => ""
   }
 }
@@ -72,8 +72,8 @@ case class DeceasedDetails(firstName: Option[String] = None,
     nino.isDefined && ukAddress.isDefined &&
     dateOfBirth.isDefined && domicile.isDefined && maritalStatus.isDefined
 
-  def ninoFormatted = nino match {
-    case Some(n) => StringHelper.ninoFormat(n)
+  def ninoFormatted(implicit appConfig: AppConfig) = nino match {
+    case Some(n) => StringHelperFixture().ninoFormat(n)
     case None => ""
   }
 }
@@ -100,7 +100,7 @@ case class CoExecutor(id: Option[String] = None,
                       utr: Option[String] = None,
                       ukAddress: Option[UkAddress] = None,
                       contactDetails: ContactDetails,
-                      role: Option[String] = Some(IhtProperties.roleExecutor),
+                      role: Option[String],
                       isAddressInUk: Option[Boolean] = None) {
 
 
@@ -110,7 +110,7 @@ case class CoExecutor(id: Option[String] = None,
     CoExecutor(id, coExec.firstName, middleName, coExec.lastName, coExec.dateOfBirth, coExec.nino,
       utr, ukAddress, ContactDetails(coExec.contactDetails.phoneNo, contactDetails.email), role, isAddressInUk)
 
-  def ninoFormatted = StringHelper.ninoFormat(nino)
+  def ninoFormatted(implicit appConfig: AppConfig) = StringHelperFixture().ninoFormat(nino)
 }
 
 object CoExecutor {

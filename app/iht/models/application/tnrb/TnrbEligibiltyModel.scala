@@ -17,14 +17,10 @@
 package iht.models.application.tnrb
 
 import org.joda.time.LocalDate
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, OFormat}
+import play.api.libs.json.JodaWrites._
+import play.api.libs.json.JodaReads._
 
-/**
- * Created by Vineet Tyagi on 23/04/15.
- *
- * Model for TRNB Eligibility and associated with iht.forms.TnrbEligibilityForm
- *
- */
 case class TnrbEligibiltyModel(isPartnerLivingInUk: Option[Boolean],
                                isGiftMadeBeforeDeath: Option[Boolean],
                                isStateClaimAnyBusiness: Option[Boolean],
@@ -37,7 +33,7 @@ case class TnrbEligibiltyModel(isPartnerLivingInUk: Option[Boolean],
                                dateOfMarriage: Option[LocalDate],
                                dateOfPreDeceased: Option[LocalDate]) {
 
-  def areAllQuestionsAnswered = isPartnerLivingInUk.isDefined &&
+  def areAllQuestionsAnswered: Boolean = isPartnerLivingInUk.isDefined &&
     isGiftMadeBeforeDeath.isDefined &&
     isStateClaimAnyBusiness.isDefined &&
     isPartnerGiftWithResToOther.isDefined &&
@@ -50,10 +46,10 @@ case class TnrbEligibiltyModel(isPartnerLivingInUk: Option[Boolean],
 
 
   object Name {
-    override def toString = firstName.getOrElse("") + " " + lastName.getOrElse("")
+    override def toString: String = firstName.getOrElse("") + " " + lastName.getOrElse("")
   }
 }
 
 object TnrbEligibiltyModel {
-  implicit val formats = Json.format[TnrbEligibiltyModel]
+  implicit val formats: OFormat[TnrbEligibiltyModel] = Json.format[TnrbEligibiltyModel]
 }

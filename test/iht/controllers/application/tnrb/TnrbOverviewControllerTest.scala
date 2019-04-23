@@ -16,18 +16,22 @@
 
 package iht.controllers.application.tnrb
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.MockObjectBuilder._
+import iht.controllers.registration.deceased.DeceasedAddressQuestionController
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 /**
- * Created by Vineet Tyagi on 21/04/15.
+
  *
  * Test Class for iht.controllers.application.TnrbEligibiltyController
  *
@@ -46,10 +50,12 @@ class TnrbOverviewControllerTest extends ApplicationControllerTest {
       ihtReference=Some("AI123456")
     )
 
-  // Mock the CachingConnector
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with TnrbOverviewController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
-
-  def tnrbOverviewController = new TnrbOverviewController {
+  def tnrbOverviewController = new TestController {
     override val cachingConnector = mockCachingConnector
 	  override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
@@ -57,7 +63,7 @@ class TnrbOverviewControllerTest extends ApplicationControllerTest {
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def tnrbOverviewControllerNotAuthorised = new TnrbOverviewController {
+  def tnrbOverviewControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector

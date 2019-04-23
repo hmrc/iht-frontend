@@ -21,10 +21,9 @@ import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils._
 import iht.utils.tnrb.TnrbHelper
 import iht.views.ViewTestHelper
-import play.api.i18n.Messages.Implicits._
 import iht.views.html.application.tnrb.deceased_widow_check_date
 
-class DeceasedWidowCheckDateViewTest extends ViewTestHelper {
+class DeceasedWidowCheckDateViewTest extends ViewTestHelper with TnrbHelper {
 
   val ihtReference = Some("ABC1A1A1A")
   val deceasedDetails = CommonBuilder.buildDeceasedDetails
@@ -37,7 +36,7 @@ class DeceasedWidowCheckDateViewTest extends ViewTestHelper {
 
 
   lazy val pageTitle = messagesApi("page.iht.application.tnrbEligibilty.overview.partner.dod.question",
-                              TnrbHelper.spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheckModel,
+                              spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheckModel,
                                    messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
                                                DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails))))
 

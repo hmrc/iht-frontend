@@ -16,17 +16,17 @@
 
 package iht.controllers.registration.executor
 
+import iht.config.AppConfig
 import iht.connector.CachingConnector
 import iht.controllers.registration.{RegistrationController, routes => registrationRoutes}
-import iht.forms.registration.CoExecutorForms._
+import iht.forms.registration.CoExecutorForms
 import iht.metrics.IhtMetrics
 import iht.models.RegistrationDetails
 import javax.inject.Inject
-import play.api.Play.current
 import play.api.data.Form
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{AnyContent, Call, Request}
+import play.api.mvc.{AnyContent, Call, MessagesControllerComponents, Request}
 import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -34,10 +34,12 @@ import scala.concurrent.Future
 class ExecutorOverviewControllerImpl @Inject()(val metrics: IhtMetrics,
                                                val cachingConnector: CachingConnector,
                                                val authConnector: AuthConnector,
-                                               val formPartialRetriever: FormPartialRetriever) extends ExecutorOverviewController
+                                               val formPartialRetriever: FormPartialRetriever,
+                                               implicit val appConfig: AppConfig,
+                                               val cc: MessagesControllerComponents) extends FrontendController(cc) with ExecutorOverviewController
 
 
-trait ExecutorOverviewController extends RegistrationController {
+trait ExecutorOverviewController extends RegistrationController with CoExecutorForms {
 
   def cachingConnector: CachingConnector
   override def guardConditions: Set[Predicate] = Set((rd, _) => rd.areOthersApplyingForProbate.getOrElse(false))

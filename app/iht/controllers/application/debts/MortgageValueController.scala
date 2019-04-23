@@ -16,8 +16,8 @@
 
 package iht.controllers.application.debts
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.ApplicationController
 import iht.forms.ApplicationForms._
 import iht.models._
@@ -27,12 +27,11 @@ import iht.models.application.debts._
 import iht.utils.{ApplicationStatus, CommonHelper, StringHelper}
 import javax.inject.Inject
 import play.api.Logger
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Request, Result}
+import play.api.mvc.{MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -40,9 +39,11 @@ import scala.concurrent.Future
 class MortgageValueControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                             val ihtConnector: IhtConnector,
                                             val authConnector: AuthConnector,
-                                            override implicit val formPartialRetriever: FormPartialRetriever) extends MortgageValueController
+                                            override implicit val formPartialRetriever: FormPartialRetriever,
+                                            implicit val appConfig: AppConfig,
+                                            val cc: MessagesControllerComponents) extends FrontendController(cc) with MortgageValueController
 
-trait MortgageValueController extends ApplicationController {
+trait MortgageValueController extends ApplicationController with StringHelper {
 
 
   def cachingConnector: CachingConnector
@@ -56,7 +57,7 @@ trait MortgageValueController extends ApplicationController {
       implicit request => {
         withRegistrationDetails { regDetails =>
           for {
-            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
+            applicationDetails <- ihtConnector.getApplication(getNino(userNino),
               CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
               regDetails.acknowledgmentReference)
           } yield {
@@ -100,7 +101,7 @@ trait MortgageValueController extends ApplicationController {
 
       implicit request => {
         withRegistrationDetails { regDetails =>
-          val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(userNino),
+          val applicationDetailsFuture = ihtConnector.getApplication(getNino(userNino),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
@@ -122,7 +123,7 @@ trait MortgageValueController extends ApplicationController {
                 },
                 mortgage => {
                   val newMort = mortgage.copy(id = id)
-                  saveApplication(StringHelper.getNino(userNino), id, newMort, appDetails, regDetails)
+                  saveApplication(getNino(userNino), id, newMort, appDetails, regDetails)
                 }
               )
             }
@@ -163,7 +164,7 @@ trait MortgageValueController extends ApplicationController {
         val updatedAppDetails = x.copy(status = ApplicationStatus.InProgress, allLiabilities = Some(updatedLiabilities))
 
         ihtConnector.saveApplication(nino, updatedAppDetails, regDetails.acknowledgmentReference) map (_ =>
-          Redirect(CommonHelper.addFragmentIdentifier(routes.MortgagesOverviewController.onPageLoad, Some(DebtsMortgagesPropertyID + id))))
+          Redirect(CommonHelper.addFragmentIdentifier(routes.MortgagesOverviewController.onPageLoad, Some(appConfig.DebtsMortgagesPropertyID + id))))
       }
       case _ => {
         Logger.warn("Application Details not found")

@@ -17,7 +17,8 @@
 package iht.views.registration
 
 import iht.views.ViewTestHelper
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import iht.utils._
 import iht.views.html.registration.completed_registration
 

@@ -16,15 +16,14 @@
 
 package iht.views.registration.executor
 
-import iht.forms.registration.CoExecutorForms.othersApplyingForProbateForm
+import iht.forms.registration.CoExecutorForms
 import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.executor.others_applying_for_probate
 import iht.views.registration.YesNoQuestionViewBehaviour
 import play.api.data.Form
-import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
 
-trait OthersApplyingForProbateViewFixture extends YesNoQuestionViewBehaviour[Option[Boolean]] {
+trait OthersApplyingForProbateViewFixture extends YesNoQuestionViewBehaviour[Option[Boolean]] with CoExecutorForms {
   override def guidanceParagraphs = Set(messagesApi("page.iht.registration.others-applying-for-probate.description"))
 
   override def pageTitle = messagesApi("page.iht.registration.others-applying-for-probate.sectionTitle")

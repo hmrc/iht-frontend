@@ -16,30 +16,65 @@
 
 package iht.config
 
-import iht.FakeIhtApp
-import iht.constants.IhtProperties
 import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.OneAppPerTest
+import play.api.Environment
 import uk.gov.hmrc.play.test.UnitSpec
 
-/**
- *
- * Created by Vineet Tyagi on 29/09/15.
- *
- */
-class IhtPropertiesReaderTest extends UnitSpec with OneAppPerTest with MockitoSugar{
+class IhtPropertiesReaderTest extends UnitSpec with OneAppPerTest with MockitoSugar {
+  lazy val ihtPropertyRetriever: IhtPropertyRetriever = new IhtPropertyRetriever {
+    override lazy val environment: Environment = app.environment
+  }
 
-
-    "IhtPropertiesReaderTest" must {
-
+  "IhtPropertiesReaderTest" must {
     "should read the key and return appropriate value" in {
-      val maxExecutors = IhtProperties.maxCoExecutors
-      val ukIsoCountryCode = IhtProperties.ukIsoCountryCode
-      val govUkLink = IhtProperties.linkGovUkIht
+      val maxExecutors = ihtPropertyRetriever.getPropertyAsInt("maxCoExecutors")
+      val ukIsoCountryCode = ihtPropertyRetriever.getProperty("ukIsoCountryCode")
+      val govUkLink = ihtPropertyRetriever.getProperty("linkGovUkIht")
 
       assert(maxExecutors == 3,"Maximum executors value is 3")
       ukIsoCountryCode shouldBe "GB"
       assert(govUkLink=="https://www.gov.uk/valuing-estate-of-someone-who-died" , "Link value is https://www.gov.uk/valuing-estate-of-someone-who-died")
+    }
+  }
+
+  "parseAssignmentsToSeqTuples" must {
+    "parse correctly a valid seq of 2 assignments with spaces before or after key values" in {
+      val result = ihtPropertyRetriever.parseAssignmentsToSeqTuples(
+        "aaa  =bbb,ccc=  ddd"
+      )
+      result shouldBe Seq(
+        ("aaa", "bbb"),
+        ("ccc", "ddd")
+      )
+    }
+
+    "parse correctly a valid seq of 1 assignment with spaces before and after key values" in {
+      val result = ihtPropertyRetriever.parseAssignmentsToSeqTuples(
+        "aaa  =   bbb"
+      )
+      result shouldBe Seq(
+        ("aaa", "bbb")
+      )
+    }
+
+    "parse correctly an empty string" in {
+      val result = ihtPropertyRetriever.parseAssignmentsToSeqTuples(
+        ""
+      )
+      result shouldBe Seq()
+    }
+
+    "throw an exception if invalid assignments are given (no equals symbols)" in {
+      a[RuntimeException] mustBe thrownBy {
+        ihtPropertyRetriever.parseAssignmentsToSeqTuples("aaa,bbb")
+      }
+    }
+
+    "throw an exception if invalid assignments are given (too many equals symbols)" in {
+      a[RuntimeException] mustBe thrownBy {
+        ihtPropertyRetriever.parseAssignmentsToSeqTuples("aaa=bbb=ccc")
+      }
     }
   }
 }

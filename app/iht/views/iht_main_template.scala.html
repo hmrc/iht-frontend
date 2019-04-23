@@ -14,17 +14,19 @@
  * limitations under the License.
  *@
 
-@import iht.config.ApplicationConfig
 @import iht.constants.IhtProperties
 @import iht.controllers.CustomLanguageController
-@import iht.utils.StringHelper
+@import iht.utils.StringHelperFixture
 @import iht.views.html.ihtHelpers.custom
 @import iht.views.html.ihtHelpers.custom.full_width_banner
 @import iht.views.html.ihtHelpers.standard
 @import uk.gov.hmrc.play.language.LanguageUtils
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import uk.gov.hmrc.play.views.html.layouts
+@import play.twirl.api.HtmlFormat
 
+@import iht.controllers.LanguageControlUtils
 @(title: String = "",
         signOutText: String = "",
         browserTitle: Option[String] = None,
@@ -42,15 +44,19 @@
         isRegistration: Boolean = false,
         highlightBoxClass:Option[String] = None,
         optionContentBelowTitle: Option[Html] = None
-)(mainContent: Html)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+)(mainContent: Html)(
+        implicit request:Request[_],
+        messages: Messages,
+        ihtFormPartialRetriever: FormPartialRetriever,
+        appConfig: AppConfig)
 
-@currentLang = @{LanguageUtils.getCurrentLang.language}
+@currentLang = @{messages.lang.language}
 
 @headingClassName() = @{
     if(headingClass != ""){
         headingClass
     }else{
-        if(StringHelper.isNameLong(headingName)){
+        if(StringHelperFixture().isNameLong(headingName)){
             "heading-large"
         } else {
             "heading-xlarge"
@@ -81,7 +87,7 @@
 }
 
 @scriptElement = {
-@if(ApplicationConfig.analyticsToken.contains("N/A")) {
+@if(appConfig.analyticsToken.contains("N/A")) {
     <script type="text/javascript">
             var ga = function(send, event, category, action, label, args) {
                 console.log(JSON.stringify({
@@ -105,11 +111,11 @@
     <script src="https://cdn.optimizely.com/js/8390718215.js"></script>
 
     <script src='@routes.Assets.versioned("javascripts/iht-app.min.js")'> </script>
-@if(hasTimeOut && ApplicationConfig.enableRefresh) {
+@if(hasTimeOut && appConfig.enableRefresh) {
     <script>
             $.timeoutDialog({
-                timeout: @ApplicationConfig.timeOutSeconds,
-                countdown: @ApplicationConfig.timeOutCountdownSeconds,
+                timeout: @appConfig.timeOutSeconds,
+                countdown: @appConfig.timeOutCountdownSeconds,
                 keep_alive_url: "@iht.controllers.routes.SessionManagementController.keepAlive.url",
                 title: "@Messages("iht.timeoutDialog.title")",htHelpers.
                 messageSeconds: "@Messages("iht.timeoutDialog.seconds")",
@@ -133,11 +139,14 @@
 }
 
     @commonContentHeader = {
-    @if(ApplicationConfig.isWelshEnabled){
+    @if(appConfig.isWelshEnabled){
         @{
             standard.language_selection(
-                CustomLanguageController.languageMap,
-                CustomLanguageController.langToCall,
+                Map(
+                    "english" -> Lang("en"),
+                    "cymraeg" -> Lang("cy")
+                ),
+                (lang: String) => iht.controllers.routes.CustomLanguageController.switchToLanguage(lang),
                 Some("translate float--right u--no-print")
             )
         }
@@ -201,8 +210,8 @@
 
     @bodyEnd = {
     @layouts.footer(
-        analyticsToken = ApplicationConfig.analyticsToken,
-        analyticsHost = ApplicationConfig.analyticsHost,
+        analyticsToken = appConfig.analyticsToken,
+        analyticsHost = appConfig.analyticsHost,
         ssoUrl = None,
         scriptElem = Some(scriptElement),
         gaCalls = None
@@ -210,7 +219,7 @@
 }
 
 @views.html.layouts.govuk_template(
-    title = if(browserTitle.isDefined) { (browserTitle.map(_ + " " + Messages("site.title.govuk"))) } else Some(title),
+    title = if(browserTitle.isDefined) { browserTitle.map(_ + " " + Messages("site.title.govuk")) } else Some(title),
     bodyClasses = None)(
     head = layouts.head(linkElem = Some(linkElement), headScripts = None),
     bodyEnd = bodyEnd,

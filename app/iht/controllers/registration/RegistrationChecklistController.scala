@@ -16,11 +16,12 @@
 
 package iht.controllers.registration
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import javax.inject.Inject
-import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{Action, AnyContent}
-import uk.gov.hmrc.play.bootstrap.controller.{FrontendController, UnauthorisedAction}
+import play.api.i18n.I18nSupport
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -28,15 +29,18 @@ import scala.concurrent.Future
 class RegistrationChecklistControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                                     val ihtConnector: IhtConnector,
                                                     val formPartialRetriever: FormPartialRetriever,
-                                                    val messagesApi: MessagesApi) extends RegistrationChecklistController
+                                                    val cc: MessagesControllerComponents,
+                                                    implicit val appConfig: AppConfig)
+  extends FrontendController(cc) with RegistrationChecklistController
 
 trait RegistrationChecklistController extends FrontendController with I18nSupport {
+  implicit val appConfig: AppConfig
 
   def cachingConnector : CachingConnector
   def ihtConnector : IhtConnector
   implicit val formPartialRetriever: FormPartialRetriever
 
-  def onPageLoad: Action[AnyContent] = UnauthorisedAction.async {
+  def onPageLoad: Action[AnyContent] = Action.async {
     implicit request => {
       Future.successful(Ok(iht.views.html.registration.registration_checklist()))
     }

@@ -16,19 +16,20 @@
 
 package iht.utils
 
-import iht.config.{IhtPropertiesReader => Property}
+import iht.config.AppConfig
 import iht.connector.CachingConnector
-import iht.constants.IhtProperties
 import iht.models.{DeceasedDateOfDeath, RegistrationDetails}
 import play.api.Logger
 import play.api.mvc.Results._
 import play.api.mvc.{Call, Request, Result}
+import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import uk.gov.hmrc.http.HeaderCarrier
 
-object RegistrationKickOutHelper {
+trait RegistrationKickOutHelper {
+  implicit val appConfig: AppConfig
+
   lazy val RegistrationKickoutReasonCachingKey = "RegistrationKickoutReason"
 
   lazy val KickoutDeceasedDateOfDeathDateCapitalTax = "KickoutDeceasedDateOfDeathDateCapitalTax"
@@ -46,8 +47,8 @@ object RegistrationKickOutHelper {
 
   def kickoutReasonDeceasedDateOfDeathInternal(deceasedDateOfDeath:DeceasedDateOfDeath): Option[String] =
     deceasedDateOfDeath.dateOfDeath match {
-    case x if IhtProperties.dateOfDeathMinValidationDate.compareTo(deceasedDateOfDeath.dateOfDeath) > 0 => Some(KickoutDeceasedDateOfDeathDateCapitalTax)
-    case x if IhtProperties.dateOfDeathMaxValidationDate.compareTo(deceasedDateOfDeath.dateOfDeath) > 0 => Some(KickoutDeceasedDateOfDeathDateOther)
+    case x if appConfig.dateOfDeathMinValidationDate.compareTo(deceasedDateOfDeath.dateOfDeath) > 0 => Some(KickoutDeceasedDateOfDeathDateCapitalTax)
+    case x if appConfig.dateOfDeathMaxValidationDate.compareTo(deceasedDateOfDeath.dateOfDeath) > 0 => Some(KickoutDeceasedDateOfDeathDateOther)
     case _ => None
   }
 
@@ -56,16 +57,16 @@ object RegistrationKickOutHelper {
 
   def kickoutReasonDeceasedDetails(rd: RegistrationDetails): Option[String] =
     rd.deceasedDetails.flatMap(_.domicile).flatMap{
-      case IhtProperties.domicileEnglandOrWales => None
-      case IhtProperties.domicileScotland => Some(KickoutDeceasedDetailsLocationScotland)
-      case IhtProperties.domicileNorthernIreland => Some(KickoutDeceasedDetailsLocationNI)
+      case appConfig.domicileEnglandOrWales => None
+      case appConfig.domicileScotland => Some(KickoutDeceasedDetailsLocationScotland)
+      case appConfig.domicileNorthernIreland => Some(KickoutDeceasedDetailsLocationNI)
       case _ => Some(KickoutDeceasedDetailsLocationOther)
   }
 
   def kickoutReasonApplicantDetails(rd: RegistrationDetails): Option[String] = {
     rd.applicantDetails.flatMap(_.country).flatMap{
-      case IhtProperties.applicantCountryScotland => Some(RegistrationKickOutHelper.KickoutApplicantDetailsProbateScotland)
-      case IhtProperties.applicantCountryNorthernIreland => Some(RegistrationKickOutHelper.KickoutApplicantDetailsProbateNi)
+      case appConfig.applicantCountryScotland => Some(KickoutApplicantDetailsProbateScotland)
+      case appConfig.applicantCountryNorthernIreland => Some(KickoutApplicantDetailsProbateNi)
       case _ => None
     }
   }
@@ -73,14 +74,14 @@ object RegistrationKickOutHelper {
   def checkNotApplyingForProbateKickout(rd: RegistrationDetails): Option[String] = {
     rd.applicantDetails.flatMap(_.isApplyingForProbate).flatMap{
       case true => None
-      case _ => Some(RegistrationKickOutHelper.KickoutNotApplyingForProbate)
+      case _ => Some(KickoutNotApplyingForProbate)
     }
   }
 
   def checkNotAnExecutorKickout(rd: RegistrationDetails): Option[String] = {
     rd.applicantDetails.flatMap(_.executorOfEstate).flatMap{
       case true => None
-      case _ => Some(RegistrationKickOutHelper.KickoutNotAnExecutor)
+      case _ => Some(KickoutNotAnExecutor)
     }
   }
 

@@ -15,17 +15,18 @@
  *@
 
 @import iht.constants.Constants
-@import iht.constants.IhtProperties._
+
 @import iht.models.application.basicElements.BasicEstateElement
 @import iht.utils._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import uk.gov.hmrc.play.views.html.helpers.form
 @import iht.models.RegistrationDetails
 @import iht.views.html.iht_main_template_application
 @import iht.views.html.ihtHelpers
 
 @(moneyOwedForm: Form[BasicEstateElement],
-registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)}
 @deceasedNameWrap = @{ihtHelpers.custom.name(deceasedName)}
@@ -61,7 +62,7 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
         @ihtHelpers.custom.return_link(
             Messages("page.iht.application.return.to.assetsOf", deceasedNameWrap),
             Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
-            AppSectionMoneyOwedID
+            appConfig.AppSectionMoneyOwedID
         )
     }
 }

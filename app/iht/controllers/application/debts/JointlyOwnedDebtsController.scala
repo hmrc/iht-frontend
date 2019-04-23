@@ -16,8 +16,8 @@
 
 package iht.controllers.application.debts
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
@@ -25,16 +25,18 @@ import iht.models.application.debts.{AllLiabilities, BasicEstateElementLiabiliti
 import iht.utils.CommonHelper
 import iht.views.html.application.debts.jointly_owned
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class JointlyOwnedDebtsControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                 val cachingConnector: CachingConnector,
                                                 val authConnector: AuthConnector,
-                                                val formPartialRetriever: FormPartialRetriever) extends JointlyOwnedDebtsController {
+                                                val formPartialRetriever: FormPartialRetriever,
+implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with JointlyOwnedDebtsController {
 
 }
 
@@ -67,7 +69,7 @@ trait JointlyOwnedDebtsController extends EstateController {
         jointlyOwnedDebts,
         jointly_owned.apply,
         updateApplicationDetails,
-        CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(DebtsOwedJointlyID)),
+        CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(appConfig.DebtsOwedJointlyID)),
         userNino
       )
     }

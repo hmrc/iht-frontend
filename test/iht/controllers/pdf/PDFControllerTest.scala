@@ -16,16 +16,20 @@
 
 package iht.controllers.pdf
 
+import iht.config.AppConfig
 import iht.constants.Constants
 import iht.controllers.application.ApplicationControllerTest
+import iht.controllers.application.assets.pensions.PensionsOverviewController
 import iht.controllers.application.pdf.PDFController
 import iht.models.RegistrationDetails
 import iht.testhelpers.CommonBuilder
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.utils.pdf.XmlFoToPDF
 import org.mockito.ArgumentMatchers._
 import play.api.i18n.MessagesApi
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -36,15 +40,18 @@ import scala.concurrent.Future
 class PDFControllerTest extends ApplicationControllerTest {
 
   val ihtRef = "1A1A1A"
+  val mockXmlFoToPDF: XmlFoToPDF = app.injector.instanceOf[XmlFoToPDF]
 
-  def pdfController = new PDFController {
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with PDFController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit lazy val appConfig: AppConfig = mockAppConfig
+  }
+
+  def pdfController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
-
-    override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-
-    lazy val xmlFoToPDF = XmlFoToPDF
+    override val xmlFoToPDF: XmlFoToPDF = mockXmlFoToPDF
     override implicit val formPartialRetriever: FormPartialRetriever = mockPartialRetriever
   }
 

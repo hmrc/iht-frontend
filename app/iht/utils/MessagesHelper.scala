@@ -16,38 +16,13 @@
 
 package iht.utils
 
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits.applicationMessages
-import play.api.i18n.{Lang, Messages}
+import play.api.i18n.Messages
+import play.api.mvc.Request
 
-/**
-  *
-  * This object contains all the common functionalities that can be reused
-  */
 object MessagesHelper {
-  def translateToPreferredLanguage(content: String, sourceMessages: Messages, targetLanguageCode: String): String = {
-    val sourceLang = sourceMessages.lang.code.substring(0, 2)
-    if (sourceLang == targetLanguageCode) {
-      content
-    } else {
-      sourceMessages.messages.messages(sourceLang).find(_._2 == content) match {
-        case None =>
-          content
-        case Some(messageFound) =>
-          sourceMessages.messages.messages(targetLanguageCode)(messageFound._1).replace("''", "'")
-      }
-    }
-  }
-
-  def messagesForLang(sourceMessages: Messages, targetLanguageCode: String): Messages = {
-    implicit val lang = Lang.apply(targetLanguageCode)
-    applicationMessages
-  }
-
-  def englishMessages(messageKey: String, messages: Messages): Option[String] = {
-    messages.messages.messages("en").find(_._1 == messageKey) match {
-      case None => None
-      case Some(msg) => Some(msg._2.replace("''", "'"))
-    }
+  def englishMessages(messageKey: String, englishMessages: Messages)(implicit request: Request[_]): Option[String] = {
+    Some(
+      englishMessages(messageKey).replace("''", "'")
+    ).filterNot(_ == messageKey)
   }
 }

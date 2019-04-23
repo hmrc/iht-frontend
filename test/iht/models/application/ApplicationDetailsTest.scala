@@ -17,14 +17,15 @@
 package iht.models.application
 
 import iht.FakeIhtApp
-import iht.constants.IhtProperties
+import iht.config.AppConfig
 import iht.models.application.assets._
 import iht.models.application.exemptions.BasicExemptionElement
 import iht.models.application.tnrb.WidowCheck
 import iht.testhelpers.{AssetsWithAllSectionsSetToNoBuilder, CommonBuilder, TestHelper}
 import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
+import play.api.i18n.{Lang, Messages, MessagesApi}
+import play.api.mvc.MessagesControllerComponents
 
 /**
   * Created by yusuf on 13/07/15.
@@ -34,6 +35,12 @@ class ApplicationDetailsTest extends FakeIhtApp with MockitoSugar {
   val applicationDetailsWithValues = CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts
   val emptyApplicationDetails = CommonBuilder.buildApplicationDetails
   val ukAddress = Some(CommonBuilder.DefaultUkAddress)
+
+  val mockControllerComponents: MessagesControllerComponents = app.injector.instanceOf[MessagesControllerComponents]
+  implicit val mockAppConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  implicit val lang: Lang = Lang.defaultLang
+  val messagesApi: MessagesApi = mockControllerComponents.messagesApi
+  implicit val messages: Messages = messagesApi.preferred(Seq(lang)).messages
 
   private def propertyValue(value: BigDecimal) = Some(value)
 
@@ -800,18 +807,18 @@ class ApplicationDetailsTest extends FakeIhtApp with MockitoSugar {
       val appDetails = emptyApplicationDetails.copy(increaseIhtThreshold = Some(CommonBuilder.buildTnrbEligibility),
         widowCheck = Some(CommonBuilder.buildWidowedCheck.copy(Some(true), Some(new LocalDate(2012, 1, 1)))))
 
-      appDetails.currentThreshold mustBe IhtProperties.transferredNilRateBand
+      appDetails.currentThreshold mustBe mockAppConfig.transferredNilRateBand
     }
 
     "return threshold as 325K if Tnrb has not been started" in {
-      emptyApplicationDetails.currentThreshold mustBe IhtProperties.exemptionsThresholdValue
+      emptyApplicationDetails.currentThreshold mustBe mockAppConfig.exemptionsThresholdValue
     }
 
     "return threshold as 325K if Tnrb is only partially completed" in {
       val appDetails = emptyApplicationDetails.copy(increaseIhtThreshold = Some(CommonBuilder.buildTnrbEligibility copy
         (isGiftMadeBeforeDeath = Some(true))))
 
-      appDetails.currentThreshold mustBe IhtProperties.exemptionsThresholdValue
+      appDetails.currentThreshold mustBe mockAppConfig.exemptionsThresholdValue
     }
   }
 

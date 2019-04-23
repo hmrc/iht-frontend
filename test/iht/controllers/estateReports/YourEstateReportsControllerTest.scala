@@ -16,10 +16,11 @@
 
 package iht.controllers.estateReports
 
+import iht.config.AppConfig
 import iht.connector.IhtConnector
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.{ApplicationDetails, IhtApplication}
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
 import iht.utils.{ApplicationStatus => Status}
 import iht.viewmodels.estateReports.YourEstateReportsRowViewModel
@@ -28,24 +29,28 @@ import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
-import play.api.mvc.Call
+import play.api.mvc.{Call, MessagesControllerComponents}
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.{HeaderCarrier, Upstream4xxResponse}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent._
 
 class YourEstateReportsControllerTest  extends ApplicationControllerTest{
 
-
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with YourEstateReportsController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
   implicit val headerCarrier = FakeHeaders()
   implicit val listOfApplication=prepareDataForPage()
 
   implicit val hc = new HeaderCarrier
   // Create controller object and pass in mock.
-  def yourEstateReportsController = new YourEstateReportsController {
+  def yourEstateReportsController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
@@ -53,7 +58,7 @@ class YourEstateReportsControllerTest  extends ApplicationControllerTest{
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def yourEstateReportsControllerNotAuthorised = new YourEstateReportsController {
+  def yourEstateReportsControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector

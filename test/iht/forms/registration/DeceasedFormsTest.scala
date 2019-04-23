@@ -17,8 +17,8 @@
 package iht.forms.registration
 
 import iht.FakeIhtApp
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.forms.FormTestHelper
 import iht.forms.registration.DeceasedForms._
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails, UkAddress}
@@ -61,7 +61,7 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
   val surname = CommonBuilder.surnameGenerator
 
   lazy val completeAboutDeceased: Map[String, String] = aboutDeceased(
-    firstName, surname, CommonBuilder.DefaultNino, "01", "01", "1980", statusSingle)
+    firstName, surname, CommonBuilder.DefaultNino, "01", "01", "1980", mockAppConfig.statusSingle)
 
   def deceasedAddress(line1: String, line2: String, line3: String, line4: String, postCode: String, countryCode: String) =
     Map("ukAddress.ukAddressLine1" -> line1,
@@ -196,28 +196,28 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
   "Deceased Permanent Home form" must {
 
     "not give an error for a valid answer" in {
-      val data = permanentHome(domicileEnglandOrWales)
-      deceasedPermanentHomeForm(messages).bind(data).get mustBe DeceasedDetails(domicile = Some(domicileEnglandOrWales))
+      val data = permanentHome(mockAppConfig.domicileEnglandOrWales)
+      deceasedPermanentHomeForm(messages, mockAppConfig).bind(data).get mustBe DeceasedDetails(domicile = Some(mockAppConfig.domicileEnglandOrWales))
     }
 
     "give an error when a blank value is supplied" in {
       val data = permanentHome("")
       val expectedErrors = error("domicile", "error.invalid")
 
-      checkForError(deceasedPermanentHomeForm(messages), data, expectedErrors)
+      checkForError(deceasedPermanentHomeForm(messages, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when invalid data is supplied" in {
       val data = permanentHome("INVALID")
       val expectedErrors = error("domicile", "error.invalid")
 
-      checkForError(deceasedPermanentHomeForm(messages), data, expectedErrors)
+      checkForError(deceasedPermanentHomeForm(messages, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when no data is supplied" in {
       val expectedErrors = error("domicile", "error.deceasedPermanentHome.selectLocation")
 
-      checkForError(deceasedPermanentHomeForm(messages), emptyForm, expectedErrors)
+      checkForError(deceasedPermanentHomeForm(messages, mockAppConfig), emptyForm, expectedErrors)
     }
   }
 
@@ -225,52 +225,43 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
 
   //region About Deceased tests
 
-  def deceasedForms = {
-    val mockIhtFormValidator = new IhtFormValidator {
+  def deceasedFormsGen(customFormatter: Option[FieldMapping[String]] = None): DeceasedForms = {
+    new DeceasedForms {
       override def ninoForDeceased(blankMessageKey: String, lengthMessageKey: String,
                                    formatMessageKey: String, oRegDetails: Option[RegistrationDetails])(
-                                   implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] = {
-        val formatter = new Formatter[String] {
-          override val format: Option[(String, Seq[Any])] = None
+                                    implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext, appConfig: AppConfig): FieldMapping[String] = {
+        customFormatter getOrElse {
+          val formatter = new Formatter[String] {
+            override val format: Option[(String, Seq[Any])] = None
 
-          override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], String] = Right("")
+            override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], String] = Right("")
 
-          override def unbind(key: String, value: String): Map[String, String] = Map.empty
+            override def unbind(key: String, value: String): Map[String, String] = Map.empty
+          }
+          Forms.of(formatter)
         }
-        val fieldMapping: FieldMapping[String] = Forms.of(formatter)
-        fieldMapping
       }
-    }
-
-    new DeceasedForms {
-      override def ihtFormValidator: IhtFormValidator = mockIhtFormValidator
     }
   }
 
   def formsWithIhtFormValidatorMockedToFail = {
     val formatter = mock[Formatter[String]]
     when(formatter.bind(any(), any())).thenReturn(Left(Seq(FormError("nino", "error.nino.alreadyGiven"))))
+    when(formatter.format).thenReturn(None)
+
     val fieldMapping: FieldMapping[String] = Forms.of(formatter)
-    val mockIhtFormValidator = mock[IhtFormValidator]
-    when(mockIhtFormValidator.ninoForDeceased(any(), any(), any(), any())(any(), any(), any()))
-      .thenReturn(fieldMapping)
-    val deceasedForms = new DeceasedForms {
-      override def ihtFormValidator: IhtFormValidator = mockIhtFormValidator
-    }
-    deceasedForms
+
+    deceasedFormsGen(Some(fieldMapping))
   }
 
   def formsWithIhtFormValidatorMockedToSucceed(nino:String): DeceasedForms = {
     val formatter = mock[Formatter[String]]
     when(formatter.bind(any(), any())).thenReturn(Right(nino))
+    when(formatter.format).thenReturn(None)
+
     val fieldMapping: FieldMapping[String] = Forms.of(formatter)
-    val mockIhtFormValidator = mock[IhtFormValidator]
-    when(mockIhtFormValidator.ninoForDeceased(any(), any(), any(), any())(any(), any(), any()))
-      .thenReturn(fieldMapping)
-    val deceasedForms = new DeceasedForms {
-      override def ihtFormValidator: IhtFormValidator = mockIhtFormValidator
-    }
-    deceasedForms
+
+    deceasedFormsGen(Some(fieldMapping))
   }
 
   "About Deceased form" must {
@@ -292,7 +283,7 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
           nino = Some(nino),
           ukAddress = None,
           dateOfBirth = Some(new LocalDate(1980, 1, 1)),
-          maritalStatus = Some(statusSingle),
+          maritalStatus = Some(mockAppConfig.statusSingle),
           domicile = None,
           isAddressInUK = None)
     }
@@ -301,70 +292,70 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
       val data = completeAboutDeceased + ("firstName" -> "")
       val expectedErrors = error("firstName", "error.firstName.give")
 
-      checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when the first name is not supplied" in {
       val data = completeAboutDeceased - "firstName"
       val expectedErrors = error("firstName", "error.required")
 
-      checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when the first name is too long" in {
       val data = completeAboutDeceased + ("firstName" -> "A value that's longer than the 40 characters allowed in this field")
       val expectedErrors = error("firstName", "error.firstName.giveUsingXCharsOrLess")
 
-      checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when the last name is blank" in {
       val data = completeAboutDeceased + ("lastName" -> "")
       val expectedErrors = error("lastName", "error.lastName.give")
 
-      checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when the last name is not supplied" in {
       val data = completeAboutDeceased - "lastName"
       val expectedErrors = error("lastName", "error.required")
 
-      checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when the last name is too long" in {
       val data = completeAboutDeceased + ("lastName" -> "A value that's longer than the 40 characters allowed in this field")
       val expectedErrors = error("lastName", "error.lastName.giveUsingXCharsOrLess")
 
-      checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when a blank marital status is supplied" in {
       val data = completeAboutDeceased + ("maritalStatus" -> "")
       val expectedErrors = error("maritalStatus", "error.invalid")
 
-      checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when an invalid marital status is supplied" in {
       val data = completeAboutDeceased + ("maritalStatus" -> "INVALID")
       val expectedErrors = error("maritalStatus", "error.invalid")
 
-      checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when no marital status is supplied" in {
       val data = completeAboutDeceased - "maritalStatus"
       val expectedErrors = error("maritalStatus", "error.deceasedMaritalStatus.select")
 
-      checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
     }
 
     "give multiple errors when several fields are invalid" in {
       val data = completeAboutDeceased + ("firstName" -> "", "lastName" -> "")
       val expectedErrors = error("firstName", "error.firstName.give") ++
         error("lastName", "error.lastName.give")
-      val form = deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec)
+      val form = deceasedFormsGen().aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec, mockAppConfig)
 
       checkForError(form, data, expectedErrors)
     }
@@ -373,7 +364,7 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
       val data = completeAboutDeceased + ("dateOfBirth.day" -> "32", "dateOfBirth.month" -> "13", "dateOfBirth.year" -> "12", "dateOfBirth.day" -> "99")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveFull")
 
-      checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
     }
 
     "indicate validation error when nino for deceased validation fails" in {
@@ -634,7 +625,7 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
   }
 
   "dateOfBirth" must {
-    behave like dateOfBirth[DeceasedDetails](completeAboutDeceased, deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec))
+    behave like dateOfBirth[DeceasedDetails](completeAboutDeceased, deceasedFormsGen().aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec, mockAppConfig))
   }
 
   //endregion

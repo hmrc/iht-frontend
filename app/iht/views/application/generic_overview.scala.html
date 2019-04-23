@@ -19,6 +19,7 @@
 @import iht.utils.DeceasedInfoHelper
 @import iht.models.RegistrationDetails
 @import iht.views.html._
+@import iht.config.AppConfig
 
 @(registrationDetails:RegistrationDetails,
 seqRows:Seq[Section],
@@ -30,10 +31,10 @@ returnAsButton: Boolean = false,
 showStatus: Boolean = true,
 returnHash: String = "",
 messagesFileBullets:Seq[String] = Seq.empty
-)(implicit request:Request[_], messages: Messages)
+)(implicit request:Request[_], messages: Messages, appConfig: AppConfig)
 
 <p id="assets-guidance1">@Html(Messages(messagesFileSectionLine1))</p>
-@if(!messagesFileBullets.isEmpty) {
+@if(messagesFileBullets.nonEmpty) {
     <ul class="bullets">
     @messagesFileBullets.map{ bullet =>
         <li>@Html(bullet)</li>

@@ -16,38 +16,46 @@
 
 package iht.controllers.registration.deceased
 
-import iht.constants.IhtProperties
+import iht.config.AppConfig
 import iht.controllers.ControllerHelper.Mode
+import iht.controllers.registration.executor.DeleteCoExecutorController
 import iht.forms.registration.DeceasedForms._
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails}
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
-import iht.utils.RegistrationKickOutHelper._
+import iht.utils.RegistrationKickOutHelper
 import org.joda.time.LocalDate
 import play.api.data.Form
-import play.api.i18n.MessagesApi
+import play.api.i18n.{Lang, Messages, MessagesApi}
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class DeceasedPermanentHomeControllerTest
-  extends RegistrationDeceasedControllerWithEditModeBehaviour[DeceasedPermanentHomeController]{
+  extends RegistrationDeceasedControllerWithEditModeBehaviour[DeceasedPermanentHomeController] with RegistrationKickOutHelper {
 
   val defaultDod = Some(DeceasedDateOfDeath(new LocalDate(2014, 1, 1)))
 
   override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
+  implicit val messages: Messages = mockControllerComponents.messagesApi.preferred(Seq(Lang.defaultLang)).messages
+  val appConfig: AppConfig = mockAppConfig
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with DeceasedPermanentHomeController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
- //Create controller object and pass in mock.
- def controller = new DeceasedPermanentHomeController {
-   override val cachingConnector = mockCachingConnector
-   override val authConnector = mockAuthConnector
+  def controller = new TestController {
+    override val cachingConnector = mockCachingConnector
+    override val authConnector = mockAuthConnector
 
-   override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
- }
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+  }
 
-  def controllerNotAuthorised = new DeceasedPermanentHomeController {
+  def controllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 
@@ -62,11 +70,11 @@ class DeceasedPermanentHomeControllerTest
     "create the new form when there is no deceased details present" in {
       val applicantDetails = CommonBuilder.buildApplicantDetails
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
-     // val messages = messagesApi.preferred(request)
+      // val messages = messagesApi.preferred(request)
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
-      val result: Form[DeceasedDetails] = controller.fillForm(registrationDetails)
+      val result: Form[DeceasedDetails] = controller.fillForm(registrationDetails)(createFakeRequest())
       result mustBe a[Form[_]]
     }
 
@@ -161,7 +169,7 @@ class DeceasedPermanentHomeControllerTest
 
     "save valid data correctly when coming to this screen for the first time" in {
       val existingRegistrationDetails = RegistrationDetails(Some(DeceasedDateOfDeath(new LocalDate(1980, 1, 1))), None, None)
-      val deceasedDetails = DeceasedDetails(domicile = Some(IhtProperties.domicileEnglandOrWales))
+      val deceasedDetails = DeceasedDetails(domicile = Some(mockAppConfig.domicileEnglandOrWales))
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(existingRegistrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(existingRegistrationDetails))

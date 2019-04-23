@@ -15,10 +15,11 @@
  *@
 
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.views.html.iht_main_template_application
 @import iht.views.html.ihtHelpers
 
-@(form: Form[_], includeIntendReturnQuestion: Boolean, postRoute: Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+@(form: Form[_], includeIntendReturnQuestion: Boolean, postRoute: Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_application(title = Messages("iht.signedOut"), browserTitle = Some(Messages("iht.signedOut")), hasSignOut=false) {
 <div>

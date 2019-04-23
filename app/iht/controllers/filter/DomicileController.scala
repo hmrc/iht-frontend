@@ -16,28 +16,32 @@
 
 package iht.controllers.filter
 
+import iht.config.AppConfig
 import iht.constants.Constants
 import iht.forms.FilterForms._
 import javax.inject.Inject
-import play.api.i18n.{I18nSupport, MessagesApi}
-import uk.gov.hmrc.play.bootstrap.controller.{FrontendController, UnauthorisedAction}
+import play.api.i18n.I18nSupport
+import play.api.mvc.MessagesControllerComponents
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class DomicileControllerImpl @Inject()(val formPartialRetriever: FormPartialRetriever,
-                                       val messagesApi: MessagesApi) extends DomicileController
-trait DomicileController extends FrontendController with I18nSupport {
+                                       implicit val appConfig: AppConfig,
+                                       val cc: MessagesControllerComponents) extends FrontendController(cc) with DomicileController
 
+trait DomicileController extends FrontendController with I18nSupport {
+  implicit val appConfig: AppConfig
   implicit val formPartialRetriever: FormPartialRetriever
 
-  def onPageLoad = UnauthorisedAction.async {
+  def onPageLoad = Action.async {
     implicit request => {
       Future.successful(Ok(iht.views.html.filter.domicile(domicileForm)))
     }
   }
 
-  def onSubmit = UnauthorisedAction.async {
+  def onSubmit = Action.async {
     implicit request => {
 
       val boundForm = domicileForm.bindFromRequest

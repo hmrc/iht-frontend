@@ -16,15 +16,11 @@
 
 package iht.testhelpers
 
-import iht.utils.CommonHelper
-import uk.gov.hmrc.play.test.UnitSpec
+import iht.FakeIhtApp
+import iht.config.AppConfig
 
-/**
- *
- * Created by Vineet Tyagi on 26/05/15.
- *
- */
-class CommonBuilderTest extends UnitSpec {
+class CommonBuilderTest extends FakeIhtApp {
+  implicit val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
   "buildDeceasedDateOfDeath" must {
     "create DeceasedDateOfDeath model with default value" in {
@@ -104,7 +100,7 @@ class CommonBuilderTest extends UnitSpec {
 
   "escapeSpace" must {
     "replace space with &nbsp;" in {
-      CommonBuilder.escapeSpace("first last") shouldBe "first&nbsp;last"
+      CommonBuilder.escapeSpace("first last") mustBe "first&nbsp;last"
     }
   }
 }

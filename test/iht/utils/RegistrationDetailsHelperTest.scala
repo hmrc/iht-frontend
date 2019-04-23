@@ -17,18 +17,19 @@
 package iht.utils
 
 import iht.FakeIhtApp
+import iht.config.AppConfig
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions.BasicExemptionElement
 import iht.testhelpers._
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.test.FakeRequest
-import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.collection.immutable.ListMap
 
-class RegistrationDetailsHelperTest extends FakeIhtApp with MockitoSugar {
+class RegistrationDetailsHelperTest extends FakeIhtApp with MockitoSugar with RegistrationDetailsHelper {
+
+  implicit val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
   val referrerURL = "http://localhost:9070/inheritance-tax/registration/addExecutor"
   val host = "localhost:9070"
@@ -47,7 +48,7 @@ class RegistrationDetailsHelperTest extends FakeIhtApp with MockitoSugar {
     val a: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
     val b: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
     val c: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => true
-    val aa = RegistrationDetailsHelper.findFirstTrue(CommonBuilder.buildRegistrationDetails, CommonBuilder.buildApplicationDetails, Seq(BigDecimal(0)),
+    val aa = findFirstTrue(CommonBuilder.buildRegistrationDetails, CommonBuilder.buildApplicationDetails, Seq(BigDecimal(0)),
       ListMap("1" -> a, "2" -> b, "3" -> c))
     aa mustBe Some("3")
   }
@@ -56,7 +57,7 @@ class RegistrationDetailsHelperTest extends FakeIhtApp with MockitoSugar {
     val a: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
     val b: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => true
     val c: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
-    val aa = RegistrationDetailsHelper.findFirstTrue(CommonBuilder.buildRegistrationDetails, CommonBuilder.buildApplicationDetails, Seq(BigDecimal(0)),
+    val aa = findFirstTrue(CommonBuilder.buildRegistrationDetails, CommonBuilder.buildApplicationDetails, Seq(BigDecimal(0)),
       ListMap("1" -> a, "2" -> b, "3" -> c))
     aa mustBe Some("2")
   }
@@ -65,7 +66,7 @@ class RegistrationDetailsHelperTest extends FakeIhtApp with MockitoSugar {
     val a: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => true
     val b: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
     val c: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
-    val aa = RegistrationDetailsHelper.findFirstTrue(CommonBuilder.buildRegistrationDetails, CommonBuilder.buildApplicationDetails, Seq(BigDecimal(0)),
+    val aa = findFirstTrue(CommonBuilder.buildRegistrationDetails, CommonBuilder.buildApplicationDetails, Seq(BigDecimal(0)),
       ListMap("1" -> a, "2" -> b, "3" -> c))
     aa mustBe Some("1")
   }
@@ -74,7 +75,7 @@ class RegistrationDetailsHelperTest extends FakeIhtApp with MockitoSugar {
     val a: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
     val b: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
     val c: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
-    val aa = RegistrationDetailsHelper.findFirstTrue(CommonBuilder.buildRegistrationDetails, CommonBuilder.buildApplicationDetails, Seq(BigDecimal(0)),
+    val aa = findFirstTrue(CommonBuilder.buildRegistrationDetails, CommonBuilder.buildApplicationDetails, Seq(BigDecimal(0)),
       ListMap("1" -> a, "2" -> b, "3" -> c))
     aa mustBe None
   }
@@ -90,7 +91,7 @@ class RegistrationDetailsHelperTest extends FakeIhtApp with MockitoSugar {
     val g: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
     val h: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
 
-    val aa = RegistrationDetailsHelper.findFirstTrue(
+    val aa = findFirstTrue(
       CommonBuilder.buildRegistrationDetails, CommonBuilder.buildApplicationDetails, Seq(BigDecimal(0)),
       ListMap("1" -> a, "2" -> b, "3" -> c, "4" -> d, "5" -> e, "6" -> f, "7" -> g, "8" -> h))
     aa mustBe Some("4")
@@ -98,7 +99,7 @@ class RegistrationDetailsHelperTest extends FakeIhtApp with MockitoSugar {
 
 
   "findFirstTrue should return None when sequence is empty" in {
-    val aa = RegistrationDetailsHelper.findFirstTrue(
+    val aa = findFirstTrue(
       CommonBuilder.buildRegistrationDetails, CommonBuilder.buildApplicationDetails, Seq(BigDecimal(0)), ListMap())
     aa mustBe None
   }
@@ -106,7 +107,7 @@ class RegistrationDetailsHelperTest extends FakeIhtApp with MockitoSugar {
   "getOrException throws exception if Registration Details None passed in with suitable message" in {
     val aa: Option[RegistrationDetails] = None
     intercept[RuntimeException] {
-      RegistrationDetailsHelper.getOrExceptionNoRegistration(aa)
+      getOrExceptionNoRegistration(aa)
     }.getMessage must include("No registration details")
   }
 
@@ -125,7 +126,7 @@ class RegistrationDetailsHelperTest extends FakeIhtApp with MockitoSugar {
           Some("1"), Some("testCharity"), Some("123456"), Some(BigDecimal(80000))))
       )
 
-      RegistrationDetailsHelper.isExemptionsCompleted(regDetailsMarried, appDetails) mustBe true
+      isExemptionsCompleted(regDetailsMarried, appDetails) mustBe true
     }
 
     "return false when Deceased is Married but all exemptions have not been completed" in {
@@ -138,7 +139,7 @@ class RegistrationDetailsHelperTest extends FakeIhtApp with MockitoSugar {
           Some("1"), Some("testCharity"), Some("123456"), Some(BigDecimal(80000))))
       )
 
-      RegistrationDetailsHelper.isExemptionsCompleted(regDetailsMarried, appDetails) mustBe false
+      isExemptionsCompleted(regDetailsMarried, appDetails) mustBe false
     }
 
     "return true when Deceased's marital status is other than Married and all exemptions have been completed" in {
@@ -152,7 +153,7 @@ class RegistrationDetailsHelperTest extends FakeIhtApp with MockitoSugar {
           Some("1"), Some("testCharity"), Some("123456"), Some(BigDecimal(80000))))
       )
 
-      RegistrationDetailsHelper.isExemptionsCompleted(regDetailsWidowed, appDetails) mustBe true
+      isExemptionsCompleted(regDetailsWidowed, appDetails) mustBe true
     }
 
     "return false when Deceased's marital status is other than Married and all exemptions have not been completed" in {
@@ -165,7 +166,7 @@ class RegistrationDetailsHelperTest extends FakeIhtApp with MockitoSugar {
           Some("1"), Some("testCharity"), Some("123456"), Some(BigDecimal(80000))))
       )
 
-      RegistrationDetailsHelper.isExemptionsCompleted(regDetailsWidowed, appDetails) mustBe false
+      isExemptionsCompleted(regDetailsWidowed, appDetails) mustBe false
     }
   }
 }

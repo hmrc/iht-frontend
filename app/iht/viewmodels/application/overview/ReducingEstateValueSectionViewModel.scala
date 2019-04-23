@@ -16,14 +16,11 @@
 
 package iht.viewmodels.application.overview
 
-import iht.constants.IhtProperties
+import iht.config.AppConfig
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import iht.utils.{CommonHelper, RegistrationDetailsHelper}
+import iht.utils.RegistrationDetailsHelperFixture
 import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.constants.IhtProperties._
 
 case class ReducingEstateValueSectionViewModel(debtRow: Option[OverviewRow],
                                       exemptionRow: OverviewRow,
@@ -31,11 +28,12 @@ case class ReducingEstateValueSectionViewModel(debtRow: Option[OverviewRow],
 
 object ReducingEstateValueSectionViewModel {
 
-  private def isExemptionsCompletedWithNoValueDependentOnMaritalStatus(applicationDetails: ApplicationDetails,
-                                                               registrationDetails: RegistrationDetails) = {
-    !registrationDetails.deceasedDetails.flatMap(_.maritalStatus).contains(IhtProperties.statusMarried) match {
-      case true => applicationDetails.isExemptionsCompletedWithoutPartnerExemptionWithNoValue
-      case false => applicationDetails.isExemptionsCompletedWithNoValue
+  private def isExemptionsCompletedWithNoValueDependentOnMaritalStatus(appDetails: ApplicationDetails, registrationDetails: RegistrationDetails)
+                                                                      (implicit appConfig: AppConfig)= {
+    if (!registrationDetails.deceasedDetails.flatMap(_.maritalStatus).contains(appConfig.statusMarried)) {
+      appDetails.isExemptionsCompletedWithoutPartnerExemptionWithNoValue
+    } else {
+      appDetails.isExemptionsCompletedWithNoValue
     }
   }
 
@@ -61,14 +59,14 @@ object ReducingEstateValueSectionViewModel {
       case _ => valueText
     }
 
-  def apply(applicationDetails: ApplicationDetails,
-            registrationDetails: RegistrationDetails)(implicit messages: Messages): ReducingEstateValueSectionViewModel = {
+  def apply(applicationDetails: ApplicationDetails, registrationDetails: RegistrationDetails)
+           (implicit messages: Messages, appConfig: AppConfig): ReducingEstateValueSectionViewModel = {
     val displayValue = if (isExemptionsCompletedWithNoValueDependentOnMaritalStatus(applicationDetails, registrationDetails)) {
       messages("page.iht.application.estateOverview.exemptions.noExemptionsValue")
       } else {
         DisplayValueAsNegative(getExemptionsDisplayValue(applicationDetails))(messages)
       }
-    val exemptionCompletionStatus = if (RegistrationDetailsHelper.isExemptionsCompleted(registrationDetails, applicationDetails)) {
+    val exemptionCompletionStatus = if (new RegistrationDetailsHelperFixture().isExemptionsCompleted(registrationDetails, applicationDetails)) {
         Complete
       } else if (applicationDetails.noExemptionsHaveBeenAnswered) {
         NotStarted
@@ -90,7 +88,7 @@ object ReducingEstateValueSectionViewModel {
       messages("page.iht.application.overview.debts.screenReader.noValue.link")
     )
     val theDebtRow = if (areDebtsIncluded) {
-            Some(OverviewRow(EstateDebtsID, messages("iht.estateReport.debts.owedFromEstate"),
+            Some(OverviewRow(appConfig.EstateDebtsID, messages("iht.estateReport.debts.owedFromEstate"),
               DisplayValueAsNegative(getDebtsDisplayValue(applicationDetails))(messages),
               RowCompletionStatus(applicationDetails.areAllDebtsCompleted),
               iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad(), debtsScreenreaderText)(messages))
@@ -102,7 +100,7 @@ object ReducingEstateValueSectionViewModel {
 
     ReducingEstateValueSectionViewModel(
       debtRow = theDebtRow,
-      exemptionRow = OverviewRow(EstateExemptionsID, messages("iht.estateReport.exemptions.title"),
+      exemptionRow = OverviewRow(appConfig.EstateExemptionsID, messages("iht.estateReport.exemptions.title"),
         displayValue, exemptionCompletionStatus,
         iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
         exemptionsScreenreaderText)(messages),

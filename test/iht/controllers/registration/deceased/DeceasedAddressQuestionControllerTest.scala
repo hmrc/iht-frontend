@@ -16,30 +16,41 @@
 
 package iht.controllers.registration.deceased
 
+import iht.config.AppConfig
+import iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsDeceasedOwnController
 import iht.controllers.registration.RegistrationControllerTest
 import iht.forms.registration.DeceasedForms.deceasedAddressQuestionForm
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails}
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import org.joda.time.LocalDate
 import org.scalatest.BeforeAndAfter
 import play.api.data.Form
+import play.api.i18n.{Lang, Messages}
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest with BeforeAndAfter {
 
-  //Create controller object and pass in mock.
-  def deceasedAddressQuestionController = new DeceasedAddressQuestionController {
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with DeceasedAddressQuestionController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  implicit val messages: Messages = mockControllerComponents.messagesApi.preferred(Seq(Lang.defaultLang)).messages
+
+  def deceasedAddressQuestionController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def deceasedAddressQuestionControllerNotAuthorised = new DeceasedAddressQuestionController {
+  def deceasedAddressQuestionControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 
@@ -175,6 +186,8 @@ class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest w
     }
 
     "use form when deceased details is empty" in {
+      implicit val fakeRequest = createFakeRequest()
+
       val rd = CommonBuilder.buildRegistrationDetails
       val result: Form[DeceasedDetails] = deceasedAddressQuestionController.fillForm(rd)
       result mustBe deceasedAddressQuestionForm

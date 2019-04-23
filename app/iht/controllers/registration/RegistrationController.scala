@@ -34,7 +34,7 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 import scala.concurrent.Future
 
 
-trait RegistrationController extends FrontendController with IhtBaseController {
+trait RegistrationController extends FrontendController with IhtBaseController with RegistrationKickOutHelper {
   type Predicate = (RegistrationDetails, String) => Boolean
   override lazy val ihtSection = IhtSection.Registration
 
@@ -85,7 +85,7 @@ trait RegistrationController extends FrontendController with IhtBaseController {
   def guardConditions: Set[Predicate]
 
   def storeKickoutReasonAndRedirect(kickoutReason: String)(implicit request: Request[_], hc: HeaderCarrier): Future[Result] =
-    cachingConnector.storeSingleValue(RegistrationKickOutHelper.RegistrationKickoutReasonCachingKey, kickoutReason) map { _ =>
+    cachingConnector.storeSingleValue(RegistrationKickoutReasonCachingKey, kickoutReason) map { _ =>
       Redirect(routes.KickoutRegController.onPageLoad())
     }
 

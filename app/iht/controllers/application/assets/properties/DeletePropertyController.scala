@@ -16,19 +16,19 @@
 
 package iht.controllers.application.assets.properties
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.ApplicationController
 import iht.metrics.IhtMetrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.debts.{Mortgage, MortgageEstateElement}
-import iht.utils.{CommonHelper, StringHelper}
+import iht.utils.CommonHelper
 import javax.inject.Inject
 import play.api.Logger
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 
@@ -36,7 +36,9 @@ class DeletePropertyControllerImpl @Inject()(val metrics: IhtMetrics,
                                              val ihtConnector: IhtConnector,
                                              val cachingConnector: CachingConnector,
                                              val authConnector: AuthConnector,
-                                             val formPartialRetriever: FormPartialRetriever) extends DeletePropertyController
+                                             val formPartialRetriever: FormPartialRetriever,
+                                             implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with DeletePropertyController
 
 trait DeletePropertyController extends ApplicationController {
 
@@ -46,61 +48,61 @@ trait DeletePropertyController extends ApplicationController {
   def ihtConnector: IhtConnector
 
   def onPageLoad(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
-      implicit request => {
-        withRegistrationDetails { registrationData =>
-          for {
-            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
-              CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference),
-              registrationData.acknowledgmentReference)
-          } yield {
-            applicationDetails match {
-              case Some(applicationDetails) => {
-                applicationDetails.propertyList.find(p => p.id.getOrElse("") equals id).fold {
-                  Logger.warn("No Property Found. Redirecting to Internal Server Error")
-                  InternalServerError("No Property Found")
-                } {
-                  (matchedProperty) => Ok(iht.views.html.application.asset.properties.delete_property_confirm(matchedProperty))
-                }
+    implicit request => {
+      withRegistrationDetails { registrationData =>
+        for {
+          applicationDetails <- ihtConnector.getApplication(getNino(userNino),
+            CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference),
+            registrationData.acknowledgmentReference)
+        } yield {
+          applicationDetails match {
+            case Some(applicationDetails) => {
+              applicationDetails.propertyList.find(p => p.id.getOrElse("") equals id).fold {
+                Logger.warn("No Property Found. Redirecting to Internal Server Error")
+                InternalServerError("No Property Found")
+              } {
+                (matchedProperty) => Ok(iht.views.html.application.asset.properties.delete_property_confirm(matchedProperty))
               }
-              case _ => {
-                Logger.warn("Problem retrieving application details. Redirecting to Internal Server Error")
-                InternalServerError("No application details found")
-              }
+            }
+            case _ => {
+              Logger.warn("Problem retrieving application details. Redirecting to Internal Server Error")
+              InternalServerError("No application details found")
             }
           }
         }
       }
+    }
   }
 
   def onSubmit(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
-      implicit request => {
-        withRegistrationDetails { registrationData =>
-          for {
-            applicationDetails: Option[ApplicationDetails] <- ihtConnector.getApplication(
-              StringHelper.getNino(userNino),
-              CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference),
-              registrationData.acknowledgmentReference)
-            propertyListNew = applicationDetails.map(_.propertyList.filterNot(p => p.id.getOrElse("") == id)).getOrElse(Nil)
-            mortgageEstateElement: Option[MortgageEstateElement] = applicationDetails.flatMap(_.allLiabilities.flatMap(_.mortgages))
-            mortgageEstateElementNew: Option[MortgageEstateElement] = updateMortgageEstateElementWithDeletedMortgage(mortgageEstateElement, id)
-            applicationDetailsNew: Option[ApplicationDetails] = applicationDetails.map(
-              x => x.copy(propertyList = propertyListNew, allLiabilities = x.allLiabilities.map(_.copy(mortgages = mortgageEstateElementNew))))
-            storedApplication <- ihtConnector.saveApplication(
-              StringHelper.getNino(userNino),
-              CommonHelper.getOrExceptionNoApplication(applicationDetailsNew),
-              registrationData.acknowledgmentReference)
-          } yield {
-            storedApplication match {
-              case Some(_) => Redirect(CommonHelper.addFragmentIdentifier(
-                routes.PropertiesOverviewController.onPageLoad(), Some(AssetsPropertiesAddPropertyID)))
-              case _ => {
-                Logger.warn("Problem storing Application details. Redirecting to InternalServerError")
-                InternalServerError
-              }
+    implicit request => {
+      withRegistrationDetails { registrationData =>
+        for {
+          applicationDetails: Option[ApplicationDetails] <- ihtConnector.getApplication(
+            getNino(userNino),
+            CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference),
+            registrationData.acknowledgmentReference)
+          propertyListNew = applicationDetails.map(_.propertyList.filterNot(p => p.id.getOrElse("") == id)).getOrElse(Nil)
+          mortgageEstateElement: Option[MortgageEstateElement] = applicationDetails.flatMap(_.allLiabilities.flatMap(_.mortgages))
+          mortgageEstateElementNew: Option[MortgageEstateElement] = updateMortgageEstateElementWithDeletedMortgage(mortgageEstateElement, id)
+          applicationDetailsNew: Option[ApplicationDetails] = applicationDetails.map(
+            x => x.copy(propertyList = propertyListNew, allLiabilities = x.allLiabilities.map(_.copy(mortgages = mortgageEstateElementNew))))
+          storedApplication <- ihtConnector.saveApplication(
+            getNino(userNino),
+            CommonHelper.getOrExceptionNoApplication(applicationDetailsNew),
+            registrationData.acknowledgmentReference)
+        } yield {
+          storedApplication match {
+            case Some(_) => Redirect(CommonHelper.addFragmentIdentifier(
+              routes.PropertiesOverviewController.onPageLoad(), Some(appConfig.AssetsPropertiesAddPropertyID)))
+            case _ => {
+              Logger.warn("Problem storing Application details. Redirecting to InternalServerError")
+              InternalServerError
             }
           }
         }
       }
+    }
   }
 
   private def updateMortgageEstateElementWithDeletedMortgage(mortgageEstateElement: Option[MortgageEstateElement],

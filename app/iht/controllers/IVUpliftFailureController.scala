@@ -16,34 +16,40 @@
 
 package iht.controllers
 
+import iht.config.AppConfig
 import iht.connector.IdentityVerificationConnector
 import iht.models.enums.IdentityVerificationResult
 import iht.views.html.iv.failurepages._
 import javax.inject.Inject
 import play.api.Logger
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc._
-import uk.gov.hmrc.play.bootstrap.controller.{FrontendController, UnauthorisedAction}
+import play.api.i18n.I18nSupport
+import play.api.mvc.{MessagesControllerComponents, _}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 class IVUpliftFailureControllerImpl @Inject()(val formPartialRetriever: FormPartialRetriever,
-                                              val identityVerificationConnector: IdentityVerificationConnector) extends IVUpliftFailureController
+                                              val identityVerificationConnector: IdentityVerificationConnector,
+                                              implicit val appConfig: AppConfig,
+                                              val cc: MessagesControllerComponents) extends FrontendController(cc) with IVUpliftFailureController
 
-trait IVUpliftFailureController extends FrontendController {
+trait IVUpliftFailureController extends FrontendController with I18nSupport {
   val identityVerificationConnector: IdentityVerificationConnector
   implicit val formPartialRetriever: FormPartialRetriever
+  implicit val appConfig: AppConfig
+
+  val cc: MessagesControllerComponents
+  implicit lazy val ec: ExecutionContext = cc.executionContext
 
   val ivUrlApplication: String = iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url
   val ivUrlRegistration: String = iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad().url
 
-  def showNotAuthorisedApplication(journeyId: Option[String]) : Action[AnyContent] = UnauthorisedAction.async {implicit request =>
+  def showNotAuthorisedApplication(journeyId: Option[String]) : Action[AnyContent] = Action.async {implicit request =>
     showNotAuthorised(journeyId, ivUrlApplication)
   }
 
-  def showNotAuthorisedRegistration(journeyId: Option[String]) : Action[AnyContent] = UnauthorisedAction.async {implicit request =>
+  def showNotAuthorisedRegistration(journeyId: Option[String]) : Action[AnyContent] = Action.async {implicit request =>
     showNotAuthorised(journeyId, ivUrlRegistration)
   }
 

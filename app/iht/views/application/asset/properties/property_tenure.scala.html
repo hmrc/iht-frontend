@@ -14,22 +14,22 @@
  * limitations under the License.
  *@
 
-@import iht.constants.IhtProperties._
 @import iht.constants.{FieldMappings, IhtProperties}
 @import iht.utils._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import uk.gov.hmrc.play.views.html.helpers.form
 
 @(propertyTenure:Form[iht.models.application.assets.Property],
 submitUrl:Call,
 cancelUrl:Call,
 deceasedName: String
-)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_application(title = "",
 browserTitle = Some(Messages("page.iht.application.assets.property.tenure.browserTitle")),
-cancelUrl=Some(CommonHelper.addFragmentIdentifier(cancelUrl, Some(AssetsPropertiesTenureID))),
+cancelUrl=Some(CommonHelper.addFragmentIdentifier(cancelUrl, Some(appConfig.AssetsPropertiesTenureID))),
 cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty"))
 ) {
 
@@ -50,7 +50,7 @@ FieldMappings.tenures(deceasedName).toSeq,
 '_legendIsHeading -> true,
 '_headingClass -> "heading-large",
 '_extraText -> Html("<p id=\"tenure-guidance\">" + Messages("iht.estateReport.assets.property.youCan") +
-    " <a id=\"land-registry-link\" href=\"" + IhtProperties.linkLandRegistry + "\">" +
+    " <a id=\"land-registry-link\" href=\"" + appConfig.linkLandRegistry + "\">" +
     Messages("iht.estateReport.assets.property.findOutFromLandRegistry") + "</a> " +
     Messages("page.iht.application.assets.property.tenure.guidance1b") + "</p>"
 )

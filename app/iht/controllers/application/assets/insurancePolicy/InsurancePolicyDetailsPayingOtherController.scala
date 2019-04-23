@@ -16,8 +16,8 @@
 
 package iht.controllers.application.assets.insurancePolicy
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.IhtMetrics
@@ -26,17 +26,19 @@ import iht.models.application.assets._
 import iht.utils.CommonHelper._
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_paying_other
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class InsurancePolicyDetailsPayingOtherControllerImpl @Inject()(val metrics: IhtMetrics,
                                                                 val ihtConnector: IhtConnector,
                                                                 val cachingConnector: CachingConnector,
                                                                 val authConnector: AuthConnector,
-                                                                val formPartialRetriever: FormPartialRetriever) extends InsurancePolicyDetailsPayingOtherController {
+                                                                val formPartialRetriever: FormPartialRetriever,
+                                                                implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with InsurancePolicyDetailsPayingOtherController {
 
 }
 
@@ -53,12 +55,12 @@ trait InsurancePolicyDetailsPayingOtherController extends EstateController {
     implicit request => {
       val blankUnapplicableQuestions: InsurancePolicy => InsurancePolicy = insurancePolicy => {
         if (!insurancePolicy.isInsurancePremiumsPayedForSomeoneElse.fold(true)(identity)) {
-            insurancePolicy copy (
-              isInTrust  = None,
-              sevenYearsBefore = None,
-              isAnnuitiesBought = None,
-              moreThanMaxValue = None
-            )
+          insurancePolicy copy(
+            isInTrust = None,
+            sevenYearsBefore = None,
+            isAnnuitiesBought = None,
+            moreThanMaxValue = None
+          )
         } else {
           insurancePolicy
         }
@@ -66,25 +68,25 @@ trait InsurancePolicyDetailsPayingOtherController extends EstateController {
 
       val updateApplicationDetails: (ApplicationDetails, Option[String], InsurancePolicy) =>
         (ApplicationDetails, Option[String]) =
-      (appDetails, _, insurancePolicy) => {
-        val updatedAD = appDetails.copy(allAssets = Some(appDetails.allAssets.fold
-          (new AllAssets(action = None, insurancePolicy = Some(insurancePolicy))) (allAssets=>
-          updateAllAssetsWithInsurancePolicy(allAssets, insurancePolicy, blankUnapplicableQuestions))
-        ))
-        (updatedAD, None)
-      }
+        (appDetails, _, insurancePolicy) => {
+          val updatedAD = appDetails.copy(allAssets = Some(appDetails.allAssets.fold
+          (new AllAssets(action = None, insurancePolicy = Some(insurancePolicy)))(allAssets =>
+            updateAllAssetsWithInsurancePolicy(allAssets, insurancePolicy, blankUnapplicableQuestions))
+          ))
+          (updatedAD, None)
+        }
 
 
       estateElementOnSubmitConditionalRedirect[InsurancePolicy](
         insurancePolicyPayingOtherForm,
         insurance_policy_details_paying_other.apply,
         updateApplicationDetails,
-        (ad, _) =>  ad.allAssets.flatMap(allAssets=>allAssets.insurancePolicy).flatMap(_.isInsurancePremiumsPayedForSomeoneElse)
-          .fold(insurancePoliciesRedirectLocation)(isInsurancePremiumsPayedForSomeoneElse=>
-            if(isInsurancePremiumsPayedForSomeoneElse) {
+        (ad, _) => ad.allAssets.flatMap(allAssets => allAssets.insurancePolicy).flatMap(_.isInsurancePremiumsPayedForSomeoneElse)
+          .fold(insurancePoliciesRedirectLocation)(isInsurancePremiumsPayedForSomeoneElse =>
+            if (isInsurancePremiumsPayedForSomeoneElse) {
               iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsMoreThanMaxValueController.onPageLoad()
             } else {
-              addFragmentIdentifier(insurancePoliciesRedirectLocation, Some(InsurancePaidForSomeoneElseYesNoID))
+              addFragmentIdentifier(insurancePoliciesRedirectLocation, Some(appConfig.InsurancePaidForSomeoneElseYesNoID))
             }
           ),
         userNino

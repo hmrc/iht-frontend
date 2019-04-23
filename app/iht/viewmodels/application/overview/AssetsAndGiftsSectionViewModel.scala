@@ -16,7 +16,7 @@
 
 package iht.viewmodels.application.overview
 
-import iht.constants.IhtProperties._
+import iht.config.AppConfig
 import iht.models.application.ApplicationDetails
 import iht.models.application.basicElements.EstateElement
 import iht.utils.CommonHelper
@@ -31,7 +31,7 @@ object AssetsAndGiftsSectionViewModel {
 
 
   def apply(applicationDetails: ApplicationDetails, behaveAsIncreasingTheEstateSection: Boolean)
-           (implicit messages: Messages): AssetsAndGiftsSectionViewModel = {
+           (implicit messages: Messages, appConfig: AppConfig): AssetsAndGiftsSectionViewModel = {
 
     val assetsScreenreaderText = getScreenReaderQualifyingText(
       RowCompletionStatus(applicationDetails.areAllAssetsCompleted),
@@ -49,13 +49,13 @@ object AssetsAndGiftsSectionViewModel {
 
     AssetsAndGiftsSectionViewModel(
       behaveAsIncreasingTheEstateSection = behaveAsIncreasingTheEstateSection,
-      assetRow = OverviewRow(EstateAssetsID,
+      assetRow = OverviewRow(appConfig.EstateAssetsID,
         messages("iht.estateReport.assets.inEstate"),
         DisplayValue(getAssetsDisplayValue(applicationDetails))(messages),
         RowCompletionStatus(applicationDetails.areAllAssetsCompleted),
         iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
         assetsScreenreaderText)(messages),
-      giftRow = OverviewRow(EstateGiftsID,
+      giftRow = OverviewRow(appConfig.EstateGiftsID,
         messages("iht.estateReport.gifts.givenAway.title"),
         DisplayValue(getGiftsDisplayValue(applicationDetails))(messages),
         RowCompletionStatus(applicationDetails.areAllGiftSectionsCompleted),

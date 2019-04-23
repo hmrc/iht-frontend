@@ -16,17 +16,26 @@
 
 package iht.controllers.testonly
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.AssetsWithAllSectionsSetToNoBuilder
-import iht.testhelpers.MockObjectBuilder._
+
 import org.scalatest.BeforeAndAfter
+import play.api.i18n.{Lang, Messages}
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class TestOnlyControllerTest extends ApplicationControllerTest with BeforeAndAfter {
 
-  def testOnlyController = new TestOnlyController {
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with TestOnlyController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def testOnlyController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
@@ -41,7 +50,7 @@ class TestOnlyControllerTest extends ApplicationControllerTest with BeforeAndAft
         getAppDetails = true,
         saveAppDetails = true,
         storeAppDetailsInCache = true)
-      val result = await(testOnlyController.fillApplication(createFakeRequest(isAuthorised = true)))
+      val result = await(testOnlyController.fillApplication(createFakeRequest()))
       val expectedAppDetailsBeforeSave = AssetsWithAllSectionsSetToNoBuilder.buildApplicationDetails
       val appDetailsBeforeSave: ApplicationDetails = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
       status(result) mustBe OK

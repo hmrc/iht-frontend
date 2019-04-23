@@ -16,23 +16,27 @@
 
 package iht.controllers.registration.deceased
 
+import iht.config.AppConfig
 import iht.controllers.registration.RegistrationControllerTest
 import iht.forms.registration.DeceasedForms._
 import iht.models._
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.RegistrationKickOutHelper
-import iht.utils.RegistrationKickOutHelper._
 import org.joda.time.LocalDate
 import org.mockito.ArgumentMatchers._
 import play.api.data.FormError
-import play.api.mvc.{Action, AnyContent}
+import play.api.i18n.{Lang, Messages}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
+class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest with RegistrationKickOutHelper {
+
+  val appConfig = mockAppConfig
 
   lazy val defaultReferrerURL="http://localhost:9070/inheritance-tax"
   lazy val defaultHost="localhost:9070"
@@ -58,14 +62,20 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
     createMockToStoreRegDetailsInCache(mockCachingConnector, Some(newRegistrationDetails))
   }
 
-  def controller = new DeceasedDateOfDeathController {
+  implicit val messages: Messages = mockControllerComponents.messagesApi.preferred(Seq(Lang.defaultLang)).messages
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with DeceasedDateOfDeathController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def controller = new TestController {
     override lazy val cachingConnector = mockCachingConnector
     override lazy val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def controllerNotAuthorised = new DeceasedDateOfDeathController {
+  def controllerNotAuthorised = new TestController {
     override lazy val cachingConnector = mockCachingConnector
     override lazy val authConnector = mockAuthConnector
 
@@ -261,9 +271,9 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreSingleValueInCache(mockCachingConnector, any(),
-        Some(RegistrationKickOutHelper.KickoutDeceasedDateOfDeathDateCapitalTax))
+        Some(KickoutDeceasedDateOfDeathDateCapitalTax))
       createMockToGetSingleValueFromCache(mockCachingConnector, any(),
-        Some(RegistrationKickOutHelper.KickoutDeceasedDateOfDeathDateCapitalTax))
+        Some(KickoutDeceasedDateOfDeathDateCapitalTax))
 
       val result = controller.onSubmit()(request)
       status(result) mustBe(SEE_OTHER)

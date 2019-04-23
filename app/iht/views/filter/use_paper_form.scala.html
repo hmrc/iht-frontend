@@ -16,10 +16,11 @@
 
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.views.html.filter._
-@import iht.constants.IhtProperties._
 
-@(countryMessageKey: String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+
+@(countryMessageKey: String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_registration(title = Messages("iht.usePaperForm"),
     browserTitle = Some(Messages("iht.usePaperForm")),
@@ -37,7 +38,7 @@
     @use_paper_form_other_country()
 }
 <div id='continue-button' class="subsection">
-    <a id="exit" href="@linkExitToGovUKIHTForms" class="button">@Messages("iht.exitToGovUK")</a>
+    <a id="exit" href="@appConfig.linkExitToGovUKIHTForms" class="button">@Messages("iht.exitToGovUK")</a>
 </div>
 
 @previous_answers(

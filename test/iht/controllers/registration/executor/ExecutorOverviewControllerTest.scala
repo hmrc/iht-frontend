@@ -16,30 +16,39 @@
 
 package iht.controllers.registration.executor
 
+import iht.config.AppConfig
 import iht.connector.CachingConnector
 import iht.controllers.registration.{RegistrationControllerTest, routes => registrationRoutes}
-import iht.forms.registration.CoExecutorForms._
+import iht.forms.registration.CoExecutorForms
 import iht.metrics.IhtMetrics
 import iht.testhelpers.CommonBuilder._
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import org.scalatest.BeforeAndAfter
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-class ExecutorOverviewControllerTest extends RegistrationControllerTest with BeforeAndAfter {
+class ExecutorOverviewControllerTest extends RegistrationControllerTest with BeforeAndAfter with CoExecutorForms {
 
-  //Create controller object and pass in mock.
-  def executorOverviewController = new ExecutorOverviewController {
+  lazy val appConfig = mockAppConfig
+
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with ExecutorOverviewController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def executorOverviewController = new TestController {
     override def cachingConnector: CachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override def metrics: IhtMetrics = mockIhtMetrics
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def executorOverviewControllerNotAuthorised = new ExecutorOverviewController {
+  def executorOverviewControllerNotAuthorised = new TestController {
     override def cachingConnector: CachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override def metrics: IhtMetrics = mockIhtMetrics

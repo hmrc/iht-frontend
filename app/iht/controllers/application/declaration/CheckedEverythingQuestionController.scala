@@ -16,15 +16,16 @@
 
 package iht.controllers.application.declaration
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms
 import iht.forms.ApplicationForms._
 import iht.utils.{CommonHelper, LogHelper}
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -32,22 +33,22 @@ import scala.concurrent.Future
 class CheckedEverythingQuestionControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                         val cachingConnector: CachingConnector,
                                                         val authConnector: AuthConnector,
-                                                        val formPartialRetriever: FormPartialRetriever) extends CheckedEverythingQuestionController {
+                                                        val formPartialRetriever: FormPartialRetriever,
+                                                        implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with CheckedEverythingQuestionController {
 
 }
 
 trait CheckedEverythingQuestionController extends EstateController {
 
-
-  def onPageLoad = authorisedForIht {
+  def onPageLoad: Action[AnyContent] = authorisedForIht {
     implicit request =>
       withRegistrationDetails { rd =>
         Future.successful(Ok(iht.views.html.application.declaration.checked_everything_question(checkedEverythingQuestionForm, rd)))
       }
   }
 
-
-  def onSubmit = authorisedForIht {
+  def onSubmit: Action[AnyContent] = authorisedForIht {
     implicit request => {
       val boundForm = ApplicationForms.checkedEverythingQuestionForm.bindFromRequest
       withRegistrationDetails { rd =>
@@ -56,12 +57,11 @@ trait CheckedEverythingQuestionController extends EstateController {
             LogHelper.logFormError(formWithErrors)
             Future.successful(BadRequest(iht.views.html.application.declaration.checked_everything_question(formWithErrors, rd)))
           }, optionBoolean => {
-            val redirectLocation = CommonHelper.getOrException(optionBoolean) match {
-              case true =>
-                Redirect(iht.controllers.application.declaration.routes.DeclarationController.onPageLoad())
-              case _ =>
-                Redirect(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(
-                  CommonHelper.getOrExceptionNoIHTRef(rd.ihtReference)))
+            val redirectLocation = if (CommonHelper.getOrException(optionBoolean)) {
+              Redirect(iht.controllers.application.declaration.routes.DeclarationController.onPageLoad())
+            } else {
+              Redirect(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(
+                CommonHelper.getOrExceptionNoIHTRef(rd.ihtReference)))
             }
             Future.successful(redirectLocation)
           }

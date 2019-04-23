@@ -16,9 +16,11 @@
 
 package iht.models.des.ihtReturn
 
+import iht.config.AppConfig
 import iht.constants.{Constants, IhtProperties}
-import iht.models.Joda._
 import play.api.libs.json.Json
+import play.api.libs.json.JodaWrites._
+import play.api.libs.json.JodaReads._
 
 // Can reuse the address object from Event Registration
 
@@ -108,8 +110,8 @@ case class IHTReturn(acknowledgmentReference: Option[String] = None,
     }
   }
 
-  def currentThreshold: BigDecimal = {
-      if (isTnrbApplicable) IhtProperties.transferredNilRateBand else IhtProperties.exemptionsThresholdValue
+  def currentThreshold(implicit appConfig: AppConfig): BigDecimal = {
+      if (isTnrbApplicable) appConfig.transferredNilRateBand else appConfig.exemptionsThresholdValue
   }
 
   def isTnrbApplicable: Boolean = deceased.fold(false) {

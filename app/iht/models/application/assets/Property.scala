@@ -20,9 +20,7 @@ import iht.models.UkAddress
 import iht.utils.CommonHelper
 import play.api.libs.json.Json
 
-/**
-  * Created by vineet on 03/11/16.
-  */
+
 case class Property(id: Option[String],
                     address: Option[UkAddress],
                     propertyType: Option[String],

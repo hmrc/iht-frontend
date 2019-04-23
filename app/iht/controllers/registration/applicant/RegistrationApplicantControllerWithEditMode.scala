@@ -19,9 +19,10 @@ package iht.controllers.registration.applicant
 import iht.controllers.registration.RegistrationBaseControllerWithEditMode
 import iht.models.{ApplicantDetails, RegistrationDetails}
 import play.api.data.Form
+import play.api.mvc.Request
 
 
 trait RegistrationApplicantControllerWithEditMode extends RegistrationBaseControllerWithEditMode[ApplicantDetails] {
-  def fillForm(rd: RegistrationDetails): Form[ApplicantDetails] =
+  def fillForm(rd: RegistrationDetails)(implicit request: Request[_]): Form[ApplicantDetails] =
     rd.applicantDetails.fold(form)(ad => form.fill(ad))
 }

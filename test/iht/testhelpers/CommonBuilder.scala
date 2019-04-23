@@ -16,7 +16,9 @@
 
 package iht.testhelpers
 
-import iht.constants.IhtProperties
+import java.util.UUID.randomUUID
+
+import iht.config.AppConfig
 import iht.models.application.assets._
 import iht.models.application.basicElements.{BasicEstateElement, ShareableBasicEstateElement}
 import iht.models.application.debts._
@@ -26,7 +28,7 @@ import iht.models.application.tnrb._
 import iht.models.application.{ApplicationDetails, IhtApplication, ProbateDetails}
 import iht.models.des.ihtReturn._
 import iht.models.{ReturnDetails, _}
-import iht.utils.{CommonHelper, KickOutReason, StringHelper, ApplicationStatus => AppStatus}
+import iht.utils.{CommonHelper, KickOutReason, StringHelper, StringHelperFixture, ApplicationStatus => AppStatus}
 import models.des.{Deceased, Event, EventRegistration}
 import org.joda.time.{DateTime, LocalDate}
 import org.mockito.invocation.InvocationOnMock
@@ -86,7 +88,8 @@ object CommonBuilder {
   val DefaultMaritalStatus = TestHelper.MaritalStatusMarried
   val SingleMaritalStatus = TestHelper.MaritalStatusSingle
   val DefaultIHTReference = Some("ABC1234567890")
-  val DefaultAcknowledgmentReference = StringHelper.generateAcknowledgeReference
+
+  lazy val defaultAckRef: String = randomUUID.toString.replaceAll("-", "")
   val DefaultIsAddressInUK = Some(true)
 
   //Default value for TnrbEligibilty Model
@@ -242,25 +245,25 @@ object CommonBuilder {
   )
 
   // Creates the RegistrationDetails with default values
-  val buildRegistrationDetails = RegistrationDetails(
+  def buildRegistrationDetails(implicit appConfig: AppConfig) = RegistrationDetails(
     deceasedDateOfDeath = None,
     applicantDetails = None,
     deceasedDetails = None,
     coExecutors = Seq(),
     ihtReference = DefaultIHTReference,
-    acknowledgmentReference = DefaultAcknowledgmentReference,
+    acknowledgmentReference = defaultAckRef,
     returns = Seq(),
     areOthersApplyingForProbate = None
   )
 
-  val buildRegistrationDetailsWithOthersApplyingForProbate = buildRegistrationDetails copy
+  def buildRegistrationDetailsWithOthersApplyingForProbate(implicit appConfig: AppConfig) = buildRegistrationDetails copy
                                                                   (areOthersApplyingForProbate = Some(true))
 
 
-  val buildRegistrationDetailsWithCoExecutors = buildRegistrationDetails copy(areOthersApplyingForProbate = Some(true),
+  def buildRegistrationDetailsWithCoExecutors(implicit appConfig: AppConfig) = buildRegistrationDetails copy(areOthersApplyingForProbate = Some(true),
                                                         coExecutors = Seq(buildCoExecutor))
 
-  val buildRegistrationDetailsWithDeceasedDetails =
+  def buildRegistrationDetailsWithDeceasedDetails(implicit appConfig: AppConfig) =
     buildRegistrationDetails copy(deceasedDetails = Some(buildDeceasedDetails),
                                   deceasedDateOfDeath = Some(DeceasedDateOfDeath(DefaultDeceasedDOD)))
 
@@ -500,15 +503,17 @@ object CommonBuilder {
       money = Some(ShareableBasicEstateElement(
         value = Some(BigDecimal(1001)), shareValue = Some(BigDecimal(0)))))))
 
-  def buildApplicationDetailsOverLowerThreshold(ihtRef: String) = CommonBuilder.buildApplicationDetails copy (ihtRef = Some(ihtRef),
+  def buildApplicationDetailsOverLowerThreshold(ihtRef: String)(implicit appConfig: AppConfig) = CommonBuilder.buildApplicationDetails copy (ihtRef = Some(ihtRef),
     allAssets = Some(AllAssets(
       money = Some(ShareableBasicEstateElement(
-        value = Some(IhtProperties.exemptionsThresholdValue + BigDecimal(1)), shareValue = Some(BigDecimal(0)))))))
+        value = Some(appConfig.exemptionsThresholdValue + BigDecimal(1)), shareValue = Some(BigDecimal(0)))))))
 
-  def buildApplicationDetailsOverLowerThresholdAndGuidanceSeenFlagSet(ihtRef: String) = buildApplicationDetailsOverLowerThreshold(ihtRef) copy(ihtRef = Some(ihtRef),
+  def buildApplicationDetailsOverLowerThresholdAndGuidanceSeenFlagSet(ihtRef: String)(implicit appConfig: AppConfig) =
+    buildApplicationDetailsOverLowerThreshold(ihtRef) copy(ihtRef = Some(ihtRef),
     hasSeenExemptionGuidance=Some(true))
 
-  def  buildApplicationDetailsOverLowerThresholdAndGuidanceSeenFlagNotSet(ihtRef: String) = buildApplicationDetailsOverLowerThreshold(ihtRef) copy(ihtRef = Some(ihtRef),
+  def  buildApplicationDetailsOverLowerThresholdAndGuidanceSeenFlagNotSet(ihtRef: String)(implicit appConfig: AppConfig) =
+    buildApplicationDetailsOverLowerThreshold(ihtRef) copy(ihtRef = Some(ihtRef),
     hasSeenExemptionGuidance=Some(false))
 
   val buildBasicEstateElementLiabilities = BasicEstateElementLiabilities(
@@ -637,7 +642,7 @@ object CommonBuilder {
     "2011-12-12",
     "England or Wales", None, None, TestHelper.MaritalStatusSingle)
 
-  lazy val buildRegistrationDetails1 = {
+  def buildRegistrationDetails1(implicit appConfig: AppConfig) = {
     RegistrationDetails(
       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath),
       applicantDetails = Some(CommonBuilder.buildApplicantDetails copy (country = Some(TestHelper.ApplicantCountryEnglandOrWales))),
@@ -649,11 +654,11 @@ object CommonBuilder {
         DefaultCoExecutor3
       ),
       ihtReference = Some("ABC"),
-      acknowledgmentReference = DefaultAcknowledgmentReference
+      acknowledgmentReference = defaultAckRef
     )
   }
 
-  lazy val buildRegistrationDetails2 = {
+  def buildRegistrationDetails2(implicit appConfig: AppConfig) = {
     RegistrationDetails(
       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath),
       applicantDetails = Some(CommonBuilder.buildApplicantDetails copy (country = Some(TestHelper.ApplicantCountryEnglandOrWales))),
@@ -661,11 +666,11 @@ object CommonBuilder {
         maritalStatus = Some(TestHelper.MaritalStatusSingle))),
       coExecutors = Seq(),
       ihtReference = Some("ABC"),
-      acknowledgmentReference = DefaultAcknowledgmentReference
+      acknowledgmentReference = defaultAckRef
     )
   }
 
-  lazy val buildRegistrationDetails3 = {
+  def buildRegistrationDetails3(implicit appConfig: AppConfig) = {
     RegistrationDetails(
       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath),
       applicantDetails = Some(CommonBuilder.buildApplicantDetails
@@ -676,11 +681,11 @@ object CommonBuilder {
         maritalStatus = Some(TestHelper.MaritalStatusSingle))),
       coExecutors = Seq(),
       ihtReference = Some("ABC"),
-      acknowledgmentReference = DefaultAcknowledgmentReference
+      acknowledgmentReference = defaultAckRef
     )
   }
 
-  lazy val buildRegistrationDetails4 = {
+  def buildRegistrationDetails4(implicit appConfig: AppConfig) = {
     RegistrationDetails(
       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath),
       applicantDetails = Some(CommonBuilder.buildApplicantDetails),
@@ -688,11 +693,11 @@ object CommonBuilder {
         copy (maritalStatus = Some(TestHelper.MaritalStatusMarried))),
       coExecutors = Seq(),
       ihtReference = Some("ABC"),
-      acknowledgmentReference = DefaultAcknowledgmentReference
+      acknowledgmentReference = defaultAckRef
     )
   }
 
-  lazy val buildRegistrationDetails5 = {
+  def buildRegistrationDetails5(implicit appConfig: AppConfig) = {
     RegistrationDetails(
       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath),
       applicantDetails = Some(CommonBuilder.buildApplicantDetails),
@@ -700,11 +705,11 @@ object CommonBuilder {
         copy (maritalStatus = Some(TestHelper.MaritalStatusWidowed))),
       coExecutors = Seq(),
       ihtReference = Some("ABC"),
-      acknowledgmentReference = DefaultAcknowledgmentReference
+      acknowledgmentReference = defaultAckRef
     )
   }
 
-  lazy val buildRegistrationDetails6 = {
+  def buildRegistrationDetails6(implicit appConfig: AppConfig) = {
     RegistrationDetails(
       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath),
       applicantDetails = Some(CommonBuilder.buildApplicantDetails),
@@ -712,11 +717,11 @@ object CommonBuilder {
         copy (maritalStatus = Some(TestHelper.MaritalStatusSingle))),
       coExecutors = Seq(),
       ihtReference = Some("ABC"),
-      acknowledgmentReference = DefaultAcknowledgmentReference
+      acknowledgmentReference = defaultAckRef
     )
   }
 
-  lazy val buildRegistrationDetails7 = {
+  def buildRegistrationDetails7(implicit appConfig: AppConfig) = {
     RegistrationDetails(
       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath),
       applicantDetails = Some(CommonBuilder.buildApplicantDetails),
@@ -724,29 +729,29 @@ object CommonBuilder {
         copy (maritalStatus = Some(TestHelper.MaritalStatusDivorced))),
       coExecutors = Seq(),
       ihtReference = Some("ABC"),
-      acknowledgmentReference = DefaultAcknowledgmentReference
+      acknowledgmentReference = defaultAckRef
     )
   }
 
-  lazy val buildEventRegistration1 = buildEventRegistration(true)
-  lazy val buildEventRegistration2 = buildEventRegistration(false)
+  def buildEventRegistration1(implicit appConfig: AppConfig) = buildEventRegistration(true)
+  def buildEventRegistration2(implicit appConfig: AppConfig) = buildEventRegistration(false)
 
-  lazy val buildEventRegistration3 = buildEventRegistration(false) copy (
+  def buildEventRegistration3(implicit appConfig: AppConfig) = buildEventRegistration(false) copy (
     leadExecutor = Some(buildLeadExecutor copy (nino = Some(CommonBuilder.DefaultNino))))
 
-  lazy val buildEventRegistration4 = buildEventRegistration(false) copy (
+  def buildEventRegistration4(implicit appConfig: AppConfig) = buildEventRegistration(false) copy (
     deceased = Some(buildDeceased copy (maritalStatus = TestHelper.MaritalStatusMarried)))
 
-  lazy val buildEventRegistration5 = buildEventRegistration(false) copy (
+  def buildEventRegistration5(implicit appConfig: AppConfig) = buildEventRegistration(false) copy (
     deceased = Some(buildDeceased copy (maritalStatus = TestHelper.MaritalStatusWidowed)))
 
-  lazy val buildEventRegistration6 = buildEventRegistration(false) copy (
+  def buildEventRegistration6(implicit appConfig: AppConfig) = buildEventRegistration(false) copy (
     deceased = Some(buildDeceased copy (maritalStatus = TestHelper.MaritalStatusSingle)))
 
-  lazy val buildEventRegistration7 = buildEventRegistration(false) copy (
+  def buildEventRegistration7(implicit appConfig: AppConfig) = buildEventRegistration(false) copy (
     deceased = Some(buildDeceased copy (maritalStatus = TestHelper.MaritalStatusDivorced)))
 
-  private def buildEventRegistration(includeCoExecutors: Boolean = true) = {
+  private def buildEventRegistration(includeCoExecutors: Boolean = true)(implicit appConfig: AppConfig) = {
     val erCoExec1 = models.des.CoExecutor(Some(DefaultCoExecutor1.firstName),
       Some(DefaultCoExecutor1.lastName), Some(CommonBuilder.buildCoExecutor.nino),
       CommonBuilder.buildCoExecutor.utr,
@@ -764,7 +769,7 @@ object CommonBuilder {
     val erCoExec3 = erCoExec1 copy(firstName = Some(DefaultCoExecutor3.firstName),
       lastName = Some(DefaultCoExecutor3.lastName))
 
-    EventRegistration(Some(StringHelper.generateAcknowledgeReference),
+    EventRegistration(Some(StringHelperFixture().generateAcknowledgeReference),
       Some(Event("death", "Free Estate")),
       Some(buildLeadExecutor),
       if (includeCoExecutors) Some(Seq(erCoExec1, erCoExec2, erCoExec3)) else None,
@@ -783,7 +788,7 @@ object CommonBuilder {
    * Create IhtApplication with default values
    */
 
-  lazy val buildIhtApplication = IhtApplication(
+  def buildIhtApplication(implicit appConfig: AppConfig) = IhtApplication(
     ihtRefNo = DefaultIhtRefNo,
     firstName = DefaultFirstName,
     lastName = DefaultLastName,
@@ -794,7 +799,7 @@ object CommonBuilder {
     role = DefaultRole,
     registrationDate = DefaultRegistrationDate,
     currentStatus = DefaultCurrentStatus,
-    acknowledgmentReference = DefaultAcknowledgmentReference
+    acknowledgmentReference = defaultAckRef
   )
 
   // Creates the Person with default values

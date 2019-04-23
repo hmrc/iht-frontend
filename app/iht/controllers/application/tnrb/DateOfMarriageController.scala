@@ -16,8 +16,8 @@
 
 package iht.controllers.application.tnrb
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
 import iht.models.RegistrationDetails
@@ -27,14 +27,13 @@ import iht.utils.tnrb.TnrbHelper
 import iht.utils.{ApplicationKickOutHelper, CommonHelper, DateHelper, StringHelper}
 import javax.inject.Inject
 import org.joda.time.LocalDate
-import play.api.Play.current
 import play.api.data.Form
 import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Request, Result}
+import play.api.mvc.{MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -43,16 +42,16 @@ import scala.concurrent.Future
 class DateOfMarriageControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                              val cachingConnector: CachingConnector,
                                              val authConnector: AuthConnector,
-                                             val formPartialRetriever: FormPartialRetriever) extends DateOfMarriageController {
+                                             val formPartialRetriever: FormPartialRetriever,
+                                             implicit val appConfig: AppConfig,
+                                             val cc: MessagesControllerComponents) extends FrontendController(cc) with DateOfMarriageController
 
-}
-
-trait DateOfMarriageController extends EstateController {
+trait DateOfMarriageController extends EstateController with TnrbHelper with StringHelper {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   def cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
   private def predeceasedName(appDetails: ApplicationDetails)(implicit messages: Messages) = {
-    TnrbHelper.spouseOrCivilPartnerLabelPossessive(
+    spouseOrCivilPartnerLabelPossessive(
       tnrbModel = appDetails.increaseIhtThreshold.fold(
         TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
       widowCheck = CommonHelper.getOrException(appDetails.widowCheck),
@@ -67,7 +66,7 @@ trait DateOfMarriageController extends EstateController {
           val deceasedName = CommonHelper.getOrException(registrationDetails.deceasedDetails).name
 
           for {
-            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
+            applicationDetails <- ihtConnector.getApplication(getNino(userNino),
               CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
               registrationDetails.acknowledgmentReference)
           } yield {
@@ -81,7 +80,7 @@ trait DateOfMarriageController extends EstateController {
                   appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
                   deceasedName,
                   predeceasedName(appDetails),
-                  CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbSpouseDateOfMarriageID))
+                  CommonHelper.addFragmentIdentifier(cancelUrl, Some(appConfig.TnrbSpouseDateOfMarriageID))
                 )
                 )
               case _ => InternalServerError("Application details not found")
@@ -97,7 +96,7 @@ trait DateOfMarriageController extends EstateController {
         withRegistrationDetails { regDetails =>
           val deceasedName = CommonHelper.getOrException(regDetails.deceasedDetails).name
 
-          val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(userNino),
+          val applicationDetailsFuture = ihtConnector.getApplication(getNino(userNino),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
@@ -117,7 +116,7 @@ trait DateOfMarriageController extends EstateController {
                   )))
                 },
                 tnrbModel => {
-                  saveApplication(StringHelper.getNino(userNino), tnrbModel, appDetails, regDetails)
+                  saveApplication(getNino(userNino), tnrbModel, appDetails, regDetails)
                 }
               )
             case _ => Future.successful(InternalServerError("Application details not found"))
@@ -159,6 +158,6 @@ trait DateOfMarriageController extends EstateController {
         tnrbModel.dateOfMarriage, None))(_.copy(dateOfMarriage = tnrbModel.dateOfMarriage))))
 
     ihtConnector.saveApplication(nino, updatedAppDetails, regDetails.acknowledgmentReference) map (_ =>
-      TnrbHelper.successfulTnrbRedirect(updatedAppDetails, Some(TnrbSpouseDateOfMarriageID)))
+      successfulTnrbRedirect(updatedAppDetails, Some(appConfig.TnrbSpouseDateOfMarriageID)))
   }
 }

@@ -16,17 +16,17 @@
 
 package iht.controllers.application.exemptions.qualifyingBody
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.utils.{CommonHelper, StringHelper}
 import iht.views.html.application.exemption.qualifyingBody.qualifying_body_delete_confirm
 import javax.inject.Inject
 import play.api.Logger
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -34,11 +34,14 @@ import scala.concurrent.Future
 class QualifyingBodyDeleteConfirmControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                           val cachingConnector: CachingConnector,
                                                           val authConnector: AuthConnector,
-                                                          val formPartialRetriever: FormPartialRetriever) extends QualifyingBodyDeleteConfirmController {
+                                                          val formPartialRetriever: FormPartialRetriever,
+                                                          implicit val appConfig: AppConfig,
+                                                          val cc: MessagesControllerComponents)
+  extends FrontendController(cc) with QualifyingBodyDeleteConfirmController {
 
 }
 
-trait QualifyingBodyDeleteConfirmController extends EstateController {
+trait QualifyingBodyDeleteConfirmController extends EstateController with StringHelper {
 
 
   def onPageLoad(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -67,7 +70,7 @@ trait QualifyingBodyDeleteConfirmController extends EstateController {
             Future.successful(InternalServerError("QualifyingBody with id = " + id
               + " not found during onSubmit of delete confirmation"))
           } else {
-            val nino = StringHelper.getNino(userNino)
+            val nino = getNino(userNino)
             val newQualifyingBodies = ad.qualifyingBodies.patch(index, Nil, 1)
             val newAppDetails = ad copy (qualifyingBodies = newQualifyingBodies)
 
@@ -75,7 +78,7 @@ trait QualifyingBodyDeleteConfirmController extends EstateController {
               case Some(_) =>
                 Redirect(CommonHelper.addFragmentIdentifier(
                   iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad(),
-                  Some(ExemptionsOtherAddID)))
+                  Some(appConfig.ExemptionsOtherAddID)))
               case _ => {
                 Logger.warn("Save of app details fails with id = " + id
                   + " during save of app details during onSubmit of delete confirmation")

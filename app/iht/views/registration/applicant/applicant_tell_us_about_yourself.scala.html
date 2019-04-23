@@ -18,12 +18,13 @@
 @import iht.controllers.ControllerHelper._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import uk.gov.hmrc.play.views.html.helpers.form
 
 @(applicantTellUsAboutYourselfForm:Form[iht.models.ApplicantDetails],
     mode: Mode.Value = Mode.Standard,
     actionLocation: Call,
-    cancelLocation: Option[Call] = None)(implicit request:Request[_], lang: play.api.i18n.Lang, messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+    cancelLocation: Option[Call] = None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_registration(title = Messages("iht.registration.applicant.tellUsAboutYourself"),
 browserTitle = Some(Messages("iht.registration.applicant.tellUsAboutYourself")),
@@ -36,7 +37,7 @@ hasTimeOut=true) {
     @form(action = actionLocation,'autoComplete -> "off") {
 
     @ihtHelpers.standard.input_with_help(applicantTellUsAboutYourselfForm("phoneNo"),
-        '_maxlength -> IhtProperties.validationMaxLengthPhoneNo,
+        '_maxlength -> appConfig.validationMaxLengthPhoneNo,
         '_label -> Messages("page.iht.registration.applicantTellUsAboutYourself.value.label"),
         '_hintText -> Messages("page.iht.registration.applicantTellUsAboutYourself.value.sublabel"),
         '_divJsHide -> false,

@@ -18,11 +18,12 @@ package iht.views.application.tnrb
 
 import iht.views.ViewTestHelper
 import iht.views.html.application.tnrb.tnrb_overview_table_row
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.api.mvc.Call
 import play.twirl.api.Html
 import iht.constants.Constants._
-import iht.constants.IhtProperties._
+
 
 class TnrbOverviewTableRowViewTest extends ViewTestHelper {
 
@@ -32,7 +33,7 @@ class TnrbOverviewTableRowViewTest extends ViewTestHelper {
   lazy val questionCategory = "questionAnswer"
   lazy val link = iht.controllers.application.tnrb.routes.PermanentHomeController.onPageLoad()
   lazy val answerValue = "Sample value"
-  lazy val linkID = TnrbSpousePermanentHomeInUKID
+  lazy val linkID = appConfig.TnrbSpousePermanentHomeInUKID
 
   def tnrbOverviewTableRow(id: String = "home-in-uk",
                            questionText:Html = Html("Sample question"),
@@ -42,7 +43,7 @@ class TnrbOverviewTableRowViewTest extends ViewTestHelper {
                            answerValueFormatted:Option[Html] = None,
                            link:Option[Call] = None,
                            linkScreenReader:String = "",
-                           linkID: String = TnrbSpousePermanentHomeInUKID
+                           linkID: String = appConfig.TnrbSpousePermanentHomeInUKID
                           ) =  {
 
     implicit val request = createFakeRequest()

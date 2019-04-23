@@ -17,7 +17,6 @@
 package iht.controllers.registration
 
 import iht.controllers.ControllerHelper.Mode
-import iht.utils.RegistrationKickOutHelper._
 import iht.utils.{DeceasedInfoHelper, SessionHelper}
 import play.api.data.Form
 import play.api.mvc.{AnyContent, Request, Result}

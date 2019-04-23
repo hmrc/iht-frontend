@@ -20,7 +20,8 @@ import iht.testhelpers.TestHelper._
 import iht.viewmodels.application.overview._
 import iht.views.ViewTestHelper
 import iht.views.html.ihtHelpers.custom.overview_item
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 
 class OverviewItemViewTest extends ViewTestHelper {
 

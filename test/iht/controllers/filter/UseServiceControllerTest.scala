@@ -16,18 +16,24 @@
 
 package iht.controllers.filter
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.{MockFormPartialRetriever, UseService}
 import iht.views.HtmlSpec
 import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class UseServiceControllerTest extends ApplicationControllerTest with HtmlSpec with UseService {
 
   implicit val fakedMessagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
-  def controller = new UseServiceController {
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with UseServiceController {
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def controller = new TestController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever

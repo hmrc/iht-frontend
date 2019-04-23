@@ -18,19 +18,21 @@ package iht.utils
 
 import java.net.URLEncoder
 
-import iht.config.ApplicationConfig
+import iht.config.AppConfig
 
 object IhtSection extends Enumeration {
   val Registration, Application = Value
 }
 
 trait AuthHelper {
+  val appConfig: AppConfig
+
   def getIVUrlForFailedConfidenceLevel(ihtSection: IhtSection.Value, requiredConfidenceLevel: Int): String = {
-    lazy val ivUpliftUrl = ApplicationConfig.ivUrlUplift
+    lazy val ivUpliftUrl = appConfig.ivUrlUplift
 
     val (postSignInUrl, notAuthorisedUrl) = ihtSection match {
-      case IhtSection.Registration => (ApplicationConfig.postIVRedirectUrlRegistration, ApplicationConfig.notAuthorisedRedirectUrlRegistration)
-      case IhtSection.Application => (ApplicationConfig.postIVRedirectUrlApplication, ApplicationConfig.notAuthorisedRedirectUrlApplication)
+      case IhtSection.Registration => (appConfig.postIVRedirectUrlRegistration, appConfig.notAuthorisedRedirectUrlRegistration)
+      case IhtSection.Application => (appConfig.postIVRedirectUrlApplication, appConfig.notAuthorisedRedirectUrlApplication)
       case _ => throw new RuntimeException("Could not figure out composite page visibility predicate")
     }
 
@@ -41,11 +43,11 @@ trait AuthHelper {
   }
 
 
-  def getIhtSignInUrl: String = ApplicationConfig.ggSignInUrl
+  def getIhtSignInUrl: String = appConfig.ggSignInUrl
 
   def getIhtContinueUrl(ihtSection: IhtSection.Value): String = ihtSection match {
-    case IhtSection.Registration => ApplicationConfig.postSignInRedirectUrlRegistration
-    case IhtSection.Application => ApplicationConfig.postSignInRedirectUrlApplication
+    case IhtSection.Registration => appConfig.postSignInRedirectUrlRegistration
+    case IhtSection.Application => appConfig.postSignInRedirectUrlApplication
     case _ => throw new RuntimeException("Could not figure out tax regime")
   }
 }

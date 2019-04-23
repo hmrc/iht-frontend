@@ -22,6 +22,8 @@ import iht.models.des.ihtReturn.IHTReturn
 import IHTReturn._
 import org.json.{JSONObject, XML}
 import play.api.libs.json.Json
+import play.api.libs.json.JodaWrites._
+import play.api.libs.json.JodaReads._
 
 /**
  * Created by david-beer on 03/06/16.
@@ -64,8 +66,10 @@ trait ModelToXMLSource {
   def getXMLSource(applicationDetails: ApplicationDetails): String =
     s"<$XMLRootApplicationDetails>" + XML.toString(new JSONObject(Json.toJson(applicationDetails).toString())) + s"</$XMLRootApplicationDetails>"
 
-  def getXMLSource(ihtReturn: IHTReturn, section: String): String =
-    s"<$section>" + XML.toString(new JSONObject(Json.toJson(sortByGiftDate(ihtReturn)).toString())) + s"</$section>"
+  def getXMLSource(ihtReturn: IHTReturn, section: String): String = {
+    val x: String = Json.toJson(sortByGiftDate(ihtReturn)).toString()
+    s"<$section>" + XML.toString(new JSONObject(x)) + s"</$section>"
+  }
 
   def getXMLSource(registrationDetails: RegistrationDetails): String =
     s"<$XMLRootRegistrationDetails>" + XML.toString(new JSONObject(Json.toJson(registrationDetails).toString())) + s"</$XMLRootRegistrationDetails>"

@@ -16,29 +16,39 @@
 
 package iht.controllers.registration.applicant
 
+import iht.config.AppConfig
 import iht.forms.registration.ApplicantForms._
 import iht.models.ApplicantDetails
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
 import iht.utils.{DeceasedInfoHelper, RegistrationKickOutHelper}
-import play.api.mvc.Result
+import play.api.i18n.{Lang, Messages}
+import play.api.mvc.{MessagesControllerComponents, Result}
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class ApplyingForProbateControllerTest
-  extends RegistrationApplicantControllerWithEditModeBehaviour[ApplyingForProbateController] {
+  extends RegistrationApplicantControllerWithEditModeBehaviour[ApplyingForProbateController] with RegistrationKickOutHelper {
 
-  // Create controller object and pass in mock.
-  def controller = new ApplyingForProbateController {
+  implicit val messages: Messages = mockControllerComponents.messagesApi.preferred(Seq(Lang.defaultLang)).messages
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with ApplyingForProbateController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  val appConfig = mockAppConfig
+
+  def controller = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def controllerNotAuthorised = new ApplyingForProbateController {
+  def controllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 
@@ -68,7 +78,7 @@ class ApplyingForProbateControllerTest
     "load when revisited after answering Yes" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector,
         Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails copy (applicantDetails =
-          Some(new ApplicantDetails(isApplyingForProbate = Some(true))))))
+          Some(new ApplicantDetails(isApplyingForProbate = Some(true), role = Some(mockAppConfig.roleLeadExecutor))))))
 
       val result: Future[Result] = controller.onPageLoad(createFakeRequest())
 
@@ -78,7 +88,7 @@ class ApplyingForProbateControllerTest
     "load when revisited after answering No" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector,
         Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails copy (applicantDetails =
-          Some(new ApplicantDetails(isApplyingForProbate = Some(false))))))
+          Some(new ApplicantDetails(isApplyingForProbate = Some(false), role = Some(mockAppConfig.roleLeadExecutor))))))
 
       val result = controller.onPageLoad(createFakeRequest())
 
@@ -88,7 +98,7 @@ class ApplyingForProbateControllerTest
     "load in edit mode and show Continue and Cancel links" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector,
         Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails copy (applicantDetails =
-          Some(new ApplicantDetails(isApplyingForProbate = Some(true))))))
+          Some(new ApplicantDetails(isApplyingForProbate = Some(true), role = Some(mockAppConfig.roleLeadExecutor))))))
 
       val result = controller.onEditPageLoad(createFakeRequest())
 
@@ -109,7 +119,7 @@ class ApplyingForProbateControllerTest
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
 
-      val form = applyingForProbateForm.fill(ApplicantDetails(isApplyingForProbate = Some(true)))
+      val form = applyingForProbateForm.fill(ApplicantDetails(isApplyingForProbate = Some(true), role = Some(mockAppConfig.roleLeadExecutor)))
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
         host = host, data = form.data.toSeq, authRetrieveNino = false)
 
@@ -123,7 +133,7 @@ class ApplyingForProbateControllerTest
       createMockToStoreRegDetailsInCache(mockCachingConnector,
         Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails))
 
-      val form = applyingForProbateForm.fill(ApplicantDetails()).data.toSeq
+      val form = applyingForProbateForm.fill(ApplicantDetails(role = Some(mockAppConfig.roleLeadExecutor))).data.toSeq
       val seq = form filter { case (key: String, value: String) => key != "isApplyingForProbate"}
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
         host = host, data = seq, authRetrieveNino = false)
@@ -136,19 +146,18 @@ class ApplyingForProbateControllerTest
     "save and redirect correctly on submit when answering Yes" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector,
         Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails copy(
-          applicantDetails = Some(new ApplicantDetails))))
+          applicantDetails = Some(new ApplicantDetails(role = Some(mockAppConfig.roleLeadExecutor))))))
       createMockToStoreRegDetailsInCache(mockCachingConnector,
         Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails))
 
-      val form = applyingForProbateForm.fill(ApplicantDetails(isApplyingForProbate = Some(true)))
+      val form = applyingForProbateForm.fill(ApplicantDetails(isApplyingForProbate = Some(true), role = Some(mockAppConfig.roleLeadExecutor)))
 
-      implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
-        host = host, data = form.data.toSeq, authRetrieveNino = false)
+      implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host, data = form.data.toSeq, authRetrieveNino = false)
 
       val result = controller.onSubmit(request)
       status(result) must be(SEE_OTHER)
       redirectLocation(result) must be(
-        Some(iht.controllers.registration.applicant.routes.executorOfEstateController.onPageLoad().url))
+        Some(iht.controllers.registration.applicant.routes.ExecutorOfEstateController.onPageLoad().url))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val applicant = capturedValue.applicantDetails.get
@@ -158,15 +167,15 @@ class ApplyingForProbateControllerTest
     "save and redirect correctly on submit when answering No" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector,
         Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails copy(
-          applicantDetails = Some(new ApplicantDetails))))
+          applicantDetails = Some(new ApplicantDetails(role = Some(mockAppConfig.roleLeadExecutor))))))
       createMockToStoreRegDetailsInCache(mockCachingConnector,
         Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails))
       createMockToGetSingleValueFromCache(mockCachingConnector,
-        singleValueReturn = Some(RegistrationKickOutHelper.KickoutNotApplyingForProbate))
+        singleValueReturn = Some(KickoutNotApplyingForProbate))
       createMockToStoreSingleValueInCache(mockCachingConnector,
-        singleValueReturn = Some(RegistrationKickOutHelper.KickoutNotApplyingForProbate))
+        singleValueReturn = Some(KickoutNotApplyingForProbate))
 
-      val form = applyingForProbateForm.fill(ApplicantDetails(isApplyingForProbate = Some(false)))
+      val form = applyingForProbateForm.fill(ApplicantDetails(isApplyingForProbate = Some(false), role = Some(mockAppConfig.roleLeadExecutor)))
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
         host = host, data = form.data.toSeq, authRetrieveNino = false)
@@ -180,16 +189,16 @@ class ApplyingForProbateControllerTest
       applicant.isApplyingForProbate mustBe Some(false)
 
       val storeResult = verifyAndReturnStoredSingleValue(mockCachingConnector)
-      storeResult._1 mustBe RegistrationKickOutHelper.RegistrationKickoutReasonCachingKey
-      storeResult._2 mustBe RegistrationKickOutHelper.KickoutNotApplyingForProbate
+      storeResult._1 mustBe RegistrationKickoutReasonCachingKey
+      storeResult._2 mustBe KickoutNotApplyingForProbate
     }
 
     "save and redirect correctly on submit in edit mode when answering Yes" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector,
-        Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails copy(applicantDetails = Some(new ApplicantDetails))))
+        Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails copy(applicantDetails = Some(new ApplicantDetails(role = Some(mockAppConfig.roleLeadExecutor))))))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails))
 
-      val form = applyingForProbateForm.fill(ApplicantDetails(isApplyingForProbate = Some(true)))
+      val form = applyingForProbateForm.fill(ApplicantDetails(isApplyingForProbate = Some(true), role = Some(mockAppConfig.roleLeadExecutor)))
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host, data = form.data.toSeq, authRetrieveNino = false)
 
@@ -204,10 +213,10 @@ class ApplyingForProbateControllerTest
 
     "show bad request when errors" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector,
-        Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails copy(applicantDetails = Some(new ApplicantDetails))))
+        Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails copy(applicantDetails = Some(new ApplicantDetails(role = Some(mockAppConfig.roleLeadExecutor))))))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails))
 
-      val form = applyingForProbateForm.fill(ApplicantDetails(isApplyingForProbate = Some(true)))
+      val form = applyingForProbateForm.fill(ApplicantDetails(isApplyingForProbate = Some(true), role = Some(mockAppConfig.roleLeadExecutor)))
 
       implicit val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(("isApplyingForProbate", ""))
       val result = controller.onEditSubmit(request)
@@ -216,15 +225,15 @@ class ApplyingForProbateControllerTest
 
     "save and redirect correctly on submit in edit mode when answering No" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector,
-        Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails copy(applicantDetails = Some(new ApplicantDetails))))
+        Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails copy(applicantDetails = Some(new ApplicantDetails(role = Some(mockAppConfig.roleLeadExecutor))))))
       createMockToStoreRegDetailsInCache(mockCachingConnector,
         Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails))
       createMockToGetSingleValueFromCache(mockCachingConnector,
-        singleValueReturn = Some(RegistrationKickOutHelper.KickoutNotApplyingForProbate))
+        singleValueReturn = Some(KickoutNotApplyingForProbate))
       createMockToStoreSingleValueInCache(mockCachingConnector,
-        singleValueReturn = Some(RegistrationKickOutHelper.KickoutNotApplyingForProbate))
+        singleValueReturn = Some(KickoutNotApplyingForProbate))
 
-      val form = applyingForProbateForm.fill(ApplicantDetails(isApplyingForProbate = Some(false)))
+      val form = applyingForProbateForm.fill(ApplicantDetails(isApplyingForProbate = Some(false), role = Some(mockAppConfig.roleLeadExecutor)))
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host, data = form.data.toSeq, authRetrieveNino = false)
 
@@ -237,8 +246,8 @@ class ApplyingForProbateControllerTest
       applicant.isApplyingForProbate mustBe Some(false)
 
       val storeResult = verifyAndReturnStoredSingleValue(mockCachingConnector)
-      storeResult._1 mustBe RegistrationKickOutHelper.RegistrationKickoutReasonCachingKey
-      storeResult._2 mustBe RegistrationKickOutHelper.KickoutNotApplyingForProbate
+      storeResult._1 mustBe RegistrationKickoutReasonCachingKey
+      storeResult._2 mustBe KickoutNotApplyingForProbate
     }
   }
 }

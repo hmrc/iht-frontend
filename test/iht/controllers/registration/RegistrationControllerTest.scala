@@ -16,23 +16,25 @@
 
 package iht.controllers.registration
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.metrics.IhtMetrics
+import iht.testhelpers.MockObjectBuilder
 import iht.utils.IhtSection
 import iht.{FakeIhtApp, TestUtils}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito._
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.mockito.MockitoSugar
-import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.AnyContentAsEmpty
+import play.api.i18n.{I18nSupport, Lang, MessagesApi}
+import play.api.mvc.{AnyContentAsEmpty, ControllerComponents, MessagesControllerComponents}
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.auth.core.{AuthenticateHeaderParser, PlayAuthConnector}
 import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.Future
 
-trait RegistrationControllerTest extends FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfterEach with I18nSupport {
+trait RegistrationControllerTest extends FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfterEach with I18nSupport with MockObjectBuilder {
 
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   def loginUrl = buildLoginUrl(IhtSection.Registration)
@@ -47,6 +49,10 @@ trait RegistrationControllerTest extends FakeIhtApp with MockitoSugar with TestU
   val mockIhtMetrics: IhtMetrics = mock[IhtMetrics]
   val mockMessagesApi: MessagesApi = mock[MessagesApi]
   val mockIhtConnector: IhtConnector = mock[IhtConnector]
+
+  val mockControllerComponents: MessagesControllerComponents = app.injector.instanceOf[MessagesControllerComponents]
+  implicit val mockAppConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  implicit val lang = Lang("en")
 
   override def beforeEach(): Unit = {
     reset(mockCachingConnector)

@@ -14,39 +14,65 @@
  * limitations under the License.
  */
 
+/*
+ * Copyright 2019 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package iht.controllers.registration.executor
 
+import iht.config.AppConfig
 import iht.controllers.registration.RegistrationControllerTest
-import iht.forms.registration.CoExecutorForms._
+import iht.forms.registration.CoExecutorForms
 import iht.models.{RegistrationDetails, UkAddress}
 import iht.testhelpers.CommonBuilder._
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever, NinoBuilder}
-import iht.utils.StringHelper._
+import iht.utils.StringHelper
 import org.joda.time._
 import org.scalatest.BeforeAndAfter
 import play.api.data.Form
-import play.api.mvc.{Action, AnyContent, Result}
+import play.api.i18n.{Lang, Messages}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-class OtherPersonsAddressControllerTest extends RegistrationControllerTest with BeforeAndAfter {
+class OtherPersonsAddressControllerTest extends RegistrationControllerTest with BeforeAndAfter with StringHelper with CoExecutorForms {
 
   val inProgressCoExecutor = CommonBuilder.buildCoExecutorPersonalDetails(Some("2")) copy
     (firstName = CommonBuilder.firstNameGenerator, lastName = CommonBuilder.surnameGenerator, nino = NinoBuilder.defaultNino,
       dateOfBirth = new LocalDate(new org.joda.time.DateTime(1980, 5, 1, 0, 0)))
 
-  // Create controller object and pass in mock.
-  def controller = new OtherPersonsAddressController {
+  implicit val messages: Messages = mockControllerComponents.messagesApi.preferred(Seq(Lang.defaultLang)).messages
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with OtherPersonsAddressController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  lazy val appConfig = mockAppConfig
+
+  def controller = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def controllerNotAuthorised = new OtherPersonsAddressController {
+  def controllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 

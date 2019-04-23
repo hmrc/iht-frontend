@@ -16,11 +16,7 @@
 
 package iht.models.enums
 
-/**
- *
- * Created by Vineet Tyagi on 29/09/15.
- *
- */
+
 object KickOutSource extends Enumeration{
 
   type KickOutSource= Value

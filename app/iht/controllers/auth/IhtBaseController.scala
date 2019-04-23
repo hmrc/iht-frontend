@@ -16,24 +16,29 @@
 
 package iht.controllers.auth
 
-import iht.config.ApplicationConfig
+import iht.config.AppConfig
 import iht.utils.{AuthHelper, IhtSection}
 import play.api.Logger
-import play.api.mvc.{Action, AnyContent, Request, Result}
+import play.api.i18n.I18nSupport
+import play.api.mvc._
 import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.auth.core.authorise.Predicate
 import uk.gov.hmrc.auth.core.retrieve.Retrieval
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
-trait IhtBaseController extends FrontendController with AuthorisedFunctions with AuthHelper {
+trait IhtBaseController extends FrontendController with AuthorisedFunctions with AuthHelper with I18nSupport {
   private type AsyncPlayRequest = Request[AnyContent] => Future[Result]
   private type AsyncPlayUserRequest[A] = A => Request[AnyContent] => Future[Result]
 
+  val cc: MessagesControllerComponents
+  implicit lazy val ec: ExecutionContext = cc.executionContext
+  implicit val appConfig: AppConfig
+
   protected val ihtSection: IhtSection.Value
-  protected lazy val confidenceLevel: Int = ApplicationConfig.ivUpliftConfidenceLevel
+  protected lazy val confidenceLevel: Int = appConfig.ivUpliftConfidenceLevel
 
   private lazy val predicate: Predicate = AffinityGroup.Individual and ConfidenceLevel.fromInt(confidenceLevel).get
 
@@ -63,15 +68,17 @@ trait IhtBaseController extends FrontendController with AuthorisedFunctions with
     "origin" -> Seq(appName)
   ))
 
-  def authorisedForIht(body: AsyncPlayRequest): Action[AnyContent] = Action.async { implicit request =>
+  def authorisedForIht(body: AsyncPlayRequest)(implicit ec: ExecutionContext): Action[AnyContent] = Action.async { implicit request =>
     authorised(predicate) {
       body(request)
     } recover handleAuthErrors
   }
 
-  def authorisedForIhtWithRetrievals[A](retrieval: Retrieval[A])(body: AsyncPlayUserRequest[A]): Action[AnyContent] = Action.async { implicit request =>
-    authorised(predicate).retrieve(retrieval) { user =>
-      body(user)(request)
-    } recover handleAuthErrors
-  }
+  def authorisedForIhtWithRetrievals[A](retrieval: Retrieval[A])
+                                       (body: AsyncPlayUserRequest[A])(implicit ec: ExecutionContext): Action[AnyContent] =
+    Action.async { implicit request =>
+      authorised(predicate).retrieve(retrieval) { user =>
+        body(user)(request)
+      } recover handleAuthErrors
+    }
 }

@@ -16,7 +16,7 @@
 
 package iht.utils
 
-import iht.constants.IhtProperties
+import iht.config.AppConfig
 import iht.models.application.ApplicationDetails
 
 /**
@@ -24,13 +24,13 @@ import iht.models.application.ApplicationDetails
   */
 object DeclarationHelper {
 
-  def getDeclarationType(appDetails: ApplicationDetails): String  = {
+  def getDeclarationType(appDetails: ApplicationDetails)(implicit appConfig: AppConfig): String  = {
 
     val totalAssetsValue = appDetails.totalAssetsValue
     val totalGiftsValue = CommonHelper.getOrZero(appDetails.totalPastYearsGiftsOption)
     val totalExemptionsValue = appDetails.totalExemptionsValue
-    val thresholdValue = IhtProperties.exemptionsThresholdValue
-    val tnrbThresholdValue = IhtProperties.transferredNilRateBand
+    val thresholdValue = appConfig.exemptionsThresholdValue
+    val tnrbThresholdValue = appConfig.transferredNilRateBand
 
     if(totalAssetsValue + totalGiftsValue <= thresholdValue
       && totalExemptionsValue == BigDecimal(0) && appDetails.increaseIhtThreshold.isEmpty) {

@@ -14,17 +14,17 @@
  * limitations under the License.
  *@
 
-@import iht.constants.IhtProperties._
 @import iht.models.application.debts.BasicEstateElementLiabilities
 @import iht.utils._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.models.RegistrationDetails
 @import iht.constants.Constants._
 @import uk.gov.hmrc.play.views.html.helpers.form
 
 @(debtsTrustForm: Form[BasicEstateElementLiabilities],
-  registrationDetails: RegistrationDetails)(implicit request: Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+  registrationDetails: RegistrationDetails)(implicit request: Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_application(title = Messages("iht.estateReport.debts.debtsTrust.title"),
     browserTitle = Some(Messages("page.iht.application.debts.debtsTrust.browserTitle")),
@@ -54,7 +54,7 @@
         @ihtHelpers.custom.return_link(
             Messages("site.link.return.debts"),
             Some(iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()),
-            DebtsOwedFromTrustID
+            appConfig.DebtsOwedFromTrustID
         )
 
     }

@@ -16,25 +16,28 @@
 
 package iht.controllers.application.assets
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import iht.testhelpers.MockObjectBuilder._
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, MockObjectBuilder, TestHelper}
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
 import org.mockito.ArgumentMatchers._
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-/**
- *
- * Created by Vineet Tyagi on 07/12/15.
- *
- */
+
 class AssetsOverviewControllerTest extends ApplicationControllerTest {
 
-  def assetsOverviewController = new AssetsOverviewController {
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with AssetsOverviewController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def assetsOverviewController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
@@ -70,7 +73,7 @@ class AssetsOverviewControllerTest extends ApplicationControllerTest {
     }
 
     "respond with OK on page load where assets exist" in {
-      MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
+      createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
 
       createMocksForApplication(cachingConnector= mockCachingConnector,
         ihtConnector = mockIhtConnector ,
@@ -82,7 +85,7 @@ class AssetsOverviewControllerTest extends ApplicationControllerTest {
     }
 
     "respond with OK on page load where no assets" in {
-      MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
+      createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
 
       val ad=CommonBuilder.buildApplicationDetails copy (allAssets = None)
       createMocksForApplication(cachingConnector= mockCachingConnector,
@@ -107,7 +110,7 @@ class AssetsOverviewControllerTest extends ApplicationControllerTest {
     }
 
     "respond with REDIRECT when the estate exceeds the TNRB threashold" in {
-      MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
+      createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
 
       createMocksForRegistrationAndApplication(
         CommonBuilder.buildRegistrationDetails1,

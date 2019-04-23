@@ -17,11 +17,12 @@
 package iht.utils
 
 import iht.FakeIhtApp
+import iht.config.AppConfig
 import iht.testhelpers._
 import org.scalatest.mock.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
 
 class AddressHelperTest extends FakeIhtApp with MockitoSugar {
+  implicit val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
   "Predicate isThereAnApplicantAddress returns true when there is an applicant address " in {
     AddressHelper.isThereAnApplicantAddress(CommonBuilder.buildRegistrationDetails copy(

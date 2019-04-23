@@ -19,9 +19,7 @@ package iht.models.application.assets
 import iht.models.application.basicElements.ShareableEstateElement
 import play.api.libs.json.Json
 
-/**
-  * Created by vineet on 03/11/16.
-  */
+
 case class InsurancePolicy(isAnnuitiesBought: Option[Boolean],
                            isInsurancePremiumsPayedForSomeoneElse: Option[Boolean],
                            value: Option[BigDecimal],

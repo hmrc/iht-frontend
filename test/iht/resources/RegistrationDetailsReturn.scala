@@ -16,13 +16,30 @@
 
 package iht.resources
 
+import iht.config.AppConfig
 import iht.models.{ApplicantDetails, CoExecutor, DeceasedDetails}
-import iht.utils.StringHelper
+import iht.utils.StringHelperFixture
 
-case class RegistrationDetailsReturn(applicantDetails: ApplicantDetails, deceasedDetails: DeceasedDetails,
-                                     coExecutors: Seq[CoExecutor], acknowledgementRef: String = StringHelper.generateAcknowledgeReference) {
+object RegistrationDetailsReturnBuilder {
+  def buildRegDetailsReturn(applicantDetails: ApplicantDetails,
+                            deceasedDetails: DeceasedDetails,
+                            coExecutors: Seq[CoExecutor],
+                            acknowledgementRef: Option[String])(implicit appConfig: AppConfig): RegistrationDetailsReturn = {
+    RegistrationDetailsReturn(
+      applicantDetails,
+      deceasedDetails,
+      coExecutors,
+      acknowledgementRef.getOrElse(StringHelperFixture().generateAcknowledgeReference)
+    )
+  }
+}
 
-  val data =
+case class RegistrationDetailsReturn(applicantDetails: ApplicantDetails,
+                                     deceasedDetails: DeceasedDetails,
+                                     coExecutors: Seq[CoExecutor],
+                                     acknowledgementRef: String) {
+
+  val data: String =
     s"""
     <RegistrationDetails>
         <coExecutors>

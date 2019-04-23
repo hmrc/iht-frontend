@@ -16,8 +16,8 @@
 
 package iht.controllers.application.declaration
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties
 import iht.controllers.ControllerHelper
 import iht.controllers.application.ApplicationController
 import iht.forms.ApplicationForms
@@ -30,12 +30,12 @@ import iht.utils.{CommonHelper, _}
 import iht.viewmodels.application.DeclarationViewModel
 import javax.inject.Inject
 import play.api.Logger
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent, Request, Result}
+import play.api.i18n.Lang
+import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.{GatewayTimeoutException, HeaderCarrier, Upstream5xxResponse}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.ExecutionContext.Implicits._
@@ -45,9 +45,11 @@ class DeclarationControllerImpl @Inject()(val metrics: IhtMetrics,
                                           val ihtConnector: IhtConnector,
                                           val cachingConnector: CachingConnector,
                                           val authConnector: AuthConnector,
-                                          val formPartialRetriever: FormPartialRetriever) extends DeclarationController
+                                          val formPartialRetriever: FormPartialRetriever,
+                                          implicit val appConfig: AppConfig,
+                                          val cc: MessagesControllerComponents) extends FrontendController(cc) with DeclarationController
 
-trait DeclarationController extends ApplicationController {
+trait DeclarationController extends ApplicationController with StringHelper {
   def cachingConnector: CachingConnector
   def ihtConnector: IhtConnector
   val metrics: IhtMetrics
@@ -56,15 +58,17 @@ trait DeclarationController extends ApplicationController {
     implicit request => {
       withRegistrationDetails { regDetails =>
          getApplicationDetails(getOrException(regDetails.ihtReference), regDetails.acknowledgmentReference, userNino).flatMap { appDetails =>
-           realTimeRiskingMessage(appDetails, CommonHelper.getOrException(regDetails.ihtReference), StringHelper.getNino(userNino), ihtConnector).map { optRiskMsg =>
+           realTimeRiskingMessage(appDetails, CommonHelper.getOrException(regDetails.ihtReference), getNino(userNino), ihtConnector).map { optRiskMsg =>
+             val englishMessages = cc.messagesApi.preferred(Seq(Lang("en")))
+
              Ok(iht.views.html.application.declaration.declaration(
                DeclarationViewModel(ApplicationForms.declarationForm,
                  appDetails,
                  regDetails,
-                 StringHelper.getNino(userNino),
+                 getNino(userNino),
                  ihtConnector,
                  optRiskMsg
-               )
+               ), englishMessages
              ))
            }
          }
@@ -72,46 +76,56 @@ trait DeclarationController extends ApplicationController {
       }
     }
 
-  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
-      implicit request => {
-        withRegistrationDetails { rd =>
-          if (rd.coExecutors.nonEmpty) {
-            val boundForm = ApplicationForms.declarationForm.bindFromRequest
-            boundForm.fold(
-              formWithErrors => {
-                LogHelper.logFormError(formWithErrors)
-                getApplicationDetails(getOrException(rd.ihtReference), rd.acknowledgmentReference, userNino).flatMap { appDetails =>
-                  realTimeRiskingMessage(appDetails, CommonHelper.getOrException(rd.ihtReference), StringHelper.getNino(userNino), ihtConnector).map{ optRiskMsg =>
-                    BadRequest(iht.views.html.application.declaration.declaration(
-                      DeclarationViewModel(ApplicationForms.declarationForm,
-                        appDetails,
-                        rd,
-                        StringHelper.getNino(userNino),
-                        ihtConnector,
-                        optRiskMsg
-                      )
-                    ))
-                  }
-                }
-              }, {
-                case true =>
-                  processApplicationOrRedirect(userNino)
-                case _ =>
-                  Logger.warn("isDeclared is false. Redirecting to InternalServerError")
-                  Future.successful(InternalServerError)
-              }
-            )
-          } else {
-            processApplicationOrRedirect(userNino)
-          }
-        } recover {
-          case ex: Upstream5xxResponse if ex.upstreamResponseCode == 502 &&
-            ex.message.contains("Service Unavailable") => {
-              Logger.warn("Service Unavailable while submitting application", ex)
-              InternalServerError(iht.views.html.estateReports.estateReports_error_serviceUnavailable())
-            }
-        }
+  private def withErrors(userNino: Option[String], rd: RegistrationDetails)(implicit request: Request[_], hc: HeaderCarrier) =
+    getApplicationDetails(getOrException(rd.ihtReference), rd.acknowledgmentReference, userNino) flatMap { appDetails =>
+      realTimeRiskingMessage(
+        appDetails,
+        CommonHelper.getOrException(rd.ihtReference),
+        getNino(userNino),
+        ihtConnector
+      ) map { optRiskMsg =>
+        val englishMessages = cc.messagesApi.preferred(Seq(Lang("en")))
+
+        BadRequest(iht.views.html.application.declaration.declaration(
+          DeclarationViewModel(ApplicationForms.declarationForm,
+            appDetails,
+            rd,
+            getNino(userNino),
+            ihtConnector,
+            optRiskMsg
+          ), englishMessages
+        ))
       }
+    }
+
+  def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request => {
+      withRegistrationDetails { rd =>
+        if (rd.coExecutors.nonEmpty) {
+          val boundForm = ApplicationForms.declarationForm.bindFromRequest
+          boundForm.fold(
+            formWithErrors => {
+              LogHelper.logFormError(formWithErrors)
+              withErrors(userNino, rd)
+            }, {
+              case true =>
+                processApplicationOrRedirect(userNino)
+              case _ =>
+                Logger.warn("isDeclared is false. Redirecting to InternalServerError")
+                Future.successful(InternalServerError)
+            }
+          )
+        } else {
+          processApplicationOrRedirect(userNino)
+        }
+      } recover {
+        case ex: Upstream5xxResponse if ex.upstreamResponseCode == 502 &&
+          ex.message.contains("Service Unavailable") => {
+            Logger.warn("Service Unavailable while submitting application", ex)
+            InternalServerError(iht.views.html.estateReports.estateReports_error_serviceUnavailable())
+          }
+      }
+    }
   }
 
   private[controllers] def realTimeRiskingMessage(ad: ApplicationDetails,
@@ -143,10 +157,9 @@ trait DeclarationController extends ApplicationController {
                                     (implicit hc: HeaderCarrier) = {
     Logger.debug("Money has no value, hence need to check for real-time risking message")
     ihtConnector.getRealtimeRiskingMessage(ihtAppReference, nino).recover {
-      case e: Exception => {
+      case e: Exception =>
         Logger.warn(s"Problem getting realtime risking message: ${e.getMessage}")
         None
-      }
     }
   }
 
@@ -155,9 +168,9 @@ trait DeclarationController extends ApplicationController {
                                                     hc: HeaderCarrier) = {
     withRegistrationDetails { rd =>
       val ihtReference = CommonHelper.getOrException(rd.ihtReference)
-      ihtConnector.getCaseDetails(StringHelper.getNino(userNino), ihtReference) flatMap { rd =>
+      ihtConnector.getCaseDetails(getNino(userNino), ihtReference) flatMap { rd =>
         if (rd.status == ApplicationStatus.AwaitingReturn) {
-          processApplication(StringHelper.getNino(userNino))
+          processApplication(getNino(userNino))
         } else {
           Future.successful(Redirect(
             iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
@@ -234,11 +247,10 @@ trait DeclarationController extends ApplicationController {
 
   def submissionException(exception: Throwable): String = {
     exception match {
-      case ex: GatewayTimeoutException => {
+      case _: GatewayTimeoutException =>
         Logger.debug("Request has been timed out while submitting application")
         ControllerHelper.errorServiceUnavailable
-      }
-      case ex: Exception => {
+      case ex: Exception =>
         if (ex.getMessage.contains("Request timed out") || ex.getMessage.contains("Connection refused")
           || ex.getMessage.contains("Service Unavailable") || ex.getMessage.contains(ControllerHelper.desErrorCode503)) {
           Logger.debug("Request has been timed out while submitting application")
@@ -250,11 +262,9 @@ trait DeclarationController extends ApplicationController {
           Logger.debug("System error while submitting application")
           ControllerHelper.errorSystem
         }
-      }
-      case _ => {
+      case _ =>
         Logger.debug("System error while submitting application")
         ControllerHelper.errorSystem
-      }
     }
   }
 
@@ -270,13 +280,13 @@ trait DeclarationController extends ApplicationController {
       grossEstateValue
     }
 
-    if (grossEstateValue <= IhtProperties.taxThreshold) {
+    if (grossEstateValue <= appConfig.taxThreshold) {
       Some(ControllerHelper.ReasonForBeingBelowLimitExceptedEstate)
-    } else if (grossEstateValueMinusExemptionsAndLiabilities <= IhtProperties.taxThreshold &&
-      grossEstateValue <= IhtProperties.grossEstateLimit &&
-      grossEstateValue > IhtProperties.taxThreshold) {
+    } else if (grossEstateValueMinusExemptionsAndLiabilities <= appConfig.taxThreshold &&
+      grossEstateValue <= appConfig.grossEstateLimit &&
+      grossEstateValue > appConfig.taxThreshold) {
       Some(ControllerHelper.ReasonForBeingBelowLimitSpouseCivilPartnerOrCharityExemption)
-    } else if (grossEstateValueMinusExemptionsAndLiabilities <= IhtProperties.transferredNilRateBand) {
+    } else if (grossEstateValueMinusExemptionsAndLiabilities <= appConfig.transferredNilRateBand) {
       Some(ControllerHelper.ReasonForBeingBelowLimitTNRB)
     } else {
       None
@@ -286,7 +296,7 @@ trait DeclarationController extends ApplicationController {
   /**
     * Creates various metric data from ApplicationDetails object
     */
-  private def fillMetricsData(appDetails: ApplicationDetails, regDetails: RegistrationDetails) = {
+  private def fillMetricsData(appDetails: ApplicationDetails, regDetails: RegistrationDetails): Unit = {
     val assetValue = appDetails.totalAssetsValue
     val giftValue = CommonHelper.getOrZero(appDetails.totalPastYearsGiftsOption)
     val debtsValue = appDetails.totalLiabilitiesValue
@@ -294,7 +304,7 @@ trait DeclarationController extends ApplicationController {
     val totalAssets = assetValue + giftValue
 
     //Getting stats for Application that has additional executors
-    if (regDetails.coExecutors.size > 0) {
+    if (regDetails.coExecutors.nonEmpty) {
       Future(metrics.generalStatsCounter(StatsSource.ADDITIONAL_EXECUTOR_APP)).onFailure {
         case _ => Logger.info("Unable to write to StatsSource metrics repository")
       }

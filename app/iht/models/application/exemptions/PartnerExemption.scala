@@ -18,7 +18,9 @@ package iht.models.application.exemptions
 
 import iht.utils.CommonHelper
 import org.joda.time.LocalDate
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, OFormat}
+import play.api.libs.json.JodaWrites._
+import play.api.libs.json.JodaReads._
 
 case class PartnerExemption(
                              isAssetForDeceasedPartner: Option[Boolean],
@@ -45,5 +47,5 @@ case class PartnerExemption(
 }
 
 object PartnerExemption {
-  implicit val formats = Json.format[PartnerExemption]
+  implicit val formats: OFormat[PartnerExemption] = Json.format[PartnerExemption]
 }

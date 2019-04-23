@@ -16,30 +16,32 @@
 
 package iht.controllers.application.tnrb
 
-import iht.constants.IhtProperties._
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.TnrbForms._
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
 import org.joda.time.LocalDate
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-/**
- *
- * Created by Vineet Tyagi on 14/01/16.
- *l
- */
 class PermanentHomeControllerTest  extends ApplicationControllerTest{
 
-  def permanentHomeController = new PermanentHomeController {
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with PermanentHomeController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def permanentHomeController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def permanentHomeControllerNotAuthorised = new PermanentHomeController {
+  def permanentHomeControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
 //    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
@@ -111,7 +113,7 @@ class PermanentHomeControllerTest  extends ApplicationControllerTest{
 
       val result = permanentHomeController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + TnrbSpousePermanentHomeInUKID))
+      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + appConfig.TnrbSpousePermanentHomeInUKID))
     }
 
     "go to KickOut page when Partner Home not in the UK " in {

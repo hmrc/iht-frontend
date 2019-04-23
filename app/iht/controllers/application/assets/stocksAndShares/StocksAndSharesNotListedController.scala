@@ -16,8 +16,8 @@
 
 package iht.controllers.application.assets.stocksAndShares
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
@@ -25,16 +25,18 @@ import iht.models.application.assets._
 import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import iht.views.html.application.asset.stocksAndShares.stocks_and_shares_not_listed
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class StocksAndSharesNotListedControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                        val cachingConnector: CachingConnector,
                                                        val authConnector: AuthConnector,
-                                                       val formPartialRetriever: FormPartialRetriever) extends StocksAndSharesNotListedController {
+                                                       val formPartialRetriever: FormPartialRetriever,
+                                                       implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with StocksAndSharesNotListedController {
 
 }
 
@@ -44,7 +46,7 @@ trait StocksAndSharesNotListedController extends EstateController {
 
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
     iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad(),
-    Some(AssetsStocksNotListedID))
+    Some(appConfig.AssetsStocksNotListedID))
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
@@ -65,9 +67,9 @@ trait StocksAndSharesNotListedController extends EstateController {
           (new AllAssets(action = None, stockAndShare = Some(stockAndShare)))
           (stockAndShare.isNotListed match {
             case Some(true) => _.copy(stockAndShare = Some(stockAndShare.copy(valueListed = existingValueListed,
-                                                          isListed = existingIsListed) ))
+              isListed = existingIsListed)))
             case Some(false) => _.copy(stockAndShare = Some(stockAndShare.copy(valueNotListed = None,
-                                                        valueListed = existingValueListed, isListed = existingIsListed) ))
+              valueListed = existingValueListed, isListed = existingIsListed)))
             case None => throw new RuntimeException("Not able to retrieve the value of StockAndShareNotListed question")
           })
           ))

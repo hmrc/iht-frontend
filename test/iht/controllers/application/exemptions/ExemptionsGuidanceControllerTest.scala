@@ -16,14 +16,16 @@
 
 package iht.controllers.application.exemptions
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.views.HtmlSpec
 import org.jsoup.nodes.Element
 import org.scalatest.BeforeAndAfter
-import play.api.i18n.MessagesApi
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
@@ -32,10 +34,13 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class ExemptionsGuidanceControllerTest extends ApplicationControllerTest with HtmlSpec with BeforeAndAfter {
 
-  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with ExemptionsGuidanceController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
   // Create controller object and pass in mock.
-  def exemptionsGuidanceController = new ExemptionsGuidanceController {
+  def exemptionsGuidanceController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
@@ -43,7 +48,7 @@ class ExemptionsGuidanceControllerTest extends ApplicationControllerTest with Ht
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def exemptionsGuidanceControllerNotAuthorised = new ExemptionsGuidanceController {
+  def exemptionsGuidanceControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector

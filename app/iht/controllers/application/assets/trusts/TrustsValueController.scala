@@ -16,8 +16,8 @@
 
 package iht.controllers.application.assets.trusts
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
@@ -25,16 +25,18 @@ import iht.models.application.assets._
 import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import iht.views.html.application.asset.trusts.trusts_value
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class TrustsValueControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                           val cachingConnector: CachingConnector,
                                           val authConnector: AuthConnector,
-                                          val formPartialRetriever: FormPartialRetriever) extends TrustsValueController {
+                                          val formPartialRetriever: FormPartialRetriever,
+                                          implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with TrustsValueController {
 
 }
 
@@ -42,7 +44,7 @@ trait TrustsValueController extends EstateController {
 
 
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(), Some(AssetsTrustsValueID))
+    iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(), Some(appConfig.AssetsTrustsValueID))
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsTrustsValue)
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -61,7 +63,7 @@ trait TrustsValueController extends EstateController {
 
           val updatedAD = appDetails.copy(allAssets = Some(appDetails.allAssets.fold
           (new AllAssets(action = None, heldInTrust = Some(heldInTrust)))
-          (_.copy(heldInTrust = Some(heldInTrust.copy(isMoreThanOne = existingIsMoreThanOne, isOwned = existingIsOwned) )))
+          (_.copy(heldInTrust = Some(heldInTrust.copy(isMoreThanOne = existingIsMoreThanOne, isOwned = existingIsOwned))))
           ))
           (updatedAD, None)
         }

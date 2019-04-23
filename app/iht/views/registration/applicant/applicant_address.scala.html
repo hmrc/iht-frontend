@@ -18,13 +18,14 @@
 @import iht.utils._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import uk.gov.hmrc.play.views.html.helpers.form
 
 @(ihtForm:Form[iht.models.UkAddress],
   isInternational: Boolean,
   actionCall: Call,
   changeNationalityLocation: Call,
-  cancelLocation: Option[Call] = None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+  cancelLocation: Option[Call] = None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_registration(title = Messages("page.iht.registration.applicantAddress.title"),
                     browserTitle = Some(Messages("page.iht.registration.applicantAddress.title")),
@@ -40,28 +41,28 @@
 
         <div id="ukAddress_ukAddressLine1-container" class="form-group">
           @ihtHelpers.standard.input_with_help(ihtForm("ukAddressLine1"),
-            '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
+            '_maxlength -> appConfig.validationMaxLengthAddresslines,
             '_inputClass -> "form-control ",
             '_labelTextClass -> "bold",
             '_label -> Html(Messages("iht.address.line1")))
             </div>
         <div id="ukAddress_ukAddressLine2-container" class="form-group">
           @ihtHelpers.standard.input_with_help(ihtForm("ukAddressLine2"),
-            '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
+            '_maxlength -> appConfig.validationMaxLengthAddresslines,
             '_inputClass -> "form-control ",
             '_labelTextClass -> "bold",
             '_label -> Html(Messages("iht.address.line2")))
         </div>
         <div id="ukAddress_ukAddressLine3-container" class="form-group">
           @ihtHelpers.standard.input_with_help(ihtForm("ukAddressLine3"),
-            '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
+            '_maxlength -> appConfig.validationMaxLengthAddresslines,
             '_inputClass -> "form-control ",
             '_labelTextClass -> "bold",
             '_label -> Html(Messages("iht.address.line3")))
         </div>
         <div id="ukAddress_ukAddressLine4-container" class="form-group">
           @ihtHelpers.standard.input_with_help(ihtForm("ukAddressLine4"),
-            '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
+            '_maxlength -> appConfig.validationMaxLengthAddresslines,
             '_inputClass -> "form-control ", '_labelTextClass -> "bold",
             '_label -> Html(Messages("iht.address.line4")))
         </div>
@@ -91,7 +92,7 @@
         } else {
             <div id="ukAddress_postCode-container" class="form-group">
                 @ihtHelpers.standard.input_with_help(ihtForm("postCode"),
-                '_maxlength -> IhtProperties.validationMaxLengthPostcode,
+                '_maxlength -> appConfig.validationMaxLengthPostcode,
                 '_divClass -> "form-group",
                 '_inputClass -> "form-control form-control-1-4",
                 '_labelTextClass -> "bold",

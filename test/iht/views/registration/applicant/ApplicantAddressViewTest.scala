@@ -23,7 +23,8 @@ import iht.views.ViewTestHelper
 import iht.views.html.registration.applicant.applicant_address
 import iht.views.registration.RegistrationPageBehaviour
 import play.api.i18n.MessagesApi
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import org.jsoup.nodes.Document
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable

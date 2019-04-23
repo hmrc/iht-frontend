@@ -17,11 +17,11 @@
 package iht.views
 
 import iht.views.html.sign_out
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 
 class SignOutViewTest extends ViewTestHelper {
-  def view: String = sign_out()(createFakeRequest(), applicationMessages,
-                                                                 formPartialRetriever).toString
+  def view: String = sign_out()(createFakeRequest(), messages, formPartialRetriever, appConfig).toString
 
   "Sign out view" must {
     "have no message keys in html" in {

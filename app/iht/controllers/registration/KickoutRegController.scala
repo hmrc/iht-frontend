@@ -16,20 +16,18 @@
 
 package iht.controllers.registration
 
+import iht.config.AppConfig
 import iht.connector.CachingConnector
-import iht.constants.IhtProperties
 import iht.metrics.IhtMetrics
 import iht.models.enums.KickOutSource
-import iht.utils.RegistrationKickOutHelper._
 import iht.utils.{CommonHelper, DeceasedInfoHelper}
 import iht.views.html.registration.kickout._
 import javax.inject.Inject
-import play.api.Play.current
 import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.Request
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request}
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -37,7 +35,9 @@ import scala.concurrent.Future
 class KickoutRegControllerImpl @Inject()(val metrics: IhtMetrics,
                                          val formPartialRetriever: FormPartialRetriever,
                                          val cachingConnector: CachingConnector,
-                                         val authConnector: AuthConnector) extends KickoutRegController
+                                         val authConnector: AuthConnector,
+                                         implicit val appConfig: AppConfig,
+                                         val cc: MessagesControllerComponents) extends FrontendController(cc) with KickoutRegController
 
 trait KickoutRegController extends RegistrationController {
   val metrics: IhtMetrics
@@ -51,95 +51,96 @@ trait KickoutRegController extends RegistrationController {
   lazy val deceasedPermHomePageLoad = iht.controllers.registration.deceased.routes.DeceasedPermanentHomeController.onPageLoad()
   lazy val deceasedDateOfDeathPageLoad = iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad()
   lazy val applicantApplyingForProbatePageLoad = iht.controllers.registration.applicant.routes.ApplyingForProbateController.onPageLoad()
-  lazy val applicantExecutorOfEstatePageLoad = iht.controllers.registration.applicant.routes.executorOfEstateController.onPageLoad()
+  lazy val applicantExecutorOfEstatePageLoad = iht.controllers.registration.applicant.routes.ExecutorOfEstateController.onPageLoad()
 
-  def probateKickoutView(contentLines: Seq[String])(implicit request: Request[_], messages:Messages) =
-    kickout_template(messages("page.iht.registration.applicantDetails.kickout.probate.summary"),
-      applicantProbateLocationPageLoad)(contentLines)(request, applicationMessages, formPartialRetriever)
+  def probateKickoutView(contentLines: Seq[String])(implicit request: Request[_]) =
+    kickout_template(Messages("page.iht.registration.applicantDetails.kickout.probate.summary"),
+      applicantProbateLocationPageLoad)(contentLines)
 
-  def locationKickoutView(contentLines: Seq[String])(implicit request: Request[_], messages:Messages) =
-    kickout_template(messages("page.iht.registration.deceasedDetails.kickout.location.summary"),
-      deceasedPermHomePageLoad)(contentLines)(request, applicationMessages, formPartialRetriever)
+  def locationKickoutView(contentLines: Seq[String])(implicit request: Request[_]) =
+    kickout_template(Messages("page.iht.registration.deceasedDetails.kickout.location.summary"),
+      deceasedPermHomePageLoad)(contentLines)
 
-  def capitalTaxKickoutView(contentLines: Seq[String])(implicit request: Request[_], messages:Messages) =
-    kickout_template(messages("page.iht.registration.deceasedDateOfDeath.kickout.date.capital.tax.summary"),
+  def capitalTaxKickoutView(contentLines: Seq[String])(implicit request: Request[_]) =
+    kickout_template(Messages("page.iht.registration.deceasedDateOfDeath.kickout.date.capital.tax.summary"),
       deceasedDateOfDeathPageLoad,
-      messages("iht.registration.kickout.returnToTheDateOfDeath"))(contentLines)(request, applicationMessages, formPartialRetriever)
+      Messages("iht.registration.kickout.returnToTheDateOfDeath"))(contentLines)
 
-  def dateOtherKickoutView(contentLines: Seq[String])(implicit request: Request[_], messages:Messages) =
-    kickout_template(messages("page.iht.registration.deceasedDateOfDeath.kickout.date.other.summary"),
-      deceasedDateOfDeathPageLoad)(contentLines)(request, applicationMessages,formPartialRetriever)
+  def dateOtherKickoutView(contentLines: Seq[String])(implicit request: Request[_]) = {
+    val viewFunc: Seq[String] => HtmlFormat.Appendable =
+      kickout_template(Messages("page.iht.registration.deceasedDateOfDeath.kickout.date.other.summary"), deceasedDateOfDeathPageLoad)
 
-  def notApplyingForProbateKickoutView(contentLines: Seq[String])(implicit request: Request[_], messages:Messages) =
-    kickout_expander(messages("page.iht.registration.notApplyingForProbate.kickout.summary"),
-      applicantApplyingForProbatePageLoad, messages("iht.changeYourAnswer"))(contentLines)(request, applicationMessages, formPartialRetriever)
+    viewFunc(contentLines)
+  }
 
-  def notAnExecutorKickoutView(content: String)(implicit request: Request[_], messages:Messages) =
-    kickout_template_simple(applicantExecutorOfEstatePageLoad, messages("iht.changeYourAnswer"))(content)(request, applicationMessages, formPartialRetriever)
+  def notApplyingForProbateKickoutView(contentLines: Seq[String])(implicit request: Request[_]) =
+    kickout_expander(Messages("page.iht.registration.notApplyingForProbate.kickout.summary"),
+      applicantApplyingForProbatePageLoad, Messages("iht.changeYourAnswer"))(contentLines)
+
+  def notAnExecutorKickoutView(content: String)(implicit request: Request[_]) =
+    kickout_template_simple(applicantExecutorOfEstatePageLoad, Messages("iht.changeYourAnswer"))(content)
 
   def content(implicit messages:Messages, deceasedName: String): Map[String, Request[_] => HtmlFormat.Appendable] = Map(
     KickoutApplicantDetailsProbateScotland ->
       (request => probateKickoutView(
         Seq(
           messages("iht.registration.kickout.probateLocation.scotland"),
-          messages("iht.registration.kickout.ifWantChangeProbateLocation")))(request, messages)),
+          messages("iht.registration.kickout.ifWantChangeProbateLocation")))(request)),
     KickoutApplicantDetailsProbateNi ->
       (request => probateKickoutView(
         Seq(
           messages("iht.registration.kickout.content"),
-          messages("iht.registration.kickout.ifWantChangeProbateLocation")))(request, messages)),
+          messages("iht.registration.kickout.ifWantChangeProbateLocation")))(request)),
     KickoutDeceasedDetailsLocationScotland ->
       (request => locationKickoutView(
         Seq(
           messages("iht.registration.kickout.probateLocation.scotland"),
-          messages("iht.registration.kickout.ifWantChangeDeceasedLocation")))(request, messages)),
+          messages("iht.registration.kickout.ifWantChangeDeceasedLocation")))(request)),
     KickoutDeceasedDetailsLocationNI ->
       (request => locationKickoutView(
         Seq(
           messages("iht.registration.kickout.content"),
-          messages("iht.registration.kickout.ifWantChangeDeceasedLocation")))(request, messages)),
+          messages("iht.registration.kickout.ifWantChangeDeceasedLocation")))(request)),
     KickoutDeceasedDetailsLocationOther ->
       (request => locationKickoutView(
         Seq(
           messages("iht.registration.kickout.content"),
-          messages("iht.registration.kickout.ifWantChangeDeceasedLocation")))(request, messages)),
+          messages("iht.registration.kickout.ifWantChangeDeceasedLocation")))(request)),
     KickoutDeceasedDateOfDeathDateCapitalTax ->
       (request => capitalTaxKickoutView(Seq(
         messages("iht.registration.kickout.message.phone"),
         messages("iht.registration.kickout.message.phone2"),
         messages("iht.registration.kickout.message.changeTheDate")
-      ))(request, messages)),
+      ))(request)),
     KickoutDeceasedDateOfDeathDateOther ->
       (request => dateOtherKickoutView(Seq(
         messages("iht.registration.kickout.content"),
         messages("iht.registration.kickout.message.form2")
-      ))(request, messages)),
+      ))(request)),
     KickoutNotApplyingForProbate ->
       (request => notApplyingForProbateKickoutView(Seq(
         messages("page.iht.registration.notApplyingForProbate.kickout.p1"),
         messages("page.iht.registration.notApplyingForProbate.kickout.p2")
-      ))(request, messages)),
+      ))(request)),
     KickoutNotAnExecutor ->
       (request => notAnExecutorKickoutView(
-        messages("page.iht.registration.notAnExecutor.kickout.p1"))(request, messages))
+        messages("page.iht.registration.notAnExecutor.kickout.p1"))(request))
   )
 
-  def onPageLoad = authorisedForIht {
+  def onPageLoad: Action[AnyContent] = authorisedForIht {
     implicit request => {
       withRegistrationDetails { regDetails =>
-        cachingConnector.getSingleValue(RegistrationKickoutReasonCachingKey) map { reason => {
-          val messages = Messages.Implicits.applicationMessages
+        cachingConnector.getSingleValue(RegistrationKickoutReasonCachingKey) map { reason =>
           val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
-          Ok(content(messages, deceasedName)(CommonHelper.getOrException(reason))(request))
-        }
+          Ok(content(implicitly[Messages], deceasedName)(CommonHelper.getOrException(reason))(request))
         }
       }
     }
   }
 
-  def onSubmit = authorisedForIht {
+  def onSubmit: Action[AnyContent] = authorisedForIht {
     implicit request =>
       metrics.kickOutCounter(KickOutSource.REGISTRATION)
-      Future.successful(Redirect(IhtProperties.linkRegistrationKickOut))
+      Future.successful(Redirect(appConfig.linkRegistrationKickOut))
   }
 }

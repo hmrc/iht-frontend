@@ -18,9 +18,7 @@ package iht.models.application.basicElements
 
 import play.api.libs.json.Json
 
-/**
-  * Created by vineet on 03/11/16.
-  */
+
 case class BasicEstateElement(value: Option[BigDecimal],
                               isOwned: Option[Boolean] = None) extends EstateElement {
   def isComplete: Option[Boolean] =

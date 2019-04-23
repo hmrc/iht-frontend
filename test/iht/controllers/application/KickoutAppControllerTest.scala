@@ -18,21 +18,29 @@ package iht.controllers.application
 
 import java.util.UUID
 
+import iht.config.AppConfig
 import iht.metrics.IhtMetrics
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, MockObjectBuilder, TestHelper}
 import iht.utils.{DeceasedInfoHelper, KickOutReason, ApplicationStatus => AppStatus}
 import org.mockito.ArgumentMatchers._
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{status => playStatus, _}
 import uk.gov.hmrc.http.SessionKeys
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class KickoutAppControllerTest extends ApplicationControllerTest {
 
-  def kickoutController = new KickoutAppController {
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with KickoutAppController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def kickoutController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
@@ -41,7 +49,7 @@ class KickoutAppControllerTest extends ApplicationControllerTest {
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def kickoutControllerNotAuthorised = new KickoutAppController {
+  def kickoutControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
@@ -58,7 +66,7 @@ class KickoutAppControllerTest extends ApplicationControllerTest {
         val applicationDetails = CommonBuilder.buildApplicationDetails
           .copy(kickoutReason = Some(KickOutReason.ForeignAssetsValueMoreThanMax),
             status = AppStatus.KickOut)
-        val regDetails = MockObjectBuilder.buildRegistrationDetailsWithDeceasedAndIhtRefDetails
+        val regDetails = buildRegistrationDetailsWithDeceasedAndIhtRefDetails
         createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(regDetails)))
         createMockToGetApplicationDetails(mockIhtConnector, Some(applicationDetails))
         createMockToDoNothingWhenDeleteSingleValueFromCache(mockCachingConnector)

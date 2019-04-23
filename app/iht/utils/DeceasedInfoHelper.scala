@@ -16,18 +16,17 @@
 
 package iht.utils
 
+import iht.config.AppConfig
 import iht.models._
 import iht.views.html._
-import play.api.Play.current
 import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
 
 object DeceasedInfoHelper {
 
   def determineStatusToUse(desStatus: String, secureStorageStatus: String): String = {
     desStatus match {
-      case (ApplicationStatus.AwaitingReturn) => secureStorageStatus
-      case (_) => desStatus
+      case ApplicationStatus.AwaitingReturn => secureStorageStatus
+      case _                                => desStatus
     }
   }
 
@@ -37,15 +36,15 @@ object DeceasedInfoHelper {
   val isDeceasedAddressQuestionAnswered: Predicate = (rd, _) => rd.deceasedDetails.flatMap(_.isAddressInUK).isDefined
   val isThereADeceasedAddress: Predicate = (rd, _) => rd.deceasedDetails.flatMap(_.ukAddress).isDefined
 
-  def getDeceasedNameOrDefaultString(regDetails: RegistrationDetails,
-                                     wrapName: Boolean = false): String =
+  def getDeceasedNameOrDefaultString(regDetails: RegistrationDetails, wrapName: Boolean = false)
+                                    (implicit messages: Messages, appConfig: AppConfig): String =
     if (wrapName) {
-      ihtHelpers.custom.name(regDetails.deceasedDetails.fold(Messages("iht.the.deceased"))(_.name)).toString
+      ihtHelpers.custom.name(regDetails.deceasedDetails.fold(messages("iht.the.deceased"))(_.name)).toString
     } else {
-      regDetails.deceasedDetails.fold(Messages("iht.the.deceased"))(_.name)
+      regDetails.deceasedDetails.fold(messages("iht.the.deceased"))(_.name)
     }
 
-  def getDeceasedNameOrDefaultString(deceasedName: Option[String]): String = {
-    deceasedName.fold(Messages("iht.the.deceased")) { identity }
+  def getDeceasedNameOrDefaultString(deceasedName: Option[String])(implicit messages: Messages): String = {
+    deceasedName.fold(messages("iht.the.deceased")) { identity }
   }
 }

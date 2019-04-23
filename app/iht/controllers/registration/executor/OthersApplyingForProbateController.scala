@@ -16,18 +16,18 @@
 
 package iht.controllers.registration.executor
 
+import iht.config.AppConfig
 import iht.connector.CachingConnector
 import iht.controllers.registration.{RegistrationController, routes => registrationRoutes}
-import iht.forms.registration.CoExecutorForms._
+import iht.forms.registration.CoExecutorForms
 import iht.metrics.IhtMetrics
 import iht.models.RegistrationDetails
 import iht.utils.AddressHelper._
 import iht.utils.CommonHelper._
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Call, Result}
+import play.api.mvc.{Call, MessagesControllerComponents, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -35,9 +35,11 @@ import scala.concurrent.Future
 class OthersApplyingForProbateControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                                        val ihtMetrics: IhtMetrics,
                                                        val authConnector: AuthConnector,
-                                                       val formPartialRetriever: FormPartialRetriever) extends OthersApplyingForProbateController
+                                                       val formPartialRetriever: FormPartialRetriever,
+                                                       implicit val appConfig: AppConfig,
+                                                       val cc: MessagesControllerComponents) extends FrontendController(cc) with OthersApplyingForProbateController
 
-trait OthersApplyingForProbateController extends RegistrationController {
+trait OthersApplyingForProbateController extends RegistrationController with CoExecutorForms {
   def cachingConnector: CachingConnector
 
   override def guardConditions: Set[Predicate] = Set(isThereAnApplicantAddress)
@@ -81,7 +83,7 @@ trait OthersApplyingForProbateController extends RegistrationController {
 
   def submit(arrivedFromOverview: Boolean, cancelCall: Option[Call] = None) = authorisedForIht {
       implicit request => {
-        withRegistrationDetails { (rd: RegistrationDetails) =>
+        withRegistrationDetails { rd: RegistrationDetails =>
           val boundForm = othersApplyingForProbateForm.bindFromRequest
           boundForm.fold(
             formWithErrors => {

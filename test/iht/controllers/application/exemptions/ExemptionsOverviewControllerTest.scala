@@ -16,29 +16,30 @@
 
 package iht.controllers.application.exemptions
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import org.scalatest.BeforeAndAfter
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-/**
- *
- * Created by Vineet Tyagi on 07/12/15.
- *
- */
 class ExemptionsOverviewControllerTest extends ApplicationControllerTest with BeforeAndAfter{
 
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with ExemptionsOverviewController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
-
-  def exemptionsSummaryController = new ExemptionsOverviewController {
+  def exemptionsSummaryController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
-  def exemptionsSummaryControllerNotAuthorised = new ExemptionsOverviewController {
+  def exemptionsSummaryControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

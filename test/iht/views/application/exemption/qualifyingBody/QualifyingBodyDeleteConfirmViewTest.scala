@@ -19,7 +19,8 @@ package iht.views.application.exemption.qualifyingBody
 import iht.testhelpers.CommonBuilder
 import iht.views.html.application.exemption.qualifyingBody.qualifying_body_delete_confirm
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import scala.concurrent.ExecutionContext.Implicits.global

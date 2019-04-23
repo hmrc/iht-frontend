@@ -16,8 +16,9 @@
 
 @import iht.views.html.iht_main_template_registration
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @(title: String,
-        message: String)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+        message: String)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_registration(title = messages(title), browserTitle = Some(messages(title)),
  hasTimeOut=true) {

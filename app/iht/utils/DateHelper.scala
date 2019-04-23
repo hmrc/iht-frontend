@@ -17,7 +17,7 @@
 package iht.utils
 
 
-import iht.constants.IhtProperties
+import iht.config.AppConfig
 import org.joda.time.{DateTime, LocalDate}
 
 object DateHelper {
@@ -26,10 +26,10 @@ object DateHelper {
     * Check the current date against input date plus range (thats add 24 months in the last day of the month
     * of input date)
     */
-  def isDateWithInRange(date: LocalDate): Boolean = {
+  def isDateWithInRange(date: LocalDate)(implicit appConfig: AppConfig): Boolean = {
     val dateString = date.toString
     val dateTime = new DateTime(dateString)
-    val dateRange = dateTime.dayOfMonth.withMaximumValue.plusMonths(IhtProperties.DateRangeMonths).toLocalDate
+    val dateRange = dateTime.dayOfMonth.withMaximumValue.plusMonths(appConfig.DateRangeMonths).toLocalDate
     LocalDate.now().compareTo(dateRange) < 0
   }
 

@@ -16,16 +16,16 @@
 
 package iht.controllers.application.tnrb
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.EstateController
 import iht.utils._
 import iht.utils.tnrb.TnrbHelper
 import iht.views.html.application.tnrb.tnrb_guidance
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -33,11 +33,11 @@ import scala.concurrent.Future
 class TnrbGuidanceControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                            val cachingConnector: CachingConnector,
                                            val authConnector: AuthConnector,
-                                           val formPartialRetriever: FormPartialRetriever) extends TnrbGuidanceController {
+                                           val formPartialRetriever: FormPartialRetriever,
+                                           implicit val appConfig: AppConfig,
+                                           val cc: MessagesControllerComponents) extends FrontendController(cc) with TnrbGuidanceController
 
-}
-
-trait TnrbGuidanceController extends EstateController{
+trait TnrbGuidanceController extends EstateController with TnrbHelper {
 
   def onPageLoad: Action[AnyContent] = authorisedForIht {
     implicit request => {
@@ -48,7 +48,7 @@ trait TnrbGuidanceController extends EstateController{
           val browserTitle = "iht.estateReport.tnrb.increasingThreshold"
           Future.successful(Ok(tnrb_guidance(
             ihtReference,
-            TnrbHelper.urlForIncreasingThreshold(CommonHelper.getOrException(rd.deceasedDetails.flatMap(_.maritalStatus))).url,
+            urlForIncreasingThreshold(CommonHelper.getOrException(rd.deceasedDetails.flatMap(_.maritalStatus))).url,
             deceasedName,
             title,
             browserTitle,
@@ -67,7 +67,7 @@ trait TnrbGuidanceController extends EstateController{
           val title = "page.iht.application.tnrb.guidance.system.title"
           Future.successful(Ok(tnrb_guidance(
             ihtReference,
-            TnrbHelper.urlForIncreasingThreshold(CommonHelper.getOrException(rd.deceasedDetails.flatMap(_.maritalStatus))).url,
+            urlForIncreasingThreshold(CommonHelper.getOrException(rd.deceasedDetails.flatMap(_.maritalStatus))).url,
             deceasedName,
             title, title,
             systemGenerated = true))

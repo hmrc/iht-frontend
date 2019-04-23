@@ -16,16 +16,22 @@
 
 package iht.controllers.registration
 
+import iht.config.AppConfig
 import iht.testhelpers.MockFormPartialRetriever
-import play.api.i18n.MessagesApi
+import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class RegistrationChecklistControllerTest extends RegistrationControllerTest {
 
   implicit val fakedMessagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit val messages: Messages = mockControllerComponents.messagesApi.preferred(Seq(Lang.defaultLang)).messages
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with RegistrationChecklistController {
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
-  def registrationChecklistController = new RegistrationChecklistController {
+  def registrationChecklistController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever

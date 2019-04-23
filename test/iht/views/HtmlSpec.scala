@@ -21,12 +21,13 @@ import org.apache.commons.lang3.StringEscapeUtils
 import iht.testhelpers.ContentChecker
 import org.jsoup.Jsoup
 import org.jsoup.nodes.{Document, Element}
-import play.api.i18n.MessagesApi
+import play.api.i18n.{Lang, MessagesApi}
 import play.twirl.api.Html
 
 trait HtmlSpec { self: FakeIhtApp =>
 
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit val lang = Lang.defaultLang
 
   def asDocument(html: Html): Document = Jsoup.parse(html.toString())
   def asDocument(string: String): Document = Jsoup.parse(string)

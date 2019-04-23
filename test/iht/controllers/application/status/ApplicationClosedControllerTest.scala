@@ -25,7 +25,9 @@ class ApplicationClosedControllerTest extends ApplicationControllerTest with Htm
     mockIhtConnector,
     mockCachingConnector,
     mockAuthConnector,
-    mockPartialRetriever
+    mockPartialRetriever,
+    mockAppConfig,
+    mockControllerComponents
   )
 
   "ApplicationClosedController" must {

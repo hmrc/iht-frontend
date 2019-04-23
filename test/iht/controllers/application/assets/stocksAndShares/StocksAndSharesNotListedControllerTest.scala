@@ -16,17 +16,17 @@
 
 package iht.controllers.application.assets.stocksAndShares
 
-/**
-  * Created by vineet on 04/07/16.  */
-
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
+import iht.controllers.application.exemptions.qualifyingBody.QualifyingBodyDetailsOverviewController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
-import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.TestHelper._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.CommonHelper
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.{contentAsString, _}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class StocksAndSharesNotListedControllerTest extends ApplicationControllerTest {
@@ -41,21 +41,24 @@ class StocksAndSharesNotListedControllerTest extends ApplicationControllerTest {
       storeAppDetailsInCache = true)
   }
 
-  def stocksAndSharesNotListedController = new StocksAndSharesNotListedController {
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with StocksAndSharesNotListedController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def stocksAndSharesNotListedController = new TestController {
     val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def stocksAndSharesNotListedControllerNotAuthorised = new StocksAndSharesNotListedController {
+  def stocksAndSharesNotListedControllerNotAuthorised = new TestController {
     val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
-
-
 
   "StocksAndSharesNotListedController" must {
 

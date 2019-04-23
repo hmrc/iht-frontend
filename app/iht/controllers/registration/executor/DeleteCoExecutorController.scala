@@ -16,17 +16,24 @@
 
 package iht.controllers.registration.executor
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties
 import iht.controllers.registration.RegistrationController
 import javax.inject.Inject
 import play.Logger
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
+
+class DeleteCoExecutorControllerImpl @Inject()(val ihtConnector: IhtConnector,
+                                               val cachingConnector: CachingConnector,
+                                               val authConnector: AuthConnector,
+                                               val formPartialRetriever: FormPartialRetriever,
+                                               implicit val appConfig: AppConfig,
+                                               val cc: MessagesControllerComponents) extends FrontendController(cc) with DeleteCoExecutorController
 
 trait DeleteCoExecutorController extends RegistrationController {
   def areThereOthersApplying: Predicate = (rd, _) => rd.areOthersApplyingForProbate.getOrElse(false)
@@ -48,7 +55,7 @@ trait DeleteCoExecutorController extends RegistrationController {
             Future.successful(InternalServerError("Coexecutor confirm deletion of id " + id + " fails. Id not found."))
           } else {
             val coExecutor = rd.coExecutors(index)
-            val addr = IhtProperties.ukIsoCountryCode
+            val addr = appConfig.ukIsoCountryCode
             Future.successful(Ok(iht.views.html.registration.executor.delete_coexecutor_confirm(coExecutor)))
           }
         }
@@ -76,11 +83,4 @@ trait DeleteCoExecutorController extends RegistrationController {
       }
     }
   }
-}
-
-class DeleteCoExecutorControllerImpl @Inject()(val ihtConnector: IhtConnector,
-                                               val cachingConnector: CachingConnector,
-                                               val authConnector: AuthConnector,
-                                               val formPartialRetriever: FormPartialRetriever) extends DeleteCoExecutorController {
-
 }

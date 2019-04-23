@@ -16,17 +16,17 @@
 
 package iht.utils
 
-import iht.constants.IhtProperties.{exemptionsThresholdValue, grossEstateLimit, statusSingle, transferredNilRateBand}
+import iht.config.AppConfig
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import iht.utils.RegistrationDetailsHelper.getMaritalStatus
 
-object EstateNotDeclarableHelper {
+trait EstateNotDeclarableHelper extends RegistrationDetailsHelper {
+  implicit val appConfig: AppConfig
 
-  def isEstateOverGrossEstateLimit(appDetails: ApplicationDetails): Boolean = appDetails.totalValue > grossEstateLimit.toInt
+  def isEstateOverGrossEstateLimit(appDetails: ApplicationDetails): Boolean = appDetails.totalValue > appConfig.grossEstateLimit.toInt
 
   def isEstateValueMoreThanTaxThresholdBeforeExemptionsStarted(appDetails: ApplicationDetails): Boolean = {
-    appDetails.totalValue > exemptionsThresholdValue.toInt && appDetails.allExemptions.isEmpty &&
+    appDetails.totalValue > appConfig.exemptionsThresholdValue.toInt && appDetails.allExemptions.isEmpty &&
       appDetails.widowCheck.isEmpty && appDetails.increaseIhtThreshold.isEmpty
   }
 
@@ -34,17 +34,17 @@ object EstateNotDeclarableHelper {
                                                          regDetails: RegistrationDetails): Boolean = {
     val netEstateValue = appDetails.netValueAfterExemptionAndDebtsForPositiveExemption
 
-    netEstateValue > exemptionsThresholdValue.toInt && netEstateValue <= transferredNilRateBand.toInt &&
+    netEstateValue > appConfig.exemptionsThresholdValue.toInt && netEstateValue <= appConfig.transferredNilRateBand.toInt &&
       appDetails.allExemptions.isDefined && appDetails.widowCheck.isEmpty &&
-      !getMaritalStatus(regDetails).equals(statusSingle)
+      !getMaritalStatus(regDetails).equals(appConfig.statusSingle)
   }
 
   def isEstateValueMoreThanTaxThresholdBeforeTnrbFinished(appDetails: ApplicationDetails,
                                                           regDetails: RegistrationDetails): Boolean = {
     val netEstateValue = appDetails.netValueAfterExemptionAndDebtsForPositiveExemption
 
-    netEstateValue > exemptionsThresholdValue.toInt && netEstateValue <= transferredNilRateBand.toInt &&
-      appDetails.increaseIhtThreshold.isDefined && !getMaritalStatus(regDetails).equals(statusSingle)
+    netEstateValue > appConfig.exemptionsThresholdValue.toInt && netEstateValue <= appConfig.transferredNilRateBand.toInt &&
+      appDetails.increaseIhtThreshold.isDefined && !getMaritalStatus(regDetails).equals(appConfig.statusSingle)
   }
 
 }

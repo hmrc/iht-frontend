@@ -16,24 +16,29 @@
 
 package iht.controllers.filter
 
+import iht.config.AppConfig
 import javax.inject.Inject
-import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{Action, AnyContent}
-import uk.gov.hmrc.play.bootstrap.controller.{FrontendController, UnauthorisedAction}
+import play.api.i18n.I18nSupport
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class TransitionControllerImpl @Inject()(val formPartialRetriever: FormPartialRetriever,
-                                         val messagesApi: MessagesApi) extends TransitionController
+                                         val cc: MessagesControllerComponents,
+                                         implicit val appConfig: AppConfig) extends FrontendController(cc) with TransitionController
+
 trait TransitionController extends FrontendController with I18nSupport {
+  implicit val appConfig: AppConfig
+
   def onPageLoadScotland: Action[AnyContent] = doPageLoad("iht.countries.scotland")
   def onPageLoadNorthernIreland: Action[AnyContent] = doPageLoad("iht.countries.northernIreland")
   def onPageLoadOtherCountry: Action[AnyContent] = doPageLoad("page.iht.filter.domicile.choice.other")
 
   implicit val formPartialRetriever: FormPartialRetriever
 
-  def doPageLoad(countryMessageKey: String): Action[AnyContent] = UnauthorisedAction.async {
+  def doPageLoad(countryMessageKey: String): Action[AnyContent] = Action.async {
     implicit request => {
       Future.successful(Ok(iht.views.html.filter.use_paper_form(countryMessageKey)))
     }

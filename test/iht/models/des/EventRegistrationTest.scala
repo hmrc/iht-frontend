@@ -17,11 +17,13 @@
 package models.des
 
 import iht.FakeIhtApp
+import iht.config.AppConfig
 import iht.testhelpers.CommonBuilder
 import org.scalatest.mock.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
 
 class EventRegistrationTest extends FakeIhtApp with MockitoSugar {
+  implicit val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+
   "EventRegistration" must {
     "convert all fields from registration details to event registration where there are co-executors" in {
       val rd1 = CommonBuilder.buildRegistrationDetails1

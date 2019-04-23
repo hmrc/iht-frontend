@@ -25,7 +25,8 @@ import iht.views.html.application.asset.properties.property_type
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import iht.testhelpers.TestHelper
 
 class PropertyTypeViewTest extends SubmittableApplicationPageBehaviour[Property] {

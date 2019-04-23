@@ -19,18 +19,18 @@
 @import iht.utils._
 @import iht.views.html._
 @import org.joda.time.LocalDate
-@import uk.gov.hmrc.play.language.LanguageUtils.Dates
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import uk.gov.hmrc.play.views.html.helpers.form
-@import iht.constants.IhtProperties._
+
 
 @(giftsGivenAwayForm:Form[AllGifts],
 regDetails:RegistrationDetails,
 giftsList: Seq[PreviousYearsGifts]
-)(implicit request:Request[_], messages: Messages, lang : play.api.i18n.Lang, ihtFormPartialRetriever: FormPartialRetriever)
+)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
-@deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails, false)}
-@deceasedNameWrapped() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails, true)}
+@deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)}
+@deceasedNameWrapped() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails, wrapName = true)}
 
 @iht_main_template_application(title = Messages("iht.estateReport.gifts.givenAwayBy",deceasedName),
 browserTitle = Some(Messages("iht.estateReport.gifts.givenAway.title")),
@@ -48,10 +48,10 @@ headingName = deceasedName
         @giftsList.indices.map{index =>
             @giftsList(index).startDate.map{ startDate =>
                 <li id="tax-year-@{index+1}" class="list list-bullet">
-                <span class="no-wrap">@Dates.formatDate(LocalDate.parse(startDate))</span>
+                <span class="no-wrap">@CustomLanguageUtils.Dates.formatDate(LocalDate.parse(startDate))</span>
                 @Messages("iht.to")
                 @giftsList(index).endDate.map{ endDate =>
-                    <span class="no-wrap">@Dates.formatDate(LocalDate.parse(endDate))</span>
+                    <span class="no-wrap">@CustomLanguageUtils.Dates.formatDate(LocalDate.parse(endDate))</span>
                 }
                 </li>
             }
@@ -78,7 +78,7 @@ headingName = deceasedName
             @ihtHelpers.custom.return_link(
                 Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.custom.name(dd.name)),
                 Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()),
-                GiftsGivenAwayQuestionID
+                appConfig.GiftsGivenAwayQuestionID
             )
         }
     }

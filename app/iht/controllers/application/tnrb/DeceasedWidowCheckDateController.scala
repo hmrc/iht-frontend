@@ -16,26 +16,24 @@
 
 package iht.controllers.application.tnrb
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
 import iht.utils.tnrb.TnrbHelper
-import iht.utils.tnrb.TnrbHelper._
-import iht.utils.{ApplicationKickOutHelper, ApplicationKickOutNonSummaryHelper, CommonHelper, DateHelper, StringHelper}
+import iht.utils.{ApplicationKickOutHelper, CommonHelper, DateHelper}
 import javax.inject.Inject
 import org.joda.time.LocalDate
 import play.api.Logger
-import play.api.Play.current
 import play.api.data.Form
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Request, Result}
+import play.api.mvc.{MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -43,11 +41,11 @@ import scala.concurrent.Future
 class DeceasedWidowCheckDateControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                      val cachingConnector: CachingConnector,
                                                      val authConnector: AuthConnector,
-                                                     val formPartialRetriever: FormPartialRetriever) extends DeceasedWidowCheckDateController {
+                                                     val formPartialRetriever: FormPartialRetriever,
+                                                     implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with DeceasedWidowCheckDateController
 
-}
-
-trait DeceasedWidowCheckDateController extends EstateController {
+trait DeceasedWidowCheckDateController extends EstateController with TnrbHelper {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -55,12 +53,12 @@ trait DeceasedWidowCheckDateController extends EstateController {
       implicit request => {
         withRegistrationDetails { registrationDetails =>
           for {
-            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
+            applicationDetails <- ihtConnector.getApplication(getNino(userNino),
               CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
               registrationDetails.acknowledgmentReference)
           } yield {
             applicationDetails match {
-              case Some(appDetails) => {
+              case Some(appDetails) =>
 
                 val filledForm = deceasedWidowCheckDateForm.fill(appDetails.widowCheck.getOrElse(
                   WidowCheck(None, None)))
@@ -70,9 +68,8 @@ trait DeceasedWidowCheckDateController extends EstateController {
                   appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
                   appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                   registrationDetails,
-                  cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseDateOfDeathID)),
+                  cancelLinkUrlForWidowCheckPages(appDetails, Some(appConfig.TnrbSpouseDateOfDeathID)),
                   cancelLinkTextForWidowCheckPages(appDetails)))
-              }
               case _ => InternalServerError("Application details not found")
             }
           }
@@ -84,7 +81,7 @@ trait DeceasedWidowCheckDateController extends EstateController {
 
       implicit request => {
         withRegistrationDetails { regDetails =>
-          val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(userNino),
+          val applicationDetailsFuture = ihtConnector.getApplication(getNino(userNino),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
@@ -99,11 +96,11 @@ trait DeceasedWidowCheckDateController extends EstateController {
                     appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
                     appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                     regDetails,
-                    cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseDateOfDeathID)),
+                    cancelLinkUrlForWidowCheckPages(appDetails, Some(appConfig.TnrbSpouseDateOfDeathID)),
                     cancelLinkTextForWidowCheckPages(appDetails))))
                 },
                 widowModel => {
-                  saveApplication(StringHelper.getNino(userNino), widowModel, appDetails, regDetails)
+                  saveApplication(getNino(userNino), widowModel, appDetails, regDetails)
                 }
               )
             }
@@ -147,7 +144,7 @@ trait DeceasedWidowCheckDateController extends EstateController {
       fold(new WidowCheck(widowed = Some(true), dateOfPreDeceased = widowModel.dateOfPreDeceased))
       (_.copy(widowed = Some(true), dateOfPreDeceased = widowModel.dateOfPreDeceased))))
 
-    val updatedAppDetailsWithKickOutReason = ApplicationKickOutNonSummaryHelper.updateKickout(checks = ApplicationKickOutNonSummaryHelper.checksWidowOpc,
+    val updatedAppDetailsWithKickOutReason = appKickoutUpdateKickout(checks = checksWidowOpc,
       registrationDetails = regDetails,
       applicationDetails = updatedAppDetails)
 
@@ -160,7 +157,7 @@ trait DeceasedWidowCheckDateController extends EstateController {
       } { _ =>
         updatedAppDetailsWithKickOutReason.kickoutReason match {
           case Some(reason) => Redirect(iht.controllers.application.routes.KickoutAppController.onPageLoad())
-          case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(TnrbSpouseDateOfDeathID))
+          case _            => successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(appConfig.TnrbSpouseDateOfDeathID))
         }
       }
     }

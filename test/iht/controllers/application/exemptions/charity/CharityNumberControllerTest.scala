@@ -16,29 +16,35 @@
 
 package iht.controllers.application.exemptions.charity
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
+import iht.controllers.application.assets.vehicles.VehiclesJointlyOwnedController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions.Charity
-import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import org.scalatest.BeforeAndAfter
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class CharityNumberControllerTest extends ApplicationControllerTest with BeforeAndAfter {
 
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with CharityNumberController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
-
-  def charityNumberController = new CharityNumberController {
+  def charityNumberController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def charityNumberControllerNotAuthorised = new CharityNumberController {
+  def charityNumberControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
@@ -175,7 +181,7 @@ class CharityNumberControllerTest extends ApplicationControllerTest with BeforeA
     "save application, update charity and  go to Charity Details Overview page on submit in edit mode" in {
       val mockIhtConnectorTemp: IhtConnector = mock[IhtConnector]
       val mockCachingConnectorTemp: CachingConnector = mock[CachingConnector]
-      def charityNumberControllerTemp = new CharityNumberController {
+      def charityNumberControllerTemp = new TestController {
         override val authConnector = mockAuthConnector
         override val cachingConnector = mockCachingConnectorTemp
         override val ihtConnector = mockIhtConnectorTemp

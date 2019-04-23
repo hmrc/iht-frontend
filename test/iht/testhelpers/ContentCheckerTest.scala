@@ -25,7 +25,7 @@ import scala.io.Source._
 class ContentCheckerTest extends FakeIhtApp {
 
   def getResourceAsFilePath(filePath: String) = {
-    val url = CommonHelper.getOrException(Play.resource(filePath),
+    val url = CommonHelper.getOrException(app.environment.resource(filePath),
       "Unable to find Play resource in class path: " + filePath)
     url.getFile
   }

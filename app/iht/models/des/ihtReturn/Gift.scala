@@ -18,10 +18,10 @@ package iht.models.des.ihtReturn
 
 import org.joda.time.LocalDate
 import play.api.libs.json.Json
+import play.api.libs.json.JodaWrites._
+import play.api.libs.json.JodaReads._
 
-/**
-  * Created by vineet on 06/07/17.
-  */
+
 case class Gift(
                  // General asset
                  assetCode: Option[String] = None,

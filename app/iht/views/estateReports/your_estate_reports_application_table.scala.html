@@ -18,7 +18,8 @@
 @import iht.views.html.ihtHelpers
 @import iht.viewmodels.estateReports.YourEstateReportsRowViewModel
 
-@(applications: Seq[YourEstateReportsRowViewModel])(implicit messages: Messages)
+@import iht.config.AppConfig
+@(applications: Seq[YourEstateReportsRowViewModel])(implicit messages: Messages, appConfig: AppConfig)
 
 <div class="section">
 

@@ -16,14 +16,15 @@
 
 package iht.views.application.assets.pensions
 
-import iht.constants.IhtProperties._
+
 import iht.controllers.application.assets.pensions.routes
 import iht.models.application.assets.PrivatePension
 import iht.testhelpers.CommonBuilder
 import iht.utils.CommonHelper
 import iht.views.helpers.GenericOverviewHelper
 import iht.views.html.application.asset.pensions.pensions_overview
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 
 class PensionsOverviewViewTest extends GenericOverviewHelper {
 
@@ -81,7 +82,7 @@ class PensionsOverviewViewTest extends GenericOverviewHelper {
 
       val link = view.getElementById("return-button")
       link.text mustBe messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
-      link.attr("href") mustBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad.url + "#" + AppSectionPrivatePensionID
+      link.attr("href") mustBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad.url + "#" + appConfig.AppSectionPrivatePensionID
     }
 
   }

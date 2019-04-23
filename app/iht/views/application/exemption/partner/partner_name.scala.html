@@ -17,12 +17,13 @@
 @import iht.constants._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import uk.gov.hmrc.play.views.html.helpers.form
 @import iht.models.RegistrationDetails
-@import iht.constants.IhtProperties._
+
 
 @(partnerExemptionNameForm: Form[iht.models.application.exemptions.PartnerExemption],
-registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_application(title = Messages("page.iht.application.exemptions.partner.name.title"),
 browserTitle = Some(Messages("page.iht.application.exemptions.partner.name.browserTitle")),
@@ -35,14 +36,14 @@ headingClass = "heading-large") {
 'autoComplete -> "off"){
 
 @ihtHelpers.standard.input_with_help(partnerExemptionNameForm("firstName"),
-'_maxlength -> IhtProperties.validationMaxLengthFirstName,
+'_maxlength -> appConfig.validationMaxLengthFirstName,
 '_inputClass -> "form-control",
 '_labelTextClass -> "bold",
 '_label -> Html(Messages("page.iht.application.exemptions.partner.name.firstName.label")),
 '_hintText -> Html(Messages("iht.firstName.hint")))
 
 @ihtHelpers.standard.input_with_help(partnerExemptionNameForm("lastName"),
-'_maxlength -> IhtProperties.validationMaxLengthLastName,
+'_maxlength -> appConfig.validationMaxLengthLastName,
 '_inputClass -> "form-control",
 '_labelTextClass -> "bold",
 '_label -> Html(Messages("page.iht.application.exemptions.partner.name.lastName.label")))
@@ -54,7 +55,7 @@ headingClass = "heading-large") {
 @ihtHelpers.custom.return_link(
   Messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"),
   Some(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad()),
-  ExemptionsPartnerNameID
+    appConfig.ExemptionsPartnerNameID
 )
 
 }

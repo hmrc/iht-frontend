@@ -15,18 +15,19 @@
  *@
 
 @import iht.models.application.ApplicationDetails
-@import iht.constants.IhtProperties._
+
 @import iht.constants.Constants._
 @import iht.models.application.debts._
 @import iht.utils.OverviewHelper._
 @import iht.utils._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.models.RegistrationDetails
 
 @(appDetails: ApplicationDetails,
   debts: AllLiabilities,
-  registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+  registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @getScreenReaderQualifyingText(isComplete: Option[Boolean], moreDetailText: String, valueText: String, noValueText: String) = @{
     isComplete match {
@@ -52,7 +53,7 @@ isFullWidth=false) {
     <ul class="tabular-data tabular-data--list">
     @defining(appDetails.isCompleteMortgages) { isComplete =>
         @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.debts.mortgages"),
-            "mortgages", DebtsMortgagesID,
+            "mortgages", appConfig.DebtsMortgagesID,
             displayValue(appDetails, AppSectionMortgages, isComplete, Some("site.noDebts")), "",
             Some(iht.controllers.application.debts.routes.MortgagesOverviewController.onPageLoad()),
             ihtHelpers.custom.generic_overview_status_label(
@@ -78,7 +79,7 @@ isFullWidth=false) {
 
     @defining(debts.funeralExpenses.flatMap(_.isComplete)) { isComplete =>
         @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.debts.funeralExpenses.title"),
-    "funeralExpenses", DebtsFuneralExpensesID,
+    "funeralExpenses", appConfig.DebtsFuneralExpensesID,
             displayValue(appDetails, AppSectionFuneralExpenses, isComplete, Some("site.noDebts")), "",
             Some(iht.controllers.application.debts.routes.FuneralExpensesController.onPageLoad()),
             ihtHelpers.custom.generic_overview_status_label(
@@ -102,7 +103,7 @@ isFullWidth=false) {
 
     @defining(debts.trust.flatMap(_.isComplete)) { isComplete =>
         @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.debts.debtsTrust.title"),
-    "debtsFromTrust", DebtsOwedFromTrustID,
+    "debtsFromTrust", appConfig.DebtsOwedFromTrustID,
             displayValue(appDetails, AppSectionDebtsOwedFromTrust, isComplete, Some("site.noDebts")), "",
             Some(iht.controllers.application.debts.routes.DebtsOwedFromATrustController.onPageLoad()),
             ihtHelpers.custom.generic_overview_status_label(
@@ -128,7 +129,7 @@ isFullWidth=false) {
 
     @defining(debts.debtsOutsideUk.flatMap(_.isComplete)) { isComplete =>
         @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.debts.owedOutsideUK"),
-    "debtsOutsideUk", DebtsOwedOutsideUKID,
+    "debtsOutsideUk", appConfig.DebtsOwedOutsideUKID,
             displayValue(appDetails, AppSectionDebtsOwedToAnyoneOutsideUK, isComplete, Some("site.noDebts")), "",
             Some(iht.controllers.application.debts.routes.OwedOutsideUKDebtsController.onPageLoad()),
             ihtHelpers.custom.generic_overview_status_label(
@@ -154,7 +155,7 @@ isFullWidth=false) {
 
     @defining(debts.jointlyOwned.flatMap(_.isComplete)) { isComplete =>
         @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.debts.owedOnJointAssets"),
-    "jointlyOwned", DebtsOwedJointlyID,
+    "jointlyOwned", appConfig.DebtsOwedJointlyID,
             displayValue(appDetails, AppSectionDebtsOwedOnJointAssets, isComplete, Some("site.noDebts")), "",
             Some(iht.controllers.application.debts.routes.JointlyOwnedDebtsController.onPageLoad()),
             ihtHelpers.custom.generic_overview_status_label(
@@ -180,7 +181,7 @@ isFullWidth=false) {
 
     @defining(debts.other.flatMap(_.isComplete)) { isComplete =>
         @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.debts.other.title"),
-    "other", DebtsOtherID,
+    "other", appConfig.DebtsOtherID,
             displayValue(appDetails, AppSectionDebtsOther, isComplete, Some("site.noDebts")), "",
             Some(iht.controllers.application.debts.routes.AnyOtherDebtsController.onPageLoad()),
             ihtHelpers.custom.generic_overview_status_label(
@@ -222,7 +223,7 @@ isFullWidth=false) {
 
 
 <div id="action-button" class="form-group">
-    <a id="continue-to-estate-overview-button" class="button" href='@CommonHelper.addFragmentIdentifier(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference)), Some(EstateDebtsID))'>
+    <a id="continue-to-estate-overview-button" class="button" href='@CommonHelper.addFragmentIdentifier(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference)), Some(appConfig.EstateDebtsID))'>
         @Messages("iht.estateReport.returnToEstateOverview")
     </a>
 </div>

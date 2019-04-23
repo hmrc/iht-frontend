@@ -17,17 +17,14 @@
 package iht.models
 
 import iht.FakeIhtApp
+import iht.config.AppConfig
 import iht.testhelpers.CommonBuilder
-import iht.utils.{CommonHelper, StringHelper}
+import iht.utils.{StringHelper, StringHelperFixture}
 import org.scalatest.mock.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
 
-/**
- *
- * Created by Vineet Tyagi on 01/09/15.
- *
- */
-class RegistrationTest extends FakeIhtApp with MockitoSugar {
+class RegistrationTest extends FakeIhtApp with MockitoSugar with StringHelper {
+
+  implicit val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
   val registrationDetailsWithValues = tempDetails.registrationDetailsWithValues()
   val emptyRegistrationDetails = tempDetails.emptyRegistrationDetails()
@@ -62,7 +59,7 @@ class RegistrationTest extends FakeIhtApp with MockitoSugar {
     }
     "respond correctly when ninoFormatted is called" in {
       val dd = CommonBuilder.buildDeceasedDetails
-      dd.ninoFormatted mustBe StringHelper.ninoFormat(dd.nino.getOrElse(""))
+      dd.ninoFormatted mustBe ninoFormat(dd.nino.getOrElse(""))
     }
     "respond correctly when ninoFormatted is called with nino of None" in {
       val dd = CommonBuilder.buildDeceasedDetails copy(nino = None)
@@ -74,27 +71,28 @@ class RegistrationTest extends FakeIhtApp with MockitoSugar {
 object tempDetails {
 
   val DefaultIHTReference=Some("ABC1234567890")
-  val DefaultAcknowledgmentReference = StringHelper.generateAcknowledgeReference
+  def defaultAckRef(implicit appConfig: AppConfig): String =
+    StringHelperFixture().generateAcknowledgeReference
 
-  def emptyRegistrationDetails() = {
+  def emptyRegistrationDetails()(implicit appConfig: AppConfig) = {
     RegistrationDetails( deceasedDateOfDeath=None,
       applicantDetails=None,
       deceasedDetails=None,
       coExecutors = Seq(),
       ihtReference = DefaultIHTReference,
-      acknowledgmentReference = DefaultAcknowledgmentReference,
+      acknowledgmentReference = defaultAckRef,
       returns = Seq()
     )
   }
 
-  def registrationDetailsWithValues()= {
+  def registrationDetailsWithValues()(implicit appConfig: AppConfig)= {
     RegistrationDetails(
       deceasedDateOfDeath=Some(CommonBuilder.buildDeceasedDateOfDeath),
       applicantDetails=Some(CommonBuilder.buildApplicantDetails),
       deceasedDetails=Some(CommonBuilder.buildDeceasedDetails),
       coExecutors = Seq(),
       ihtReference = DefaultIHTReference,
-      acknowledgmentReference = DefaultAcknowledgmentReference,
+      acknowledgmentReference = defaultAckRef,
       returns = Seq(CommonBuilder.buildReturnDetails)
     )
   }

@@ -16,14 +16,16 @@
 
 package iht.controllers.application.gifts
 
-import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.MockObjectBuilder._
+import iht.config.AppConfig
+import iht.controllers.application.{ApplicationControllerTest, KickoutAppController}
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.views.HtmlSpec
 import org.jsoup.nodes.Document
 import play.api.i18n.MessagesApi
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
@@ -34,8 +36,13 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
   override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit val hc = new HeaderCarrier()
 
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with SevenYearsGiftsValuesController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
-  def sevenYearsGiftsValuesController = new SevenYearsGiftsValuesController {
+
+  def sevenYearsGiftsValuesController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
@@ -43,7 +50,7 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def sevenYearsGiftsValuesControllerNotAuthorised = new SevenYearsGiftsValuesController {
+  def sevenYearsGiftsValuesControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector

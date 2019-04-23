@@ -16,19 +16,20 @@
 
 package iht.controllers.application.assets.vehicles
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
+import iht.controllers.application.assets.stocksAndShares.StocksAndSharesNotListedController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
-import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.TestHelper._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.CommonHelper
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.{contentAsString, _}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-/**
-  * Created by vineet on 01/07/16.
-  */
+
 
 class VehiclesJointlyOwnedControllerTest extends ApplicationControllerTest {
 
@@ -43,21 +44,24 @@ class VehiclesJointlyOwnedControllerTest extends ApplicationControllerTest {
       storeAppDetailsInCache = true)
   }
 
-  def vehiclesJointlyOwnedController = new VehiclesJointlyOwnedController {
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with VehiclesJointlyOwnedController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def vehiclesJointlyOwnedController = new TestController {
     val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def vehiclesJointlyOwnedControllerNotAuthorised = new VehiclesJointlyOwnedController {
+  def vehiclesJointlyOwnedControllerNotAuthorised = new TestController {
     val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
-
-
 
   "VehiclesJointlyOwnedController" must {
 

@@ -16,10 +16,11 @@
 
 @import iht.viewmodels.estateReports.YourEstateReportsRowViewModel
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.views.html.iht_main_template_application
 @import iht.views.html.estateReports.your_estate_reports_application_table
 
-@(applications:Seq[YourEstateReportsRowViewModel], showGuidance: Boolean)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+@(applications:Seq[YourEstateReportsRowViewModel], showGuidance: Boolean)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
     @personalDetailsReveal = {
         <details id="personal-details-reveal">

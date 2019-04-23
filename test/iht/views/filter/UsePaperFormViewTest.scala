@@ -16,10 +16,8 @@
 
 package iht.views.filter
 
-import iht.constants.IhtProperties
 import iht.views.ViewTestHelper
 import iht.views.html.filter.use_paper_form
-import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers.{contentAsString, _}
 
 class UsePaperFormViewTest extends ViewTestHelper {
@@ -30,7 +28,7 @@ class UsePaperFormViewTest extends ViewTestHelper {
   lazy val iht401FormUrl= "https://www.gov.uk/government/publications/inheritance-tax-domicile-outside-the-united-kingdom-iht401"
 
   def getPageAsDoc(countryMessageKey: String = "") = {
-    val result = use_paper_form(countryMessageKey)(fakeRequest, applicationMessages, formPartialRetriever)
+    val result = use_paper_form(countryMessageKey)(fakeRequest, messages, formPartialRetriever, appConfig)
     asDocument(contentAsString(result))
   }
 
@@ -74,7 +72,7 @@ class UsePaperFormViewTest extends ViewTestHelper {
       val doc = getPageAsDoc("iht.countries.scotland")
       val link = doc.getElementById("scottish-courts-link")
       link.text must be(messagesApi("page.iht.filter.paperform.scotland.link.text"))
-      link.attr("href") must be(IhtProperties.linkScottishCourtAndTribunal)
+      link.attr("href") must be(appConfig.linkScottishCourtAndTribunal)
     }
 
     "contain a 'Start again' link to go back to the domicile page" in {
@@ -102,7 +100,7 @@ class UsePaperFormViewTest extends ViewTestHelper {
       val doc = getPageAsDoc("iht.countries.scotland")
       val link = doc.getElementById("exit")
       link.text() must be(messagesApi("iht.exitToGovUK"))
-      link.attr("href") must be(IhtProperties.linkExitToGovUKIHTForms)
+      link.attr("href") must be(appConfig.linkExitToGovUKIHTForms)
     }
   }
 
@@ -163,7 +161,7 @@ class UsePaperFormViewTest extends ViewTestHelper {
       val doc = getPageAsDoc("iht.countries.northernIreland")
       val link = doc.getElementById("exit")
       link.text() must be(messagesApi("iht.exitToGovUK"))
-      link.attr("href") must be(IhtProperties.linkExitToGovUKIHTForms)
+      link.attr("href") must be(appConfig.linkExitToGovUKIHTForms)
     }
   }
 
@@ -215,7 +213,7 @@ class UsePaperFormViewTest extends ViewTestHelper {
       val doc = getPageAsDoc("page.iht.filter.domicile.choice.other")
       val link = doc.getElementById("exit")
       link.text() must be(messagesApi("iht.exitToGovUK"))
-      link.attr("href") must be(IhtProperties.linkExitToGovUKIHTForms)
+      link.attr("href") must be(appConfig.linkExitToGovUKIHTForms)
     }
   }
 

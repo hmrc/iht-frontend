@@ -17,14 +17,16 @@
 package iht.models.des
 
 import iht.FakeIhtApp
-import iht.models.des.ihtReturn.{Gift, IHTReturn}
+import iht.config.AppConfig
+import iht.models.des.ihtReturn.IHTReturn
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.IHTReturnTestHelper._
 import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
 
 class IHTReturnTest extends FakeIhtApp with MockitoSugar {
+  implicit val mockAppConfig: AppConfig = app.injector.instanceOf[AppConfig]
+
   "IHTReturn" must {
    "total assets values" in {
       val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")

@@ -16,16 +16,12 @@
 
 package iht.views.application.assets.vehicles
 
-import iht.controllers.application.assets.vehicles.routes._
 import iht.testhelpers.CommonBuilder
-import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementOverviewViewBehaviour
 import iht.views.html.application.asset.vehicles.vehicles_overview
-import play.api.i18n.Messages.Implicits._
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
+
 
 class VehiclesOverviewViewTest extends ShareableElementOverviewViewBehaviour {
 
@@ -38,8 +34,8 @@ class VehiclesOverviewViewTest extends ShareableElementOverviewViewBehaviour {
                                                 deceasedName, deceasedName))
   override def ownHeadingElementId = "deceased-own-vehicles"
   override def jointlyOwnedHeadingElementId = "deceased-shared-vehicles"
-  override def urlToOwnPage = VehiclesDeceasedOwnController.onPageLoad().url
-  override def urlToJointlyOwnedPage = VehiclesJointlyOwnedController.onPageLoad().url
+  override def urlToOwnPage = iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onPageLoad().url
+  override def urlToJointlyOwnedPage = iht.controllers.application.assets.vehicles.routes.VehiclesJointlyOwnedController.onPageLoad().url
   override def ownHeaderText = messagesApi("iht.estateReport.assets.vehiclesOwned", deceasedName)
   override def jointlyOwnedHeaderText = messagesApi("page.iht.application.assets.vehicles.overview.joint.title",
                                                  deceasedName)
@@ -58,7 +54,7 @@ class VehiclesOverviewViewTest extends ShareableElementOverviewViewBehaviour {
   override def viewWithQuestionsAnsweredYes: String = vehicles_overview(dataWithQuestionsAnsweredYes, regDetails).toString
   override def viewWithQuestionsUnanswered: String = vehicles_overview(None, regDetails).toString
   override def viewWithValues: String = vehicles_overview(dataWithValues, regDetails).toString
-  override def linkHash = AppSectionVehiclesID
+  override def linkHash = appConfig.AppSectionVehiclesID
 
   "Vehicles overview view" must {
     behave like overviewPage()

@@ -18,19 +18,20 @@
 @import iht.utils.CommonHelper._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.models.RegistrationDetails
 @import uk.gov.hmrc.play.views.html.helpers.form
-@import iht.constants.IhtProperties._
+
 
 @(partnerPermanentHomeQuestionForm: Form[iht.models.application.exemptions.PartnerExemption],
 registrationDetails:RegistrationDetails,
 cancelLabel: String,
-cancelUrl: Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+cancelUrl: Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_application(
     title = "",
     browserTitle = Some(Messages("page.iht.application.exemptions.partnerPermanentHome.browserTitle")),
-    cancelUrl = Some(addFragmentIdentifier(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad, Some(ExemptionsPartnerHomeID))),
+    cancelUrl = Some(addFragmentIdentifier(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad, Some(appConfig.ExemptionsPartnerHomeID))),
     cancelLabel = Some(cancelLabel),
     isFullWidth=false
 ){

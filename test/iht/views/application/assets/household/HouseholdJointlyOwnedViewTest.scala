@@ -23,7 +23,8 @@ import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.testhelpers.CommonBuilder
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.household.household_jointly_owned
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
@@ -45,7 +46,7 @@ class HouseholdJointlyOwnedViewTest extends ShareableElementInputViewBehaviour[S
   override def valueQuestionHelp = messagesApi("iht.estateReport.assets.getProfessionalValuation")
   override def returnLinkText = messagesApi("site.link.return.household")
   override def returnLinkUrl = HouseholdOverviewController.onPageLoad().url
-  override def linkHash = AssetsHouseholdSharedID
+  override def linkHash = appConfig.AssetsHouseholdSharedID
   override def formTarget =Some(routes.HouseholdJointlyOwnedController.onSubmit)
 
   "Household Jointly Owned view" must {

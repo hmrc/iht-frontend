@@ -16,18 +16,18 @@
 
 package iht.controllers.registration.executor
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties
 import iht.controllers.registration.RegistrationController
-import iht.forms.registration.CoExecutorForms._
+import iht.forms.registration.CoExecutorForms
 import iht.models.UkAddress
 import iht.utils.CommonHelper._
 import iht.views.html.registration.{executor => views}
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.Call
+import play.api.i18n.Lang
+import play.api.mvc.{Call, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -36,11 +36,13 @@ import scala.concurrent.Future
 class OtherPersonsAddressControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                   val cachingConnector: CachingConnector,
                                                   val authConnector: AuthConnector,
-                                                  val formPartialRetriever: FormPartialRetriever) extends OtherPersonsAddressController {
+                                                  val formPartialRetriever: FormPartialRetriever,
+                                                  implicit val appConfig: AppConfig,
+                                                  val cc: MessagesControllerComponents) extends FrontendController(cc) with OtherPersonsAddressController {
 
 }
 
-trait OtherPersonsAddressController extends RegistrationController {
+trait OtherPersonsAddressController extends RegistrationController with CoExecutorForms {
   def cachingConnector: CachingConnector
 
   override def guardConditions: Set[Predicate] = guardConditionsCoExecutorAddress
@@ -63,8 +65,8 @@ trait OtherPersonsAddressController extends RegistrationController {
 
   def nextPageRoute = routes.ExecutorOverviewController.onPageLoad
 
-  def isInternationalAddress: (UkAddress) => Boolean = (addr) => addr.postCode.trim.isEmpty &&
-    addr.countryCode != IhtProperties.ukIsoCountryCode
+  def isInternationalAddress: UkAddress => Boolean = addr => addr.postCode.trim.isEmpty &&
+    addr.countryCode != appConfig.ukIsoCountryCode
 
   def onPageLoadUK(id: String) = onPageLoad(id, false, submitRouteUk(id), loadRouteAbroad(id))
 
@@ -79,6 +81,8 @@ trait OtherPersonsAddressController extends RegistrationController {
   def onPageLoad(id: String, isInternational: Boolean, actionCall: Call, changeNationalityCall: Call,
                  cancelCall: Option[Call] = None) = authorisedForIht {
     implicit request => {
+      implicit val lang: Lang = messagesApi.preferred(request).lang
+
       withRegistrationDetailsRedirectOnGuardCondition { rd =>
         val formType = if (isInternational) coExecutorAddressAbroadForm else coExecutorAddressUkForm
         findExecutor(id, rd.coExecutors) match {
@@ -113,6 +117,8 @@ trait OtherPersonsAddressController extends RegistrationController {
                     cancelCall: Option[Call] = None) = {
     authorisedForIht {
       implicit request => {
+        implicit val lang: Lang = messagesApi.preferred(request).lang
+
         withRegistrationDetails {
           rd => {
             val formType = if (isInternational) coExecutorAddressAbroadForm else coExecutorAddressUkForm

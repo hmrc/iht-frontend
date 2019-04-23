@@ -16,26 +16,23 @@
 
 package iht.controllers.application.gifts
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder._
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-/**
- * Created by Vineet Tyagi on 14/01/16.
- */
+class GivenAwayControllerTest extends ApplicationControllerTest {
 
-class GivenAwayControllerTest  extends ApplicationControllerTest{
-
-
-
-  val allGifts=CommonBuilder.buildAllGifts
-  val applicationDetails=CommonBuilder.buildApplicationDetails copy (allGifts = Some(allGifts))
-  val regDetails = CommonBuilder.buildRegistrationDetails copy (
+  val allGifts = CommonBuilder.buildAllGifts
+  val applicationDetails = CommonBuilder.buildApplicationDetails copy (allGifts = Some(allGifts))
+  val regDetails = CommonBuilder.buildRegistrationDetails copy(
     deceasedDetails = Some(buildDeceasedDetails),
     deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath),
     ihtReference = Some("AbC123"))
@@ -50,20 +47,24 @@ class GivenAwayControllerTest  extends ApplicationControllerTest{
       saveAppDetails = true)
   }
 
-  def givenAwayController = new GivenAwayController {
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with GivenAwayController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def givenAwayController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def givenAwayControllerNotAuthorised = new GivenAwayController {
+  def givenAwayControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
-
 
 
   "GivenAwayController" must {
@@ -71,26 +72,26 @@ class GivenAwayControllerTest  extends ApplicationControllerTest{
     "redirect to login page onPageLoad if the user is not logged in" in {
       val result = givenAwayController.onPageLoad(createFakeRequest(isAuthorised = false))
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be (Some(loginUrl))
+      redirectLocation(result) must be(Some(loginUrl))
     }
 
     "redirect to ida login page on Submit if the user is not logged in" in {
       val result = givenAwayControllerNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be (Some(loginUrl))
+      redirectLocation(result) must be(Some(loginUrl))
     }
 
     "respond with OK on page load" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
 
       setUpMocks(applicationDetails)
-      val result = givenAwayController.onPageLoad (createFakeRequest())
+      val result = givenAwayController.onPageLoad(createFakeRequest())
       status(result) mustBe OK
     }
 
     "save application and go to Gifts Overview page on submit if answered Yes" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(
-                                          allGifts= Some(CommonBuilder.buildAllGifts.copy(isGivenAway = Some(true))))
+        allGifts = Some(CommonBuilder.buildAllGifts.copy(isGivenAway = Some(true))))
 
       setUpMocks(applicationDetails)
       val withGivenAwayValue = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(true))
@@ -98,13 +99,13 @@ class GivenAwayControllerTest  extends ApplicationControllerTest{
       val filledGivenAwayForm = giftsGivenAwayForm.fill(withGivenAwayValue)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGivenAwayForm.data.toSeq: _*)
 
-      val result = givenAwayController.onSubmit (request)
+      val result = givenAwayController.onSubmit(request)
       status(result) mustBe SEE_OTHER
     }
 
     "save application and go to Gifts Overview page on submit if answered No" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(
-                                            allGifts= Some(CommonBuilder.buildAllGifts.copy(isGivenAway = Some(false))))
+        allGifts = Some(CommonBuilder.buildAllGifts.copy(isGivenAway = Some(false))))
 
       setUpMocks(applicationDetails)
       val withGivenAwayValue = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(true))
@@ -112,16 +113,16 @@ class GivenAwayControllerTest  extends ApplicationControllerTest{
       val filledGivenAwayForm = giftsGivenAwayForm.fill(withGivenAwayValue)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGivenAwayForm.data.toSeq: _*)
 
-      val result = givenAwayController.onSubmit (request)
+      val result = givenAwayController.onSubmit(request)
       status(result) mustBe SEE_OTHER
     }
 
     "save application, reset 7 years gifts values to none and go to Gifts Overview page on submit if answered No" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(
-                                            allGifts= Some(CommonBuilder.buildAllGifts.copy(isGivenAway = Some(false),
-                                              isReservation = Some(false), isToTrust = Some(false),
-                                              isGivenInLast7Years = Some(false))),
-                                            giftsList = Some(CommonBuilder.buildGiftsList))
+        allGifts = Some(CommonBuilder.buildAllGifts.copy(isGivenAway = Some(false),
+          isReservation = Some(false), isToTrust = Some(false),
+          isGivenInLast7Years = Some(false))),
+        giftsList = Some(CommonBuilder.buildGiftsList))
 
       setUpMocks(applicationDetails)
       val withGivenAwayValue = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(false))
@@ -129,7 +130,7 @@ class GivenAwayControllerTest  extends ApplicationControllerTest{
       val filledGivenAwayForm = giftsGivenAwayForm.fill(withGivenAwayValue)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGivenAwayForm.data.toSeq: _*)
 
-      val result = givenAwayController.onSubmit (request)
+      val result = givenAwayController.onSubmit(request)
       status(result) mustBe SEE_OTHER
 
       val capturedValue = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
@@ -141,7 +142,7 @@ class GivenAwayControllerTest  extends ApplicationControllerTest{
     "display error if user submit the page without selecting the answer " in {
 
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(
-        allGifts= Some(CommonBuilder.buildAllGifts.copy(isGivenAway = Some(false),
+        allGifts = Some(CommonBuilder.buildAllGifts.copy(isGivenAway = Some(false),
           isReservation = Some(false), isToTrust = Some(false),
           isGivenInLast7Years = Some(false))),
         giftsList = Some(CommonBuilder.buildGiftsList))
@@ -154,7 +155,7 @@ class GivenAwayControllerTest  extends ApplicationControllerTest{
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGivenAwayForm.data.toSeq: _*)
 
       val result = givenAwayController.onSubmit()(request)
-      status(result) must be (BAD_REQUEST)
+      status(result) must be(BAD_REQUEST)
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

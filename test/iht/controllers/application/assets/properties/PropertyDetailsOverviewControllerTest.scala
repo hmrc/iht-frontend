@@ -16,14 +16,16 @@
 
 package iht.controllers.application.assets.properties
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.MockObjectBuilder._
+import iht.controllers.application.declaration.DeclarationController
 import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
 import iht.utils._
-import play.api.mvc.{Request, Result}
+import play.api.mvc.{MessagesControllerComponents, Request, Result}
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -40,7 +42,12 @@ trait PropertyDetailsOverviewControllerBehaviour extends ApplicationControllerTe
 
   lazy val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
 
-  def propertyDetailsOverviewController = new PropertyDetailsOverviewController {
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with PropertyDetailsOverviewController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def propertyDetailsOverviewController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
@@ -48,7 +55,7 @@ trait PropertyDetailsOverviewControllerBehaviour extends ApplicationControllerTe
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def propertyDetailsOverviewControllerNotAuthorised = new PropertyDetailsOverviewController {
+  def propertyDetailsOverviewControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector

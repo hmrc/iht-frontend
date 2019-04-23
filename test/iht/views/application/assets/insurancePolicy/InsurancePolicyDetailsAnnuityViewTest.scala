@@ -24,7 +24,8 @@ import iht.testhelpers.TestHelper
 import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_annuity
 import play.api.data.Form
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
 
 class InsurancePolicyDetailsAnnuityViewTest extends YesNoQuestionViewBehaviour[InsurancePolicy] {

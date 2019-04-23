@@ -15,13 +15,14 @@
  *@
 
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.views.html.iht_main_template_application
 @import iht.views.html.application._
 @import iht.views.html.estateReports
 
 @(errorType:String)(implicit request:Request[_],
                              messages: Messages,
-                             ihtFormPartialRetriever: FormPartialRetriever)
+                             ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_application(title = Messages("error.problem"),
 browserTitle = Some(Messages("error.problem"))

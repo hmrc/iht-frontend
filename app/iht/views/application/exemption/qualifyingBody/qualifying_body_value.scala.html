@@ -19,19 +19,20 @@
 @import iht.utils.CommonHelper._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.models.RegistrationDetails
-@import iht.constants.IhtProperties._
+
 @import uk.gov.hmrc.play.views.html.helpers.form
 
 @(qualifyingBodyValueForm: Form[QualifyingBody],
         rd: RegistrationDetails,
         submitUrl: Call,
-        cancelUrl: Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+        cancelUrl: Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_application(
     title = "",
     browserTitle = Some(Messages("page.iht.application.exemptions.qualifyingBody.value.browserTitle")),
-    cancelUrl = Some(addFragmentIdentifier(cancelUrl, Some(ExemptionsOtherValueID))),
+    cancelUrl = Some(addFragmentIdentifier(cancelUrl, Some(appConfig.ExemptionsOtherValueID))),
     cancelLabel = Some(Messages("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody")),
     isFullWidth = false
 ) {

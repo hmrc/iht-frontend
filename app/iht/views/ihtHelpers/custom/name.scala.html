@@ -15,12 +15,14 @@
  *@
 
 @import iht.constants.IhtProperties
-@import iht.utils.StringHelper
+@import iht.utils.StringHelperFixture
 @import org.apache.commons.lang3.StringEscapeUtils
-@(name: String)
+@import iht.config.AppConfig
+
+@(name: String)(implicit appConfig: AppConfig)
 @{
-    Html(StringHelper.splitAndMapElements(name,IhtProperties.nameRestrictDelimiters, x =>
-        if (x.length > IhtProperties.nameRestrictLength) {
+    Html(StringHelperFixture().splitAndMapElements(name,appConfig.nameRestrictDelimiters, x =>
+        if (x.length > appConfig.nameRestrictLength) {
             "<span class=\"copy--restricted\">" + StringEscapeUtils.escapeHtml4(x) + "</span>"
         } else {
             StringEscapeUtils.escapeHtml4(x)

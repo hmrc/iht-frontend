@@ -20,21 +20,23 @@
 @import iht.utils.tnrb.TnrbHelper
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.models.application.tnrb.WidowCheck
 @import uk.gov.hmrc.play.views.html.helpers.form
 
+@import iht.utils.tnrb.TnrbHelperFixture
 @(deceasedWidowCheckQuestionForm:Form[WidowCheck],
 widowCheckModel: WidowCheck,
 tnrbModel: TnrbEligibiltyModel,
 registrationDetails:RegistrationDetails,
 cancelLinkUrl:Call,
 cancelLinkText:String
-)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, false)}
 @deceasedNameWrap() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
-@maritalStatus() = @{messages(TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased))}
-@spouseCivilPartner() = @{messages(TnrbHelper.spouseOrCivilPartnerMessage(widowCheckModel.dateOfPreDeceased))}
+@maritalStatus() = @{messages(TnrbHelperFixture().preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased))}
+@spouseCivilPartner() = @{messages(TnrbHelperFixture().spouseOrCivilPartnerMessage(widowCheckModel.dateOfPreDeceased))}
 
 @question() = @{messages("iht.estateReport.tnrb.partner.married",
     deceasedNameWrap,

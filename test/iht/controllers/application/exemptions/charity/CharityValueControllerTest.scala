@@ -16,13 +16,17 @@
 
 package iht.controllers.application.exemptions.charity
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
+import iht.controllers.application.debts.JointlyOwnedDebtsController
 import iht.forms.ApplicationForms._
 import iht.models.application.exemptions.Charity
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import org.scalatest.BeforeAndAfter
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 
@@ -32,16 +36,19 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
   val defaultCharity = Charity(Some("1"), Some("A Charity 1"), Some("7866667X"), None)
   val referrerURL = "localhost:9070"
 
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with CharityValueController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
-
-  def assetsLeftToCharityValueController = new CharityValueController {
+  def assetsLeftToCharityValueController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def assetsLeftToCharityValueControllerNotAuthorised = new CharityValueController {
+  def assetsLeftToTestControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
@@ -60,19 +67,19 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
 
   "AssetsLeftToCharityValueController" must {
     "redirect to login page on PageLoad if the user is not logged in when loading" in {
-      val result = assetsLeftToCharityValueControllerNotAuthorised.onEditPageLoad("1")(createFakeRequest(isAuthorised = false))
+      val result = assetsLeftToTestControllerNotAuthorised.onEditPageLoad("1")(createFakeRequest(isAuthorised = false))
       status(result) must be(SEE_OTHER)
       redirectLocation(result) must be(Some(loginUrl))
     }
 
     "redirect to login page on PageLoad if the user is not logged on page submission" in {
-      val result = assetsLeftToCharityValueControllerNotAuthorised.onEditSubmit("1")(createFakeRequest(isAuthorised = false))
+      val result = assetsLeftToTestControllerNotAuthorised.onEditSubmit("1")(createFakeRequest(isAuthorised = false))
       status(result) must be(SEE_OTHER)
       redirectLocation(result) must be(Some(loginUrl))
     }
 
     "redirect to login page on Submit if the user is not logged in" in {
-      val result = assetsLeftToCharityValueControllerNotAuthorised.onEditSubmit("1")(createFakeRequest(isAuthorised = false))
+      val result = assetsLeftToTestControllerNotAuthorised.onEditSubmit("1")(createFakeRequest(isAuthorised = false))
       status(result) must be(SEE_OTHER)
       redirectLocation(result) must be(Some(loginUrl))
     }

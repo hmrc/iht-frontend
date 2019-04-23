@@ -16,30 +16,32 @@
 
 package iht.controllers.filter
 
+import iht.config.AppConfig
 import iht.constants.Constants
 import iht.forms.FilterForms._
 import javax.inject.Inject
-import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{Action, AnyContent}
-import uk.gov.hmrc.play.bootstrap.controller.{FrontendController, UnauthorisedAction}
+import play.api.i18n.I18nSupport
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class FilterJointlyOwnedControllerImpl @Inject()(val formPartialRetriever: FormPartialRetriever,
-                                                 val messagesApi: MessagesApi) extends FilterJointlyOwnedController
+                                                 val cc: MessagesControllerComponents,
+                                                 implicit val appConfig: AppConfig) extends FrontendController(cc) with FilterJointlyOwnedController
 
 trait FilterJointlyOwnedController extends FrontendController with I18nSupport {
-
+  implicit val appConfig: AppConfig
   implicit val formPartialRetriever: FormPartialRetriever
 
-  def onPageLoad: Action[AnyContent] = UnauthorisedAction.async {
+  def onPageLoad: Action[AnyContent] = Action.async {
     implicit request => {
       Future.successful(Ok(iht.views.html.filter.filter_jointly_owned(filterJointlyOwnedForm)))
     }
   }
 
-  def onSubmit: Action[AnyContent] = UnauthorisedAction.async {
+  def onSubmit: Action[AnyContent] = Action.async {
     implicit request => {
       val boundForm = filterJointlyOwnedForm.bindFromRequest
 

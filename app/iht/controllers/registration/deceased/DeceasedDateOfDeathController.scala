@@ -16,20 +16,20 @@
 
 package iht.controllers.registration.deceased
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.ControllerHelper.Mode
 import iht.controllers.registration.RegistrationBaseControllerWithEditMode
 import iht.forms.registration.DeceasedForms._
 import iht.models.{DeceasedDateOfDeath, RegistrationDetails}
-import iht.utils.RegistrationKickOutHelper
 import iht.views.html.registration.{deceased => views}
 import javax.inject.Inject
 import org.joda.time.LocalDate
-import play.api.Play.current
 import play.api.data.{Form, FormError}
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc._
+import play.api.i18n.Messages
+import play.api.mvc.{MessagesControllerComponents, _}
 import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.util.{Failure, Success, Try}
@@ -37,18 +37,20 @@ import scala.util.{Failure, Success, Try}
 class DeceasedDateOfDeathControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                   val cachingConnector: CachingConnector,
                                                   val authConnector: AuthConnector,
-                                                  val formPartialRetriever: FormPartialRetriever) extends DeceasedDateOfDeathController {
+                                                  val formPartialRetriever: FormPartialRetriever,
+                                                  implicit val appConfig: AppConfig,
+                                                  val cc: MessagesControllerComponents) extends FrontendController(cc) with DeceasedDateOfDeathController {
 
 }
 
 trait DeceasedDateOfDeathController extends RegistrationBaseControllerWithEditMode[DeceasedDateOfDeath] {
-  def fillForm(rd: RegistrationDetails) = rd.deceasedDateOfDeath.fold(form)(dd => form.fill(dd))
+  def fillForm(rd: RegistrationDetails)(implicit request: Request[_]) = rd.deceasedDateOfDeath.fold(form)(dd => form.fill(dd))
 
-  def form = deceasedDateOfDeathForm
+  def form(implicit messages: Messages) = deceasedDateOfDeathForm
 
   override def guardConditions: Set[Predicate] = Set((_, _) => true)
 
-  override def getKickoutReason = RegistrationKickOutHelper.kickoutReasonDeceasedDateOfDeath
+  override def getKickoutReason = kickoutReasonDeceasedDateOfDeath
 
   override val storageFailureMessage = "Storage of registration details fails during deceased date of death submission"
 
@@ -56,16 +58,16 @@ trait DeceasedDateOfDeathController extends RegistrationBaseControllerWithEditMo
   lazy val editSubmitRoute = routes.DeceasedDateOfDeathController.onEditSubmit
 
   def okForPageLoad(form: Form[DeceasedDateOfDeath], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.deceased_date_of_death(form, submitRoute)(request, applicationMessages, formPartialRetriever))
+    Ok(views.deceased_date_of_death(form, submitRoute))
 
   def okForEditPageLoad(form: Form[DeceasedDateOfDeath], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.deceased_date_of_death(form, editSubmitRoute, cancelToRegSummary)(request, applicationMessages, formPartialRetriever))
+    Ok(views.deceased_date_of_death(form, editSubmitRoute, cancelToRegSummary))
 
   def badRequestForSubmit(form: Form[DeceasedDateOfDeath], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_date_of_death(form, submitRoute)(request, applicationMessages, formPartialRetriever))
+    BadRequest(views.deceased_date_of_death(form, submitRoute))
 
   def badRequestForEditSubmit(form: Form[DeceasedDateOfDeath], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_date_of_death(form, editSubmitRoute, cancelToRegSummary)(request, applicationMessages, formPartialRetriever))
+    BadRequest(views.deceased_date_of_death(form, editSubmitRoute, cancelToRegSummary))
 
   def onwardRoute(rd: RegistrationDetails) = routes.DeceasedPermanentHomeController.onPageLoad
 

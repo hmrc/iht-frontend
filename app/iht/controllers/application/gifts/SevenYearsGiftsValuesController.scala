@@ -16,26 +16,28 @@
 
 package iht.controllers.application.gifts
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.EstateController
 import iht.utils.CommonHelper
 import iht.utils.GiftsHelper._
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.i18n.Lang
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-/**
-  * Created by vineet on 11/04/16.
-  */
+
 class SevenYearsGiftsValuesControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                     val cachingConnector: CachingConnector,
                                                     val authConnector: AuthConnector,
-                                                    val formPartialRetriever: FormPartialRetriever) extends SevenYearsGiftsValuesController {
+                                                    val formPartialRetriever: FormPartialRetriever,
+implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with SevenYearsGiftsValuesController {
 
 }
 
@@ -48,6 +50,8 @@ trait SevenYearsGiftsValuesController extends EstateController {
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
+      implicit val lang: Lang = messagesApi.preferred(request).lang
+
       withApplicationDetails(userNino) { rd =>
         ad =>
           CommonHelper.getOrException(rd.deceasedDateOfDeath.map(ddod =>

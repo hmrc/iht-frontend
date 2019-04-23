@@ -16,53 +16,62 @@
 
 package iht.forms.registration
 
+import iht.config.AppConfig
 import iht.constants.FieldMappings
 import iht.models.{ApplicantDetails, UkAddress}
-import iht.utils.IhtFormValidator
 import iht.utils.IhtFormValidator._
-import play.api.data.{Form, Mapping}
 import play.api.data.Forms._
-import play.api.i18n.{Lang, Messages}
+import play.api.data.{Form, Mapping}
+import play.api.i18n.Messages
 
 object ApplicantForms {
 
-  val applyingForProbateForm = Form(
+  def applyingForProbateForm(implicit appConfig: AppConfig) = Form(
     mapping(
       "isApplyingForProbate" -> yesNoQuestion("error.applicantIsApplyingForProbate.select")
     )
     (
-      (isApplyingForProbate) => ApplicantDetails(isApplyingForProbate = isApplyingForProbate)
+      isApplyingForProbate => ApplicantDetails(
+        isApplyingForProbate = isApplyingForProbate,
+        role = Some(appConfig.roleLeadExecutor)
+      )
     )
     (
       (a: ApplicantDetails) => Some(a.isApplyingForProbate)
     )
   )
 
-  val executorOfEstateForm = Form(
+  def executorOfEstateForm(implicit appConfig: AppConfig) = Form(
     mapping(
       "executorOfEstate" -> yesNoQuestion("error.applicantExecutorOfEstate.select")
     )
     (
-      (executorOfEstate) => ApplicantDetails(executorOfEstate = executorOfEstate)
+      executorOfEstate => ApplicantDetails(
+        executorOfEstate = executorOfEstate,
+        role = Some(appConfig.roleLeadExecutor)
+      )
     )
     (
       (a: ApplicantDetails) => Some(a.executorOfEstate)
     )
   )
 
-  def probateLocationForm(implicit messages: Messages) = Form(
+  def probateLocationForm(implicit messages: Messages, appConfig: AppConfig) = Form(
     mapping(
       "country" -> of(radioOptionString("error.applicantProbateLocation.select", FieldMappings.applicantCountryMap))
     )
     (
-      (country) => ApplicantDetails(country = country)
+      country => ApplicantDetails(
+        country = country,
+        role = Some(appConfig.roleLeadExecutor)
+      )
     )
     (
       (applicantDetails: ApplicantDetails) => Some(applicantDetails.country)
     )
   )
 
-  val applicantTellUsAboutYourselfForm = Form(
+  def applicantTellUsAboutYourselfForm(implicit appConfig: AppConfig) = Form(
     mapping(
       "phoneNo" -> phoneNumberOptionString("error.phoneNumber.give",
         "error.phoneNumber.giveUsing27CharactersOrLess", "error.phoneNumber.giveUsingOnlyLettersAndNumbers"),
@@ -77,7 +86,7 @@ object ApplicantForms {
     )
   )
 
-  val applicantTellUsAboutYourselfEditForm = Form(
+  def applicantTellUsAboutYourselfEditForm(implicit appConfig: AppConfig) = Form(
     mapping(
       "phoneNo" -> phoneNumberOptionString("error.phoneNumber.give",
         "error.phoneNumber.giveUsing27CharactersOrLess", "error.phoneNumber.giveUsingOnlyLettersAndNumbers")
@@ -90,20 +99,20 @@ object ApplicantForms {
     )
   )
 
-  def addressMappingInternational(lang: Lang, messages: Messages): Mapping[UkAddress] = mapping(
+  def addressMappingInternational(messages: Messages)(implicit appConfig: AppConfig): Mapping[UkAddress] = mapping(
     "ukAddressLine1" -> of(ihtInternationalAddress("ukAddressLine2", "ukAddressLine3",
       "ukAddressLine4", "countryCode",
       "error.address.give", "error.address.giveInLine1And2",
       "error.address.giveUsing35CharsOrLess",
       "error.address.giveUsingOnlyValidChars",
-      "error.country.select")(lang, messages)),
+      "error.country.select")(messages, appConfig)),
     "ukAddressLine2" -> text,
     "ukAddressLine3" -> optional(text),
     "ukAddressLine4" -> optional(text),
     "countryCode" -> optional(text)
   )(UkAddress.applyInternational)(UkAddress.unapplyInternational)
 
-  val addressMappingUk = mapping(
+  def addressMappingUk(implicit appConfig: AppConfig) = mapping(
     "ukAddressLine1" -> of(ihtAddress("ukAddressLine2", "ukAddressLine3",
       "ukAddressLine4", "postCode", "countryCode",
       "error.address.give", "error.address.giveInLine1And2",
@@ -116,7 +125,7 @@ object ApplicantForms {
     "postCode" -> text
   )(UkAddress.applyUk)(UkAddress.unapplyUk)
 
-  val applicantAddressUkForm = Form(addressMappingUk)
-  def applicantAddressAbroadForm(implicit lang: Lang, messages: Messages) = Form(addressMappingInternational(lang, messages))
+  def applicantAddressUkForm(implicit appConfig: AppConfig) = Form(addressMappingUk)
+  def applicantAddressAbroadForm(implicit messages: Messages, appConfig: AppConfig) = Form(addressMappingInternational(messages))
 
 }

@@ -15,15 +15,16 @@
  *@
 
 @import iht.constants.FieldMappings
-@import iht.constants.IhtProperties._
+
 @import iht.controllers.application.assets.properties.routes._
 @import iht.models.application.assets.Property
 @import iht.utils._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 
 @(deceasedName: String,
-property:Option[Property]=None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+property:Option[Property]=None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @getUpdateElements(data: Option[_], changeText: String, noValueText: String, currencyValue: Boolean = false) = {
     @(data, currencyValue) match {
@@ -61,7 +62,7 @@ isFullWidth = false) {
                         }
                     </div>
                     <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
-                        <a id="@AssetsPropertiesPropertyAddressID" href='@{propertyId match{
+                        <a id="@appConfig.AssetsPropertiesPropertyAddressID" href='@{propertyId match{
                                     case Some(id) => PropertyAddressController.onEditPageLoad(id)
                                     case None => PropertyAddressController.onPageLoad()
                                 }
@@ -79,12 +80,12 @@ isFullWidth = false) {
                     <div class="tabular-data__data tabular-data__data--6-12">@Messages("iht.estateReport.assets.properties.whatKind.question")</div>
                     <div class="tabular-data__data tabular-data__data--4-12">
                         @{propertyType match {
-                        case Some(x) => {FieldMappings.propertyType(messages)(x)}
+                        case Some(x) => {FieldMappings.propertyType(messages, appConfig)(x)}
                         case None => {}
                         }}
                     </div>
                     <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
-                        <a id = "@AssetsPropertiesPropertyKindID" href='@{propertyId match{
+                        <a id = "@appConfig.AssetsPropertiesPropertyKindID" href='@{propertyId match{
                                     case Some(id) => PropertyTypeController.onEditPageLoad(id)
                                     case None => PropertyTypeController.onPageLoad()
                                 }
@@ -102,12 +103,12 @@ isFullWidth = false) {
                     <div class="tabular-data__data tabular-data__data--6-12">@Html(Messages("iht.estateReport.assets.howOwnedByDeceased", ihtHelpers.custom.name(deceasedName)))</div>
                     <div class="tabular-data__data tabular-data__data--4-12">
                         @{typeOfOwnership match {
-                        case Some(x) => {FieldMappings.typesOfOwnership(deceasedName)(messages)(x)._1}
+                        case Some(x) => {FieldMappings.typesOfOwnership(deceasedName)(messages, appConfig)(x)._1}
                         case None => {}
                         }}
                     </div>
                     <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
-                        <a id = "@AssetsPropertiesPropertyOwnershipID" href='@{propertyId match{
+                        <a id = "@appConfig.AssetsPropertiesPropertyOwnershipID" href='@{propertyId match{
                                         case Some(id) => PropertyOwnershipController.onEditPageLoad(id)
                                         case None => PropertyOwnershipController.onPageLoad()
                                     }
@@ -125,12 +126,12 @@ isFullWidth = false) {
                     <div class="tabular-data__data tabular-data__data--6-12">@Messages("iht.estateReport.assets.properties.freeholdOrLeasehold")</div>
                     <div class="tabular-data__data tabular-data__data--4-12">
                         @{tenure match {
-                        case Some(x) => {FieldMappings.tenures(deceasedName)(messages)(x)._1}
+                        case Some(x) => {FieldMappings.tenures(deceasedName)(messages, appConfig)(x)._1}
                         case None => {}
                         }}
                     </div>
                     <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
-                        <a id="@AssetsPropertiesTenureID" href='@{propertyId match{
+                        <a id="@appConfig.AssetsPropertiesTenureID" href='@{propertyId match{
                                         case Some(id) => PropertyTenureController.onEditPageLoad(id)
                                         case None => PropertyTenureController.onPageLoad()
                                     }
@@ -153,7 +154,7 @@ isFullWidth = false) {
                         }}
                     </div>
                     <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
-                        <a id="@AssetsPropertiesPropertyValueID" href='@{propertyId match{
+                        <a id="@appConfig.AssetsPropertiesPropertyValueID" href='@{propertyId match{
                                         case Some(id) => PropertyValueController.onEditPageLoad(id)
                                         case None => PropertyValueController.onPageLoad()
                                     }
@@ -180,8 +181,8 @@ isFullWidth = false) {
         Messages("page.iht.application.assets.property.detailsOverview.returnLink"),
         Some(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad()),
         propertyId match{
-            case Some(id) => AssetsPropertiesChangeID + id
-            case None => AssetsPropertiesAddPropertyID
+            case Some(id) => appConfig.AssetsPropertiesChangeID + id
+            case None => appConfig.AssetsPropertiesAddPropertyID
         }
     )
 }

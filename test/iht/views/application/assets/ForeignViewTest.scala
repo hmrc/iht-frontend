@@ -24,11 +24,12 @@ import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.foreign
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 import iht.constants.Constants._
-import iht.constants.IhtProperties._
+
 import play.api.i18n.Messages
 
 class ForeignViewTest  extends ShareableElementInputViewBehaviour[BasicEstateElement] {
@@ -46,9 +47,9 @@ class ForeignViewTest  extends ShareableElementInputViewBehaviour[BasicEstateEle
   override def hasValueQuestionHelp = false
   override def valueQuestionHelp = ""
   override def returnLinkText = messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
-  override def returnLinkUrl = AssetsOverviewController.onPageLoad().url
+  override def returnLinkUrl = iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url
   override def formTarget =Some(routes.ForeignController.onSubmit)
-  override def linkHash = AppSectionForeignID
+  override def linkHash = appConfig.AppSectionForeignID
 
   "Foreign assets view" must {
     behave like yesNoValueView

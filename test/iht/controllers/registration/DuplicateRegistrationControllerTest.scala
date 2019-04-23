@@ -16,21 +16,30 @@
 
 package iht.controllers.registration
 
+import iht.config.AppConfig
 import iht.connector.CachingConnector
 import iht.testhelpers.MockFormPartialRetriever
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class DuplicateRegistrationControllerTest extends RegistrationControllerTest{
   // Create controller object and pass in mock.
-  def duplicateRegistrationController = new DuplicateRegistrationController {
+
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with DuplicateRegistrationController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def duplicateRegistrationController = new TestController {
     override val authConnector = mockAuthConnector
 
     override val cachingConnector = mock[CachingConnector]
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def duplicateRegistrationControllerNotAuthorised = new DuplicateRegistrationController {
+  def duplicateRegistrationControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
 
     override val cachingConnector = mock[CachingConnector]

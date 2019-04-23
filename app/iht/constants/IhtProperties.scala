@@ -16,14 +16,11 @@
 
 package iht.constants
 
-import iht.config.IhtPropertiesReader._
+import iht.config.{AppConfig, IhtPropertyRetriever}
 import org.joda.time.LocalDate
 import play.api.Logger
 
-/**
-  * Created by yasar on 25/11/15.
-  */
-object IhtProperties {
+trait IhtProperties extends IhtPropertyRetriever {
   lazy val validCountryCodes: Array[String] = getPropertyAsStringArray("validCountryCodes")
   lazy val ukIsoCountryCode: String = getProperty("ukIsoCountryCode")
   lazy val dateFormatForDisplay: String = getProperty("dateFormatForDisplay")
@@ -250,4 +247,8 @@ object IhtProperties {
   lazy val EstateDebtsID = getProperty("EstateDebtsID")
   lazy val EstateExemptionsID = getProperty("EstateExemptionsID")
   lazy val EstateIncreasingID = getProperty("EstateIncreasingID")
+}
+
+object IhtPropertiesProxy {
+  def roleExecutor(implicit appConfig: AppConfig): String = appConfig.roleExecutor
 }

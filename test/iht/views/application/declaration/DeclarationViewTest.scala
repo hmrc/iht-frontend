@@ -24,7 +24,6 @@ import iht.viewmodels.application.DeclarationViewModel
 import iht.views.ViewTestHelper
 import iht.views.html.application.declaration.declaration
 import org.jsoup.nodes.Document
-import play.api.i18n.Messages.Implicits._
 
 class DeclarationViewTest extends ViewTestHelper {
 
@@ -82,7 +81,7 @@ class DeclarationViewTest extends ViewTestHelper {
       riskMessageFromEdh = None
     )
 
-    val view = declaration(dvm).toString
+    val view = declaration(dvm, messages).toString
     asDocument(view)
   }
 

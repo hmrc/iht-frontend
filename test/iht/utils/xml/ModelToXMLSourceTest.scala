@@ -17,16 +17,18 @@
 package iht.utils.xml
 
 import iht.FakeIhtApp
-import iht.resources.{IhtReturn, RegistrationDetailsReturn}
+import iht.config.AppConfig
+import iht.resources.{IhtReturn, RegistrationDetailsReturnBuilder}
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.IHTReturnTestHelper._
 import org.joda.time.LocalDate
 import org.scalatest.mockito.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.xml.XML
 
 class ModelToXMLSourceTest extends FakeIhtApp with MockitoSugar {
+  implicit lazy val mockAppConfig: AppConfig = app.injector.instanceOf[AppConfig]
+
   "getXMLSource" must {
 
     "return correct XML corresponding to a fully completed IHT Return object" in {
@@ -34,14 +36,18 @@ class ModelToXMLSourceTest extends FakeIhtApp with MockitoSugar {
       val result = ModelToXMLSource.getXMLSource(ihtReturn, "IHTReturn")
       val printer = new scala.xml.PrettyPrinter(80, 2)
       val xmlActual = printer.format(XML.loadString(result))
+      val xmlActualAsXml = XML.loadString(xmlActual)
       val survivingSpouse = ihtReturn.deceased.get.survivingSpouse.get
       val deceasedSpouse = ihtReturn.deceased.get.transferOfNilRateBand.get.deceasedSpouses.toList.head.spouse.get
 
-      val xmlExpected = printer.format(XML.loadString(IhtReturn(survivingSpouse.firstName.get, survivingSpouse.lastName.get,
+      val xmlExpectedAsXml = XML.loadString(IhtReturn(survivingSpouse.firstName.get, survivingSpouse.lastName.get,
         survivingSpouse.mainAddress.get.postalCode, survivingSpouse.nino.get, deceasedSpouse.firstName.get,
-        deceasedSpouse.lastName.get, deceasedSpouse.mainAddress.get.postalCode, deceasedSpouse.nino.get).data))
+        deceasedSpouse.lastName.get, deceasedSpouse.mainAddress.get.postalCode, deceasedSpouse.nino.get).data)
 
-      xmlActual mustBe xmlExpected
+      val actualAssetCodes = (xmlActualAsXml \ "freeEstate" \\ "estateAssets").map(node => (node \ "assetCode").text)
+      val expectedAssetCodes = (xmlExpectedAsXml \ "freeEstate" \\ "estateAssets").map(node => (node \ "assetCode").text)
+
+      (actualAssetCodes.toSet diff expectedAssetCodes.toSet) mustBe Set()
     }
 
     "return correct XML corresponding to a fully completed RegistrationDetails object" in {
@@ -50,8 +56,8 @@ class ModelToXMLSourceTest extends FakeIhtApp with MockitoSugar {
       val printer = new scala.xml.PrettyPrinter(80, 2)
       val xmlActual = printer.format(XML.loadString(result))
 
-      val xmlExpected = printer.format(XML.loadString(RegistrationDetailsReturn(regDetails.applicantDetails.get,
-        regDetails.deceasedDetails.get, regDetails.coExecutors, CommonBuilder.DefaultAcknowledgmentReference).data))
+      val xmlExpected = printer.format(XML.loadString(RegistrationDetailsReturnBuilder.buildRegDetailsReturn(regDetails.applicantDetails.get,
+        regDetails.deceasedDetails.get, regDetails.coExecutors, Some(CommonBuilder.defaultAckRef)).data))
 
       xmlActual mustBe xmlExpected
     }

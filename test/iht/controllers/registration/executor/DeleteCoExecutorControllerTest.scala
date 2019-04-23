@@ -14,31 +14,58 @@
  * limitations under the License.
  */
 
+/*
+ * Copyright 2019 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package iht.controllers.registration.executor
 
-import iht.constants.IhtProperties
+import iht.config.AppConfig
 import iht.controllers.registration.RegistrationControllerTest
-import iht.forms.registration.CoExecutorForms._
+import iht.forms.registration.CoExecutorForms
 import iht.models.UkAddress
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils._
 import org.scalatest.BeforeAndAfter
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-class DeleteCoExecutorControllerTest extends RegistrationControllerTest with BeforeAndAfter {
+class DeleteCoExecutorControllerTest extends RegistrationControllerTest with BeforeAndAfter with CoExecutorForms {
 
-  def deleteCoExecutorController = new DeleteCoExecutorController {
+  implicit val messages: Messages = messagesApi.preferred(Seq(lang)).messages
+
+  val appConfig: AppConfig = mockAppConfig
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with DeleteCoExecutorController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def deleteCoExecutorController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def deleteCoExecutorControllerNotAuthorised = new DeleteCoExecutorController {
+  def deleteCoExecutorControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 
@@ -263,7 +290,7 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
 
     "if the coexecutor with given id exists - and the countrycode line of the address is GB - " +
       "do not display it" in {
-      val ukAddressWithGBCountryCode = UkAddress("addr1", "addr2", None, None, "", IhtProperties.ukIsoCountryCode)
+      val ukAddressWithGBCountryCode = UkAddress("addr1", "addr2", None, None, "", appConfig.ukIsoCountryCode)
       val coExecutor = CommonBuilder.buildCoExecutor copy (ukAddress = Some(ukAddressWithGBCountryCode))
       val rd = CommonBuilder.buildRegistrationDetails copy (areOthersApplyingForProbate = Some(true), coExecutors = Seq(coExecutor))
 

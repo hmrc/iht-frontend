@@ -17,17 +17,13 @@
 package iht.views.application.assets
 
 import iht.controllers.application.assets.routes
-import iht.controllers.application.assets.routes._
 import iht.forms.ApplicationForms._
 import iht.models.application.basicElements.BasicEstateElement
 import iht.testhelpers.CommonBuilder
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.nominated
-import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
 
 class NominatedViewTest extends ShareableElementInputViewBehaviour[BasicEstateElement] {
 
@@ -44,9 +40,9 @@ class NominatedViewTest extends ShareableElementInputViewBehaviour[BasicEstateEl
   override def hasValueQuestionHelp = false
   override def valueQuestionHelp = ""
   override def returnLinkText = messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
-  override def returnLinkUrl = AssetsOverviewController.onPageLoad().url
+  override def returnLinkUrl = iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url
   override def formTarget =Some(routes.NominatedController.onSubmit)
-  override def linkHash = AppSectionNominatedID
+  override def linkHash = appConfig.AppSectionNominatedID
 
   "Nominated assets view" must {
     behave like yesNoValueViewWithErrorSummaryBox

@@ -17,12 +17,14 @@
 package iht.utils
 
 import iht.FakeIhtApp
+import iht.config.AppConfig
 import iht.testhelpers._
 import org.scalatest.mock.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
 
 
 class ApplicantHelperTest extends FakeIhtApp with MockitoSugar {
+
+  implicit val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
   "Predicate isApplicantApplyingForProbateQuestionAnswered returns true when applicant probate " +
     "question answered" in {

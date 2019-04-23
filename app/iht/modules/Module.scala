@@ -17,7 +17,7 @@
 package iht.modules
 
 import com.google.inject.AbstractModule
-import iht.config.{AppConfig, ApplicationConfigImpl, IhtFormPartialRetriever}
+import iht.config.{AppConfig, DefaultAppConfig, DefaultIHTPropertyRetriever, IhtFormPartialRetriever, IhtPropertyRetriever}
 import iht.connector._
 import iht.controllers._
 import iht.controllers.application._
@@ -48,6 +48,7 @@ import iht.controllers.registration.deceased._
 import iht.controllers.registration.executor._
 import iht.controllers.testonly.{TestOnlyController, TestOnlyControllerImpl}
 import iht.metrics.{IhtMetrics, IhtMetricsImpl}
+import iht.utils.pdf.{BaseResourceStreamResolver, DefaultFopURIResolver, DefaultResourceStreamResolver, DefaultStylesheetResourceStreamResolver, DefaultXmlFoToPDF, FopURIResolver, StylesheetResourceStreamResolver, XmlFoToPDF}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.auth.DefaultAuthConnector
 import uk.gov.hmrc.play.bootstrap.http.{DefaultHttpClient, HttpClient}
@@ -55,15 +56,20 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class Module extends AbstractModule {
   def configure() = {
-    bind(classOf[AppConfig]).to(classOf[ApplicationConfigImpl]).asEagerSingleton
+    bind(classOf[AppConfig]).to(classOf[DefaultAppConfig]).asEagerSingleton
     bind(classOf[FormPartialRetriever]).to(classOf[IhtFormPartialRetriever])
     bind(classOf[IhtMetrics]).to(classOf[IhtMetricsImpl])
     bind(classOf[HttpClient]).to(classOf[DefaultHttpClient])
+    bind(classOf[IhtPropertyRetriever]).to(classOf[DefaultIHTPropertyRetriever])
+    bind(classOf[XmlFoToPDF]).to(classOf[DefaultXmlFoToPDF])
+    bind(classOf[StylesheetResourceStreamResolver]).to(classOf[DefaultStylesheetResourceStreamResolver])
+    bind(classOf[FopURIResolver]).to(classOf[DefaultFopURIResolver])
+    bind(classOf[BaseResourceStreamResolver]).to(classOf[DefaultResourceStreamResolver])
+    bind(classOf[FeedbackSurveyController]).to(classOf[DefaultFeedbackSurveyController])
 
     bind(classOf[CachingConnector]).to(classOf[CachingConnectorImpl]).asEagerSingleton
     bind(classOf[AuthConnector]).to(classOf[DefaultAuthConnector])
     bind(classOf[CitizenDetailsConnector]).to(classOf[CitizenDetailsConnectorImpl]).asEagerSingleton
-    bind(classOf[ExplicitAuditConnector]).to(classOf[ExplicitAuditConnectorImpl]).asEagerSingleton
     bind(classOf[IdentityVerificationConnector]).to(classOf[IdentityVerificationConnectorImpl]).asEagerSingleton
     bind(classOf[IhtConnector]).to(classOf[IhtConnectorImpl]).asEagerSingleton
 
@@ -192,7 +198,7 @@ class Module extends AbstractModule {
     bind(classOf[ApplicantAddressController]).to(classOf[ApplicantAddressControllerImpl]).asEagerSingleton
     bind(classOf[ApplicantTellUsAboutYourselfController]).to(classOf[ApplicantTellUsAboutYourselfControllerImpl]).asEagerSingleton
     bind(classOf[ApplyingForProbateController]).to(classOf[ApplyingForProbateControllerImpl]).asEagerSingleton
-    bind(classOf[executorOfEstateController]).to(classOf[executorOfEstateControllerImpl]).asEagerSingleton
+    bind(classOf[ExecutorOfEstateController]).to(classOf[ExecutorOfEstateControllerImpl]).asEagerSingleton
     bind(classOf[ProbateLocationController]).to(classOf[ProbateLocationControllerImpl]).asEagerSingleton
     bind(classOf[AboutDeceasedController]).to(classOf[AboutDeceasedControllerImpl]).asEagerSingleton
     bind(classOf[DeceasedAddressDetailsOutsideUKController]).to(classOf[DeceasedAddressDetailsOutsideUKControllerImpl]).asEagerSingleton

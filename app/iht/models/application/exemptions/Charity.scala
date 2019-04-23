@@ -17,9 +17,11 @@
 package iht.models.application.exemptions
 
 import iht.utils.CommonHelper
-import play.api.Play.current
+import play.api.mvc.MessagesControllerComponents
+import iht.config.AppConfig
 import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.api.libs.json.Json
 
 case class Charity(id: Option[String],

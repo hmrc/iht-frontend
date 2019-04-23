@@ -17,14 +17,15 @@
 package iht.utils
 
 import iht.FakeIhtApp
+import iht.config.AppConfig
 import iht.models.application.gifts.PreviousYearsGifts
 import iht.testhelpers.CommonBuilder
 import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.MessagesApi
-import uk.gov.hmrc.play.test.UnitSpec
 
 class GiftsHelperTest extends FakeIhtApp with MockitoSugar {
+
+  implicit val mockAppConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
   "GiftsHelper" must {
     "generate sequence of years needed for gifts" in {

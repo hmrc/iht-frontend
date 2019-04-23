@@ -17,28 +17,27 @@
 package iht.utils
 
 import iht.FakeIhtApp
+import iht.config.AppConfig
 import iht.models.application.exemptions.{AllExemptions, BasicExemptionElement, PartnerExemption}
 import iht.testhelpers.CommonBuilder
-import uk.gov.hmrc.play.test.UnitSpec
 
-class EstateNotDeclarableHelperTest  extends FakeIhtApp {
+class EstateNotDeclarableHelperTest extends FakeIhtApp with EstateNotDeclarableHelper {
+  implicit val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
   "EstateNotDeclarableHelper" when {
-
-    val helper = EstateNotDeclarableHelper
 
     "isEstateOverGrossEstateLimit is called" must {
 
       "return true if the estate is over the gross estate limit" in {
         val appDetails = CommonBuilder.buildApplicationDetails.copy(allAssets = Some(CommonBuilder.buildAllAssets.copy(
           money = Some(CommonBuilder.buildShareableBasicElement.copy(value = Some(2000000))))))
-        assert(helper.isEstateOverGrossEstateLimit(appDetails))
+        assert(isEstateOverGrossEstateLimit(appDetails))
       }
 
       "return false if the estate is not over the gross estate limit" in {
         val appDetails = CommonBuilder.buildApplicationDetails.copy(allAssets = Some(CommonBuilder.buildAllAssets.copy(
           money = Some(CommonBuilder.buildShareableBasicElement.copy(value = Some(2000))))))
-        assert(!helper.isEstateOverGrossEstateLimit(appDetails))
+        assert(!isEstateOverGrossEstateLimit(appDetails))
       }
 
     }
@@ -49,14 +48,14 @@ class EstateNotDeclarableHelperTest  extends FakeIhtApp {
         "before exemptions has been started" in {
         val appDetails = CommonBuilder.buildApplicationDetails.copy(allAssets = Some(CommonBuilder.buildAllAssets.copy(
           money = Some(CommonBuilder.buildShareableBasicElement.copy(value = Some(326000))))))
-        assert(helper.isEstateValueMoreThanTaxThresholdBeforeExemptionsStarted(appDetails))
+        assert(isEstateValueMoreThanTaxThresholdBeforeExemptionsStarted(appDetails))
       }
 
       "return false if the estate value is not more than the tax threshold " +
         "before exemptions has been started" in {
         val appDetails = CommonBuilder.buildApplicationDetails.copy(allAssets = Some(CommonBuilder.buildAllAssets.copy(
           money = Some(CommonBuilder.buildShareableBasicElement.copy(value = Some(20000))))))
-        assert(!helper.isEstateValueMoreThanTaxThresholdBeforeExemptionsStarted(appDetails))
+        assert(!isEstateValueMoreThanTaxThresholdBeforeExemptionsStarted(appDetails))
       }
 
     }
@@ -73,7 +72,7 @@ class EstateNotDeclarableHelperTest  extends FakeIhtApp {
             partner = Some(CommonBuilder.buildPartnerExemption)
           )),
         widowCheck = None)
-        assert(helper.isEstateValueMoreThanTaxThresholdBeforeTnrbStarted(appDetails, regDetails))
+        assert(isEstateValueMoreThanTaxThresholdBeforeTnrbStarted(appDetails, regDetails))
       }
 
       "return false if the estate value is not more than the tax threshold " +
@@ -86,7 +85,7 @@ class EstateNotDeclarableHelperTest  extends FakeIhtApp {
             partner = Some(CommonBuilder.buildPartnerExemption.copy(totalAssets = Some(BigDecimal(26000))))
           )),
         widowCheck = None)
-        assert(!helper.isEstateValueMoreThanTaxThresholdBeforeTnrbStarted(appDetails, regDetails))
+        assert(!isEstateValueMoreThanTaxThresholdBeforeTnrbStarted(appDetails, regDetails))
       }
 
     }
@@ -115,7 +114,7 @@ class EstateNotDeclarableHelperTest  extends FakeIhtApp {
         widowCheck = Some(CommonBuilder.buildWidowedCheck),
         increaseIhtThreshold = Some(CommonBuilder.buildTnrbEligibility))
 
-        assert(helper.isEstateValueMoreThanTaxThresholdBeforeTnrbFinished(appDetails, regDetails))
+        assert(isEstateValueMoreThanTaxThresholdBeforeTnrbFinished(appDetails, regDetails))
       }
 
       "return false if the estate value is not more than the tax threshold " +
@@ -140,7 +139,7 @@ class EstateNotDeclarableHelperTest  extends FakeIhtApp {
           widowCheck = Some(CommonBuilder.buildWidowedCheck),
           increaseIhtThreshold = Some(CommonBuilder.buildTnrbEligibility))
 
-        assert(!helper.isEstateValueMoreThanTaxThresholdBeforeTnrbFinished(appDetails, regDetails))
+        assert(!isEstateValueMoreThanTaxThresholdBeforeTnrbFinished(appDetails, regDetails))
       }
 
     }

@@ -18,27 +18,30 @@ package iht.config
 
 import java.util.PropertyResourceBundle
 
-import iht.utils.{CommonHelper, StringHelper}
-import org.joda.time.LocalDate
-import play.api.Play
-import play.api.Play.current
 import iht.utils.CommonHelper._
+import javax.inject.{Inject, Singleton}
+import org.joda.time.LocalDate
+import play.api.Environment
 
-/**
- * Created by Vineet Tyagi on 28/09/15.
- */
-object IhtPropertiesReader {
+import scala.util.{Success, Try}
 
-  val value  = Play.application.resourceAsStream("iht.properties").getOrElse(throw new RuntimeException("iht.properties file couldn't be retrieved."))
-  val propertyResource = {
-    try {
-      new PropertyResourceBundle(value)
-    } finally {
-      value.close()
-    }
-  }
+@Singleton
+class DefaultIHTPropertyRetriever @Inject()(val environment: Environment) extends IhtPropertyRetriever
 
-  def getProperty(key: String) = propertyResource.getString(key).trim
+trait IhtPropertyRetriever {
+  val environment: Environment
+
+  lazy val resourceStream: PropertyResourceBundle =
+    (environment.resourceAsStream("iht.properties") flatMap { stream =>
+      val optBundle: Option[PropertyResourceBundle] = Try(new PropertyResourceBundle(stream)) match {
+        case Success(bundle) => Some(bundle)
+        case _               => None
+      }
+      stream.close()
+      optBundle
+    }).getOrElse(throw new RuntimeException("[IhtPropertyRetriever] Could not retrieve property bundle"))
+
+  def getProperty(key: String): String = resourceStream.getString(key).trim
 
   def getPropertyAsStringArray(key: String): Array[String] = getProperty(key).split(",")
 
@@ -51,6 +54,23 @@ object IhtPropertiesReader {
       new LocalDate(dateAsArray(0).toInt, dateAsArray(1).toInt, dateAsArray(2).toInt)
     }
 
+  private[config] def parseAssignmentsToSeqTuples(listOfAssignments:String): Seq[(String, String)] = {
+    if (listOfAssignments.trim.length == 0) {
+      Seq()
+    } else {
+      val splitItems: Array[String] = listOfAssignments.split(",")
+      splitItems.toSeq.map { property =>
+        withValue(property.trim.split("=")) { splitProperty =>
+          if(splitProperty.length == 2) {
+            Tuple2(splitProperty(0).trim, splitProperty(1).trim)
+          } else {
+            throw new RuntimeException("Invalid property-value assignment: " + splitProperty)
+          }
+        }
+      }
+    }
+  }
+
   def getPropertyAsSeqStringTuples(key: String): Seq[(String,String)] =
-    withValue(getProperty(key).trim)(StringHelper.parseAssignmentsToSeqTuples)
+    withValue(getProperty(key).trim)(parseAssignmentsToSeqTuples)
 }

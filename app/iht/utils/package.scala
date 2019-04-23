@@ -16,17 +16,11 @@
 
 package iht
 
-import iht.config.{ApplicationConfig => Config}
+import iht.config.AppConfig
 import iht.constants.IhtProperties
 import iht.models.RegistrationDetails
-import play.api.data.Form
 import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-/**
- * Created by yasar on 5/5/15.
- */
 package object utils {
   type Predicate = (RegistrationDetails, String) => Boolean
 
@@ -53,15 +47,15 @@ package object utils {
   /**
    * Gets correct role for display
    */
-  def additionalApplicantType(role:String): String = {
+  def additionalApplicantType(role: String)(implicit appConfig: AppConfig): String = {
 
-    val roleAdmin = IhtProperties.roleAdministrator
-    val roleLeadExecutor = IhtProperties.roleLeadExecutor
+    val roleAdmin = appConfig.roleAdministrator
+    val roleLeadExecutor = appConfig.roleLeadExecutor
 
     if (role == roleAdmin) {
-      IhtProperties.roleAdministrator
+      appConfig.roleAdministrator
     } else if (role == roleLeadExecutor) {
-      IhtProperties.roleExecutor
+      appConfig.roleExecutor
     } else {
       role
     }
@@ -70,18 +64,18 @@ package object utils {
   /*
    * Get sequence of country code and country name
    */
-  def countryCodes(implicit lang: play.api.i18n.Lang, messages: Messages): Seq[(String, String)] = {
-    lazy val countryCodes = IhtProperties.validCountryCodes
+  def countryCodes(implicit messages: Messages, appConfig: AppConfig): Seq[(String, String)] = {
+    lazy val countryCodes = appConfig.validCountryCodes
     countryCodes.map(x => (x, messages(s"country.$x"))).sortWith(_._2 < _._2)
   }
 
-  def internationalCountries(implicit lang: play.api.i18n.Lang, messages: Messages): Seq[(String, String)] =
-    countryCodes(lang, messages) filter {case(key, _) => key != IhtProperties.ukIsoCountryCode}
+  def internationalCountries(implicit messages: Messages, appConfig: AppConfig): Seq[(String, String)] =
+    countryCodes filter {case(key, _) => key != appConfig.ukIsoCountryCode}
 
   /*
    * Get country name from country code
    */
-  def countryName(countryCode: String)(implicit lang: play.api.i18n.Lang, messages: Messages): String = {
+  def countryName(countryCode: String)(implicit messages: Messages): String = {
     val input = s"country.$countryCode"
     messages(s"country.$countryCode") match {
       case `input` => {

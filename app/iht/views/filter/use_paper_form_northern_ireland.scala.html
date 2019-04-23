@@ -14,7 +14,8 @@
  * limitations under the License.
  *@
 
-@()(implicit request:Request[_], messages: Messages)
+@import iht.config.AppConfig
+@()(implicit request:Request[_], messages: Messages, appConfig: AppConfig)
 
 @import iht.constants.IhtProperties
 
@@ -22,9 +23,9 @@
 
 <p>
     @messages("page.iht.filter.paperform.northern.ireland.p2.sentence1.start")
-    <a id="iht-400-link" href="@IhtProperties.linkEstateReportKickOut">@messages("page.iht.filter.paperform.iht400.link.text")</a>.
+    <a id="iht-400-link" href="@appConfig.linkEstateReportKickOut">@messages("page.iht.filter.paperform.iht400.link.text")</a>.
     @messages("page.iht.filter.paperform.northern.ireland.p2.sentence2.start")
-    <a id="iht-205-link" href="@IhtProperties.linkIHT205">@messages("page.iht.filter.paperform.northern.ireland.iht205.link.text")</a>
+    <a id="iht-205-link" href="@appConfig.linkIHT205">@messages("page.iht.filter.paperform.northern.ireland.iht205.link.text")</a>
     @messages("page.iht.filter.paperform.northern.ireland.p2.sentence2.end")
 </p>
 

@@ -25,7 +25,8 @@ import iht.views.html.application.asset.stocksAndShares.stocks_and_shares_not_li
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import iht.testhelpers.TestHelper._
 
 class StocksAndSharesNotListedViewTest extends ShareableElementInputViewBehaviour[StockAndShare] {
@@ -43,7 +44,7 @@ class StocksAndSharesNotListedViewTest extends ShareableElementInputViewBehaviou
   override def valueInputBoxId = "valueNotListed"
   override def returnLinkText = messagesApi("site.link.return.stocksAndShares")
   override def returnLinkUrl = routes.StocksAndSharesOverviewController.onPageLoad().url
-  override def linkHash = AssetsStocksNotListedID
+  override def linkHash = appConfig.AssetsStocksNotListedID
   override def formTarget = Some(routes.StocksAndSharesNotListedController.onSubmit())
 
   override def form: Form[StockAndShare] = stockAndShareNotListedForm

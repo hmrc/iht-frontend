@@ -31,7 +31,6 @@ class EstateOverviewViewModelTest extends ViewTestHelper {
 
   val fakeDeadline = new LocalDate()
   implicit val request = FakeRequest()
-  implicit val messages = messagesApi.preferred(request)
 
   "EstateOverviewViewModel" must {
 

@@ -25,37 +25,37 @@ class PropertyFormsTest extends FormTestHelper {
 
   val desceasedName = "John"
 
- "PropertiesForm" must {
-   behave like yesNoQuestion[Properties]("isOwned",
-     propertiesForm,
-     _.isOwned,
-     "error.assets.property.owned.select"
-   )
- }
+  "PropertiesForm" must {
+    behave like yesNoQuestion[Properties]("isOwned",
+      propertiesForm,
+      _.isOwned,
+      "error.assets.property.owned.select"
+    )
+  }
 
   "PropertyTenureForm" must {
     behave like multipleChoiceQuestion[Property]("tenure",
-                                            propertyTenureForm,
-                                            _.tenure,
-                                           "error.assets.property.tenure.select",
-                                            FieldMappings.tenures(desceasedName)(messages))
+      propertyTenureForm,
+      _.tenure,
+      "error.assets.property.tenure.select",
+      FieldMappings.tenures(desceasedName)(messages, mockAppConfig))
   }
 
   "PropertyTypeForm" must {
     behave like multipleChoiceQuestion[Property]("propertyType",
-                                            propertyTypeForm,
-                                            _.propertyType,
-                                            "error.assets.property.type.select",
-                                            FieldMappings.propertyType(messages))
+      propertyTypeForm,
+      _.propertyType,
+      "error.assets.property.type.select",
+      FieldMappings.propertyType(messages, mockAppConfig))
   }
 
   "TypeOfOwnershipForm" must {
     behave like multipleChoiceQuestion[Property]("typeOfOwnership",
-                                          typeOfOwnershipForm,
-                                        _.typeOfOwnership,
-                                        "error.assets.property.ownership.select",
-                                        FieldMappings.typesOfOwnership(desceasedName)(messages))
-   }
+      typeOfOwnershipForm,
+      _.typeOfOwnership,
+      "error.assets.property.ownership.select",
+      FieldMappings.typesOfOwnership(desceasedName)(messages, mockAppConfig))
+  }
 
   "PropertyValueForm" must {
     behave like mandatoryCurrencyValue[Property]("value", propertyValueForm)

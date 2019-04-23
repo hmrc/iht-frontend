@@ -22,7 +22,8 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 import play.api.i18n.Lang
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 
 class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
 

@@ -32,7 +32,7 @@ import uk.gov.hmrc.http.HeaderCarrier
 import scala.concurrent.Future
 import scala.util.{Failure, Success, Try}
 
-trait EstateController extends ApplicationController {
+trait EstateController extends ApplicationController with ApplicationKickOutNonSummaryHelper with StringHelper {
 
   val applicationSection: Option[String] = None
 
@@ -107,7 +107,7 @@ trait EstateController extends ApplicationController {
                                  userNino: Option[String])
                                 (implicit request: Request[_]) = {
     withRegistrationDetails { regDetails =>
-      val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(userNino),
+      val applicationDetailsFuture = ihtConnector.getApplication(getNino(userNino),
         CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
         regDetails.acknowledgmentReference)
 
@@ -135,7 +135,7 @@ trait EstateController extends ApplicationController {
                                                    userNino: Option[String])(implicit request: Request[_]) = {
 
     withRegistrationDetails { regDetails =>
-      val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(userNino),
+      val applicationDetailsFuture = ihtConnector.getApplication(getNino(userNino),
         CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
         regDetails.acknowledgmentReference)
 
@@ -200,7 +200,7 @@ trait EstateController extends ApplicationController {
             Future.successful(BadRequest(retrievePageToDisplay(formWithErrors, regDetails)))
           },
           estateElementModel => {
-            estatesSaveApplication(StringHelper.getNino(userNino),
+            estatesSaveApplication(getNino(userNino),
               estateElementModel,
               regDetails,
               updateApplicationDetails,
@@ -232,7 +232,7 @@ trait EstateController extends ApplicationController {
       case Some(appDetails) =>
         val tryResult = Try {
           val updateTuple = updateApplicationDetails(appDetails, id, estateElementModel)
-          (updateKickout(registrationDetails = regDetails, applicationDetails = updateTuple._1), updateTuple._2)
+          (appKickoutUpdateKickout(registrationDetails = regDetails, applicationDetails = updateTuple._1), updateTuple._2)
         }
 
         tryResult match {
@@ -268,12 +268,12 @@ trait EstateController extends ApplicationController {
   /**
     * Updates the Kick out if applicable
     */
-  def updateKickout(checks: FunctionListMap = ApplicationKickOutNonSummaryHelper.checksEstate,
+  def updateKickout(checks: FunctionListMap = checksEstate,
                     registrationDetails: RegistrationDetails,
                     applicationDetails: ApplicationDetails,
                     applicationID: Option[String] = None)
                    (implicit request: Request[_], hc: HeaderCarrier): ApplicationDetails =
-    ApplicationKickOutNonSummaryHelper.updateKickout(checks = checks,
+    appKickoutUpdateKickout(checks = checks,
       prioritySection = applicationSection,
       registrationDetails = registrationDetails,
       applicationDetails = applicationDetails,
@@ -310,7 +310,7 @@ trait EstateController extends ApplicationController {
           Future.successful(BadRequest(retrievePageToDisplay(formWithErrors, regDetails, submit, cancel)))
         },
         estateElementModel => {
-          estatesSaveApplication(StringHelper.getNino(userNino),
+          estatesSaveApplication(getNino(userNino),
             estateElementModel,
             regDetails,
             updateApplicationDetails,

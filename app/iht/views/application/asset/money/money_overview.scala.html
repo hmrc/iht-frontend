@@ -20,11 +20,11 @@
 @import iht.views.html._
 @import iht.views.html.ihtHelpers.custom._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.models.RegistrationDetails
-@import iht.constants.IhtProperties._
 
 @(money:Option[ShareableBasicEstateElement],
-registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
@@ -44,7 +44,7 @@ isFullWidth=false
         generic_overview_table_section(
         "deceased-own-money-section",
          money.flatMap(_.isOwned),
-            generic_overview_table_heading_item(id = AssetsMoneyOwnID,
+            generic_overview_table_heading_item(id = appConfig.AssetsMoneyOwnID,
                 questionText = Messages("iht.estateReport.assets.moneyOwned",deceasedName),
                 questionScreenReaderText = Messages("iht.estateReport.assets.moneyOwned",
                                                     deceasedName),
@@ -52,7 +52,7 @@ isFullWidth=false
                 linkScreenReader = Messages("page.iht.application.assets.money.overview.deceased.isOwned.screenReader.link.noValue", deceasedName),
                 isAnswerValue = money.flatMap(_.isOwned).isEmpty
             ),
-            generic_overview_table_item(id = AssetsMoneyOwnID,
+            generic_overview_table_item(id = appConfig.AssetsMoneyOwnID,
                 questionText = Messages("iht.estateReport.assets.money.ownName.question",deceasedName),
                 questionScreenReaderText= Messages("iht.estateReport.assets.money.ownName.question",
                                                     Messages("iht.the.deceased")),
@@ -75,14 +75,14 @@ isFullWidth=false
         generic_overview_table_section(
         "deceased-shared-money-section",
         money.flatMap(_.isOwnedShare),
-            generic_overview_table_heading_item(id = AssetsMoneySharedID,
+            generic_overview_table_heading_item(id = appConfig.AssetsMoneySharedID,
                 questionText = Messages("iht.estateReport.assets.money.jointlyOwned"),
                 questionScreenReaderText = Messages("iht.estateReport.assets.money.jointlyOwned"),
                 link = Some(iht.controllers.application.assets.money.routes.MoneyJointlyOwnedController.onPageLoad),
                 linkScreenReader = Messages("page.iht.application.assets.money.overview.deceased.joint.screenReader.link.noValue"),
                 isAnswerValue = money.flatMap(_.isOwnedShare).isEmpty
                 ),
-            generic_overview_table_item(id = AssetsMoneySharedID,
+            generic_overview_table_item(id = appConfig.AssetsMoneySharedID,
                 questionText = Messages("page.iht.application.assets.money.jointly.owned.question", deceasedName),
                 questionScreenReaderText= Messages("page.iht.application.assets.money.jointly.owned.question", deceasedName),
                 questionCategory= "change",
@@ -103,7 +103,7 @@ isFullWidth=false
     @registrationDetails.deceasedDetails.map{ dd=>
         @ihtHelpers.custom.return_link(Messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(dd.name)),
                                         Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
-        AppSectionMoneyID
+            appConfig.AppSectionMoneyID
         )
     }
 }

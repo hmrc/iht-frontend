@@ -23,10 +23,11 @@ import iht.utils.tnrb.TnrbHelper
 import iht.views.application.YesNoQuestionViewBehaviour
 import iht.views.html.application.tnrb.permanent_home
 import play.api.data.Form
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
 
-class PermanentHomeViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
+class PermanentHomeViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] with TnrbHelper {
 
   override def guidance = noGuidance
 
@@ -35,7 +36,7 @@ class PermanentHomeViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyMod
   def widowCheck = CommonBuilder.buildWidowedCheck
 
   override def pageTitle = messagesApi("iht.estateReport.tnrb.permanentHome.question",
-    TnrbHelper.spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheck,
+    spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheck,
       messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the")))
 
   override def browserTitle = messagesApi("iht.registration.deceased.locationOfPermanentHome")

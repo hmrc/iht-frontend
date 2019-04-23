@@ -23,7 +23,8 @@ import iht.views.html.registration.deceased.deceased_date_of_death
 import iht.views.registration.RegistrationPageBehaviour
 import org.jsoup.nodes.Document
 import play.api.data.Form
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable
 import iht.testhelpers.CommonBuilder

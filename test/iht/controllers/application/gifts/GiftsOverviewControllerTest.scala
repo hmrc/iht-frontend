@@ -16,35 +16,37 @@
 
 package iht.controllers.application.gifts
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
+import iht.controllers.application.exemptions.ExemptionsOverviewController
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers._
 import iht.utils._
 import org.mockito.ArgumentMatchers._
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
-/**
-  *
-  * Created by Vineet Tyagi on 14/01/16.
-  *
-  */
+
 class GiftsOverviewControllerTest extends ApplicationControllerTest {
 
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with GiftsOverviewController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
-
-  def giftsOverviewController = new GiftsOverviewController {
+  def giftsOverviewController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def giftsOverviewControllerNotAuthorised = new GiftsOverviewController {
+  def giftsOverviewControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
@@ -85,7 +87,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
     "respond with OK on page load" in {
       val allGifts = allGiftsQ1Yes
       val applicationDetails = CommonBuilder.buildApplicationDetails copy (allGifts = Some(allGifts))
-      MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
+      createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -111,7 +113,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
 
     "redirect when first question, is given away, is not answered" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails copy (allGifts = Some(CommonBuilder.buildAllGifts))
-      MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
+      createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -129,7 +131,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
     "display NO on page when there is no reservation of benefit" in {
       val allGifts = allGiftsQ1Yes copy (isReservation = Some(false))
       val applicationDetails = CommonBuilder.buildApplicationDetails copy (allGifts = Some(allGifts))
-      MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
+      createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -147,7 +149,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
     "display YES on page when there is no reservation of benefit" in {
       val allGifts = allGiftsQ1Yes copy (isReservation = Some(true))
       val applicationDetails = CommonBuilder.buildApplicationDetails copy (allGifts = Some(allGifts))
-      MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
+      createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -165,7 +167,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
     "display return to estate overview link on page" in {
       val allGifts = allGiftsQ1Yes
       val applicationDetails = CommonBuilder.buildApplicationDetails copy (allGifts = Some(allGifts))
-      MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
+      createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -183,7 +185,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
     "display gift guidance on page" in {
       val allGifts = allGiftsQ1Yes
       val applicationDetails = CommonBuilder.buildApplicationDetails copy (allGifts = Some(allGifts))
-      MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
+      createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
 
       val regDetails = buildRegistrationDetailsWithDeceasedAndIhtRefDetails
 
@@ -206,7 +208,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(
         allGifts = Some(allGiftsQ1Yes),
         giftsList = Some(Seq(CommonBuilder.buildPreviousYearsGifts)))
-      MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
+      createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -226,7 +228,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
         allGifts = Some(allGiftsQ1Yes),
         giftsList = Some(Seq(CommonBuilder.buildPreviousYearsGifts
           .copy(value = None, exemptions = None))))
-      MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
+      createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -243,7 +245,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
     "not display 'value of gifts given away' question when initial question answered 'No'" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(allGifts = Some(CommonBuilder.buildAllGifts
         .copy(isGivenAway = Some(false))))
-      MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
+      createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -260,7 +262,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
     "display 'value of gifts given away' question when initial question answered 'Yes'" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(allGifts = Some(CommonBuilder.buildAllGifts
         .copy(isGivenAway = Some(true))))
-      MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
+      createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -281,7 +283,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
       val  deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(allGifts = Some(CommonBuilder.buildAllGifts
         .copy(isGivenAway = Some(false), isReservation = Some(false), isGivenInLast7Years = Some(false))))
-      MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
+      createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -299,7 +301,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
     "not display second 'gifts given to trust' question when 7 year question answered 'Yes'" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(allGifts = Some(CommonBuilder.buildAllGifts
         .copy(isGivenAway = Some(false), isReservation = Some(false), isGivenInLast7Years = Some(true))))
-      MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
+      createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -315,7 +317,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
 
 
     "respond with REDIRECT when the estate exceeds the TNRB threashold" in {
-      MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
+      createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
 
       createMocksForRegistrationAndApplication(
         CommonBuilder.buildRegistrationDetails1,

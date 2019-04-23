@@ -16,21 +16,20 @@
 
 package iht.controllers.registration.deceased
 
+import iht.config.AppConfig
 import iht.connector.CachingConnector
-import iht.constants.IhtProperties
 import iht.controllers.registration.RegistrationControllerTest
 import iht.forms.registration.DeceasedForms
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails}
-import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
-import iht.utils.IhtFormValidator
 import org.joda.time.LocalDate
 import org.scalatest.BeforeAndAfter
 import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, Form, FormError, Forms}
-import play.api.mvc.Request
+import play.api.mvc.{MessagesControllerComponents, Request}
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -39,7 +38,12 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class AboutDeceasedControllerTest extends RegistrationControllerTest with BeforeAndAfter {
 
-  def controller(deceasedForms2:DeceasedForms) = new AboutDeceasedController {
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with AboutDeceasedController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
+  def controller(deceasedForms2:DeceasedForms) = new TestController {
    override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 
@@ -48,7 +52,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def controllerNotAuthorised = new AboutDeceasedController {
+  def controllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 
@@ -58,10 +62,10 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
 
   def formWithMockedNinoValidation(deceased: DeceasedDetails, mockCachingConnector: CachingConnector): DeceasedForms = {
     def deceasedForms: DeceasedForms = {
-      val mockIhtFormValidator = new IhtFormValidator {
-        override def ninoForDeceased(blankMessageKey: String, lengthMessageKey: String,
-                                     formatMessageKey: String, oRegDetails: Option[RegistrationDetails])(
-                                     implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] = {
+      new DeceasedForms {
+        def ninoForDeceased(blankMessageKey: String, lengthMessageKey: String,
+                            formatMessageKey: String, oRegDetails: Option[RegistrationDetails])(
+                             implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] = {
           val formatter = new Formatter[String] {
             override val format: Option[(String, Seq[Any])] = None
 
@@ -73,9 +77,6 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
           fieldMapping
         }
       }
-      new DeceasedForms {
-        override def ihtFormValidator: IhtFormValidator = mockIhtFormValidator
-      }
     }
     implicit val request = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
     implicit val hc = new HeaderCarrier()
@@ -84,10 +85,10 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
 
   def formWithMockedNinoValidationNoDeceased(mockCachingConnector: CachingConnector): DeceasedForms = {
     def deceasedForms: DeceasedForms = {
-      val mockIhtFormValidator = new IhtFormValidator {
-        override def ninoForDeceased(blankMessageKey: String, lengthMessageKey: String,
-                                     formatMessageKey: String, oRegDetails: Option[RegistrationDetails])(
-                                     implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] = {
+      new DeceasedForms {
+        def ninoForDeceased(blankMessageKey: String, lengthMessageKey: String,
+                            formatMessageKey: String, oRegDetails: Option[RegistrationDetails])(
+                             implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] = {
           val formatter = new Formatter[String] {
             override val format: Option[(String, Seq[Any])] = None
 
@@ -98,9 +99,6 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
           val fieldMapping: FieldMapping[String] = Forms.of(formatter)
           fieldMapping
         }
-      }
-      new DeceasedForms {
-        override def ihtFormValidator: IhtFormValidator = mockIhtFormValidator
       }
     }
     implicit val request = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
@@ -316,14 +314,14 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
 
     "save valid data correctly when coming to this screen for the first time" in {
       val existingDod = DeceasedDateOfDeath(new LocalDate(2014, 1, 1))
-      val existingDeceasedDetails = DeceasedDetails(domicile = Some(IhtProperties.domicileEnglandOrWales))
+      val existingDeceasedDetails = DeceasedDetails(domicile = Some(mockAppConfig.domicileEnglandOrWales))
       val existingRegistrationDetails = RegistrationDetails(Some(existingDod), None, Some(existingDeceasedDetails))
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(existingRegistrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(existingRegistrationDetails))
 
       val newDetails = DeceasedDetails(Some(CommonBuilder.firstNameGenerator), None, Some(CommonBuilder.surnameGenerator),
-        Some(CommonBuilder.DefaultNino), None, Some(new LocalDate(1980, 2, 2)), None, Some(IhtProperties.statusMarried))
+        Some(CommonBuilder.DefaultNino), None, Some(new LocalDate(1980, 2, 2)), None, Some(mockAppConfig.statusMarried))
 
       val deceasedForms = formWithMockedNinoValidation(newDetails, mockCachingConnector)
 
@@ -346,14 +344,14 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
       val existingDod = DeceasedDateOfDeath(new LocalDate(2014, 1, 1))
       val existingDeceasedDetails = DeceasedDetails(Some(CommonBuilder.firstNameGenerator), None,
         Some(CommonBuilder.surnameGenerator), Some(CommonBuilder.DefaultNino), None,
-        Some(new LocalDate(1980, 2, 2)), Some(IhtProperties.domicileEnglandOrWales), Some(IhtProperties.statusMarried))
+        Some(new LocalDate(1980, 2, 2)), Some(mockAppConfig.domicileEnglandOrWales), Some(mockAppConfig.statusMarried))
       val existingRegistrationDetails = RegistrationDetails(Some(existingDod), None, Some(existingDeceasedDetails))
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(existingRegistrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(existingRegistrationDetails))
 
       val newDetails = DeceasedDetails(Some(CommonBuilder.firstNameGenerator), None, Some(CommonBuilder.surnameGenerator),
-        Some(CommonBuilder.DefaultNino), None, Some(new LocalDate(1990, 3, 3)), None, Some(IhtProperties.statusMarried))
+        Some(CommonBuilder.DefaultNino), None, Some(new LocalDate(1990, 3, 3)), None, Some(mockAppConfig.statusMarried))
 
       val deceasedForms: DeceasedForms = formWithMockedNinoValidation(newDetails, mockCachingConnector)
 

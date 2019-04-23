@@ -16,14 +16,16 @@
 
 package iht.controllers.application.exemptions.qualifyingBody
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
+import iht.controllers.application.declaration.DeclarationController
 import iht.models.application.exemptions.QualifyingBody
-import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import org.scalatest.BeforeAndAfter
 import play.api.data.Form
-import play.api.mvc.{AnyContentAsFormUrlEncoded, Request}
+import play.api.mvc.{AnyContentAsFormUrlEncoded, MessagesControllerComponents, Request}
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
@@ -36,16 +38,20 @@ class QualifyingBodyValueControllerTest extends ApplicationControllerTest with B
   val qualifyingBody2 = QualifyingBody(Some("2"), Some("Qualifying Body 2"), Some(BigDecimal(65454)))
   val referrerURL = "localhost:9070"
 
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with QualifyingBodyValueController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
 
-  def qualifyingBodyValueController = new QualifyingBodyValueController {
+  def qualifyingBodyValueController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def qualifyingBodyValueControllerNotAuthorised = new QualifyingBodyValueController {
+  def qualifyingBodyValueControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

@@ -18,7 +18,8 @@ package iht.views.ihtHelpers.custom
 
 import iht.views.ViewTestHelper
 import iht.views.html.ihtHelpers.custom.generic_overview_table_item
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 
 class GenericOverviewTableItemTest extends ViewTestHelper {
   "generic overview table item" must {

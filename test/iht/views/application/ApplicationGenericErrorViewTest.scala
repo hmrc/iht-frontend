@@ -20,7 +20,8 @@ import iht.views.ViewTestHelper
 import iht.views.helpers.MessagesHelper
 import iht.views.html.application.timeout_application
 import org.jsoup.Jsoup
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 import play.api.test.FakeRequest
 
 class ApplicationGenericErrorViewTest extends ViewTestHelper with MessagesHelper {

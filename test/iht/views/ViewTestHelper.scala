@@ -16,6 +16,7 @@
 
 package iht.views
 
+import iht.config.AppConfig
 import iht.models.UkAddress
 import iht.testhelpers.{ContentChecker, MockFormPartialRetriever}
 import iht.utils.CommonHelper
@@ -25,8 +26,10 @@ import org.jsoup.nodes.{Document, Element}
 import org.jsoup.safety.Whitelist
 import org.scalatest.{BeforeAndAfter, BeforeAndAfterEach}
 import org.scalatest.mockito.MockitoSugar
-import play.api.i18n.MessagesApi
+import play.api.i18n.{Lang, Messages, MessagesApi}
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.partials.FormPartialRetriever
+
 import scala.collection.JavaConversions._
 
 trait ViewTestHelper extends FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter with BeforeAndAfterEach with HtmlSpec {
@@ -41,7 +44,11 @@ trait ViewTestHelper extends FakeIhtApp with MockitoSugar with TestUtils with Be
   val messageKeyExclusions = Set("GOV.UK", "U.S", "www.tax.service.gov.uk")
   val messageKeysDelimiter = ", "
 
+  val mockControllerComponents: MessagesControllerComponents = app.injector.instanceOf[MessagesControllerComponents]
   implicit override val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  implicit val messages: Messages = mockControllerComponents.messagesApi.preferred(Seq(lang)).messages
+
   implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
 
   def titleShouldBeCorrect(pageContent: String, expectedTitle: String) = {

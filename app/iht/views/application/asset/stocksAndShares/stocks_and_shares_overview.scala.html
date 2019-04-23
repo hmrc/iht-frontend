@@ -21,11 +21,12 @@
 @import iht.views.html._
 @import iht.views.html.ihtHelpers.custom._
 @import iht.models.RegistrationDetails
-@import iht.constants.IhtProperties._
+
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 
 @(stocks:Option[StockAndShare],
-  registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+  registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
@@ -43,14 +44,14 @@ isFullWidth=false
             generic_overview_table_section(
                     "stocks-and-shares-listed-section",
                     stocks.flatMap(_.isListed),
-                    generic_overview_table_heading_item(AssetsStocksListedID,
+                    generic_overview_table_heading_item(appConfig.AssetsStocksListedID,
                         Messages("iht.estateReport.assets.stocksAndSharesListed"),
                         Messages("iht.estateReport.assets.stocksAndSharesListed"),
                         Some(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesListedController.onPageLoad),
                         linkScreenReader = Messages("page.iht.application.assets.stocksAndShares.overview.listed.screenreader.link.noValue"),
                         stocks.flatMap(_.isListed).isEmpty
                         ),
-                        generic_overview_table_item(id = AssetsStocksListedID,
+                        generic_overview_table_item(id = appConfig.AssetsStocksListedID,
                             questionText = Messages("iht.estateReport.assets.stocksAndShares.listed.question", deceasedName),
                             questionScreenReaderText= Messages("iht.estateReport.assets.stocksAndShares.listed.question",
                                                                 Messages("iht.the.deceased")),
@@ -74,14 +75,14 @@ isFullWidth=false
             generic_overview_table_section(
                     "stocks-and-shares-not-listed-section",
                     stocks.flatMap(_.isNotListed),
-                    generic_overview_table_heading_item(AssetsStocksNotListedID,
+                    generic_overview_table_heading_item(appConfig.AssetsStocksNotListedID,
                         Messages("iht.estateReport.assets.stocksAndSharesNotListed"),
                         Messages("iht.estateReport.assets.stocksAndSharesNotListed"),
                         Some(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesNotListedController.onPageLoad),
                         linkScreenReader = Messages("page.iht.application.assets.stocksAndShares.overview.notListed.screenreader.link.noValue"),
                         stocks.flatMap(_.isNotListed).isEmpty
                         ),
-                        generic_overview_table_item(id = AssetsStocksNotListedID,
+                        generic_overview_table_item(id = appConfig.AssetsStocksNotListedID,
                             questionText = Messages("iht.estateReport.assets.stocksAndShares.notListed.question", deceasedName),
                             questionScreenReaderText= Messages("iht.estateReport.assets.stocksAndShares.notListed.question",
                                                                 Messages("iht.the.deceased")),
@@ -104,7 +105,7 @@ isFullWidth=false
      @ihtHelpers.custom.return_link(
         Messages("page.iht.application.return.to.assetsOf", deceasedName),
         Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
-        AppSectionStockAndShareID
+         appConfig.AppSectionStockAndShareID
     )
 
 }

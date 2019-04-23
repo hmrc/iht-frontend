@@ -14,23 +14,22 @@
  * limitations under the License.
  *@
 
-@import iht.constants.IhtProperties._
 @import iht.models.application.ApplicationDetails
 @import iht.models.application.exemptions._
 @import iht.utils.OverviewHelper._
 @import iht.utils._
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.models.RegistrationDetails
 @import iht.constants.Constants._
-
 
 @(appDetails:ApplicationDetails,
 exemptions:AllExemptions,
 charities: Seq[Charity] = Seq(),
 qualifyingBodies: Seq[QualifyingBody]= Seq(),
 married: Boolean,
-registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @getScreenReaderQualifyingText(isComplete: Option[Boolean], moreDetailText: String, valueText: String, noValueText: String) = @{
     isComplete match {
@@ -57,7 +56,7 @@ headingName = deceasedName) {
             @ihtHelpers.custom.generic_overview_item(
                 title = Messages("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title"),
                 name= "partner",
-                id = ExemptionsPartnerID,
+                id = appConfig.ExemptionsPartnerID,
                 value = displayValue(appDetails, AppSectionExemptionsPartnerTotalAssets, isComplete, Some(messages("site.noAssetsLeft"))),
                 valueScreenReader = "",
                 link = if(exemptions.partner.fold(false){
@@ -93,7 +92,7 @@ headingName = deceasedName) {
         @ihtHelpers.custom.generic_overview_item(
             title = Messages("iht.estateReport.exemptions.charities.assetsLeftToCharities.title"),
             name = "charity",
-            id = ExemptionsCharityID,
+            id = appConfig.ExemptionsCharityID,
             value = displayValue(appDetails,
                         AppSectionExemptionsCharityValue,
                         isComplete,
@@ -127,7 +126,7 @@ headingName = deceasedName) {
         @ihtHelpers.custom.generic_overview_item(
             title = Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title"),
             name = "qualifyingBody",
-            id = ExemptionsOtherID,
+            id = appConfig.ExemptionsOtherID,
             value = displayValue(appDetails,
                         AppSectionExemptionsQualifyingBodyValue,
                         isComplete,
@@ -172,7 +171,7 @@ headingName = deceasedName) {
 </section>
 
 <div id="action-button" class="form-group">
-  <a id ="continue-to-estate-overview-button" class="button" href='@CommonHelper.addFragmentIdentifier(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference)), Some(EstateExemptionsID))'>
+  <a id ="continue-to-estate-overview-button" class="button" href='@CommonHelper.addFragmentIdentifier(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference)), Some(appConfig.EstateExemptionsID))'>
       @Messages("iht.estateReport.returnToEstateOverview")
   </a>
 </div>

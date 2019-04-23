@@ -19,9 +19,7 @@ package iht.models.application.assets
 import iht.models.application.basicElements.EstateElement
 import play.api.libs.json.Json
 
-/**
-  * Created by vineet on 03/11/16.
-  */
+
 case class StockAndShare(valueNotListed: Option[BigDecimal],
                          valueListed: Option[BigDecimal],
                          value: Option[BigDecimal],

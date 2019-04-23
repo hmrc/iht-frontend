@@ -23,7 +23,7 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class ApplicationInReviewControllerTest extends ApplicationControllerTest with HtmlSpec {
   val applicationInReviewController = new ApplicationInReviewControllerImpl(
-    mockIhtConnector, mockCachingConnector, mockAuthConnector, mockPartialRetriever
+    mockIhtConnector, mockCachingConnector, mockAuthConnector, mockPartialRetriever, mockAppConfig, mockControllerComponents
   )
 
   "ApplicationInReviewController" must {

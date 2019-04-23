@@ -21,8 +21,8 @@ import iht.controllers.ControllerHelper.Mode
 import iht.controllers.registration.{routes => registrationRoutes}
 import iht.models.RegistrationDetails
 import iht.utils.DeceasedInfoHelper
-import iht.utils.RegistrationKickOutHelper._
 import play.api.data.Form
+import play.api.i18n.Messages
 import play.api.mvc.{AnyContent, Call, Request, Result}
 
 import scala.concurrent.Future
@@ -32,7 +32,7 @@ trait RegistrationBaseController[T] extends RegistrationController {
 
   def cachingConnector: CachingConnector
 
-  def form: Form[T]
+  def form(implicit messages: Messages): Form[T]
 
   def okForPageLoad(form: Form[T], name: Option[String] = None)(implicit request: Request[AnyContent]): Result
 
@@ -48,7 +48,7 @@ trait RegistrationBaseController[T] extends RegistrationController {
 
   def onSubmit = submit(Mode.Standard)
 
-  def fillForm(rd: RegistrationDetails): Form[T]
+  def fillForm(rd: RegistrationDetails)(implicit request: Request[_]): Form[T]
 
   def getKickoutReason: RegistrationDetails => Option[String] = noKickoutCheck
 

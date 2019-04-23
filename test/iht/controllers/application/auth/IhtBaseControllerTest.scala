@@ -17,12 +17,14 @@
 package iht.controllers.auth
 
 import akka.stream.Materializer
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.utils.IhtSection
-import play.api.mvc.{Action, AnyContent}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import play.api.test.Helpers.{redirectLocation, status => playStatus}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -30,8 +32,13 @@ import scala.concurrent.Future
 class IhtBaseControllerTest extends ApplicationControllerTest {
   implicit val materializer: Materializer = app.injector.instanceOf[Materializer]
 
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with IhtBaseController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
+
   class Setup(section: IhtSection.Value, responseContent: String = "default response") {
-    object testController extends IhtBaseController {
+    object testController extends TestController {
       override protected val ihtSection: IhtSection.Value = section
       override val authConnector: AuthConnector = mockAuthConnector
 

@@ -15,12 +15,13 @@
  *@
 
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import iht.views.html._
 @import uk.gov.hmrc.play.views.html.helpers.form
 
 @(deceasedDateOfDeath:Form[iht.models.DeceasedDateOfDeath],
 actionLocation: Call,
-cancelLocation:Option[Call]=None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+cancelLocation:Option[Call]=None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_registration(
     title = "",

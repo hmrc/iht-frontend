@@ -19,9 +19,10 @@
 @import iht.models.RegistrationDetails
 @import uk.gov.hmrc.play.views.html.helpers.form
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 
 @(checkedEverythingQuestionForm: Form[Option[Boolean]],
-registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @defining(
         Messages(

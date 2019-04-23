@@ -16,17 +16,26 @@
 
 package iht.controllers
 
+import iht.config.AppConfig
 import iht.views.ViewTestHelper
 import play.api.http.Status
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{defaultAwaitTimeout, status => playStatus}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 class feedbackSurveyControllerTest extends ViewTestHelper {
 
   implicit val request = FakeRequest()
+  val appConfigBinding: AppConfig = appConfig
+
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with FeedbackSurveyController {
+    override implicit val appConfig: AppConfig = appConfig
+  }
 
   class Setup {
-    val controller: FeedbackSurveyController = new FeedbackSurveyController{}
+    val controller: FeedbackSurveyController = new TestController {
+      override implicit val appConfig: AppConfig = appConfigBinding
+    }
   }
 
   "Feedback Survey controller" must {

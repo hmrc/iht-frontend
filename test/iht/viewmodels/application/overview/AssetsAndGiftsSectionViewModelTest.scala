@@ -23,13 +23,20 @@ import iht.testhelpers.TestHelper._
 import iht.{FakeIhtApp, TestUtils}
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.Messages.Implicits._
-import play.api.i18n.MessagesApi
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
+import play.api.i18n.{Lang, Messages, MessagesApi}
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.test.UnitSpec
 
 class AssetsAndGiftsSectionViewModelTest extends FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
 
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  val mockControllerComponents: MessagesControllerComponents = app.injector.instanceOf[MessagesControllerComponents]
+  implicit val messagesApi: MessagesApi = mockControllerComponents.messagesApi
+  implicit val lang = Lang.defaultLang
+  implicit val messages: Messages = messagesApi.preferred(Seq(lang)).messages
+  implicit val mockAppConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  val appConfig = mockAppConfig
 
   val applicationDetails = CommonBuilder.buildApplicationDetails
 

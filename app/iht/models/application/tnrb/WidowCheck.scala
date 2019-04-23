@@ -17,13 +17,12 @@
 package iht.models.application.tnrb
 
 import org.joda.time.LocalDate
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, OFormat}
+import play.api.libs.json.JodaWrites._
+import play.api.libs.json.JodaReads._
 
-/**
- * Created by yusuf on 15/04/15.
- */
 case class WidowCheck(widowed: Option[Boolean], dateOfPreDeceased: Option[LocalDate])
 
 object WidowCheck {
-  implicit val formats = Json.format[WidowCheck]
+  implicit val formats: OFormat[WidowCheck] = Json.format[WidowCheck]
 }

@@ -19,9 +19,10 @@
 @import iht.views.application.declaration.DeclarationViewHelper
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
 @import uk.gov.hmrc.play.views.html.helpers.form
 
-@(model: DeclarationViewModel)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+@(model: DeclarationViewModel, englishMessages: Messages)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
 
 @iht_main_template_application(title = Messages("iht.estateReport.declaration.title"),
 browserTitle = Some(Messages("iht.estateReport.declaration.title")) ) {
@@ -31,7 +32,7 @@ browserTitle = Some(Messages("iht.estateReport.declaration.title")) ) {
 
         @model.riskMessageFromEdh.map{ riskMessage =>
                 <div class="panel panel-border-wide">
-                    @if(MessagesHelper.englishMessages("iht.application.declaration.risking.money.message", messages) == model.riskMessageFromEdh){
+                    @if(MessagesHelper.englishMessages("iht.application.declaration.risking.money.message", englishMessages) == model.riskMessageFromEdh){
                         <p>@messages("iht.application.declaration.risking.money.message.amended", deceasedName)</p>
                     } else {
                         <p>@riskMessage</p>

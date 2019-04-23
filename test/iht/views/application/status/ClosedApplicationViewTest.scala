@@ -19,7 +19,8 @@ package iht.views.application.status
 import iht.utils.{CommonHelper, formattedProbateReference}
 import iht.views.ExitComponent
 import iht.views.html.application.status.closed_application
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 
 class ClosedApplicationViewTest extends ApplicationStatusViewBehaviour {
 
@@ -31,9 +32,7 @@ class ClosedApplicationViewTest extends ApplicationStatusViewBehaviour {
 
   def browserTitle = messagesApi("page.iht.application.overview.closed.browserTitle")
 
-  def view: String = closed_application(ihtRef, deceasedName, probateDetails)(createFakeRequest(),
-    applicationMessages,
-    formPartialRetriever).toString
+  def view: String = closed_application(ihtRef, deceasedName, probateDetails)(createFakeRequest(), messages, formPartialRetriever, appConfig).toString
 
   override val exitId: String = "return-link"
 

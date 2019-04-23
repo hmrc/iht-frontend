@@ -18,7 +18,8 @@ package iht.views.application.overview
 
 import iht.views.ViewTestHelper
 import iht.views.html.application.overview.overview_sidebar
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import iht.config.AppConfig
 
 class OverviewSidebarViewTest extends ViewTestHelper {
 

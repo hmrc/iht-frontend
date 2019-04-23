@@ -16,15 +16,19 @@
 
 package iht.controllers.application.exemptions.partner
 
+import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
+import iht.controllers.application.declaration.CheckedEverythingQuestionController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions.PartnerExemption
-import iht.testhelpers.MockObjectBuilder._
+
 import iht.testhelpers.TestHelper._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.CommonHelper._
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
@@ -32,7 +36,10 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
  */
 class PartnerValueControllerTest extends ApplicationControllerTest{
 
-
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with PartnerValueController {
+    override val cc: MessagesControllerComponents = mockControllerComponents
+    override implicit val appConfig: AppConfig = mockAppConfig
+  }
 
   def setUpTests(applicationDetails: ApplicationDetails) = {
     createMocksForApplication(mockCachingConnector,
@@ -43,14 +50,14 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
       storeAppDetailsInCache = true)
   }
 
-  def partnerValueController = new PartnerValueController {
+  def partnerValueController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def partnerValueControllerNotAuthorised = new PartnerValueController {
+  def partnerValueControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

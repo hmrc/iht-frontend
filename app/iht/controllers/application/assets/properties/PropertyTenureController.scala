@@ -16,8 +16,8 @@
 
 package iht.controllers.application.assets.properties
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.IhtMetrics
@@ -27,12 +27,11 @@ import iht.models.application.assets.Property
 import iht.utils._
 import javax.inject.Inject
 import play.api.Logger
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Call, Request, Result}
+import play.api.mvc.{Call, MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -41,12 +40,16 @@ class PropertyTenureControllerImpl @Inject()(val metrics: IhtMetrics,
                                              val ihtConnector: IhtConnector,
                                              val cachingConnector: CachingConnector,
                                              val authConnector: AuthConnector,
-                                             val formPartialRetriever: FormPartialRetriever) extends PropertyTenureController
-trait PropertyTenureController extends EstateController {
+                                             val formPartialRetriever: FormPartialRetriever,
+                                             implicit val appConfig: AppConfig,
+val cc: MessagesControllerComponents) extends FrontendController(cc) with PropertyTenureController
+
+trait PropertyTenureController extends EstateController with StringHelper {
 
 
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionProperties)
   lazy val cancelRedirectLocation = routes.PropertiesOverviewController.onPageLoad()
+
   def cancelUrl = iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad()
 
   def editCancelUrl(id: String) = iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onEditPageLoad(id)
@@ -54,8 +57,9 @@ trait PropertyTenureController extends EstateController {
   lazy val submitUrl = iht.controllers.application.assets.properties.routes.PropertyTenureController.onSubmit()
 
   def editSubmitUrl(id: String) = iht.controllers.application.assets.properties.routes.PropertyTenureController.onEditSubmit(id)
+
   def locationAfterSuccessfulSave(id: String) = CommonHelper.addFragmentIdentifier(
-    routes.PropertyDetailsOverviewController.onEditPageLoad(id), Some(AssetsPropertiesTenureID))
+    routes.PropertyDetailsOverviewController.onEditPageLoad(id), Some(appConfig.AssetsPropertiesTenureID))
 
   def ihtConnector: IhtConnector
 
@@ -78,7 +82,7 @@ trait PropertyTenureController extends EstateController {
       withRegistrationDetails { registrationData =>
         val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationData)
         for {
-          applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
+          applicationDetails <- ihtConnector.getApplication(getNino(userNino),
             CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference),
             registrationData.acknowledgmentReference)
         } yield {
@@ -144,7 +148,7 @@ trait PropertyTenureController extends EstateController {
             deceasedName)))
         },
         property => {
-          processSubmit(StringHelper.getNino(userNino), property, propertyId)
+          processSubmit(getNino(userNino), property, propertyId)
         }
       )
     }

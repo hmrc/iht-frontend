@@ -16,23 +16,22 @@
 
 package iht.controllers.application.tnrb
 
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.utils.tnrb.TnrbHelper
-import iht.utils.{ApplicationKickOutHelper, ApplicationKickOutNonSummaryHelper, CommonHelper, IhtFormValidator, StringHelper}
+import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator, StringHelper}
 import javax.inject.Inject
 import play.api.Logger
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Request, Result}
+import play.api.mvc.{MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -40,11 +39,12 @@ import scala.concurrent.Future
 class GiftsWithReservationOfBenefitControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                             val cachingConnector: CachingConnector,
                                                             val authConnector: AuthConnector,
-                                                            val formPartialRetriever: FormPartialRetriever) extends GiftsWithReservationOfBenefitController {
+                                                            val formPartialRetriever: FormPartialRetriever,
+                                                            implicit val appConfig: AppConfig,
+                                                            val cc: MessagesControllerComponents)
+  extends FrontendController(cc) with GiftsWithReservationOfBenefitController
 
-}
-
-trait GiftsWithReservationOfBenefitController extends EstateController {
+trait GiftsWithReservationOfBenefitController extends EstateController with TnrbHelper with StringHelper {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   def cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
@@ -55,7 +55,7 @@ trait GiftsWithReservationOfBenefitController extends EstateController {
           val deceasedName = CommonHelper.getOrException(registrationDetails.deceasedDetails).name
 
           for {
-            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(userNino),
+            applicationDetails <- ihtConnector.getApplication(getNino(userNino),
               CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
               registrationDetails.acknowledgmentReference)
           } yield {
@@ -71,7 +71,7 @@ trait GiftsWithReservationOfBenefitController extends EstateController {
                   filledForm,
                   tnrbModel,
                   deceasedName,
-                  CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbGiftsWithReservationID))
+                  CommonHelper.addFragmentIdentifier(cancelUrl, Some(appConfig.TnrbGiftsWithReservationID))
                 ))
               }
               case _ => InternalServerError("Application details not found")
@@ -87,7 +87,7 @@ trait GiftsWithReservationOfBenefitController extends EstateController {
         withRegistrationDetails { regDetails =>
           val deceasedName = CommonHelper.getOrException(regDetails.deceasedDetails).name
 
-          val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(userNino),
+          val applicationDetailsFuture = ihtConnector.getApplication(getNino(userNino),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
@@ -106,7 +106,7 @@ trait GiftsWithReservationOfBenefitController extends EstateController {
                     tnrbModel, deceasedName, cancelUrl)))
                 },
                 tnrbModel => {
-                  saveApplication(StringHelper.getNino(userNino), tnrbModel, appDetails, regDetails)
+                  saveApplication(getNino(userNino), tnrbModel, appDetails, regDetails)
                 }
               )
             }
@@ -126,7 +126,7 @@ trait GiftsWithReservationOfBenefitController extends EstateController {
       fold(new TnrbEligibiltyModel(None, None, None, isPartnerGiftWithResToOther = tnrbModel.isPartnerGiftWithResToOther, None, None, None,
         None, None, None, None))(_.copy(isPartnerGiftWithResToOther = tnrbModel.isPartnerGiftWithResToOther))))
 
-    val updatedAppDetailsWithKickOutReason = ApplicationKickOutNonSummaryHelper.updateKickout(checks = ApplicationKickOutNonSummaryHelper.checksTnrbEligibility,
+    val updatedAppDetailsWithKickOutReason = appKickoutUpdateKickout(checks = checksTnrbEligibility,
       registrationDetails = regDetails,
       applicationDetails = updatedAppDetails)
 
@@ -139,7 +139,7 @@ trait GiftsWithReservationOfBenefitController extends EstateController {
       } { _ =>
         updatedAppDetailsWithKickOutReason.kickoutReason match {
           case Some(reason) => Redirect(iht.controllers.application.routes.KickoutAppController.onPageLoad())
-          case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(TnrbGiftsWithReservationID))
+          case _ => successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(appConfig.TnrbGiftsWithReservationID))
         }
       }
     }
