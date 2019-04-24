@@ -43,13 +43,12 @@ class DeceasedWidowCheckDateControllerImpl @Inject()(val ihtConnector: IhtConnec
                                                      val authConnector: AuthConnector,
                                                      val formPartialRetriever: FormPartialRetriever,
                                                      implicit val appConfig: AppConfig,
-val cc: MessagesControllerComponents) extends FrontendController(cc) with DeceasedWidowCheckDateController
+                                                     val cc: MessagesControllerComponents) extends FrontendController(cc) with DeceasedWidowCheckDateController
 
 trait DeceasedWidowCheckDateController extends EstateController with TnrbHelper {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
-
       implicit request => {
         withRegistrationDetails { registrationDetails =>
           for {
@@ -78,7 +77,6 @@ trait DeceasedWidowCheckDateController extends EstateController with TnrbHelper 
   }
 
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
-
       implicit request => {
         withRegistrationDetails { regDetails =>
           val applicationDetailsFuture = ihtConnector.getApplication(getNino(userNino),

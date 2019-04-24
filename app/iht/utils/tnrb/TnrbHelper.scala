@@ -34,9 +34,9 @@ case class TnrbHelperFixture(implicit val appConfig: AppConfig) extends TnrbHelp
 trait TnrbHelper {
   implicit val appConfig: AppConfig
 
-  val tnrbOverviewPage = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
-  val deceasedWidowCheckDatePage = iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad()
-  val deceasedWidowCheckQuestionPage = iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad()
+  lazy val tnrbOverviewPage = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
+  lazy val deceasedWidowCheckDatePage = iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad()
+  lazy val deceasedWidowCheckQuestionPage = iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad()
 
   def previousSpouseOrCivilPartner(optionTnrbModel: Option[TnrbEligibiltyModel],
                                    optionWidowCheck: Option[WidowCheck],
