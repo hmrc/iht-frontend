@@ -23,7 +23,7 @@ import iht.controllers.registration.{RegistrationController, routes => registrat
 import iht.forms.registration.DeceasedForms
 import iht.forms.registration.DeceasedForms.aboutDeceasedForm
 import iht.models.{DeceasedDetails, RegistrationDetails}
-import iht.utils.{DeceasedInfoHelper, SessionHelper}
+import iht.utils.{DeceasedInfoHelper, SessionHelper, StringHelper}
 import iht.views.html.registration.{deceased => views}
 import javax.inject.Inject
 import org.joda.time.LocalDate
@@ -46,37 +46,40 @@ class AboutDeceasedControllerImpl @Inject()(val ihtConnector: IhtConnector,
   override def deceasedForms = DeceasedForms
 }
 
-trait AboutDeceasedController extends RegistrationController {
+trait AboutDeceasedController extends RegistrationController with StringHelper {
+  lazy val submitRoute: Call = routes.AboutDeceasedController.onSubmit()
+  lazy val editSubmitRoute: Call = routes.AboutDeceasedController.onEditSubmit()
+
   def cachingConnector: CachingConnector
+
   def deceasedForms: DeceasedForms
 
   override def guardConditions = guardConditionsAboutDeceased
 
   def onPageLoad = pageLoad(routes.AboutDeceasedController.onSubmit())
 
-  def onEditPageLoad = pageLoad(routes.AboutDeceasedController.onEditSubmit(), Mode.Edit, cancelToRegSummary)
-
   def pageLoad(actionCall: Call, mode: Mode.Value = Mode.Standard,
                cancelCall: Option[Call] = None) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
-      implicit request =>
-        withRegistrationDetailsRedirectOnGuardCondition { rd =>
-          val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd)
-          val dateOfDeath = rd.deceasedDateOfDeath.map(_.dateOfDeath).getOrElse(LocalDate.now)
-          val f = rd.deceasedDetails.fold(aboutDeceasedForm())(dd => aboutDeceasedForm(dateOfDeath).fill(dd))
-          val okResult: Result = if (mode == Mode.Standard) {
-            okForPageLoad(f, Some(deceasedName))
-          } else {
-            okForEditPageLoad(f, Some(deceasedName))
-          }
-          val result = okResult.withSession(SessionHelper.ensureSessionHasNino(request.session, userNino))
-          Future.successful(result)
-        }
-  }
+    implicit request =>
+      withRegistrationDetailsRedirectOnGuardCondition { rd =>
+        val assertedNino = getNino(userNino)
 
-  lazy val submitRoute: Call = routes.AboutDeceasedController.onSubmit()
-  lazy val editSubmitRoute: Call = routes.AboutDeceasedController.onEditSubmit()
-  def onwardRoute(rd: RegistrationDetails) = routes.DeceasedAddressQuestionController.onPageLoad()
-  def onwardRouteInEditMode(rd: RegistrationDetails): Call = registrationRoutes.RegistrationSummaryController.onPageLoad()
+        val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd)
+        val dateOfDeath = rd.deceasedDateOfDeath.map(_.dateOfDeath).getOrElse(LocalDate.now)
+        val deceasedDetailsForm = rd.deceasedDetails.fold(
+          aboutDeceasedForm(loginNino = assertedNino)
+        )(dd =>
+          aboutDeceasedForm(dateOfDeath, loginNino = assertedNino).fill(dd)
+        )
+        val okResult: Result = if (mode == Mode.Standard) {
+          okForPageLoad(deceasedDetailsForm, Some(deceasedName))
+        } else {
+          okForEditPageLoad(deceasedDetailsForm, Some(deceasedName))
+        }
+        val result = okResult.withSession(SessionHelper.ensureSessionHasNino(request.session, userNino))
+        Future.successful(result)
+      }
+  }
 
   def okForPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.about_deceased(form, submitRoute))
@@ -84,43 +87,50 @@ trait AboutDeceasedController extends RegistrationController {
   def okForEditPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.about_deceased(form, editSubmitRoute, cancelToRegSummary))
 
+  def onEditPageLoad = pageLoad(routes.AboutDeceasedController.onEditSubmit(), Mode.Edit, cancelToRegSummary)
+
   def onSubmit: Action[AnyContent] = submit(routes.AboutDeceasedController.onSubmit())
+
   def onEditSubmit: Action[AnyContent] = {
     submit(routes.AboutDeceasedController.onEditSubmit(),
       Mode.Edit, cancelToRegSummary)
   }
 
   def submit(onFailureActionCall: Call, mode: Mode.Value = Mode.Standard,
-             cancelCall: Option[Call] = None) = authorisedForIht {
-      implicit request =>
-        withRegistrationDetailsRedirectOnGuardCondition { (rd: RegistrationDetails) =>
+             cancelCall: Option[Call] = None) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
+    implicit request =>
+      withRegistrationDetailsRedirectOnGuardCondition { rd: RegistrationDetails =>
+        val assertedNino = getNino(userNino)
+        val formType = deceasedForms.aboutDeceasedForm(oRegDetails = Some(rd), loginNino = assertedNino)
 
-          val formType = deceasedForms.aboutDeceasedForm(oRegDetails = Some(rd))
+        val boundForm = formType.bindFromRequest()
 
-          val boundForm = formType.bindFromRequest()
+        boundForm.fold(formWithErrors => {
+          if (mode == Mode.Standard) {
+            Future.successful(badRequestForSubmit(formWithErrors))
+          } else {
+            Future.successful(badRequestForEditSubmit(formWithErrors))
+          }
+        },
+          dd => {
+            val optDDCopy = rd.deceasedDetails.map(_ copy(
+              firstName = dd.firstName,
+              lastName = dd.lastName,
+              dateOfBirth = dd.dateOfBirth,
+              nino = dd.nino,
+              maritalStatus = dd.maritalStatus))
 
-          boundForm.fold(formWithErrors => {
-            if (mode == Mode.Standard) {
-              Future.successful(badRequestForSubmit(formWithErrors))
-            } else {
-              Future.successful(badRequestForEditSubmit(formWithErrors))
-            }
-          },
-            dd => {
-              val optDDCopy = rd.deceasedDetails.map(_ copy(
-                firstName = dd.firstName,
-                lastName = dd.lastName,
-                dateOfBirth = dd.dateOfBirth,
-                nino = dd.nino,
-                maritalStatus = dd.maritalStatus))
+            val copyOfRD: RegistrationDetails = rd copy (deceasedDetails = optDDCopy)
+            val route: Call = if (mode == Mode.Standard) onwardRoute(copyOfRD) else onwardRouteInEditMode(copyOfRD)
 
-              val copyOfRD: RegistrationDetails = rd copy (deceasedDetails = optDDCopy)
-              val route: Call = if (mode == Mode.Standard) onwardRoute(copyOfRD) else onwardRouteInEditMode(copyOfRD)
-
-              storeRegistrationDetails(copyOfRD, route, "Storage of registration details fails during about deceased submission")
-            })
-        }
+            storeRegistrationDetails(copyOfRD, route, "Storage of registration details fails during about deceased submission")
+          })
+      }
   }
+
+  def onwardRoute(rd: RegistrationDetails) = routes.DeceasedAddressQuestionController.onPageLoad()
+
+  def onwardRouteInEditMode(rd: RegistrationDetails): Call = registrationRoutes.RegistrationSummaryController.onPageLoad()
 
   def badRequestForSubmit(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
     BadRequest(views.about_deceased(form, submitRoute))

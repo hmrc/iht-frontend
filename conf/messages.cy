@@ -8,7 +8,9 @@ site.progressiveDisclosure.application.linkText = adroddiad ynghylch yr ystâd
 site.progressiveDisclosure.application.help.end = er mwyn gwybod beth i’w wneud o ran diwygiadau.
 
 site.progressiveDisclosure.application.contact = Os oes angen rhagor o help arnoch, ffoniwch Wasanaeth Cwsmeriaid Cymraeg CThEM ar 0300 123 1072.
-
+iht.ninoExample.deceased = Er enghraifft, QQ 12 34 56 C. Os nad oes gennych y rhif Yswiriant Gwladol, ffoniwch Wasanaeth Cwsmeriaid Cymraeg CThEM ar 0300 200 1900 a byddant yn ei bostio atoch.
+error.nino.deceased.sameaslogin = Mae hwn yr un peth â’r rhif Yswiriant Gwladol a ddefnyddiwyd gennych i fewngofnodi i Borth y Llywodraeth. Mae’n rhaid i chi ddefnyddio’ch manylion mewngofnodi ar gyfer Porth y Llywodraeth er mwyn cofrestru’r ystâd fel ysgutor.
+error.nino.coexec.sameaslogin = Mae hwn yr un peth â’r rhif Yswiriant Gwladol a ddefnyddiwyd gennych i fewngofnodi i Borth y Llywodraeth. Rydych eisoes wedi’ch cofnodi fel ysgutor, ac nid oes angen i chi roi’ch manylion eich hun eto.
 page.iht.application.assets.insurance.policies.overview.other.question4.yes.screenReader.link.value=Do, rhoddwyd y polisïau mewn ymddiriedolaeth dros 7 mlynedd cyn y bu {0} farw. Newid yr ateb hwn.
 page.iht.application.assets.property.detailsOverview.address.screenReader.link.noValue=Rhowch fanylion ar gyfer y cyfeiriad
 error.stockAndShare.currencyValue.length.summary=nodwch werth ar gyfer stoc a chyfranddaliadau gan ddefnyddio llai nag 11 rhif

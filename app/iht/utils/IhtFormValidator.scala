@@ -525,36 +525,37 @@ trait IhtFormValidator extends FormValidator {
   def nino(implicit appConfig: AppConfig): FieldMapping[String] =
     nino("error.nino.give", "error.nino.giveUsing8Or9Characters", "error.nino.giveUsingOnlyLettersAndNumbers")
 
+  private def normalizeNino(s: String): String = s.replaceAll("\\s", "").toUpperCase
   private def ninoForCoExecutorFormatter(blankMessageKey: String, lengthMessageKey: String,
                                          formatMessageKey: String, coExecutorIDKey: String,
-                                         oRegDetails: Option[RegistrationDetails])
-                                        (implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext, appConfig: AppConfig) = new Formatter[String] {
+                                         oRegDetails: Option[RegistrationDetails], loginNino: String)
+                                        (implicit appConfig: AppConfig) = new Formatter[String] {
 
-    def normalize(s: String) = s.replaceAll("\\s", "").toUpperCase
+    def ninoIsNotLogin(nino: String): Boolean = {
+      normalizeNino(nino) != loginNino
+    }
 
     def ninoIsUnique(nino: String, excludingCoExecutorID: Option[String], oRegDetails: Option[RegistrationDetails]): Boolean = {
-      val normalizedNino = normalize(nino)
-      oRegDetails.forall {
-        rd => ninoAlreadyInRegDetails(normalizedNino, excludingCoExecutorID, rd)
-      }
+      oRegDetails forall (ninoAlreadyInRegDetails(normalizeNino(nino), excludingCoExecutorID, _))
     }
 
     def ninoAlreadyInRegDetails(nino: String, excludingCoExecutorID: Option[String], rd: RegistrationDetails): Boolean = {
-      rd.applicantDetails.flatMap(_.nino).fold(true)(normalize(_) != nino) &&
-        rd.deceasedDetails.flatMap(_.nino).fold(true)(normalize(_) != nino) &&
-        !rd.coExecutors.filter(_.id != excludingCoExecutorID).exists(x => normalize(x.nino) == nino)
+      rd.applicantDetails.flatMap(_.nino).fold(true)(normalizeNino(_) != nino) &&
+        rd.deceasedDetails.flatMap(_.nino).fold(true)(normalizeNino(_) != nino) &&
+        !rd.coExecutors.filter(_.id != excludingCoExecutorID).exists(x => normalizeNino(x.nino) == nino)
     }
 
-    override def bind(key: String, data: Map[String, String]) = {
+    override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], String] = {
       val value = data.get(key).fold("")(identity)
 
       ninoFormatter(blankMessageKey, lengthMessageKey, formatMessageKey).bind(key, data) match {
         case Right(_) =>
           val coExecutorID: Option[String] = data.get(coExecutorIDKey)
-          if (ninoIsUnique(value, coExecutorID, oRegDetails)) {
-            Right(value)
-          } else {
-            Left(Seq(FormError(key, "error.nino.alreadyGiven")))
+
+          (ninoIsNotLogin(value), ninoIsUnique(value, coExecutorID, oRegDetails)) match {
+            case (false, _) => Left(Seq(FormError(key, "error.nino.coexec.sameaslogin")))
+            case (_, false) => Left(Seq(FormError(key, "error.nino.alreadyGiven")))
+            case _          => Right(value)
           }
         case Left(errors) => Left(errors)
       }
@@ -566,17 +567,15 @@ trait IhtFormValidator extends FormValidator {
   }
 
   private def ninoForDeceasedFormatter(blankMessageKey: String, lengthMessageKey: String,
-                                       formatMessageKey: String, oRegDetails: Option[RegistrationDetails])(
-                                        implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext, appConfig: AppConfig) = new Formatter[String] {
-
-    def normalize(s: String) = s.replaceAll("\\s", "").toUpperCase
+                                       formatMessageKey: String, oRegDetails: Option[RegistrationDetails])
+                                      (implicit appConfig: AppConfig) = new Formatter[String] {
 
     def ninoIsUnique(nino: String): Boolean = {
-      val normalizedNino = normalize(nino)
+      val normalizedNino = normalizeNino(nino)
       oRegDetails.forall {
         rd =>
-          rd.applicantDetails.flatMap(_.nino).fold(true)(normalize(_) != normalizedNino) &&
-          !rd.coExecutors.exists(coExecutor => normalize(coExecutor.nino).contains(normalizedNino))
+          rd.applicantDetails.flatMap(_.nino).fold(true)(normalizeNino(_) != normalizedNino) &&
+          !rd.coExecutors.exists(coExecutor => normalizeNino(coExecutor.nino).contains(normalizedNino))
       }
     }
 
@@ -601,13 +600,13 @@ trait IhtFormValidator extends FormValidator {
 
 
   def ninoForCoExecutor(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String,
-                        coExecutorIDKey: String, oRegDetails: Option[RegistrationDetails])(
-                        implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext, appConfig: AppConfig): FieldMapping[String] =
-    Forms.of(ninoForCoExecutorFormatter(blankMessageKey, lengthMessageKey, formatMessageKey, coExecutorIDKey, oRegDetails))
+                        coExecutorIDKey: String, oRegDetails: Option[RegistrationDetails], loginNino: String)
+                       (implicit appConfig: AppConfig): FieldMapping[String] =
+    Forms.of(ninoForCoExecutorFormatter(blankMessageKey, lengthMessageKey, formatMessageKey, coExecutorIDKey, oRegDetails, loginNino))
 
   def ninoForDeceased(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String,
-                      oRegDetails: Option[RegistrationDetails])(
-                      implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext, appConfig: AppConfig): FieldMapping[String] =
+                      oRegDetails: Option[RegistrationDetails])
+                     (implicit appConfig: AppConfig): FieldMapping[String] =
     Forms.of(ninoForDeceasedFormatter(blankMessageKey, lengthMessageKey, formatMessageKey, oRegDetails))
 
 }

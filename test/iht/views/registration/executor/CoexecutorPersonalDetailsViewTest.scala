@@ -37,10 +37,12 @@ class CoexecutorPersonalDetailsViewTest extends YesNoQuestionViewBehaviour[CoExe
 
   override def browserTitle = messagesApi("page.iht.registration.co-executor-personal-details.browserTitle")
 
+  val fakedFormNino = "SR000009C"
+
   override def form: Form[CoExecutor] = {
     implicit val request = createFakeRequest()
     implicit val hc = new HeaderCarrier()
-    coExecutorPersonalDetailsForm()
+    coExecutorPersonalDetailsForm(loginNino = fakedFormNino)
   }
 
   override def formToView: Form[CoExecutor] => Appendable =
@@ -52,7 +54,7 @@ class CoexecutorPersonalDetailsViewTest extends YesNoQuestionViewBehaviour[CoExe
   def editModeViewAsDocument(): Document = {
     implicit val request = createFakeRequest()
     implicit val hc = new HeaderCarrier()
-    val view = coexecutor_personal_details(coExecutorPersonalDetailsForm(), Mode.Edit,
+    val view = coexecutor_personal_details(coExecutorPersonalDetailsForm(loginNino = fakedFormNino), Mode.Edit,
                                                 CommonBuilder.DefaultCall1, Some(CommonBuilder.DefaultCall2)).toString
     asDocument(view)
   }

@@ -61,7 +61,7 @@ trait CoExecutorForms extends IhtFormValidator {
   lazy val coExecutorAddressUkForm = Form(addressMappingCoexecUk)
   def coExecutorAddressAbroadForm(implicit lang: Lang, messages: Messages) = Form(addressMappingCoexecInternational(lang, messages))
 
-  def coExecutorPersonalDetailsForm(oRegDetails: Option[RegistrationDetails] = None)
+  def coExecutorPersonalDetailsForm(oRegDetails: Option[RegistrationDetails] = None, loginNino: String)
                                    (implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = Form(
     mapping(
       "id" -> optional(text),
@@ -87,8 +87,13 @@ trait CoExecutorForms extends IhtFormValidator {
         "error.dateOfBirth.giveCorrectMonthYear"
       ),
       "nino" -> ninoForCoExecutor(
-        "error.nino.give","error.nino.giveUsing8Or9Characters","error.nino.giveUsingOnlyLettersAndNumbers",
-        "id", oRegDetails),
+        "error.nino.give",
+        "error.nino.giveUsing8Or9Characters",
+        "error.nino.giveUsingOnlyLettersAndNumbers",
+        "id",
+        oRegDetails,
+        loginNino
+      ).verifying("error.nino.coexec.sameaslogin", _ != loginNino),
       "phoneNo" -> mandatoryPhoneNumber(
         "error.phoneNumber.give",
         "error.phoneNumber.giveUsing27CharactersOrLess",
@@ -107,7 +112,7 @@ trait CoExecutorForms extends IhtFormValidator {
     )
   )
 
-  def coExecutorPersonalDetailsEditForm(oRegDetails: Option[RegistrationDetails] = None)
+  def coExecutorPersonalDetailsEditForm(oRegDetails: Option[RegistrationDetails] = None, loginNino: String)
                                        (implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = Form(
     mapping(
       "id" -> optional(text),
@@ -133,8 +138,13 @@ trait CoExecutorForms extends IhtFormValidator {
         "error.dateOfBirth.giveCorrectMonthYear"
       ),
       "nino" -> ninoForCoExecutor(
-        "error.nino.give","error.nino.giveUsing8Or9Characters","error.nino.giveUsingOnlyLettersAndNumbers",
-        "id", oRegDetails),
+        "error.nino.give",
+        "error.nino.giveUsing8Or9Characters",
+        "error.nino.giveUsingOnlyLettersAndNumbers",
+        "id",
+        oRegDetails,
+        loginNino
+      ).verifying("error.nino.coexec.sameaslogin", _ != loginNino),
       "phoneNo" -> mandatoryPhoneNumber(
         "error.phoneNumber.give",
         "error.phoneNumber.giveUsing27CharactersOrLess",

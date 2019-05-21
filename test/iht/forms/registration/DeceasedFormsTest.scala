@@ -228,8 +228,8 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
   def deceasedFormsGen(customFormatter: Option[FieldMapping[String]] = None): DeceasedForms = {
     new DeceasedForms {
       override def ninoForDeceased(blankMessageKey: String, lengthMessageKey: String,
-                                   formatMessageKey: String, oRegDetails: Option[RegistrationDetails])(
-                                    implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext, appConfig: AppConfig): FieldMapping[String] = {
+                                   formatMessageKey: String, oRegDetails: Option[RegistrationDetails])
+                                  (implicit appConfig: AppConfig): FieldMapping[String] = {
         customFormatter getOrElse {
           val formatter = new Formatter[String] {
             override val format: Option[(String, Seq[Any])] = None
@@ -273,7 +273,7 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
         implicit val request = createFakeRequest()
         implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
         implicit val msg: Messages = messages
-        formsWithIhtFormValidatorMockedToSucceed(nino).aboutDeceasedForm().bind(map)
+        formsWithIhtFormValidatorMockedToSucceed(nino).aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino).bind(map)
       }
 
       bindFormEdit(completeAboutDeceased).get mustBe
@@ -292,70 +292,70 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
       val data = completeAboutDeceased + ("firstName" -> "")
       val expectedErrors = error("firstName", "error.firstName.give")
 
-      checkForError(deceasedFormsGen().aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when the first name is not supplied" in {
       val data = completeAboutDeceased - "firstName"
       val expectedErrors = error("firstName", "error.required")
 
-      checkForError(deceasedFormsGen().aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when the first name is too long" in {
       val data = completeAboutDeceased + ("firstName" -> "A value that's longer than the 40 characters allowed in this field")
       val expectedErrors = error("firstName", "error.firstName.giveUsingXCharsOrLess")
 
-      checkForError(deceasedFormsGen().aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when the last name is blank" in {
       val data = completeAboutDeceased + ("lastName" -> "")
       val expectedErrors = error("lastName", "error.lastName.give")
 
-      checkForError(deceasedFormsGen().aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when the last name is not supplied" in {
       val data = completeAboutDeceased - "lastName"
       val expectedErrors = error("lastName", "error.required")
 
-      checkForError(deceasedFormsGen().aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when the last name is too long" in {
       val data = completeAboutDeceased + ("lastName" -> "A value that's longer than the 40 characters allowed in this field")
       val expectedErrors = error("lastName", "error.lastName.giveUsingXCharsOrLess")
 
-      checkForError(deceasedFormsGen().aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when a blank marital status is supplied" in {
       val data = completeAboutDeceased + ("maritalStatus" -> "")
       val expectedErrors = error("maritalStatus", "error.invalid")
 
-      checkForError(deceasedFormsGen().aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when an invalid marital status is supplied" in {
       val data = completeAboutDeceased + ("maritalStatus" -> "INVALID")
       val expectedErrors = error("maritalStatus", "error.invalid")
 
-      checkForError(deceasedFormsGen().aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when no marital status is supplied" in {
       val data = completeAboutDeceased - "maritalStatus"
       val expectedErrors = error("maritalStatus", "error.deceasedMaritalStatus.select")
 
-      checkForError(deceasedFormsGen().aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
     }
 
     "give multiple errors when several fields are invalid" in {
       val data = completeAboutDeceased + ("firstName" -> "", "lastName" -> "")
       val expectedErrors = error("firstName", "error.firstName.give") ++
         error("lastName", "error.lastName.give")
-      val form = deceasedFormsGen().aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec, mockAppConfig)
+      val form = deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, createFakeRequest(true), hc, ec, mockAppConfig)
 
       checkForError(form, data, expectedErrors)
     }
@@ -364,7 +364,7 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
       val data = completeAboutDeceased + ("dateOfBirth.day" -> "32", "dateOfBirth.month" -> "13", "dateOfBirth.year" -> "12", "dateOfBirth.day" -> "99")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveFull")
 
-      checkForError(deceasedFormsGen().aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
     }
 
     "indicate validation error when nino for deceased validation fails" in {
@@ -373,7 +373,7 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
         implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
         implicit val msg = messages
         super.checkForError(formsWithIhtFormValidatorMockedToFail
-          .aboutDeceasedForm(), data, expectedErrors)
+          .aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino), data, expectedErrors)
       }
       val data = completeAboutDeceased
       val expectedErrors = error("nino", "error.nino.alreadyGiven")
@@ -625,7 +625,7 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
   }
 
   "dateOfBirth" must {
-    behave like dateOfBirth[DeceasedDetails](completeAboutDeceased, deceasedFormsGen().aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec, mockAppConfig))
+    behave like dateOfBirth[DeceasedDetails](completeAboutDeceased, deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, createFakeRequest(true), hc, ec, mockAppConfig))
   }
 
   //endregion

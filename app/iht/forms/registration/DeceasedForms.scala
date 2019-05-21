@@ -53,7 +53,7 @@ trait DeceasedForms extends IhtFormValidator {
     )
   )
 
-  def aboutDeceasedForm(dateOfDeath: LocalDate = LocalDate.now(), oRegDetails: Option[RegistrationDetails] = None)
+  def aboutDeceasedForm(dateOfDeath: LocalDate = LocalDate.now(), oRegDetails: Option[RegistrationDetails] = None, loginNino: String)
                        (implicit messages: Messages, request: Request[_], hc: HeaderCarrier, ec: ExecutionContext, appConfig: AppConfig) = Form(
     mapping(
       "firstName" -> ihtNonEmptyText("error.firstName.give")
@@ -63,7 +63,11 @@ trait DeceasedForms extends IhtFormValidator {
         .verifying("error.lastName.giveUsingXCharsOrLess", f => f.length <= appConfig.validationMaxLengthLastName)
         .verifying("error.lastName.giveUsingOnlyValidChars", f => nameAndAddressRegex.findFirstIn(f).fold(false)(_=>true)),
       "nino" -> ninoForDeceased(
-        "error.nino.give","error.nino.giveUsing8Or9Characters","error.nino.giveUsingOnlyLettersAndNumbers", oRegDetails),
+        "error.nino.give",
+        "error.nino.giveUsing8Or9Characters",
+        "error.nino.giveUsingOnlyLettersAndNumbers",
+        oRegDetails
+      ).verifying("error.nino.deceased.sameaslogin", _ != loginNino),
       "dateOfBirth" -> DateMapping.dateOfBirth.verifying("error.deceasedDateOfBirth.giveBeforeDateOfDeath", x => isDobBeforeDod(dateOfDeath, x)),
       "maritalStatus" -> of(radioOptionString("error.deceasedMaritalStatus.select", FieldMappings.maritalStatusMap(messages, appConfig))))
     (

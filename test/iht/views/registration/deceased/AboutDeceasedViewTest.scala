@@ -36,7 +36,7 @@ class AboutDeceasedViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
 
   implicit val hc = mock[HeaderCarrier]
 
-  override def form:Form[DeceasedDetails] = aboutDeceasedForm(new LocalDate())
+  override def form:Form[DeceasedDetails] = aboutDeceasedForm(new LocalDate(), loginNino = CommonBuilder.DefaultNino)
   override def formToView:Form[DeceasedDetails] => Appendable = form => about_deceased(form, CommonBuilder.DefaultCall1)
 
 
@@ -95,7 +95,7 @@ class AboutDeceasedViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
     }
 
     "have hint text for nino" in {
-      labelHelpTextShouldBe(doc, "nino-container", "iht.ninoExample")
+      labelHelpTextShouldBe(doc, "nino-container", "iht.ninoExample.deceased")
     }
 
     "have a nino field" in {
