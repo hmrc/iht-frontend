@@ -83,8 +83,8 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp with CoExecutor
     new CoExecutorForms {
       override implicit lazy val appConfig: AppConfig = mockAppConfig
       override def ninoForCoExecutor(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String,
-                                     coExecutorIDKey:String, oRegDetails: Option[RegistrationDetails])(
-                                      implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext, appConfig: AppConfig): FieldMapping[String] = {
+                                     coExecutorIDKey:String, oRegDetails: Option[RegistrationDetails], loginNino: String)
+                                    (implicit appConfig: AppConfig): FieldMapping[String] = {
         val formatter = new Formatter[String] {
           override val format: Option[(String, Seq[Any])] = None
 
@@ -132,30 +132,32 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp with CoExecutor
 
   //region Co Executor Details tests
 
+  val fakedFormNino = "SR000009C"
+
   def bindForm(map: Map[String, String], oRegDetails: Option[RegistrationDetails] = None) = {
     implicit val request = createFakeRequest()
     implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
-    coExecutorForms.coExecutorPersonalDetailsForm(oRegDetails).bind(map)
+    coExecutorForms.coExecutorPersonalDetailsForm(oRegDetails, loginNino = fakedFormNino).bind(map)
   }
 
   def bindFormEdit(map: Map[String, String], oRegDetails: Option[RegistrationDetails] = None) = {
     implicit val request = createFakeRequest()
     implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
-    coExecutorForms.coExecutorPersonalDetailsEditForm(oRegDetails).bind(map)
+    coExecutorForms.coExecutorPersonalDetailsEditForm(oRegDetails, loginNino = fakedFormNino).bind(map)
   }
 
   def checkForError(data: Map[String, String], expectedErrors: Seq[FormError],
                     oRegDetails: Option[RegistrationDetails] = None): Unit = {
     implicit val request = createFakeRequest()
     implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
-    checkForError(coExecutorForms.coExecutorPersonalDetailsForm(oRegDetails), data, expectedErrors)
+    checkForError(coExecutorForms.coExecutorPersonalDetailsForm(oRegDetails, loginNino = fakedFormNino), data, expectedErrors)
   }
 
   def checkForErrorEdit(data: Map[String, String], expectedErrors: Seq[FormError],
                         oRegDetails: Option[RegistrationDetails] = None): Unit = {
     implicit val request = createFakeRequest()
     implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
-    checkForError(coExecutorForms.coExecutorPersonalDetailsEditForm(oRegDetails), data, expectedErrors)
+    checkForError(coExecutorForms.coExecutorPersonalDetailsEditForm(oRegDetails, loginNino = fakedFormNino), data, expectedErrors)
   }
 
   def coExecutorFormsWithIhtFormValidatorMockedToFail: CoExecutorForms = {
@@ -166,8 +168,8 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp with CoExecutor
     val coExecutorForms: CoExecutorForms = new CoExecutorForms {
       override implicit lazy val appConfig: AppConfig = mockAppConfig
       override def ninoForCoExecutor(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String,
-                                     coExecutorIDKey: String, oRegDetails: Option[RegistrationDetails])
-                                    (implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext, appConfig: AppConfig): FieldMapping[String] = {
+                                     coExecutorIDKey: String, oRegDetails: Option[RegistrationDetails], loginNino: String)
+                                    (implicit appConfig: AppConfig): FieldMapping[String] = {
         Forms.of(formatter)
       }
     }
@@ -182,8 +184,8 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp with CoExecutor
     val coExecutorForms: CoExecutorForms = new CoExecutorForms {
       override implicit lazy val appConfig: AppConfig = mockAppConfig
       override def ninoForCoExecutor(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String,
-                                     coExecutorIDKey: String, oRegDetails: Option[RegistrationDetails])
-                                    (implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext, appConfig: AppConfig): FieldMapping[String] = {
+                                     coExecutorIDKey: String, oRegDetails: Option[RegistrationDetails], loginNino: String)
+                                    (implicit appConfig: AppConfig): FieldMapping[String] = {
         Forms.of(formatter)
       }
     }
@@ -198,7 +200,7 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp with CoExecutor
       def bindForm(map: Map[String, String]) = {
         implicit val request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
         implicit val hc = HeaderCarrier(sessionId = Some(SessionId("1")))
-        coExecutorFormsWithIhtFormValidatorMockedToSucceed(nino).coExecutorPersonalDetailsForm().bind(map)
+        coExecutorFormsWithIhtFormValidatorMockedToSucceed(nino).coExecutorPersonalDetailsForm(loginNino = fakedFormNino).bind(map)
       }
 
       bindForm(completePersonalDetails).get mustBe
@@ -259,7 +261,7 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp with CoExecutor
         implicit val request = createFakeRequest()
         implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
         super.checkForError(coExecutorFormsWithIhtFormValidatorMockedToFail
-          .coExecutorPersonalDetailsForm(), data, expectedErrors)
+          .coExecutorPersonalDetailsForm(loginNino = fakedFormNino), data, expectedErrors)
       }
       val data = completePersonalDetails
       val expectedErrors = error("nino", "error.nino.alreadyGiven")
@@ -275,7 +277,7 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp with CoExecutor
       implicit val request = createFakeRequest()
       implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
       val result: Form[CoExecutor] = coExecutorFormsWithIhtFormValidatorMockedToSucceed("")
-        .coExecutorPersonalDetailsForm().bind(completePersonalDetails)
+        .coExecutorPersonalDetailsForm(loginNino = fakedFormNino).bind(completePersonalDetails)
       result.hasErrors mustBe false
     }
 
@@ -436,7 +438,7 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp with CoExecutor
       def bindFormEdit(map: Map[String, String]) = {
         implicit val request = createFakeRequest()
         implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
-        coExecutorFormsWithIhtFormValidatorMockedToSucceed(nino).coExecutorPersonalDetailsEditForm().bind(map)
+        coExecutorFormsWithIhtFormValidatorMockedToSucceed(nino).coExecutorPersonalDetailsEditForm(loginNino = fakedFormNino).bind(map)
       }
 
       bindFormEdit(completePersonalDetailsEditMode).get mustBe

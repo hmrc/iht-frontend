@@ -22,6 +22,7 @@ import iht.controllers.ControllerHelper.Mode
 import iht.controllers.registration.RegistrationController
 import iht.forms.registration.CoExecutorForms
 import iht.models.{CoExecutor, RegistrationDetails}
+import iht.utils.StringHelper
 import iht.views.html.registration.{executor => views}
 import javax.inject.Inject
 import play.api.Logger
@@ -31,6 +32,7 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 
 import scala.concurrent.Future
 
@@ -39,9 +41,10 @@ class CoExecutorPersonalDetailsControllerImpl @Inject()(val ihtConnector: IhtCon
                                                         val authConnector: AuthConnector,
                                                         val formPartialRetriever: FormPartialRetriever,
                                                         implicit val appConfig: AppConfig,
-                                                        val cc: MessagesControllerComponents) extends FrontendController(cc) with CoExecutorPersonalDetailsController
+                                                        val cc: MessagesControllerComponents) extends FrontendController(cc)
+  with CoExecutorPersonalDetailsController
 
-trait CoExecutorPersonalDetailsController extends RegistrationController with CoExecutorForms {
+trait CoExecutorPersonalDetailsController extends RegistrationController with CoExecutorForms with StringHelper {
   def cachingConnector: CachingConnector
 
   override def guardConditions = guardConditionsCoExecutorPersonalDetails
@@ -51,22 +54,23 @@ trait CoExecutorPersonalDetailsController extends RegistrationController with Co
     Mode.Edit, cancelToRegSummary)
 
   def pageLoad(id: Option[String], actionCall: Call, mode: Mode.Value = Mode.Standard,
-                  cancelCall: Option[Call] = None) = authorisedForIht {
+                  cancelCall: Option[Call] = None) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
       withRegistrationDetailsRedirectOnGuardCondition { rd: RegistrationDetails =>
+        val assertedNino = getNino(userNino)
 
         val form: Form[CoExecutor] = id match {
           case None =>
             if (rd.coExecutors.length >= appConfig.maxCoExecutors) {
               throw new Exception("Attempting to add too many co-executors")
             } else {
-              coExecutorPersonalDetailsForm()
+              coExecutorPersonalDetailsForm(loginNino = assertedNino)
             }
           case Some(identifier) =>
             val coExecutor = rd.coExecutors.find(_.id == id)
             coExecutor match {
               case None => throw new Exception(s"Could not find co-executor with id: $identifier")
-              case Some(coExec) => coExecutorPersonalDetailsForm().fill(coExec)
+              case Some(coExec) => coExecutorPersonalDetailsForm(loginNino = assertedNino).fill(coExec)
             }
         }
 
@@ -107,15 +111,16 @@ trait CoExecutorPersonalDetailsController extends RegistrationController with Co
     Mode.Edit, cancelToRegSummary)
 
   def submit(id: Option[String], onFailureActionCall: Call, mode: Mode.Value = Mode.Standard,
-             cancelCall: Option[Call] = None) = authorisedForIht {
+             cancelCall: Option[Call] = None) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
       withRegistrationDetailsRedirectOnGuardCondition { rd: RegistrationDetails =>
+        val assertedNino = getNino(userNino)
 
         val formType =
           if (mode == Mode.Standard) {
-            coExecutorPersonalDetailsForm(Some(rd))
+            coExecutorPersonalDetailsForm(Some(rd), loginNino = assertedNino)
           } else {
-            coExecutorPersonalDetailsEditForm(Some(rd))
+            coExecutorPersonalDetailsEditForm(Some(rd), assertedNino)
           }
 
         val boundForm = formType.bindFromRequest()
