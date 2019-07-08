@@ -35,6 +35,14 @@ class IHTErrorHandler @Inject()(val configuration: Configuration,
     iht.views.html.iht_error_template()
   }
 
+  override def notFoundTemplate(implicit request: Request[_]): Html = {
+    iht.views.html.iht_not_found_template(
+      Messages("global.error.pageNotFound404.title"),
+      Messages("global.error.pageNotFound404.heading"),
+      Messages("global.error.pageNotFound404.message")
+    )
+  }
+
   private[config] def desInternalServerErrorTemplate(implicit request: Request[_]): Html = {
     request.uri match {
       case s: String if s.contains("/registration/") => iht.views.html.registration.registration_generic_error()
