@@ -7,7 +7,7 @@ A digital service enabling the general public to report details of an estate to 
 
 ## Requirements
 
-This is a scala based application using the [Play framework](https://playframework.com/) and html and javascript. You will therefore need to have a JRE installed and setup.
+This is a scala based application using the [Play framework](https://playframework.com/) and html and javascript. You will therefore need to have a JRE installed and setup.vvv
 
 ## Authentication
 
@@ -26,4 +26,3 @@ You will also need the [IHT Microservice](https://github.com/hmrc/iht) to run on
 ### License
 
 This code is open source software licensed under the [Apache 2.0 License]("http://www.apache.org/licenses/LICENSE-2.0.html").
-
