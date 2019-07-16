@@ -7,7 +7,7 @@ A digital service enabling the general public to report details of an estate to 
 
 ## Requirements
 
-This is a scala based application using the [Play framework](https://playframework.com/) and html and javascript. You will therefore need to have a JRE installed and setup.vvv
+This is a scala based application using the [Play framework](https://playframework.com/) and html and javascript. You will therefore need to have a JRE installed and setup.
 
 ## Authentication
 
