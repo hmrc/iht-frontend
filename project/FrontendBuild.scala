@@ -23,7 +23,7 @@ private object AppDependencies {
     "uk.gov.hmrc" %% "url-builder" % "3.1.0",
     "uk.gov.hmrc" %% "http-caching-client" % httpCachingClientVersion,
     "uk.gov.hmrc" %% "bootstrap-play-26" % "0.41.0",
-    "uk.gov.hmrc" %% "auth-client" % "2.22.0-play-26",
+    "uk.gov.hmrc" %% "auth-client" % "2.23.0-play-26",
     "uk.gov.hmrc" %% "play-partials" % "6.9.0-play-26",
     "uk.gov.hmrc" %% "domain" % "5.6.0-play-26",
     "uk.gov.hmrc" %% "govuk-template" % "5.36.0-play-26",
