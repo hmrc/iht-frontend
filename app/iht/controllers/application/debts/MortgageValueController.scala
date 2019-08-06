@@ -186,7 +186,6 @@ trait MortgageValueController extends ApplicationController with StringHelper {
         mortgageList.updated(mortgageList.indexOf(matchedMortgage), updatedProperty)
       }
       case None => {
-        Logger.error("No Mortgage exists for the property")
         mortgageList :+ mortgage
       }
     }
