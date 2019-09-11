@@ -82,6 +82,7 @@ trait IhtProperties extends IhtPropertyRetriever {
   lazy val linkContactHMRC: String = getProperty("linkContactHMRC")
   lazy val linkLandRegistry: String = getProperty("linkLandRegistry")
   lazy val linkPayEarly: String = getProperty("linkPayEarly")
+  lazy val frontendBaseUrl: String = getProperty("frontend-base-url")
   lazy val charityLink: String = getProperty("charityLink")
   lazy val correctiveAccountsLink: String = getProperty("correctiveAccountLink")
   lazy val giftsStartDay: Int = getPropertyAsInt("giftsStartDay")
