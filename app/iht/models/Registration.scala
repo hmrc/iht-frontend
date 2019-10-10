@@ -17,7 +17,7 @@
 package iht.models
 
 import iht.config.AppConfig
-import iht.utils.{StringHelperFixture, ApplicationStatus => AppStatus}
+import iht.utils.{CommonHelper, StringHelperFixture, ApplicationStatus => AppStatus}
 import org.joda.time.LocalDate
 import play.api.Logger
 import play.api.libs.json.Json
@@ -44,10 +44,6 @@ case class ApplicantDetails(firstName: Option[String] = None,
 
   val name = firstName.getOrElse("") + " " + lastName.getOrElse("")
 
-  def ninoFormatted(implicit appConfig: AppConfig) = nino match {
-    case Some(n) => StringHelperFixture().ninoFormat(n)
-    case None => ""
-  }
 }
 
 object ApplicantDetails {
@@ -72,9 +68,8 @@ case class DeceasedDetails(firstName: Option[String] = None,
     nino.isDefined && ukAddress.isDefined &&
     dateOfBirth.isDefined && domicile.isDefined && maritalStatus.isDefined
 
-  def ninoFormatted(implicit appConfig: AppConfig) = nino match {
-    case Some(n) => StringHelperFixture().ninoFormat(n)
-    case None => ""
+  def ninoFormatted(implicit appConfig: AppConfig) = {
+    if (nino.isDefined) Some(StringHelperFixture().ninoFormat(CommonHelper.getOrException(nino))) else None
   }
 }
 
@@ -106,8 +101,8 @@ case class CoExecutor(id: Option[String] = None,
 
   val name = firstName + " " + lastName
 
-  def updatePersonalDetails(coExec: CoExecutor): CoExecutor =
-    CoExecutor(id, coExec.firstName, middleName, coExec.lastName, coExec.dateOfBirth, coExec.nino,
+  def updatePersonalDetails(coExec: CoExecutor)(implicit appConfig: AppConfig): CoExecutor =
+    CoExecutor(id, coExec.firstName, middleName, coExec.lastName, coExec.dateOfBirth, coExec.ninoFormatted,
       utr, ukAddress, ContactDetails(coExec.contactDetails.phoneNo, contactDetails.email), role, isAddressInUk)
 
   def ninoFormatted(implicit appConfig: AppConfig) = StringHelperFixture().ninoFormat(nino)

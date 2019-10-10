@@ -48,6 +48,18 @@ class RegistrationTest extends FakeIhtApp with MockitoSugar with StringHelper {
     }
    }
 
+  "ApplicantDetails" must {
+    "return a proper name when a first and second name are present" in {
+      val ad = CommonBuilder.buildApplicantDetails
+      ad.name mustBe ad.firstName.get + " " + ad.lastName.get
+    }
+
+    "return an empty string if first and second names are not present." in {
+      val ad = CommonBuilder.buildApplicantDetails copy(firstName = None, lastName = None)
+      ad.name mustBe " "
+    }
+  }
+
   "Deceased details" must {
     "respond correctly when isCompleted is called for completed object" in {
       val dd = CommonBuilder.buildDeceasedDetails
@@ -58,12 +70,19 @@ class RegistrationTest extends FakeIhtApp with MockitoSugar with StringHelper {
       dd.isCompleted mustBe false
     }
     "respond correctly when ninoFormatted is called" in {
-      val dd = CommonBuilder.buildDeceasedDetails
-      dd.ninoFormatted mustBe ninoFormat(dd.nino.getOrElse(""))
+      val dd = CommonBuilder.buildDeceasedDetails copy(nino = Some("a a 1 2 34 5 6c"))
+      dd.ninoFormatted mustBe Some("AA123456C")
     }
     "respond correctly when ninoFormatted is called with nino of None" in {
       val dd = CommonBuilder.buildDeceasedDetails copy(nino = None)
-      dd.ninoFormatted mustBe ""
+      dd.ninoFormatted mustBe None
+    }
+  }
+
+  "CoExecutor" must {
+    "respond correctly when ninoFormatted is called" in {
+      val coExec = CommonBuilder.buildCoExecutor copy(nino = "a a 1 2 34 5 6c")
+      coExec.ninoFormatted mustBe "AA123456C"
     }
   }
 }

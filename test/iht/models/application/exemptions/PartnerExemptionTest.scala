@@ -16,26 +16,30 @@
 
 package iht.models.application.exemptions
 
+import iht.FakeIhtApp
+import iht.config.AppConfig
 import iht.testhelpers.CommonBuilder
 import org.scalatest.mock.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 
-class PartnerExemptionTest extends UnitSpec with MockitoSugar{
+class PartnerExemptionTest extends FakeIhtApp with MockitoSugar {
+
+  implicit val mockAppConfig = app.injector.instanceOf[AppConfig]
 
   "isComplete" must {
 
     "return Some(true) when PartnerExemption is complete" in {
       val partnerExemption = CommonBuilder.buildPartnerExemption
 
-      partnerExemption.isComplete shouldBe Some(true)
+      partnerExemption.isComplete mustBe  Some(true)
     }
 
     "return Some(true) when AssetForDeceasedPartner is selected as No" in {
       val partnerExemption = CommonBuilder.buildPartnerExemption.copy(
         isAssetForDeceasedPartner = Some(false))
 
-      partnerExemption.isComplete shouldBe Some(true)
+      partnerExemption.isComplete mustBe  Some(true)
     }
 
     "return Some(false) when AssetForDeceasedPartner is selected as Yes and all other questions have not been answered" in {
@@ -49,17 +53,17 @@ class PartnerExemptionTest extends UnitSpec with MockitoSugar{
         totalAssets = None
       )
 
-      partnerExemption.isComplete shouldBe Some(false)
+      partnerExemption.isComplete mustBe  Some(false)
     }
 
     "return None when all the fields are None" in {
       val partnerExemption = CommonBuilder.buildPartnerExemption.copy(None, None, None ,None, None, None, None)
-      partnerExemption.isComplete shouldBe empty
+      partnerExemption.isComplete mustBe  empty
     }
 
     "return None when AssetForDeceasedPartner is None" in {
       val partnerExemption = CommonBuilder.buildPartnerExemption.copy(isAssetForDeceasedPartner = None)
-      partnerExemption.isComplete shouldBe empty
+      partnerExemption.isComplete mustBe  empty
     }
   }
 
@@ -72,14 +76,32 @@ class PartnerExemptionTest extends UnitSpec with MockitoSugar{
       val partnerExemption = CommonBuilder.buildPartnerExemption.copy(
         firstName = Some(firstName), lastName = Some(lastName))
 
-      partnerExemption.name shouldBe Some(firstName+" "+lastName)
+      partnerExemption.name mustBe  Some(firstName+" "+lastName)
     }
 
     "return None when first and last name are not entered" in {
       val partnerExemption = CommonBuilder.buildPartnerExemption.copy(
         firstName = None, lastName = None)
 
-      partnerExemption.name shouldBe empty
+      partnerExemption.name mustBe  empty
+    }
+  }
+
+  "ninoFormatted" must {
+
+    "return a properly formatted Nino as an option" in {
+      val nino = "aa 12 34 56 b"
+
+      val partnerExemption = CommonBuilder.buildPartnerExemption.copy(
+        nino = Some(nino))
+
+      partnerExemption.ninoFormatted mustBe  Some("AA123456B")
+    }
+
+    "return None when nino is not entered" in {
+      val partnerExemption = CommonBuilder.buildPartnerExemption.copy(nino = None)
+
+      partnerExemption.ninoFormatted mustBe  None
     }
   }
 }

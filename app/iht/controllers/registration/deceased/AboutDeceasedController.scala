@@ -117,7 +117,7 @@ trait AboutDeceasedController extends RegistrationController with StringHelper {
               firstName = dd.firstName,
               lastName = dd.lastName,
               dateOfBirth = dd.dateOfBirth,
-              nino = dd.nino,
+              nino = dd.ninoFormatted,
               maritalStatus = dd.maritalStatus))
 
             val copyOfRD: RegistrationDetails = rd copy (deceasedDetails = optDDCopy)
