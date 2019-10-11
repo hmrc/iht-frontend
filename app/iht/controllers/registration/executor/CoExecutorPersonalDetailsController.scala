@@ -84,7 +84,7 @@ trait CoExecutorPersonalDetailsController extends RegistrationController with Co
     }
     else {
       val newId = iht.models.nextId(rd.coExecutors)
-      val coExec = coExecutor.copy(id = Some(newId))
+      val coExec = coExecutor.copy(id = Some(newId), nino = coExecutor.ninoFormatted)
       val route = getRoute(coExecutor.isAddressInUk.getOrElse(true), newId, mode)
       val newRd = rd.copy(coExecutors = rd.coExecutors :+ coExec)
       storeRegistrationDetails(newRd,

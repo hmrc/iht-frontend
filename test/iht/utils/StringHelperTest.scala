@@ -20,9 +20,13 @@ import iht.FakeIhtApp
 import iht.config.AppConfig
 import iht.testhelpers.CommonBuilder
 import org.scalatest.mock.MockitoSugar
+import play.api.i18n.MessagesApi
 
 class StringHelperTest extends FakeIhtApp with MockitoSugar with StringHelper {
   implicit val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  implicit val request = createFakeRequest()
+  val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit val messages = messagesApi.preferred(request)
 
   "split" must {
     "return portions and delimiters" in {
@@ -116,6 +120,24 @@ class StringHelperTest extends FakeIhtApp with MockitoSugar with StringHelper {
     result mustBe nino
   }
 
+  "ninoFormat should return correctly formatted nino when supplied a nino whose length > 9" in {
+    val nino = "a a 12 34 56c"
+    val result = ninoFormat(nino)
+    result mustBe "AA123456C"
+  }
+
+  "ninoFormat should return correctly formatted nino when supplied a nino whose length == 9" in {
+    val nino = "aa123456c"
+    val result = ninoFormat(nino)
+    result mustBe "AA123456C"
+  }
+
+  "ninoFormat should return the nino when supplied a nino whose length < 9" in {
+    val nino = "aa12345c"
+    val result = ninoFormat(nino)
+    result mustBe "aa12345c"
+  }
+
   "generateAcknowledgeReference should not contain a dash" in {
     val result = generateAcknowledgeReference
     result mustNot contain("-")
@@ -129,6 +151,49 @@ class StringHelperTest extends FakeIhtApp with MockitoSugar with StringHelper {
   "booleanToYesNo should return No as a String" in {
     val result = booleanToYesNo(boolean = false)
     result must be("No")
+  }
+
+  "yesNoFormat should return Yes as a string when provided Some(true)" in {
+    val result = yesNoFormat(Some(true))
+    result mustBe "Yes"
+  }
+
+  "yesNoFormat should return No as a string when provided Some(false)" in {
+    val result = yesNoFormat(Some(false))
+    result mustBe "No"
+  }
+
+  "yesNoFormat should return an empty String when provided None" in {
+    val result = yesNoFormat(None)
+    result mustBe ""
+  }
+
+  "getNino should return the nino as a String when provided with an optional nino" in {
+    val result = getNino(Some("AA123456C"))
+    result mustBe "AA123456C"
+  }
+
+  "getNino should throw a run time exception when provided with a None" in {
+
+    try {
+      getNino(None)
+      fail("Exception not thrown")
+    } catch {
+      case ex: RuntimeException =>
+        ex.getMessage mustBe "User account could not be retrieved!"
+    }
+  }
+
+  "isNameLong should return true if a name length is > 15" in {
+    val name = "SeamusO'Shaughnnessy"
+    val result = isNameLong(name)
+    result mustBe true
+  }
+
+  "isNameLong should return false if any substring of the name length is < 15" in {
+    val name = "Seamus O'Shaughnnessy"
+    val result = isNameLong(name)
+    result mustBe false
   }
 
   /*
@@ -160,4 +225,17 @@ class StringHelperTest extends FakeIhtApp with MockitoSugar with StringHelper {
     val formattedStatus = formatStatus("lower CASES")
     assert(formattedStatus == "Lower cases")
   }
+
+  "addApostrophe should add an 's if name does not end with s" in {
+    val name = "Tim"
+    val result = addApostrophe(name)
+    result mustBe "Tim's"
+  }
+
+  "addApostrophe should add an ' if name ends with s" in {
+    val name = "James"
+    val result = addApostrophe(name)
+    result mustBe "James'"
+  }
+
 }

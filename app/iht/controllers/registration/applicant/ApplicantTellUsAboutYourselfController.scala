@@ -121,7 +121,7 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
                 if (mode == Mode.Standard) {
                   rd.applicantDetails.getOrElse(new ApplicantDetails(role = Some(appConfig.roleLeadExecutor))) copy(firstName = person.firstName,
                     lastName = person.lastName, dateOfBirth = person.dateOfBirthLocalDate,
-                    nino = Some(nino.nino)) copy(phoneNo = ad.phoneNo, doesLiveInUK = ad.doesLiveInUK)
+                    nino = Some(ninoFormat(nino.nino))) copy(phoneNo = ad.phoneNo, doesLiveInUK = ad.doesLiveInUK)
                 } else {
                   rd.applicantDetails.getOrElse(new ApplicantDetails(role = Some(appConfig.roleLeadExecutor))) copy (phoneNo = ad.phoneNo)
                 }

@@ -47,10 +47,10 @@ trait StringHelper {
     if (s.length >= 9) {
       val str = s.replace(" ", "")
       (str.substring(StartOfPrefix, EndOfPrefix)
-        + " " + str.substring(FirstNumberStart, FirstNumberEnd)
-        + " " + str.substring(SecondNumberStart, SecondNumberEnd)
-        + " " + str.substring(ThirdNumberStart, ThirdNumberEnd)
-        + " " + str.substring(SuffixCharacter)).toUpperCase
+        + str.substring(FirstNumberStart, FirstNumberEnd)
+        + str.substring(SecondNumberStart, SecondNumberEnd)
+        + str.substring(ThirdNumberStart, ThirdNumberEnd)
+        + str.substring(SuffixCharacter)).toUpperCase
     } else {
       s
     }

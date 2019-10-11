@@ -73,7 +73,7 @@ trait PartnerNinoController extends EstateController {
               lastName = existingLastName,
               dateOfBirth = existingDateOfBirth,
               totalAssets = existingTotalAssets,
-              nino = partnerExemption.nino) ))
+              nino = partnerExemption.ninoFormatted) ))
 
             case None => throw new RuntimeException("Partner Exemption does not exist")
           }

@@ -228,8 +228,9 @@ class IhtConnectorImpl @Inject()(val http: DefaultHttpClient,
 
   override def submitApplication(ihtAppReference: String, nino: String, applicationDetails: ApplicationDetails)
                                 (implicit headerCarrier: HeaderCarrier, request: Request[_]): Future[Option[String]] = {
+    val formattedNino = trimAndUpperCaseNino(nino)
     Logger.info("Submitting application")
-    http.POST(s"$serviceUrl/iht/$nino/$ihtAppReference/application/submit", applicationDetails, ihtHeaders).map(
+    http.POST(s"$serviceUrl/iht/$formattedNino/$ihtAppReference/application/submit", applicationDetails, ihtHeaders).map(
       response => response.status match {
         case OK =>
           Logger.info("Response received from Right for application submit")

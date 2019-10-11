@@ -11,10 +11,10 @@ private object AppDependencies {
   import play.sbt.PlayImport._
   import play.core.PlayVersion
 
-  private val httpCachingClientVersion = "8.4.0-play-26"
+  private val httpCachingClientVersion = "9.0.0-play-26"
   private val jsonSchemaValidatorVersion = "2.2.6"
   private val jsonVersion = "20180813"
-  private val wireMockVersion = "2.24.0"
+  private val wireMockVersion = "2.25.0"
 
   private val typesafe = "com.typesafe.play"
 
@@ -22,12 +22,12 @@ private object AppDependencies {
     ws, cache,
     "uk.gov.hmrc" %% "url-builder" % "3.1.0",
     "uk.gov.hmrc" %% "http-caching-client" % httpCachingClientVersion,
-    "uk.gov.hmrc" %% "bootstrap-play-26" % "0.42.0",
-    "uk.gov.hmrc" %% "auth-client" % "2.26.0-play-26",
+    "uk.gov.hmrc" %% "bootstrap-play-26" % "1.1.0",
+    "uk.gov.hmrc" %% "auth-client" % "2.30.0-play-26",
     "uk.gov.hmrc" %% "play-partials" % "6.9.0-play-26",
     "uk.gov.hmrc" %% "domain" % "5.6.0-play-26",
-    "uk.gov.hmrc" %% "govuk-template" % "5.36.0-play-26",
-    "uk.gov.hmrc" %% "play-ui" % "7.40.0-play-26",
+    "uk.gov.hmrc" %% "govuk-template" % "5.43.0-play-26",
+    "uk.gov.hmrc" %% "play-ui" % "8.2.0-play-26",
     "uk.gov.hmrc" %% "play-language" % "3.4.0",
     typesafe %% "play-json" % "2.6.13",
     typesafe %% "play-json-joda" % "2.6.13",
@@ -51,7 +51,7 @@ private object AppDependencies {
         "org.pegdown" % "pegdown" % "1.6.0" % scope,
         "org.jsoup" % "jsoup" % "1.12.1" % scope,
         "com.typesafe.play" %% "play-test" % PlayVersion.current % scope,
-        "org.mockito" % "mockito-core" % "3.0.0" % scope,
+        "org.mockito" % "mockito-core" % "3.1.0" % scope,
         "com.github.fge" % "json-schema-validator" % jsonSchemaValidatorVersion % scope,
         "org.json" % "json" % jsonVersion % scope
       )
@@ -73,7 +73,7 @@ private object AppDependencies {
         "org.pegdown" % "pegdown" % "1.6.0" % scope,
         "org.jsoup" % "jsoup" % "1.12.1" % scope,
         "com.typesafe.play" %% "play-test" % PlayVersion.current % scope,
-        "org.mockito" % "mockito-core" % "3.0.0" % scope,
+        "org.mockito" % "mockito-core" % "3.1.0" % scope,
         "com.github.fge" % "json-schema-validator" % jsonSchemaValidatorVersion % scope,
         "org.json" % "json" % jsonVersion % scope,
         "com.github.tomakehurst" %  "wiremock" % wireMockVersion % scope,

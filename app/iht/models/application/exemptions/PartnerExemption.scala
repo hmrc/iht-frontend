@@ -16,7 +16,8 @@
 
 package iht.models.application.exemptions
 
-import iht.utils.CommonHelper
+import iht.config.AppConfig
+import iht.utils.{CommonHelper, StringHelperFixture}
 import org.joda.time.LocalDate
 import play.api.libs.json.{Json, OFormat}
 import play.api.libs.json.JodaWrites._
@@ -37,6 +38,9 @@ case class PartnerExemption(
       None
     }
 
+  def ninoFormatted(implicit appConfig: AppConfig) = {
+    if (nino.isDefined) Some(StringHelperFixture().ninoFormat(CommonHelper.getOrException(nino))) else None
+  }
   def isComplete: Option[Boolean] =
     isAssetForDeceasedPartner match {
       case Some(true) => isPartnerHomeInUK.fold(Some(false))(x => Some(x && firstName.isDefined &&
