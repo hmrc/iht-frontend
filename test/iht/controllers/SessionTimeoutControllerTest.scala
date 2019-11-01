@@ -55,5 +55,10 @@ class SessionTimeoutControllerTest extends ApplicationControllerTest {
       val result = controller.onApplicationPageLoad()(request)
       playStatus(result) mustBe OK
     }
+
+    "keep alive method is working" in {
+      val result = controller.onSaveAndExitPageLoad(request)
+      playStatus(result) mustBe OK
+    }
   }
 }

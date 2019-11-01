@@ -22,6 +22,7 @@ import iht.controllers.ControllerHelper
 import iht.controllers.application.{ApplicationControllerTest, KickoutAppController}
 import iht.forms.ApplicationForms._
 import iht.metrics.IhtMetrics
+import iht.models.{CoExecutor, ContactDetails}
 import iht.models.application.assets._
 import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.models.application.exemptions.{AllExemptions, PartnerExemption}
@@ -29,6 +30,7 @@ import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.models.enums.StatsSource
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.ApplicationStatus
+import org.joda.time.LocalDate
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito.when
 import play.api.http.Status.OK
@@ -74,10 +76,18 @@ class DeclarationControllerTest extends ApplicationControllerTest {
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  def mockForApplicationStatus(requiredStatus: String) = {
+  def mockForApplicationStatus(requiredStatus: String, coExecutorsEnabled: Boolean = false) = {
+
+    val coExecutorsFromLookup = if (coExecutorsEnabled) {
+      Seq(CoExecutor(None, "firstName", None, "lastName", LocalDate.now(), "nino", None, None, ContactDetails("phoneNo"), None, None))
+    } else {
+      Seq.empty[CoExecutor]
+    }
+
     val regDetails = CommonBuilder.buildRegistrationDetails copy(
-      ihtReference=Some(ihtReferenceNo),
-      status = requiredStatus
+      ihtReference = Some(ihtReferenceNo),
+      status = requiredStatus,
+      coExecutors = coExecutorsFromLookup
     )
 
     createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(regDetails)))
@@ -470,4 +480,21 @@ class DeclarationControllerTest extends ApplicationControllerTest {
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
       declarationController.onPageLoad(createFakeRequest()))
   }
+
+  "on submit make sure error handling code works" in {
+    createMockToGetSingleValueFromCache(mockCachingConnector, same("declarationType"), Some("valueLessThanNilRateBand"))
+    createMockToGetSingleValueFromCache(mockCachingConnector, same("isMultipleExecutor"), Some("false"))
+    createMockToGetApplicationDetails(mockIhtConnector)
+    createMockToSaveApplicationDetails(mockIhtConnector)
+    createMockToSubmitApplication(mockIhtConnector)
+    createMockToGetProbateDetails(mockIhtConnector)
+    mockForApplicationStatus(ApplicationStatus.InReview, true)
+
+    when(mockIhtConnector.getRealtimeRiskingMessage(any(), any())(any())).thenReturn(Future.successful(Some("result")))
+
+    val result = declarationController.onSubmit()(createFakeRequest())
+
+    status(result) mustBe BAD_REQUEST
+  }
+
 }

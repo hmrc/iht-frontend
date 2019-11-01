@@ -46,9 +46,13 @@ class SessionManagementControllerTest extends ApplicationControllerTest {
 
   "iht main controller" must {
     "sign out correctly" in {
-
       val result = ihtMainController.signOut()(request)
       status(result) mustBe OK
+    }
+
+    "keep alive method is working" in {
+      val result = ihtMainController.keepAlive(createFakeRequest(isAuthorised = false))
+      status(result) mustBe SEE_OTHER
     }
   }
 }
