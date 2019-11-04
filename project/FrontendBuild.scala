@@ -14,7 +14,7 @@ private object AppDependencies {
   private val httpCachingClientVersion = "9.0.0-play-26"
   private val jsonSchemaValidatorVersion = "2.2.6"
   private val jsonVersion = "20180813"
-  private val wireMockVersion = "2.25.0"
+  private val wireMockVersion = "2.25.1"
 
   private val typesafe = "com.typesafe.play"
 
