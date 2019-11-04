@@ -77,4 +77,7 @@ trait AppConfig extends IhtProperties {
   // If you want to the default visibility for Welsh language toggle then you need to add this key in the respective env
   // Default visibility - off in PROD and on in every other env
   lazy val isWelshEnabled: Boolean = Try(servicesConfig.getBoolean("welsh.enabled")).getOrElse(runningEnvironment != "PROD")
+
+  // Google Tag Manager integration.
+  lazy val googleTagManagerId: String = readFromConfig(s"google-tag-manager.id")
 }

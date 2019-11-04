@@ -156,6 +156,11 @@
 
     @insideHeader = {
     @standard.header_nav(headerTitle, None, Some(navLinks))
+    @if(appConfig.googleTagManagerId != "N/A") {
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=@appConfig.googleTagManagerId" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    }
 }
 
     @mainContentIht = {
@@ -218,10 +223,22 @@
     )
 }
 
+    @headScripts = {
+        @if(appConfig.googleTagManagerId != "N/A") {
+            <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','@appConfig.googleTagManagerId');
+            </script>
+        }
+
+}
+
 @views.html.layouts.govuk_template(
     title = if(browserTitle.isDefined) { browserTitle.map(_ + " " + Messages("site.title.govuk")) } else Some(title),
     bodyClasses = None)(
-    head = layouts.head(linkElem = Some(linkElement), headScripts = None),
+    head = layouts.head(linkElem = Some(linkElement), headScripts = Some(headScripts)),
     bodyEnd = bodyEnd,
     insideHeader = insideHeader,
     afterHeader = HtmlFormat.empty,
