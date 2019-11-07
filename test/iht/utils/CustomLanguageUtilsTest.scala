@@ -57,7 +57,7 @@ class CustomLanguageUtilsTest extends ViewTestHelper {
 
   "CustomLanguageUtils.Dates#formatEasyReadingTimestamp" must {
     "convert an optional LocalDate object to a date string (h:mmaa, EEEE d MMMM yyyy)" in {
-      val epochDateTime = epoch.toDateTime(LocalTime.MIDNIGHT)
+      val epochDateTime = DateTime.parse("1970-01-01T00:00")
 
       Dates.formatEasyReadingTimestamp(Some(epochDateTime), "not-valid") mustBe "12:00am, Thursday 1 January 1970"
     }
@@ -78,10 +78,8 @@ class CustomLanguageUtilsTest extends ViewTestHelper {
 
   "CustomLanguageUtils.Dates#formatDays" must {
     "convert an int to a string appended by 'days'" in {
-      var numberOfDays = 3
-      Dates.formatDays(numberOfDays) mustBe s"$numberOfDays days"
-      numberOfDays = 1
-      Dates.formatDays(numberOfDays) mustBe s"$numberOfDays day"
+      Dates.formatDays(3) mustBe "3 days"
+      Dates.formatDays(1) mustBe "1 day"
 
     }
   }
