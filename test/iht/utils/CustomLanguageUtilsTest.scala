@@ -16,7 +16,7 @@
 
 package iht.utils
 
-import org.joda.time.{DateTime, LocalDate, LocalTime}
+import org.joda.time.{DateTime, DateTimeZone, LocalDate, LocalTime}
 import java.util.Date
 
 import iht.FakeIhtApp
@@ -57,8 +57,7 @@ class CustomLanguageUtilsTest extends ViewTestHelper {
 
   "CustomLanguageUtils.Dates#formatEasyReadingTimestamp" must {
     "convert an optional LocalDate object to a date string (h:mmaa, EEEE d MMMM yyyy)" in {
-      val epochDateTime = DateTime.parse("1970-01-01T00:00")
-
+      val epochDateTime = DateTime.parse("1970-01-01T00:00").withZone(DateTimeZone.UTC)
       Dates.formatEasyReadingTimestamp(Some(epochDateTime), "not-valid") mustBe "12:00am, Thursday 1 January 1970"
     }
   }
