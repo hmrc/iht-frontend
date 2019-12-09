@@ -22,7 +22,7 @@ import iht.connector.CachingConnector
 import iht.models.RegistrationDetails
 import iht.testhelpers.{CommonBuilder, NinoBuilder}
 import iht.utils.IhtFormValidator._
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, FormError}
 import uk.gov.hmrc.http.HeaderCarrier

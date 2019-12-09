@@ -19,7 +19,7 @@ package iht.models.application.debts
 import iht.FakeIhtApp
 import iht.config.AppConfig
 import iht.testhelpers.{AssetsWithAllSectionsSetToNoBuilder, CommonBuilder, TestHelper}
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import uk.gov.hmrc.play.test.UnitSpec
 
 class AllLiabilitiesTest extends UnitSpec with MockitoSugar {

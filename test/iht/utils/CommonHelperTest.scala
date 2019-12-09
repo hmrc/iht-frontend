@@ -22,7 +22,7 @@ import iht.models.{DeceasedDetails, RegistrationDetails}
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.CommonBuilder._
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.test.FakeRequest
 import uk.gov.hmrc.play.test.UnitSpec

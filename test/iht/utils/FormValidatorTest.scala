@@ -23,7 +23,7 @@ import iht.forms.FormTestHelper
 import iht.testhelpers.{CommonBuilder, NinoBuilder, TestHelper}
 import iht.utils.IhtFormValidator._
 import org.joda.time.LocalDate
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.data.{FieldMapping, Form, FormError}
 import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.test.UnitSpec

@@ -22,7 +22,7 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.TestHelper._
 import iht.{FakeIhtApp, TestUtils}
 import org.scalatest.BeforeAndAfter
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import iht.config.AppConfig
 import play.api.i18n.{Lang, Messages, MessagesApi}

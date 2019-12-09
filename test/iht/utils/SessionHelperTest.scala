@@ -20,7 +20,7 @@ import iht.FakeIhtApp
 import iht.config.AppConfig
 import iht.constants.Constants
 import iht.testhelpers._
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.Session
 import play.api.test.FakeRequest
 

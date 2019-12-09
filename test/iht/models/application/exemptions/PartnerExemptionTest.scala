@@ -19,7 +19,7 @@ package iht.models.application.exemptions
 import iht.FakeIhtApp
 import iht.config.AppConfig
 import iht.testhelpers.CommonBuilder
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 

@@ -22,7 +22,7 @@ import iht.resources.{IhtReturn, RegistrationDetailsReturnBuilder}
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.IHTReturnTestHelper._
 import org.joda.time.LocalDate
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 
 import scala.xml.XML
 

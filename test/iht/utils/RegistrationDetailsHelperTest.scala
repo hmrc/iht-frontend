@@ -22,7 +22,7 @@ import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions.BasicExemptionElement
 import iht.testhelpers._
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.FakeRequest
 
 import scala.collection.immutable.ListMap

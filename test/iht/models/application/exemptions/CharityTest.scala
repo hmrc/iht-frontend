@@ -18,7 +18,7 @@ package iht.models.application.exemptions
 
 import iht.FakeIhtApp
 import iht.testhelpers.CommonBuilder
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.{Lang, Messages, MessagesApi}
 
 class CharityTest extends FakeIhtApp with MockitoSugar {

@@ -23,7 +23,7 @@ import iht.testhelpers.{CommonBuilder, MockObjectBuilder}
 import iht.{FakeIhtApp, TestUtils}
 import org.mockito.ArgumentMatchers.same
 import org.scalatest.BeforeAndAfterEach
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.Call
 import play.api.test.Helpers.{await, defaultAwaitTimeout}
 import play.api.test.{FakeHeaders, FakeRequest}

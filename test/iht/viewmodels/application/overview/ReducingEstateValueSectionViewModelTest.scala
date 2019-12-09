@@ -22,7 +22,7 @@ import iht.models.application.exemptions._
 import iht.testhelpers.CommonBuilder
 import iht.{FakeIhtApp, TestUtils}
 import org.scalatest.BeforeAndAfter
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import iht.config.AppConfig

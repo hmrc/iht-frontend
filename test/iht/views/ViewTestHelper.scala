@@ -25,7 +25,7 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.{Document, Element}
 import org.jsoup.safety.Whitelist
 import org.scalatest.{BeforeAndAfter, BeforeAndAfterEach}
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.partials.FormPartialRetriever

@@ -18,7 +18,7 @@ package iht.models.enums
 
 import iht.FakeIhtApp
 import iht.models.enums.IdentityVerificationResult.IdentityVerificationResult
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import uk.gov.hmrc.play.test.UnitSpec
 import play.api.libs.json._
 

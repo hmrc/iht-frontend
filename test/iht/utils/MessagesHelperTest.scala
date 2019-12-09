@@ -20,7 +20,7 @@ import iht.FakeIhtApp
 import iht.views.helpers.MessagesHelper
 import org.mockito.Mockito
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.{I18nSupport, Lang, Messages, MessagesApi}
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.FakeRequest

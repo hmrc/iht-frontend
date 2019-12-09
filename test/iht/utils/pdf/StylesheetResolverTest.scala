@@ -18,7 +18,7 @@ package iht.utils.pdf
 
 import iht.FakeIhtApp
 import javax.xml.transform.stream.StreamSource
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.Environment
 
 /**

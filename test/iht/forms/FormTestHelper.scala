@@ -20,7 +20,7 @@ import iht.config.AppConfig
 import iht.models.UkAddress
 import iht.testhelpers.CommonBuilder
 import iht.{FakeIhtApp, TestUtils}
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.data.{Form, FormError}
 import play.api.i18n.MessagesApi
 import play.api.libs.json.JsValue

@@ -19,7 +19,7 @@ package iht.utils
 import iht.FakeIhtApp
 import iht.config.AppConfig
 import iht.testhelpers.CommonBuilder
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.MessagesApi
 
 class StringHelperTest extends FakeIhtApp with MockitoSugar with StringHelper {
