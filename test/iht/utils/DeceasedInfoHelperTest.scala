@@ -21,7 +21,7 @@ import iht.config.AppConfig
 import iht.models.DeceasedDateOfDeath
 import iht.testhelpers._
 import org.joda.time.LocalDate
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.{I18nSupport, Lang, MessagesApi}
 import play.api.mvc.MessagesControllerComponents
 

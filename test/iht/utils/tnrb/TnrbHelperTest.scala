@@ -23,7 +23,7 @@ import iht.controllers.application.tnrb.routes
 import iht.testhelpers.TestHelper._
 import iht.testhelpers.{ContentChecker, _}
 import org.joda.time.LocalDate
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._

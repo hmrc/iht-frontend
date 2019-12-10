@@ -51,7 +51,7 @@ private object AppDependencies {
         "org.pegdown" % "pegdown" % "1.6.0" % scope,
         "org.jsoup" % "jsoup" % "1.12.1" % scope,
         "com.typesafe.play" %% "play-test" % PlayVersion.current % scope,
-        "org.mockito" % "mockito-core" % "3.1.0" % scope,
+        "org.mockito" % "mockito-core" % "3.2.0" % scope,
         "com.github.fge" % "json-schema-validator" % jsonSchemaValidatorVersion % scope,
         "org.json" % "json" % jsonVersion % scope
       )
@@ -73,7 +73,7 @@ private object AppDependencies {
         "org.pegdown" % "pegdown" % "1.6.0" % scope,
         "org.jsoup" % "jsoup" % "1.12.1" % scope,
         "com.typesafe.play" %% "play-test" % PlayVersion.current % scope,
-        "org.mockito" % "mockito-core" % "3.1.0" % scope,
+        "org.mockito" % "mockito-core" % "3.2.0" % scope,
         "com.github.fge" % "json-schema-validator" % jsonSchemaValidatorVersion % scope,
         "org.json" % "json" % jsonVersion % scope,
         "com.github.tomakehurst" %  "wiremock" % wireMockVersion % scope,

@@ -20,7 +20,7 @@ import java.net.URI
 
 import iht.FakeIhtApp
 import org.apache.xmlgraphics.io.Resource
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.Environment
 
 /**

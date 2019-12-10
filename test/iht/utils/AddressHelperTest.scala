@@ -19,7 +19,7 @@ package iht.utils
 import iht.FakeIhtApp
 import iht.config.AppConfig
 import iht.testhelpers._
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 
 class AddressHelperTest extends FakeIhtApp with MockitoSugar {
   implicit val appConfig: AppConfig = app.injector.instanceOf[AppConfig]

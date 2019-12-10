@@ -19,7 +19,7 @@ package iht.utils
 import iht.FakeIhtApp
 import iht.config.AppConfig
 import iht.testhelpers._
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 
 
 class ApplicantHelperTest extends FakeIhtApp with MockitoSugar {

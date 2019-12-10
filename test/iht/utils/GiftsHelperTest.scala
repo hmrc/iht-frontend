@@ -21,7 +21,7 @@ import iht.config.AppConfig
 import iht.models.application.gifts.PreviousYearsGifts
 import iht.testhelpers.CommonBuilder
 import org.joda.time.LocalDate
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 
 class GiftsHelperTest extends FakeIhtApp with MockitoSugar {
 

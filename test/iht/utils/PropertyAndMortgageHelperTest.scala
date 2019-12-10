@@ -21,7 +21,7 @@ import iht.config.AppConfig
 import iht.models.application.assets.Properties
 import iht.models.application.debts.{Mortgage, MortgageEstateElement}
 import iht.testhelpers.CommonBuilder
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.Results
 
 class PropertyAndMortgageHelperTest extends FakeIhtApp with MockitoSugar with PropertyAndMortgageHelper {

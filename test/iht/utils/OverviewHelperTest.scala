@@ -21,7 +21,7 @@ import iht.constants.Constants
 import iht.models.application.assets.{AllAssets, InsurancePolicy}
 import iht.models.application.debts.{AllLiabilities, BasicEstateElementLiabilities}
 import iht.testhelpers._
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.MessagesControllerComponents
 

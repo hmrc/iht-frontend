@@ -22,7 +22,7 @@ import iht.models.des.ihtReturn.IHTReturn
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.IHTReturnTestHelper._
 import org.joda.time.LocalDate
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 
 class IHTReturnTest extends FakeIhtApp with MockitoSugar {
   implicit val mockAppConfig: AppConfig = app.injector.instanceOf[AppConfig]

@@ -19,7 +19,7 @@ package iht.utils
 import iht.FakeIhtApp
 import iht.config.AppConfig
 import iht.constants.FieldMappings
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.{Lang, MessagesApi}
 
 class FieldMappingsTest extends FakeIhtApp with MockitoSugar {

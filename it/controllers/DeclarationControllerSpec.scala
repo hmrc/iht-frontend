@@ -9,7 +9,7 @@ import iht.forms.ApplicationForms.declarationForm
 import iht.metrics.IhtMetrics
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.data.Form
 import play.api.libs.json.Json
 import play.api.mvc.{AnyContentAsFormUrlEncoded, MessagesControllerComponents, RequestHeader}

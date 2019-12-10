@@ -20,7 +20,7 @@ import iht.FakeIhtApp
 import iht.config.AppConfig
 import iht.testhelpers.CommonBuilder
 import iht.utils.{StringHelper, StringHelperFixture}
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 
 class RegistrationTest extends FakeIhtApp with MockitoSugar with StringHelper {
 

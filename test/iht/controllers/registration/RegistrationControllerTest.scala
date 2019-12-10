@@ -25,7 +25,7 @@ import iht.{FakeIhtApp, TestUtils}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito._
 import org.scalatest.BeforeAndAfterEach
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.{I18nSupport, Lang, MessagesApi}
 import play.api.mvc.{AnyContentAsEmpty, ControllerComponents, MessagesControllerComponents}
 import play.api.test.{FakeHeaders, FakeRequest}

@@ -16,7 +16,7 @@
 
 package iht.models.application.basicElements
 
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import uk.gov.hmrc.play.test.UnitSpec
 
 class EstateElementTest extends UnitSpec with MockitoSugar{
