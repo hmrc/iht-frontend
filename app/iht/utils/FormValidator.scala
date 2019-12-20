@@ -34,7 +34,7 @@ trait FormValidator {
   protected val postCodeFormat = "(([gG][iI][rR] {0,}0[aA]{2})|((([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y]?[0-9][0-9]?)|(([a-pr-uwyzA-PR-UWYZ][0-9][a-hjkstuwA-HJKSTUW])|([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y][0-9][abehmnprv-yABEHMNPRV-Y]))) {0,}[0-9][abd-hjlnp-uw-zABD-HJLNP-UW-Z]{2}))"
   // scalastyle:on line.size.limit
   protected val phoneNoFormat = "^[A-Z0-9 \\)\\/\\(\\-\\*#]{1,27}$"
-  protected lazy val moneyFormatSimple = """^(\d{1,10}+([.]\d{1,2})?)$""".r
+  protected lazy val moneyFormatSimple = """^(\d{0,10}([.]\d{1,2})?)$""".r
 
   //lazy val nameAndAddressRegex = """^[A-Za-z0-9,. \(\)\&\-']*$""".r
   lazy val nameAndAddressRegex = """^.*$""".r

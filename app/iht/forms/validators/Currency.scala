@@ -22,7 +22,7 @@ import play.api.data.FormError
   * Created by grant on 14/12/16.
   */
 trait Currency {
-  protected lazy val moneyFormatSimple = """^(\d*+([.]\d{1,2})?)$""".r
+  protected lazy val moneyFormatSimple = """^(\d*([.]\d{1,2})?)$""".r
   protected lazy val stringWithSpacesRegEx = "\\s+".r
   protected lazy val valueWithCommaFormatRegEx =
                               """(^(\d*)(\.\d{0,2})?$)|(^(\d{1,3},(\d{3},)*\d{3}(\.\d{1,2})?|\d{1,3}(\.\d{1,2})?)$)""".r
@@ -30,7 +30,7 @@ trait Currency {
   protected lazy val isInvalidPence: String => Boolean = s =>
     s.count(_ == '.') match {
       case numberDecimalPoints if numberDecimalPoints > 1 => true
-      case numberDecimalPoints if numberDecimalPoints == 1 && s.substring(s.indexOf(".") + 1).length > 2 => true
+      case numberDecimalPoints if numberDecimalPoints == 1 && s.substring(s.indexOf(".") + 1).trim().length > 2 => true
       case _ => false
     }
   protected lazy val isInvalidNumericCharacters: String => Boolean = s => s.exists(c => c != '.' && !c.isDigit && c != ' ' && c!=',')

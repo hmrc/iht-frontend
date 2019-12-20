@@ -79,6 +79,11 @@ class FormValidatorTest extends FormTestHelper with FakeIhtApp {
     "Report correctly for invalid numeric value length>10" in {
       optionalCurrencyWithoutFieldName.bind(Map("" -> "11111111111111111111")) mustBe Left(List(FormError("", "error.currencyValue.length")))
     }
+
+    "clean and parse a decimal value missing its left side" in {
+      cleanMoneyString(".73") mustBe ".73"
+    }
+
  }
 
   "mandatoryPhoneNumberFormatter" must {

@@ -17,17 +17,13 @@
 package iht.utils
 
 import iht.config.AppConfig
-import iht.constants.IhtProperties
 import iht.models.RegistrationDetails
 import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, FormError, Forms}
-import play.api.i18n.{Lang, Messages}
-import play.api.mvc.Request
-import uk.gov.hmrc.http.HeaderCarrier
+import play.api.i18n.Messages
 
 import scala.collection.immutable.ListMap
 import scala.collection.mutable.ListBuffer
-import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success, Try}
 
 object IhtFormValidator extends IhtFormValidator
@@ -53,18 +49,15 @@ trait IhtFormValidator extends FormValidator {
     override def bind(key: String, data: Map[String, String]) = {
       import scala.util.Try
       val errors = new scala.collection.mutable.ListBuffer[FormError]()
-      val value: String = toCurrency(data.get(valueKey)).replace(",", "")
-      val exemptionsValue: String = toCurrency(data.get(exemptionsValueKey)).replace(",", "")
-      val theValue: Try[BigDecimal] = Try(BigDecimal(cleanMoneyString(value.trim)))
-      val theExemptionsValue: Try[BigDecimal] = Try(BigDecimal(cleanMoneyString(exemptionsValue.trim)))
-      val isValueAndExemptionsValueSuccess = theValue.isSuccess && theExemptionsValue.isSuccess
-
-      if (isValueAndExemptionsValueSuccess) {
-        if (BigDecimal(value) < BigDecimal(exemptionsValue)) {
+      val value: String = toCurrency(data.get(valueKey)).replace(",", "").trim
+      val exemptionsValue: String = toCurrency(data.get(exemptionsValueKey)).replace(",", "").trim
+      val theValue: Try[BigDecimal] = Try(BigDecimal(cleanMoneyString(value)))
+      val theExemptionsValue: Try[BigDecimal] = Try(BigDecimal(cleanMoneyString(exemptionsValue)))
+      (theValue, theExemptionsValue) match {
+        case (Success(v), Success(ev)) if v < ev =>
           errors += FormError(exemptionsValueKey, "error.giftsDetails.exceedsGivenAway")
-        }
-      } else if (value.length == 0 && theExemptionsValue.isSuccess) {
-        errors += FormError(valueKey, "error.giftsDetails.noValue")
+        case (_, Success(_)) if value.isEmpty => errors += FormError(valueKey, "error.giftsDetails.noValue")
+        case _ => ()
       }
       getGiftValueOrErrors(errors, data, key)
     }
