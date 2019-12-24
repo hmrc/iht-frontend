@@ -82,6 +82,23 @@ class IhtFormValidatorTest extends FakeIhtApp with MockitoSugar {
       val result = fv.bind("", Map("value" -> "12000", "ex" -> "15000"))
       result mustBe Left(List(FormError("ex", "error.giftsDetails.exceedsGivenAway")))
     }
+
+    "display error if value < exemptions, where the value is empty and the exemptions is a decimal number missing its left side" in {
+      val result = fv.bind("", Map("value" -> "", "ex" -> ".01"))
+      result mustBe Left(List(FormError("value", "error.giftsDetails.noValue")))
+    }
+
+    "display error if value < exemptions, where both the value and exemptions are decimal numbers missing their left side" in {
+      val result = fv.bind("", Map("value" -> ".63", "ex" -> ".98"))
+      result mustBe Left(List(FormError("ex", "error.giftsDetails.exceedsGivenAway")))
+    }
+
+    "trim and process values/exemptionValues containing whitespace" in {
+      val valueWithWhiteSpace = " 100 "
+      val exemptionValueWithWhiteSpace = " 20 "
+      val result = fv.bind("value", Map("value" -> valueWithWhiteSpace, "ex" -> exemptionValueWithWhiteSpace))
+      result mustBe Right(Some(valueWithWhiteSpace))
+    }
   }
 
   "nino" should {

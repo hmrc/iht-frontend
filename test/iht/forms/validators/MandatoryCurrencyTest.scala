@@ -87,6 +87,21 @@ class MandatoryCurrencyTest extends FakeIhtApp {
       mandatoryCurrency.bind(Map("" -> "2,000.00")) mustBe Right(Some(2000))
     }
 
+    "give no error if the value has spaces after the decimal point" in {
+      mandatoryCurrency.bind(Map("" -> "1.00 ")) mustBe Right(Some(1.00))
+      mandatoryCurrency.bind(Map("" -> "1. ")) mustBe Right(Some(1.00))
+    }
+
+    "give no error if the value has spaces before the decimal point" in {
+      mandatoryCurrency.bind(Map("" -> " 2.30")) mustBe Right(Some(2.30))
+      mandatoryCurrency.bind(Map("" -> " 2.")) mustBe Right(Some(2.00))
+    }
+
+    "give no error if the value has spaces before and after the decimal point" in {
+      mandatoryCurrency.bind(Map("" -> " 6.10 ")) mustBe Right(Some(6.10))
+      mandatoryCurrency.bind(Map("" -> " 6. ")) mustBe Right(Some(6.00))
+    }
+
     "give error if the value has comma at wrong position" in {
       mandatoryCurrency.bind(Map("" -> "220,00.00")) mustBe Left(List(FormError("", "hasCommaAtInvalidPosition")))
       mandatoryCurrency.bind(Map("" -> "2,00.00")) mustBe Left(List(FormError("", "hasCommaAtInvalidPosition")))
