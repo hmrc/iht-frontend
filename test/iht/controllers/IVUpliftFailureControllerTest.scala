@@ -68,13 +68,13 @@ class IVUpliftFailureControllerTest extends ApplicationControllerTest {
       contentAsString(result) must include(messagesApi("page.iht.iv.failure.2fa.heading"))
     }
 
-    behave like ivFailure("failed matching", IdentityVerificationResult.FailedMatching, "page.iht.iv.failure.failedMatching.failureReason", FORBIDDEN)
+    behave like ivFailure("failed matching", IdentityVerificationResult.FailedMatching, "page.iht.iv.failure.couldNotConfirmIdentity", FORBIDDEN)
 
-    behave like ivFailure("incomplete", IdentityVerificationResult.Incomplete, "page.iht.iv.failure.incomplete.heading", UNAUTHORIZED)
+    behave like ivFailure("incomplete", IdentityVerificationResult.Incomplete, "page.iht.iv.failure.couldNotConfirmIdentity", UNAUTHORIZED)
 
-    behave like ivFailure("insufficient evidence", IdentityVerificationResult.InsufficientEvidence, "page.iht.iv.failure.insufficientEvidence.failureReason", UNAUTHORIZED)
+    behave like ivFailure("insufficient evidence", IdentityVerificationResult.InsufficientEvidence, "page.iht.iv.failure.couldNotConfirmIdentity", UNAUTHORIZED)
 
-    behave like ivFailure("locked out", IdentityVerificationResult.LockedOut, "page.iht.iv.failure.lockedOut.heading", UNAUTHORIZED)
+    behave like ivFailure("locked out", IdentityVerificationResult.LockedOut, "page.iht.iv.failure.couldNotConfirmIdentity", UNAUTHORIZED)
 
     behave like ivFailure("precondition failed", IdentityVerificationResult.PreconditionFailed, "page.iht.iv.failure.preconditionFailed.heading", FORBIDDEN)
 
@@ -82,7 +82,7 @@ class IVUpliftFailureControllerTest extends ApplicationControllerTest {
 
     behave like ivFailure("timeout", IdentityVerificationResult.Timeout, "page.iht.iv.failure.timeout.heading", UNAUTHORIZED)
 
-    behave like ivFailure("user aborted", IdentityVerificationResult.UserAborted, "page.iht.iv.failure.userAborted.failureReason", UNAUTHORIZED)
+    behave like ivFailure("user aborted", IdentityVerificationResult.UserAborted, "page.iht.iv.failure.couldNotConfirmIdentity", UNAUTHORIZED)
 
     behave like ivFailure("unexpected IV failure result", IdentityVerificationResult.Success, "page.iht.iv.failure.technicalIssue.heading", INTERNAL_SERVER_ERROR)
   }

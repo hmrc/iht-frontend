@@ -29,6 +29,7 @@ object IdentityVerificationResult extends Enumeration {
   val Timeout = Value
   val TechnicalIssue = Value
   val PreconditionFailed = Value
+  val FailedIV = Value
 
   implicit val formats = new Format[IdentityVerificationResult] {
     def reads(json: JsValue): JsResult[IdentityVerificationResult] = JsSuccess(IdentityVerificationResult.withName(json.as[String]) )

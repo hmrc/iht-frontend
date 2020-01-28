@@ -58,13 +58,14 @@ trait IVUpliftFailureController extends FrontendController with I18nSupport {
 
     oJourneyId.map { journeyId =>
       identityVerificationConnector.identityVerificationResponse(journeyId).map {
-        case FailedMatching =>       Forbidden(failed_matching(tryAgainRoute))
+        case FailedMatching =>       Forbidden(generic(tryAgainRoute))
         case PreconditionFailedIV => Forbidden(precondition_failed())
-        case InsufficientEvidence => Unauthorized(insufficient_evidence(tryAgainRoute))
+        case FailedIV =>             Forbidden(generic(tryAgainRoute))
+        case InsufficientEvidence => Unauthorized(generic(tryAgainRoute))
         case LockedOut =>            Unauthorized(locked_out())
         case Timeout =>              Unauthorized(timeout(tryAgainRoute))
-        case Incomplete =>           Unauthorized(incomplete(tryAgainRoute))
-        case UserAborted =>          Unauthorized(user_aborted(tryAgainRoute))
+        case Incomplete =>           Unauthorized(generic(tryAgainRoute))
+        case UserAborted =>          Unauthorized(generic(tryAgainRoute))
         case TechnicalIssue =>       InternalServerError(technical_issue(tryAgainRoute))
         case other =>
                                      Logger.error(s"Unknown identityVerificationResult ($other)")
