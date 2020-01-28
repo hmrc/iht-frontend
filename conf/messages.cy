@@ -2140,6 +2140,16 @@ page.iht.iv.failure.technicalIssue.tryAgain = Gallwch roi cynnig arall arni mewn
 page.iht.iv.failure.2fa.heading = Nid ydych wedi''ch mewngofnodi
 page.iht.iv.failure.2fa.p1 = Bydd angen i chi sefydlu''r Dull Gwirio 2-Gam er mwyn gallu mewngofnodi''n ddiogel.
 
+#New IV Error Content
+page.iht.iv.failure.couldNotConfirmIdentity=We could not confirm your identity
+page.iht.iv.failure.youCanReport=You can report the estate value using the <a id="paperFormLink" href="{0}">IHT205 paper form</a> instead.
+page.iht.iv.failure.ifYouThink=If you still think you have an answer for any of the questions, you can try again.
+page.iht.iv.failure.lockedOutTryAgain=If you want to try again please wait 24 hours then try to sign in at <a id="try-again" href="{0}">https://www.tax.service.gov.uk{0}</a>.
+page.iht.iv.failure.helpWithConfirm=Help with confirming your identity
+page.iht.iv.failure.matchFirstLast=You need to match the first and last names on the HMRC record exactly. If your name has any accented characters, apostrophes or hyphenation, you may need to include or remove these to help match the version held on record. If you have recently changed your name and not yet informed HMRC you must use the old name.
+page.iht.iv.failure.passport=Passport: You must use a current and valid UK passport and you must match the name character by character. Enter the expiry date in the format 19 SEP 2025. Some passports are not able to provide this validation.
+page.iht.iv.failure.payslips=Payslips: You must use a payslip with a positive amount.
+page.iht.iv.failure.P60=P60: You must use a P60 which shows that you have paid National Insurance. If you had more than one job, enter the pay figure shown in the box titled, ‘In this employment’. If the amount you enter matches in pounds and pence what is on your P60 it may be that your employer made an end of year adjustment so it does not match the amount shown on your HMRC record.
 
 #IV Wayfinder Pages
 

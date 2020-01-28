@@ -17,23 +17,21 @@
 package iht.views.iv.failurepages
 
 import iht.testhelpers.CommonBuilder
-import iht.views.html.iv.failurepages.failed_matching
+import iht.views.html.iv.failurepages.generic
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
-import iht.config.AppConfig
 
-class FailedMatchingViewTest extends GenericNonSubmittablePageBehaviour {
+class GenericViewTest extends GenericNonSubmittablePageBehaviour {
 
   def guidanceParagraphs = Set(
-    messagesApi("page.iht.iv.failure.failedMatching.failureReason"),
-    messagesApi("page.iht.iv.failure.tryAgainOr")
+    messagesApi("page.iht.iv.failure.youCanReport", appConfig.linkIHT205PDF),
+    messagesApi("page.iht.iv.failure.ifYouThink")
   )
 
-  def pageTitle = messagesApi("page.iht.iv.failure.cannotConfirmIdentity")
+  def pageTitle = messagesApi("page.iht.iv.failure.couldNotConfirmIdentity")
 
-  def browserTitle = messagesApi("page.iht.iv.failure.cannotConfirmIdentity")
+  def browserTitle = messagesApi("page.iht.iv.failure.couldNotConfirmIdentity")
 
-  def view: String = failed_matching(CommonBuilder.DefaultCall1.url)(createFakeRequest(), messages, formPartialRetriever, appConfig).toString
+  def view: String = generic(CommonBuilder.DefaultCall1.url)(createFakeRequest(), messages, formPartialRetriever, appConfig).toString
 
   override def exitComponent = Some(
     ExitComponent(
