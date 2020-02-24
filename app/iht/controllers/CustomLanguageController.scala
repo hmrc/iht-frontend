@@ -20,7 +20,7 @@ import iht.config.AppConfig
 import javax.inject.{Inject, Singleton}
 import play.api.Play
 import play.api.i18n.{I18nSupport, Lang, MessagesApi}
-import play.api.mvc.{Action, AnyContent, Call, MessagesControllerComponents, RequestHeader}
+import play.api.mvc.{Action, AnyContent, Call, Flash, MessagesControllerComponents, RequestHeader}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.language.LanguageUtils
 
@@ -37,6 +37,7 @@ object LanguageControlUtils {
 
 @Singleton
 class CustomLanguageController @Inject()(val appConfig: AppConfig,
+                                         val languageUtils: LanguageUtils,
                                          val cc: MessagesControllerComponents) extends FrontendController(cc) with I18nSupport {
   /** Converts a string to a URL, using the route to this controller. **/
   val englishLang = Lang("en")
@@ -52,13 +53,13 @@ class CustomLanguageController @Inject()(val appConfig: AppConfig,
   def switchToLanguage(language: String): Action[AnyContent] = Action { implicit request =>
     val lang =
       if(appConfig.isWelshEnabled) {
-        languageMap.getOrElse(language, LanguageUtils.getCurrentLang)
+        languageMap.getOrElse(language, languageUtils.getCurrentLang)
       } else {
         englishLang
       }
     val redirectURL = request.headers.get(REFERER).getOrElse(fallbackURL)
 
-    Redirect(redirectURL).withLang(Lang.apply(lang.code)).flashing(LanguageUtils.FlashWithSwitchIndicator)
+    Redirect(redirectURL).withLang(Lang.apply(lang.code)).flashing(Flash(Map("switching-language" -> "true")))
   }
 
   /** Provides a fallback URL if there is no referer in the request header. **/
