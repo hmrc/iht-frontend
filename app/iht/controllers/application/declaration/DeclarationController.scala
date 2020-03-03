@@ -38,7 +38,6 @@ import uk.gov.hmrc.http.{GatewayTimeoutException, HeaderCarrier, Upstream5xxResp
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.Future
 
 class DeclarationControllerImpl @Inject()(val metrics: IhtMetrics,

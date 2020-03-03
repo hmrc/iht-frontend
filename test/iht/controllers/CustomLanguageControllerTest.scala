@@ -19,10 +19,12 @@ package iht.controllers
 import iht.config.AppConfig
 import iht.views.ViewTestHelper
 import org.mockito.Mockito._
+import org.mockito.ArgumentMatchers.any
 import play.api.i18n.{Lang, MessagesApi}
 import play.api.Play
 import play.api.mvc.{Cookie, Result}
 import play.api.test.FakeRequest
+import uk.gov.hmrc.play.language.LanguageUtils
 
 import scala.concurrent.duration._
 import scala.concurrent.{Await, ExecutionContext}
@@ -30,6 +32,7 @@ import scala.concurrent.{Await, ExecutionContext}
 class CustomLanguageControllerTest extends ViewTestHelper {
 
   val mockAppConfig: AppConfig = mock[AppConfig]
+  val mockLanguageUtils: LanguageUtils = mock[LanguageUtils]
   val welsh: String = "cymraeg"
   val welshLocale: String = "cy"
   val englishLocale: String = "en"
@@ -40,13 +43,14 @@ class CustomLanguageControllerTest extends ViewTestHelper {
     val mockAppConfig: AppConfig = mock[AppConfig]
     "call switchToLanguage(lang) if welsh is enabled" in {
       when(mockAppConfig.isWelshEnabled).thenReturn(true)
-      val customLanguageController = new CustomLanguageController(mockAppConfig, mockControllerComponents)
+      when(mockLanguageUtils.getCurrentLang(any())).thenReturn(Lang("en"))
+      val customLanguageController = new CustomLanguageController(mockAppConfig, mockLanguageUtils, mockControllerComponents)
 
       customLanguageController.langToCall(locale) mustBe iht.controllers.routes.CustomLanguageController.switchToLanguage(locale)
     }
     "call switchToLanguage('english') if welsh is not enabled" in {
       when(mockAppConfig.isWelshEnabled).thenReturn(false)
-      val customLanguageController = new CustomLanguageController(mockAppConfig, mockControllerComponents)
+      val customLanguageController = new CustomLanguageController(mockAppConfig, mockLanguageUtils, mockControllerComponents)
 
       customLanguageController.langToCall(locale) mustBe iht.controllers.routes.CustomLanguageController.switchToLanguage("english")
     }
@@ -55,7 +59,7 @@ class CustomLanguageControllerTest extends ViewTestHelper {
   "CustomLanguageController#switchToLanguage" must {
     "redirect successfully with welsh set as the language if isWelshEnabled is true" in {
       when(mockAppConfig.isWelshEnabled) thenReturn true
-      val customLanguageController = new CustomLanguageController(mockAppConfig, mockControllerComponents)
+      val customLanguageController = new CustomLanguageController(mockAppConfig, mockLanguageUtils, mockControllerComponents)
 
       val redirectResult = customLanguageController.switchToLanguage(welsh)(FakeRequest())
       val result: Result = Await.result(redirectResult, 5.seconds)
@@ -64,7 +68,7 @@ class CustomLanguageControllerTest extends ViewTestHelper {
     }
     "redirect successfully with english set as the language if isWelshEnabled is false" in {
       when(mockAppConfig.isWelshEnabled) thenReturn false
-      val customLanguageController = new CustomLanguageController(mockAppConfig, mockControllerComponents)
+      val customLanguageController = new CustomLanguageController(mockAppConfig, mockLanguageUtils, mockControllerComponents)
 
       val redirectResult = customLanguageController.switchToLanguage(welsh)(FakeRequest())
       val result: Result = Await.result(redirectResult, 5.seconds)

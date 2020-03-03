@@ -33,7 +33,6 @@ import uk.gov.hmrc.http._
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class RegistrationSummaryControllerImpl @Inject()(val ihtConnector: IhtConnector,
