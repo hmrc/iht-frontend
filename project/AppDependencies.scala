@@ -11,7 +11,7 @@ object AppDependencies {
   private val wireMockVersion = "2.26.2"
   private val jsoupVersion = "1.13.1"
   private val mockitoVersion = "3.3.1"
-  private val playJsonVersion = "2.8.1"
+  private val playJsonVersion = "2.6.13"
 
   private val typesafe = "com.typesafe.play"
 
