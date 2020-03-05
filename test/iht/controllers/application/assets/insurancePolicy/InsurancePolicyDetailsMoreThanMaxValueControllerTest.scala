@@ -18,7 +18,6 @@ package iht.controllers.application.assets.insurancePolicy
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.registration.applicant.ApplicantTellUsAboutYourselfController
 import iht.forms.ApplicationForms._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import play.api.mvc.MessagesControllerComponents

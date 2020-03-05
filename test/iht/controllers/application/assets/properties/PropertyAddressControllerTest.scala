@@ -18,7 +18,6 @@ package iht.controllers.application.assets.properties
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.application.tnrb.GiftsWithReservationOfBenefitController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
@@ -34,8 +33,6 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
  * Created by james on 17/06/16.
  */
 class PropertyAddressControllerTest extends ApplicationControllerTest {
-
-
 
   def setUpTests(applicationDetails: Option[ApplicationDetails] = None) = {
     createMocksForApplication(mockCachingConnector,

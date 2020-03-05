@@ -23,19 +23,17 @@ import iht.forms.FormTestHelper
 import iht.forms.registration.DeceasedForms._
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails, UkAddress}
 import iht.testhelpers.{CommonBuilder, NinoBuilder}
-import iht.utils.IhtFormValidator
 import org.joda.time.LocalDate
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito.when
 import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, FormError, Forms}
 import play.api.i18n.Messages
-import play.api.mvc.Request
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.logging.SessionId
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.ExecutionContext.Implicits.global
-import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.http.logging.SessionId
 
 class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
   def dateOfDeath(day: String, month: String, year: String) =

@@ -18,10 +18,10 @@ package iht.controllers
 
 import iht.config.AppConfig
 import iht.views.ViewTestHelper
-import org.mockito.Mockito._
 import org.mockito.ArgumentMatchers.any
-import play.api.i18n.{Lang, MessagesApi}
+import org.mockito.Mockito._
 import play.api.Play
+import play.api.i18n.{Lang, MessagesApi}
 import play.api.mvc.{Cookie, Result}
 import play.api.test.FakeRequest
 import uk.gov.hmrc.play.language.LanguageUtils
@@ -38,7 +38,6 @@ class CustomLanguageControllerTest extends ViewTestHelper {
   val englishLocale: String = "en"
 
   "CustomLanguageController#langToCall" must {
-    implicit val ec: ExecutionContext = mockControllerComponents.executionContext
     val locale = "cy"
     val mockAppConfig: AppConfig = mock[AppConfig]
     "call switchToLanguage(lang) if welsh is enabled" in {

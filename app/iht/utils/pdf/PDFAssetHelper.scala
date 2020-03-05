@@ -104,20 +104,6 @@ object PDFAssetHelper {
     )
   }
 
-  // Create jointly owen private pensions
-  private def buildJointAssetPrivatePensions = {
-    Asset(
-      // General asset
-      assetCode = Some("9005"),
-      assetDescription = Some("Rolled up pensions"),
-      assetID = Some("null"),
-      assetTotalValue = blankBigDecimalValue,
-      howheld = Some("Joint - Beneficial Joint Tenants"),
-      devolutions = None,
-      liabilities = None
-    )
-  }
-
   private def buildAssetStocksAndSharesNotListed = {
     Asset(
       // General asset
@@ -242,12 +228,6 @@ object PDFAssetHelper {
       address = Some(models.des.Address(addressLine1 = "addr1", addressLine2 = "addr2",
         addressLine3 = None, addressLine4 = None,
         postalCode = DefaultPostCode, countryCode = "GB"))
-    )
-
-    val liability1 = Liability(
-      liabilityType = Some("Mortgage"),
-      liabilityAmount = blankBigDecimalValue,
-      liabilityOwner = Some("")
     )
 
     Asset(

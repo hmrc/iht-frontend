@@ -50,7 +50,6 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
 
   def deceasedWidowCheckDateControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
-//    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -210,10 +209,6 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
     }
 
     "have error when date of marriage is >= predeceased date of death" in {
-      val widowCheck = WidowCheck(
-        widowed = CommonBuilder.DefaultWidowed,
-        dateOfPreDeceased = Some(new LocalDate(1987, 12, 12))
-      )
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(increaseIhtThreshold =
         Some(CommonBuilder.buildTnrbEligibility.copy(firstName = Some(CommonBuilder.firstNameGenerator),
           lastName = Some(CommonBuilder.surnameGenerator),

@@ -17,7 +17,6 @@
 package iht
 
 import iht.config.AppConfig
-import iht.constants.IhtProperties
 import iht.models.RegistrationDetails
 import play.api.i18n.Messages
 

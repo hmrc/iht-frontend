@@ -19,12 +19,10 @@ package iht.controllers.filter
 import iht.config.AppConfig
 import iht.constants.Constants._
 import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.application.exemptions.ExemptionsOverviewController
 import iht.forms.FilterForms._
 import iht.testhelpers.MockFormPartialRetriever
 import iht.views.HtmlSpec
 import play.api.i18n.MessagesApi
-import play.api.mvc.MessagesControllerComponents
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController

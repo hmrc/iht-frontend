@@ -17,7 +17,6 @@
 package iht.forms
 
 import iht.config.AppConfig
-import iht.constants.IhtProperties
 import iht.forms.mappings.DateMapping
 import iht.forms.validators.{MandatoryCurrencyForOptions, OptionalCurrency}
 import iht.models._

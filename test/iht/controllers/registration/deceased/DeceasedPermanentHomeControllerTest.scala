@@ -18,10 +18,8 @@ package iht.controllers.registration.deceased
 
 import iht.config.AppConfig
 import iht.controllers.ControllerHelper.Mode
-import iht.controllers.registration.executor.DeleteCoExecutorController
 import iht.forms.registration.DeceasedForms._
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails}
-
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
 import iht.utils.RegistrationKickOutHelper
 import org.joda.time.LocalDate
@@ -70,8 +68,6 @@ class DeceasedPermanentHomeControllerTest
     "create the new form when there is no deceased details present" in {
       val applicantDetails = CommonBuilder.buildApplicantDetails
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
-      // val messages = messagesApi.preferred(request)
-
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
       val result: Form[DeceasedDetails] = controller.fillForm(registrationDetails)(createFakeRequest())

@@ -18,9 +18,7 @@ package iht.controllers.application.debts
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.application.assets.properties.PropertyTypeController
 import iht.forms.ApplicationForms._
-
 import iht.testhelpers.TestHelper._
 import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
 import iht.utils._

@@ -16,13 +16,7 @@
 
 package iht.testhelpers
 
-import java.io.File
-
 import iht.FakeIhtApp
-import iht.utils.CommonHelper
-import play.api.Play
-import play.api.libs.Files.TemporaryFile
-import uk.gov.hmrc.play.test.UnitSpec
 
 class MessagesTidierTest extends FakeIhtApp {
 

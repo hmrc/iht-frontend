@@ -21,7 +21,7 @@ import iht.controllers.ControllerHelper
 import iht.models._
 import iht.models.application.{ApplicationDetails, IhtApplication, ProbateDetails}
 import iht.models.des.ihtReturn.IHTReturn
-import iht.utils.{GiftsHelper, RegistrationDetailsHelper, RegistrationDetailsHelperFixture, StringHelper}
+import iht.utils.{GiftsHelper, RegistrationDetailsHelperFixture, StringHelper}
 import javax.inject.Inject
 import models.des.EventRegistration
 import play.api.Logger

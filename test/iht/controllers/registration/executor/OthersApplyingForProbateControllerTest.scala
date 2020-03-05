@@ -18,7 +18,6 @@ package iht.controllers.registration.executor
 
 import iht.config.AppConfig
 import iht.connector.CachingConnector
-import iht.controllers.application.gifts.WithReservationOfBenefitController
 import iht.controllers.registration.{RegistrationControllerTest, routes => registrationRoutes}
 import iht.forms.registration.CoExecutorForms
 import iht.models.{DeceasedDateOfDeath, RegistrationDetails}

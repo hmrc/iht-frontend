@@ -28,9 +28,6 @@ trait BasicEstateElementLiabilitiesFormBehaviour extends FormTestHelper with Fak
   private def dataAsJson(model: BasicEstateElementLiabilities) = Json.toJson(model)
   private def defaultModel = CommonBuilder.buildBasicEstateElementLiabilities
 
-  private def estateElementLiability(value: String, isOwned: String = "true") =
-    Map("value" -> value, "isOwned" -> isOwned)
-
   def form:Form[BasicEstateElementLiabilities]
   def selectErrorKey:String
 

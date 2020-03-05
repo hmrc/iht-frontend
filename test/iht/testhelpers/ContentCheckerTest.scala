@@ -17,9 +17,8 @@
 package iht.testhelpers
 
 import iht.FakeIhtApp
-import play.api.Play
-import uk.gov.hmrc.play.test.UnitSpec
 import iht.utils.CommonHelper
+
 import scala.io.Source._
 
 class ContentCheckerTest extends FakeIhtApp {

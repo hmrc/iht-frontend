@@ -63,23 +63,8 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
   def formWithMockedNinoValidation(deceased: DeceasedDetails, mockCachingConnector: CachingConnector): DeceasedForms = {
     def deceasedForms: DeceasedForms = {
       new DeceasedForms {
-        def ninoForDeceased(blankMessageKey: String, lengthMessageKey: String,
-                            formatMessageKey: String, oRegDetails: Option[RegistrationDetails])(
-                             implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] = {
-          val formatter = new Formatter[String] {
-            override val format: Option[(String, Seq[Any])] = None
-
-            override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], String] = Right(deceased.nino.get)
-
-            override def unbind(key: String, value: String): Map[String, String] = Map(key -> value)
-          }
-          val fieldMapping: FieldMapping[String] = Forms.of(formatter)
-          fieldMapping
-        }
       }
     }
-    implicit val request = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-    implicit val hc = new HeaderCarrier()
     deceasedForms
   }
 

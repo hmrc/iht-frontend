@@ -179,8 +179,7 @@ trait DeclarationController extends ApplicationController with StringHelper {
   }
 
   private def processApplication(nino: String)(implicit request: Request[_],
-                                                        hc: HeaderCarrier,
-                                                        ihtFormPartialRetriever: FormPartialRetriever): Future[Result] = {
+                                                        hc: HeaderCarrier): Future[Result] = {
     withRegistrationDetails { regDetails =>
       val ihtAppReference = regDetails.ihtReference
       val acknowledgement = regDetails.acknowledgmentReference

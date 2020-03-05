@@ -17,10 +17,8 @@
 package iht.models.des.ihtReturn
 
 import iht.config.AppConfig
-import iht.constants.{Constants, IhtProperties}
+import iht.constants.Constants
 import play.api.libs.json.Json
-import play.api.libs.json.JodaWrites._
-import play.api.libs.json.JodaReads._
 
 // Can reuse the address object from Event Registration
 

@@ -17,18 +17,12 @@
 package iht.forms.registration
 
 import iht.config.AppConfig
-import iht.constants._
 import iht.forms.mappings.DateMapping
 import iht.models._
 import iht.utils.IhtFormValidator
-import iht.utils.IhtFormValidator._
 import play.api.data.Forms._
 import play.api.data.{Form, Mapping}
 import play.api.i18n.{Lang, Messages}
-import play.api.mvc.Request
-
-import scala.concurrent.ExecutionContext
-import uk.gov.hmrc.http.HeaderCarrier
 
 trait CoExecutorForms extends IhtFormValidator {
   implicit val appConfig: AppConfig
@@ -61,8 +55,7 @@ trait CoExecutorForms extends IhtFormValidator {
   lazy val coExecutorAddressUkForm = Form(addressMappingCoexecUk)
   def coExecutorAddressAbroadForm(implicit lang: Lang, messages: Messages) = Form(addressMappingCoexecInternational(lang, messages))
 
-  def coExecutorPersonalDetailsForm(oRegDetails: Option[RegistrationDetails] = None, loginNino: String)
-                                   (implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = Form(
+  def coExecutorPersonalDetailsForm(oRegDetails: Option[RegistrationDetails] = None, loginNino: String) = Form(
     mapping(
       "id" -> optional(text),
       "firstName" -> ihtNonEmptyText("error.firstName.give")
@@ -112,8 +105,7 @@ trait CoExecutorForms extends IhtFormValidator {
     )
   )
 
-  def coExecutorPersonalDetailsEditForm(oRegDetails: Option[RegistrationDetails] = None, loginNino: String)
-                                       (implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = Form(
+  def coExecutorPersonalDetailsEditForm(oRegDetails: Option[RegistrationDetails] = None, loginNino: String) = Form(
     mapping(
       "id" -> optional(text),
       "firstName" -> ihtNonEmptyText("error.firstName.give")

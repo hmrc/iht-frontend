@@ -171,7 +171,7 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest with 
       val registrationDetails = RegistrationDetails(Some(deceasedDateOfDeath), Some(applicantDetails),
         Some(deceasedDetails))
 
-      var form = deceasedDateOfDeathForm.fill(deceasedDateOfDeath)
+      val form = deceasedDateOfDeathForm.fill(deceasedDateOfDeath)
       implicit val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(form.data.toSeq: _*)
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -216,7 +216,7 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest with 
       val registrationDetails = RegistrationDetails(Some(deceasedDateOfDeath), Some(applicantDetails),
         Some(deceasedDetails))
 
-      var form = deceasedDateOfDeathForm.fill(new DeceasedDateOfDeath(new LocalDate(20011,11, 11)))
+      val form = deceasedDateOfDeathForm.fill(new DeceasedDateOfDeath(new LocalDate(20011,11, 11)))
       implicit val request = createFakeRequestWithReferrer(referrerURL=defaultReferrerURL,
         host=defaultHost, authRetrieveNino = false).withFormUrlEncodedBody(form.data.toSeq: _*)
 
@@ -234,7 +234,7 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest with 
       val registrationDetails = RegistrationDetails(Some(deceasedDateOfDeath), Some(applicantDetails),
         Some(deceasedDetails))
 
-      var form = deceasedDateOfDeathForm.fill(deceasedDateOfDeath)
+      val form = deceasedDateOfDeathForm.fill(deceasedDateOfDeath)
       implicit val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(form.data.toSeq: _*)
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, None)
@@ -249,7 +249,7 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest with 
       val deceasedDateOfDeath = new DeceasedDateOfDeath(new LocalDate(2001,11, 11))
       val registrationDetails = RegistrationDetails(Some(deceasedDateOfDeath), None, None)
 
-      var form = deceasedDateOfDeathForm.fill(deceasedDateOfDeath)
+      val form = deceasedDateOfDeathForm.fill(deceasedDateOfDeath)
       implicit val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(form.data.toSeq: _*)
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))

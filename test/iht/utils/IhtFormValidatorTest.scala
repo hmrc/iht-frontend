@@ -28,8 +28,6 @@ import play.api.data.{FieldMapping, FormError}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.logging.SessionId
 
-import scala.concurrent.ExecutionContext.Implicits.global
-
 class IhtFormValidatorTest extends FakeIhtApp with MockitoSugar {
   val coExecutorIDKey = "id"
   val validName = "Axxlsk"
@@ -40,7 +38,6 @@ class IhtFormValidatorTest extends FakeIhtApp with MockitoSugar {
   val fakedFormNino = "SR000009C"
 
   def ninoForCoExecutorMapping(rd: RegistrationDetails): FieldMapping[String] = {
-    val mockCachingConnector = mock[CachingConnector]
     val ihtFormValidator = new IhtFormValidator {}
 
     implicit val request = createFakeRequest()
@@ -49,7 +46,6 @@ class IhtFormValidatorTest extends FakeIhtApp with MockitoSugar {
   }
 
   def ninoForDeceasedMapping(rd: RegistrationDetails): FieldMapping[String] = {
-    val mockCachingConnector = mock[CachingConnector]
     val ihtFormValidator = new IhtFormValidator {}
 
     implicit val request = createFakeRequest()

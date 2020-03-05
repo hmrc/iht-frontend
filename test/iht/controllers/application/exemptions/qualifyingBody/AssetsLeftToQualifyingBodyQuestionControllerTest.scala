@@ -17,7 +17,6 @@
 package iht.controllers.application.exemptions.qualifyingBody
 
 import iht.config.AppConfig
-import iht.controllers.IVWayfinderController
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms.assetsLeftToQualifyingBodyQuestionForm
 import iht.models.application.exemptions.BasicExemptionElement

@@ -18,10 +18,8 @@ package iht.controllers.application.assets.money
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.application.exemptions.charity.AssetsLeftToCharityQuestionController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
-
 import iht.testhelpers.TestHelper._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils._

@@ -17,9 +17,6 @@
 package iht.models.des.ihtReturn
 
 import play.api.libs.json.Json
-import play.api.libs.json.JodaWrites._
-import play.api.libs.json.JodaReads._
-
 
 case class FreeEstate(estateAssets: Option[Set[Asset]] = None,
                       interestInOtherEstate: Option[InterestInOtherEstate] = None,

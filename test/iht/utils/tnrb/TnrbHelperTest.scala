@@ -248,8 +248,8 @@ class TnrbHelperTest extends FakeIhtApp with MockitoSugar with TnrbHelper {
   }
 
   "cancelLinkUrlForWidowCheckPages" must {
+    val ihtRef = "ihtRef"
     "return Call to EstateOverviewController if widow check date empty" in {
-      val ihtRef = "ihtRef"
       val ad = CommonBuilder.buildApplicationDetails.copy(ihtRef=Some(ihtRef),
         widowCheck= Some(CommonBuilder.buildWidowedCheck copy(dateOfPreDeceased=None)))
       val expectedResult = iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtRef)
@@ -258,7 +258,6 @@ class TnrbHelperTest extends FakeIhtApp with MockitoSugar with TnrbHelper {
     }
 
     "return Call to TnrbOverviewController if widow check date is not empty" in {
-      val ihtRef = "ihtRef"
       val ad = CommonBuilder.buildApplicationDetails.copy(
         widowCheck= Some(CommonBuilder.buildWidowedCheck copy(dateOfPreDeceased=Some(LocalDate.now()))))
       val expectedResult = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad

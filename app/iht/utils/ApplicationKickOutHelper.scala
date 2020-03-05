@@ -20,7 +20,6 @@ import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.enums.KickOutSource
 import iht.utils.KickOutReason._
-import iht.utils.{ApplicationStatus => AppStatus, KickOutReason => KickOut}
 import play.api.mvc.Call
 
 import scala.collection.immutable.ListMap

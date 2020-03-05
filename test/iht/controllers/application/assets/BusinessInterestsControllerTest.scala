@@ -18,7 +18,6 @@ package iht.controllers.application.assets
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.registration.CompletedRegistrationController
 import iht.forms.ApplicationForms._
 
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}

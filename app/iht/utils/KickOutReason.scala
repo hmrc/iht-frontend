@@ -16,8 +16,6 @@
 
 package iht.utils
 
-import iht.utils.{KickOutReason => KickOut}
-
 /**
  *
 

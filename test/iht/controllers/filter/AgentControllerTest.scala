@@ -33,8 +33,6 @@ class AgentControllerTest extends ApplicationControllerTest with HtmlSpec {
   }
 
   def controller: AgentController = new TestController {
-    val cachingConnector: CachingConnector = mockCachingConnector
-    val ihtConnector: IhtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
 
     override def messagesApi: MessagesApi = mockControllerComponents.messagesApi

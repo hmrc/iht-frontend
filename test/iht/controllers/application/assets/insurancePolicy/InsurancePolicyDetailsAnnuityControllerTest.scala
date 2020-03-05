@@ -17,7 +17,7 @@
 package iht.controllers.application.assets.insurancePolicy
 
 import iht.config.AppConfig
-import iht.controllers.application.{ApplicationControllerTest, KickoutAppController}
+import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.InsurancePolicy

@@ -16,8 +16,6 @@
 
 package iht.testhelpers
 
-import scala.util.matching.Regex
-
 object ContentChecker {
 
   private val isNotGovUk: String => Boolean = _ != "GOV.UK"

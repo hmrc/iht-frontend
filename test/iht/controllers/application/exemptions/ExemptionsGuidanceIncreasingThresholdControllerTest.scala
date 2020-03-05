@@ -19,8 +19,6 @@ package iht.controllers.application.exemptions
 import iht.config.AppConfig
 import iht.constants.Constants
 import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.application.tnrb.PermanentHomeController
-
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import org.mockito.ArgumentMatchers._
 import play.api.mvc.MessagesControllerComponents

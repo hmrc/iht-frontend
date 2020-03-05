@@ -20,7 +20,6 @@ import java.util.Locale
 import java.util.UUID.randomUUID
 
 import iht.config.AppConfig
-import iht.utils.CommonHelper.withValue
 import org.joda.time.format.DateTimeFormat
 import play.api.i18n.Messages
 
@@ -125,7 +124,7 @@ trait StringHelper {
     var restrictName: Boolean = false;
     val nameArr = name.split(" ")
     for (namePart <- nameArr) {
-      var subparts = namePart.split("-")
+      val subparts = namePart.split("-")
       for (subpart <- subparts) {
         if (subpart.length > appConfig.nameRestrictLength) {
           restrictName = true

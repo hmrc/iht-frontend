@@ -16,10 +16,9 @@
 
 package iht.forms
 
-import iht.FakeIhtApp
+import iht.constants.Constants._
 import iht.forms.FilterForms._
 import play.api.data.FormError
-import iht.constants.Constants._
 
 /**
   * Created by adwelly on 21/10/2016.

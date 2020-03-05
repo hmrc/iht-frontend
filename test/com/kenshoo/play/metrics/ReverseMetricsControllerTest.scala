@@ -18,7 +18,6 @@ package com.kenshoo.play.metrics
 
 import iht.FakeIhtApp
 import play.api.mvc.Call
-import play.api.routing.JavaScriptReverseRoute
 
 class ReverseMetricsControllerTest extends FakeIhtApp {
 

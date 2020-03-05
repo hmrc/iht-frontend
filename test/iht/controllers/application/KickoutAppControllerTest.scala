@@ -20,8 +20,7 @@ import java.util.UUID
 
 import iht.config.AppConfig
 import iht.metrics.IhtMetrics
-
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, MockObjectBuilder, TestHelper}
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
 import iht.utils.{DeceasedInfoHelper, KickOutReason, ApplicationStatus => AppStatus}
 import org.mockito.ArgumentMatchers._
 import play.api.mvc.MessagesControllerComponents

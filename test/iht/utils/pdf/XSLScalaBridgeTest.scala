@@ -17,12 +17,9 @@
 package iht.utils.pdf
 
 import iht.FakeIhtApp
-import iht.testhelpers.CommonBuilder
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.{I18nSupport, Lang, Messages, MessagesApi}
 import play.api.test.FakeRequest
-import uk.gov.hmrc.play.test.UnitSpec
-
 
 class XSLScalaBridgeTest extends FakeIhtApp with MockitoSugar with I18nSupport {
 

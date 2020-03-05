@@ -17,8 +17,6 @@
 package iht.controllers.registration
 
 import iht.config.AppConfig
-import iht.controllers.application.exemptions.qualifyingBody.QualifyingBodyDeleteConfirmController
-
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils._
 import play.api.mvc.MessagesControllerComponents

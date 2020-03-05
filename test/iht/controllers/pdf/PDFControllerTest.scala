@@ -19,14 +19,11 @@ package iht.controllers.pdf
 import iht.config.AppConfig
 import iht.constants.Constants
 import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.application.assets.pensions.PensionsOverviewController
 import iht.controllers.application.pdf.PDFController
 import iht.models.RegistrationDetails
 import iht.testhelpers.CommonBuilder
-
 import iht.utils.pdf.XmlFoToPDF
 import org.mockito.ArgumentMatchers._
-import play.api.i18n.MessagesApi
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController

@@ -16,11 +16,8 @@
 
 package iht.viewmodels.estateReports
 
-import iht.connector.IhtConnector
-import iht.constants.IhtProperties
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.CommonBuilder
-
 import iht.utils.ApplicationStatus
 import org.joda.time.LocalDate
 import uk.gov.hmrc.http.HeaderCarrier

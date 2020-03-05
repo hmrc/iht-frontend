@@ -19,7 +19,6 @@ package iht.controllers.application.exemptions.charity
 import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.application.assets.vehicles.VehiclesJointlyOwnedController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions.Charity

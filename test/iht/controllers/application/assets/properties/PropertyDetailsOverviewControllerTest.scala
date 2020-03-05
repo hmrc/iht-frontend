@@ -18,7 +18,6 @@ package iht.controllers.application.assets.properties
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.application.declaration.DeclarationController
 import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
 import iht.utils._
 import play.api.mvc.{MessagesControllerComponents, Request, Result}

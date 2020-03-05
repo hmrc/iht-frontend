@@ -20,7 +20,7 @@ import javax.inject.Inject
 import play.api.Configuration
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.mvc.Results.InternalServerError
-import play.api.mvc.{MessagesControllerComponents, Request, RequestHeader, Result}
+import play.api.mvc.{Request, RequestHeader, Result}
 import play.twirl.api.Html
 import uk.gov.hmrc.http.Upstream5xxResponse
 import uk.gov.hmrc.play.bootstrap.http.FrontendErrorHandler

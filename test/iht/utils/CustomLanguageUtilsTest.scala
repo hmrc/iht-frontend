@@ -16,12 +16,11 @@
 
 package iht.utils
 
-import org.joda.time.{DateTime, DateTimeZone, LocalDate, LocalTime}
 import java.util.Date
 
-import iht.FakeIhtApp
-import CustomLanguageUtils.Dates
+import iht.utils.CustomLanguageUtils.Dates
 import iht.views.ViewTestHelper
+import org.joda.time.LocalDate
 
 class CustomLanguageUtilsTest extends ViewTestHelper {
   val epoch = LocalDate.fromDateFields(Date.from(java.time.Instant.EPOCH))

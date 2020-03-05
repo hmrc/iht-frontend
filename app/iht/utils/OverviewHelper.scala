@@ -100,7 +100,6 @@ object OverviewHelper {
   }
 
   private def overviewDisplayValues(implicit messages: Messages): ListMap[String, ApplicationDetails => String] = {
-    implicit val lang: Lang = messages.lang
 
     ListMap(
       AppSectionProperties -> { ad => createPropertiesDisplayValue(ad)},

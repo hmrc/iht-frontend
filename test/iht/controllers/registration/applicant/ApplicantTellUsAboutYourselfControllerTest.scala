@@ -52,14 +52,14 @@ class ApplicantTellUsAboutYourselfControllerTest
     override implicit val appConfig: AppConfig = mockAppConfig
   }
 
- def controller = new TestController {
-   override val cachingConnector = mockCachingConnector
-   override val authConnector = mockAuthConnector
-   override val metrics: IhtMetrics = mock[IhtMetrics]
+  def controller = new TestController {
+    override val cachingConnector = mockCachingConnector
+    override val authConnector = mockAuthConnector
+    override val metrics: IhtMetrics = mock[IhtMetrics]
 
-   override def citizenDetailsConnector = mockCitizenDetailsConnector
-   override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
- }
+    override def citizenDetailsConnector = mockCitizenDetailsConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+  }
 
   def controllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector

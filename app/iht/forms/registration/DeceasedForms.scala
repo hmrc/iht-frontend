@@ -21,7 +21,6 @@ import iht.constants.FieldMappings
 import iht.forms.mappings.DateMapping
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails, UkAddress}
 import iht.utils.IhtFormValidator
-import iht.utils.IhtFormValidator._
 import org.joda.time.LocalDate
 import play.api.data.Form
 import play.api.data.Forms._

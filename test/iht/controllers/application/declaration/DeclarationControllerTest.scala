@@ -19,15 +19,15 @@ package iht.controllers.application.declaration
 import iht.config.AppConfig
 import iht.connector.IhtConnector
 import iht.controllers.ControllerHelper
-import iht.controllers.application.{ApplicationControllerTest, KickoutAppController}
+import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.metrics.IhtMetrics
-import iht.models.{CoExecutor, ContactDetails}
 import iht.models.application.assets._
 import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.models.application.exemptions.{AllExemptions, PartnerExemption}
 import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.models.enums.StatsSource
+import iht.models.{CoExecutor, ContactDetails}
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.ApplicationStatus
 import org.joda.time.LocalDate

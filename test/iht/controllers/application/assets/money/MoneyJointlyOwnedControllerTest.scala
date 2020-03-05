@@ -18,7 +18,6 @@ package iht.controllers.application.assets.money
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.application.exemptions.charity.CharityNameController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 
@@ -28,8 +27,6 @@ import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.{contentAsString, _}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
-
-
 
 class MoneyJointlyOwnedControllerTest extends ApplicationControllerTest {
 

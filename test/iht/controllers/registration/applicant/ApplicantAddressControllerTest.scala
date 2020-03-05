@@ -20,7 +20,6 @@ import iht.config.AppConfig
 import iht.controllers.registration.{RegistrationControllerTest, routes => registrationRoutes}
 import iht.forms.registration.ApplicantForms._
 import iht.models.{ApplicantDetails, UkAddress}
-
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.MessagesControllerComponents
