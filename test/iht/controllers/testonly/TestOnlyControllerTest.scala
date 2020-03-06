@@ -20,9 +20,7 @@ import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.AssetsWithAllSectionsSetToNoBuilder
-
 import org.scalatest.BeforeAndAfter
-import play.api.i18n.{Lang, Messages}
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController

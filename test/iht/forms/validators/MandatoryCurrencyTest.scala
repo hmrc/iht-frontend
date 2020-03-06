@@ -18,7 +18,6 @@ package iht.forms.validators
 
 import iht.FakeIhtApp
 import play.api.data.FormError
-import uk.gov.hmrc.play.test.UnitSpec
 
 class MandatoryCurrencyTest extends FakeIhtApp {
 

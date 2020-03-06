@@ -17,7 +17,6 @@
 package iht.models
 
 import iht.config.AppConfig
-import iht.constants.IhtProperties
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.{DateTime, LocalDate}
 import play.api.libs.json.Json

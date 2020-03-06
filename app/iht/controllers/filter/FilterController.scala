@@ -59,7 +59,7 @@ trait FilterController extends FrontendController with I18nSupport {
     }
   }
 
-  def redirectPageLoad: Action[AnyContent] = Action { implicit user =>
+  def redirectPageLoad: Action[AnyContent] = Action {
     Redirect(iht.controllers.filter.routes.FilterController.onPageLoad())
   }
 

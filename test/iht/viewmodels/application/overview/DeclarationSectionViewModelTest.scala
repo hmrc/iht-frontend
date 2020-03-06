@@ -23,9 +23,7 @@ import iht.{FakeIhtApp, TestUtils}
 import org.joda.time.LocalDate
 import org.scalatest.BeforeAndAfter
 import org.scalatestplus.mockito.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
-import iht.testhelpers.TestHelper._
-import play.api.i18n.{Lang, Messages, MessagesApi}
+import play.api.i18n.{Lang, Messages}
 import play.api.mvc.MessagesControllerComponents
 
 class DeclarationSectionViewModelTest

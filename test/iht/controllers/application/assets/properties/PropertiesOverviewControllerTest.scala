@@ -18,8 +18,6 @@ package iht.controllers.application.assets.properties
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.application.exemptions.ExemptionsOverviewController
-
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.CommonHelper
 import play.api.mvc.MessagesControllerComponents

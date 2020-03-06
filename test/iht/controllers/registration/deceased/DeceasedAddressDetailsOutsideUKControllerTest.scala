@@ -106,7 +106,7 @@ class DeceasedAddressDetailsOutsideUKControllerTest
     }
 
     "respond appropriately to an invalid submit: Missing mandatory fields" in {
-      var existingDeceasedDetails = CommonBuilder.buildDeceasedDetails
+      val existingDeceasedDetails = CommonBuilder.buildDeceasedDetails
       val deceasedDetails = DeceasedDetails(None, None, None, None, None, None, None, None, None)
       val registrationDetails = RegistrationDetails(None, None, Some(existingDeceasedDetails))
       val deceasedDetailsForm1 = deceasedAddressDetailsOutsideUKForm.fill(deceasedDetails)
@@ -220,8 +220,6 @@ class DeceasedAddressDetailsOutsideUKControllerTest
 
       val result = controller.onSubmit()(request)
       status(result) mustBe(INTERNAL_SERVER_ERROR)
-
     }
-
   }
 }

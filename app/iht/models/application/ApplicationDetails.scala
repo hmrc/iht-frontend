@@ -17,7 +17,6 @@
 package iht.models.application
 
 import iht.config.AppConfig
-import iht.constants.IhtProperties
 import iht.models.application.assets._
 import iht.models.application.debts.AllLiabilities
 import iht.models.application.exemptions._

@@ -22,8 +22,7 @@ import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.models.application.exemptions.BasicExemptionElement
-
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, MockObjectBuilder, TestHelper}
+import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
 import iht.views.HtmlSpec
 import org.mockito.ArgumentMatchers._
 import play.api.mvc.MessagesControllerComponents

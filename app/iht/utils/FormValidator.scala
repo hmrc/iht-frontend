@@ -17,13 +17,12 @@
 package iht.utils
 
 import iht.config.AppConfig
-import iht.constants.IhtProperties
 import org.joda.time.LocalDate
 import play.api.data.Forms._
 import play.api.data.format.Formatter
 import play.api.data.validation._
 import play.api.data._
-import play.api.i18n.{Lang, Messages}
+import play.api.i18n.Messages
 import uk.gov.hmrc.play.validators.Validators._
 
 import scala.collection.immutable.ListMap

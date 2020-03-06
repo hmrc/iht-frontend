@@ -18,7 +18,6 @@ package iht.controllers.application.assets.insurancePolicy
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.application.declaration.DeclarationController
 import iht.models.application.assets.InsurancePolicy
 import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever, TestHelper}
 import iht.utils.DeceasedInfoHelper

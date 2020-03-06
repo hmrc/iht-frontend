@@ -17,7 +17,7 @@
 package iht.utils
 
 import iht.utils.KickOutReason._
-import iht.utils.{ApplicationStatus => AppStatus, KickOutReason => KickOut}
+import iht.utils.{KickOutReason => KickOut}
 import play.api.i18n.Messages
 
 import scala.collection.immutable.ListMap

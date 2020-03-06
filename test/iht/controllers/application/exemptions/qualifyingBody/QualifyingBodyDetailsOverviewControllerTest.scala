@@ -18,7 +18,6 @@ package iht.controllers.application.exemptions.qualifyingBody
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.registration.applicant.ApplicantTellUsAboutYourselfController
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.FakeHeaders

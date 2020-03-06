@@ -51,7 +51,6 @@ trait PermanentHomeController extends EstateController with StringHelper with Tn
 
       implicit request => {
         withRegistrationDetails { registrationDetails =>
-          val deceasedName = CommonHelper.getOrException(registrationDetails.deceasedDetails).name
           for {
             applicationDetails <- ihtConnector.getApplication(getNino(userNino),
               CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
@@ -82,8 +81,6 @@ trait PermanentHomeController extends EstateController with StringHelper with Tn
 
       implicit request => {
         withRegistrationDetails { regDetails =>
-          val deceasedName = CommonHelper.getOrException(regDetails.deceasedDetails).name
-
           val applicationDetailsFuture = ihtConnector.getApplication(getNino(userNino),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)

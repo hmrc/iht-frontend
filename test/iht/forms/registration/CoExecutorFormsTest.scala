@@ -21,20 +21,16 @@ import iht.config.AppConfig
 import iht.forms.FormTestHelper
 import iht.models._
 import iht.testhelpers.{CommonBuilder, NinoBuilder}
-import iht.utils.IhtFormValidator
 import org.joda.time.LocalDate
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
 import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, Form, FormError, Forms}
 import play.api.i18n.Lang
-import play.api.mvc.{AnyContentAsEmpty, Request}
+import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.logging.SessionId
-
-import scala.concurrent.ExecutionContext
-import scala.concurrent.ExecutionContext.Implicits.global
 
 class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp with CoExecutorForms {
 

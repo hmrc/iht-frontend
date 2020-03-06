@@ -22,8 +22,6 @@ import iht.models.des.ihtReturn.IHTReturn
 import IHTReturn._
 import org.json.{JSONObject, XML}
 import play.api.libs.json.Json
-import play.api.libs.json.JodaWrites._
-import play.api.libs.json.JodaReads._
 
 /**
  * Created by david-beer on 03/06/16.

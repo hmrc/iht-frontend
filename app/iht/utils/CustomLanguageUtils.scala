@@ -57,7 +57,6 @@ object CustomLanguageUtils {
     * support for Welsh and English dates.
     */
   object Dates extends Dates {
-    import play.api.Play.current
 
     override def defaultTimeZone = TimeZone.getTimeZone("Europe/London")
 

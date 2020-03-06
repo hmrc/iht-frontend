@@ -16,10 +16,8 @@
 
 package iht.testhelpers
 
-import uk.gov.hmrc.domain.{Generator, Nino}
+import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.play.test.UnitSpec
-
-import scala.util.Random
 
 /**
   * Created by yasar on 24/10/16.

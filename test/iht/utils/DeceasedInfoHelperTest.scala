@@ -22,7 +22,7 @@ import iht.models.DeceasedDateOfDeath
 import iht.testhelpers._
 import org.joda.time.LocalDate
 import org.scalatestplus.mockito.MockitoSugar
-import play.api.i18n.{I18nSupport, Lang, MessagesApi}
+import play.api.i18n.{I18nSupport, Lang}
 import play.api.mvc.MessagesControllerComponents
 
 class DeceasedInfoHelperTest extends FakeIhtApp with MockitoSugar with I18nSupport {

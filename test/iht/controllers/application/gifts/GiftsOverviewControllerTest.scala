@@ -18,7 +18,6 @@ package iht.controllers.application.gifts
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.application.exemptions.ExemptionsOverviewController
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.testhelpers._

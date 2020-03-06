@@ -18,9 +18,7 @@ package iht.controllers.application.exemptions.partner
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.application.debts.MortgagesOverviewController
 import iht.forms.ApplicationForms._
-
 import iht.testhelpers.TestHelper._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.CommonHelper._

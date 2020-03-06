@@ -18,7 +18,6 @@ package iht.controllers.application.assets.vehicles
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.application.assets.stocksAndShares.StocksAndSharesNotListedController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.TestHelper._
@@ -29,11 +28,7 @@ import play.api.test.Helpers.{contentAsString, _}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-
-
 class VehiclesJointlyOwnedControllerTest extends ApplicationControllerTest {
-
-
 
   def setUpTests(applicationDetails: ApplicationDetails) = {
     createMocksForApplication(mockCachingConnector,

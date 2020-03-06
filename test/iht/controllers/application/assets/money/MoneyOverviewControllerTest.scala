@@ -18,8 +18,6 @@ package iht.controllers.application.assets.money
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.application.exemptions.ExemptionsGuidanceIncreasingThresholdController
-
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._

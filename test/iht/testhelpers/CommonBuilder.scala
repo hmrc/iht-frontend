@@ -28,7 +28,7 @@ import iht.models.application.tnrb._
 import iht.models.application.{ApplicationDetails, IhtApplication, ProbateDetails}
 import iht.models.des.ihtReturn._
 import iht.models.{ReturnDetails, _}
-import iht.utils.{CommonHelper, KickOutReason, StringHelper, StringHelperFixture, ApplicationStatus => AppStatus}
+import iht.utils.{CommonHelper, KickOutReason, StringHelperFixture, ApplicationStatus => AppStatus}
 import models.des.{Deceased, Event, EventRegistration}
 import org.joda.time.{DateTime, LocalDate}
 import org.mockito.invocation.InvocationOnMock

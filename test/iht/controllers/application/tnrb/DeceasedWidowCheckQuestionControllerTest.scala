@@ -19,7 +19,6 @@ package iht.controllers.application.tnrb
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.application.declaration.DeclarationController
 import iht.forms.TnrbForms._
 import iht.models.application.tnrb.WidowCheck
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
@@ -29,7 +28,6 @@ import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
-
 
 class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest with HtmlSpec {
 
@@ -107,8 +105,6 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
 
       val withWidowedValue = CommonBuilder.buildWidowedCheck
 
-      val filledDeceasedWidowCheckQuestionForm = deceasedWidowCheckQuestionForm.fill(withWidowedValue)
-
       implicit val request = createFakeRequest().withFormUrlEncodedBody(("widowed", ""), ("shareValue", "233"))
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
@@ -123,8 +119,6 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
         saveAppDetails = true)
 
       val withWidowedValue = CommonBuilder.buildWidowedCheck
-
-      val filledDeceasedWidowCheckQuestionForm = deceasedWidowCheckQuestionForm.fill(withWidowedValue)
 
       implicit val request = createFakeRequest().withFormUrlEncodedBody(("widowed", ""), ("shareValue", "233"))
 
@@ -270,20 +264,6 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
 
       val result = deceasedWidowCheckQuestionController.onPageLoad(createFakeRequest())
       status(result) mustBe INTERNAL_SERVER_ERROR
-    }
-
-    def setupMocksForTitleTests = {
-      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(widowCheck = Some(CommonBuilder.buildWidowedCheck),
-        increaseIhtThreshold = Some(CommonBuilder.buildTnrbEligibility.copy(firstName = Some(CommonBuilder.firstNameGenerator),
-          lastName = Some(CommonBuilder.surnameGenerator))))
-
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails = true)
-
-      applicationDetails
     }
 
     "return html containing link which points to estate overview when widow check date is empty" in {

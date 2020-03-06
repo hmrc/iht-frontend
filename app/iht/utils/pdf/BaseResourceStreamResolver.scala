@@ -18,7 +18,6 @@ package iht.utils.pdf
 
 import javax.inject.Inject
 import javax.xml.transform.stream.StreamSource
-import javax.xml.transform.{Source, URIResolver}
 import play.api.{Environment, Logger}
 
 class DefaultResourceStreamResolver @Inject()(val environment: Environment) extends BaseResourceStreamResolver

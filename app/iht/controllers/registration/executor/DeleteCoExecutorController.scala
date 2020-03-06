@@ -55,7 +55,6 @@ trait DeleteCoExecutorController extends RegistrationController {
             Future.successful(InternalServerError("Coexecutor confirm deletion of id " + id + " fails. Id not found."))
           } else {
             val coExecutor = rd.coExecutors(index)
-            val addr = appConfig.ukIsoCountryCode
             Future.successful(Ok(iht.views.html.registration.executor.delete_coexecutor_confirm(coExecutor)))
           }
         }

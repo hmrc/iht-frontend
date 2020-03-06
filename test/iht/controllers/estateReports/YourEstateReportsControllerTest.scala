@@ -20,7 +20,6 @@ import iht.config.AppConfig
 import iht.connector.IhtConnector
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.{ApplicationDetails, IhtApplication}
-
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
 import iht.utils.{ApplicationStatus => Status}
 import iht.viewmodels.estateReports.YourEstateReportsRowViewModel

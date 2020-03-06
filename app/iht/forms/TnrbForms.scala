@@ -19,11 +19,8 @@ package iht.forms
 import iht.config.AppConfig
 import iht.forms.mappings.DateMapping
 import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
-import iht.utils._
-import org.joda.time.LocalDate
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.data.validation.{Constraint, Invalid, Valid}
 import iht.utils.IhtFormValidator
 import iht.utils.IhtFormValidator._
 
@@ -34,17 +31,6 @@ import iht.utils.IhtFormValidator._
  *
  */
 object TnrbForms {
-  // Widow check form.
-  private def isWidowedRequiredConstraint: Constraint[WidowCheck] = Constraint({
-    case WidowCheck(None, _) => Invalid("error.selectAnswer")
-    case _ => Valid
-  })
-
-  private def widowCheckRequiredDataConstraint: Constraint[WidowCheck] = Constraint({
-    case WidowCheck(Some(true), Some(_)) => Valid
-    case WidowCheck(Some(false), None) => Valid
-    case _ => Invalid("error.date.blank")
-  })
 
   val partnerLivingInUkForm = Form(mapping(
     "isPartnerLivingInUk" -> yesNoQuestion("error.isPartnerLivingInUk.select")

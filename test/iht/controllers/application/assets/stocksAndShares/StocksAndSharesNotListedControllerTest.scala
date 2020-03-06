@@ -18,7 +18,6 @@ package iht.controllers.application.assets.stocksAndShares
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.application.exemptions.qualifyingBody.QualifyingBodyDetailsOverviewController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.TestHelper._

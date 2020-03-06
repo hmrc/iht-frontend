@@ -72,7 +72,6 @@ class ExemptionsFormsTest extends FormTestHelper with FakeIhtApp {
     }
 
     "give no error when the first name is exactly max length" in {
-      val expectedError = singleError("firstName", "error.firstName.giveUsingXCharsOrLess")
       val data = formData("firstName", "a" * 40)
       checkForNotContainsError(partnerExemptionNameForm, "firstName", data)
     }
@@ -97,7 +96,6 @@ class ExemptionsFormsTest extends FormTestHelper with FakeIhtApp {
     }
 
     "give no error when the last name is exactly max length" in {
-      val expectedError = singleError("lastName", "error.lastName.giveUsingXCharsOrLess")
       val data = formData("lastName", "a" * 40)
       checkForNotContainsError(partnerExemptionNameForm, "lastName", data)
     }

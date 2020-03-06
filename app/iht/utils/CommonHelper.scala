@@ -28,8 +28,6 @@ import play.api.mvc.{Call, Request}
 import scala.util.{Failure, Success, Try}
 
 object CommonHelper {
-  private val DateRangeMonths = 24
-
   /**
     * Capture the Referrer URL excluding the Host URL
     * e.g - Input  - http://localhost:9070/inheritance-tax/registration/addExecutor

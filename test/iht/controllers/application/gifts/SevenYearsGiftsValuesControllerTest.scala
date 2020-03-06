@@ -17,7 +17,7 @@
 package iht.controllers.application.gifts
 
 import iht.config.AppConfig
-import iht.controllers.application.{ApplicationControllerTest, KickoutAppController}
+import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.views.HtmlSpec
 import org.jsoup.nodes.Document

@@ -84,7 +84,6 @@ class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTes
     }
 
     "respond with internal server error on page load when no app details" in {
-      val applicationDetails = CommonBuilder.buildApplicationDetails
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -120,10 +119,6 @@ class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTes
     }
 
     "give internal server error when no app details on submit" in {
-      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(
-        allExemptions = Some(CommonBuilder.buildAllExemptions.copy(partner = Some(PartnerExemption(
-          Some(true), Some(true), None, None, None, None, Some(1000))))))
-
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
         appDetails = None,

@@ -17,10 +17,7 @@
 package iht.forms.validators
 
 import iht.FakeIhtApp
-import iht.forms.ApplicationForms._
-import org.joda.time.LocalDate
-import play.api.data.{FormError, Mapping}
-import uk.gov.hmrc.play.test.UnitSpec
+import play.api.data.FormError
 
 class OptionalCurrencyTest extends FakeIhtApp {
 

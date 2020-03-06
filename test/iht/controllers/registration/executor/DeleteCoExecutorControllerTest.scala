@@ -36,11 +36,10 @@ import iht.config.AppConfig
 import iht.controllers.registration.RegistrationControllerTest
 import iht.forms.registration.CoExecutorForms
 import iht.models.UkAddress
-
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils._
 import org.scalatest.BeforeAndAfter
-import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController

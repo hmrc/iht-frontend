@@ -24,9 +24,7 @@ import iht.{FakeIhtApp, TestUtils}
 import org.scalatest.BeforeAndAfter
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.{Lang, Messages, MessagesApi}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import iht.config.AppConfig
-import uk.gov.hmrc.play.test.UnitSpec
 import iht.testhelpers.TestHelper._
 import play.api.mvc.MessagesControllerComponents
 

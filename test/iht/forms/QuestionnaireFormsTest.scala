@@ -18,7 +18,7 @@ package iht.forms
 
 import iht.FakeIhtApp
 import iht.models.QuestionnaireModel
-import play.api.data.{FieldMapping, Form}
+import play.api.data.Form
 
 class QuestionnaireFormsTest extends FakeIhtApp {
 

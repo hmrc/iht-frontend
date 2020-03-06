@@ -18,7 +18,6 @@ package iht.controllers.application.exemptions.qualifyingBody
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.application.tnrb.GiftsWithReservationOfBenefitController
 import iht.models.application.exemptions.QualifyingBody
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import org.scalatest.BeforeAndAfter

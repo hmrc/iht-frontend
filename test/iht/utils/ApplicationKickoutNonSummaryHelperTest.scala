@@ -25,7 +25,6 @@ import iht.models.application.exemptions.BasicExemptionElement
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.CommonBuilder._
 import org.scalatestplus.mockito.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
 
 class ApplicationKickoutNonSummaryHelperTest extends FakeIhtApp with MockitoSugar with ApplicationKickOutNonSummaryHelper {
   implicit val mockAppConfig: AppConfig = app.injector.instanceOf[AppConfig]
