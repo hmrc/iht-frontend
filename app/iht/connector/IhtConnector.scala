@@ -346,12 +346,4 @@ class IhtConnectorImpl @Inject()(val http: DefaultHttpClient,
    * Checks the relevant response exceptions for the code to be executed
    */
   private def exceptionCheckForResponses[A](x: Future[A]): Future[A] = x recoverWith connectorRecovery
-
-  implicit val reads = Reads.readRaw
-}
-
-
-
-object Reads {
-  implicit val readRaw: HttpReads[HttpResponse] = (method: String, url: String, response: HttpResponse) => response
 }
