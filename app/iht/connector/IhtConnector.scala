@@ -231,7 +231,8 @@ class IhtConnectorImpl @Inject()(val http: DefaultHttpClient,
     val formattedNino = trimAndUpperCaseNino(nino)
     Logger.info("Submitting application")
     http.POST(s"$serviceUrl/iht/$formattedNino/$ihtAppReference/application/submit", applicationDetails, ihtHeaders).map(
-      response => response.status match {
+      response =>
+        response.status match {
         case OK =>
           Logger.info("Response received from Right for application submit")
           Some(response.body.split(":").last.trim)
@@ -239,7 +240,9 @@ class IhtConnectorImpl @Inject()(val http: DefaultHttpClient,
           Logger.warn("Problem with the submission of the application details")
           throw new RuntimeException("Problem with the submission of the application details")
       }
-    ) recoverWith connectorRecovery
+    ) recoverWith {
+      case e: Upstream4xxResponse if e.upstreamResponseCode == FORBIDDEN => Future.successful(None)
+    } recoverWith connectorRecovery
   }
 
   def realtimeRiskingMessageResponseMatch(response: HttpResponse): Option[String] = {
@@ -343,4 +346,12 @@ class IhtConnectorImpl @Inject()(val http: DefaultHttpClient,
    * Checks the relevant response exceptions for the code to be executed
    */
   private def exceptionCheckForResponses[A](x: Future[A]): Future[A] = x recoverWith connectorRecovery
+
+  implicit val reads = Reads.readRaw
+}
+
+
+
+object Reads {
+  implicit val readRaw: HttpReads[HttpResponse] = (method: String, url: String, response: HttpResponse) => response
 }

@@ -53,7 +53,8 @@ GET         /joint-assets-use-service-over-325000                    @iht.contro
 GET         /deadlines-to-pay-inheritance-tax                        @iht.controllers.DeadlinesController.onPageLoadRegistration
 GET         /deadlines-for-paying-inheritance-tax                    @iht.controllers.DeadlinesController.onPageLoadApplication
 
-## IV Wayfinder
+GET         /non-lead-executor                                       @iht.controllers.NonLeadExecutorController.onPageLoad
+## IV Wayfinderk
 
 GET         /registration/login-pass                                 @iht.controllers.IVWayfinderController.loginPass
 GET         /registration/verification-pass                          @iht.controllers.IVWayfinderController.verificationPass

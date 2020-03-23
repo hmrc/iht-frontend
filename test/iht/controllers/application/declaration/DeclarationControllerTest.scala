@@ -378,6 +378,22 @@ class DeclarationControllerTest extends ApplicationControllerTest {
       status(result) mustBe SEE_OTHER
     }
 
+    "must redirect to non lead executor page when submitApplication return 403" in {
+      val regDetails = CommonBuilder.buildRegistrationDetails copy(ihtReference=Some("XXX"),
+        coExecutors = Seq(CommonBuilder.buildCoExecutor,
+          CommonBuilder.buildCoExecutor))
+
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(regDetails)))
+      createMockToGetApplicationDetails(mockIhtConnector)
+      createMockToSaveApplicationDetails(mockIhtConnector)
+      when(mockIhtConnector.submitApplication(any(),any(),any())(any(), any())).thenReturn(Future.successful(None))
+      mockForApplicationStatus(ApplicationStatus.AwaitingReturn)
+
+      val result = declarationController.onSubmit()(createFakeRequest())
+      status(result) mustBe SEE_OTHER
+      redirectLocation(result) mustBe Some(iht.controllers.routes.NonLeadExecutorController.onPageLoad().url)
+    }
+
     "statsSource should return Some assets only" in {
       val result = declarationController.statsSource(
         CommonBuilder.buildApplicationDetails, BigDecimal(0), BigDecimal(0), BigDecimal(0), BigDecimal(1))

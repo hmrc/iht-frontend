@@ -1942,6 +1942,12 @@ page.iht.application.kickout.final.getCopy.guidance2.saveAndPrint = save or prin
 page.iht.application.kickout.final.getCopy.guidance3 = This will have all of the details you have entered so that you can write them on the IHT400 form. If you are not able to save or print a copy at the moment, return to the estate overview and come back when you are able to do this.
 page.iht.application.kickout.final.guidance.onFinish = By selecting finish you will be given a copy of the IHT400 form and this estate report will be deleted.
 
+#Kickouts - Not Lead Executor
+page.application.kickout.nonLeadExec.title = This estate was registered by a different user
+page.application.kickout.nonLeadExec.heading = This estate was registered by a different user
+page.application.kickout.nonLeadExec.para1 = The estate report is complete and can now be submitted. You need to ask the executor that registered this estate to sign in and submit it to HMRC.
+page.application.kickout.nonLeadExec.para2 = If you are not sure who registered this estate, use the link below to contact the IHT help desk.
+
 #Questionnaire Feedback
 page.iht.questionnaire.completeSurvey = Please complete this short survey to help us improve the service
 page.iht.registration.questionnaire.p1 = Any details you have entered have not been saved. You need to complete registration in one go.

@@ -56,24 +56,24 @@ trait DeclarationController extends ApplicationController with StringHelper {
   def onPageLoad: Action[AnyContent] = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       withRegistrationDetails { regDetails =>
-         getApplicationDetails(getOrException(regDetails.ihtReference), regDetails.acknowledgmentReference, userNino).flatMap { appDetails =>
-           realTimeRiskingMessage(appDetails, CommonHelper.getOrException(regDetails.ihtReference), getNino(userNino), ihtConnector).map { optRiskMsg =>
-             val englishMessages = cc.messagesApi.preferred(Seq(Lang("en")))
+        getApplicationDetails(getOrException(regDetails.ihtReference), regDetails.acknowledgmentReference, userNino).flatMap { appDetails =>
+          realTimeRiskingMessage(appDetails, CommonHelper.getOrException(regDetails.ihtReference), getNino(userNino), ihtConnector).map { optRiskMsg =>
+            val englishMessages = cc.messagesApi.preferred(Seq(Lang("en")))
 
-             Ok(iht.views.html.application.declaration.declaration(
-               DeclarationViewModel(ApplicationForms.declarationForm,
-                 appDetails,
-                 regDetails,
-                 getNino(userNino),
-                 ihtConnector,
-                 optRiskMsg
-               ), englishMessages
-             ))
-           }
-         }
+            Ok(iht.views.html.application.declaration.declaration(
+              DeclarationViewModel(ApplicationForms.declarationForm,
+                appDetails,
+                regDetails,
+                getNino(userNino),
+                ihtConnector,
+                optRiskMsg
+              ), englishMessages
+            ))
+          }
         }
       }
     }
+  }
 
   private def withErrors(userNino: Option[String], rd: RegistrationDetails)(implicit request: Request[_], hc: HeaderCarrier) =
     getApplicationDetails(getOrException(rd.ihtReference), rd.acknowledgmentReference, userNino) flatMap { appDetails =>
@@ -120,18 +120,18 @@ trait DeclarationController extends ApplicationController with StringHelper {
       } recover {
         case ex: Upstream5xxResponse if ex.upstreamResponseCode == 502 &&
           ex.message.contains("Service Unavailable") => {
-            Logger.warn("Service Unavailable while submitting application", ex)
-            InternalServerError(iht.views.html.estateReports.estateReports_error_serviceUnavailable())
-          }
+          Logger.warn("Service Unavailable while submitting application", ex)
+          InternalServerError(iht.views.html.estateReports.estateReports_error_serviceUnavailable())
+        }
       }
     }
   }
 
   private[controllers] def realTimeRiskingMessage(ad: ApplicationDetails,
-                                     ihtAppReference: String,
-                                     nino: String,
-                                     ihtConnector: IhtConnector)(implicit request: Request[_],
-                                                                 hc: HeaderCarrier): Future[Option[String]] = {
+                                                  ihtAppReference: String,
+                                                  nino: String,
+                                                  ihtConnector: IhtConnector)(implicit request: Request[_],
+                                                                              hc: HeaderCarrier): Future[Option[String]] = {
     val moneyValue = for {
       assets <- ad.allAssets
       money <- assets.money
@@ -153,7 +153,7 @@ trait DeclarationController extends ApplicationController with StringHelper {
   }
 
   private[controllers] def getRealTimeRiskMessage(ihtConnector: IhtConnector, ihtAppReference: String, nino: String)
-                                    (implicit hc: HeaderCarrier) = {
+                                                 (implicit hc: HeaderCarrier) = {
     Logger.debug("Money has no value, hence need to check for real-time risking message")
     ihtConnector.getRealtimeRiskingMessage(ihtAppReference, nino).recover {
       case e: Exception =>
@@ -164,7 +164,7 @@ trait DeclarationController extends ApplicationController with StringHelper {
 
 
   private def processApplicationOrRedirect(userNino: Option[String])(implicit request: Request[_],
-                                                    hc: HeaderCarrier) = {
+                                                                     hc: HeaderCarrier): Future[Result] = {
     withRegistrationDetails { rd =>
       val ihtReference = CommonHelper.getOrException(rd.ihtReference)
       ihtConnector.getCaseDetails(getNino(userNino), ihtReference) flatMap { rd =>
@@ -179,50 +179,69 @@ trait DeclarationController extends ApplicationController with StringHelper {
   }
 
   private def processApplication(nino: String)(implicit request: Request[_],
-                                                        hc: HeaderCarrier): Future[Result] = {
+                                               hc: HeaderCarrier): Future[Result] = {
     withRegistrationDetails { regDetails =>
       val ihtAppReference = regDetails.ihtReference
       val acknowledgement = regDetails.acknowledgmentReference
 
       ihtConnector.getApplication(nino, ihtAppReference, acknowledgement).flatMap{ applicationDetails =>
 
-      val ad1 = CommonHelper.getOrExceptionNoApplication(applicationDetails)
+        val ad1 = CommonHelper.getOrExceptionNoApplication(applicationDetails)
 
-      fillMetricsData(ad1, regDetails)
+        fillMetricsData(ad1, regDetails)
 
-      val updatedAppDetails: ApplicationDetails = ad1.copy(reasonForBeingBelowLimit = calculateReasonForBeingBelowLimit(ad1))
+        val updatedAppDetails: ApplicationDetails = ad1.copy(reasonForBeingBelowLimit = calculateReasonForBeingBelowLimit(ad1))
 
-      ihtConnector.saveApplication(nino, updatedAppDetails, acknowledgement)
-        .flatMap(optionSavedApplication => {
+        ihtConnector.saveApplication(nino, updatedAppDetails, acknowledgement).flatMap(optionSavedApplication => {
           if (optionSavedApplication.isEmpty) {
             Logger.debug("Unable to save application details: reasonForBeingBelowLimit not saved")
           }
-          Logger.debug("Processing submission of application with IHT reference " + ihtAppReference + ":-\n" + updatedAppDetails.toString)
-          ihtConnector.submitApplication(ihtAppReference, nino, updatedAppDetails)
-        })
-        .flatMap(returnId => {
-          Logger.debug("Submission completed successfully with return id ::: " + returnId)
-          Future(metrics.generalStatsCounter(StatsSource.COMPLETED_APP)).onFailure {
-            case _ => Logger.info("Unable to write to StatsSource metrics repository")
-          }
-          Logger.info("Processing to get Probate details")
-          returnId.fold[Future[Option[ProbateDetails]]](throw new RuntimeException("Unable to submit application")) { idVal =>
-            ihtConnector.deleteApplication(nino, ihtAppReference)
-            getProbateDetails(nino, ihtAppReference, idVal.trim)
-          }
-        })
-        .flatMap {
-          case Some(probateObject) =>
-            Logger.info("Saving probate details in session")
-            cachingConnector.storeProbateDetails(probateObject)
-          case _ =>
-            Logger.warn("Probate details could not be retrieved")
-            Future.successful(None)
-        }
-        .map { _ =>
-          Redirect(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad())
+          submitApplication(nino, updatedAppDetails, ihtAppReference)
+        }).flatMap {
+          case None =>
+            Future.successful(Redirect(iht.controllers.routes.NonLeadExecutorController.onPageLoad()))
+          case returnId@Some(_) =>
+            processToGetProbateDetails(nino, ihtAppReference, returnId).flatMap(probateDetails => storeProbateDetails(probateDetails))
+              .map { _ =>
+                Redirect(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad())
+              }
         }
       }
+    }
+  }
+
+  private def submitApplication(nino: String,
+                                updatedAppDetails: ApplicationDetails,
+                                ihtAppReference: Option[String])
+                               (implicit request: Request[_], hc: HeaderCarrier): Future[Option[String]] = {
+
+    Logger.debug("Processing submission of application with IHT reference " + ihtAppReference + ":-\n" + updatedAppDetails.toString)
+    ihtConnector.submitApplication(ihtAppReference, nino, updatedAppDetails)
+  }
+
+  private def processToGetProbateDetails(nino: String, ihtAppReference: Option[String], returnId: Option[String])
+                                        (implicit request: Request[_], hc: HeaderCarrier): Future[Option[ProbateDetails]] = {
+
+    Logger.debug("Submission completed successfully with return id ::: " + returnId)
+    Future(metrics.generalStatsCounter(StatsSource.COMPLETED_APP)).onFailure {
+      case _ => Logger.info("Unable to write to StatsSource metrics repository")
+    }
+    Logger.info("Processing to get Probate details")
+    returnId.fold[Future[Option[ProbateDetails]]](throw new RuntimeException("Unable to submit application")) { idVal =>
+      ihtConnector.deleteApplication(nino, ihtAppReference)
+      getProbateDetails(nino, ihtAppReference, idVal.trim)
+    }
+  }
+
+  private def storeProbateDetails(probateDetails: Option[ProbateDetails])
+                                 (implicit request: Request[_], hc: HeaderCarrier): Future[Option[ProbateDetails]]= {
+    probateDetails match {
+      case Some(probateObject) =>
+        Logger.info("Saving probate details in session")
+        cachingConnector.storeProbateDetails(probateObject)
+      case _ =>
+        Logger.warn("Probate details could not be retrieved")
+        Future.successful(None)
     }
   }
 

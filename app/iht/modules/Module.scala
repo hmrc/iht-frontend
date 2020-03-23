@@ -211,6 +211,7 @@ class Module extends AbstractModule {
     bind(classOf[ExecutorOverviewController]).to(classOf[ExecutorOverviewControllerImpl]).asEagerSingleton
     bind(classOf[OtherPersonsAddressController]).to(classOf[OtherPersonsAddressControllerImpl]).asEagerSingleton
     bind(classOf[OthersApplyingForProbateController]).to(classOf[OthersApplyingForProbateControllerImpl]).asEagerSingleton
+    bind(classOf[NonLeadExecutorController]).to(classOf[NonLeadExecutorControllerImp]).asEagerSingleton()
 
     bind(classOf[ApplicationClosedController]).to(classOf[ApplicationClosedControllerImpl]).asEagerSingleton
     bind(classOf[ApplicationInReviewController]).to(classOf[ApplicationInReviewControllerImpl]).asEagerSingleton
