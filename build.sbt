@@ -37,7 +37,7 @@ lazy val microservice = Project(appName, file("."))
   //    .settings(scalaSettings: _*)
   .settings(publishingSettings: _*)
   .settings(
-    scalaVersion := "2.12.10",
+    scalaVersion := "2.12.11",
     libraryDependencies ++= appDependencies,
     fork in Test := false,
     retrieveManaged := true,
@@ -61,8 +61,8 @@ lazy val microservice = Project(appName, file("."))
   // Use the silencer plugin to suppress warnings from unused imports in compiled twirl templates
   scalacOptions += "-P:silencer:pathFilters=views;routes"
   libraryDependencies ++= Seq(
-    compilerPlugin("com.github.ghik" % "silencer-plugin" % "1.4.4" cross CrossVersion.full),
-    "com.github.ghik" % "silencer-lib" % "1.4.4" % Provided cross CrossVersion.full
+    compilerPlugin("com.github.ghik" % "silencer-plugin" % "1.6.0" cross CrossVersion.full),
+    "com.github.ghik" % "silencer-lib" % "1.6.0" % Provided cross CrossVersion.full
   )
   // ***************
 

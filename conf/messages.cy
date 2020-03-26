@@ -2216,3 +2216,9 @@ iht.estateReport.estateValue.error.title = Os ydych wedi gwneud camgymeriadau o 
 iht.estateReport.estateValue.error.p1 = Nid oes rhaid i chi roi gwybod i CThEM am unrhyw newidiadau o ran gwerth yr ystâd oni bai eich bod o’r farn y gallai fod angen i chi gyflwyno Ffurflen Dreth lawn (IHT400). Os oes angen Ffurflen Dreth lawn, ac nid ydych yn cyflwyno un, mae’n bosibl y codir cosb arnoch.
 iht.estateReport.estateValue.error.link = Ewch ati i gadarnhau a oes angen Ffurflen Dreth lawn ar yr ystâd.
 iht.estateReport.estateValue.error.p2 = Mae’n rhaid i chi, ym mhob achos, roi gwybod i’r Gwasanaeth Profiant am werth yr ystâd wedi’i ddiwygio (gros a net) hyd nes eich bod yn cael y Grant Profiant.
+
+#Kickouts - Not Lead Executor
+page.application.kickout.nonLeadExec.title = Cofrestrwyd yr ystâd hon gan ddefnyddiwr gwahanol
+page.application.kickout.nonLeadExec.heading = Cofrestrwyd yr ystâd hon gan ddefnyddiwr gwahanol
+page.application.kickout.nonLeadExec.para1 = Mae''r adroddiad ynghylch yr ystâd yn gyflawn, a gellir nawr ei gyflwyno. Mae''n rhaid i chi ofyn i''r ysgutor a gofrestrodd yr ystâd hon i fewngofnodi a''i chyflwyno i CThEM.
+page.application.kickout.nonLeadExec.para2 = Os nad ydych yn siŵr pwy gofrestrodd yr ystâd hon, defnyddiwch y cysylltiad isod i gysylltu â''r llinell gymorth Treth Etifeddiant (IHT).
