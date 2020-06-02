@@ -139,12 +139,12 @@ trait RegistrationSummaryController extends RegistrationController with StringHe
     */
   private def fillMetrics(regDetails: RegistrationDetails) = {
 
-    Future(metrics.generalStatsCounter(StatsSource.COMPLETED_REG)).onFailure {
+    Future(metrics.generalStatsCounter(StatsSource.COMPLETED_REG)).onComplete {
       case _ => Logger.info("Unable to write to StatsSource metrics repository")
     }
 
     if (regDetails.coExecutors.nonEmpty) {
-      Future(metrics.generalStatsCounter(StatsSource.COMPLETED_REG_ADDITIONAL_EXECUTORS)).onFailure {
+      Future(metrics.generalStatsCounter(StatsSource.COMPLETED_REG_ADDITIONAL_EXECUTORS)).onComplete {
         case _ => Logger.info("Unable to write to StatsSource metrics repository")
       }
     }

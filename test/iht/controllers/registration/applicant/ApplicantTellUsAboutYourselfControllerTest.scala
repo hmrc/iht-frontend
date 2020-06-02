@@ -18,7 +18,6 @@ package iht.controllers.registration.applicant
 
 import iht.config.AppConfig
 import iht.connector.CitizenDetailsConnector
-import iht.controllers.application.assets.trusts.TrustsMoreThanOneQuestionController
 import iht.controllers.registration.{routes => registrationRoutes}
 import iht.forms.registration.ApplicantForms._
 import iht.metrics.IhtMetrics
@@ -226,7 +225,6 @@ class ApplicantTellUsAboutYourselfControllerTest
     "respond appropriately to a submit in edit mode with invalid values" in  {
       val applicantDetails = CommonBuilder.buildApplicantDetails copy (doesLiveInUK = Some(false))
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
-      val form = applicantTellUsAboutYourselfForm.fill(applicantDetails)
 
       implicit val request = createFakeRequest().withFormUrlEncodedBody(("phoneNo", CommonBuilder.emptyString))
 

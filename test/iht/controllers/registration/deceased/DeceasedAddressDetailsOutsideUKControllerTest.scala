@@ -138,7 +138,7 @@ class DeceasedAddressDetailsOutsideUKControllerTest
     "respond appropriately to a submit in edit mode with invalid values in some fields" in {
       val deceasedDetails = CommonBuilder.buildDeceasedDetails
       val registrationDetails = RegistrationDetails(None, None, Some(deceasedDetails))
-      val deceasedDetailsForm1 = deceasedAddressDetailsOutsideUKForm.fill(deceasedDetails)
+
       implicit val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(("ukAddress.ukAddressLine1", "addr1"))
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))

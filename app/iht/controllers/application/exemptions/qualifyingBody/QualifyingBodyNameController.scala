@@ -45,10 +45,15 @@ trait QualifyingBodyNameController extends EstateController {
 
 
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(routes.QualifyingBodyNameController.onSubmit(), Some(appConfig.ExemptionsOtherNameID))
+
   def cancelUrl = routes.QualifyingBodyDetailsOverviewController.onPageLoad()
 
   private def editCancelUrl(id: String) = routes.QualifyingBodyDetailsOverviewController.onEditPageLoad(id)
-  private def editSubmitUrl(id: String) = CommonHelper.addFragmentIdentifier(routes.QualifyingBodyNameController.onEditSubmit(id), Some(appConfig.ExemptionsOtherNameID))
+
+  private def editSubmitUrl(id: String) = {
+    CommonHelper.addFragmentIdentifier(routes.QualifyingBodyNameController.onEditSubmit(id),
+      Some(appConfig.ExemptionsOtherNameID))
+  }
 
   def locationAfterSuccessfulSave(optionID: Option[String]) = CommonHelper.getOrException(
     optionID.map(id => routes.QualifyingBodyDetailsOverviewController.onEditPageLoad(id)))
@@ -106,7 +111,7 @@ trait QualifyingBodyNameController extends EstateController {
 
   private def doSubmit(submitUrl: Call,
                        cancelUrl: Call,
-                       charityId: Option[String] = None,
+                       charityId: Option[String],
                        userNino: Option[String])
                       (implicit request: Request[_]) = {
     estateElementOnSubmitWithIdAndNavigation[QualifyingBody](

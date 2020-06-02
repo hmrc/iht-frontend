@@ -94,7 +94,7 @@ trait RegistrationController extends FrontendController with IhtBaseController w
   }
 
   def withRegistrationDetailsRedirectOnGuardCondition(body: RegistrationDetails => Future[Result])
-                                                     (implicit request: Request[_], hc: HeaderCarrier): Future[Result] = {
+                                                     (implicit request: Request[_]): Future[Result] = {
     withRegistrationDetails { rd =>
       val uri = request.uri.split("/")
       val id = if (uri.isEmpty) "" else uri.last
@@ -111,7 +111,7 @@ trait RegistrationController extends FrontendController with IhtBaseController w
   }
 
   def withRegistrationDetails(body: RegistrationDetails => Future[Result])
-                             (implicit request: Request[_], hc: HeaderCarrier): Future[Result] = {
+                             (implicit request: Request[_]): Future[Result] = {
     val futureOptionRD: Future[Option[RegistrationDetails]] = cachingConnector.getRegistrationDetails
     futureOptionRD.flatMap(optionRD => {
       val registrationDetails = optionRD.fold(new RegistrationDetails(None, None, None, Nil, None, "", ""))(identity)
@@ -120,7 +120,7 @@ trait RegistrationController extends FrontendController with IhtBaseController w
   }
 
   def withRegistrationDetailsOrRedirect(url: String)(body: RegistrationDetails => Future[Result])
-                                       (implicit request: Request[_], hc: HeaderCarrier): Future[Result] = {
+                                       (implicit request: Request[_]): Future[Result] = {
     cachingConnector.getRegistrationDetails flatMap {
       case None =>
         Logger.info(s"Registration details not found in cache when $url requested so re-directing to application overview page")

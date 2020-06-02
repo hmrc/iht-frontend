@@ -149,22 +149,6 @@ object IHTReturnTestHelper {
     )
   }
 
-  private def makeGiftToTrustOrganisation(value:BigDecimal, date:LocalDate) = {
-    Gift(
-      assetCode=Some("9095"),
-      assetDescription=Some("Rolled up gifts given away to Trusts or Organisation"),
-      assetID=Some("null"),
-      valuePrevOwned = Some(value),
-      percentageSharePrevOwned = Some(BigDecimal(100)),
-      valueRetained = Some(BigDecimal(0)),
-      percentageRetained = Some(BigDecimal(0)),
-      lossToEstate = Some(value),
-      dateOfGift = Some(date),
-      assetTotalValue = Some(value),
-      howheld = Some("Standard")
-    )
-  }
-
   private def buildTNRB = {
     val survivingSpouse = SurvivingSpouse(
       // Person
@@ -497,8 +481,7 @@ object IHTReturnTestHelper {
     )
   }
 
-  def buildAddr = {
-
+  def buildAddr() = {
   }
 
   def buildAssetsPropertiesDeceasedsHome = {

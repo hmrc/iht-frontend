@@ -24,7 +24,7 @@ import iht.views.ViewTestHelper
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito._
 import play.api.i18n.MessagesApi
-import play.api.mvc.{AnyContentAsEmpty, ControllerComponents, MessagesControllerComponents, Result}
+import play.api.mvc.{AnyContentAsEmpty, Result}
 import play.api.test.Helpers.{SEE_OTHER, redirectLocation, status => playStatus}
 import play.api.test.{DefaultAwaitTimeout, FakeRequest}
 import uk.gov.hmrc.auth.core.{AuthConnector, AuthenticateHeaderParser}

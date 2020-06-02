@@ -150,24 +150,6 @@ class FormValidatorTest extends FormTestHelper with FakeIhtApp {
       "countrycodekey"->"GB"
     )
 
-    val invalidChar1 = Map(
-      "addr1key"->"<HTML>",
-      "addr2key"->"addr2",
-      "addr3key"->"addr3",
-      "addr4key"->"addr4",
-      "postcodekey"->"pcode",
-      "countrycodekey"->"GB"
-    )
-
-    val invalidChar2 = Map(
-      "addr1key"->"addr1",
-      "addr2key"->"<HTML>",
-      "addr3key"->"addr3",
-      "addr4key"->"addr4",
-      "postcodekey"->"pcode",
-      "countrycodekey"->"GB"
-    )
-
     val blankPostcode = Map(
       "addr1key"->"addr1",
       "addr2key"->"addr2",

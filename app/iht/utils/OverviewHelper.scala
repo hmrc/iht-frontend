@@ -22,9 +22,8 @@ import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper._
 import iht.utils.CustomLanguageUtils.Dates
 import org.joda.time.LocalDate
-import play.api.i18n.{Lang, Messages}
+import play.api.i18n.Messages
 import play.api.mvc.Call
-
 import scala.collection.immutable.ListMap
 
 object OverviewHelper {

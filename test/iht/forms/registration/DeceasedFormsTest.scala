@@ -30,10 +30,7 @@ import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, FormError, Forms}
 import play.api.i18n.Messages
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.http.logging.SessionId
-
 import scala.concurrent.ExecutionContext
-import scala.concurrent.ExecutionContext.Implicits.global
 
 class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
   def dateOfDeath(day: String, month: String, year: String) =
@@ -268,8 +265,6 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
       val nino = NinoBuilder.randomNino.toString
 
       def bindFormEdit(map: Map[String, String]) = {
-        implicit val request = createFakeRequest()
-        implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
         implicit val msg: Messages = messages
         formsWithIhtFormValidatorMockedToSucceed(nino).aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino).bind(map)
       }
@@ -290,70 +285,70 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
       val data = completeAboutDeceased + ("firstName" -> "")
       val expectedErrors = error("firstName", "error.firstName.give")
 
-      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when the first name is not supplied" in {
       val data = completeAboutDeceased - "firstName"
       val expectedErrors = error("firstName", "error.required")
 
-      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when the first name is too long" in {
       val data = completeAboutDeceased + ("firstName" -> "A value that's longer than the 40 characters allowed in this field")
       val expectedErrors = error("firstName", "error.firstName.giveUsingXCharsOrLess")
 
-      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when the last name is blank" in {
       val data = completeAboutDeceased + ("lastName" -> "")
       val expectedErrors = error("lastName", "error.lastName.give")
 
-      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when the last name is not supplied" in {
       val data = completeAboutDeceased - "lastName"
       val expectedErrors = error("lastName", "error.required")
 
-      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when the last name is too long" in {
       val data = completeAboutDeceased + ("lastName" -> "A value that's longer than the 40 characters allowed in this field")
       val expectedErrors = error("lastName", "error.lastName.giveUsingXCharsOrLess")
 
-      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when a blank marital status is supplied" in {
       val data = completeAboutDeceased + ("maritalStatus" -> "")
       val expectedErrors = error("maritalStatus", "error.invalid")
 
-      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when an invalid marital status is supplied" in {
       val data = completeAboutDeceased + ("maritalStatus" -> "INVALID")
       val expectedErrors = error("maritalStatus", "error.invalid")
 
-      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, mockAppConfig), data, expectedErrors)
     }
 
     "give an error when no marital status is supplied" in {
       val data = completeAboutDeceased - "maritalStatus"
       val expectedErrors = error("maritalStatus", "error.deceasedMaritalStatus.select")
 
-      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, mockAppConfig), data, expectedErrors)
     }
 
     "give multiple errors when several fields are invalid" in {
       val data = completeAboutDeceased + ("firstName" -> "", "lastName" -> "")
       val expectedErrors = error("firstName", "error.firstName.give") ++
         error("lastName", "error.lastName.give")
-      val form = deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, createFakeRequest(true), hc, ec, mockAppConfig)
+      val form = deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, mockAppConfig)
 
       checkForError(form, data, expectedErrors)
     }
@@ -362,13 +357,11 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
       val data = completeAboutDeceased + ("dateOfBirth.day" -> "32", "dateOfBirth.month" -> "13", "dateOfBirth.year" -> "12", "dateOfBirth.day" -> "99")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveFull")
 
-      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, createFakeRequest(true), hc, ec, mockAppConfig), data, expectedErrors)
+      checkForError(deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, mockAppConfig), data, expectedErrors)
     }
 
     "indicate validation error when nino for deceased validation fails" in {
       def checkForError(data: Map[String, String], expectedErrors: Seq[FormError]): Unit = {
-        implicit val request = createFakeRequest()
-        implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
         implicit val msg = messages
         super.checkForError(formsWithIhtFormValidatorMockedToFail
           .aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino), data, expectedErrors)
@@ -623,8 +616,6 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
   }
 
   "dateOfBirth" must {
-    behave like dateOfBirth[DeceasedDetails](completeAboutDeceased, deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, createFakeRequest(true), hc, ec, mockAppConfig))
+    behave like dateOfBirth[DeceasedDetails](completeAboutDeceased, deceasedFormsGen().aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino)(messages, mockAppConfig))
   }
-
-  //endregion
 }

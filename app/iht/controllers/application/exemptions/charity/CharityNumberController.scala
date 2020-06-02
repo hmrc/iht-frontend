@@ -115,7 +115,7 @@ trait CharityNumberController extends EstateController {
 
   private def doSubmit(submitUrl: Call,
                        cancelUrl: Call,
-                       charityId: Option[String] = None,
+                       charityId: Option[String],
                        userNino: Option[String])(
                         implicit request: Request[_]) = {
     estateElementOnSubmitWithIdAndNavigation[Charity](

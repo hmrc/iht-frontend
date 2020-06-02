@@ -31,10 +31,7 @@ import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
-
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
-
 
 class AboutDeceasedControllerTest extends RegistrationControllerTest with BeforeAndAfter {
 
@@ -72,8 +69,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
     def deceasedForms: DeceasedForms = {
       new DeceasedForms {
         def ninoForDeceased(blankMessageKey: String, lengthMessageKey: String,
-                            formatMessageKey: String, oRegDetails: Option[RegistrationDetails])(
-                             implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] = {
+                            formatMessageKey: String, oRegDetails: Option[RegistrationDetails]): FieldMapping[String] = {
           val formatter = new Formatter[String] {
             override val format: Option[(String, Seq[Any])] = None
 
@@ -86,8 +82,6 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
         }
       }
     }
-    implicit val request = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-    implicit val hc = new HeaderCarrier()
     deceasedForms
   }
 
@@ -133,7 +127,6 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
 
     "ensure date field is blank when page is first loaded" in {
       val applicantDetails = CommonBuilder.buildApplicantDetails
-      val deceasedDetails = CommonBuilder.buildDeceasedDetails
       val registrationDetails = RegistrationDetails(Some(CommonBuilder.buildDeceasedDateOfDeath), Some(applicantDetails),
         Some(DeceasedDetails(None, None, None, None, None, None, Some(CommonBuilder.DefaultDomicile), None, None)))
       val deceasedForms = formWithMockedNinoValidationNoDeceased(mockCachingConnector)
@@ -198,7 +191,6 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
       val deceasedDetailsForm1 = formWithMockedNinoValidation(deceasedDetails, mockCachingConnector)
 
       implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-      implicit val hc = new HeaderCarrier()
       val form: Form[DeceasedDetails] = deceasedDetailsForm1.aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino).fill(deceasedDetails)
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
@@ -218,7 +210,6 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
       val deceasedDetailsForm1 = formWithMockedNinoValidation(deceasedDetails,mockCachingConnector)
 
       implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-      implicit val hc = new HeaderCarrier()
       val form: Form[DeceasedDetails] = deceasedDetailsForm1.aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino).fill(deceasedDetails)
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
@@ -238,7 +229,6 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
       val deceasedForms = formWithMockedNinoValidation(deceasedDetails,mockCachingConnector)
 
       implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-      implicit val hc = new HeaderCarrier()
       val form: Form[DeceasedDetails] = deceasedForms.aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino).fill(deceasedDetails)
 
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
@@ -260,7 +250,6 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
       val deceasedForms = formWithMockedNinoValidation(deceasedDetails,mockCachingConnector)
 
       implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-      implicit val hc = new HeaderCarrier()
       val form: Form[DeceasedDetails] = deceasedForms.aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino).fill(deceasedDetails)
 
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
@@ -280,7 +269,6 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
       val deceasedForms = formWithMockedNinoValidation(deceasedDetails,mockCachingConnector)
 
       implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-      implicit val hc = new HeaderCarrier()
       val form: Form[DeceasedDetails] = deceasedForms.aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino).fill(deceasedDetails)
 
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
@@ -301,7 +289,6 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
       val deceasedForms = formWithMockedNinoValidation(deceasedDetails,mockCachingConnector)
 
       implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-      implicit val hc = new HeaderCarrier()
       val form: Form[DeceasedDetails] = deceasedForms.aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino).fill(deceasedDetails)
 
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
@@ -330,7 +317,6 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
       val deceasedForms = formWithMockedNinoValidation(newDetails, mockCachingConnector)
 
       implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-      implicit val hc = new HeaderCarrier()
       val form: Form[DeceasedDetails] = deceasedForms.aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino).fill(newDetails)
 
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
@@ -360,7 +346,6 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
       val deceasedForms: DeceasedForms = formWithMockedNinoValidation(newDetails, mockCachingConnector)
 
       implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-      implicit val hc = new HeaderCarrier()
       val form: Form[DeceasedDetails] = deceasedForms.aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino).fill(newDetails)
 
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,

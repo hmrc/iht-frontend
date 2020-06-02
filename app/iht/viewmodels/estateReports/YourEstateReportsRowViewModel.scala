@@ -23,7 +23,6 @@ import iht.utils.{ApplicationStatus => AppStatus}
 import play.api.Logger
 import play.api.i18n.Messages
 import play.api.mvc.Call
-import uk.gov.hmrc.http.HeaderCarrier
 
 case class YourEstateReportsRowViewModel(deceasedName: String,
                                ihtRefNo: String,
@@ -35,7 +34,7 @@ case class YourEstateReportsRowViewModel(deceasedName: String,
 
 object YourEstateReportsRowViewModel {
   def apply(nino: String, ihtApp: IhtApplication, ihtConnector: IhtConnector, currentStatus: String)
-           (implicit headerCarrier: HeaderCarrier, messages: Messages): YourEstateReportsRowViewModel = {
+           (implicit messages: Messages): YourEstateReportsRowViewModel = {
 
     val ihtRef = ihtApp.ihtRefNo
 

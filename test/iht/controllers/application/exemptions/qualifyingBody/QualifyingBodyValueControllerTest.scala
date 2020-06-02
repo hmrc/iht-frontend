@@ -18,7 +18,6 @@ package iht.controllers.application.exemptions.qualifyingBody
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.application.declaration.DeclarationController
 import iht.models.application.exemptions.QualifyingBody
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import org.scalatest.BeforeAndAfter
@@ -29,8 +28,8 @@ import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
- * Created by jennygj on 26/08/16.
- */
+  * Created by jennygj on 26/08/16.
+  */
 
 class QualifyingBodyValueControllerTest extends ApplicationControllerTest with BeforeAndAfter {
 
@@ -80,19 +79,25 @@ class QualifyingBodyValueControllerTest extends ApplicationControllerTest with B
 
   lazy val resultOnPageLoadNotAuthorised =
     qualifyingBodyValueControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
+
   def resultOnEditPageLoadNotAuthorised(id: String) =
     qualifyingBodyValueControllerNotAuthorised.onEditPageLoad(id)(createFakeRequest(isAuthorised = false))
-  def resultOnSubmitNotAuthorised(request: Request[AnyContentAsFormUrlEncoded])=
+
+  def resultOnSubmitNotAuthorised(request: Request[AnyContentAsFormUrlEncoded]) =
     qualifyingBodyValueControllerNotAuthorised.onSubmit(request)
+
   def resultOnEditSubmitNotAuthorised(id: String) =
     qualifyingBodyValueControllerNotAuthorised.onEditSubmit(id)(createFakeRequest(isAuthorised = false))
 
   lazy val resultOnPageLoad =
     qualifyingBodyValueController.onPageLoad(createFakeRequest(authRetrieveNino = false))
+
   def resultOnEditPageLoad(id: String) =
     qualifyingBodyValueController.onEditPageLoad(id)(createFakeRequest())
+
   def resultOnSubmit(request: Request[AnyContentAsFormUrlEncoded]) =
     qualifyingBodyValueController.onSubmit(request)
+
   def resultOnEditSubmit(id: String)(request: Request[AnyContentAsFormUrlEncoded]) =
     qualifyingBodyValueController.onEditSubmit(id)(request)
 
@@ -183,7 +188,7 @@ class QualifyingBodyValueControllerTest extends ApplicationControllerTest with B
     "return an internal server error if onPageLoad for invalid ID is entered" in {
       createMocksForQualifyingBodyValue
       a[RuntimeException] mustBe thrownBy {
-       await(resultOnEditPageLoad("10"))
+        await(resultOnEditPageLoad("10"))
       }
     }
 

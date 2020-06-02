@@ -119,7 +119,9 @@ class ApplyingForProbateControllerTest
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
 
-      val form = applyingForProbateForm.fill(ApplicantDetails(isApplyingForProbate = Some(true), role = Some(mockAppConfig.roleLeadExecutor)))
+      val form = applyingForProbateForm.fill(ApplicantDetails(isApplyingForProbate = Some(true),
+        role = Some(mockAppConfig.roleLeadExecutor)))
+
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
         host = host, data = form.data.toSeq, authRetrieveNino = false)
 
@@ -215,8 +217,6 @@ class ApplyingForProbateControllerTest
       createMockToGetRegDetailsFromCache(mockCachingConnector,
         Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails copy(applicantDetails = Some(new ApplicantDetails(role = Some(mockAppConfig.roleLeadExecutor))))))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails))
-
-      val form = applyingForProbateForm.fill(ApplicantDetails(isApplyingForProbate = Some(true), role = Some(mockAppConfig.roleLeadExecutor)))
 
       implicit val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(("isApplyingForProbate", ""))
       val result = controller.onEditSubmit(request)

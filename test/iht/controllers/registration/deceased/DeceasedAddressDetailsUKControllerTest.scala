@@ -17,19 +17,16 @@
 package iht.controllers.registration.deceased
 
 import iht.config.AppConfig
-import iht.controllers.application.assets.pensions.PensionsOverviewController
 import iht.controllers.registration.applicant.{routes => applicantRoutes}
 import iht.controllers.registration.{routes => registrationRoutes}
 import iht.forms.registration.DeceasedForms._
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails, UkAddress}
-
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import org.joda.time.LocalDate
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
-
 import scala.concurrent.Future
 
 class DeceasedAddressDetailsUKControllerTest
@@ -127,7 +124,6 @@ class DeceasedAddressDetailsUKControllerTest
     "respond appropriately to a submit in edit mode with invalid values in one or more fields" in {
       val deceasedDetails = CommonBuilder.buildDeceasedDetails
       val registrationDetails = RegistrationDetails(None, None, Some(deceasedDetails))
-      val deceasedDetailsForm1 = deceasedAddressDetailsUKForm.fill(deceasedDetails)
       implicit val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(("ukAddress.ukAddressLine1", "addr1"))
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -138,7 +134,7 @@ class DeceasedAddressDetailsUKControllerTest
     }
 
     "respond appropriately to an invalid submit: Missing mandatory fields" in {
-      var existingDeceasedDetails = CommonBuilder.buildDeceasedDetails
+      val existingDeceasedDetails = CommonBuilder.buildDeceasedDetails
       val deceasedDetails = DeceasedDetails(None, None, None, None, None, None, None, None, None)
       val registrationDetails = RegistrationDetails(None, None, Some(existingDeceasedDetails))
       val deceasedDetailsForm1 = deceasedAddressDetailsUKForm.fill(deceasedDetails)

@@ -271,8 +271,7 @@ trait EstateController extends ApplicationController with ApplicationKickOutNonS
   def updateKickout(checks: FunctionListMap = checksEstate,
                     registrationDetails: RegistrationDetails,
                     applicationDetails: ApplicationDetails,
-                    applicationID: Option[String] = None)
-                   (implicit request: Request[_], hc: HeaderCarrier): ApplicationDetails =
+                    applicationID: Option[String] = None): ApplicationDetails =
     appKickoutUpdateKickout(checks = checks,
       prioritySection = applicationSection,
       registrationDetails = registrationDetails,
@@ -282,7 +281,6 @@ trait EstateController extends ApplicationController with ApplicationKickOutNonS
   /**
     * Submits the page with Id and navigation urls.Can be used in properties, charities and qualifying bodies
     */
-
   def estateElementOnSubmitWithIdAndNavigation[A](
                                                    form: Form[A],
                                                    retrievePageToDisplay: (Form[A], RegistrationDetails, Call, Call) => Appendable,

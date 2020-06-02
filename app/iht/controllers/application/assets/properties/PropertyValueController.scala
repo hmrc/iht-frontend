@@ -117,7 +117,8 @@ trait PropertyValueController extends EstateController {
         redirectLocationIfErrors = routes.PropertyValueController.onSubmit(),
         submitUrl = submitUrl,
         cancelUrl = cancelUrl,
-        userNino)
+        userNino,
+        None)
     }
   }
 
@@ -137,7 +138,7 @@ trait PropertyValueController extends EstateController {
                        submitUrl: Call,
                        cancelUrl: Call,
                        userNino: Option[String],
-                       propertyId: Option[String] = None)(
+                       propertyId: Option[String])(
                         implicit request: Request[_]) = {
     withRegistrationDetails { regDetails =>
       val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)

@@ -44,7 +44,6 @@ class SessionHelperTest extends FakeIhtApp with MockitoSugar {
 
   "ensureSessionHasNino" must {
     "throw an exception if the authcontext contains no nino" in {
-      val nino = NinoBuilder.randomNino
       a[RuntimeException] mustBe thrownBy {
         SessionHelper.ensureSessionHasNino(new Session(), None)
       }

@@ -1,7 +1,5 @@
 package utils.stubs
 
-import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder
-import com.github.tomakehurst.wiremock.client.WireMock._
 import play.api.test.Helpers.{FORBIDDEN, INTERNAL_SERVER_ERROR, OK}
 import utils.IntegrationBaseSpec
 

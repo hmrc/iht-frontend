@@ -23,7 +23,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
 import iht.utils.CommonHelper
 import iht.views.html._
-import org.apache.commons.lang3.StringEscapeUtils
+import org.apache.commons.text.StringEscapeUtils
 import org.joda.time.LocalDate
 import play.api.i18n.Messages
 import play.api.mvc.Results.Redirect

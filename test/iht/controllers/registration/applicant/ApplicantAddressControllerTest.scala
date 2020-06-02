@@ -362,10 +362,6 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
 
-      val form = applicantAddressAbroadForm.fill(addressAbroad)
-      implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
-        data = form.data.toSeq)
-
       val result = await(controller.onSubmitAbroad(createFakeRequest(authRetrieveNino = false)))
       status(result) mustBe SEE_OTHER
     }

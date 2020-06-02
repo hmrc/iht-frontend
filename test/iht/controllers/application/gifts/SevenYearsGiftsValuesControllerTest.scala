@@ -20,7 +20,6 @@ import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.views.HtmlSpec
-import org.jsoup.nodes.Document
 import play.api.i18n.MessagesApi
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
@@ -105,13 +104,5 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
       sevenYearsGiftsValuesController.onPageLoad(createFakeRequest()))
-  }
-
-  private def testGiftYearLinkData(doc: Document, yearId: String) = {
-    val yearLink = doc.getElementById(s"edit-gift-$yearId")
-    assertEqualsValue(doc, s"a#edit-gift-$yearId span",
-      messagesApi("iht.change"))
-    yearLink.attr("href") mustBe
-      routes.GiftsDetailsController.onPageLoad(yearId).url
   }
 }

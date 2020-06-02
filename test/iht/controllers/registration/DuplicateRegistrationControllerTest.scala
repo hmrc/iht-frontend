@@ -67,7 +67,7 @@ class DuplicateRegistrationControllerTest extends RegistrationControllerTest{
     }
 
     "respond with a reference number" in {
-      val result = duplicateRegistrationController.onPageLoad(ihtReference)(createFakeRequest(authRetrieveNino = false))
+      duplicateRegistrationController.onPageLoad(ihtReference)(createFakeRequest(authRetrieveNino = false))
     }
 
     "respond with not implemented" in {

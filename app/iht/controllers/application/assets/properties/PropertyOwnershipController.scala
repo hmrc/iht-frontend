@@ -156,7 +156,7 @@ trait PropertyOwnershipController extends EstateController with StringHelper {
   }
 
   private def processSubmit(nino: String, property: Property,
-                            propertyId: Option[String] = None)(
+                            propertyId: Option[String])(
                              implicit request: Request[_], hc: HeaderCarrier): Future[Result] = {
 
     withRegistrationDetails { registrationData =>

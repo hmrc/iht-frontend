@@ -42,7 +42,6 @@ class DeclarationHelperTest extends ApplicationControllerTest {
 
     "return declaration type as ValueLessThanNilRateBand  when total assets value is <=325 K after assets and gifts" +
       "with no exemption and no tnrb " in {
-      implicit val fakeRequest = createFakeRequest()
       val appDetailsWithRequiredValues = buildApplicationDetailsWithAllAssets
 
       DeclarationHelper.getDeclarationType(appDetailsWithRequiredValues) must be (DeclarationReason.ValueLessThanNilRateBand)
@@ -50,7 +49,6 @@ class DeclarationHelperTest extends ApplicationControllerTest {
 
     "return declaration type as ValueLessThanNilRateBandAfterExemption when assets, gifts and debts value is " +
       "<= 325 k after exemptions and no tnrb" in {
-      implicit val fakeRequest = createFakeRequest()
 
       val appDetailsWithRequiredValues = appDetails.copy(
         allAssets = Some(buildAllAssetsWithAllSectionsFilled),
@@ -67,7 +65,6 @@ class DeclarationHelperTest extends ApplicationControllerTest {
 
     "return declaration type as ValueLessThanTransferredNilRateBand  when assets, gifts and debts value is " +
       "<=650 K and eligible for tnrb but no exemptions " in {
-      implicit val fakeRequest = createFakeRequest()
 
       val appDetailsWithRequiredValues = appDetails.copy(
         allAssets = Some(buildAllAssetsWithAllSectionsFilled),
@@ -84,7 +81,6 @@ class DeclarationHelperTest extends ApplicationControllerTest {
 
     "return declare type as ValueLessThanTransferredNilRateBandAfterExemption when assets, gifts and debts value is" +
       "<=650 K and eligible for tnrb and has exemptions" in {
-      implicit val fakeRequest = createFakeRequest()
 
       val appDetailsWithRequiredValues = appDetails.copy(
         allAssets = Some(buildAllAssetsWithAllSectionsFilled),
