@@ -40,7 +40,6 @@ class DeclarationViewModelTest extends ApplicationControllerTest{
     "create declaration form" in {
 
       val regDetails = buildRegistrationDetails
-      implicit val fakeRequest = createFakeRequest()
 
       DeclarationViewModel(form, appDetails, regDetails, nino, mockIhtConnector, None).declarationForm must be (form)
     }
@@ -49,7 +48,6 @@ class DeclarationViewModelTest extends ApplicationControllerTest{
 
       val executors = Seq(buildCoExecutor, buildCoExecutor)
       val regDetails = buildRegistrationDetails.copy(coExecutors = executors)
-      implicit val fakeRequest = createFakeRequest()
 
       DeclarationViewModel(form, appDetails, regDetails, nino, mockIhtConnector, None).executors must be (executors)
     }
@@ -58,7 +56,6 @@ class DeclarationViewModelTest extends ApplicationControllerTest{
 
       val executors = Seq(buildCoExecutor, buildCoExecutor)
       val regDetails = buildRegistrationDetails.copy(coExecutors = executors)
-      implicit val fakeRequest = createFakeRequest()
 
       DeclarationViewModel(form, appDetails, regDetails, nino, mockIhtConnector, None).isMultipleExecutor must be (true)
     }
@@ -67,7 +64,6 @@ class DeclarationViewModelTest extends ApplicationControllerTest{
 
       val executors = Nil
       val regDetails = buildRegistrationDetails.copy(coExecutors = executors)
-      implicit val fakeRequest = createFakeRequest()
 
       DeclarationViewModel(form, appDetails, regDetails, nino, mockIhtConnector, None).isMultipleExecutor must be (false)
     }
@@ -76,7 +72,6 @@ class DeclarationViewModelTest extends ApplicationControllerTest{
 
       val executors = Seq(buildCoExecutor)
       val regDetails = buildRegistrationDetails.copy(coExecutors = executors)
-      implicit val fakeRequest = createFakeRequest()
 
       DeclarationViewModel(form, appDetails, regDetails, nino, mockIhtConnector, None).isMultipleExecutor must be (true)
     }
@@ -84,8 +79,6 @@ class DeclarationViewModelTest extends ApplicationControllerTest{
     "create registrationDetails " in {
 
       val regDetails = buildRegistrationDetails
-      implicit val fakeRequest = createFakeRequest()
-
       DeclarationViewModel(form, appDetails, regDetails, nino, mockIhtConnector, None).registrationDetails must be (regDetails)
     }
   }

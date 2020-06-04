@@ -16,7 +16,6 @@ import play.api.mvc.{AnyContentAsFormUrlEncoded, MessagesControllerComponents, R
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import play.twirl.api.Html
-import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.http.{HttpGet, Upstream5xxResponse}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever

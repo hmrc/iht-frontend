@@ -245,10 +245,6 @@ class YourEstateReportsControllerTest  extends ApplicationControllerTest{
     Seq(CommonBuilder.buildIhtApplication.copy(currentStatus = TestHelper.AppStatusInReview))
   }
 
-  private def prepareDataForPage4():Seq[IhtApplication]={
-    Seq(CommonBuilder.buildIhtApplication.copy(currentStatus = TestHelper.AppStatusClearanceGranted))
-  }
-
   private def prepareDataForPage():Seq[IhtApplication]={
     Seq(CommonBuilder.buildIhtApplication,
       CommonBuilder.buildIhtApplication,

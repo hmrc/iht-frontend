@@ -225,8 +225,6 @@ class ExecutorOfEstateControllerTest
         Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails copy(applicantDetails = Some(applicantDetails))))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails))
 
-      val form = executorOfEstateForm.fill(ApplicantDetails(executorOfEstate = Some(true), role = Some(mockAppConfig.roleLeadExecutor)))
-
       implicit val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(("executorOfEstate", ""))
       val result = controller.onEditSubmit(request)
       status(result) must be(BAD_REQUEST)

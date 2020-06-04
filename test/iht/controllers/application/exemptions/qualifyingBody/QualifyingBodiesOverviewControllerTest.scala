@@ -31,8 +31,6 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
 
   implicit val hc = new HeaderCarrier()
-//  var mockCachingConnector: CachingConnector = null
-//  var mockIhtConnector: IhtConnector = null
 
   val appDetailsWithNoQualifyingBodies = CommonBuilder.buildApplicationDetails.copy(
     allExemptions = Some(CommonBuilder.buildAllExemptions.copy(
@@ -94,8 +92,6 @@ class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
     }
 
     "load the page" in {
-      val regDetails = buildRegistrationDetails copy (
-        deceasedDetails = Some(buildDeceasedDetails), ihtReference = Some("AbC123"))
 
       setupMocks(appDetailsWithNoQualifyingBodies)
 

@@ -71,7 +71,6 @@ class MoneyOwedControllerTest extends ApplicationControllerTest{
     "respond with OK on page load" in {
 
       val applicationDetails = CommonBuilder.buildApplicationDetails
-      val applicationDetailsTemp = CommonBuilder.buildApplicationDetails
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,

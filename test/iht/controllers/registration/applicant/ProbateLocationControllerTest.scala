@@ -143,7 +143,6 @@ class ProbateLocationControllerTest
     "save valid data correctly when coming to this screen for the first time" in {
       val applicantDetails = CommonBuilder.buildApplicantDetails
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
-      val filledForm = probateLocationForm.fill(applicantDetails)
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))

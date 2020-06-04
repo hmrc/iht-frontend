@@ -42,10 +42,10 @@ class ApplicationDetailsTest extends FakeIhtApp with MockitoSugar {
   val messagesApi: MessagesApi = mockControllerComponents.messagesApi
   implicit val messages: Messages = messagesApi.preferred(Seq(lang)).messages
 
-  private def propertyValue(value: BigDecimal) = Some(value)
+  def propertyValue(value: BigDecimal) = Some(value)
 
-  private def buildProperty(id: Option[String] = None,
-                            value: Option[BigDecimal] = None) = {
+  def buildProperty(id: Option[String],
+                            value: Option[BigDecimal]) = {
     CommonBuilder.buildProperty.copy(
       id = id,
       address = ukAddress,
@@ -56,16 +56,16 @@ class ApplicationDetailsTest extends FakeIhtApp with MockitoSugar {
     )
   }
 
-  private def buildCharity(id: Option[String] = None,
+  private def buildCharity(id: Option[String],
                            name: Option[String] = Some("A Charity"),
                            number: Option[String] = Some("234"),
-                           totalValue: Option[BigDecimal] = None) = {
+                           totalValue: Option[BigDecimal]) = {
     CommonBuilder.buildCharity.copy(id = id, name = name, number = number, totalValue = totalValue)
   }
 
-  private def buildQualifyingBody(id: Option[String] = None,
+  private def buildQualifyingBody(id: Option[String],
                                   name:Option[String] = Some("Qualifying Body"),
-                                  totalValue: Option[BigDecimal] = None) = {
+                                  totalValue: Option[BigDecimal]) = {
     CommonBuilder.buildQualifyingBody.copy(id = id, name = name, totalValue = totalValue)
   }
 
@@ -318,7 +318,6 @@ class ApplicationDetailsTest extends FakeIhtApp with MockitoSugar {
 
     "total liabilities value None where no liabilities" in {
       val appDetails = CommonBuilder.buildApplicationDetails copy (allLiabilities = None)
-      val res = appDetails.totalLiabilitiesValue
       appDetails.totalLiabilitiesValueOption mustBe None
     }
   }

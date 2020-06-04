@@ -177,7 +177,6 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
 
     "respond with InternalServerError on edit page load where no application details" in {
       val id: String = "1"
-      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = List(CommonBuilder.property))
 
       setUpTests()
 

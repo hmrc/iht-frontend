@@ -19,7 +19,6 @@ package iht.forms.mappings
 import iht.FakeIhtApp
 import org.joda.time.LocalDate
 import play.api.data.{FormError, Mapping}
-import uk.gov.hmrc.play.test.UnitSpec
 
 class DateMappingTest extends FakeIhtApp {
   def assertError(mapping: Mapping[LocalDate], data: Map[String, String], errorMessage: String) = {

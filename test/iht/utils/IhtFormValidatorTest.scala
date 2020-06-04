@@ -18,17 +18,15 @@ package iht.utils
 
 import iht.FakeIhtApp
 import iht.config.AppConfig
-import iht.connector.CachingConnector
 import iht.models.RegistrationDetails
 import iht.testhelpers.{CommonBuilder, NinoBuilder}
 import iht.utils.IhtFormValidator._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, FormError}
-import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.http.logging.SessionId
 
 class IhtFormValidatorTest extends FakeIhtApp with MockitoSugar {
+
   val coExecutorIDKey = "id"
   val validName = "Axxlsk"
   val mapping: FieldMapping[String] = name(10, "blank", "length", "chars")
@@ -40,16 +38,12 @@ class IhtFormValidatorTest extends FakeIhtApp with MockitoSugar {
   def ninoForCoExecutorMapping(rd: RegistrationDetails): FieldMapping[String] = {
     val ihtFormValidator = new IhtFormValidator {}
 
-    implicit val request = createFakeRequest()
-    implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
     ihtFormValidator.ninoForCoExecutor("", "", "", coExecutorIDKey, Some(rd), fakedFormNino)
   }
 
   def ninoForDeceasedMapping(rd: RegistrationDetails): FieldMapping[String] = {
     val ihtFormValidator = new IhtFormValidator {}
 
-    implicit val request = createFakeRequest()
-    implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
     ihtFormValidator.ninoForDeceased("", "", "", Some(rd))
   }
 

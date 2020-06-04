@@ -25,10 +25,6 @@ import org.joda.time.LocalDate
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.i18n.Messages
-import play.api.mvc.Request
-import uk.gov.hmrc.http.HeaderCarrier
-
-import scala.concurrent.ExecutionContext
 
 object DeceasedForms extends DeceasedForms
 
@@ -53,7 +49,7 @@ trait DeceasedForms extends IhtFormValidator {
   )
 
   def aboutDeceasedForm(dateOfDeath: LocalDate = LocalDate.now(), oRegDetails: Option[RegistrationDetails] = None, loginNino: String)
-                       (implicit messages: Messages, request: Request[_], hc: HeaderCarrier, ec: ExecutionContext, appConfig: AppConfig) = Form(
+                       (implicit messages: Messages, appConfig: AppConfig) = Form(
     mapping(
       "firstName" -> ihtNonEmptyText("error.firstName.give")
         .verifying("error.firstName.giveUsingXCharsOrLess", f => f.length <= appConfig.validationMaxLengthFirstName)

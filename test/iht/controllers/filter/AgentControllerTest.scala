@@ -17,7 +17,6 @@
 package iht.controllers.filter
 
 import iht.config.AppConfig
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.MockFormPartialRetriever
 import iht.views.HtmlSpec

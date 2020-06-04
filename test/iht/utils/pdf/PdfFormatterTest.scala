@@ -20,10 +20,9 @@ import iht.forms.FormTestHelper
 import iht.models.UkAddress
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.{AllAssets, Properties, Property}
-import iht.models.des.ihtReturn.{Asset, Trust}
+import iht.models.des.ihtReturn.Asset
 import iht.testhelpers.IHTReturnTestHelper.{buildIHTReturnCorrespondingToApplicationDetailsAllFields, _}
 import iht.testhelpers.{CommonBuilder, IHTReturnTestHelper, TestHelper}
-import iht.views.html.application.asset.{foreign, nominated, other}
 import org.joda.time.LocalDate
 import play.api.i18n.Lang
 
@@ -350,9 +349,6 @@ class PdfFormatterTest extends FormTestHelper with PdfHelper {
     CommonBuilder.buildShareableBasicElementExtended.copy(
       value = None, shareValue = Some(value), isOwned = Some(false), isOwnedShare = Some(true)
     )
-
-  private def createShareableBasicEstateElement(value: BigDecimal, shareValue: BigDecimal) =
-    CommonBuilder.buildShareableBasicElementExtended.copy(value = Some(value), shareValue = Some(shareValue), isOwned = Some(true), isOwnedShare = Some(true))
 
   private val buildAllAssetsWithAllSectionsFilled = {
     AllAssets(

@@ -16,7 +16,7 @@
 
 package iht.utils.pdf
 
-import iht.models.des.ihtReturn.{AddressOrOtherLandLocation, Asset, Liability}
+import iht.models.des.ihtReturn.{AddressOrOtherLandLocation, Asset}
 
 object PDFAssetHelper {
   val blankBigDecimalValue = None //Some(BigDecimal(0))
@@ -65,20 +65,6 @@ object PDFAssetHelper {
 
   // Create joint household and personal items
   private def buildJointAssetHouseholdAndPersonalItems = {
-    Asset(
-      // General asset
-      assetCode = Some("9004"),
-      assetDescription = Some("Rolled up household and personal goods"),
-      assetID = Some("null"),
-      assetTotalValue = blankBigDecimalValue,
-      howheld = Some("Joint - Beneficial Joint Tenants"),
-      devolutions = None,
-      liabilities = None
-    )
-  }
-
-  // Create joint household and personal items
-  private def buildJointAssetMotorVehicle = {
     Asset(
       // General asset
       assetCode = Some("9004"),
@@ -243,62 +229,6 @@ object PDFAssetHelper {
       // Property asset
       propertyAddress = Some(addressOrOtherLandLocation),
       tenure = Some("Freehold"), tenancyType = Some("Vacant Possession"),
-      yearsLeftOnLease = Some(0),
-      yearsLeftOntenancyAgreement = Some(0)
-    )
-  }
-
-  private def buildAssetsPropertiesOtherResidentialBuilding = {
-    val addressOrOtherLandLocation = AddressOrOtherLandLocation(
-      address = Some(models.des.Address(addressLine1 = "addr1", addressLine2 = "addr2",
-        addressLine3 = None, addressLine4 = None,
-        postalCode = DefaultPostCode, countryCode = "GB"))
-    )
-
-    val liability1 = Liability(
-      liabilityType = Some("Mortgage"),
-      liabilityAmount = blankBigDecimalValue,
-      liabilityOwner = Some("")
-    )
-
-    Asset(
-      // General asset
-      assetCode = Some("0017"),
-      assetDescription = Some("Other residential property"),
-      assetID = Some("null"),
-      assetTotalValue = blankBigDecimalValue,
-      howheld = Some("Joint - Beneficial Joint Tenants"),
-      devolutions = None,
-      liabilities = Some(Set(liability1)),
-      //      liabilities= None,
-
-      // Property asset
-      propertyAddress = Some(addressOrOtherLandLocation),
-      tenure = Some("Leasehold"), tenancyType = Some("Vacant Possession"),
-      yearsLeftOnLease = Some(0),
-      yearsLeftOntenancyAgreement = Some(0)
-    )
-  }
-
-  private def buildAssetsPropertiesLandNonRes = {
-    val addressOrOtherLandLocation = AddressOrOtherLandLocation(
-      address = Some(models.des.Address(addressLine1 = "addr1", addressLine2 = "addr2",
-        addressLine3 = None, addressLine4 = None,
-        postalCode = DefaultPostCode, countryCode = "GB"))
-    )
-
-    Asset(
-      // General asset
-      assetCode = Some("0018"),
-      assetDescription = Some("Other land and buildings"),
-      assetID = Some("null"),
-      assetTotalValue = blankBigDecimalValue,
-      howheld = Some("Joint - Tenants In Common"),
-      devolutions = None,
-
-      // Property asset
-      propertyAddress = Some(addressOrOtherLandLocation),
-      tenure = Some("Leasehold"), tenancyType = Some("Vacant Possession"),
       yearsLeftOnLease = Some(0),
       yearsLeftOntenancyAgreement = Some(0)
     )

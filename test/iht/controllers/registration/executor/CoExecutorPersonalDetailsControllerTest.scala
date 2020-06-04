@@ -28,7 +28,6 @@ import play.api.data.{FieldMapping, Form, FormError, Forms}
 import play.api.mvc.{MessagesControllerComponents, Result}
 import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.PlayAuthConnector
-import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
@@ -79,8 +78,6 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
         }
       }
     }
-    implicit val request = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-    implicit val hc = HeaderCarrier()
     coExecutorForms
   }
 
@@ -101,8 +98,6 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
         }
       }
     }
-    implicit val request = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-    implicit val hc = HeaderCarrier()
     coExecutorForms
   }
 
@@ -290,8 +285,6 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidation(coExecutor, mockCachingConnector)
 
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-      implicit val hc = new HeaderCarrier()
       val form: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm(loginNino = CommonBuilder.DefaultNino).fill(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
@@ -325,8 +318,6 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidation(coExecutor, mockCachingConnector)
 
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-      implicit val hc = new HeaderCarrier()
       val form: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm(loginNino = CommonBuilder.DefaultNino).fill(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
@@ -350,8 +341,6 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       val coExecutor = CommonBuilder.buildCoExecutorPersonalDetails().copy(isAddressInUk = Some(false), nino = fakedFormNino)
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidation(coExecutor, mockCachingConnector)
 
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-      implicit val hc = new HeaderCarrier()
       val form: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm(loginNino = CommonBuilder.DefaultNino).fill(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
@@ -377,8 +366,6 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       val coExecutor = CommonBuilder.buildCoExecutorPersonalDetails(None).copy(nino = fakedFormNino)
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidation(coExecutor, mockCachingConnector)
 
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-      implicit val hc = new HeaderCarrier()
       val form: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm(loginNino = CommonBuilder.DefaultNino).fill(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
@@ -414,8 +401,6 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidation(coExecutor, mockCachingConnector)
 
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-      implicit val hc = new HeaderCarrier()
       val form: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm(loginNino = CommonBuilder.DefaultNino).fill(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
@@ -450,8 +435,6 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidation(coExecutor, mockCachingConnector)
 
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-      implicit val hc = new HeaderCarrier()
       val form: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm(loginNino = CommonBuilder.DefaultNino).fill(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
@@ -478,8 +461,6 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       val coExecutor = CommonBuilder.buildCoExecutor.copy(nino = fakedFormNino)
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidation(coExecutor, mockCachingConnector)
 
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-      implicit val hc = new HeaderCarrier()
       val form: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm(loginNino = CommonBuilder.DefaultNino).fill(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
@@ -502,8 +483,6 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidation(coExecutor, mockCachingConnector)
 
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-      implicit val hc = new HeaderCarrier()
       val form: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm(loginNino = CommonBuilder.DefaultNino).fill(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
@@ -525,8 +504,6 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       val coExecutor = CommonBuilder.buildCoExecutor
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidation(coExecutor, mockCachingConnector)
 
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-      implicit val hc = new HeaderCarrier()
       val form: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm(loginNino = CommonBuilder.DefaultNino).fill(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
@@ -546,8 +523,6 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       val coExecutor = CommonBuilder.buildCoExecutor
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidation(coExecutor, mockCachingConnector)
 
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-      implicit val hc = new HeaderCarrier()
       val form: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm(loginNino = CommonBuilder.DefaultNino).fill(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
@@ -573,8 +548,6 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       val coExecutor = CommonBuilder.buildCoExecutorPersonalDetails(None).copy(nino = fakedFormNino)
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidation(coExecutor, mockCachingConnector)
 
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-      implicit val hc = new HeaderCarrier()
       val form: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm(loginNino = CommonBuilder.DefaultNino).fill(coExecutor)
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -600,8 +573,6 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidation(coExecutor, mockCachingConnector)
 
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-      implicit val hc = new HeaderCarrier()
       val form: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm(loginNino = CommonBuilder.DefaultNino).fill(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
@@ -629,8 +600,6 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
     }
 
     def prepareForm(coExecutor: CoExecutor): Form[CoExecutor] = {
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-      implicit val hc = new HeaderCarrier()
       formWithMockedNinoValidation(coExecutor, mockCachingConnector).coExecutorPersonalDetailsForm(loginNino = CommonBuilder.DefaultNino).fill(coExecutor)
     }
 
@@ -649,8 +618,6 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
         host = host, data = detailsToSubmit)
       val coExecutorForms: CoExecutorForms = formWithMockedNinoValidationNoCoExecutor(mockCachingConnector)
 
-      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-      implicit val hc = new HeaderCarrier()
       controller(coExecutorForms).onSubmit(submissionId)(request)
     }
   }

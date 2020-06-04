@@ -16,11 +16,9 @@
 
 package iht.connectors
 
-import iht.config.AppConfig
 import iht.connector.IhtConnectorImpl
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.CommonBuilder
-import org.scalatest.{Matchers, WordSpec}
 import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
@@ -29,9 +27,7 @@ import play.api.libs.json.{JsValue, Writes}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, HttpResponse, Upstream4xxResponse}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import play.api.test.Helpers._
-
 import scala.concurrent.{ExecutionContext, Future}
-import scala.concurrent.ExecutionContext.Implicits.global
 
 class IhtConnectorTest extends ApplicationControllerTest with MockitoSugar {
   val mockHttpClient = mock[DefaultHttpClient]
@@ -54,17 +50,17 @@ class IhtConnectorTest extends ApplicationControllerTest with MockitoSugar {
 
       when(mockHttpClient.POST
       (any[String], any[JsValue], any[Seq[(String, String)]])
-      (any[Writes[JsValue]], any[HttpReads[HttpResponse]],any[HeaderCarrier], any[ExecutionContext])).thenReturn(Future.successful(dummySuccessRespone))
+      (any[Writes[JsValue]], any[HttpReads[HttpResponse]], any[HeaderCarrier], any[ExecutionContext])).thenReturn(Future.successful(dummySuccessRespone))
 
       val result = await(connector.submitApplication(defaultIHTReference, defaultNino, applicationDetails)(HeaderCarrier(), createFakeRequest()))
       result mustBe Some("12345678")
     }
 
-    "should throw an exception when call to IHT returns a 500" in  {
+    "should throw an exception when call to IHT returns a 500" in {
 
       when(mockHttpClient.POST
       (any[String], any[JsValue], any[Seq[(String, String)]])
-      (any[Writes[JsValue]], any[HttpReads[HttpResponse]],any[HeaderCarrier], any[ExecutionContext])).thenReturn(Future.successful(dummyInternalErrorResponse))
+      (any[Writes[JsValue]], any[HttpReads[HttpResponse]], any[HeaderCarrier], any[ExecutionContext])).thenReturn(Future.successful(dummyInternalErrorResponse))
 
       lazy val result = await(connector.submitApplication(defaultIHTReference, defaultNino, applicationDetails)(HeaderCarrier(), createFakeRequest()))
 
@@ -78,7 +74,7 @@ class IhtConnectorTest extends ApplicationControllerTest with MockitoSugar {
 
       when(mockHttpClient.POST
       (any[String], any[JsValue], any[Seq[(String, String)]])
-      (any[Writes[JsValue]], any[HttpReads[HttpResponse]],any[HeaderCarrier], any[ExecutionContext])).thenReturn(Future.failed(Upstream4xxResponse("", 403, 500, Map.empty)))
+      (any[Writes[JsValue]], any[HttpReads[HttpResponse]], any[HeaderCarrier], any[ExecutionContext])).thenReturn(Future.failed(Upstream4xxResponse("", 403, 500, Map.empty)))
 
       lazy val result = await(connector.submitApplication(defaultIHTReference, defaultNino, applicationDetails)(HeaderCarrier(), createFakeRequest()))
 

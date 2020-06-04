@@ -18,7 +18,6 @@ package iht.utils
 
 import iht.FakeIhtApp
 import org.scalatestplus.mockito.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
 
 /**
  * Created by yusuf on 06/10/15.

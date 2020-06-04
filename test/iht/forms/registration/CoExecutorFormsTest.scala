@@ -27,10 +27,6 @@ import org.mockito.Mockito._
 import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, Form, FormError, Forms}
 import play.api.i18n.Lang
-import play.api.mvc.AnyContentAsEmpty
-import play.api.test.FakeRequest
-import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.http.logging.SessionId
 
 class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp with CoExecutorForms {
 
@@ -131,28 +127,20 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp with CoExecutor
   val fakedFormNino = "SR000009C"
 
   def bindForm(map: Map[String, String], oRegDetails: Option[RegistrationDetails] = None) = {
-    implicit val request = createFakeRequest()
-    implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
     coExecutorForms.coExecutorPersonalDetailsForm(oRegDetails, loginNino = fakedFormNino).bind(map)
   }
 
   def bindFormEdit(map: Map[String, String], oRegDetails: Option[RegistrationDetails] = None) = {
-    implicit val request = createFakeRequest()
-    implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
     coExecutorForms.coExecutorPersonalDetailsEditForm(oRegDetails, loginNino = fakedFormNino).bind(map)
   }
 
   def checkForError(data: Map[String, String], expectedErrors: Seq[FormError],
                     oRegDetails: Option[RegistrationDetails] = None): Unit = {
-    implicit val request = createFakeRequest()
-    implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
     checkForError(coExecutorForms.coExecutorPersonalDetailsForm(oRegDetails, loginNino = fakedFormNino), data, expectedErrors)
   }
 
   def checkForErrorEdit(data: Map[String, String], expectedErrors: Seq[FormError],
                         oRegDetails: Option[RegistrationDetails] = None): Unit = {
-    implicit val request = createFakeRequest()
-    implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
     checkForError(coExecutorForms.coExecutorPersonalDetailsEditForm(oRegDetails, loginNino = fakedFormNino), data, expectedErrors)
   }
 
@@ -194,8 +182,6 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp with CoExecutor
 
       val nino = NinoBuilder.randomNino.toString
       def bindForm(map: Map[String, String]) = {
-        implicit val request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
-        implicit val hc = HeaderCarrier(sessionId = Some(SessionId("1")))
         coExecutorFormsWithIhtFormValidatorMockedToSucceed(nino).coExecutorPersonalDetailsForm(loginNino = fakedFormNino).bind(map)
       }
 
@@ -254,8 +240,6 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp with CoExecutor
 
     "indicate validation error when nino for coexecutor validation fails" in {
       def checkForError(data: Map[String, String], expectedErrors: Seq[FormError]): Unit = {
-        implicit val request = createFakeRequest()
-        implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
         super.checkForError(coExecutorFormsWithIhtFormValidatorMockedToFail
           .coExecutorPersonalDetailsForm(loginNino = fakedFormNino), data, expectedErrors)
       }
@@ -268,10 +252,6 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp with CoExecutor
 
 
     "indicate no validation errors when nino for coexecutor validation succeeds" in {
-
-
-      implicit val request = createFakeRequest()
-      implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
       val result: Form[CoExecutor] = coExecutorFormsWithIhtFormValidatorMockedToSucceed("")
         .coExecutorPersonalDetailsForm(loginNino = fakedFormNino).bind(completePersonalDetails)
       result.hasErrors mustBe false
@@ -432,8 +412,6 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp with CoExecutor
       val nino = NinoBuilder.randomNino.toString
 
       def bindFormEdit(map: Map[String, String]) = {
-        implicit val request = createFakeRequest()
-        implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
         coExecutorFormsWithIhtFormValidatorMockedToSucceed(nino).coExecutorPersonalDetailsEditForm(loginNino = fakedFormNino).bind(map)
       }
 

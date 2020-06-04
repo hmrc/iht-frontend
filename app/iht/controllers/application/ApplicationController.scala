@@ -33,7 +33,8 @@ trait ApplicationController extends IhtBaseController with StringHelper {
   def cachingConnector: CachingConnector
   def ihtConnector: IhtConnector
 
-  def withApplicationDetails(userNino: Option[String])(body: RegistrationDetails => ApplicationDetails => Future[Result])
+  def withApplicationDetails(userNino: Option[String])
+                            (body: RegistrationDetails => ApplicationDetails => Future[Result])
                             (implicit request: Request[_], hc: HeaderCarrier): Future[Result] = {
     withRegistrationDetails { registrationDetails =>
       val optionApplicationDetailsFuture = ihtConnector.getApplication(
@@ -49,7 +50,7 @@ trait ApplicationController extends IhtBaseController with StringHelper {
   }
 
   def getApplicationDetails(ihtReference: String, acknowledgementReference: String, userNino: Option[String])
-                           (implicit request: Request[_], hc: HeaderCarrier): Future[ApplicationDetails] = {
+                           (implicit request: Request[_]): Future[ApplicationDetails] = {
     for {
       Some(applicationDetails) <- ihtConnector.getApplication(
         getNino(userNino),
@@ -59,7 +60,7 @@ trait ApplicationController extends IhtBaseController with StringHelper {
   }
 
   def withRegistrationDetails(body: RegistrationDetails => Future[Result])
-                             (implicit request: Request[_], hc: HeaderCarrier): Future[Result] = {
+                             (implicit request: Request[_]): Future[Result] = {
     cachingConnector.getRegistrationDetails flatMap {
       case None =>
         Logger.info("Registration details not found so re-directing to application overview page")

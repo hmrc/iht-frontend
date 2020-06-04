@@ -245,7 +245,7 @@ object CommonBuilder {
   )
 
   // Creates the RegistrationDetails with default values
-  def buildRegistrationDetails(implicit appConfig: AppConfig) = RegistrationDetails(
+  def buildRegistrationDetails() = RegistrationDetails(
     deceasedDateOfDeath = None,
     applicantDetails = None,
     deceasedDetails = None,
@@ -256,14 +256,14 @@ object CommonBuilder {
     areOthersApplyingForProbate = None
   )
 
-  def buildRegistrationDetailsWithOthersApplyingForProbate(implicit appConfig: AppConfig) = buildRegistrationDetails copy
+  def buildRegistrationDetailsWithOthersApplyingForProbate() = buildRegistrationDetails copy
                                                                   (areOthersApplyingForProbate = Some(true))
 
 
-  def buildRegistrationDetailsWithCoExecutors(implicit appConfig: AppConfig) = buildRegistrationDetails copy(areOthersApplyingForProbate = Some(true),
+  def buildRegistrationDetailsWithCoExecutors() = buildRegistrationDetails copy(areOthersApplyingForProbate = Some(true),
                                                         coExecutors = Seq(buildCoExecutor))
 
-  def buildRegistrationDetailsWithDeceasedDetails(implicit appConfig: AppConfig) =
+  def buildRegistrationDetailsWithDeceasedDetails() =
     buildRegistrationDetails copy(deceasedDetails = Some(buildDeceasedDetails),
                                   deceasedDateOfDeath = Some(DeceasedDateOfDeath(DefaultDeceasedDOD)))
 
@@ -642,7 +642,7 @@ object CommonBuilder {
     "2011-12-12",
     "England or Wales", None, None, TestHelper.MaritalStatusSingle)
 
-  def buildRegistrationDetails1(implicit appConfig: AppConfig) = {
+  def buildRegistrationDetails1() = {
     RegistrationDetails(
       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath),
       applicantDetails = Some(CommonBuilder.buildApplicantDetails copy (country = Some(TestHelper.ApplicantCountryEnglandOrWales))),
@@ -658,7 +658,7 @@ object CommonBuilder {
     )
   }
 
-  def buildRegistrationDetails2(implicit appConfig: AppConfig) = {
+  def buildRegistrationDetails2() = {
     RegistrationDetails(
       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath),
       applicantDetails = Some(CommonBuilder.buildApplicantDetails copy (country = Some(TestHelper.ApplicantCountryEnglandOrWales))),
@@ -670,7 +670,7 @@ object CommonBuilder {
     )
   }
 
-  def buildRegistrationDetails3(implicit appConfig: AppConfig) = {
+  def buildRegistrationDetails3() = {
     RegistrationDetails(
       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath),
       applicantDetails = Some(CommonBuilder.buildApplicantDetails
@@ -685,7 +685,7 @@ object CommonBuilder {
     )
   }
 
-  def buildRegistrationDetails4(implicit appConfig: AppConfig) = {
+  def buildRegistrationDetails4() = {
     RegistrationDetails(
       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath),
       applicantDetails = Some(CommonBuilder.buildApplicantDetails),
@@ -697,7 +697,7 @@ object CommonBuilder {
     )
   }
 
-  def buildRegistrationDetails5(implicit appConfig: AppConfig) = {
+  def buildRegistrationDetails5() = {
     RegistrationDetails(
       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath),
       applicantDetails = Some(CommonBuilder.buildApplicantDetails),
@@ -751,7 +751,7 @@ object CommonBuilder {
   def buildEventRegistration7(implicit appConfig: AppConfig) = buildEventRegistration(false) copy (
     deceased = Some(buildDeceased copy (maritalStatus = TestHelper.MaritalStatusDivorced)))
 
-  private def buildEventRegistration(includeCoExecutors: Boolean = true)(implicit appConfig: AppConfig) = {
+  def buildEventRegistration(includeCoExecutors: Boolean = true)(implicit appConfig: AppConfig) = {
     val erCoExec1 = models.des.CoExecutor(Some(DefaultCoExecutor1.firstName),
       Some(DefaultCoExecutor1.lastName), Some(CommonBuilder.buildCoExecutor.nino),
       CommonBuilder.buildCoExecutor.utr,
@@ -788,7 +788,7 @@ object CommonBuilder {
    * Create IhtApplication with default values
    */
 
-  def buildIhtApplication(implicit appConfig: AppConfig) = IhtApplication(
+  def buildIhtApplication() = IhtApplication(
     ihtRefNo = DefaultIhtRefNo,
     firstName = DefaultFirstName,
     lastName = DefaultLastName,

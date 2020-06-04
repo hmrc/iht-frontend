@@ -22,8 +22,7 @@ import uk.gov.hmrc.play.test.UnitSpec
 
 class AllLiabilitiesTest extends UnitSpec with MockitoSugar {
 
-  private def buildProperty(id: Option[String] = None,
-                            value: Option[BigDecimal] = None) = {
+  private def buildProperty(id: Option[String], value: Option[BigDecimal]) = {
     CommonBuilder.buildProperty.copy(
       id = id,
       address = Some(CommonBuilder.DefaultUkAddress),

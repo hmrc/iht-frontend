@@ -29,7 +29,6 @@ class GiftsHelperTest extends FakeIhtApp with MockitoSugar {
 
   "GiftsHelper" must {
     "generate sequence of years needed for gifts" in {
-      implicit val request = createFakeRequest()
       val dateForGifts = new LocalDate(2015, 12, 30)
       val giftsForYears = GiftsHelper.createPreviousYearsGiftsLists(dateForGifts)
       val previousYears = List(
@@ -46,7 +45,6 @@ class GiftsHelperTest extends FakeIhtApp with MockitoSugar {
     }
 
     "generate sequence of years needed for gifts where date of death is in the 1st quarter of the year" in {
-      implicit val request = createFakeRequest()
       val dateForGifts = new LocalDate(2014, 3, 12)
       val giftsForYears = GiftsHelper.createPreviousYearsGiftsLists(dateForGifts)
       val previousYears = List(
@@ -64,7 +62,6 @@ class GiftsHelperTest extends FakeIhtApp with MockitoSugar {
     }
 
     "generate exact 7 financial years if deceased died on 5 April of any year" in {
-      implicit val request = createFakeRequest()
       val dateForGifts = new LocalDate(2015, 4, 5)
       val giftsForYears = GiftsHelper.createPreviousYearsGiftsLists(dateForGifts)
       val previousYears = List(

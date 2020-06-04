@@ -75,7 +75,8 @@ trait DeclarationController extends ApplicationController with StringHelper {
     }
   }
 
-  private def withErrors(userNino: Option[String], rd: RegistrationDetails)(implicit request: Request[_], hc: HeaderCarrier) =
+  private def withErrors(userNino: Option[String], rd: RegistrationDetails)
+                        (implicit request: Request[_]) =
     getApplicationDetails(getOrException(rd.ihtReference), rd.acknowledgmentReference, userNino) flatMap { appDetails =>
       realTimeRiskingMessage(
         appDetails,
@@ -130,8 +131,8 @@ trait DeclarationController extends ApplicationController with StringHelper {
   private[controllers] def realTimeRiskingMessage(ad: ApplicationDetails,
                                                   ihtAppReference: String,
                                                   nino: String,
-                                                  ihtConnector: IhtConnector)(implicit request: Request[_],
-                                                                              hc: HeaderCarrier): Future[Option[String]] = {
+                                                  ihtConnector: IhtConnector)
+                                                 (implicit request: Request[_]): Future[Option[String]] = {
     val moneyValue = for {
       assets <- ad.allAssets
       money <- assets.money
@@ -213,17 +214,17 @@ trait DeclarationController extends ApplicationController with StringHelper {
   private def submitApplication(nino: String,
                                 updatedAppDetails: ApplicationDetails,
                                 ihtAppReference: Option[String])
-                               (implicit request: Request[_], hc: HeaderCarrier): Future[Option[String]] = {
+                               (implicit request: Request[_]): Future[Option[String]] = {
 
     Logger.debug("Processing submission of application with IHT reference " + ihtAppReference + ":-\n" + updatedAppDetails.toString)
     ihtConnector.submitApplication(ihtAppReference, nino, updatedAppDetails)
   }
 
   private def processToGetProbateDetails(nino: String, ihtAppReference: Option[String], returnId: Option[String])
-                                        (implicit request: Request[_], hc: HeaderCarrier): Future[Option[ProbateDetails]] = {
+                                        (implicit request: Request[_]): Future[Option[ProbateDetails]] = {
 
     Logger.debug("Submission completed successfully with return id ::: " + returnId)
-    Future(metrics.generalStatsCounter(StatsSource.COMPLETED_APP)).onFailure {
+    Future(metrics.generalStatsCounter(StatsSource.COMPLETED_APP)).onComplete {
       case _ => Logger.info("Unable to write to StatsSource metrics repository")
     }
     Logger.info("Processing to get Probate details")
@@ -234,7 +235,7 @@ trait DeclarationController extends ApplicationController with StringHelper {
   }
 
   private def storeProbateDetails(probateDetails: Option[ProbateDetails])
-                                 (implicit request: Request[_], hc: HeaderCarrier): Future[Option[ProbateDetails]]= {
+                                 (implicit request: Request[_]): Future[Option[ProbateDetails]]= {
     probateDetails match {
       case Some(probateObject) =>
         Logger.info("Saving probate details in session")
@@ -322,13 +323,13 @@ trait DeclarationController extends ApplicationController with StringHelper {
 
     //Getting stats for Application that has additional executors
     if (regDetails.coExecutors.nonEmpty) {
-      Future(metrics.generalStatsCounter(StatsSource.ADDITIONAL_EXECUTOR_APP)).onFailure {
+      Future(metrics.generalStatsCounter(StatsSource.ADDITIONAL_EXECUTOR_APP)).onComplete {
         case _ => Logger.info("Unable to write to StatsSource metrics repository")
       }
     }
 
     statsSource(appDetails, giftValue, debtsValue, exemptionsValue, totalAssets) foreach { stats =>
-      Future(metrics.generalStatsCounter(stats)).onFailure {
+      Future(metrics.generalStatsCounter(stats)).onComplete {
         case _ => Logger.info("Unable to write to StatsSource metrics repository")
       }
     }

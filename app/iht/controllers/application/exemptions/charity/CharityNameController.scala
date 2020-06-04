@@ -43,15 +43,18 @@ class CharityNameControllerImpl @Inject()(val cachingConnector: CachingConnector
 
 trait CharityNameController extends EstateController {
 
-
   lazy val submitUrl: Call = CommonHelper.addFragmentIdentifier(routes.CharityNameController.onSubmit(), Some(appConfig.ExemptionsCharitiesNameID))
+
   def cancelUrl: Call = routes.CharityDetailsOverviewController.onPageLoad()
 
   def editCancelUrl(id: String): Call = routes.CharityDetailsOverviewController.onEditPageLoad(id)
-  def editSubmitUrl(id: String): Call = CommonHelper.addFragmentIdentifier(routes.CharityNameController.onEditSubmit(id), Some(appConfig.ExemptionsCharitiesNameID))
+
+  def editSubmitUrl(id: String): Call = {
+    CommonHelper.addFragmentIdentifier(routes.CharityNameController.onEditSubmit(id), Some(appConfig.ExemptionsCharitiesNameID))
+  }
 
   def locationAfterSuccessfulSave(optionID: Option[String]): Call = CommonHelper.getOrException(
-    optionID.map(id=>routes.CharityDetailsOverviewController.onEditPageLoad(id)))
+    optionID.map(id => routes.CharityDetailsOverviewController.onEditPageLoad(id)))
 
   val updateApplicationDetails: (ApplicationDetails, Option[String], Charity) => (ApplicationDetails, Option[String]) =
     (appDetails, id, charity) => {
@@ -62,7 +65,7 @@ trait CharityNameController extends EstateController {
           id.fold {
             val nextID = nextId(charityList)
             (charityList :+ charity.copy(id = Some(nextID)), nextID)
-          } {reqId => throw new RuntimeException("Id " + reqId + " can not be found")}
+          } { reqId => throw new RuntimeException("Id " + reqId + " can not be found") }
         case Some(matchedCharity) =>
           val updatedCharity: Charity = matchedCharity.copy(name = charity.name)
           (charityList.updated(charityList.indexOf(matchedCharity), updatedCharity), seekID)
@@ -85,11 +88,11 @@ trait CharityNameController extends EstateController {
   def onEditPageLoad(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       estateElementOnEditPageLoadWithNavigation[Charity](charityNameForm,
-            charity_name.apply,
-            retrieveSectionDetailsOrExceptionIfInvalidID(id),
-            editSubmitUrl(id),
-            editCancelUrl(id),
-            userNino)
+        charity_name.apply,
+        retrieveSectionDetailsOrExceptionIfInvalidID(id),
+        editSubmitUrl(id),
+        editCancelUrl(id),
+        userNino)
     }
   }
 
@@ -115,7 +118,7 @@ trait CharityNameController extends EstateController {
 
   private def doSubmit(submitUrl: Call,
                        cancelUrl: Call,
-                       charityId: Option[String] = None,
+                       charityId: Option[String],
                        userNino: Option[String])(
                         implicit request: Request[_]) = {
     estateElementOnSubmitWithIdAndNavigation[Charity](

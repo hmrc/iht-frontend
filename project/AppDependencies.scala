@@ -7,27 +7,28 @@ object AppDependencies {
   import play.core.PlayVersion
 
   private val httpCachingClientVersion = "9.0.0-play-26"
-  private val jsonVersion = "20190722"
+  private val jsonVersion = "20200518"
   private val wireMockVersion = "2.26.3"
   private val jsoupVersion = "1.13.1"
   private val mockitoVersion = "3.3.3"
-  private val playJsonVersion = "2.6.13"
+  private val playJsonVersion = "2.6.14"
 
   private val typesafe = "com.typesafe.play"
 
   val compile: Seq[ModuleID] = Seq(
     ws, cache,
     "uk.gov.hmrc" %% "http-caching-client" % httpCachingClientVersion,
-    "uk.gov.hmrc" %% "bootstrap-play-26" % "1.5.0",
+    "uk.gov.hmrc" %% "bootstrap-play-26" % "1.8.0",
     "uk.gov.hmrc" %% "play-partials" % "6.9.0-play-26",
     "uk.gov.hmrc" %% "domain" % "5.6.0-play-26",
     "uk.gov.hmrc" %% "govuk-template" % "5.52.0-play-26",
-    "uk.gov.hmrc" %% "play-ui" % "8.8.0-play-26",
+    "uk.gov.hmrc" %% "play-ui" % "8.10.0-play-26",
     "uk.gov.hmrc" %% "play-language" % "4.2.0-play-26",
     typesafe %% "play-json" % playJsonVersion,
     typesafe %% "play-json-joda" % playJsonVersion,
     "org.apache.xmlgraphics" % "fop" % "2.3",
-    "org.json" % "json" % jsonVersion
+    "org.json" % "json" % jsonVersion,
+    "org.apache.commons" % "commons-text" % "1.8"
   )
 
   trait TestDependencies {

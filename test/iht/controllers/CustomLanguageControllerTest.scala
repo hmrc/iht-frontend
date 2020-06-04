@@ -27,7 +27,7 @@ import play.api.test.FakeRequest
 import uk.gov.hmrc.play.language.LanguageUtils
 
 import scala.concurrent.duration._
-import scala.concurrent.{Await, ExecutionContext}
+import scala.concurrent.Await
 
 class CustomLanguageControllerTest extends ViewTestHelper {
 

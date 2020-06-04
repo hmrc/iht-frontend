@@ -26,11 +26,8 @@ import play.api.Logger
 import play.api.mvc.Request
 import play.twirl.api.HtmlFormat.Appendable
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
-import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.partials.FormPartialRetriever
-
 import scala.concurrent.Future
-
 
 trait ApplicationStatusController extends EstateController with StringHelper {
 
@@ -59,7 +56,7 @@ trait ApplicationStatusController extends EstateController with StringHelper {
   }
 
   private def getProbateDetails(nino: String, registrationDetails: RegistrationDetails, applicationDetails: ApplicationDetails)
-                               (implicit request: Request[_], hc: HeaderCarrier): Future[ProbateDetails] = {
+                               (implicit request: Request[_]): Future[ProbateDetails] = {
     cachingConnector.getProbateDetails.flatMap {
       case Some(probateDetails) => Future.successful(probateDetails)
       case _ => {

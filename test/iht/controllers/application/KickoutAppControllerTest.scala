@@ -17,19 +17,15 @@
 package iht.controllers.application
 
 import java.util.UUID
-
 import iht.config.AppConfig
 import iht.metrics.IhtMetrics
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
 import iht.utils.{DeceasedInfoHelper, KickOutReason, ApplicationStatus => AppStatus}
 import org.mockito.ArgumentMatchers._
 import play.api.mvc.MessagesControllerComponents
-import play.api.test.FakeRequest
 import play.api.test.Helpers.{status => playStatus, _}
-import uk.gov.hmrc.http.SessionKeys
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
-
 import scala.concurrent.Future
 
 class KickoutAppControllerTest extends ApplicationControllerTest {
@@ -109,7 +105,6 @@ class KickoutAppControllerTest extends ApplicationControllerTest {
     }
 
     "respond with OK on page load when there is a valid kickout Reason data in Keystore" in {
-        implicit val request = FakeRequest().withSession(SessionKeys.sessionId -> uuid)
         val applicationDetails = CommonBuilder.buildApplicationDetails.copy(
           kickoutReason = Some(TestHelper.KickOutAnnuitiesOnInsurance),
           status = AppStatus.KickOut)
@@ -130,7 +125,6 @@ class KickoutAppControllerTest extends ApplicationControllerTest {
         createMockToGetSingleValueFromCache(mockCachingConnector, singleValueReturn = None)
         createMockToGetApplicationDetails(mockIhtConnector, None)
 
-        implicit val request = FakeRequest().withSession(SessionKeys.sessionId -> uuid)
         intercept[RuntimeException] {
           val result = kickoutController.onPageLoad(createFakeRequest())
           playStatus(result) mustBe INTERNAL_SERVER_ERROR
@@ -142,8 +136,6 @@ class KickoutAppControllerTest extends ApplicationControllerTest {
         createMockToGetApplicationDetails(mockIhtConnector)
         createMockToDoNothingWhenDeleteSingleValueFromCache(mockCachingConnector)
         createMockToGetSingleValueFromCache(mockCachingConnector, singleValueReturn = None)
-
-        implicit val request = FakeRequest().withSession(SessionKeys.sessionId -> uuid)
 
         intercept[RuntimeException] {
           val result = kickoutController.onPageLoad(createFakeRequest())
@@ -157,7 +149,6 @@ class KickoutAppControllerTest extends ApplicationControllerTest {
         createMockToDoNothingWhenDeleteApplication(mockIhtConnector)
         createMockToStoreSingleValueInCache(mockCachingConnector, any(), Some("true"))
         createMockToGetSingleValueFromCache(mockCachingConnector, any(), None)
-        implicit val request = FakeRequest().withSession(SessionKeys.sessionId -> uuid)
         val result = kickoutController.onSubmit(createFakeRequest())
         playStatus(result) mustBe SEE_OTHER
         redirectLocation(result) must be (Some(
@@ -170,7 +161,6 @@ class KickoutAppControllerTest extends ApplicationControllerTest {
         createMockToDoNothingWhenDeleteApplication(mockIhtConnector)
         createMockToGetSingleValueFromCache(mockCachingConnector, any(), Some("true"))
         createMockToGetApplicationDetails(mockIhtConnector)
-        implicit val request = FakeRequest().withSession(SessionKeys.sessionId -> uuid)
         val result = kickoutController.onSubmit(createFakeRequest())
         playStatus(result) mustBe SEE_OTHER
         redirectLocation(result) must be (Some(iht.controllers.routes.DeadlinesController.onPageLoadApplication().url))
@@ -180,9 +170,9 @@ class KickoutAppControllerTest extends ApplicationControllerTest {
         createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
         createMockToDoNothingWhenDeleteSingleValueFromCache(mockCachingConnector)
         createMockToDoNothingWhenDeleteApplication(mockIhtConnector)
+        createMockToDoNothingWhenDeleteApplication(mockIhtConnector)
         createMockToStoreSingleValueInCache(mockCachingConnector, any(), None)
         createMockToGetSingleValueFromCache(mockCachingConnector, any(), None)
-        implicit val request = FakeRequest().withSession(SessionKeys.sessionId -> uuid)
         val result = kickoutController.onSubmit(createFakeRequest())
         playStatus(result) mustBe INTERNAL_SERVER_ERROR
     }
