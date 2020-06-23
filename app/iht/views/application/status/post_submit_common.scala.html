@@ -21,7 +21,7 @@
 @import iht.config.AppConfig
 @(deceasedName: String, probateDetails: ProbateDetails)(implicit request:Request[_], messages: Messages, appConfig: AppConfig)
 
-<h3 class="heading-medium"><strong>@messages("page.iht.application.overview.common.ifYouNeed")</strong></h3>
+<h3 class="heading-medium"><strong class="bold">@messages("page.iht.application.overview.common.ifYouNeed")</strong></h3>
         <p>@Html(Messages("page.iht.application.overview.common.p1", "https://www.gov.uk/wills-probate-inheritance/applying-for-a-grant-of-representation"))</p>
 
         <table>
@@ -41,7 +41,7 @@
             </tbody>
         </table>
 
-<h3 class="heading-medium"><strong>@messages("page.iht.application.overview.common.ifYouFind")</strong></h3>
+<h3 class="heading-medium"><strong class="bold">@messages("page.iht.application.overview.common.ifYouFind")</strong></h3>
 <p>@messages("page.iht.application.overview.common.p4")</p>
 
 <p>@messages("page.iht.application.overview.common.youWillNeedTo") <a id="tellHMRC" href="@appConfig.linkEstateReportKickOut">@Html(Messages("page.iht.application.overview.common.tellHMRC"))</a>.

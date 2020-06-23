@@ -19,6 +19,13 @@ $('.js-visible').removeAttr('hidden');
 var showHideContent = new GOVUK.ShowHideContent()
 showHideContent.init()
 
+// =====================================================
+// Initialize details polyfill
+// Adds aria/role/id tags for HTML5 <detail> elements
+// =====================================================
+
+GOVUK.details.init()
+
 
 // =====================================================
 // Combine two values to display a third

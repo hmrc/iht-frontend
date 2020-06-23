@@ -43,7 +43,7 @@
     <p>@ihtHelpers.custom.return_link(Messages("iht.estateReport.returnToEstateOverview"),
     Some(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference)))</p>
 
-    <p><strong>@Messages("page.iht.application.kickout.final.guidance.onFinish")</strong></p>
+    <p><strong class="bold">@Messages("page.iht.application.kickout.final.guidance.onFinish")</strong></p>
 
     <div id="continue-button">
         @form(action = iht.controllers.application.routes.KickoutAppController.onSubmit) {

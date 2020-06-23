@@ -187,7 +187,9 @@
         <a id="back-button" class="back-link" href=@url>@Messages("iht.back")</a>
     }
     @cancelUrl.map{ url =>
-        <a id="cancel-button" class="" href=@url>@Html(cancelLabel.getOrElse(""))</a>
+        <p>
+            <a id="cancel-button" class="" href=@url>@Html(cancelLabel.getOrElse(""))</a>
+        </p>
     }
 }
 

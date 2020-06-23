@@ -103,3 +103,29 @@ Welsh/English language selector
 .translate + .content__body h1 {
   margin-top: 0.8em;
 }
+
+
+.grid-layout__column {
+    vertical-align: initial;
+}
+
+/*
+====================================
+Welsh/English language selector
+====================================
+*/
+.content__body p {
+    margin: .63158em 0;
+}
+
+div > h2.govuk__heading-l {
+    margin-top: 1.25em;
+    margin-bottom: .5em;
+}
+
+@media (min-width: 641px) {
+    div > h2.govuk__heading-l {
+        margin-top: 1.875em;
+        margin-bottom: 0.4em;
+    }
+}

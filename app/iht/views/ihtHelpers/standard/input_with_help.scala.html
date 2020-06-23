@@ -68,7 +68,7 @@
                     @if(elements.args.get('_labelClass)){class=" @elements.args.get('_labelClass)"}
                     @if(elements.args.contains('_labelDataAttributes)){@elements.args.get('_labelDataAttributes)}>
 
-                    @if(labelHighlight){<strong>}
+                    @if(labelHighlight){<strong class="bold">}
                     @if(!labelAfter && elements.args.contains('_label)) {
                         @if(elements.args.contains('_labelTextClass)){
                         <span class="@elements.args.get('_labelTextClass)">
@@ -120,7 +120,7 @@
 
 
     @if(labelAfter && elements.args.contains('_label)) {
-        @if(labelHighlight){<strong>}
+        @if(labelHighlight){<strong class="bold">}
         <span @if(elements.args.contains('_labelTextClass)) {
             class="@elements.args.get('_labelTextClass)"}>
         @if(labelAfter && elements.args.contains('_label)) {

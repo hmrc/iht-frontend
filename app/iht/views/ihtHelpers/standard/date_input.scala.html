@@ -53,7 +53,7 @@
 
 
     <span @if(elements.args.contains('_labelTextClass)) { class="@elements.args.get('_labelTextClass)"}>
-        @if(labelHighlight){<strong>}
+        @if(labelHighlight){<strong class="bold">}
             @if(!labelAfter && elements.args.contains('_label)) { @elements.label }
         @if(labelHighlight){</strong>}
     </span>

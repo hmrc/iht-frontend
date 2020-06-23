@@ -29,7 +29,7 @@ isFullWidth=false){
 @form(action = submitUrl, 'autoComplete -> "off") {
 <div class="panel panel-border-narrow">
     <p id="charity-name">
-        <strong>
+        <strong class="bold">
             @defining(charity.name) {
                 case charityName@Some(x) => {
                     @ihtHelpers.custom.name(charityName.getOrElse(""))
