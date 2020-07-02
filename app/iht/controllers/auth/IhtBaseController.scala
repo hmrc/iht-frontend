@@ -46,10 +46,10 @@ trait IhtBaseController extends FrontendController with AuthorisedFunctions with
 
   private def handleAuthErrors(implicit request: Request[_]): PartialFunction[Throwable, Result] = {
     case e: InsufficientConfidenceLevel =>
-      Logger.info(s"Insufficient confidence level user attempting to access ${request.path} redirecting to IV uplift : ${e.getMessage}")
+      Logger.warn(s"Insufficient confidence level user attempting to access ${request.path} redirecting to IV uplift : ${e.getMessage}")
       redirectToIV
     case e: AuthorisationException =>
-      Logger.info(s"unauthenticated user attempting to access ${request.path} redirecting to login : ${e.getMessage}")
+      Logger.warn(s"unauthenticated user attempting to access ${request.path} redirecting to login : ${e.getMessage}")
       redirectToLogin
   }
 
