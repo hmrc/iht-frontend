@@ -314,7 +314,7 @@ page.iht.home.button.viewApplication.label=Bwrw golwg
 page.iht.filter.paperform.northern.ireland.p2.sentence2.end=yn gyntaf.
 page.iht.application.qualifyingbodies.add.title=Asedion a adawyd i gorff cymwys arall
 iht.estateReport.declaration.checkedEverything.question=A ydych wedi gorffen dod i wybod beth oedd yn ystâd {0}?
-site.application.title=Llenwi adroddiad ynghylch yr ystâd
+site.application.title= Llenwi adroddiad Treth Etifeddiant ynghylch yr ystâd
 page.iht.application.assets.money.overview.description.p1=Dyma werth unrhyw arian oedd gan {0}.
 error.giftsGivenAway.select=Dewiswch ateb ar gyfer os rhoddwyd mwy na £3,000 i ffwrdd yn ystod unrhyw un o''r 7 mlynedd cyn marwolaeth
 page.iht.registration.deceasedDetails.title.hint=Nodwch Mr, Mrs, Miss, Ms neu deitl arall
@@ -2141,15 +2141,15 @@ page.iht.iv.failure.2fa.heading = Nid ydych wedi''ch mewngofnodi
 page.iht.iv.failure.2fa.p1 = Bydd angen i chi sefydlu''r Dull Gwirio 2-Gam er mwyn gallu mewngofnodi''n ddiogel.
 
 #New IV Error Content
-page.iht.iv.failure.couldNotConfirmIdentity=We could not confirm your identity
-page.iht.iv.failure.youCanReport=You can report the estate value using the <a id="paperFormLink" href="{0}">IHT205 paper form</a> instead.
-page.iht.iv.failure.ifYouThink=If you still think you have an answer for any of the questions, you can try again.
-page.iht.iv.failure.lockedOutTryAgain=If you want to try again please wait 24 hours then try to sign in at <a id="try-again" href="{0}">https://www.tax.service.gov.uk{0}</a>.
-page.iht.iv.failure.helpWithConfirm=Help with confirming your identity
-page.iht.iv.failure.matchFirstLast=You need to match the first and last names on the HMRC record exactly. If your name has any accented characters, apostrophes or hyphenation, you may need to include or remove these to help match the version held on record. If you have recently changed your name and not yet informed HMRC you must use the old name.
-page.iht.iv.failure.passport=Passport: You must use a current and valid UK passport and you must match the name character by character. Enter the expiry date in the format 19 SEP 2025. Some passports are not able to provide this validation.
-page.iht.iv.failure.payslips=Payslips: You must use a payslip with a positive amount.
-page.iht.iv.failure.P60=P60: You must use a P60 which shows that you have paid National Insurance. If you had more than one job, enter the pay figure shown in the box titled, ‘In this employment’. If the amount you enter matches in pounds and pence what is on your P60 it may be that your employer made an end of year adjustment so it does not match the amount shown on your HMRC record.
+page.iht.iv.failure.couldNotConfirmIdentity=Nid oeddem yn gallu cadarnhau pwy ydych
+page.iht.iv.failure.youCanReport=Gallwch roi gwybod am werth yr ystâd gan ddefnyddio’r <a id="paperFormLink" href="{0}">ffurflen bapur IHT205</a> yn lle hynny.
+page.iht.iv.failure.ifYouThink=Os ydych yn dal i feddwl bod gennych ateb i unrhyw un o’r cwestiynau, gallwch roi cynnig arall arni.
+page.iht.iv.failure.lockedOutTryAgain=Os ydych am roi cynnig arall arni, arhoswch am 24 awr ac yna ceisiwch fewngofnodi yn <a id="try-again" href="{0}">https://www.tax.service.gov.uk{0}</a>.
+page.iht.iv.failure.helpWithConfirm=Help gyda chadarnhau pwy ydych
+page.iht.iv.failure.matchFirstLast=Mae’n rhaid i’ch atebion gyd-fynd yn union â’r enwau cyntaf ac olaf sydd ar gofnod CThEM. Os yw’ch enw yn cynnwys unrhyw lythrennau acennog, collnodau neu gysylltnodau, mae’n bosibl y bydd yn rhaid i chi gynnwys y rhain, neu eu hepgor, er mwyn sicrhau bod yr hyn a nodwch yn cyd-fynd â’r fersiwn sydd ar y cofnod. Os ydych wedi newid eich enw yn ddiweddar, ac nid ydych wedi rhoi gwybod i CThEM eto, mae’n rhaid i chi ddefnyddio’r hen enw.
+page.iht.iv.failure.passport=Pasbort: Mae’n rhaid i chi ddefnyddio pasbort y DU sy’n ddilys ac yn gyfredol, ac mae’n rhaid i bob llythyren a chymeriad yn yr enw gyd-fynd. Nodwch y dyddiad dod i ben yn y fformat 19 SEP 2025. Nid yw pob pasbort yn gallu cynnig y dilysiad hwn.
+page.iht.iv.failure.payslips=Slipiau cyflog: Mae’n rhaid i chi ddefnyddio slip cyflog sy’n dangos swm positif.
+page.iht.iv.failure.P60=P60: Mae’n rhaid i chi ddefnyddio P60 sy’n dangos eich bod wedi talu Yswiriant Gwladol. Os oedd gennych fwy nag un swydd, nodwch y ffigur cyflog a ddangosir yn y blwch o’r enw, ‘Yn y gyflogaeth hon’. Os yw’r swm a nodwch yn cyd-fynd â’r punnoedd a’r ceiniogau sydd ar eich P60, mae’n bosibl bod eich cyflogwr wedi gwneud addasiad diwedd blwyddyn sy’n golygu nad yw’r swm yn cyd-fynd â’r swm sydd ar eich cofnod CThEM.
 
 #IV Wayfinder Pages
 
