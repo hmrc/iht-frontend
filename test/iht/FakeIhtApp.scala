@@ -26,6 +26,7 @@ import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import play.api.{Application, Mode}
+import scala.language.implicitConversions
 import uk.gov.hmrc.http.SessionKeys
 
 import scala.concurrent.Future
@@ -52,7 +53,7 @@ trait FakeIhtApp extends PlaySpec with GuiceOneAppPerSuite {
         Constants.NINO -> NinoBuilder.randomNino.nino,
         SessionKeys.sessionId -> s"session-$userId",
         SessionKeys.userId -> userId,
-        SessionKeys.token -> "some-gg-token").withHeaders(
+        "token" -> "some-gg-token").withHeaders(
         "Accept-Language" -> "en-GB"
       )
     } else {
@@ -74,6 +75,7 @@ trait FakeIhtApp extends PlaySpec with GuiceOneAppPerSuite {
 
   def createFakeRequestWithUri(path: String, authRetrieveNino: Boolean = true): FakeRequest[AnyContentAsEmpty.type] = {
      val fr = createFakeRequest(authRetrieveNino = authRetrieveNino)
-     FakeRequest(fr.method, path, fr.headers, fr.body, fr.remoteAddress, fr.version, fr.id, fr.tags, fr.secure)
+     FakeRequest(fr.method, path, fr.headers, fr.body, fr.remoteAddress, fr.version, fr.id, Map.empty[String, String],
+       fr.secure)
   }
 }

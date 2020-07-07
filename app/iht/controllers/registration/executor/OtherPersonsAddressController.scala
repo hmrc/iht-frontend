@@ -24,7 +24,6 @@ import iht.models.UkAddress
 import iht.utils.CommonHelper._
 import iht.views.html.registration.{executor => views}
 import javax.inject.Inject
-import play.api.i18n.Lang
 import play.api.mvc.{Call, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
@@ -81,7 +80,6 @@ trait OtherPersonsAddressController extends RegistrationController with CoExecut
   def onPageLoad(id: String, isInternational: Boolean, actionCall: Call, changeNationalityCall: Call,
                  cancelCall: Option[Call] = None) = authorisedForIht {
     implicit request => {
-      implicit val lang: Lang = messagesApi.preferred(request).lang
 
       withRegistrationDetailsRedirectOnGuardCondition { rd =>
         val formType = if (isInternational) coExecutorAddressAbroadForm else coExecutorAddressUkForm
@@ -117,7 +115,6 @@ trait OtherPersonsAddressController extends RegistrationController with CoExecut
                     cancelCall: Option[Call] = None) = {
     authorisedForIht {
       implicit request => {
-        implicit val lang: Lang = messagesApi.preferred(request).lang
 
         withRegistrationDetails {
           rd => {

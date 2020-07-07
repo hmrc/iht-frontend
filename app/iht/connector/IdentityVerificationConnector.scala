@@ -23,10 +23,7 @@ import play.api.Logger
 import play.api.libs.json.{JsPath, Json, JsonValidationError, OFormat}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
 import uk.gov.hmrc.play.bootstrap.http.{DefaultHttpClient, HttpClient}
-import uk.gov.hmrc.play.http.logging.MdcLoggingExecutionContext._
-
-import scala.concurrent.Future
-
+import scala.concurrent.{ExecutionContext, Future}
 
 class IdentityVerificationConnectorImpl @Inject()(val http: DefaultHttpClient,
                                                   val appConfig: AppConfig) extends IdentityVerificationConnector
@@ -38,7 +35,8 @@ trait IdentityVerificationConnector {
   private case class IdentityVerificationResponse(result: IdentityVerificationResult)
   private implicit val formats: OFormat[IdentityVerificationResponse] = Json.format[IdentityVerificationResponse]
 
-  def identityVerificationResponse(journeyId: String)(implicit hc: HeaderCarrier): Future[IdentityVerificationResult] = {
+  def identityVerificationResponse(journeyId: String)(implicit hc: HeaderCarrier, executionContext: ExecutionContext):
+    Future[IdentityVerificationResult] = {
     val url = appConfig.ivUrlJourney + journeyId
     Logger.debug(s"Calling identity verification frontend service with url: $url")
     http.GET[HttpResponse](url).flatMap { httpResponse =>

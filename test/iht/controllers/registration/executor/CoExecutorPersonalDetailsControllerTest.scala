@@ -585,13 +585,6 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       status(result) must be(INTERNAL_SERVER_ERROR)
     }
 
-    def checkForErrorOnSubmission(detailsToSubmit: Seq[(String, String)], expectedError: String): Unit = {
-      val result = submitCoExecutorPersonalDetails(
-        CommonBuilder.buildRegistrationDetailsWithOthersApplyingForProbate, detailsToSubmit, None)
-      status(result) must be(BAD_REQUEST)
-      contentAsString(result) must include(messagesApi(expectedError))
-    }
-
     def checkForErrorOnSubmissionOfModel(coExecutor: CoExecutor,expectedError: String): Unit = {
       val result = submitCoExecutorPersonalDetailsModel(
         CommonBuilder.buildRegistrationDetailsWithOthersApplyingForProbate, coExecutor, None)

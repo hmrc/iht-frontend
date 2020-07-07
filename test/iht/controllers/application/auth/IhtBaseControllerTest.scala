@@ -43,13 +43,13 @@ class IhtBaseControllerTest extends ApplicationControllerTest {
       override val authConnector: AuthConnector = mockAuthConnector
 
       val testAction: Action[AnyContent] = authorisedForIht {
-        implicit request => {
+        implicit request => { // False positive warning. Workaround: scala/bug#11175 -Ywarn-unused:params false positive
           Future.successful(Ok(s"$responseContent"))
         }
       }
 
       val testActionWithNino: Action[AnyContent] = authorisedForIhtWithRetrievals(Retrievals.nino) { userNino =>
-        implicit request => {
+        implicit request => { // False positive warning. Workaround: scala/bug#11175 -Ywarn-unused:params false positive
           Future.successful(Ok(s"$responseContent with $userNino"))
         }
       }

@@ -16,6 +16,8 @@
 
 package iht
 
+import scala.language.reflectiveCalls
+
 package object models {
 
   //scalastyle:off structural.type

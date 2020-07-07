@@ -21,7 +21,7 @@ import iht.connector.CachingConnector
 import iht.models.{DeceasedDateOfDeath, RegistrationDetails}
 import play.api.Logger
 import play.api.mvc.Results._
-import play.api.mvc.{Call, Request, Result}
+import play.api.mvc.{Call, Result}
 import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -90,7 +90,7 @@ trait RegistrationKickOutHelper {
   def storeAndRedirectWithKickoutCheck(cachingConnector: CachingConnector, rd: RegistrationDetails,
                                        getKickoutReason: RegistrationDetails => Option[String], nextPage: Call,
                                        failMessage: String = "Failed to successfully store registration details")
-                                      (implicit request: Request[_], hc: HeaderCarrier): Future[Result] =
+                                      (implicit hc: HeaderCarrier): Future[Result] =
     cachingConnector.storeRegistrationDetails(rd).flatMap{
       case Some(_) =>
         getKickoutReason.apply(rd).fold(Future.successful(Redirect(nextPage))) { kickoutReason =>

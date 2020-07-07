@@ -87,7 +87,7 @@ trait TestDataUtil {
         Constants.NINO -> "AA123456A",
         SessionKeys.sessionId -> s"session-$userId",
         SessionKeys.userId -> userId,
-        SessionKeys.token -> "some-gg-token").withHeaders(
+        "token" -> "some-gg-token").withHeaders(
         "Accept-Language" -> "en-GB"
       )
     } else {

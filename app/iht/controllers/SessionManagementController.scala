@@ -39,13 +39,13 @@ trait SessionManagementController extends IhtBaseController with I18nSupport {
   implicit val formPartialRetriever: FormPartialRetriever
 
   def signOut: Action[AnyContent] = Action.async {
-    implicit request => {
+    implicit request => { // False positive warning. Workaround: scala/bug#11175 -Ywarn-unused:params false positive
       Future.successful(Ok(iht.views.html.sign_out()).withNewSession)
     }
   }
 
   def keepAlive: Action[AnyContent] = authorisedForIht {
-    implicit request => {
+    implicit request => { // False positive warning. Workaround: scala/bug#11175 -Ywarn-unused:params false positive
       Future.successful(Ok("OK"))
     }
   }

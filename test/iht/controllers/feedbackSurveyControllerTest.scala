@@ -28,9 +28,7 @@ class feedbackSurveyControllerTest extends ViewTestHelper {
   implicit val request = FakeRequest()
   val appConfigBinding: AppConfig = appConfig
 
-  protected abstract class TestController extends FrontendController(mockControllerComponents) with FeedbackSurveyController {
-    override implicit val appConfig: AppConfig = appConfig
-  }
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with FeedbackSurveyController
 
   class Setup {
     val controller: FeedbackSurveyController = new TestController {

@@ -51,7 +51,7 @@ trait ExemptionsGuidanceController extends ApplicationController {
   }
 
   def onSubmit(ihtReference: String) = authorisedForIht {
-    implicit request => {
+    implicit request => { // False positive warning. Workaround: scala/bug#11175 -Ywarn-unused:params false positive
       Future.successful(Redirect(iht.controllers.application.routes.EstateOverviewController
         .onPageLoadWithIhtRef(ihtReference)))
     }

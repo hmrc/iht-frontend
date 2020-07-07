@@ -67,7 +67,7 @@ case class OverviewRow(id: String,
                        value: String,
                        completionStatus: RowCompletionStatus,
                        linkUrl: Call,
-                       qualifyingText: String)(implicit messages: Messages) {
+                       qualifyingText: String) {
 
   def linkText(implicit messages: Messages): String = this.completionStatus match {
     case NotStarted => messages("iht.start")

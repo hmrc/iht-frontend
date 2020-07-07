@@ -147,7 +147,7 @@ class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest w
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
-      val result = await(deceasedAddressQuestionController.onSubmit()(request))
+      await(deceasedAddressQuestionController.onSubmit()(request))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val expectedDeceasedDetails = deceasedDetails copy (isAddressInUK = newDeceasedDetails.isAddressInUK)

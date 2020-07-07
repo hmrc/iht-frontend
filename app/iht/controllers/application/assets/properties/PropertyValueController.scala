@@ -42,7 +42,7 @@ class PropertyValueControllerImpl @Inject()(val metrics: IhtMetrics,
                                             val authConnector: AuthConnector,
                                             val formPartialRetriever: FormPartialRetriever,
                                             implicit val appConfig: AppConfig,
-val cc: MessagesControllerComponents) extends FrontendController(cc) with PropertyValueController
+                                            val cc: MessagesControllerComponents) extends FrontendController(cc) with PropertyValueController
 
 trait PropertyValueController extends EstateController {
 
@@ -161,7 +161,7 @@ trait PropertyValueController extends EstateController {
 
   private def processSubmit(nino: String,
                             property: Property,
-                            propertyId: Option[String] = None)(
+                            propertyId: Option[String])(
                              implicit request: Request[_], hc: HeaderCarrier): Future[Result] = {
 
     withRegistrationDetails { registrationData =>

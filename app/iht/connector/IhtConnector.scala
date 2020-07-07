@@ -195,7 +195,7 @@ class IhtConnectorImpl @Inject()(val http: DefaultHttpClient,
                 throw new RuntimeException("JSON parse error. Although returned - Failure to create Registration Details")
               case x =>
                 Logger.info("Correctly returned for registration details")
-                new RegistrationDetailsHelperFixture().getOrExceptionNoRegistration(x.asOpt)
+                RegistrationDetailsHelperFixture().getOrExceptionNoRegistration(x.asOpt)
             }
           case _ =>
             Logger.warn("Problem retrieving Case Details")
@@ -205,7 +205,7 @@ class IhtConnectorImpl @Inject()(val http: DefaultHttpClient,
     }
   }
 
-  private def connectorRecovery[A]: PartialFunction[Throwable, Future[A]] = PartialFunction {
+  def connectionRecoveryPF[A]: PartialFunction[Throwable, scala.concurrent.Future[A]]  = {
     case e: GatewayTimeoutException =>
       Logger.warn("Gateway Timeout Response Returned ::: " + e.getMessage)
       Future.failed(new GatewayTimeoutException(e.message))
@@ -225,6 +225,8 @@ class IhtConnectorImpl @Inject()(val http: DefaultHttpClient,
       Logger.warn("Exception Returned ::: " + e.getMessage)
       Future.failed(new Exception(e.getMessage))
   }
+
+  private def connectorRecovery[A]: PartialFunction[Throwable, Future[A]] = connectionRecoveryPF
 
   override def submitApplication(ihtAppReference: String, nino: String, applicationDetails: ApplicationDetails)
                                 (implicit headerCarrier: HeaderCarrier, request: Request[_]): Future[Option[String]] = {

@@ -22,7 +22,6 @@ import iht.models.application.ApplicationDetails
 import iht.models.{CoExecutor, RegistrationDetails}
 import iht.utils.DeclarationHelper
 import play.api.data.Form
-import play.api.mvc.Request
 
 case class DeclarationViewModel(declarationForm: Form[Boolean],
                                 declarationType: String,

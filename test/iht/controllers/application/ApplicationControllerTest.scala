@@ -59,7 +59,7 @@ trait ApplicationControllerTest extends ViewTestHelper with DefaultAwaitTimeout 
       if (authRetrieveNino) {
         when(mockAuthConnector.authorise[Option[String]](any(), any())(any(), any())).thenReturn(Future.successful(Some(fakeNino)))
       } else {
-        when(mockAuthConnector.authorise[Unit](any(), any())(any(), any())).thenReturn(Future.successful())
+        when(mockAuthConnector.authorise[Unit](any(), any())(any(), any())).thenReturn(Future.successful(()))
       }
     } else {
       when(mockAuthConnector.authorise(any(), any())(any(), any())).thenReturn(Future.failed(AuthenticateHeaderParser.parse(Map())))

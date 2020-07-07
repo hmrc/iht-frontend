@@ -19,37 +19,10 @@ package iht.utils
 import com.ibm.icu.text.SimpleDateFormat
 import com.ibm.icu.util.{TimeZone, ULocale}
 import org.joda.time.{DateTime, LocalDate}
-import play.api.Play
-import play.api.i18n.{Lang, Messages}
-import play.api.mvc.{Flash, RequestHeader}
+import play.api.i18n.Messages
 
 object CustomLanguageUtils {
-  val EnglishLangCode = "en"
-  val WelshLangCode = "cy"
 
-  val English = Lang(EnglishLangCode)
-  val Welsh = Lang(WelshLangCode)
-
-  val SwitchIndicatorKey = "switching-language"
-  val FlashWithSwitchIndicator = Flash(Map(SwitchIndicatorKey -> "true"))
-
-  /** Returns the current language as a Lang object.
-    *
-    * This function returns the current language as an i18n Lang object. It first checks
-    * that the PLAY_LANG cookie exists from the request object and then gets the value from it.
-    * If it does not exist then it returns the accepted language from the request object. If there
-    * is no Play application then it just defaults to return the accepted language in the request or
-    * use the default language.
-    *
-    * @param request The RequestHeader object to extract the language information from.
-    * @return Lang object containing the current langugage.
-    */
-  def getCurrentLang(implicit request: RequestHeader, messages: Messages): Lang = {
-    Play.maybeApplication.map { implicit app =>
-      val maybeLangFromCookie = request.cookies.get("PLAY_LANG").flatMap(c => Lang.get(c.value))
-      maybeLangFromCookie.getOrElse(messages.lang)
-    }.getOrElse(request.acceptLanguages.headOption.getOrElse(Lang.defaultLang))
-  }
 
   /** Helper object to correctly display and format dates in both English and Welsh.
     *

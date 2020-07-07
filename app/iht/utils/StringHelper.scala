@@ -26,7 +26,7 @@ import play.api.i18n.Messages
 import scala.collection.mutable.ListBuffer
 import scala.util.{Failure, Success, Try}
 
-case class StringHelperFixture(implicit val appConfig: AppConfig) extends StringHelper
+case class StringHelperFixture(string: String = "")(implicit val appConfig: AppConfig) extends StringHelper
 
 trait StringHelper {
   implicit val appConfig: AppConfig

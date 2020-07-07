@@ -91,7 +91,7 @@ object ReducingEstateValueSectionViewModel {
             Some(OverviewRow(appConfig.EstateDebtsID, messages("iht.estateReport.debts.owedFromEstate"),
               DisplayValueAsNegative(getDebtsDisplayValue(applicationDetails))(messages),
               RowCompletionStatus(applicationDetails.areAllDebtsCompleted),
-              iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad(), debtsScreenreaderText)(messages))
+              iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad(), debtsScreenreaderText))
     } else {
       None
     }
@@ -103,7 +103,7 @@ object ReducingEstateValueSectionViewModel {
       exemptionRow = OverviewRow(appConfig.EstateExemptionsID, messages("iht.estateReport.exemptions.title"),
         displayValue, exemptionCompletionStatus,
         iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
-        exemptionsScreenreaderText)(messages),
+        exemptionsScreenreaderText),
       totalRow = OverviewRowWithoutLink("reducing-estate-totals", messages("page.iht.application.exemptions.total"),
          DisplayValueAsNegative(CurrentValue(totalValue))(messages), qualifyingText = "", headingLevel = "h3",
         headingClass = "visually-hidden")

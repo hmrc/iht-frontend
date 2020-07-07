@@ -29,7 +29,7 @@ import play.api.i18n.Messages
 import play.api.mvc.Results.Redirect
 import play.api.mvc.{Call, Result}
 
-case class TnrbHelperFixture(implicit val appConfig: AppConfig) extends TnrbHelper
+case class TnrbHelperFixture(x: Any = None)(implicit val appConfig: AppConfig) extends TnrbHelper
 
 trait TnrbHelper {
   implicit val appConfig: AppConfig

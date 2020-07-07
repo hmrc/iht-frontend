@@ -24,14 +24,13 @@ import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails}
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import org.joda.time.LocalDate
 import org.scalatest.BeforeAndAfter
-import play.api.data.format.Formatter
-import play.api.data.{FieldMapping, Form, FormError, Forms}
-import play.api.mvc.{MessagesControllerComponents, Request}
+import play.api.data.Form
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
-import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
-import scala.concurrent.{ExecutionContext, Future}
+
+import scala.concurrent.Future
 
 class AboutDeceasedControllerTest extends RegistrationControllerTest with BeforeAndAfter {
 
@@ -68,18 +67,6 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
   def formWithMockedNinoValidationNoDeceased(mockCachingConnector: CachingConnector): DeceasedForms = {
     def deceasedForms: DeceasedForms = {
       new DeceasedForms {
-        def ninoForDeceased(blankMessageKey: String, lengthMessageKey: String,
-                            formatMessageKey: String, oRegDetails: Option[RegistrationDetails]): FieldMapping[String] = {
-          val formatter = new Formatter[String] {
-            override val format: Option[(String, Seq[Any])] = None
-
-            override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], String] = Right("")
-
-            override def unbind(key: String, value: String): Map[String, String] = Map(key -> value)
-          }
-          val fieldMapping: FieldMapping[String] = Forms.of(formatter)
-          fieldMapping
-        }
       }
     }
     deceasedForms

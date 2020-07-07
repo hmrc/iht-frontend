@@ -71,6 +71,7 @@ trait EstimateController extends FrontendController with I18nSupport {
               Future.successful(Redirect(iht.controllers.filter.routes.UseIHT400Controller.onPageLoadWithoutJointAssets()))
             case (Constants.moreThan1million, true) =>
               Future.successful(Redirect(iht.controllers.filter.routes.UseIHT400Controller.onPageLoadWithJointAssets()))
+            case (_, _) => throw new IllegalArgumentException("Invalid Data Submitted")
           }
         }
       )
