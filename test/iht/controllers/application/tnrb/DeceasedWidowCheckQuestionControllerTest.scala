@@ -117,8 +117,6 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
         getAppDetails = true,
         saveAppDetails = true)
 
-      val withWidowedValue = CommonBuilder.buildWidowedCheck
-
       implicit val request = createFakeRequest().withFormUrlEncodedBody(("widowed", ""), ("shareValue", "233"))
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)

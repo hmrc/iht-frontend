@@ -18,16 +18,14 @@ package iht.controllers
 
 import iht.config.AppConfig
 import iht.views.ViewTestHelper
-import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito._
 import play.api.Play
-import play.api.i18n.{Lang, MessagesApi}
 import play.api.mvc.{Cookie, Result}
 import play.api.test.FakeRequest
 import uk.gov.hmrc.play.language.LanguageUtils
 
-import scala.concurrent.duration._
 import scala.concurrent.Await
+import scala.concurrent.duration._
 
 class CustomLanguageControllerTest extends ViewTestHelper {
 
@@ -42,7 +40,6 @@ class CustomLanguageControllerTest extends ViewTestHelper {
     val mockAppConfig: AppConfig = mock[AppConfig]
     "call switchToLanguage(lang) if welsh is enabled" in {
       when(mockAppConfig.isWelshEnabled).thenReturn(true)
-      when(mockLanguageUtils.getCurrentLang(any())).thenReturn(Lang("en"))
       val customLanguageController = new CustomLanguageController(mockAppConfig, mockLanguageUtils, mockControllerComponents)
 
       customLanguageController.langToCall(locale) mustBe iht.controllers.routes.CustomLanguageController.switchToLanguage(locale)
@@ -73,12 +70,6 @@ class CustomLanguageControllerTest extends ViewTestHelper {
       val result: Result = Await.result(redirectResult, 5.seconds)
 
       assert(result.newCookies.contains(Cookie(Play.langCookieName, englishLocale, httpOnly = false)))
-    }
-
-    "get the current language if the language has been set in the cookies" in {
-      val mockMessagesApi: MessagesApi = mock[MessagesApi]
-      val fakeRequest = FakeRequest().withCookies(Cookie(Play.langCookieName(mockMessagesApi), "CY"))
-      LanguageControlUtils.getCurrentLang(fakeRequest, mockMessagesApi) mustBe Lang("CY")
     }
   }
 

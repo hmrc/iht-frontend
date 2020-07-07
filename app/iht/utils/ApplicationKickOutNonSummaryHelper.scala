@@ -30,7 +30,7 @@ import play.api.i18n.Messages
 
 import scala.collection.immutable.ListMap
 
-case class AppKickoutFixture(implicit val appConfig: AppConfig) extends ApplicationKickOutNonSummaryHelper
+case class AppKickoutFixture(x: Any = None) (implicit val appConfig: AppConfig) extends ApplicationKickOutNonSummaryHelper
 
 trait ApplicationKickOutNonSummaryHelper extends RegistrationDetailsHelper {
   implicit val appConfig: AppConfig

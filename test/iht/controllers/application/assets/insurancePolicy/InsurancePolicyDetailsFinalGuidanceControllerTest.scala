@@ -108,7 +108,7 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
 
       val initialGiftsQuestionAnswerOption = None
 
-      val result = insurancePolicyDetailsFinalGuidanceController.giftsPageRedirect(initialGiftsQuestionAnswerOption)(createFakeRequest())
+      val result = insurancePolicyDetailsFinalGuidanceController.giftsPageRedirect(initialGiftsQuestionAnswerOption)
 
       result must be (iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad())
     }
@@ -125,7 +125,7 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
 
       val initialGiftsQuestionAnswerOption = Some(false)
 
-      val result = insurancePolicyDetailsFinalGuidanceController.giftsPageRedirect(initialGiftsQuestionAnswerOption)(createFakeRequest())
+      val result = insurancePolicyDetailsFinalGuidanceController.giftsPageRedirect(initialGiftsQuestionAnswerOption)
 
       result must be (iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad())
     }
@@ -142,7 +142,7 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
 
       val initialGiftsQuestionAnswerOption = Some(true)
 
-      val result = insurancePolicyDetailsFinalGuidanceController.giftsPageRedirect(initialGiftsQuestionAnswerOption)(createFakeRequest())
+      val result = insurancePolicyDetailsFinalGuidanceController.giftsPageRedirect(initialGiftsQuestionAnswerOption)
 
       result must be (iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad())
     }

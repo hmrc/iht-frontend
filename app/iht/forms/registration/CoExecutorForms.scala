@@ -22,12 +22,12 @@ import iht.models._
 import iht.utils.IhtFormValidator
 import play.api.data.Forms._
 import play.api.data.{Form, Mapping}
-import play.api.i18n.{Lang, Messages}
+import play.api.i18n.Messages
 
 trait CoExecutorForms extends IhtFormValidator {
   implicit val appConfig: AppConfig
 
-  def addressMappingCoexecInternational(implicit lang: Lang, messages: Messages): Mapping[UkAddress] = mapping(
+  def addressMappingCoexecInternational(implicit messages: Messages): Mapping[UkAddress] = mapping(
     "ukAddressLine1" -> of(ihtInternationalAddress("ukAddressLine2", "ukAddressLine3",
       "ukAddressLine4", "countryCode",
       "error.address.give", "error.address.giveInLine1And2",
@@ -53,7 +53,7 @@ trait CoExecutorForms extends IhtFormValidator {
   )(UkAddress.applyUk)(UkAddress.unapplyUk)
 
   lazy val coExecutorAddressUkForm = Form(addressMappingCoexecUk)
-  def coExecutorAddressAbroadForm(implicit lang: Lang, messages: Messages) = Form(addressMappingCoexecInternational(lang, messages))
+  def coExecutorAddressAbroadForm(implicit messages: Messages) = Form(addressMappingCoexecInternational(messages))
 
   def coExecutorPersonalDetailsForm(oRegDetails: Option[RegistrationDetails] = None, loginNino: String) = Form(
     mapping(

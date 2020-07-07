@@ -17,6 +17,7 @@
 package iht.testhelpers
 
 import iht.FakeIhtApp
+import scala.language.reflectiveCalls
 
 class MessagesTidierTest extends FakeIhtApp {
 

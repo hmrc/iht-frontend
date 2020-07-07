@@ -20,7 +20,7 @@ import iht.config.AppConfig
 import iht.connector.CachingConnector
 import iht.metrics.IhtMetrics
 import iht.models.enums.KickOutSource
-import iht.utils.{CommonHelper, DeceasedInfoHelper}
+import iht.utils.CommonHelper
 import iht.views.html.registration.kickout._
 import javax.inject.Inject
 import play.api.i18n.Messages
@@ -80,7 +80,7 @@ trait KickoutRegController extends RegistrationController {
   def notAnExecutorKickoutView(content: String)(implicit request: Request[_]) =
     kickout_template_simple(applicantExecutorOfEstatePageLoad, Messages("iht.changeYourAnswer"))(content)
 
-  def content(implicit messages:Messages, deceasedName: String): Map[String, Request[_] => HtmlFormat.Appendable] = Map(
+  def content(implicit messages:Messages): Map[String, Request[_] => HtmlFormat.Appendable] = Map(
     KickoutApplicantDetailsProbateScotland ->
       (request => probateKickoutView(
         Seq(
@@ -131,15 +131,14 @@ trait KickoutRegController extends RegistrationController {
     implicit request => {
       withRegistrationDetails { regDetails =>
         cachingConnector.getSingleValue(RegistrationKickoutReasonCachingKey) map { reason =>
-          val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
-          Ok(content(implicitly[Messages], deceasedName)(CommonHelper.getOrException(reason))(request))
+          Ok(content(implicitly[Messages])(CommonHelper.getOrException(reason))(request))
         }
       }
     }
   }
 
   def onSubmit: Action[AnyContent] = authorisedForIht {
-    implicit request =>
+    implicit request => // False positive warning. Workaround: scala/bug#11175 -Ywarn-unused:params false positive
       metrics.kickOutCounter(KickOutSource.REGISTRATION)
       Future.successful(Redirect(appConfig.linkRegistrationKickOut))
   }

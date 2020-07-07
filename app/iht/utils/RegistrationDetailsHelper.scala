@@ -22,7 +22,7 @@ import iht.models.application.ApplicationDetails
 
 import scala.collection.immutable.ListMap
 
-case class RegistrationDetailsHelperFixture(implicit val appConfig: AppConfig) extends RegistrationDetailsHelper
+case class RegistrationDetailsHelperFixture(x: Any = None)(implicit val appConfig: AppConfig) extends RegistrationDetailsHelper
 
 trait RegistrationDetailsHelper {
   implicit val appConfig: AppConfig

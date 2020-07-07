@@ -17,10 +17,9 @@
 package iht.utils
 
 import play.api.i18n.Messages
-import play.api.mvc.Request
 
 object MessagesHelper {
-  def englishMessages(messageKey: String, englishMessages: Messages)(implicit request: Request[_]): Option[String] = {
+  def englishMessages(messageKey: String, englishMessages: Messages): Option[String] = {
     Some(
       englishMessages(messageKey).replace("''", "'")
     ).filterNot(_ == messageKey)

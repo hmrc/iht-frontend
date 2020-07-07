@@ -18,22 +18,12 @@ package iht.controllers
 
 import iht.config.AppConfig
 import javax.inject.{Inject, Singleton}
-import play.api.Play
-import play.api.i18n.{I18nSupport, Lang, MessagesApi}
-import play.api.mvc.{Action, AnyContent, Call, Flash, MessagesControllerComponents, RequestHeader}
+import play.api.i18n.{I18nSupport, Lang}
+import play.api.mvc._
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.language.LanguageUtils
 
 import scala.util.Try
-
-object LanguageControlUtils {
-  def getCurrentLang(implicit request: RequestHeader, messagesApi: MessagesApi): Lang = {
-    Play.maybeApplication.map { implicit app =>
-      val maybeLangFromCookie = request.cookies.get(Play.langCookieName).flatMap(c => Lang.get(c.value))
-      maybeLangFromCookie.getOrElse(messagesApi.preferred(request.acceptLanguages).lang)
-    }.getOrElse(request.acceptLanguages.headOption.getOrElse(Lang.defaultLang))
-  }
-}
 
 @Singleton
 class CustomLanguageController @Inject()(val appConfig: AppConfig,

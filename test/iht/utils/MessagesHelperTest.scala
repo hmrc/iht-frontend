@@ -23,7 +23,6 @@ import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.{I18nSupport, Lang, Messages, MessagesApi}
 import play.api.mvc.MessagesControllerComponents
-import play.api.test.FakeRequest
 
 class MessagesHelperTest extends FakeIhtApp with MockitoSugar with I18nSupport with MessagesHelper {
 
@@ -39,11 +38,11 @@ class MessagesHelperTest extends FakeIhtApp with MockitoSugar with I18nSupport w
   "englishMessages" must {
     "return item from englishMessages when the key exists" in {
       when(messagesApiSpy.messages).thenReturn(msg)
-      MessagesHelper.englishMessages("a.a", messages)(FakeRequest()) mustBe Some("a")
+      MessagesHelper.englishMessages("a.a", messages) mustBe Some("a")
     }
     "return None from englishMessages when the key does not exist" in {
       when(messagesApiSpy.messages).thenReturn(msg)
-      MessagesHelper.englishMessages("x.a", messages)(FakeRequest()) mustBe None
+      MessagesHelper.englishMessages("x.a", messages) mustBe None
     }
   }
 }

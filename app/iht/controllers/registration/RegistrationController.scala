@@ -84,7 +84,7 @@ trait RegistrationController extends FrontendController with IhtBaseController w
 
   def guardConditions: Set[Predicate]
 
-  def storeKickoutReasonAndRedirect(kickoutReason: String)(implicit request: Request[_], hc: HeaderCarrier): Future[Result] =
+  def storeKickoutReasonAndRedirect(kickoutReason: String)(implicit hc: HeaderCarrier): Future[Result] =
     cachingConnector.storeSingleValue(RegistrationKickoutReasonCachingKey, kickoutReason) map { _ =>
       Redirect(routes.KickoutRegController.onPageLoad())
     }

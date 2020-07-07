@@ -187,7 +187,7 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
     }
 
     "Give internal server error when no application details and onsubmit called" in {
-      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(increaseIhtThreshold =
+      CommonBuilder.buildApplicationDetails.copy(increaseIhtThreshold =
         Some(CommonBuilder.buildTnrbEligibility.copy(firstName = Some(CommonBuilder.firstNameGenerator),
           lastName = Some(CommonBuilder.surnameGenerator),
           dateOfMarriage= Some(new LocalDate(1984, 12, 11)))),

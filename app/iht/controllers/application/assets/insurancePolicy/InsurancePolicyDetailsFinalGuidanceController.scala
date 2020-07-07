@@ -23,7 +23,7 @@ import iht.metrics.IhtMetrics
 import iht.utils._
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_final_guidance
 import javax.inject.Inject
-import play.api.mvc.{Call, MessagesControllerComponents, Request, Result}
+import play.api.mvc.{Call, MessagesControllerComponents, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
@@ -65,7 +65,7 @@ trait InsurancePolicyDetailsFinalGuidanceController extends EstateController {
     }
   }
 
-  def giftsPageRedirect(initialGiftsQuestionAnswerOption: Option[Boolean])(implicit request: Request[_]): Call = {
+  def giftsPageRedirect(initialGiftsQuestionAnswerOption: Option[Boolean]): Call = {
     if (initialGiftsQuestionAnswerOption.fold(false)(identity)) {
       iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()
     } else {

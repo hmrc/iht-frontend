@@ -37,13 +37,13 @@ trait DuplicateRegistrationController extends RegistrationController {
   override def guardConditions: Set[Predicate] = Set.empty
 
   def onPageLoad(ihtReference: String) = authorisedForIht {
-    implicit request => {
+    implicit request => { // False positive warning. Workaround: scala/bug#11175 -Ywarn-unused:params false positive
       Future.successful(Ok(iht.views.html.registration.duplicate_registration(ihtReference)))
     }
   }
 
   def onSubmit = authorisedForIht {
-    implicit request => {
+    implicit request => { // False positive warning. Workaround: scala/bug#11175 -Ywarn-unused:params false positive
         Future(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
     }
   }

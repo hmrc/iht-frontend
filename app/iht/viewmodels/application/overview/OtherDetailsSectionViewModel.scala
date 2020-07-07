@@ -42,7 +42,7 @@ object OtherDetailsSectionViewModel {
         value = DisplayValueAsNegative(getDebtsDisplayValue(applicationDetails), areThereNoExemptions = true)(messages),
         completionStatus = RowCompletionStatus(applicationDetails.areAllDebtsCompleted),
         linkUrl = iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad(),
-        qualifyingText = debtsScreenreaderText)(messages),
+        qualifyingText = debtsScreenreaderText),
       showClaimExemptionLink = !applicationDetails.hasSeenExemptionGuidance.getOrElse(false),
       ihtReference = ihtReference)
   }

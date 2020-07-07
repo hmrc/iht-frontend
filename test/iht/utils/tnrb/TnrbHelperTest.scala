@@ -277,7 +277,6 @@ class TnrbHelperTest extends FakeIhtApp with MockitoSugar with TnrbHelper {
     }
 
     "return \"Return to increasing the threshold\" if widow check date is not empty" in {
-      val ihtRef = "ihtRef"
       val ad = CommonBuilder.buildApplicationDetails.copy(
         widowCheck= Some(CommonBuilder.buildWidowedCheck copy(dateOfPreDeceased=Some(LocalDate.now()))))
       val expectedResult = messagesApi("page.iht.application.tnrb.returnToIncreasingThreshold")

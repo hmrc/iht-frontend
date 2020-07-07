@@ -162,7 +162,7 @@ class DeceasedAddressDetailsUKControllerTest
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
-      val result = await(controller.onSubmit()(request))
+      await(controller.onSubmit()(request))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val expectedDeceasedDetails = deceasedDetails copy(ukAddress = newDeceasedDetails.ukAddress, isAddressInUK = Some(true))
@@ -186,7 +186,7 @@ class DeceasedAddressDetailsUKControllerTest
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(existingRegistrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(existingRegistrationDetails))
 
-      val result = await(controller.onEditSubmit()(request))
+      await(controller.onEditSubmit()(request))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val expectedDeceasedDetails = existingDeceasedDetails copy(ukAddress = newDeceasedDetails.ukAddress, isAddressInUK = Some(true))

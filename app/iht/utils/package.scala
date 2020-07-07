@@ -19,6 +19,7 @@ package iht
 import iht.config.AppConfig
 import iht.models.RegistrationDetails
 import play.api.i18n.Messages
+import scala.language.implicitConversions
 
 package object utils {
   type Predicate = (RegistrationDetails, String) => Boolean

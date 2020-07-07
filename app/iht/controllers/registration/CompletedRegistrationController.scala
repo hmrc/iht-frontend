@@ -39,7 +39,7 @@ trait CompletedRegistrationController extends RegistrationController {
   override def guardConditions: Set[Predicate] = Set.empty
 
   def onPageLoad() = authorisedForIht {
-    implicit request => {
+    implicit request => { // False positive warning. Workaround: scala/bug#11175 -Ywarn-unused:params false positive
       withRegistrationDetailsOrRedirect(request.uri) { rd =>
          Future.successful(Ok(iht.views.html.registration.completed_registration(rd.ihtReference.get)))
       }
@@ -47,7 +47,7 @@ trait CompletedRegistrationController extends RegistrationController {
   }
 
   def onSubmit = authorisedForIht {
-    implicit request => {
+    implicit request => { // False positive warning. Workaround: scala/bug#11175 -Ywarn-unused:params false positive
       Future(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
     }
   }

@@ -709,7 +709,7 @@ object CommonBuilder {
     )
   }
 
-  def buildRegistrationDetails6(implicit appConfig: AppConfig) = {
+  def buildRegistrationDetails6 = {
     RegistrationDetails(
       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath),
       applicantDetails = Some(CommonBuilder.buildApplicantDetails),
@@ -721,7 +721,7 @@ object CommonBuilder {
     )
   }
 
-  def buildRegistrationDetails7(implicit appConfig: AppConfig) = {
+  def buildRegistrationDetails7 = {
     RegistrationDetails(
       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath),
       applicantDetails = Some(CommonBuilder.buildApplicantDetails),

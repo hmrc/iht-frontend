@@ -301,7 +301,7 @@ class ApplicantTellUsAboutYourselfControllerTest
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
       createMockToGetCitizenDetails(mockCitizenDetailsConnector, userDetails)
 
-      val result = await(controller.onSubmit()(request))
+      await(controller.onSubmit()(request))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
 
@@ -329,7 +329,7 @@ class ApplicantTellUsAboutYourselfControllerTest
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
       createMockToGetCitizenDetails(mockCitizenDetailsConnector, userDetails)
 
-      val result = await(controller.onEditSubmit()(request))
+      await(controller.onEditSubmit()(request))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       capturedValue.deceasedDateOfDeath mustBe Some(existingDod)

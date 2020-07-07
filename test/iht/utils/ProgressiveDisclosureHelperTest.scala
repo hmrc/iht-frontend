@@ -23,15 +23,15 @@ class ProgressiveDisclosureHelperTest extends UnitSpec {
   "The ProgressiveDisclosure Helper" should{
     "return an empty string" when{
       "given an uri that is too short for getDisclosureInfo" in{
-        ProgressiveDisclosureHelper.getDisclosureInfo("") shouldBe ("", Seq())
+        ProgressiveDisclosureHelper.getDisclosureInfo("") shouldBe (("", Seq()))
       }
     }
 
     "return the right messages key" when{
       "given a valid uri for getDisclosureInfo" in{
-        ProgressiveDisclosureHelper.getDisclosureInfo("test/test/estate-report") shouldBe ("site.progressiveDisclosure.application.contact", Seq("site.progressiveDisclosure.application.help.start", "site.progressiveDisclosure.application.linkText", "site.progressiveDisclosure.application.help.end"))
-        ProgressiveDisclosureHelper.getDisclosureInfo("test/test/registration") shouldBe ("site.progressiveDisclosure.registration.contact", Seq())
-        ProgressiveDisclosureHelper.getDisclosureInfo("test/test/default") shouldBe ("site.progressiveDisclosure.preRegistration.contact", Seq("site.progressiveDisclosure.preRegistration.help"))
+        ProgressiveDisclosureHelper.getDisclosureInfo("test/test/estate-report") shouldBe (("site.progressiveDisclosure.application.contact", Seq("site.progressiveDisclosure.application.help.start", "site.progressiveDisclosure.application.linkText", "site.progressiveDisclosure.application.help.end")))
+        ProgressiveDisclosureHelper.getDisclosureInfo("test/test/registration") shouldBe (("site.progressiveDisclosure.registration.contact", Seq()))
+        ProgressiveDisclosureHelper.getDisclosureInfo("test/test/default") shouldBe (("site.progressiveDisclosure.preRegistration.contact", Seq("site.progressiveDisclosure.preRegistration.help")))
       }
     }
 
