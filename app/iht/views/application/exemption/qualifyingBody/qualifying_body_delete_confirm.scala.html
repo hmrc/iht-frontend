@@ -30,7 +30,7 @@ isFullWidth=false){
 <div>
     <div id="qualifying-body-name" class="panel panel-border-wide">
         <p>
-            <strong>
+            <strong class="bold">
                 @defining(qualifyingBody.name)  { qualifyingBodyName =>
                     @qualifyingBodyName match{
                         case Some(x) => {@ihtHelpers.custom.name(qualifyingBodyName.getOrElse(""))}

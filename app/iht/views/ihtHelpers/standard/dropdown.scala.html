@@ -32,7 +32,7 @@
 
 
     <label for="@if( elements.args.get('_id) ) {@elements.args.get('_id)} else {@elements.field.name.replaceAll("""[\.\[\]]""", "-")}" class="@elements.args.get('_divClass) @if( elements.args.get('_labelClass) ){ @elements.args.get('_labelClass) }" @if(elements.args.contains('_labelDataAttributes)){@elements.args.get('_labelDataAttributes)} id="@if( elements.args.get('_labelid) ) {@elements.args.get('_labelid)} else {@elements.field.name.replaceAll("""[\.\[\]]""", "-")_field}">
-        @if(labelHighlight){<strong>}
+        @if(labelHighlight){<strong class="bold">}
         @if(elements.args.contains('_label)) {<span class="bold @if(elements.args.contains('_labelClass)){ @elements.args.get('_labelClass)}"> @elements.label </span>}
         @if(labelHighlight){</strong>}
     </label>
