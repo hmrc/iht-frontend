@@ -26,7 +26,7 @@ trait RegistrationChecklistMessages {
   val ihtRegistrationChecklistPassport                  = "valid UK passport details"
   val ihtRegistrationChecklistPayslip                   = "recent payslips or last P60"
   val ihtRegistrationChecklistTaxCredit                 = "tax credits or pension payment amounts"
-  val ihtRegistrationDetailsNeededTitle                 = "Details you will need to register the estate "
+  val ihtRegistrationDetailsNeededTitle                 = "Details you will need to register the estate"
   val ihtRegistrationDetailsNeededLabel1                = "You will not be able to change these details later on."
   val ihtRegistrationDetailsNeededLabel2                = "You will need the person who died’s:"
   val ihtRegistrationDetailsNeededOname                 = "official name"

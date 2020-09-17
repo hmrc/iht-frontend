@@ -11,7 +11,7 @@ object AppDependencies {
   private val playPartialsVersion = "6.11.0-play-26"
   private val domainVersion = "5.9.0-play-26"
   private val govUkTemplateVersion = "5.55.0-play-26"
-  private val playUiVersion = "8.11.0-play-26"
+  private val playUiVersion = "8.12.0-play-26"
   private val playLanguageVersion = "4.3.0-play-26"
   private val jsonVersion = "20200518"
   private val wireMockVersion = "2.26.3"

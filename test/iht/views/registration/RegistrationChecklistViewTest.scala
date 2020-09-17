@@ -52,7 +52,7 @@ class RegistrationChecklistViewTest extends ViewTestHelper with RegistrationChec
     }
 
     "have a h2 tag" in {
-      doc.select("h2").text() mustBe ihtRegistrationDetailsNeededTitle
+      doc.select("div#applicant-details-list h2").text() mustBe ihtRegistrationDetailsNeededTitle
     }
 
     "have a details needed paragraphs" in {
