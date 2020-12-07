@@ -15,6 +15,12 @@
   }
 }
 
+@-moz-document url-prefix(){
+    details summary{
+        float: left;
+    }
+}
+
 
 // remove external link indicator following its removal from template
 a[rel="external"]:after {
