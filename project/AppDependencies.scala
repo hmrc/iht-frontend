@@ -14,13 +14,13 @@ object AppDependencies {
   private val playUiVersion = "8.12.0-play-26"
   private val playLanguageVersion = "4.3.0-play-26"
   private val jsonVersion = "20200518"
-  private val wireMockVersion = "2.26.3"
+  private val wireMockVersion = "2.27.2"
   private val jsoupVersion = "1.13.1"
   private val pegdownVersion = "1.6.0"
   private val mockitoVersion = "3.3.3"
   private val playJsonVersion = "2.6.14"
   private val hmrcTestVersion = "3.9.0-play-26"
-  private val scalaTestVersion = "3.0.8"
+  private val scalaTestVersion = "3.0.9"
   private val scalaTestPlusPlayVersion = "3.1.3"
 
   private val typesafe = "com.typesafe.play"
@@ -38,7 +38,7 @@ object AppDependencies {
     typesafe %% "play-json-joda" % playJsonVersion,
     "org.apache.xmlgraphics" % "fop" % "2.3",
     "org.json" % "json" % jsonVersion,
-    "org.apache.commons" % "commons-text" % "1.8"
+    "org.apache.commons" % "commons-text" % "1.9"
   )
 
   trait TestDependencies {
