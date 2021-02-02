@@ -23,7 +23,7 @@ import iht.testhelpers.CommonBuilder
 import iht.utils.CommonHelper
 import iht.views.helpers.GenericOverviewHelper
 import iht.views.html.application.asset.trusts.trusts_overview
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 
 class TrustsOverviewViewTest extends GenericOverviewHelper {

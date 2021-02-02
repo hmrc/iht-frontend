@@ -20,7 +20,7 @@ import iht.views.ViewTestHelper
 import iht.views.helpers.MessagesHelper
 import org.jsoup.Jsoup
 import play.api.test.FakeRequest
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 
 class LoginPassViewTest extends ViewTestHelper with MessagesHelper {

@@ -17,7 +17,7 @@
 package iht.views.application.tnrb
 
 import iht.forms.TnrbForms._
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.testhelpers.CommonBuilder

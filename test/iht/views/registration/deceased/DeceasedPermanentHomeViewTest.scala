@@ -23,7 +23,7 @@ import iht.views.html.registration.applicant.applying_for_probate
 import iht.views.html.registration.deceased.deceased_permanent_home
 import iht.views.registration.RegistrationPageBehaviour
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable

@@ -17,9 +17,9 @@
 package iht.models.application.debts
 
 import org.scalatestplus.mockito.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
-class MortgageEstateElementTest extends UnitSpec with MockitoSugar{
+class MortgageEstateElementTest extends CommonPlaySpec with MockitoSugar{
 
   "totalValue" must {
 

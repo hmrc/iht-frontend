@@ -20,7 +20,7 @@ import iht.forms.registration.ApplicantForms.applyingForProbateForm
 import iht.models.ApplicantDetails
 import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.applicant.applying_for_probate
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import iht.views.registration.YesNoQuestionViewBehaviour
 import play.api.data.Form

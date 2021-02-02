@@ -25,12 +25,11 @@ import iht.models.application.ApplicationDetails
 import iht.models.enums.StatsSource
 import iht.utils._
 import javax.inject.Inject
-import play.api.Logger
 import play.api.i18n.Lang
 import play.api.mvc.{MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.http._
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -61,7 +60,7 @@ trait RegistrationSummaryController extends RegistrationController with StringHe
   }
 
   private def saveApplicationDetails(rd: RegistrationDetails, ihtRef: String, ackRef: String)(implicit hc: HeaderCarrier, request: Request[_]) = {
-    Logger.info("Create initial (empty) Application Details")
+    logger.info("Create initial (empty) Application Details")
     val savedFutureOptionApplicationDetails = ihtConnector.saveApplication(
       CommonHelper.getOrException(rd.applicantDetails).nino,
       ApplicationDetails(status = ApplicationStatus.NotStarted, ihtRef = Some(ihtRef)),
@@ -71,7 +70,7 @@ trait RegistrationSummaryController extends RegistrationController with StringHe
         fillMetrics(rd)
         Redirect(routes.CompletedRegistrationController.onPageLoad())
       case None =>
-        Logger.warn("Failed to save application details during registration summary")
+        logger.warn("Failed to save application details during registration summary")
         InternalServerError("Failed to save application details during registration summary")
     }
   }
@@ -80,21 +79,21 @@ trait RegistrationSummaryController extends RegistrationController with StringHe
     implicit request => {
       def errorHandler: PartialFunction[Throwable, Result] = {
         case ex: GatewayTimeoutException =>
-          Logger.warn("Request has been timed out while submitting registration", ex)
+          logger.warn("Request has been timed out while submitting registration", ex)
           InternalServerError(iht.views.html.registration.registration_error(ControllerHelper.errorRequestTimeOut))
-        case ex: Upstream5xxResponse if ex.upstreamResponseCode == 502 &&
+        case ex: UpstreamErrorResponse if ex.statusCode == 502 &&
           ex.message.contains("Service Unavailable") =>
-          Logger.warn("Service Unavailable while submitting registration", ex)
+          logger.warn("Service Unavailable while submitting registration", ex)
           InternalServerError(iht.views.html.registration.registration_error_serviceUnavailable())
-        case ex: Upstream5xxResponse if ex.upstreamResponseCode == 502 &&
+        case ex: UpstreamErrorResponse if ex.statusCode == 502 &&
           ex.message.contains("500 response returned from DES") =>
           throw ex
         case ex: Exception =>
           if (ex.getMessage.contains("Request timed out")) {
-            Logger.warn("Request has been timed out while submitting registration", ex)
+            logger.warn("Request has been timed out while submitting registration", ex)
             InternalServerError(iht.views.html.registration.registration_error(ControllerHelper.errorRequestTimeOut))
           } else {
-            Logger.warn("System error while submitting registration", ex)
+            logger.warn("System error while submitting registration", ex)
             InternalServerError(iht.views.html.registration.registration_error(ControllerHelper.errorSystem))
           }
       }
@@ -120,7 +119,7 @@ trait RegistrationSummaryController extends RegistrationController with StringHe
               storedResult match {
                 case Some(_) => saveApplicationDetails(registrationDetails, ihtReference, ackRef)
                 case None =>
-                  Logger.warn("Storage of registration details fails during registration summary")
+                  logger.warn("Storage of registration details fails during registration summary")
                   Future.successful(InternalServerError)
               }
             }
@@ -140,12 +139,12 @@ trait RegistrationSummaryController extends RegistrationController with StringHe
   private def fillMetrics(regDetails: RegistrationDetails) = {
 
     Future(metrics.generalStatsCounter(StatsSource.COMPLETED_REG)).onComplete {
-      case _ => Logger.info("Unable to write to StatsSource metrics repository")
+      case _ => logger.info("Unable to write to StatsSource metrics repository")
     }
 
     if (regDetails.coExecutors.nonEmpty) {
       Future(metrics.generalStatsCounter(StatsSource.COMPLETED_REG_ADDITIONAL_EXECUTORS)).onComplete {
-        case _ => Logger.info("Unable to write to StatsSource metrics repository")
+        case _ => logger.info("Unable to write to StatsSource metrics repository")
       }
     }
   }

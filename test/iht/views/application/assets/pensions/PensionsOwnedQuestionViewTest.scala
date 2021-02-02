@@ -29,7 +29,7 @@ import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable
 import iht.controllers.application.assets.pensions.routes
 import iht.views.application.CancelComponent
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import iht.testhelpers.TestHelper._
 

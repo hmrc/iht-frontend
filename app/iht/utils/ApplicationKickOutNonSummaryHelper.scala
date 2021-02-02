@@ -25,14 +25,14 @@ import iht.utils.CommonHelper._
 import iht.utils.KickOutReason._
 import iht.utils.{ApplicationStatus => AppStatus}
 import org.joda.time.LocalDate
-import play.api.Logger
+import play.api.Logging
 import play.api.i18n.Messages
 
 import scala.collection.immutable.ListMap
 
 case class AppKickoutFixture(x: Any = None) (implicit val appConfig: AppConfig) extends ApplicationKickOutNonSummaryHelper
 
-trait ApplicationKickOutNonSummaryHelper extends RegistrationDetailsHelper {
+trait ApplicationKickOutNonSummaryHelper extends RegistrationDetailsHelper with Logging {
   implicit val appConfig: AppConfig
 
   private val stockAndShareValues: Option[StockAndShare] => Seq[BigDecimal] =
@@ -444,7 +444,7 @@ trait ApplicationKickOutNonSummaryHelper extends RegistrationDetailsHelper {
     }
 
     val kickoutReason = findFirstTrue(registrationDetails, applicationDetails, sectionTotal, getChecks)
-    Logger.debug("Kickout check returns: " + kickoutReason)
+    logger.debug("Kickout check returns: " + kickoutReason)
     kickoutReason
   }
 

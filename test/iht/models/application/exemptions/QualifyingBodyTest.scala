@@ -18,10 +18,10 @@ package iht.models.application.exemptions
 
 import iht.testhelpers.CommonBuilder
 import org.scalatestplus.mockito.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
 
-class QualifyingBodyTest extends UnitSpec with MockitoSugar{
+class QualifyingBodyTest extends CommonPlaySpec with MockitoSugar{
 
   "isComplete" must {
 

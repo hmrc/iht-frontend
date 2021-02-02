@@ -38,10 +38,10 @@
     </label>
 
     @defining(elements.field.name){fieldName=>
-        @elements.errors.map{error => <span class="error-message" data-journey="error - field:user-input:@fieldName">@Messages(error)</span>}
+        @elements.errors.map{error => <span class="error-message" data-journey="error - field:user-input:@fieldName">@Messages(error.toString())</span>}
     }
     @if(parentElements.isDefined) {
-    @CommonHelper.getOrException(parentElements).errors.map { error => <span class="error-notification">@messages(error)</span>}
+    @CommonHelper.getOrException(parentElements).errors.map { error => <span class="error-notification">@messages(error.toString())</span>}
     }
 
     @if(elements.args.contains('_hintText)) {

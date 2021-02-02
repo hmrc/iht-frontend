@@ -19,9 +19,9 @@ package iht.config
 import org.scalatestplus.mockito.MockitoSugar
 import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.Environment
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
-class IhtPropertiesReaderTest extends UnitSpec with GuiceOneAppPerTest with MockitoSugar {
+class IhtPropertiesReaderTest extends CommonPlaySpec with GuiceOneAppPerTest with MockitoSugar {
   lazy val ihtPropertyRetriever: IhtPropertyRetriever = new IhtPropertyRetriever {
     override lazy val environment: Environment = app.environment
   }

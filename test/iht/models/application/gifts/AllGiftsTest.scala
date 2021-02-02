@@ -18,10 +18,10 @@ package iht.models.application.gifts
 
 import iht.testhelpers.CommonBuilder
 import org.scalatestplus.mockito.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
 
-class AllGiftsTest extends UnitSpec with MockitoSugar{
+class AllGiftsTest extends CommonPlaySpec with MockitoSugar{
 
   "isGiftsSectionCompletedWithNoValue" must {
 

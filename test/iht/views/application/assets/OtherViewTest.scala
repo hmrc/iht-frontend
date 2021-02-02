@@ -23,7 +23,7 @@ import iht.models.application.basicElements.BasicEstateElement
 import iht.testhelpers.CommonBuilder
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.other
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable

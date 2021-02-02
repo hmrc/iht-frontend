@@ -24,7 +24,7 @@ import play.api.http.Status._
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.{await, status => playStatus}
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class DebtsOverviewControllerTest extends ApplicationControllerTest {

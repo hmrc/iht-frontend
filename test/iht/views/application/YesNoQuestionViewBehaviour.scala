@@ -16,7 +16,7 @@
 
 package iht.views.application
 
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import play.api.mvc.MessagesControllerComponents
 import iht.config.AppConfig

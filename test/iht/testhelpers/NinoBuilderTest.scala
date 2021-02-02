@@ -17,12 +17,12 @@
 package iht.testhelpers
 
 import uk.gov.hmrc.domain.Nino
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
 /**
   * Created by yasar on 24/10/16.
   */
-class NinoBuilderTest extends UnitSpec{
+class NinoBuilderTest extends CommonPlaySpec{
 
   "randomNino" must{
     "create a valid nino" in{

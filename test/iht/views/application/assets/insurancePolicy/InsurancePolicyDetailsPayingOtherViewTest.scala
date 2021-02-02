@@ -24,7 +24,7 @@ import iht.testhelpers.TestHelper
 import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_paying_other
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
 

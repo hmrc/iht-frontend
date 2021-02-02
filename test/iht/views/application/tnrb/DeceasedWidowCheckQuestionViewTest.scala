@@ -21,7 +21,7 @@ import iht.models.application.tnrb.WidowCheck
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.tnrb.TnrbHelper
 import iht.views.application.YesNoQuestionViewBehaviour
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import iht.views.html.application.tnrb.deceased_widow_check_question
 import play.api.data.Form

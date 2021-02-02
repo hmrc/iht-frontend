@@ -25,7 +25,7 @@ import iht.views.html.application.asset.stocksAndShares.stocks_and_shares_not_li
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import iht.testhelpers.TestHelper._
 

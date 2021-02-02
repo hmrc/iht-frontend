@@ -28,8 +28,8 @@ import org.mockito.ArgumentMatchers._
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.{status => playStatus, _}
 import play.api.test.{FakeHeaders, FakeRequest}
-import uk.gov.hmrc.http.{HeaderCarrier, Upstream5xxResponse}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.http.{HeaderCarrier, UpstreamErrorResponse}
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -147,7 +147,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
 
     "respond with INTERNAL_SERVER_ERROR when exception contains 'JSON validation against schema failed'" in {
       createMocksForRegistrationAndApplication(
-        Future.failed(Upstream5xxResponse("JSON validation against schema failed", 500, 502)),
+        Future.failed(UpstreamErrorResponse("JSON validation against schema failed", 500, 502)),
         CommonBuilder.buildApplicationDetails copy (ihtRef = Some(ref)))
       createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
 

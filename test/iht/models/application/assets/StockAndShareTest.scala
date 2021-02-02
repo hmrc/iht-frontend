@@ -18,10 +18,9 @@ package iht.models.application.assets
 
 import iht.testhelpers.CommonBuilder
 import org.scalatestplus.mockito.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
-
-class StockAndShareTest extends UnitSpec with MockitoSugar{
+class StockAndShareTest extends CommonPlaySpec with MockitoSugar{
 
   "totalValue" must {
 

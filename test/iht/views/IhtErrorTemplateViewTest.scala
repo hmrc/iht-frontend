@@ -17,7 +17,7 @@
 package iht.views
 
 import iht.views.html.iht_error_template
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 
 class IhtErrorTemplateViewTest extends ViewTestHelper {

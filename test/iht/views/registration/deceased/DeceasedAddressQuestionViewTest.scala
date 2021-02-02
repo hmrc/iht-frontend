@@ -22,7 +22,7 @@ import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.deceased.deceased_address_question
 import iht.views.registration.YesNoQuestionViewBehaviour
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
 

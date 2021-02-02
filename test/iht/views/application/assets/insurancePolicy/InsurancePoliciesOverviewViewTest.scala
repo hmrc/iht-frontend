@@ -19,7 +19,7 @@ package iht.views.application.assets.insurancePolicy
 import iht.testhelpers.CommonBuilder
 import iht.views.application.{ApplicationPageBehaviour, CancelComponent, Guidance}
 import iht.views.html.application.asset.insurancePolicy.insurance_policies_overview
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import play.api.mvc.Call
 

@@ -24,7 +24,7 @@ import iht.utils.{CommonHelper, DeceasedInfoHelper}
 import iht.utils.OverviewHelper._
 import iht.views.ViewTestHelper
 import iht.views.html.application.gift.gifts_overview
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import iht.constants.Constants._
 import iht.testhelpers.TestHelper._

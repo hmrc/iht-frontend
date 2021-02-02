@@ -23,7 +23,6 @@ import iht.models.application.assets._
 import iht.models.application.exemptions._
 import iht.utils.ApplicationKickOutHelper.FunctionListMap
 import iht.utils.{ApplicationKickOutHelper, ApplicationKickOutNonSummaryHelper, CommonHelper, IhtFormValidator, StringHelper}
-import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Call, Request, Result}
 import play.twirl.api.HtmlFormat._
@@ -242,7 +241,7 @@ trait EstateController extends ApplicationController with ApplicationKickOutNonS
             ihtConnector.saveApplication(nino, applicationDetails, regDetails.acknowledgmentReference)
               .map(optionApplicationDetailsSaved => {
                 optionApplicationDetailsSaved.fold {
-                  Logger.warn("Application Details not found")
+                  logger.warn("Application Details not found")
                   InternalServerError("Application Details not found")
                 }(_ => {
                   cachingConnector.storeSingleValue(ApplicationKickOutHelper.applicationLastSectionKey,
@@ -252,14 +251,14 @@ trait EstateController extends ApplicationController with ApplicationKickOutNonS
                 })
               })
           case Failure(ex) =>
-            Logger.warn("Id " + id + " is unrecognized")
+            logger.warn("Id " + id + " is unrecognized")
             Future.successful(InternalServerError("Id " + id + " is unrecognized"))
 
         }
 
 
       case _ => {
-        Logger.warn("Application Details not found")
+        logger.warn("Application Details not found")
         Future.successful(InternalServerError("Application Details not found"))
       }
     }

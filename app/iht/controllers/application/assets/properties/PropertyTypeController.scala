@@ -26,12 +26,11 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets.Property
 import iht.utils._
 import javax.inject.Inject
-import play.api.Logger
 import play.api.mvc.{Call, MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -100,7 +99,7 @@ trait PropertyTypeController extends EstateController with StringHelper {
               }
             }
             case _ => {
-              Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
+              logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
               InternalServerError("No Application Details found")
             }
           }
@@ -169,7 +168,7 @@ trait PropertyTypeController extends EstateController with StringHelper {
             })
           }
           case _ => {
-            Logger.warn("Problem saving Application details. Redirecting to InternalServerError")
+            logger.warn("Problem saving Application details. Redirecting to InternalServerError")
             InternalServerError
           }
         }

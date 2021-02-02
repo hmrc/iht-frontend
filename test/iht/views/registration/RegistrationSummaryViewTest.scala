@@ -23,7 +23,7 @@ import iht.views.ViewTestHelper
 import iht.views.html.registration.registration_summary
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest

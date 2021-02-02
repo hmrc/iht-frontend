@@ -28,7 +28,7 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class ApplyingForProbateControllerImpl @Inject()(val ihtConnector: IhtConnector,

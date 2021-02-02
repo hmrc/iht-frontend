@@ -18,11 +18,11 @@ package iht.models.application.tnrb
 
 import iht.testhelpers.CommonBuilder
 import org.scalatestplus.mockito.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
 
 
-class TnrbEligibiltyModelTest extends UnitSpec with MockitoSugar{
+class TnrbEligibiltyModelTest extends CommonPlaySpec with MockitoSugar{
 
   "areAllQuestionsAnswered" must {
 

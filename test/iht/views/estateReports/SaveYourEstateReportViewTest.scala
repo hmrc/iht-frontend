@@ -19,7 +19,7 @@ package iht.views.estateReports
 import iht.views.ViewTestHelper
 import iht.views.html.estateReports.save_your_estate_report
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import play.api.test.FakeRequest
 

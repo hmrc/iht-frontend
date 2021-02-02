@@ -22,11 +22,11 @@ import iht.controllers.application.EstateController
 import iht.utils.StringHelper
 import iht.views.html.application.exemption.charity.charity_delete_confirm
 import javax.inject.Inject
-import play.api.Logger
+import play.api.Logging
 import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -38,7 +38,7 @@ class CharityDeleteConfirmControllerImpl @Inject()(val ihtConnector: IhtConnecto
                                                    implicit val appConfig: AppConfig,
                                                    val cc: MessagesControllerComponents) extends FrontendController(cc) with CharityDeleteConfirmController
 
-trait CharityDeleteConfirmController extends EstateController with StringHelper {
+trait CharityDeleteConfirmController extends EstateController with StringHelper with Logging {
 
 
   def onPageLoad(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -46,7 +46,7 @@ trait CharityDeleteConfirmController extends EstateController with StringHelper 
       withApplicationDetails(userNino) {
         rd => ad => {
           Future.successful(ad.charities.find(_.id.contains(id)).fold {
-            Logger.warn("Charity with id = " + id + " not found during onLoad of delete confirmation")
+            logger.warn("Charity with id = " + id + " not found during onLoad of delete confirmation")
             InternalServerError("Charity with id = " + id + " not found during onLoad of delete confirmation")
           } { c =>
             Ok(charity_delete_confirm(c, routes.CharityDeleteConfirmController.onSubmit(id)))
@@ -63,7 +63,7 @@ trait CharityDeleteConfirmController extends EstateController with StringHelper 
           val index = ad.charities.indexWhere(_.id.contains(id))
 
           if (index == -1) {
-             Logger.warn("Charity with id = " + id + " not found during onSubmit of delete confirmation")
+             logger.warn("Charity with id = " + id + " not found during onSubmit of delete confirmation")
             Future.successful(InternalServerError("Charity with id = " + id
               + " not found during onSubmit of delete confirmation"))
           } else {
@@ -75,7 +75,7 @@ trait CharityDeleteConfirmController extends EstateController with StringHelper 
               case Some(_) =>
                 Redirect(iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad())
               case _ => {
-                Logger.warn("Save of app details fails with id = " + id
+                logger.warn("Save of app details fails with id = " + id
                   + " during save of app details during onSubmit of delete confirmation")
                 InternalServerError("Save of app details fails with id = " + id
                   + " during save of app details during onSubmit of delete confirmation")

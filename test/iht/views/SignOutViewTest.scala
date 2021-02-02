@@ -17,7 +17,7 @@
 package iht.views
 
 import iht.views.html.sign_out
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 
 class SignOutViewTest extends ViewTestHelper {

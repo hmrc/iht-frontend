@@ -66,7 +66,7 @@
     }
 
     @defining(elements.field.name){fieldName=>
-        @elements.errors.map{error => <span class="error-message" data-journey="error - field:user-input:@fieldName">@Messages(error)</span>}
+        @elements.errors.map{error => <span class="error-message" data-journey="error - field:user-input:@fieldName">@Messages(error.toString())</span>}
     }
 
 

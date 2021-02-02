@@ -21,7 +21,7 @@ import iht.utils.CommonHelper
 import iht.views.ViewTestHelper
 import iht.views.html.application.tnrb.tnrb_success
 import org.jsoup.nodes.Element
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 
 class TnrbSuccessViewTest extends ViewTestHelper {

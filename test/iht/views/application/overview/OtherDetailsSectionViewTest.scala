@@ -19,7 +19,7 @@ package iht.views.application.overview
 import iht.viewmodels.application.overview.{NotStarted, OtherDetailsSectionViewModel, OverviewRow}
 import iht.views.ViewTestHelper
 import iht.views.html.application.overview.other_details_section
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import play.api.mvc.Call
 

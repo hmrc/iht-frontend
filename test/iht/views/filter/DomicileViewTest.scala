@@ -20,7 +20,7 @@ import iht.views.ViewTestHelper
 import iht.views.html.filter.domicile
 import play.api.data.Form
 import play.api.data.Forms._
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import play.api.test.Helpers.{contentAsString, _}
 

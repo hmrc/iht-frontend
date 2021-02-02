@@ -55,7 +55,7 @@ import uk.gov.hmrc.play.bootstrap.http.{DefaultHttpClient, HttpClient}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class Module extends AbstractModule {
-  def configure() = {
+  override def configure() = {
     bind(classOf[AppConfig]).to(classOf[DefaultAppConfig]).asEagerSingleton
     bind(classOf[FormPartialRetriever]).to(classOf[IhtFormPartialRetriever])
     bind(classOf[IhtMetrics]).to(classOf[IhtMetricsImpl])

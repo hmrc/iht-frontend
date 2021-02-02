@@ -23,7 +23,7 @@ import iht.views.ViewTestHelper
 import iht.views.html.application.tnrb.tnrb_overview
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import iht.constants.Constants._
 import iht.testhelpers.TestHelper._

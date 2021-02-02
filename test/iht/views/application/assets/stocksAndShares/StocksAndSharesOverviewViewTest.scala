@@ -23,7 +23,7 @@ import iht.testhelpers.CommonBuilder
 import iht.views.application.StocksAndSharesOverviewViewBehaviour
 import iht.views.html.application.asset.stocksAndShares.stocks_and_shares_overview
 import org.jsoup.nodes.Document
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 
 class StocksAndSharesOverviewViewTest extends StocksAndSharesOverviewViewBehaviour {

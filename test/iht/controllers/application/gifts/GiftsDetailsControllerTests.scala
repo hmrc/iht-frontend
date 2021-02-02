@@ -28,7 +28,7 @@ import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.{await, contentAsString, redirectLocation, status => playStatus}
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class GiftsDetailsControllerTests extends ApplicationControllerTest {

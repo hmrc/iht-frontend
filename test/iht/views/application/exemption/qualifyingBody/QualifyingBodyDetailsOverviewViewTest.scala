@@ -21,7 +21,7 @@ import iht.testhelpers.CommonBuilder
 import iht.utils.CommonHelper._
 import iht.views.html.application.exemption.qualifyingBody.qualifying_body_details_overview
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest

@@ -18,10 +18,10 @@ package iht.models.application.assets
 
 import iht.testhelpers.{TestHelper, CommonBuilder}
 import org.scalatestplus.mockito.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
 
-class PropertyTest extends UnitSpec with MockitoSugar{
+class PropertyTest extends CommonPlaySpec with MockitoSugar{
 
   "isComplete" must {
     "return true if Property is complete" in {

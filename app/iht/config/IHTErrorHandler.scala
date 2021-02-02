@@ -22,7 +22,7 @@ import play.api.i18n.{Messages, MessagesApi}
 import play.api.mvc.Results.InternalServerError
 import play.api.mvc.{Request, RequestHeader, Result}
 import play.twirl.api.Html
-import uk.gov.hmrc.http.Upstream5xxResponse
+import uk.gov.hmrc.http.UpstreamErrorResponse
 import uk.gov.hmrc.play.bootstrap.http.FrontendErrorHandler
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
@@ -57,7 +57,7 @@ class IHTErrorHandler @Inject()(val configuration: Configuration,
 
   override def resolveError(rh: RequestHeader, ex: Throwable): Result = {
     ex match {
-      case e: Upstream5xxResponse if e.upstreamResponseCode == 502 &&
+      case e: UpstreamErrorResponse if e.statusCode == 502 &&
         e.message.contains("500 response returned from DES") => InternalServerError(desInternalServerErrorTemplate(Request(rh, Result)))
       case _ => super.resolveError(rh, ex)
     }

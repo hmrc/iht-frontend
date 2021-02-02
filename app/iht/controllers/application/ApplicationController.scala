@@ -21,13 +21,13 @@ import iht.controllers.auth.IhtBaseController
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.utils.{CommonHelper, IhtSection, StringHelper}
-import play.api.Logger
+import play.api.Logging
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.Future
 
-trait ApplicationController extends IhtBaseController with StringHelper {
+trait ApplicationController extends IhtBaseController with StringHelper with Logging {
   override lazy val ihtSection: IhtSection.Value = IhtSection.Application
 
   def cachingConnector: CachingConnector
@@ -63,7 +63,7 @@ trait ApplicationController extends IhtBaseController with StringHelper {
                              (implicit request: Request[_]): Future[Result] = {
     cachingConnector.getRegistrationDetails flatMap {
       case None =>
-        Logger.info("Registration details not found so re-directing to application overview page")
+        logger.info("Registration details not found so re-directing to application overview page")
         Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
       case Some(rd) => body(rd)
     }

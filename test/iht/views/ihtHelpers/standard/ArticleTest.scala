@@ -20,7 +20,7 @@ import iht.FakeIhtApp
 import iht.views.HtmlSpec
 import iht.views.html.ihtHelpers.standard.{article, sidebar}
 import play.twirl.api.Html
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
 class ArticleTest extends FakeIhtApp with HtmlSpec {
 

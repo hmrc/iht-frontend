@@ -18,7 +18,7 @@ package iht.views.application.tnrb
 
 import iht.views.ViewTestHelper
 import iht.views.html.application.tnrb.tnrb_overview_table_row
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import play.api.mvc.Call
 import play.twirl.api.Html

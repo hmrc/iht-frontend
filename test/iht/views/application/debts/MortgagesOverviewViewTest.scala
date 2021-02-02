@@ -21,7 +21,7 @@ import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
 import iht.views.application.{ApplicationPageBehaviour, CancelComponent}
 import iht.views.html.application.debts.mortgages_overview
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import iht.constants.Constants._
 

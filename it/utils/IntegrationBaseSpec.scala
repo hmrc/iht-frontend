@@ -2,16 +2,17 @@ package utils
 
 import akka.util.Timeout
 import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach}
-import org.scalatestplus.play.guice.GuiceOneServerPerSuite
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.DefaultAwaitTimeout
 import play.api.{Application, Configuration}
-import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.concurrent.duration._
+import org.scalatest.{Matchers, OptionValues, WordSpecLike}
+import play.api.mvc.Result
 
-trait IntegrationBaseSpec extends UnitSpec
-  with GuiceOneServerPerSuite
+trait IntegrationBaseSpec extends WordSpecLike with Matchers with OptionValues
+  with GuiceOneAppPerSuite
   with WiremockHelper
   with BeforeAndAfterEach
   with BeforeAndAfterAll
@@ -19,8 +20,17 @@ trait IntegrationBaseSpec extends UnitSpec
 
   override implicit def defaultAwaitTimeout: Timeout = 5.seconds
 
+  import scala.concurrent.duration._
+  import scala.concurrent.{Await, Future}
+  implicit val defaultTimeout: FiniteDuration = 5 seconds
+  implicit def extractAwait[A](future: Future[A]): A = await[A](future)
+  def await[A](future: Future[A])(implicit timeout: Duration): A = Await.result(future, timeout)
+  // Convenience to avoid having to wrap andThen() parameters in Future.successful
+  implicit def liftFuture[A](v: A): Future[A] = Future.successful(v)
+  def status(of: Result): Int = of.header.status
+
   val localHost = "localhost"
-  val localPort: Int = port
+  val localPort: Int = 19001
   val localUrl  = s"http://$localHost:$localPort"
 
   val additionalConfiguration: Seq[(String, Any)] = Seq.empty

@@ -26,7 +26,7 @@ import iht.utils.CommonHelper
 import play.api.i18n.MessagesApi
 import play.api.mvc.{MessagesControllerComponents, Result}
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future

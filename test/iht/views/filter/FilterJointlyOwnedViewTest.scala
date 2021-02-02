@@ -20,7 +20,7 @@ import iht.views.ViewTestHelper
 import iht.views.html.filter.filter_jointly_owned
 import play.api.data.Form
 import play.api.data.Forms.{optional, single, text}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest

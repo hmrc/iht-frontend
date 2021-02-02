@@ -18,10 +18,10 @@ package iht.models.application.debts
 
 import iht.testhelpers.CommonBuilder
 import org.scalatestplus.mockito.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
 
-class MortgageTest extends UnitSpec with MockitoSugar{
+class MortgageTest extends CommonPlaySpec with MockitoSugar{
 
   "isComplete" must {
 

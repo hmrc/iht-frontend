@@ -28,13 +28,13 @@ import iht.utils.{CommonHelper, IhtFormValidator}
 import iht.views.html._
 import iht.views.html.application.exemption.partner.partner_permanent_home_question
 import javax.inject.Inject
-import play.api.Logger
+import play.api.Logging
 import play.api.i18n.Messages
 import play.api.mvc.{Call, MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -48,7 +48,7 @@ val cc: MessagesControllerComponents) extends FrontendController(cc) with Partne
 
 }
 
-trait PartnerPermanentHomeQuestionController extends EstateController {
+trait PartnerPermanentHomeQuestionController extends EstateController with Logging {
 
 
   lazy val partnerPermanentHomePage = routes.PartnerPermanentHomeQuestionController.onPageLoad()
@@ -79,7 +79,7 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
                 ))
               }
               case _ => {
-                Logger.warn("Application Details not found")
+                logger.warn("Application Details not found")
                 InternalServerError("Application details not found")
               }
             }
@@ -115,7 +115,7 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
               )
             }
             case None => {
-              Logger.warn("Application Details not found")
+              logger.warn("Application Details not found")
               Future.successful(InternalServerError("Application details not found"))
             }
           }

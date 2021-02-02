@@ -25,7 +25,7 @@ import iht.utils.CommonHelper._
 import iht.views.application.{CancelComponent, SubmittableApplicationPageBehaviour}
 import iht.views.html.application.gift.given_away
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
 

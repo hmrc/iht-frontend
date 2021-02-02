@@ -18,18 +18,18 @@ package iht.controllers.auth
 
 import iht.config.AppConfig
 import iht.utils.{AuthHelper, IhtSection}
-import play.api.Logger
+import play.api.Logging
 import play.api.i18n.I18nSupport
 import play.api.mvc._
 import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.auth.core.authorise.Predicate
 import uk.gov.hmrc.auth.core.retrieve.Retrieval
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait IhtBaseController extends FrontendController with AuthorisedFunctions with AuthHelper with I18nSupport {
+trait IhtBaseController extends FrontendController with AuthorisedFunctions with AuthHelper with I18nSupport with Logging {
   private type AsyncPlayRequest = Request[AnyContent] => Future[Result]
   private type AsyncPlayUserRequest[A] = A => Request[AnyContent] => Future[Result]
 
@@ -46,10 +46,10 @@ trait IhtBaseController extends FrontendController with AuthorisedFunctions with
 
   private def handleAuthErrors(implicit request: Request[_]): PartialFunction[Throwable, Result] = {
     case e: InsufficientConfidenceLevel =>
-      Logger.warn(s"Insufficient confidence level user attempting to access ${request.path} redirecting to IV uplift : ${e.getMessage}")
+      logger.warn(s"Insufficient confidence level user attempting to access ${request.path} redirecting to IV uplift : ${e.getMessage}")
       redirectToIV
     case e: AuthorisationException =>
-      Logger.warn(s"unauthenticated user attempting to access ${request.path} redirecting to login : ${e.getMessage}")
+      logger.warn(s"unauthenticated user attempting to access ${request.path} redirecting to login : ${e.getMessage}")
       redirectToLogin
   }
 

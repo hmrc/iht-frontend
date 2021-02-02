@@ -25,13 +25,13 @@ import iht.models.des.ihtReturn.IHTReturn
 import iht.utils.pdf._
 import iht.utils.{CommonHelper, DeclarationHelper, StringHelper}
 import javax.inject.Inject
-import play.api.Logger
+import play.api.Logging
 import play.api.i18n.{I18nSupport, Messages}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -44,7 +44,7 @@ class PDFControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                   implicit val appConfig: AppConfig,
                                   val cc: MessagesControllerComponents) extends FrontendController(cc) with PDFController
 
-trait PDFController extends ApplicationController with I18nSupport with StringHelper with PdfHelper {
+trait PDFController extends ApplicationController with I18nSupport with StringHelper with PdfHelper with Logging {
 
   val xmlFoToPDF: XmlFoToPDF
 
@@ -53,7 +53,7 @@ trait PDFController extends ApplicationController with I18nSupport with StringHe
 
   def onPreSubmissionPDF: Action[AnyContent] = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
-      Logger.info("Generating Summary PDF")
+      logger.info("Generating Summary PDF")
       val messages = messagesApi.preferred(request)
       val fileName = s"${messages("iht.inheritanceTaxEstateReport")}.pdf"
       withApplicationDetails(userNino) { regDetails =>
@@ -69,7 +69,7 @@ trait PDFController extends ApplicationController with I18nSupport with StringHe
 
   def onClearancePDF: Action[AnyContent] = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
-      Logger.info("Generating Clearance PDF")
+      logger.info("Generating Clearance PDF")
       val messages = messagesApi.preferred(request)
       cachingConnector.getSingleValue(Constants.PDFIHTReference).flatMap { optionIHTReference =>
         val ihtReference = CommonHelper.getOrException(optionIHTReference)
@@ -93,7 +93,7 @@ trait PDFController extends ApplicationController with I18nSupport with StringHe
 
   def onPostSubmissionPDF: Action[AnyContent] = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
-      Logger.info("Generating Application PDF")
+      logger.info("Generating Application PDF")
       val messages = messagesApi.preferred(request)
       cachingConnector.getSingleValue(Constants.PDFIHTReference).flatMap {
         case Some(ihtReference) =>
@@ -114,7 +114,7 @@ trait PDFController extends ApplicationController with I18nSupport with StringHe
   }
 
   private def internalServerError = {
-    Logger.warn("There has been a problem retrieving the details for the Application PDF. Redirecting" +
+    logger.warn("There has been a problem retrieving the details for the Application PDF. Redirecting" +
       " to internalServerError")
     InternalServerError("There has been a problem retrieving the details for the Application PDF")
   }
@@ -130,10 +130,10 @@ trait PDFController extends ApplicationController with I18nSupport with StringHe
     val returnId = registrationDetails.updatedReturnId
     ihtConnector.getSubmittedApplicationDetails(nino, ihtReference, returnId) map {
       case None =>
-        Logger.warn("IhtReturn details not found")
+        logger.warn("IhtReturn details not found")
         None
       case Some(ihtReturn) =>
-        Logger.info("IhtReturn details have been successfully retrieved ")
+        logger.info("IhtReturn details have been successfully retrieved ")
         Some(transform(ihtReturn, registrationDetails, messages))
     }
   }

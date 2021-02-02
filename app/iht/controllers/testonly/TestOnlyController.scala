@@ -23,12 +23,12 @@ import iht.forms.testonly.TestOnlyForms.{storeRegistrationDetailsForm, _}
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import javax.inject.Inject
-import play.api.Logger
+import play.api.Logging
 import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
 import scala.concurrent.Future
 
@@ -39,7 +39,7 @@ class TestOnlyControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                        implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with TestOnlyController
 
-trait TestOnlyController extends ApplicationController {
+trait TestOnlyController extends ApplicationController with Logging {
   def ihtConnector: IhtConnector
   def cachingConnector: CachingConnector
 
@@ -66,7 +66,7 @@ trait TestOnlyController extends ApplicationController {
           .map {
             case Some(_) => Ok("Filled application with No answers")
             case _ =>
-              Logger.warn("Unable to save application details. Redirecting to InternalServerError")
+              logger.warn("Unable to save application details. Redirecting to InternalServerError")
               InternalServerError("Unable to save application details")
           }
       }

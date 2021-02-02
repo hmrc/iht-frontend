@@ -21,7 +21,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.views.ViewTestHelper
 import iht.views.html.application.asset.assets_overview
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 
 class AssetsOverviewViewTest extends ViewTestHelper  {

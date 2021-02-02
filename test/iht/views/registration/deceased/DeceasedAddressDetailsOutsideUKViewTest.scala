@@ -22,7 +22,7 @@ import iht.models.DeceasedDetails
 import iht.views.html.registration.deceased.deceased_address_details_outside_uk
 import iht.views.registration.RegistrationPageBehaviour
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable

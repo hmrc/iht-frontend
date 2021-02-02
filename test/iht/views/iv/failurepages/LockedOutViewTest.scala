@@ -18,7 +18,7 @@ package iht.views.iv.failurepages
 
 import iht.views.html.iv.failurepages.locked_out
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 
 class LockedOutViewTest extends GenericNonSubmittablePageBehaviour {

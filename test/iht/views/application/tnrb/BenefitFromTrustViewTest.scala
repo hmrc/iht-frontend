@@ -23,7 +23,7 @@ import iht.utils.tnrb.TnrbHelper
 import iht.views.application.YesNoQuestionViewBehaviour
 import iht.views.html.application.tnrb.benefit_from_trust
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
 

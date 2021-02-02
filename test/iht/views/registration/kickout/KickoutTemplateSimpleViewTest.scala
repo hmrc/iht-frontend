@@ -18,7 +18,7 @@ package iht.views.registration.kickout
 
 import iht.views.ViewTestHelper
 import iht.views.html.registration.kickout.kickout_template_simple
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 
 

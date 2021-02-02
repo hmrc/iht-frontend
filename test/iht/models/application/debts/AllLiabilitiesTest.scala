@@ -18,9 +18,9 @@ package iht.models.application.debts
 
 import iht.testhelpers.{AssetsWithAllSectionsSetToNoBuilder, CommonBuilder, TestHelper}
 import org.scalatestplus.mockito.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
-class AllLiabilitiesTest extends UnitSpec with MockitoSugar {
+class AllLiabilitiesTest extends CommonPlaySpec with MockitoSugar {
 
   private def buildProperty(id: Option[String], value: Option[BigDecimal]) = {
     CommonBuilder.buildProperty.copy(

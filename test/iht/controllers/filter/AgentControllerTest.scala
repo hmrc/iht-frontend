@@ -22,7 +22,7 @@ import iht.testhelpers.MockFormPartialRetriever
 import iht.views.HtmlSpec
 import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class AgentControllerTest extends ApplicationControllerTest with HtmlSpec {

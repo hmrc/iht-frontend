@@ -22,10 +22,10 @@ import iht.constants.Constants
 import iht.controllers.application.ApplicationController
 import iht.utils.CommonHelper
 import javax.inject.Inject
-import play.api.Logger
+import play.api.Logging
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -37,7 +37,7 @@ class ProbateApplicationFormDetailsControllerImpl @Inject()(val cachingConnector
                                                             implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with ProbateApplicationFormDetailsController
 
-trait ProbateApplicationFormDetailsController extends ApplicationController {
+trait ProbateApplicationFormDetailsController extends ApplicationController with Logging {
   def cachingConnector: CachingConnector
 
   def onPageLoad: Action[AnyContent] = authorisedForIht {
@@ -49,7 +49,7 @@ trait ProbateApplicationFormDetailsController extends ApplicationController {
             _ => Ok(iht.views.html.application.declaration.probate_application_form_details(probateDetails, rd))
           }
           case None =>
-            Logger.warn("No probate details in keystore")
+            logger.warn("No probate details in keystore")
             Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
         }
       }

@@ -21,7 +21,7 @@ import java.net.URI
 
 import javax.inject.Inject
 import org.apache.xmlgraphics.io.{Resource, ResourceResolver}
-import play.api.{Environment, Logger}
+import play.api.Environment
 
 class DefaultFopURIResolver @Inject()(val environment: Environment) extends FopURIResolver
 
@@ -31,7 +31,7 @@ trait FopURIResolver extends ResourceResolver with BaseResourceStreamResolver {
   override def getOutputStream(uri: URI): OutputStream = ???
 
   override def getResource(uri: URI): Resource = {
-    Logger.info("[FopURIResolver] URI to convert to resource " + uri.toASCIIString)
+    logger.info("[FopURIResolver] URI to convert to resource " + uri.toASCIIString)
     val resourcePath: String = uri.getPath.substring(uri.getPath.lastIndexOf("/pdf") + 1)
 
     new Resource(resolvePath(resourcePath).getInputStream)

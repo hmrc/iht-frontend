@@ -24,7 +24,7 @@ import org.scalatest.BeforeAndAfter
 import play.api.data.Form
 import play.api.mvc.{AnyContentAsFormUrlEncoded, MessagesControllerComponents, Request}
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**

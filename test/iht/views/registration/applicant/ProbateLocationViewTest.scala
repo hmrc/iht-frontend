@@ -21,7 +21,7 @@ import iht.models.ApplicantDetails
 import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.applicant.probate_location
 import iht.views.registration.RegistrationPageBehaviour
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import play.api.data.Form
 import play.api.mvc.Call

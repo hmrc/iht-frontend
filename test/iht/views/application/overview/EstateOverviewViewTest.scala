@@ -23,7 +23,7 @@ import iht.views.ViewTestHelper
 import iht.views.html.application.overview.{estate_overview, overview_sidebar}
 import org.joda.time.LocalDate
 import org.jsoup.nodes.Element
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import play.api.mvc.Call
 import iht.testhelpers.TestHelper._

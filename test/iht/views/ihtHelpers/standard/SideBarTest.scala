@@ -21,10 +21,10 @@ import iht.views.HtmlSpec
 import iht.views.html.ihtHelpers.standard.{sidebar, input_radio_group_with_hints}
 import play.api.data.Form
 import play.api.data.Forms._
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import play.twirl.api.Html
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
 class SideBarTest extends FakeIhtApp with HtmlSpec {
 

@@ -18,11 +18,11 @@ package iht.models.basicElements
 
 import iht.testhelpers.CommonBuilder
 import org.scalatestplus.mockito.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
 
 
-class BasicEstateElementTest extends UnitSpec with MockitoSugar{
+class BasicEstateElementTest extends CommonPlaySpec with MockitoSugar{
 
   "isComplete" must {
 

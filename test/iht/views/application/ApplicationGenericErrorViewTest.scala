@@ -20,7 +20,7 @@ import iht.views.ViewTestHelper
 import iht.views.helpers.MessagesHelper
 import iht.views.html.application.timeout_application
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import play.api.test.FakeRequest
 

@@ -24,11 +24,10 @@ import iht.utils.ApplicantHelper._
 import iht.utils.CommonHelper._
 import iht.utils.DeceasedInfoHelper._
 import iht.utils.{IhtSection, RegistrationKickOutHelper}
-import play.api.Logger
 import play.api.i18n.Lang
 import play.api.mvc.{AnyContent, Call, Request, Result}
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -101,10 +100,10 @@ trait RegistrationController extends FrontendController with IhtBaseController w
       if (checkGuardCondition(rd, id)) {
         body(rd)
       } else if(!checkGuardCondition(rd, id) && rd.deceasedDateOfDeath.isDefined) {
-        Logger.info(s"Registration guard condition not met when ${request.uri} requested so re-directing to estate reports page")
+        logger.info(s"Registration guard condition not met when ${request.uri} requested so re-directing to estate reports page")
         Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
       } else {
-        Logger.info(s"Registration details not found in cache when $uri requested so re-directing to estate reports page")
+        logger.info(s"Registration details not found in cache when $uri requested so re-directing to estate reports page")
         Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
       }
     }
@@ -123,11 +122,11 @@ trait RegistrationController extends FrontendController with IhtBaseController w
                                        (implicit request: Request[_]): Future[Result] = {
     cachingConnector.getRegistrationDetails flatMap {
       case None =>
-        Logger.info(s"Registration details not found in cache when $url requested so re-directing to application overview page")
+        logger.info(s"Registration details not found in cache when $url requested so re-directing to application overview page")
         Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
       case Some(rd) =>
         if (rd.ihtReference.isEmpty) {
-          Logger.info(s"IHT reference number not found in cache when $url requested so re-directing to application overview page")
+          logger.info(s"IHT reference number not found in cache when $url requested so re-directing to application overview page")
           Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
         } else {
           body(rd)
@@ -143,7 +142,7 @@ trait RegistrationController extends FrontendController with IhtBaseController w
       case Some(_) => Future.successful(Redirect(successRoute))
 
       case None => {
-        Logger.warn(failMessage)
+        logger.warn(failMessage)
         Future.successful(InternalServerError(failMessage))
       }
     }

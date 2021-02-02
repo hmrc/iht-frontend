@@ -21,7 +21,7 @@ import iht.models.application.assets._
 import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.{ApplicationStatus, KickOutReason}
 import play.api.mvc.MessagesControllerComponents
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class EstateControllerTest extends ApplicationControllerTest {

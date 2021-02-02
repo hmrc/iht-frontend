@@ -21,7 +21,7 @@ import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.tnrb.TnrbHelper
 import iht.views.application.YesNoQuestionViewBehaviour
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import iht.views.html.application.tnrb.{gifts_with_reservation_of_benefit, jointly_owned_assets}
 import play.api.data.Form

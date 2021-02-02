@@ -21,10 +21,10 @@ import iht.connector.IdentityVerificationConnector
 import iht.models.enums.IdentityVerificationResult
 import iht.views.html.iv.failurepages._
 import javax.inject.Inject
-import play.api.Logger
+import play.api.Logging
 import play.api.i18n.I18nSupport
 import play.api.mvc.{MessagesControllerComponents, _}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -34,7 +34,7 @@ class IVUpliftFailureControllerImpl @Inject()(val formPartialRetriever: FormPart
                                               implicit val appConfig: AppConfig,
                                               val cc: MessagesControllerComponents) extends FrontendController(cc) with IVUpliftFailureController
 
-trait IVUpliftFailureController extends FrontendController with I18nSupport {
+trait IVUpliftFailureController extends FrontendController with I18nSupport with Logging {
   val identityVerificationConnector: IdentityVerificationConnector
   implicit val formPartialRetriever: FormPartialRetriever
   implicit val appConfig: AppConfig
@@ -68,7 +68,7 @@ trait IVUpliftFailureController extends FrontendController with I18nSupport {
         case UserAborted =>          Unauthorized(generic(tryAgainRoute))
         case TechnicalIssue =>       InternalServerError(technical_issue(tryAgainRoute))
         case other =>
-                                     Logger.error(s"Unknown identityVerificationResult ($other)")
+                                     logger.error(s"Unknown identityVerificationResult ($other)")
                                      InternalServerError(technical_issue(tryAgainRoute))
       }
     }.getOrElse {

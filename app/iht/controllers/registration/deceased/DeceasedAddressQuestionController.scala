@@ -24,12 +24,11 @@ import iht.models.{DeceasedDetails, RegistrationDetails}
 import iht.utils.DeceasedInfoHelper
 import iht.views.html.registration.{deceased => views}
 import javax.inject.Inject
-import play.api.Logger
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.mvc.{AnyContent, MessagesControllerComponents, Request}
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class DeceasedAddressQuestionControllerImpl @Inject()(val ihtConnector: IhtConnector,
@@ -78,7 +77,7 @@ trait DeceasedAddressQuestionController extends RegistrationDeceasedController {
 
   private def cantFindAddressInUK = {
     val msg = "Could not retrieve UK or international location from deceased details in deceased address question"
-    Logger.warn(msg)
+    logger.warn(msg)
     throw new RuntimeException(msg)
   }
 }

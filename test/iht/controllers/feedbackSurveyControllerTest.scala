@@ -21,7 +21,7 @@ import iht.views.ViewTestHelper
 import play.api.http.Status
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{defaultAwaitTimeout, status => playStatus}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
 class feedbackSurveyControllerTest extends ViewTestHelper {
 

@@ -26,13 +26,13 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets.Property
 import iht.utils.{ApplicationKickOutHelper, CommonHelper, LogHelper, StringHelper}
 import javax.inject.Inject
-import play.api.Logger
+import play.api.Logging
 import play.api.i18n.Messages
 import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.bootstrap.controller.{FrontendController, FrontendHeaderCarrierProvider}
+import uk.gov.hmrc.play.bootstrap.frontend.controller.{FrontendController, FrontendHeaderCarrierProvider}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -45,8 +45,8 @@ class PropertyAddressControllerImpl @Inject()(val metrics: IhtMetrics,
                                               implicit val appConfig: AppConfig,
                                               val cc: MessagesControllerComponents) extends FrontendController(cc) with PropertyAddressController
 
-trait PropertyAddressController extends EstateController with FrontendHeaderCarrierProvider with StringHelper {
-
+trait PropertyAddressController extends EstateController with FrontendHeaderCarrierProvider with StringHelper
+  with Logging {
 
   def ihtConnector: IhtConnector
 
@@ -94,7 +94,7 @@ trait PropertyAddressController extends EstateController with FrontendHeaderCarr
                 ))
               }
             case _ =>
-              Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
+              logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
               InternalServerError("No Application Details found")
           }
         }
@@ -175,7 +175,7 @@ trait PropertyAddressController extends EstateController with FrontendHeaderCarr
               }
             })
           case _ =>
-            Logger.warn("Problem saving Application details. Redirecting to InternalServerError")
+            logger.warn("Problem saving Application details. Redirecting to InternalServerError")
             InternalServerError
         }
       }

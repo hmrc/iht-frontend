@@ -18,10 +18,10 @@ package iht.models.application.basicElements
 
 import iht.testhelpers.CommonBuilder
 import org.scalatestplus.mockito.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
 
-class ShareableBasicEstateElementTest extends UnitSpec with MockitoSugar{
+class ShareableBasicEstateElementTest extends CommonPlaySpec with MockitoSugar{
   "isComplete" must {
 
     "return Some(true) if share yes no answered false" in {

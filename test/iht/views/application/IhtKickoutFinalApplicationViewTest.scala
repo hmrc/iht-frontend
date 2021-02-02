@@ -17,7 +17,7 @@
 package iht.views.application
 
 import iht.views.ViewTestHelper
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import iht.views.html.application.iht_kickout_final_application
 

@@ -19,7 +19,7 @@ package iht.views.application.status
 import iht.utils.{CommonHelper, formattedProbateReference}
 import iht.views.ExitComponent
 import iht.views.html.application.status.closed_application
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 
 class ClosedApplicationViewTest extends ApplicationStatusViewBehaviour {

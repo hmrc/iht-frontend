@@ -18,15 +18,16 @@ package iht.utils.pdf
 
 import javax.inject.Inject
 import javax.xml.transform.{Source, URIResolver}
-import play.api.{Environment, Logger}
+import play.api.Environment
+import play.api.Logging
 
 class DefaultStylesheetResourceStreamResolver @Inject()(val environment: Environment) extends StylesheetResourceStreamResolver
 
-trait StylesheetResourceStreamResolver extends URIResolver with BaseResourceStreamResolver {
+trait StylesheetResourceStreamResolver extends URIResolver with BaseResourceStreamResolver with Logging {
   val environment: Environment
 
   override def resolve(href: String, base: String): Source = {
-    Logger.info("[StylesheetResolver] Stylesheet location to convert " + href)
+    logger.info("[StylesheetResolver] Stylesheet location to convert " + href)
 
     resolvePath(href.substring(href.lastIndexOf("/pdf") + 1))
   }

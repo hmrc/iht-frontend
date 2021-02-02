@@ -19,7 +19,7 @@ package iht.models
 import iht.config.AppConfig
 import iht.utils.{CommonHelper, StringHelperFixture, ApplicationStatus => AppStatus}
 import org.joda.time.LocalDate
-import play.api.Logger
+import play.api.libs.Files.logger
 import play.api.libs.json.Json
 import play.api.libs.json.JodaWrites._
 import play.api.libs.json.JodaReads._
@@ -141,7 +141,7 @@ case class RegistrationDetails(deceasedDateOfDeath: Option[DeceasedDateOfDeath],
     if (returns.size == 1) {
       returns.seq.head.returnId.getOrElse("")
     } else {
-      Logger.warn("Returns size is either zero or more than one " + returns)
+      logger.warn("Returns size is either zero or more than one " + returns)
       throw new RuntimeException("Returns must contain only one record ")
     }
   }

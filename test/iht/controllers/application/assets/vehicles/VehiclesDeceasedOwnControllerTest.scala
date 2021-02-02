@@ -26,7 +26,7 @@ import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
 import iht.utils._
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.{contentAsString, _}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**

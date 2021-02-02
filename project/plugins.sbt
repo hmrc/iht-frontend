@@ -12,7 +12,7 @@ addSbtPlugin("uk.gov.hmrc" % "sbt-distributables" % "2.1.0")
 
 addSbtPlugin("uk.gov.hmrc" % "sbt-artifactory" % "1.12.0")
 
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.6.25")
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.7.4")
 
 addSbtPlugin("org.ensime" % "sbt-ensime" % "2.6.1")
 

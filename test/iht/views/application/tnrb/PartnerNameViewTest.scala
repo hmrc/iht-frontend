@@ -25,7 +25,7 @@ import iht.views.application.{CancelComponent, SubmittableApplicationPageBehavio
 import iht.views.html.application.tnrb.partner_name
 import org.joda.time.LocalDate
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
 import iht.testhelpers.TestHelper

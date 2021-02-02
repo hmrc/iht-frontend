@@ -18,7 +18,7 @@ package iht.views.ihtHelpers.custom
 
 import iht.views.ViewTestHelper
 import iht.views.html.ihtHelpers.custom.generic_overview_table_item
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 
 class GenericOverviewTableItemTest extends ViewTestHelper {

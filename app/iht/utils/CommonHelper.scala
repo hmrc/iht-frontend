@@ -138,7 +138,13 @@ object CommonHelper {
     */
   val findExecutor: (String, Seq[CoExecutor]) => Option[CoExecutor] = (id, coExecutors) => {
     coExecutors.filter(_.id.contains(id)) match {
-      case x :: Nil => Some(x)
+      case x: Seq[CoExecutor] => {
+        if (x.nonEmpty) {
+          Some(x.head)
+        } else {
+          None
+        }
+      }
       case _ => None
     }
   }

@@ -18,20 +18,21 @@ package iht.utils.pdf
 
 import javax.inject.Inject
 import javax.xml.transform.stream.StreamSource
-import play.api.{Environment, Logger}
+import play.api.Logging
+import play.api.Environment
 
 class DefaultResourceStreamResolver @Inject()(val environment: Environment) extends BaseResourceStreamResolver
 
-trait BaseResourceStreamResolver {
+trait BaseResourceStreamResolver extends Logging {
   val environment: Environment
 
   def resolvePath(filePath: String): StreamSource = {
     environment.resourceAsStream(filePath) match {
       case None =>
-        Logger.error("[ResourceStreamResolver] No resolver stream available")
+        logger.error("[ResourceStreamResolver] No resolver stream available")
         throw new RuntimeException("[ResourceStreamResolver] No resolver stream available")
       case Some(stream) =>
-        Logger.info("[ResourceStreamResolver] Valid input stream found")
+        logger.info("[ResourceStreamResolver] Valid input stream found")
         new StreamSource(stream)
     }
   }

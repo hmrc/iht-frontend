@@ -20,7 +20,7 @@ import iht.FakeIhtApp
 import iht.forms.FilterForms.filterForm
 import iht.views.{HtmlSpec, ViewTestHelper}
 import iht.views.html.filter.{filter_view, use_iht400}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import play.api.test.Helpers.{contentAsString, _}
 

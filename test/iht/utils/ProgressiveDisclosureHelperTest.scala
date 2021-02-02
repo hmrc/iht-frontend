@@ -16,9 +16,9 @@
 
 package iht.utils
 
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
-class ProgressiveDisclosureHelperTest extends UnitSpec {
+class ProgressiveDisclosureHelperTest extends CommonPlaySpec {
 
   "The ProgressiveDisclosure Helper" should{
     "return an empty string" when{

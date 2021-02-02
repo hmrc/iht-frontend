@@ -22,6 +22,7 @@ import iht.config.AppConfig
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.des.ihtReturn.IHTReturn
+import iht.utils.CustomLanguageUtils.Dates
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.xml.ModelToXMLSource
 import iht.utils.{CommonHelper, _}
@@ -34,9 +35,8 @@ import org.apache.fop.events.model.EventSeverity
 import org.apache.fop.events.{Event, EventFormatter, EventListener}
 import org.apache.xmlgraphics.util.MimeConstants
 import org.joda.time.LocalDate
-import play.api.Logger
 import play.api.i18n.Messages
-import iht.utils.CustomLanguageUtils.Dates
+import play.api.Logging
 
 @Singleton
 class DefaultXmlFoToPDF @Inject()(val stylesheetResourceStreamResolver: StylesheetResourceStreamResolver,
@@ -44,7 +44,7 @@ class DefaultXmlFoToPDF @Inject()(val stylesheetResourceStreamResolver: Styleshe
                                   val fopURIResolver: FopURIResolver,
                                   implicit val appConfig: AppConfig) extends XmlFoToPDF
 
-trait XmlFoToPDF extends PdfHelper with TnrbHelper {
+trait XmlFoToPDF extends PdfHelper with TnrbHelper with Logging {
   val resourceStreamResolver: BaseResourceStreamResolver
   val stylesheetResourceStreamResolver: StylesheetResourceStreamResolver
   val fopURIResolver: FopURIResolver
@@ -60,7 +60,7 @@ trait XmlFoToPDF extends PdfHelper with TnrbHelper {
     val rd = PdfFormatter.transform(registrationDetails, messages)
     val ad = PdfFormatter.transformWithApplicationDetails(applicationDetails, registrationDetails, messages)
     val declaration = if (declarationType.isEmpty) false else true
-    Logger.debug(s"Declaration value = $declaration and declaration type = $declarationType")
+    logger.debug(s"Declaration value = $declaration and declaration type = $declarationType")
 
     val modelAsXMLStream: StreamSource = new StreamSource(new ByteArrayInputStream(
       ModelToXMLSource.getPreSubmissionXMLSource(rd, ad)))
@@ -234,15 +234,15 @@ trait XmlFoToPDF extends PdfHelper with TnrbHelper {
   private def setupTransformerEventHandling(transformer: Transformer): Unit = {
     val errorListener = new ErrorListener {
       override def warning(exception: TransformerException): Unit =
-        Logger.debug(exception.getMessageAndLocation)
+        logger.debug(exception.getMessageAndLocation)
 
       override def error(exception: TransformerException): Unit = {
-        Logger.error(exception.getMessage, exception)
+        logger.error(exception.getMessage, exception)
         throw exception
       }
 
       override def fatalError(exception: TransformerException): Unit = {
-        Logger.error(exception.getMessage, exception)
+        logger.error(exception.getMessage, exception)
         throw exception
       }
     }
@@ -256,16 +256,16 @@ trait XmlFoToPDF extends PdfHelper with TnrbHelper {
 
         val optionErrorMsg = event.getSeverity match {
           case EventSeverity.INFO =>
-            Logger.info(messages)
+            logger.info(messages)
             None
           case EventSeverity.WARN =>
-            Logger.debug(messages)
+            logger.debug(messages)
             None
           case EventSeverity.ERROR =>
-            Logger.error(messages)
+            logger.error(messages)
             Some(messages)
           case EventSeverity.FATAL =>
-            Logger.error(messages)
+            logger.error(messages)
             Some(messages)
           case _ => None
         }

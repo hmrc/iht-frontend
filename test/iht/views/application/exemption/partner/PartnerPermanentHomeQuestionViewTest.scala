@@ -21,7 +21,7 @@ import iht.models.application.exemptions.PartnerExemption
 import iht.testhelpers.CommonBuilder
 import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
 import iht.views.html.application.exemption.partner.partner_permanent_home_question
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 import iht.testhelpers.TestHelper._
 

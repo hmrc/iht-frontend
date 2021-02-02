@@ -26,12 +26,12 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets.Property
 import iht.utils._
 import javax.inject.Inject
-import play.Logger
+import play.api.Logging
 import play.api.mvc.{Call, MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -44,7 +44,7 @@ class PropertyValueControllerImpl @Inject()(val metrics: IhtMetrics,
                                             implicit val appConfig: AppConfig,
                                             val cc: MessagesControllerComponents) extends FrontendController(cc) with PropertyValueController
 
-trait PropertyValueController extends EstateController {
+trait PropertyValueController extends EstateController with Logging {
 
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionProperties)
   lazy val cancelRedirectLocation = routes.PropertiesOverviewController.onPageLoad()
@@ -100,7 +100,7 @@ trait PropertyValueController extends EstateController {
               }
             }
             case _ => {
-              Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
+              logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
               InternalServerError("No Application Details found")
             }
           }
@@ -193,7 +193,7 @@ trait PropertyValueController extends EstateController {
             })
           }
           case _ => {
-            Logger.warn("Problem saving Application details. Redirecting to InternalServerError")
+            logger.warn("Problem saving Application details. Redirecting to InternalServerError")
             InternalServerError
           }
         }
@@ -230,7 +230,7 @@ trait PropertyValueController extends EstateController {
             }
           }
           case _ => {
-            Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
+            logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
             InternalServerError("No Application Details found")
           }
         }
