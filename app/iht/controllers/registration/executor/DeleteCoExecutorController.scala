@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,9 @@ import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.registration.RegistrationController
 import javax.inject.Inject
-import play.Logger
 import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -51,7 +50,7 @@ trait DeleteCoExecutorController extends RegistrationController {
           val index = rd.coExecutors.indexWhere(_.id.contains(id))
 
           if (index == -1) {
-            Logger.warn("Coexecutor confirm deletion of id " + id + " fails. Id not found. Redirecting to Internal Sever Error")
+            logger.warn("Coexecutor confirm deletion of id " + id + " fails. Id not found. Redirecting to Internal Sever Error")
             Future.successful(InternalServerError("Coexecutor confirm deletion of id " + id + " fails. Id not found."))
           } else {
             val coExecutor = rd.coExecutors(index)
@@ -68,7 +67,7 @@ trait DeleteCoExecutorController extends RegistrationController {
           val index = rd.coExecutors.indexWhere(_.id.contains(id))
 
           if (index == -1) {
-            Logger.warn("Coexecutor deletion of id " + id + " fails. Id not found. Redirecting to Internal Sever Error")
+            logger.warn("Coexecutor deletion of id " + id + " fails. Id not found. Redirecting to Internal Sever Error")
             Future.successful(InternalServerError("Coexecutor deletion of id " + id + " fails. Id not found."))
           } else {
             val newCoexecutors = rd.coExecutors.patch(index, Nil, 1)

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import iht.connector.IhtConnector
 import iht.models.application.IhtApplication
 import iht.utils.CustomLanguageUtils.Dates
 import iht.utils.{ApplicationStatus => AppStatus}
-import play.api.Logger
+import play.api.Logging
 import play.api.i18n.Messages
 import play.api.mvc.Call
 
@@ -32,7 +32,7 @@ case class YourEstateReportsRowViewModel(deceasedName: String,
                                link: Call,
                                linkScreenreader: String)
 
-object YourEstateReportsRowViewModel {
+object YourEstateReportsRowViewModel extends Logging {
   def apply(nino: String, ihtApp: IhtApplication, ihtConnector: IhtConnector, currentStatus: String)
            (implicit messages: Messages): YourEstateReportsRowViewModel = {
 
@@ -98,11 +98,11 @@ object YourEstateReportsRowViewModel {
          iht.controllers.application.status.routes.ApplicationClosedController.onPageLoad(ihtRef)
 
        case AppStatus.IneligibleApplication =>
-         Logger.warn("Ineligible Application status found")
+         logger.warn("Ineligible Application status found")
          throw new RuntimeException("Ineligible Application status found")
 
        case _ =>
-         Logger.error("Unknown Application status found")
+         logger.error("Unknown Application status found")
          throw new RuntimeException("Unknown Application status found")
 
     }

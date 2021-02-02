@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,8 +37,8 @@ import play.api.http.Status.OK
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}
-import uk.gov.hmrc.http.{GatewayTimeoutException, HeaderCarrier, Upstream5xxResponse}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.http.{GatewayTimeoutException, HeaderCarrier, UpstreamErrorResponse}
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -332,8 +332,8 @@ class DeclarationControllerTest extends ApplicationControllerTest {
       status(result) mustBe SEE_OTHER
     }
 
-    "respond with INTERNAL_SERVER_ERROR when exception contains 'Service Unavailable' and upstreamResponseCode 502" in {
-      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.failed(Upstream5xxResponse("Service Unavailable", 502, 502)))
+    "respond with INTERNAL_SERVER_ERROR when exception contains 'Service Unavailable' and statusCode 502" in {
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.failed(UpstreamErrorResponse("Service Unavailable", 502, 502)))
 
       val result = declarationController.onSubmit()(createFakeRequest())
       status(result) mustBe INTERNAL_SERVER_ERROR

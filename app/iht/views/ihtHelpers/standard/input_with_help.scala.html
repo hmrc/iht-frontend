@@ -1,5 +1,5 @@
 @*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -85,7 +85,7 @@
 
     @if(parentElements.isDefined) {
         @defining(elements.field.name){fieldName=>
-            @CommonHelper.getOrException(parentElements).errors.map {error => <span class="error-message" data-journey="error - field:user-input:@fieldName">@Messages(error)</span>}
+            @CommonHelper.getOrException(parentElements).errors.map {error => <span class="error-message" data-journey="error - field:user-input:@fieldName">@Messages(error.toString())</span>}
         }
     }
 
@@ -109,7 +109,7 @@
     }
 
     @defining(elements.field.name){fieldName=>
-        @elements.errors.map{error => <span class="error-message" data-journey="error - field:user-input:@fieldName">@Messages(error)</span>}
+        @elements.errors.map{error => <span class="error-message" data-journey="error - field:user-input:@fieldName">@Messages(error.toString())</span>}
     }
 
     @elements.args.get('_currency) match {

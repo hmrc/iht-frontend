@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +18,10 @@ package iht.models.application.assets
 
 import iht.testhelpers.{AssetsWithAllSectionsSetToNoBuilder, CommonBuilder}
 import org.scalatestplus.mockito.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
 
-class AllAssetsTest extends UnitSpec with MockitoSugar{
+class AllAssetsTest extends CommonPlaySpec with MockitoSugar{
 
   "totalValueWithoutProperties" must {
     "returns total assets value without properties" in {

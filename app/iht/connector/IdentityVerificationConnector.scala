@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,12 @@ package iht.connector
 import iht.config.AppConfig
 import iht.models.enums.IdentityVerificationResult.IdentityVerificationResult
 import javax.inject.Inject
-import play.api.Logger
+import play.api.libs.Files.logger
 import play.api.libs.json.{JsPath, Json, JsonValidationError, OFormat}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
-import uk.gov.hmrc.play.bootstrap.http.{DefaultHttpClient, HttpClient}
+import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
+import uk.gov.hmrc.http.HttpClient
+
 import scala.concurrent.{ExecutionContext, Future}
 
 class IdentityVerificationConnectorImpl @Inject()(val http: DefaultHttpClient,
@@ -38,13 +40,13 @@ trait IdentityVerificationConnector {
   def identityVerificationResponse(journeyId: String)(implicit hc: HeaderCarrier, executionContext: ExecutionContext):
     Future[IdentityVerificationResult] = {
     val url = appConfig.ivUrlJourney + journeyId
-    Logger.debug(s"Calling identity verification frontend service with url: $url")
+    logger.debug(s"Calling identity verification frontend service with url: $url")
     http.GET[HttpResponse](url).flatMap { httpResponse =>
-      Logger.debug(Json.prettyPrint(httpResponse.json))
+      logger.debug(Json.prettyPrint(httpResponse.json))
       httpResponse.json.validate[IdentityVerificationResponse].fold(
         errs => Future.failed(new JsonValidationException(s"Unable to deserialise: ${formatJsonErrors(errs)}")),
         valid => {
-          Logger.debug("result " + valid.result.id)
+          logger.debug("result " + valid.result.id)
           Future.successful(valid.result)
         }
       )

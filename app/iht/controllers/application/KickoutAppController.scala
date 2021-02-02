@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,12 +25,12 @@ import iht.models.enums.KickOutSource
 import iht.utils.tnrb._
 import iht.utils.{ApplicationKickOutHelper, CommonHelper, DeceasedInfoHelper, StringHelper, ApplicationStatus => AppStatus}
 import javax.inject.Inject
-import play.api.Logger
+import play.api.Logging
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -41,7 +41,7 @@ class KickoutAppControllerImpl @Inject()(val metrics: IhtMetrics,
                                          val authConnector: AuthConnector,
                                          implicit val formPartialRetriever: FormPartialRetriever,
                                          implicit val appConfig: AppConfig,
-                                         val cc: MessagesControllerComponents) extends FrontendController(cc) with KickoutAppController
+                                         val cc: MessagesControllerComponents) extends FrontendController(cc) with KickoutAppController with Logging
 trait KickoutAppController extends ApplicationController with StringHelper with TnrbHelper {
   val storageFailureMessage = "Failed to successfully store kick out flag"
 
@@ -54,13 +54,13 @@ trait KickoutAppController extends ApplicationController with StringHelper with 
   def onPageLoad: Action[AnyContent] = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       withRegistrationDetails { regDetails =>
-        Logger.info("Retrieving kickout reason")
+        logger.info("Retrieving kickout reason")
         fetchAppDetailsFromIHT(userNino,regDetails).flatMap { applicationDetailsOpt =>
           val applicationDetails = CommonHelper.getOrExceptionNoApplication(applicationDetailsOpt)
 
           (applicationDetails.status, applicationDetails.kickoutReason) match {
             case (AppStatus.KickOut, Some(kickoutReason)) =>
-              Logger.info(s"Kickout reason: $kickoutReason")
+              logger.info(s"Kickout reason: $kickoutReason")
               cachingConnector.deleteSingleValue(ApplicationKickOutHelper.SeenFirstKickoutPageCacheKey)
               val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
               lazy val summaryParameter1 = getKickoutDetails(kickoutReason, deceasedName, applicationDetails)
@@ -110,7 +110,7 @@ trait KickoutAppController extends ApplicationController with StringHelper with 
             case Some(_) =>
               Redirect(iht.controllers.application.routes.KickoutAppController.onPageLoadDeleting())
             case _ =>
-              Logger.warn(storageFailureMessage)
+              logger.warn(storageFailureMessage)
               InternalServerError(storageFailureMessage)
           }
         } { _ =>
@@ -121,7 +121,7 @@ trait KickoutAppController extends ApplicationController with StringHelper with 
               withRegistrationDetails { regDetails =>
                 ihtConnector.deleteApplication(getNino(userNino), CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference))
                 if (!isUpdated) {
-                  Logger.info("Application deleted after a kickout but unable to update metrics")
+                  logger.info("Application deleted after a kickout but unable to update metrics")
                 }
                 Future.successful(Redirect(iht.controllers.routes.DeadlinesController.onPageLoadApplication))
               }

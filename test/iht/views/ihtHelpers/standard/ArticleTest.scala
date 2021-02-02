@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import iht.FakeIhtApp
 import iht.views.HtmlSpec
 import iht.views.html.ihtHelpers.standard.{article, sidebar}
 import play.twirl.api.Html
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
 class ArticleTest extends FakeIhtApp with HtmlSpec {
 

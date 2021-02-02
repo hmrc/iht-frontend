@@ -86,7 +86,6 @@ trait TestDataUtil {
       FakeRequest().withSession(
         Constants.NINO -> "AA123456A",
         SessionKeys.sessionId -> s"session-$userId",
-        SessionKeys.userId -> userId,
         "token" -> "some-gg-token").withHeaders(
         "Accept-Language" -> "en-GB"
       )

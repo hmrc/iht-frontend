@@ -1,5 +1,5 @@
 @*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 <div class="form-field-single @if(elements.hasErrors) {form-group-error} @if(elements.args.get('_divClass).isDefined) {@elements.args.get('_divClass)}">
 
   @defining(elements.field.name){fieldName=>
-    @elements.errors.map{error => <span class="error-message" data-journey="error - field:user-input:@fieldName">@Messages(error)</span>}
+    @elements.errors.map{error => <span class="error-message" data-journey="error - field:user-input:@fieldName">@Messages(error.toString())</span>}
   }
 
   <label class="form-checkbox block-label" for="@elements.id">

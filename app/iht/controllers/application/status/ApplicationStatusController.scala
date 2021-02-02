@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,14 +22,15 @@ import iht.controllers.application.EstateController
 import iht.models.RegistrationDetails
 import iht.models.application.{ApplicationDetails, ProbateDetails}
 import iht.utils.{CommonHelper, StringHelper}
-import play.api.Logger
+import play.api.Logging
 import play.api.mvc.Request
 import play.twirl.api.HtmlFormat.Appendable
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
+
 import scala.concurrent.Future
 
-trait ApplicationStatusController extends EstateController with StringHelper {
+trait ApplicationStatusController extends EstateController with StringHelper with Logging {
 
   def cachingConnector: CachingConnector
 
@@ -64,12 +65,12 @@ trait ApplicationStatusController extends EstateController with StringHelper {
           case Some(ihtReference) => ihtConnector.getProbateDetails(nino, ihtReference, registrationDetails.updatedReturnId).map {
             case Some(probateDetails) => probateDetails
             case _ => {
-              Logger.warn("Registration not found")
+              logger.warn("Registration not found")
               throw new RuntimeException("Probate Details not found")
             }
           }
           case _ => {
-            Logger.warn("Registration not found")
+            logger.warn("Registration not found")
             throw new RuntimeException("Required details not available")
           }
         }

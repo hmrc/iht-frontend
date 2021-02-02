@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +18,10 @@ package iht.models.application.basicElements
 
 import iht.testhelpers.CommonBuilder
 import org.scalatestplus.mockito.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
 
-class ShareableBasicEstateElementTest extends UnitSpec with MockitoSugar{
+class ShareableBasicEstateElementTest extends CommonPlaySpec with MockitoSugar{
   "isComplete" must {
 
     "return Some(true) if share yes no answered false" in {

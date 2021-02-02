@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,7 +55,7 @@ import uk.gov.hmrc.play.bootstrap.http.{DefaultHttpClient, HttpClient}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class Module extends AbstractModule {
-  def configure() = {
+  override def configure() = {
     bind(classOf[AppConfig]).to(classOf[DefaultAppConfig]).asEagerSingleton
     bind(classOf[FormPartialRetriever]).to(classOf[IhtFormPartialRetriever])
     bind(classOf[IhtMetrics]).to(classOf[IhtMetricsImpl])

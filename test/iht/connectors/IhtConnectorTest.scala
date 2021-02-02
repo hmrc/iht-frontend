@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,10 @@ import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
 import org.scalatestplus.mockito._
 import play.api.libs.json.{JsValue, Writes}
-import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, HttpResponse, Upstream4xxResponse}
+import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, HttpResponse, UpstreamErrorResponse}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import play.api.test.Helpers._
+
 import scala.concurrent.{ExecutionContext, Future}
 
 class IhtConnectorTest extends ApplicationControllerTest with MockitoSugar {
@@ -41,9 +42,9 @@ class IhtConnectorTest extends ApplicationControllerTest with MockitoSugar {
 
 
   val successReturnId = "someid:12345678"
-  val dummySuccessRespone = HttpResponse(200, responseString = Some(successReturnId))
-  val dummyInternalErrorResponse = HttpResponse(500, responseString = Some("No registration details found"))
-  val dummyForbiddenResponse = HttpResponse(403, responseString = Some("Submitter is not the lead executor"))
+  val dummySuccessRespone = HttpResponse(200, successReturnId)
+  val dummyInternalErrorResponse = HttpResponse(500, "No registration details found")
+  val dummyForbiddenResponse = HttpResponse(403, "Submitter is not the lead executor")
 
   "submitApplication" should {
     "should return a return ID when call to IHT was successful" in {
@@ -74,7 +75,7 @@ class IhtConnectorTest extends ApplicationControllerTest with MockitoSugar {
 
       when(mockHttpClient.POST
       (any[String], any[JsValue], any[Seq[(String, String)]])
-      (any[Writes[JsValue]], any[HttpReads[HttpResponse]], any[HeaderCarrier], any[ExecutionContext])).thenReturn(Future.failed(Upstream4xxResponse("", 403, 500, Map.empty)))
+      (any[Writes[JsValue]], any[HttpReads[HttpResponse]], any[HeaderCarrier], any[ExecutionContext])).thenReturn(Future.failed(UpstreamErrorResponse.apply("", 403, 500, Map.empty)))
 
       lazy val result = await(connector.submitApplication(defaultIHTReference, defaultNino, applicationDetails)(HeaderCarrier(), createFakeRequest()))
 

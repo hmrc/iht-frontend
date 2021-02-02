@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,9 +18,10 @@ package iht.constants
 
 import iht.config.{AppConfig, IhtPropertyRetriever}
 import org.joda.time.LocalDate
-import play.api.Logger
+import play.api.Logging
 
-trait IhtProperties extends IhtPropertyRetriever {
+
+trait IhtProperties extends IhtPropertyRetriever with Logging {
   lazy val validCountryCodes: Array[String] = getPropertyAsStringArray("validCountryCodes")
   lazy val ukIsoCountryCode: String = getProperty("ukIsoCountryCode")
   lazy val dateFormatForDisplay: String = getProperty("dateFormatForDisplay")
@@ -139,7 +140,7 @@ trait IhtProperties extends IhtPropertyRetriever {
 
   lazy val pdfStaticHeaders: Seq[(String, String)] = {
     val headers = getPropertyAsSeqStringTuples("pdfStaticHeaders")
-    Logger.debug("PDF static headers read in from property file:" + headers)
+    logger.debug("PDF static headers read in from property file:" + headers)
     headers
   }
 

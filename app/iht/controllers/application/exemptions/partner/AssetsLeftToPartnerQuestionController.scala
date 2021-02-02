@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,13 +27,13 @@ import iht.utils.CommonHelper._
 import iht.utils.{ApplicationKickOutNonSummaryHelper, CommonHelper, IhtFormValidator, StringHelper}
 import iht.views.html.application.exemption.partner.assets_left_to_partner_question
 import javax.inject.Inject
-import play.api.Logger
+import play.api.Logging
 import play.api.i18n.Messages
 import play.api.mvc.{Call, MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -46,7 +46,8 @@ class AssetsLeftToPartnerQuestionControllerImpl @Inject()(val ihtConnector: IhtC
                                                           val cc: MessagesControllerComponents)
   extends FrontendController(cc) with AssetsLeftToPartnerQuestionController
 
-trait AssetsLeftToPartnerQuestionController extends EstateController with ApplicationKickOutNonSummaryHelper with StringHelper {
+trait AssetsLeftToPartnerQuestionController extends EstateController with ApplicationKickOutNonSummaryHelper with StringHelper
+  with Logging {
 
   lazy val partnerPermanentHomePage = routes.PartnerPermanentHomeQuestionController.onPageLoad()
 
@@ -74,7 +75,7 @@ trait AssetsLeftToPartnerQuestionController extends EstateController with Applic
                   returnUrl(registrationDetails, appDetails)
                 ))
               case _ =>
-                Logger.warn("Application Details not found")
+                logger.warn("Application Details not found")
                 InternalServerError("Application details not found")
             }
           }
@@ -107,7 +108,7 @@ trait AssetsLeftToPartnerQuestionController extends EstateController with Applic
               )
             }
             case None => {
-              Logger.warn("Application Details not found")
+              logger.warn("Application Details not found")
               Future.successful(InternalServerError("Application details not found"))
             }
           }

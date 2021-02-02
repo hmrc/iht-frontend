@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ package iht.utils
 import iht.config.AppConfig
 import iht.connector.CachingConnector
 import iht.models.{DeceasedDateOfDeath, RegistrationDetails}
-import play.api.Logger
+import play.api.Logging
 import play.api.mvc.Results._
 import play.api.mvc.{Call, Result}
 import uk.gov.hmrc.http.HeaderCarrier
@@ -27,7 +27,7 @@ import uk.gov.hmrc.http.HeaderCarrier
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-trait RegistrationKickOutHelper {
+trait RegistrationKickOutHelper extends Logging {
   implicit val appConfig: AppConfig
 
   lazy val RegistrationKickoutReasonCachingKey = "RegistrationKickoutReason"
@@ -98,7 +98,7 @@ trait RegistrationKickOutHelper {
             Future.successful(Redirect(iht.controllers.registration.routes.KickoutRegController.onPageLoad())))}
 
         case None =>
-          Logger.warn(failMessage)
+          logger.warn(failMessage)
           Future.successful(InternalServerError(failMessage))
       }
 

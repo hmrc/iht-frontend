@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,13 +29,13 @@ import iht.utils.CommonHelper._
 import iht.utils.{CommonHelper, _}
 import iht.viewmodels.application.DeclarationViewModel
 import javax.inject.Inject
-import play.api.Logger
+import play.api.Logging
 import play.api.i18n.Lang
 import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
-import uk.gov.hmrc.http.{GatewayTimeoutException, HeaderCarrier, Upstream5xxResponse}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.http.{GatewayTimeoutException, HeaderCarrier, UpstreamErrorResponse}
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -46,9 +46,9 @@ class DeclarationControllerImpl @Inject()(val metrics: IhtMetrics,
                                           val authConnector: AuthConnector,
                                           val formPartialRetriever: FormPartialRetriever,
                                           implicit val appConfig: AppConfig,
-                                          val cc: MessagesControllerComponents) extends FrontendController(cc) with DeclarationController
+                                          val cc: MessagesControllerComponents) extends FrontendController(cc) with DeclarationController with Logging
 
-trait DeclarationController extends ApplicationController with StringHelper {
+trait DeclarationController extends ApplicationController with StringHelper with Logging {
   def cachingConnector: CachingConnector
   def ihtConnector: IhtConnector
   val metrics: IhtMetrics
@@ -111,7 +111,7 @@ trait DeclarationController extends ApplicationController with StringHelper {
               case true =>
                 processApplicationOrRedirect(userNino)
               case _ =>
-                Logger.warn("isDeclared is false. Redirecting to InternalServerError")
+                logger.warn("isDeclared is false. Redirecting to InternalServerError")
                 Future.successful(InternalServerError)
             }
           )
@@ -119,9 +119,9 @@ trait DeclarationController extends ApplicationController with StringHelper {
           processApplicationOrRedirect(userNino)
         }
       } recover {
-        case ex: Upstream5xxResponse if ex.upstreamResponseCode == 502 &&
+        case ex: UpstreamErrorResponse if ex.statusCode == 502 &&
           ex.message.contains("Service Unavailable") => {
-          Logger.warn("Service Unavailable while submitting application", ex)
+          logger.warn("Service Unavailable while submitting application", ex)
           InternalServerError(iht.views.html.estateReports.estateReports_error_serviceUnavailable())
         }
       }
@@ -145,7 +145,7 @@ trait DeclarationController extends ApplicationController with StringHelper {
         if (result == 0) {
           getRealTimeRiskMessage(ihtConnector, ihtAppReference, nino)
         } else {
-          Logger.debug("Money has a value, hence no need to check for real-time risking message")
+          logger.debug("Money has a value, hence no need to check for real-time risking message")
           Future.successful(None)
         }
     }
@@ -155,10 +155,10 @@ trait DeclarationController extends ApplicationController with StringHelper {
 
   private[controllers] def getRealTimeRiskMessage(ihtConnector: IhtConnector, ihtAppReference: String, nino: String)
                                                  (implicit hc: HeaderCarrier) = {
-    Logger.debug("Money has no value, hence need to check for real-time risking message")
+    logger.debug("Money has no value, hence need to check for real-time risking message")
     ihtConnector.getRealtimeRiskingMessage(ihtAppReference, nino).recover {
       case e: Exception =>
-        Logger.warn(s"Problem getting realtime risking message: ${e.getMessage}")
+        logger.warn(s"Problem getting realtime risking message: ${e.getMessage}")
         None
     }
   }
@@ -195,7 +195,7 @@ trait DeclarationController extends ApplicationController with StringHelper {
 
         ihtConnector.saveApplication(nino, updatedAppDetails, acknowledgement).flatMap(optionSavedApplication => {
           if (optionSavedApplication.isEmpty) {
-            Logger.debug("Unable to save application details: reasonForBeingBelowLimit not saved")
+            logger.debug("Unable to save application details: reasonForBeingBelowLimit not saved")
           }
           submitApplication(nino, updatedAppDetails, ihtAppReference)
         }).flatMap {
@@ -216,18 +216,18 @@ trait DeclarationController extends ApplicationController with StringHelper {
                                 ihtAppReference: Option[String])
                                (implicit request: Request[_]): Future[Option[String]] = {
 
-    Logger.debug("Processing submission of application with IHT reference " + ihtAppReference + ":-\n" + updatedAppDetails.toString)
+    logger.debug("Processing submission of application with IHT reference " + ihtAppReference + ":-\n" + updatedAppDetails.toString)
     ihtConnector.submitApplication(ihtAppReference, nino, updatedAppDetails)
   }
 
   private def processToGetProbateDetails(nino: String, ihtAppReference: Option[String], returnId: Option[String])
                                         (implicit request: Request[_]): Future[Option[ProbateDetails]] = {
 
-    Logger.debug("Submission completed successfully with return id ::: " + returnId)
+    logger.debug("Submission completed successfully with return id ::: " + returnId)
     Future(metrics.generalStatsCounter(StatsSource.COMPLETED_APP)).onComplete {
-      case _ => Logger.info("Unable to write to StatsSource metrics repository")
+      case _ => logger.info("Unable to write to StatsSource metrics repository")
     }
-    Logger.info("Processing to get Probate details")
+    logger.info("Processing to get Probate details")
     returnId.fold[Future[Option[ProbateDetails]]](throw new RuntimeException("Unable to submit application")) { idVal =>
       ihtConnector.deleteApplication(nino, ihtAppReference)
       getProbateDetails(nino, ihtAppReference, idVal.trim)
@@ -238,10 +238,10 @@ trait DeclarationController extends ApplicationController with StringHelper {
                                  (implicit request: Request[_]): Future[Option[ProbateDetails]]= {
     probateDetails match {
       case Some(probateObject) =>
-        Logger.info("Saving probate details in session")
+        logger.info("Saving probate details in session")
         cachingConnector.storeProbateDetails(probateObject)
       case _ =>
-        Logger.warn("Probate details could not be retrieved")
+        logger.warn("Probate details could not be retrieved")
         Future.successful(None)
     }
   }
@@ -251,14 +251,14 @@ trait DeclarationController extends ApplicationController with StringHelper {
 
     ihtConnector.getProbateDetails(nino, ihtReference, ihtReturnId.trim) map {
       case Some(probateObject) =>
-        Logger.info("Probate details received successfully")
+        logger.info("Probate details received successfully")
         Some(probateObject)
       case _ =>
-        Logger.warn("Problem occured while retrieving Probate details ")
+        logger.warn("Problem occured while retrieving Probate details ")
         None
     } recover {
       case e: Exception =>
-        Logger.warn(s"Problem getting probate details: ${e.getMessage}")
+        logger.warn(s"Problem getting probate details: ${e.getMessage}")
         None
     }
   }
@@ -266,22 +266,22 @@ trait DeclarationController extends ApplicationController with StringHelper {
   def submissionException(exception: Throwable): String = {
     exception match {
       case _: GatewayTimeoutException =>
-        Logger.debug("Request has been timed out while submitting application")
+        logger.debug("Request has been timed out while submitting application")
         ControllerHelper.errorServiceUnavailable
       case ex: Exception =>
         if (ex.getMessage.contains("Request timed out") || ex.getMessage.contains("Connection refused")
           || ex.getMessage.contains("Service Unavailable") || ex.getMessage.contains(ControllerHelper.desErrorCode503)) {
-          Logger.debug("Request has been timed out while submitting application")
+          logger.debug("Request has been timed out while submitting application")
           ControllerHelper.errorServiceUnavailable
         } else if (ex.getMessage.contains(ControllerHelper.desErrorCode502) || ex.getMessage.contains(ControllerHelper.desErrorCode504)) {
-          Logger.debug("System error while submitting application")
+          logger.debug("System error while submitting application")
           ControllerHelper.errorRequestTimeOut
         } else {
-          Logger.debug("System error while submitting application")
+          logger.debug("System error while submitting application")
           ControllerHelper.errorSystem
         }
       case _ =>
-        Logger.debug("System error while submitting application")
+        logger.debug("System error while submitting application")
         ControllerHelper.errorSystem
     }
   }
@@ -324,13 +324,13 @@ trait DeclarationController extends ApplicationController with StringHelper {
     //Getting stats for Application that has additional executors
     if (regDetails.coExecutors.nonEmpty) {
       Future(metrics.generalStatsCounter(StatsSource.ADDITIONAL_EXECUTOR_APP)).onComplete {
-        case _ => Logger.info("Unable to write to StatsSource metrics repository")
+        case _ => logger.info("Unable to write to StatsSource metrics repository")
       }
     }
 
     statsSource(appDetails, giftValue, debtsValue, exemptionsValue, totalAssets) foreach { stats =>
       Future(metrics.generalStatsCounter(stats)).onComplete {
-        case _ => Logger.info("Unable to write to StatsSource metrics repository")
+        case _ => logger.info("Unable to write to StatsSource metrics repository")
       }
     }
   }

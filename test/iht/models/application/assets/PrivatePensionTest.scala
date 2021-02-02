@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,12 @@
 
 package iht.models.application.assets
 
+import common.CommonPlaySpec
 import iht.testhelpers.CommonBuilder
 import org.scalatestplus.mockito.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
 
 
-class PrivatePensionTest extends UnitSpec with MockitoSugar{
+class PrivatePensionTest extends CommonPlaySpec with MockitoSugar{
 
   "isComplete" must {
     "returns Some(true) when PrivatePension is complete" in {

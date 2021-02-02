@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,10 @@ import iht.config.AppConfig
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.{Properties, Property}
 import iht.models.application.debts.{Mortgage, MortgageEstateElement}
-import play.api.Logger
+import play.api.Logging
 import play.api.mvc._
 
-trait PropertyAndMortgageHelper {
+trait PropertyAndMortgageHelper extends Logging {
   implicit val appConfig: AppConfig
 
   def previousValueOfIsPropertyOwned(appDetails: ApplicationDetails): Option[Boolean] = {
@@ -77,7 +77,7 @@ trait PropertyAndMortgageHelper {
           iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad(),
           Some(appConfig.AssetsPropertiesOwnedID)))
       case _ =>
-        Logger.warn("Problem storing Application details. Redirecting to InternalServerError")
+        logger.warn("Problem storing Application details. Redirecting to InternalServerError")
         Results.InternalServerError
     }
   }

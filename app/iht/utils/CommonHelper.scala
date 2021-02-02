@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -138,7 +138,13 @@ object CommonHelper {
     */
   val findExecutor: (String, Seq[CoExecutor]) => Option[CoExecutor] = (id, coExecutors) => {
     coExecutors.filter(_.id.contains(id)) match {
-      case x :: Nil => Some(x)
+      case x: Seq[CoExecutor] => {
+        if (x.nonEmpty) {
+          Some(x.head)
+        } else {
+          None
+        }
+      }
       case _ => None
     }
   }

@@ -16,8 +16,8 @@ import play.api.mvc.{AnyContentAsFormUrlEncoded, MessagesControllerComponents, R
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import play.twirl.api.Html
-import uk.gov.hmrc.http.{HttpGet, Upstream5xxResponse}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.http.{HttpGet, UpstreamErrorResponse}
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import utils.WiremockHelper.{wiremockHost, wiremockPort}
 import utils.{IntegrationBaseSpec, TestDataUtil}
@@ -305,9 +305,9 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
 
       "throw correct error to trigger correct onError response" in {
         val error = result().failed.get
-        error shouldBe an[Upstream5xxResponse]
+        error shouldBe an[UpstreamErrorResponse]
         error.getMessage should include("500 response returned from DES")
-        error.asInstanceOf[Upstream5xxResponse].upstreamResponseCode shouldBe 500
+        error.asInstanceOf[UpstreamErrorResponse].statusCode shouldBe 500
       }
     }
 
@@ -357,8 +357,8 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
 
       "throw error to not trigger des custom response" in {
         val error = result().failed.get
-        error shouldBe an[Upstream5xxResponse]
-        error.asInstanceOf[Upstream5xxResponse].upstreamResponseCode shouldBe 500
+        error shouldBe an[UpstreamErrorResponse]
+        error.asInstanceOf[UpstreamErrorResponse].statusCode shouldBe 500
         error.getMessage shouldNot include("500 response returned from DES")
       }
     }
@@ -405,7 +405,7 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
       }
 
       "return the correct result" in {
-        intercept[Upstream5xxResponse](result().get).message shouldBe "GET of 'http://localhost:11111/iht/AA123456A/application/get/ABC1234567890/AAABBBCCC' returned 500. Response body: 'error message'"
+        intercept[UpstreamErrorResponse](result().get).message shouldBe "GET of 'http://localhost:11111/iht/AA123456A/application/get/ABC1234567890/AAABBBCCC' returned 500. Response body: 'error message'"
       }
     }
 
@@ -449,7 +449,7 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
       }
 
       "return the correct result" in {
-        intercept[Upstream5xxResponse](result().get).message shouldBe "GET of 'http://localhost:11111/iht/AA123456A/home/caseDetails/ABC1234567890' returned 500. Response body: 'error message'"
+        intercept[UpstreamErrorResponse](result().get).message shouldBe "GET of 'http://localhost:11111/iht/AA123456A/home/caseDetails/ABC1234567890' returned 500. Response body: 'error message'"
       }
     }
   }

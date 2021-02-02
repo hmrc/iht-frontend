@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,11 +21,11 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.EstateController
 import iht.utils.CommonHelper
 import javax.inject.Inject
-import play.api.Logger
+import play.api.Logging
 import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -44,7 +44,7 @@ class QualifyingBodyDetailsOverviewControllerImpl @Inject()(val ihtConnector: Ih
 
 }
 
-trait QualifyingBodyDetailsOverviewController extends EstateController {
+trait QualifyingBodyDetailsOverviewController extends EstateController with Logging {
 
 
   def ihtConnector: IhtConnector
@@ -79,7 +79,7 @@ trait QualifyingBodyDetailsOverviewController extends EstateController {
                   ))
               }
             case _ =>
-              Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
+              logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
               InternalServerError("No Application Details found")
           }
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package iht.connector
 
 import iht.models.CidPerson
 import javax.inject.Inject
-import play.api.Logger
+import play.api.Logging
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.http._
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
@@ -31,13 +31,13 @@ class CitizenDetailsConnectorImpl @Inject()(val http: DefaultHttpClient,
   lazy val serviceUrl: String = config.baseUrl("citizen-details")
 }
 
-trait CitizenDetailsConnector {
+trait CitizenDetailsConnector extends Logging {
   def http: HttpGet with HttpPost with HttpPut with HttpDelete
 
   def serviceUrl: String
 
-  def getCitizenDetails(nino: Nino)(implicit hc: HeaderCarrier, ec : ExecutionContext): Future[CidPerson] = {
-    Logger.info("Calling Citizen Details service to retrieve personal details")
+  def getCitizenDetails(nino: Nino)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[CidPerson] = {
+    logger.info("Calling Citizen Details service to retrieve personal details")
     http.GET[CidPerson](s"$serviceUrl/citizen-details/nino/$nino")
   }
 }

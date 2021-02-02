@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,13 +27,13 @@ import iht.utils.tnrb.TnrbHelper
 import iht.utils.{ApplicationKickOutHelper, CommonHelper, DateHelper}
 import javax.inject.Inject
 import org.joda.time.LocalDate
-import play.api.Logger
+import play.api.Logging
 import play.api.data.Form
 import play.api.mvc.{MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -45,7 +45,7 @@ class DeceasedWidowCheckDateControllerImpl @Inject()(val ihtConnector: IhtConnec
                                                      implicit val appConfig: AppConfig,
                                                      val cc: MessagesControllerComponents) extends FrontendController(cc) with DeceasedWidowCheckDateController
 
-trait DeceasedWidowCheckDateController extends EstateController with TnrbHelper {
+trait DeceasedWidowCheckDateController extends EstateController with TnrbHelper with Logging {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -150,7 +150,7 @@ trait DeceasedWidowCheckDateController extends EstateController with TnrbHelper 
       savedApplicationDetails <- ihtConnector.saveApplication(nino, updatedAppDetailsWithKickOutReason, regDetails.acknowledgmentReference)
     } yield {
       savedApplicationDetails.fold[Result] {
-        Logger.warn("Problem storing Application details. Redirecting to InternalServerError")
+        logger.warn("Problem storing Application details. Redirecting to InternalServerError")
         InternalServerError
       } { _ =>
         updatedAppDetailsWithKickOutReason.kickoutReason match {

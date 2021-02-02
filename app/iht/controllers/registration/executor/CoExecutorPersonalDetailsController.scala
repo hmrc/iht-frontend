@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,14 +25,13 @@ import iht.models.{CoExecutor, RegistrationDetails}
 import iht.utils.StringHelper
 import iht.views.html.registration.{executor => views}
 import javax.inject.Inject
-import play.api.Logger
 import play.api.data.Form
 import play.api.mvc.{Call, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
 import scala.concurrent.Future
 
@@ -96,7 +95,7 @@ trait CoExecutorPersonalDetailsController extends RegistrationController with Co
   private def submitEditOfExistingCoExecutor(rd: RegistrationDetails, id: String, coExecutor: CoExecutor, mode: Mode.Value)(implicit hc: HeaderCarrier) = {
     val index = rd.coExecutors.indexWhere(c => c.id.contains(id))
     if (index == -1) {
-      Logger.info(s"Coexecutor id $id not found, redirecting user to coexecutor overview")
+      logger.info(s"Coexecutor id $id not found, redirecting user to coexecutor overview")
       Future(Redirect(iht.controllers.registration.executor.routes.ExecutorOverviewController.onPageLoad()))
     } else {
       val updatedCoExec = rd.coExecutors(index).updatePersonalDetails(coExecutor)

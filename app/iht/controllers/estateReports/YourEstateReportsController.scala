@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,12 +26,12 @@ import iht.models.application.IhtApplication
 import iht.utils.{CommonHelper, DeceasedInfoHelper, SessionHelper, ApplicationStatus => AppStatus}
 import iht.viewmodels.estateReports.YourEstateReportsRowViewModel
 import javax.inject.Inject
-import play.api.Logger
+import play.api.Logging
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
-import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys, Upstream4xxResponse}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys, Upstream4xxResponse, UpstreamErrorResponse}
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -41,9 +41,10 @@ class YourEstateReportsControllerImpl @Inject()(val cachingConnector: CachingCon
                                                 val authConnector: AuthConnector,
                                                 override implicit val formPartialRetriever: FormPartialRetriever,
                                                 implicit val appConfig: AppConfig,
-                                                val cc: MessagesControllerComponents) extends FrontendController(cc) with YourEstateReportsController
+                                                val cc: MessagesControllerComponents)
+  extends FrontendController(cc) with YourEstateReportsController
 
-trait YourEstateReportsController extends ApplicationController {
+trait YourEstateReportsController extends ApplicationController with Logging {
 
   def cachingConnector: CachingConnector
 
@@ -57,7 +58,7 @@ trait YourEstateReportsController extends ApplicationController {
         ihtConnector.getCaseList(nino).flatMap {
           case listOfCases if listOfCases.nonEmpty =>
             listOfCases.foreach { ihtCase =>
-              Logger.info("Application status retrieved from DES is ::: " + ihtCase.currentStatus)
+              logger.info("Application status retrieved from DES is ::: " + ihtCase.currentStatus)
 
               ihtCase.currentStatus match {
                 case AppStatus.AwaitingReturn | AppStatus.KickOut =>
@@ -80,7 +81,7 @@ trait YourEstateReportsController extends ApplicationController {
               SessionHelper.ensureSessionHasNino(request.session, userNino) +
                 (SessionKeys.sessionId -> s"session-${UUID.randomUUID}")))
         } recover {
-          case e: Upstream4xxResponse if e.upstreamResponseCode == 404 =>
+          case e: UpstreamErrorResponse if e.statusCode == 404 =>
             Ok(iht.views.html.estateReports.your_estate_reports(Nil, showGuidance = false)).withSession(
               SessionHelper.ensureSessionHasNino(request.session, userNino) +
                 (SessionKeys.sessionId -> s"session-${UUID.randomUUID}")

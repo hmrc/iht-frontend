@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,12 +26,11 @@ import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator, StringHelper}
 import javax.inject.Inject
-import play.api.Logger
 import play.api.mvc.{MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -130,7 +129,7 @@ trait DeceasedWidowCheckQuestionController extends EstateController with TnrbHel
         regDetails.acknowledgmentReference)
     } yield {
       savedApplicationDetails.fold[Result] {
-        Logger.warn("Problem storing Application details. Redirecting to InternalServerError")
+        logger.warn("Problem storing Application details. Redirecting to InternalServerError")
         InternalServerError
       } {
         appDetails =>
@@ -170,7 +169,7 @@ trait DeceasedWidowCheckQuestionController extends EstateController with TnrbHel
         (_.copy(widowed = widowModel.widowed, dateOfPreDeceased = None))),
           increaseIhtThreshold = None)
       case _ => {
-        Logger.warn("WidowCheck question has not been answered")
+        logger.warn("WidowCheck question has not been answered")
         throw new RuntimeException("WidowCheck question has not been answered")
       }
     }

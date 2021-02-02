@@ -6,29 +6,28 @@ object AppDependencies {
   import play.sbt.PlayImport._
   import play.core.PlayVersion
 
-  private val httpCachingClientVersion = "9.1.0-play-26"
-  private val bootstrapVersion = "1.13.0"
-  private val playPartialsVersion = "6.11.0-play-26"
-  private val domainVersion = "5.9.0-play-26"
-  private val govUkTemplateVersion = "5.55.0-play-26"
-  private val playUiVersion = "8.12.0-play-26"
-  private val playLanguageVersion = "4.3.0-play-26"
+  private val httpCachingClientVersion = "9.2.0-play-27"
+  private val bootstrapVersion = "3.0.0"
+  private val playPartialsVersion = "7.1.0-play-27"
+  private val domainVersion = "5.9.0-play-27"
+  private val govUkTemplateVersion = "5.61.0-play-27"
+  private val playUiVersion = "8.20.0-play-27"
+  private val playLanguageVersion = "4.3.0-play-27"
   private val jsonVersion = "20200518"
   private val wireMockVersion = "2.27.2"
   private val jsoupVersion = "1.13.1"
   private val pegdownVersion = "1.6.0"
   private val mockitoVersion = "3.3.3"
   private val playJsonVersion = "2.6.14"
-  private val hmrcTestVersion = "3.9.0-play-26"
   private val scalaTestVersion = "3.0.9"
-  private val scalaTestPlusPlayVersion = "3.1.3"
+  private val scalaTestPlusPlayVersion = "4.0.3"
 
   private val typesafe = "com.typesafe.play"
 
   val compile: Seq[ModuleID] = Seq(
-    ws, cache,
+    ws, ehcache,
     "uk.gov.hmrc" %% "http-caching-client" % httpCachingClientVersion,
-    "uk.gov.hmrc" %% "bootstrap-play-26" % bootstrapVersion,
+    "uk.gov.hmrc" %% "bootstrap-frontend-play-27" % bootstrapVersion,
     "uk.gov.hmrc" %% "play-partials" % playPartialsVersion,
     "uk.gov.hmrc" %% "domain" % domainVersion,
     "uk.gov.hmrc" %% "govuk-template" % govUkTemplateVersion,
@@ -50,7 +49,6 @@ object AppDependencies {
     def apply(): Seq[ModuleID] = new TestDependencies {
       override lazy val test = Seq(
         "uk.gov.hmrc" %% "http-caching-client" % httpCachingClientVersion % scope,
-        "uk.gov.hmrc" %% "hmrctest" % hmrcTestVersion % scope,
         "org.scalatest" %% "scalatest" % scalaTestVersion % scope,
         "org.scalatestplus.play" %% "scalatestplus-play" % scalaTestPlusPlayVersion,
         "org.pegdown" % "pegdown" % pegdownVersion % scope,
@@ -71,7 +69,6 @@ object AppDependencies {
 
       override lazy val test = Seq(
         "uk.gov.hmrc" %% "http-caching-client" % httpCachingClientVersion % scope,
-        "uk.gov.hmrc" %% "hmrctest" % hmrcTestVersion % scope,
         "org.scalatest" %% "scalatest" % scalaTestVersion % scope,
         "org.scalatestplus.play" %% "scalatestplus-play" % scalaTestPlusPlayVersion,
         "org.pegdown" % "pegdown" % pegdownVersion % scope,

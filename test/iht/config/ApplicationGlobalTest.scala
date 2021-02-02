@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package iht.config
 
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import iht.utils.CommonHelper
 import org.jsoup.Jsoup
 import play.api.Configuration
@@ -24,11 +25,10 @@ import play.api.i18n.MessagesApi
 import play.api.mvc._
 import play.api.test.FakeRequest
 import play.twirl.api.Html
-import uk.gov.hmrc.http.Upstream5xxResponse
-import uk.gov.hmrc.play.bootstrap.http.ApplicationException
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import uk.gov.hmrc.http.UpstreamErrorResponse
+import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 
-class ApplicationGlobalTest extends UnitSpec with WithFakeApplication {
+class ApplicationGlobalTest extends CommonPlaySpec with WithCommonFakeApplication {
 
   val fakedMessagesApi: MessagesApi = fakeApplication.injector.instanceOf[MessagesApi]
   val fakedConfiguration: Configuration = fakeApplication.injector.instanceOf[Configuration]
@@ -74,8 +74,8 @@ class ApplicationGlobalTest extends UnitSpec with WithFakeApplication {
   }
 
   "Error Handler" should {
-    "return INTERNAL_SERVER_ERROR on Upstream5xxResponse" in new Setup {
-      val exception = Upstream5xxResponse("test", 502, 500)
+    "return INTERNAL_SERVER_ERROR on UpstreamErrorResponse" in new Setup {
+      val exception = UpstreamErrorResponse("test", 502, 500)
       val result = errorHandler.resolveError(FakeRequest(), exception)
 
       result.header.status shouldBe INTERNAL_SERVER_ERROR

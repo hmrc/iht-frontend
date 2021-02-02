@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,11 +24,10 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.debts.{Mortgage, MortgageEstateElement}
 import iht.utils.CommonHelper
 import javax.inject.Inject
-import play.api.Logger
 import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 
@@ -58,14 +57,14 @@ trait DeletePropertyController extends ApplicationController {
           applicationDetails match {
             case Some(applicationDetails) => {
               applicationDetails.propertyList.find(p => p.id.getOrElse("") equals id).fold {
-                Logger.warn("No Property Found. Redirecting to Internal Server Error")
+                logger.warn("No Property Found. Redirecting to Internal Server Error")
                 InternalServerError("No Property Found")
               } {
                 (matchedProperty) => Ok(iht.views.html.application.asset.properties.delete_property_confirm(matchedProperty))
               }
             }
             case _ => {
-              Logger.warn("Problem retrieving application details. Redirecting to Internal Server Error")
+              logger.warn("Problem retrieving application details. Redirecting to Internal Server Error")
               InternalServerError("No application details found")
             }
           }
@@ -96,7 +95,7 @@ trait DeletePropertyController extends ApplicationController {
             case Some(_) => Redirect(CommonHelper.addFragmentIdentifier(
               routes.PropertiesOverviewController.onPageLoad(), Some(appConfig.AssetsPropertiesAddPropertyID)))
             case _ => {
-              Logger.warn("Problem storing Application details. Redirecting to InternalServerError")
+              logger.warn("Problem storing Application details. Redirecting to InternalServerError")
               InternalServerError
             }
           }

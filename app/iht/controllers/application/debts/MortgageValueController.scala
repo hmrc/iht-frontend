@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,12 +26,11 @@ import iht.models.application.assets.Property
 import iht.models.application.debts._
 import iht.utils.{ApplicationStatus, CommonHelper, StringHelper}
 import javax.inject.Inject
-import play.api.Logger
 import play.api.mvc.{MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -73,7 +72,7 @@ trait MortgageValueController extends ApplicationController with StringHelper {
 
                 resultOnUpdateMortgageList(updatedMortgageList, id, matchedProperty, regDetails)
               case _ =>
-                Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
+                logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
                 InternalServerError("No Application Details found")
             }
           }
@@ -167,7 +166,7 @@ trait MortgageValueController extends ApplicationController with StringHelper {
           Redirect(CommonHelper.addFragmentIdentifier(routes.MortgagesOverviewController.onPageLoad, Some(appConfig.DebtsMortgagesPropertyID + id))))
       }
       case _ => {
-        Logger.warn("Application Details not found")
+        logger.warn("Application Details not found")
         Future.successful(InternalServerError)
       }
     }

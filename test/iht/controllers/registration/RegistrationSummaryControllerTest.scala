@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,8 +29,8 @@ import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
-import uk.gov.hmrc.http.{GatewayTimeoutException, Upstream5xxResponse}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.http.{GatewayTimeoutException, UpstreamErrorResponse}
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.duration.Duration
@@ -178,7 +178,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       contentAsString(result) must include(messagesApi("error.cannotSend"))
     }
 
-    "onSubmit Upstream5xxResponse" in {
+    "onSubmit UpstreamErrorResponse" in {
       val deceasedDateOfDeath = new DeceasedDateOfDeath(new LocalDate(2001,11, 11))
       val applicantDetails = CommonBuilder.buildApplicantDetails
       val deceasedDetails = CommonBuilder.buildDeceasedDetails
@@ -196,7 +196,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       when(mockIhtConnector.saveApplication(any(), any(), any())(any(), any()))
         .thenAnswer(new Answer[Future[Option[ApplicationDetails]]] {
           override def answer(invocation: InvocationOnMock): Future[Option[ApplicationDetails]] = {
-            Future.failed(new Upstream5xxResponse("Service Unavailable", 502, 502))
+            Future.failed(UpstreamErrorResponse.apply("Service Unavailable", 502, 502))
           }})
 
       val result = controller.onSubmit(createFakeRequest(authRetrieveNino = false))
@@ -205,7 +205,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       contentAsString(result) must include(messagesApi("error.registration.serviceUnavailable.p1"))
     }
 
-    "onSubmit Upstream5xxResponse 502" in {
+    "onSubmit UpstreamErrorResponse 502" in {
       val deceasedDateOfDeath = new DeceasedDateOfDeath(new LocalDate(2001,11, 11))
       val applicantDetails = CommonBuilder.buildApplicantDetails
       val deceasedDetails = CommonBuilder.buildDeceasedDetails
@@ -223,7 +223,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       when(mockIhtConnector.saveApplication(any(), any(), any())(any(), any()))
         .thenAnswer(new Answer[Future[Option[ApplicationDetails]]] {
           override def answer(invocation: InvocationOnMock): Future[Option[ApplicationDetails]] = {
-            Future.failed(new Upstream5xxResponse("test", 502, 502))
+            Future.failed(UpstreamErrorResponse.apply("test", 502, 502))
           }})
 
       val result = controller.onSubmit(createFakeRequest(authRetrieveNino = false))

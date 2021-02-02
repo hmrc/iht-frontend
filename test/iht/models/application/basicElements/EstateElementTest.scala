@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,9 @@
 package iht.models.application.basicElements
 
 import org.scalatestplus.mockito.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
-class EstateElementTest extends UnitSpec with MockitoSugar{
+class EstateElementTest extends CommonPlaySpec with MockitoSugar{
   "EstateElement" must {
     "return true if it has a value" in {
       val estateElement = new EstateElement {

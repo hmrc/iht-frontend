@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,14 +16,15 @@
 
 package iht.utils
 
-import play.api.Logger
+
+import play.api.Logging
 import play.api.data.Form
 
 /**
  * Created by yasar on 11/10/15.
  */
-object LogHelper {
+object LogHelper extends Logging {
 
-  def logFormError[T](form: Form[T]) = Logger.info(s"Form submitted with errors: ${form.errors}")
+  def logFormError[T](form: Form[T]) = logger.info(s"Form submitted with errors: ${form.errors}")
 
 }

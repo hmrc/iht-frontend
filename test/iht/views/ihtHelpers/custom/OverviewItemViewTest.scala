@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import iht.testhelpers.TestHelper._
 import iht.viewmodels.application.overview._
 import iht.views.ViewTestHelper
 import iht.views.html.ihtHelpers.custom.overview_item
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 
 class OverviewItemViewTest extends ViewTestHelper {

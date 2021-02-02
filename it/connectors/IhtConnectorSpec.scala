@@ -2,7 +2,7 @@ package connectors
 
 import iht.models.ApplicantDetails
 import org.scalatestplus.mockito.MockitoSugar
-import uk.gov.hmrc.http.{HeaderCarrier, Upstream5xxResponse}
+import uk.gov.hmrc.http.{HeaderCarrier, UpstreamErrorResponse}
 import utils.stubs.IhtStub
 import utils.{IntegrationBaseSpec, TestDataUtil}
 
@@ -35,7 +35,7 @@ class IhtConnectorSpec extends IntegrationBaseSpec with MockitoSugar with TestDa
 
         IhtStub.stubInternalServerError()
 
-        val ex = intercept[Upstream5xxResponse] {
+        val ex = intercept[UpstreamErrorResponse] {
           await(
             connector.submitApplication(
               regDetails.ihtReference.get,

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ package iht.controllers
 import iht.config.AppConfig
 import iht.views.ViewTestHelper
 import org.mockito.Mockito._
-import play.api.Play
+import play.api.mvc.Cookie.SameSite
 import play.api.mvc.{Cookie, Result}
 import play.api.test.FakeRequest
 import uk.gov.hmrc.play.language.LanguageUtils
@@ -60,7 +60,7 @@ class CustomLanguageControllerTest extends ViewTestHelper {
       val redirectResult = customLanguageController.switchToLanguage(welsh)(FakeRequest())
       val result: Result = Await.result(redirectResult, 5.seconds)
 
-      assert(result.newCookies.contains(Cookie(Play.langCookieName, welshLocale, httpOnly = false)))
+      assert(result.newCookies.contains(Cookie("PLAY_LANG", welshLocale, httpOnly = false, sameSite = Some(SameSite.Lax))))
     }
     "redirect successfully with english set as the language if isWelshEnabled is false" in {
       when(mockAppConfig.isWelshEnabled) thenReturn false
@@ -69,7 +69,7 @@ class CustomLanguageControllerTest extends ViewTestHelper {
       val redirectResult = customLanguageController.switchToLanguage(welsh)(FakeRequest())
       val result: Result = Await.result(redirectResult, 5.seconds)
 
-      assert(result.newCookies.contains(Cookie(Play.langCookieName, englishLocale, httpOnly = false)))
+      assert(result.newCookies.contains(Cookie("PLAY_LANG", englishLocale, httpOnly = false, sameSite = Some(SameSite.Lax))))
     }
   }
 
