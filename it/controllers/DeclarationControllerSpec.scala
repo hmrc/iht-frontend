@@ -357,9 +357,8 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
 
       "throw error to not trigger des custom response" in {
         val error = result().failed.get
-        error shouldBe an[UpstreamErrorResponse]
-        error.asInstanceOf[UpstreamErrorResponse].statusCode shouldBe 500
-        error.getMessage shouldNot include("500 response returned from DES")
+        error shouldBe an[Exception]
+        error.getMessage should include("Problem saving application details")
       }
     }
 
@@ -405,7 +404,9 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
       }
 
       "return the correct result" in {
-        intercept[UpstreamErrorResponse](result().get).message shouldBe "GET of 'http://localhost:11111/iht/AA123456A/application/get/ABC1234567890/AAABBBCCC' returned 500. Response body: 'error message'"
+        val error = result().failed.get
+        error shouldBe an[Exception]
+        error.getMessage should include("Problem retrieving application details")
       }
     }
 
@@ -449,7 +450,9 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
       }
 
       "return the correct result" in {
-        intercept[UpstreamErrorResponse](result().get).message shouldBe "GET of 'http://localhost:11111/iht/AA123456A/home/caseDetails/ABC1234567890' returned 500. Response body: 'error message'"
+        val error = result().failed.get
+        error shouldBe an[Exception]
+        error.getMessage should include("Problem retrieving Case Details")
       }
     }
   }

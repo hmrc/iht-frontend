@@ -6,7 +6,7 @@ import com.github.tomakehurst.wiremock.client.WireMock._
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig
 import iht.connector.IhtConnector
-import org.scalatestplus.play.guice.{GuiceOneAppPerSuite, GuiceOneServerPerSuite}
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.libs.ws.WSClient
 
 object WiremockHelper {

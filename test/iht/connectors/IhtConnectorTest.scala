@@ -24,6 +24,7 @@ import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
 import org.scalatestplus.mockito._
 import play.api.libs.json.{JsValue, Writes}
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, HttpResponse, UpstreamErrorResponse}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import play.api.test.Helpers._
@@ -34,7 +35,9 @@ class IhtConnectorTest extends ApplicationControllerTest with MockitoSugar {
   val mockHttpClient = mock[DefaultHttpClient]
   val mockServicesConfig = mock[ServicesConfig]
 
-  val connector = new IhtConnectorImpl(mockHttpClient, mockServicesConfig, mockAppConfig)
+  val mockCC = app.injector.instanceOf[MessagesControllerComponents]
+
+  val connector = new IhtConnectorImpl(mockHttpClient, mockServicesConfig, mockCC, mockAppConfig)
 
   val defaultIHTReference = "12345"
   val defaultNino = "AA000000A"
@@ -44,7 +47,6 @@ class IhtConnectorTest extends ApplicationControllerTest with MockitoSugar {
   val successReturnId = "someid:12345678"
   val dummySuccessRespone = HttpResponse(200, successReturnId)
   val dummyInternalErrorResponse = HttpResponse(500, "No registration details found")
-  val dummyForbiddenResponse = HttpResponse(403, "Submitter is not the lead executor")
 
   "submitApplication" should {
     "should return a return ID when call to IHT was successful" in {
@@ -68,7 +70,7 @@ class IhtConnectorTest extends ApplicationControllerTest with MockitoSugar {
       val thrown = intercept[Exception] {
         result
       }
-      assert(thrown.getMessage === "Problem with the submission of the application details")
+      assert(thrown.getMessage === "No registration details found")
     }
 
     "should return None when call to IHT returns a 403" in {
