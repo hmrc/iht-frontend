@@ -62,6 +62,7 @@ object ControllerHelper {
   val desErrorCode503 = "des_error_code_503"
   val desErrorCode504 = "des_error_code_504"
   val notFoundExceptionCode = 404
+  val internalExceptionCode = 500
 
   object Mode extends Enumeration {
     val Edit, Standard = Value

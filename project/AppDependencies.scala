@@ -7,12 +7,12 @@ object AppDependencies {
   import play.core.PlayVersion
 
   private val httpCachingClientVersion = "9.2.0-play-27"
-  private val bootstrapVersion = "3.0.0"
+  private val bootstrapVersion = "3.4.0"
   private val playPartialsVersion = "7.1.0-play-27"
-  private val domainVersion = "5.9.0-play-27"
+  private val domainVersion = "5.10.0-play-27"
   private val govUkTemplateVersion = "5.61.0-play-27"
-  private val playUiVersion = "8.20.0-play-27"
-  private val playLanguageVersion = "4.3.0-play-27"
+  private val playUiVersion = "8.21.0-play-27"
+  private val playLanguageVersion = "4.10.0-play-27"
   private val jsonVersion = "20200518"
   private val wireMockVersion = "2.27.2"
   private val jsoupVersion = "1.13.1"

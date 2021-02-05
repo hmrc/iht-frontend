@@ -27,10 +27,11 @@ import models.des.EventRegistration
 import play.api.Logging
 import play.api.http.Status._
 import play.api.libs.json.{JsError, JsValue, Json}
-import play.api.mvc.Request
+import play.api.mvc.{MessagesControllerComponents, Request}
 import uk.gov.hmrc.http._
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
+import uk.gov.hmrc.http.HttpReads.Implicits._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -79,12 +80,13 @@ trait IhtConnector extends Logging {
 
 class IhtConnectorImpl @Inject()(val http: DefaultHttpClient,
                                  val config: ServicesConfig,
+                                 val cc: MessagesControllerComponents,
                                  implicit val appConfig: AppConfig) extends IhtConnector with StringHelper {
   lazy val serviceUrl: String = config.baseUrl("iht")
 
   override def deleteApplication(nino: String, ihtReference: String)(implicit headerCarrier: HeaderCarrier): Unit = {
     logger.info("Calling IHT micro-service to delete application")
-    http.GET(s"$serviceUrl/iht/$nino/application/delete/$ihtReference")
+    http.GET(s"$serviceUrl/iht/$nino/application/delete/$ihtReference")(rds = readRaw, hc = headerCarrier, ec = cc.executionContext)
   }
 
   private def ihtHeaders(implicit request: Request[_]) = Seq("path"->request.headers.get("Referer").getOrElse(""))
@@ -93,7 +95,9 @@ class IhtConnectorImpl @Inject()(val http: DefaultHttpClient,
     val er = EventRegistration.fromRegistrationDetails(rd)
     val ninoFormatted = trimAndUpperCaseNino(nino)
     logger.info("Calling IHT micro-service to submit registration")
-    http.POST(s"$serviceUrl/iht/$ninoFormatted/registration/submit", er, ihtHeaders) map {
+    http.POST(
+      s"$serviceUrl/iht/$ninoFormatted/registration/submit", er, ihtHeaders
+    )(rds = readRaw, hc = headerCarrier, ec = cc.executionContext, wts = Json.format[models.des.EventRegistration]) map {
       response => {
         if (response.status == ACCEPTED) {
           ""
@@ -123,26 +127,30 @@ class IhtConnectorImpl @Inject()(val http: DefaultHttpClient,
                                acknowledgmentReference: String)
                               (implicit headerCarrier: HeaderCarrier, request: Request[_]): Future[Option[ApplicationDetails]] =
     exceptionCheckForResponses {
-    logger.info("Saving application in Secure Storage")
-    val future_response = http.POST(s"$serviceUrl/iht/$nino/application/save/$acknowledgmentReference", data, ihtHeaders)
-    for {
-      response <- future_response
-    } yield {
-      response.status match {
-        case OK =>
-          logger.info("Successful return from right for save application")
-          Some(data)
-        case _ =>
-          logger.warn("Problem saving application details")
-          throw new RuntimeException("Problem saving application details")
+      logger.info("Saving application in Secure Storage")
+      val future_response = http.POST(
+        s"$serviceUrl/iht/$nino/application/save/$acknowledgmentReference", data, ihtHeaders
+      )(rds = readRaw, hc = headerCarrier, ec = cc.executionContext, wts = Json.format[ApplicationDetails])
+      for {
+        response <- future_response
+      } yield {
+        response.status match {
+          case OK =>
+            logger.info("Successful return from right for save application")
+            Some(data)
+          case _ =>
+            logger.warn("Problem saving application details")
+            throw new RuntimeException("Problem saving application details")
+        }
       }
     }
-  }
 
   override def getApplication(nino: String, ihtRef: String, acknowledgmentReference: String)
                              (implicit headerCarrier: HeaderCarrier): Future[Option[ApplicationDetails]] = exceptionCheckForResponses {
     logger.info("Getting application from Secure Storage")
-    val future_response = http.GET(s"$serviceUrl/iht/$nino/application/get/$ihtRef/$acknowledgmentReference")
+    val future_response = http.GET(
+      s"$serviceUrl/iht/$nino/application/get/$ihtRef/$acknowledgmentReference"
+    )(rds = readRaw, hc = headerCarrier, ec = cc.executionContext)
     for {
       response <- future_response
     } yield {
@@ -163,7 +171,9 @@ class IhtConnectorImpl @Inject()(val http: DefaultHttpClient,
 
   override def getCaseList(nino: String)(implicit headerCarrier: HeaderCarrier): Future[Seq[IhtApplication]] = exceptionCheckForResponses {
     logger.info("Getting Case List")
-    http.GET(s"$serviceUrl/iht/$nino/home/listCases").map {
+    http.GET(
+      s"$serviceUrl/iht/$nino/home/listCases"
+      )(rds = readRaw, hc = headerCarrier, ec = cc.executionContext).map {
       response => {
         response.status match {
           case OK =>
@@ -183,7 +193,9 @@ class IhtConnectorImpl @Inject()(val http: DefaultHttpClient,
   override def getCaseDetails(nino: String, ihtReference: String)
                              (implicit headerCarrier: HeaderCarrier): Future[RegistrationDetails] = exceptionCheckForResponses {
     logger.info("Getting Case Details")
-    http.GET(s"$serviceUrl/iht/$nino/home/caseDetails/$ihtReference").map {
+    http.GET(
+      s"$serviceUrl/iht/$nino/home/caseDetails/$ihtReference"
+      )(rds = readRaw, hc = headerCarrier, ec = cc.executionContext).map {
       response => {
         response.status match {
           case OK =>
@@ -217,7 +229,10 @@ class IhtConnectorImpl @Inject()(val http: DefaultHttpClient,
       Future.failed(UpstreamErrorResponse.apply(e.message, e.statusCode, e.reportAs))
     case e: NotFoundException =>
       logger.warn("Upstream4xxResponse Returned ::: " + e.getMessage)
-      Future.failed(UpstreamErrorResponse.apply(e.message, ControllerHelper.notFoundExceptionCode, ControllerHelper.notFoundExceptionCode))
+      Future.failed(UpstreamErrorResponse.apply(e.message, ControllerHelper.notFoundExceptionCode))
+    case e: InternalServerException =>
+      logger.warn("InternalServerException Returned ::: " + e.getMessage)
+      Future.failed(UpstreamErrorResponse.apply(e.message, ControllerHelper.internalExceptionCode))
     case e: Exception =>
       logger.warn("Exception Returned ::: " + e.getMessage)
       Future.failed(new Exception(e.getMessage))
@@ -229,20 +244,26 @@ class IhtConnectorImpl @Inject()(val http: DefaultHttpClient,
                                 (implicit headerCarrier: HeaderCarrier, request: Request[_]): Future[Option[String]] = {
     val formattedNino = trimAndUpperCaseNino(nino)
     logger.info("Submitting application")
-    http.POST(s"$serviceUrl/iht/$formattedNino/$ihtAppReference/application/submit", applicationDetails, ihtHeaders).map(
+    http.POST(
+      s"$serviceUrl/iht/$formattedNino/$ihtAppReference/application/submit", applicationDetails, ihtHeaders
+    )(rds = readRaw, hc = headerCarrier, ec = cc.executionContext, wts = Json.format[ApplicationDetails]).map(
       response =>
         response.status match {
-        case OK =>
-          logger.info("Response received from Right for application submit")
-          Some(response.body.split(":").last.trim)
-        case _ =>
-          logger.warn("Problem with the submission of the application details")
-          throw new RuntimeException("Problem with the submission of the application details")
-      }
+          case OK =>
+            logger.info("Response received from Right for application submit")
+            Some(response.body.split(":").last.trim)
+          case FORBIDDEN => None
+          case INTERNAL_SERVER_ERROR =>
+            logger.warn("Problem with the submission of the application details")
+            throw new InternalServerException(response.body)
+        }
     ) recoverWith {
-      case e: UpstreamErrorResponse if e.statusCode == FORBIDDEN => Future.successful(None)
+      case e: UpstreamErrorResponse if e.statusCode == FORBIDDEN => {
+        Future.successful(None)
+      }
     } recoverWith connectorRecovery
   }
+
 
   def realtimeRiskingMessageResponseMatch(response: HttpResponse): Option[String] = {
     response.status match {
@@ -263,7 +284,9 @@ class IhtConnectorImpl @Inject()(val http: DefaultHttpClient,
   override def getRealtimeRiskingMessage(ihtAppReference: String, nino: String)
                                         (implicit headerCarrier: HeaderCarrier): Future[Option[String]] = {
     logger.info("Getting realtime risking message")
-    http.GET(s"$serviceUrl/iht/$nino/application/getRealtimeRiskingMessage/$ihtAppReference") map {
+    http.GET(
+      s"$serviceUrl/iht/$nino/application/getRealtimeRiskingMessage/$ihtAppReference"
+    )(rds = readRaw, hc = headerCarrier, ec = cc.executionContext).map {
       response => realtimeRiskingMessageResponseMatch(response)
     } recoverWith connectorRecovery
   }
@@ -271,7 +294,9 @@ class IhtConnectorImpl @Inject()(val http: DefaultHttpClient,
   override def requestClearance(nino: String, ihtReference: String)
                                (implicit headerCarrier: HeaderCarrier): Future[Boolean] = {
     logger.info("Requesting clearance")
-    val future_response = http.GET(s"$serviceUrl/iht/$nino/$ihtReference/application/requestClearance")
+    val future_response = http.GET(
+      s"$serviceUrl/iht/$nino/$ihtReference/application/requestClearance"
+    )(rds = readRaw, hc = headerCarrier, ec = cc.executionContext)
     for {
       response <- future_response
     } yield {
@@ -312,7 +337,8 @@ class IhtConnectorImpl @Inject()(val http: DefaultHttpClient,
   override def getProbateDetails(nino: String, ihtReference: String, ihtReturnId: String)
                                 (implicit headerCarrier: HeaderCarrier): Future[Option[ProbateDetails]] = {
     logger.info("Getting Probate Details")
-    http.GET(s"$serviceUrl/iht/$nino/application/probateDetails/$ihtReference/$ihtReturnId") map { response =>
+    http.GET(
+      s"$serviceUrl/iht/$nino/application/probateDetails/$ihtReference/$ihtReturnId")(rds = readRaw, hc = headerCarrier, ec = cc.executionContext).map { response =>
       retrieveProbateDetails(response)
     } recoverWith connectorRecovery
   }
@@ -321,7 +347,10 @@ class IhtConnectorImpl @Inject()(val http: DefaultHttpClient,
                                              (implicit headerCarrier: HeaderCarrier): Future[Option[IHTReturn]] =
     exceptionCheckForResponses {
       logger.info("Getting the submitted IHT return details")
-      http.GET(s"$serviceUrl/iht/$nino/$ihtReference/$returnId/application/getSubmittedApplicationDetails") map { response =>
+
+      http.GET(
+        s"$serviceUrl/iht/$nino/$ihtReference/$returnId/application/getSubmittedApplicationDetails"
+      )(rds = readRaw, hc = headerCarrier, ec = cc.executionContext).map { response =>
         response.status match {
           case OK =>
             logger.info("getSubmittedApplicationDetails response OK")

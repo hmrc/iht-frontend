@@ -1,3 +1,19 @@
+/*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package controllers
 
 import com.github.tomakehurst.wiremock.client.WireMock
@@ -357,9 +373,8 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
 
       "throw error to not trigger des custom response" in {
         val error = result().failed.get
-        error shouldBe an[UpstreamErrorResponse]
-        error.asInstanceOf[UpstreamErrorResponse].statusCode shouldBe 500
-        error.getMessage shouldNot include("500 response returned from DES")
+        error shouldBe an[Exception]
+        error.getMessage should include("Problem saving application details")
       }
     }
 
@@ -405,7 +420,9 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
       }
 
       "return the correct result" in {
-        intercept[UpstreamErrorResponse](result().get).message shouldBe "GET of 'http://localhost:11111/iht/AA123456A/application/get/ABC1234567890/AAABBBCCC' returned 500. Response body: 'error message'"
+        val error = result().failed.get
+        error shouldBe an[Exception]
+        error.getMessage should include("Problem retrieving application details")
       }
     }
 
@@ -449,7 +466,9 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
       }
 
       "return the correct result" in {
-        intercept[UpstreamErrorResponse](result().get).message shouldBe "GET of 'http://localhost:11111/iht/AA123456A/home/caseDetails/ABC1234567890' returned 500. Response body: 'error message'"
+        val error = result().failed.get
+        error shouldBe an[Exception]
+        error.getMessage should include("Problem retrieving Case Details")
       }
     }
   }
