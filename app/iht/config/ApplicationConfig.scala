@@ -35,9 +35,6 @@ trait AppConfig extends IhtProperties {
   def readFromConfig(key: String): String = servicesConfig.getString(key).trim
   def readOrEmpty(key: String): String = servicesConfig.getString(key)
 
-  lazy val analyticsToken: Option[String] = Some(servicesConfig.getString("google-analytics.token"))
-  lazy val analyticsHost: String = Try(servicesConfig.getString("google-analytics.host")).getOrElse("auto")
-
   private lazy val contactFrontendService = servicesConfig.baseUrl("contact-frontend")
   private lazy val contactFrontendHost = Try(servicesConfig.getString("microservice.services.contact-frontend.host")).getOrElse("")
 
@@ -78,6 +75,4 @@ trait AppConfig extends IhtProperties {
   // Default visibility - off in PROD and on in every other env
   lazy val isWelshEnabled: Boolean = Try(servicesConfig.getBoolean("welsh.enabled")).getOrElse(runningEnvironment != "PROD")
 
-  // Google Tag Manager integration.
-  lazy val googleTagManagerId: String = readFromConfig(s"google-tag-manager.id")
 }
