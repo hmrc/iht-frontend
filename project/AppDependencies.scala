@@ -6,10 +6,10 @@ object AppDependencies {
   import play.sbt.PlayImport._
   import play.core.PlayVersion
 
-  private val httpCachingClientVersion = "9.2.0-play-27"
-  private val bootstrapVersion = "3.4.0"
+  private val httpCachingClientVersion = "9.4.0-play-27"
+  private val bootstrapVersion = "4.3.0"
   private val playPartialsVersion = "7.1.0-play-27"
-  private val domainVersion = "5.10.0-play-27"
+  private val domainVersion = "5.11.0-play-27"
   private val govUkTemplateVersion = "5.61.0-play-27"
   private val playUiVersion = "8.21.0-play-27"
   private val playLanguageVersion = "4.10.0-play-27"
