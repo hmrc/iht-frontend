@@ -26,6 +26,7 @@ import play.api.{Application, Configuration}
 import scala.concurrent.duration._
 import org.scalatest.{Matchers, OptionValues, WordSpecLike}
 import play.api.mvc.Result
+import scala.language.implicitConversions
 
 trait IntegrationBaseSpec extends WordSpecLike with Matchers with OptionValues
   with GuiceOneAppPerSuite
@@ -38,7 +39,7 @@ trait IntegrationBaseSpec extends WordSpecLike with Matchers with OptionValues
 
   import scala.concurrent.duration._
   import scala.concurrent.{Await, Future}
-  implicit val defaultTimeout: FiniteDuration = 5 seconds
+  implicit val defaultTimeout: FiniteDuration = 5.seconds
   implicit def extractAwait[A](future: Future[A]): A = await[A](future)
   def await[A](future: Future[A])(implicit timeout: Duration): A = Await.result(future, timeout)
   // Convenience to avoid having to wrap andThen() parameters in Future.successful
@@ -53,7 +54,7 @@ trait IntegrationBaseSpec extends WordSpecLike with Matchers with OptionValues
 
   override implicit lazy val app: Application = new GuiceApplicationBuilder()
     .configure(Configuration("testserver.port" -> s"$localPort"))
-    .configure(Configuration("application.router" -> "testOnlyDoNotUseInAppConf.Routes"))
+    .configure(Configuration("play.http.router" -> "testOnlyDoNotUseInAppConf.Routes"))
     .configure(Configuration("microservice.services.iht.port" -> s"${WiremockHelper.wiremockPort}"))
     .configure(Configuration("auditing.consumer.baseUri.port" -> s"${WiremockHelper.wiremockPort}"))
     .configure(Configuration("metrics.enabled" -> true))

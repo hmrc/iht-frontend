@@ -20,7 +20,7 @@ You will need to clone the project first then navigate to the main folder and ru
 You will also need the [IHT Microservice](https://github.com/hmrc/iht) to run on port 9071 in the same way as above.
 
 If you are running the acceptance tests, you should start the service using test routes.
-To do this use the following command: sbt -Dapplication.router=testOnlyDoNotUseInAppConf.Routes "run 9070"
+To do this use the following command: sbt -Dplay.http.router=testOnlyDoNotUseInAppConf.Routes "run 9070"
 
 ## URL
 

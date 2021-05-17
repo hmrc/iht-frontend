@@ -68,7 +68,7 @@ trait FormTestHelper extends FakeIhtApp with MockitoSugar with TestUtils {
   }
 
   def checkForError(form: Form[_], data: JsValue, expectedErrors: Seq[FormError]) = {
-    form.bind(data).fold(
+    form.bind(data, data.toString().length).fold(
       formWithErrors => {
         formWithErrors.errors mustBe expectedErrors
       },
@@ -90,9 +90,9 @@ trait FormTestHelper extends FakeIhtApp with MockitoSugar with TestUtils {
   }
 
   def formWithNoError(form: Form[_], data: JsValue) = {
-    form.bind(data).fold(
-      formWithErrors => {
-        fail("Form has errors")
+      form.bind(data, data.toString().length).fold(
+        formWithErrors => {
+          fail("Form has errors")
       },
       form => form
     )
