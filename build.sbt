@@ -40,8 +40,7 @@ lazy val microservice = Project(appName, file("."))
     scalaVersion := "2.12.12",
     libraryDependencies ++= appDependencies,
     fork in Test := false,
-    retrieveManaged := true,
-    evictionWarningOptions in update := EvictionWarningOptions.default.withWarnScalaVersionEviction(false)
+    retrieveManaged := true
   )
   .settings(
     Concat.groups := Seq(
