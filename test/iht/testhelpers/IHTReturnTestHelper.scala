@@ -485,11 +485,9 @@ object IHTReturnTestHelper {
   }
 
   def buildAssetsPropertiesDeceasedsHome = {
-    val addressOrOtherLandLocation = AddressOrOtherLandLocation(
-      address = Some(models.des.Address(addressLine1= "addr1", addressLine2= "addr2",
+    val address = models.des.Address(addressLine1= "addr1", addressLine2= "addr2",
         addressLine3= None, addressLine4= None,
-        postalCode= CommonBuilder.DefaultPostCode, countryCode= "GB"))
-    )
+        postalCode= CommonBuilder.DefaultPostCode, countryCode= "GB")
 
     val liability1 = Liability(
       liabilityType=Some("Mortgage"),
@@ -508,7 +506,7 @@ object IHTReturnTestHelper {
       //      liabilities= None,
 
       // Property asset
-      propertyAddress= Some(addressOrOtherLandLocation),
+      propertyAddress= Some(address),
       tenure= Some("Freehold"), tenancyType= Some("Vacant Possession"),
       yearsLeftOnLease= Some(0),
       yearsLeftOntenancyAgreement= Some(0)
@@ -516,11 +514,9 @@ object IHTReturnTestHelper {
   }
 
   def buildAssetsPropertiesOtherResidentialBuilding = {
-    val addressOrOtherLandLocation = AddressOrOtherLandLocation(
-      address = Some(models.des.Address(addressLine1= "addr1", addressLine2= "addr2",
+    val address = models.des.Address(addressLine1= "addr1", addressLine2= "addr2",
         addressLine3= None, addressLine4= None,
-        postalCode= CommonBuilder.DefaultPostCode, countryCode= "GB"))
-    )
+        postalCode= CommonBuilder.DefaultPostCode, countryCode= "GB")
 
     val liability1 = Liability(
       liabilityType=Some("Mortgage"),
@@ -540,7 +536,7 @@ object IHTReturnTestHelper {
       //      liabilities= None,
 
       // Property asset
-      propertyAddress= Some(addressOrOtherLandLocation),
+      propertyAddress= Some(address),
       tenure= Some("Leasehold"), tenancyType= Some("Vacant Possession"),
       yearsLeftOnLease= Some(0),
       yearsLeftOntenancyAgreement= Some(0)
@@ -548,11 +544,9 @@ object IHTReturnTestHelper {
   }
 
   def buildAssetsPropertiesLandNonRes = {
-    val addressOrOtherLandLocation = AddressOrOtherLandLocation(
-      address = Some(models.des.Address(addressLine1= "addr1", addressLine2= "addr2",
+    val address = models.des.Address(addressLine1= "addr1", addressLine2= "addr2",
         addressLine3= None, addressLine4= None,
-        postalCode= CommonBuilder.DefaultPostCode, countryCode= "GB"))
-    )
+        postalCode= CommonBuilder.DefaultPostCode, countryCode= "GB")
 
     Asset(
       // General asset
@@ -564,7 +558,7 @@ object IHTReturnTestHelper {
       devolutions= None,
 
       // Property asset
-      propertyAddress= Some(addressOrOtherLandLocation),
+      propertyAddress= Some(address),
       tenure= Some("Leasehold"), tenancyType= Some("Vacant Possession"),
       yearsLeftOnLease= Some(0),
       yearsLeftOntenancyAgreement= Some(0)

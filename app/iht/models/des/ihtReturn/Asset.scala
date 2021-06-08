@@ -16,6 +16,7 @@
 
 package iht.models.des.ihtReturn
 
+import models.des.Address
 import play.api.libs.json.Json
 
 case class Asset(
@@ -28,7 +29,7 @@ case class Asset(
                   devolutions: Option[Set[Devolution]] = None,
                   liabilities: Option[Set[Liability]] = None,
                   // Property asset
-                  propertyAddress: Option[AddressOrOtherLandLocation] = None,
+                  propertyAddress: Option[Address] = None,
                   tenure: Option[String] = None, tenancyType: Option[String] = None,
                   yearsLeftOnLease: Option[Int] = None,
                   yearsLeftOntenancyAgreement: Option[Int] = None,

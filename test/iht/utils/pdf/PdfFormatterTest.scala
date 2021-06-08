@@ -26,7 +26,7 @@ import iht.testhelpers.{CommonBuilder, IHTReturnTestHelper, TestHelper}
 import org.joda.time.LocalDate
 import play.api.i18n.Lang
 
-import scala.collection.immutable.ListMap
+import scala.collection.immutable.{ListMap, ListSet}
 
 /**
   * Created by david-beer on 21/11/16.
@@ -412,7 +412,7 @@ class PdfFormatterTest extends FormTestHelper with PdfHelper {
         propertyList = List(propertyDeceasedHome, propertyOtherResidentialBuilding)
       )
 
-      val optionSetAsset = Some(Set(
+      val optionSetAsset = Some(ListSet(
         IHTReturnTestHelper.buildJointAssetMoney,
         IHTReturnTestHelper.buildAssetHouseholdAndPersonalItems,
         IHTReturnTestHelper.buildAssetPrivatePensions,

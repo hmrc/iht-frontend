@@ -11,9 +11,7 @@ lazy val appDependencies: Seq[ModuleID] = AppDependencies()
 lazy val plugins : Seq[Plugins] = Seq(
   play.sbt.PlayScala,
   SbtAutoBuildPlugin,
-  SbtGitVersioning,
-  SbtDistributablesPlugin,
-  SbtArtifactory
+  SbtDistributablesPlugin
 )
 lazy val playSettings : Seq[Setting[_]] = Seq.empty
 
@@ -40,8 +38,7 @@ lazy val microservice = Project(appName, file("."))
     scalaVersion := "2.12.12",
     libraryDependencies ++= appDependencies,
     fork in Test := false,
-    retrieveManaged := true,
-    evictionWarningOptions in update := EvictionWarningOptions.default.withWarnScalaVersionEviction(false)
+    retrieveManaged := true
   )
   .settings(
     Concat.groups := Seq(
@@ -55,8 +52,8 @@ lazy val microservice = Project(appName, file("."))
   .configs(IntegrationTest)
   .settings(inConfig(IntegrationTest)(Defaults.itSettings): _*)
   .settings(integrationTestSettings())
-  .settings(resolvers ++= Seq(Resolver.bintrayRepo("hmrc", "releases"), Resolver.jcenterRepo))
   .settings(majorVersion := 6)
+  .settings(isPublicArtefact := true)
   // ***************
   // Use the silencer plugin to suppress warnings from unused imports in compiled twirl templates
   scalacOptions += "-P:silencer:pathFilters=views;routes;--feature"

@@ -291,7 +291,7 @@ trait PdfHelper {
   }
 
   private def propertyFromAsset(asset: Asset, nextId:Option[String]): Property = {
-    val optionUkAddress = asset.propertyAddress.flatMap(_.address).map { addr =>
+    val optionUkAddress = asset.propertyAddress.map { addr =>
       UkAddress(addr.addressLine1, addr.addressLine2, addr.addressLine3, addr.addressLine4, addr.postalCode, addr.countryCode)
     }
 
