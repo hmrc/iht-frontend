@@ -21,24 +21,19 @@ import iht.controllers.application.assets.routes._
 import iht.forms.ApplicationForms._
 import iht.models.application.basicElements.BasicEstateElement
 import iht.testhelpers.CommonBuilder
-import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.business_interests
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
-import iht.constants.Constants._
-
-import play.api.i18n.Messages
 
 class BusinessInterestsViewTest  extends ShareableElementInputViewBehaviour[BasicEstateElement] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+  lazy val businessInterestsView: business_interests = app.injector.instanceOf[business_interests]
 
   override def form:Form[BasicEstateElement] = businessInterestForm
-  override def formToView:Form[BasicEstateElement] => Appendable = form => business_interests(form, regDetails)
+  override def formToView:Form[BasicEstateElement] => Appendable = form => businessInterestsView(form, regDetails)
 
   override def pageTitle = messagesApi("iht.estateReport.assets.businessInterests.title")
   override def browserTitle = messagesApi("page.iht.application.assets.businessInterest.browserTitle")

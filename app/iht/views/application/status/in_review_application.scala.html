@@ -15,17 +15,18 @@
  *@
 
 @import iht.models.application.ProbateDetails
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
-@import iht.views.html.application.status.post_submit_common
+
+@this(
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    postSubmitCommon:  application.status.post_submit_common
+)
 
 @(ihtref: String,
 deceasedName: String,
-probateDetails: ProbateDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+probateDetails: ProbateDetails)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("page.iht.application.overview.inreview.title", deceasedName),
+@ihtMainTemplateApplication(title = Messages("page.iht.application.overview.inreview.title", deceasedName),
 browserTitle = Some(Messages("page.iht.application.overview.inreview.browserTitle")),
 isFullWidth=false
 ) {
@@ -47,7 +48,7 @@ isFullWidth=false
             </a>
         </p>
 
-        @post_submit_common(deceasedName, probateDetails)
+        @postSubmitCommon(deceasedName, probateDetails)
 
         <p><input id="return-input" class="button" type="submit" value="@Messages("page.iht.application.overview.common.return")"></p>
         }

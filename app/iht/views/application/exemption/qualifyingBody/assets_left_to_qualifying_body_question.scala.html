@@ -16,15 +16,20 @@
 
 @import iht.models._
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 @import iht.models.RegistrationDetails
 
-@import uk.gov.hmrc.play.views.html.helpers.form
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group,
+    nameHelper: ihtHelpers.custom.name
+)
 
 @(assetsLeftToQualifyingBodyQuestionForm: Form[iht.models.application.exemptions.BasicExemptionElement],
-registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 @helpCopy() = @{
@@ -42,21 +47,21 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
     </div>
 }
 
-@iht_main_template_application(
+@ihtMainTemplateApplication(
     title = "",
     browserTitle = Some(Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.browserTitle")),
     isFullWidth = false,
     cancelUrl = Some(CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(appConfig.ExemptionsOtherID))),
     cancelLabel = Some(Messages("page.iht.application.return.to.exemptionsOf",
-                            ihtHelpers.custom.name(registrationDetails.deceasedDetails.map(_.name).fold("")(identity))))
+                            nameHelper(registrationDetails.deceasedDetails.map(_.name).fold("")(identity))))
 ){
 
-@ihtHelpers.custom.error_summary(assetsLeftToQualifyingBodyQuestionForm)
+@errorSummary(assetsLeftToQualifyingBodyQuestionForm)
 @form(action = iht.controllers.application.exemptions.qualifyingBody.routes.AssetsLeftToQualifyingBodyQuestionController.onSubmit,
                        'autocomplete -> "off") {
 
 
-    @ihtHelpers.standard.input_yes_no_radio_group(
+    @inputYesNoRadioGroup(
     assetsLeftToQualifyingBodyQuestionForm("isAssetForQualifyingBody"),
     '_divClass -> Some("form-group"),
     '_legend -> Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle", deceasedName),

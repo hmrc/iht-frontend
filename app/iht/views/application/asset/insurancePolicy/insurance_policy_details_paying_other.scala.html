@@ -17,32 +17,38 @@
 @import iht.models._
 @import iht.models.application.assets._
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
 @import iht.models.RegistrationDetails
 
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummary: ihtHelpers.custom.error_summary,
+    nameHelper: ihtHelpers.custom.name,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(insurancePolicyForm: Form[InsurancePolicy],
-registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)}
-@deceasedNameWrap = @{ihtHelpers.custom.name(deceasedName)}
+@deceasedNameWrap = @{nameHelper(deceasedName)}
 @extraCopy = @{
     <p id="guidance-1">{Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText1", deceasedName)}</p>
     <p id="guidance-2">{Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText2", deceasedName)}</p>
 }
 
 
-@iht_main_template_application(title = "",
+@ihtMainTemplateApplication(title = "",
 browserTitle = Some(Messages("page.iht.application.insurance.policies.section3.browserTitle")),
 isFullWidth=false
 ){
-    @ihtHelpers.custom.error_summary(insurancePolicyForm, None, CommonHelper.insurancePoliciesEndLineMessageKey(insurancePolicyForm))
+    @errorSummary(insurancePolicyForm, None, CommonHelper.insurancePoliciesEndLineMessageKey(insurancePolicyForm))
     @form(action = iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsPayingOtherController.onSubmit,'autoComplete -> "off") {
 
-        @ihtHelpers.standard.input_yes_no_radio_group(
+        @inputYesNoRadioGroup(
             insurancePolicyForm("isInsurancePremiumsPayedForSomeoneElse"),
             '_legend -> Html(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question", deceasedNameWrap)),
             '_legendClass -> Some("legend-with-heading"),
@@ -56,7 +62,7 @@ isFullWidth=false
           <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
 
-        @ihtHelpers.custom.return_link(
+        @returnLink(
             Messages("site.link.return.insurance.policies"),
             Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()),
             appConfig.InsurancePaidForSomeoneElseYesNoID

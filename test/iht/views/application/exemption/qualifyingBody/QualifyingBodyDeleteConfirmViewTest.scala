@@ -17,14 +17,11 @@
 package iht.views.application.exemption.qualifyingBody
 
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.TestHelper._
 import iht.views.html.application.exemption.qualifyingBody.qualifying_body_delete_confirm
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
-import scala.concurrent.ExecutionContext.Implicits.global
-import iht.testhelpers.TestHelper._
 
 class QualifyingBodyDeleteConfirmViewTest extends GenericNonSubmittablePageBehaviour {
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
@@ -44,8 +41,9 @@ class QualifyingBodyDeleteConfirmViewTest extends GenericNonSubmittablePageBehav
   )
 
   val nameOfQualifyingBody = CommonBuilder.qualifyingBody.name.fold("")(identity)
+  lazy val qualifyingBodyDeleteConfirmView: qualifying_body_delete_confirm = app.injector.instanceOf[qualifying_body_delete_confirm]
 
-  def view = qualifying_body_delete_confirm(CommonBuilder.qualifyingBody, CommonBuilder.DefaultCall1).toString
+  def view = qualifyingBodyDeleteConfirmView(CommonBuilder.qualifyingBody, CommonBuilder.DefaultCall1).toString
 
   "Delete qualifying body confirmation page Question View" must {
     behave like nonSubmittablePage()

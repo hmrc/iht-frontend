@@ -18,14 +18,13 @@ package iht.controllers
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.MockFormPartialRetriever
+import iht.views.html.sign_out
 import play.api.i18n.MessagesApi
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class SessionManagementControllerTest extends ApplicationControllerTest {
 
@@ -34,12 +33,14 @@ class SessionManagementControllerTest extends ApplicationControllerTest {
   protected abstract class TestController extends FrontendController(mockControllerComponents) with SessionManagementController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val signOutView: sign_out = app.injector.instanceOf[sign_out]
+
   }
 
   def ihtMainController = new TestController {
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
     override def messagesApi: MessagesApi = fakedMessagesApi
     override def authConnector: AuthConnector = mockAuthConnector
+
   }
 
   implicit val request = FakeRequest()

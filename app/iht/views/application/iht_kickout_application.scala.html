@@ -15,22 +15,24 @@
  *@
 
 @import iht.utils.tnrb.TnrbHelperFixture
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
 @import iht.models.application.ApplicationDetails
-@import uk.gov.hmrc.play.views.html.helpers.form
+@import iht.config.AppConfig
+@import iht.utils._
+
+@this(
+    implicit val appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application,
+    form: FormWithCSRF
+)
 
 @( kickoutReason: String,
 applicationDetails: ApplicationDetails,
 applicationLastSection: Option[String],
 applicationLastID: Option[String],
 summaryParameter1:String,
-deceasedName: String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+deceasedName: String)(implicit request:Request[_], messages: Messages)
 
-@import iht.utils._
-@import iht.views.html._
-
-@iht_main_template_application(title = Messages("iht.notPossibleToUseService"),
+@ihtMainTemplateApplication(title = Messages("iht.notPossibleToUseService"),
     browserTitle = Some(Messages("iht.notPossibleToUseService"))) {
     <div class="panel panel-border-wide">
         @ApplicationKickOutSummaryHelper.summary.find( _._1 == kickoutReason).map{summary =>

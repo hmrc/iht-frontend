@@ -18,27 +18,24 @@ package iht.views.application.assets.properties
 
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.Property
-import iht.testhelpers.CommonBuilder
-import iht.views.application.{SubmittableApplicationPageBehaviour, CancelComponent}
+import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.views.application.{CancelComponent, SubmittableApplicationPageBehaviour}
 import iht.views.html.application.asset.properties.property_address
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.testhelpers.TestHelper
 
 class PropertyAddressViewTest extends SubmittableApplicationPageBehaviour[Property] {
   override def pageTitle = messagesApi("iht.estateReport.assets.property.whatIsAddress.question")
 
   override def browserTitle = messagesApi("page.iht.application.assets.property.address.browserTitle")
+  lazy val propertyAddressView: property_address = app.injector.instanceOf[property_address]
 
   override def guidance = noGuidance
 
   override def form: Form[Property] = propertyAddressForm
 
   override def formToView: Form[Property] => Appendable = form =>
-    property_address(form, CommonBuilder.DefaultCall2, CommonBuilder.DefaultCall1)
+    propertyAddressView(form, CommonBuilder.DefaultCall2, CommonBuilder.DefaultCall1)
 
   override def formTarget = Some(CommonBuilder.DefaultCall1)
 

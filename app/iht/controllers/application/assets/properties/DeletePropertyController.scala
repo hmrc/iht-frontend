@@ -28,14 +28,14 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.asset.properties.delete_property_confirm
 
 
 class DeletePropertyControllerImpl @Inject()(val metrics: IhtMetrics,
                                              val ihtConnector: IhtConnector,
                                              val cachingConnector: CachingConnector,
                                              val authConnector: AuthConnector,
-                                             val formPartialRetriever: FormPartialRetriever,
+                                             val deletePropertyConfirmView: delete_property_confirm,
                                              implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with DeletePropertyController
 
@@ -45,6 +45,7 @@ trait DeletePropertyController extends ApplicationController {
   def cachingConnector: CachingConnector
 
   def ihtConnector: IhtConnector
+  val deletePropertyConfirmView: delete_property_confirm
 
   def onPageLoad(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
@@ -60,7 +61,7 @@ trait DeletePropertyController extends ApplicationController {
                 logger.warn("No Property Found. Redirecting to Internal Server Error")
                 InternalServerError("No Property Found")
               } {
-                (matchedProperty) => Ok(iht.views.html.application.asset.properties.delete_property_confirm(matchedProperty))
+                (matchedProperty) => Ok(deletePropertyConfirmView(matchedProperty))
               }
             }
             case _ => {

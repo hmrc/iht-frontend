@@ -21,7 +21,8 @@ import iht.connector.CachingConnector
 import iht.controllers.registration.RegistrationControllerTest
 import iht.forms.registration.CoExecutorForms
 import iht.models.{CoExecutor, RegistrationDetails}
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.registration.executor.coexecutor_personal_details
 import org.scalatest.BeforeAndAfter
 import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, Form, FormError, Forms}
@@ -29,7 +30,6 @@ import play.api.mvc.{MessagesControllerComponents, Result}
 import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.PlayAuthConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -38,6 +38,8 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
   protected abstract class TestController extends FrontendController(mockControllerComponents) with CoExecutorPersonalDetailsController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val coexecutorPersonalDetailsView: coexecutor_personal_details = app.injector.instanceOf[coexecutor_personal_details]
+
   }
 
   // Create controller object and pass in mock.
@@ -45,21 +47,19 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
     override val cachingConnector: CachingConnector = mockCachingConnector
     override val authConnector: PlayAuthConnector = mockAuthConnector
 
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
-
     override def ninoForCoExecutor(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String,
                                    coExecutorIDKey: String, oRegDetails: Option[RegistrationDetails], loginNino: String)
                                   (implicit appConfig: AppConfig): FieldMapping[String] = {
       coExecutorForms2.ninoForCoExecutor(blankMessageKey, lengthMessageKey, formatMessageKey, coExecutorIDKey, oRegDetails, loginNino)(appConfig)
     }
+
   }
 
   def controllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
-  }
+    }
 
   def formWithMockedNinoValidation(coExecutor: CoExecutor, mockCachingConnector: CachingConnector): CoExecutorForms = {
     def coExecutorForms: CoExecutorForms = {

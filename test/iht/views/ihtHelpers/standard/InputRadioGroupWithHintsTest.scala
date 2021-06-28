@@ -28,6 +28,7 @@ class InputRadioGroupWithHintsTest extends FakeIhtApp with HtmlSpec {
 
   val mockControllerComponents: MessagesControllerComponents = app.injector.instanceOf[MessagesControllerComponents]
   implicit val messages: Messages = mockControllerComponents.messagesApi.preferred(Seq(lang)).messages
+  lazy val inputRadioGroupWithHintsView: input_radio_group_with_hints = app.injector.instanceOf[input_radio_group_with_hints]
 
   "input radio group with hints" must {
 
@@ -38,7 +39,7 @@ class InputRadioGroupWithHintsTest extends FakeIhtApp with HtmlSpec {
       val radio2 = ("test", ("testing", Some("testing"), Some(false))) // must contain a blank data-target attr
       val radios = Seq(radio, radio, radio2)
 
-      val result = input_radio_group_with_hints(field, radios, '_ariaHintID -> "testID2")
+      val result = inputRadioGroupWithHintsView(field, radios, '_ariaHintID -> "testID2")
       val doc = asDocument(result)
       val label = doc.getElementsByTag("label").first
       val label2 = doc.getElementsByTag("label").last()

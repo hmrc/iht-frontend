@@ -32,14 +32,12 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class PDFControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                   val ihtConnector: IhtConnector,
                                   val authConnector: AuthConnector,
-                                  override implicit val formPartialRetriever: FormPartialRetriever,
                                   val xmlFoToPDF: XmlFoToPDF,
                                   implicit val appConfig: AppConfig,
                                   val cc: MessagesControllerComponents) extends FrontendController(cc) with PDFController

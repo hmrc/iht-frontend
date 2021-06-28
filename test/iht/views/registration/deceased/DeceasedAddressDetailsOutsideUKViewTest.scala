@@ -19,14 +19,11 @@ package iht.views.registration.deceased
 import iht.controllers.registration.routes
 import iht.forms.registration.DeceasedForms.deceasedAddressDetailsOutsideUKForm
 import iht.models.DeceasedDetails
+import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.deceased.deceased_address_details_outside_uk
 import iht.views.registration.RegistrationPageBehaviour
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable
-import iht.testhelpers.CommonBuilder
 
 class DeceasedAddressDetailsOutsideUKViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
 
@@ -37,14 +34,15 @@ class DeceasedAddressDetailsOutsideUKViewTest extends RegistrationPageBehaviour[
 
   override def pageTitle = messagesApi("iht.registration.deceased.lastContactAddress", name)
   override def browserTitle = messagesApi("iht.registration.contactAddress")
+  lazy val deceasedAddressDetailsOutsideUkView: deceased_address_details_outside_uk = app.injector.instanceOf[deceased_address_details_outside_uk]
 
   override def form:Form[DeceasedDetails] = deceasedAddressDetailsOutsideUKForm
-  override def formToView:Form[DeceasedDetails] => Appendable = form => deceased_address_details_outside_uk(form, name,
+  override def formToView:Form[DeceasedDetails] => Appendable = form => deceasedAddressDetailsOutsideUkView(form, name,
                                                                   CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall1)
 
   def editModeView = {
     implicit val request = createFakeRequest()
-    val view = deceased_address_details_outside_uk(
+    val view = deceasedAddressDetailsOutsideUkView(
       deceasedAddressDetailsOutsideUKForm, name, editSubmitLocation, addressInTheUK, Some(regSummaryPage)).toString
     asDocument(view)
   }

@@ -19,16 +19,14 @@ package iht.controllers.registration
 import iht.connector.CachingConnector
 import iht.controllers.auth.IhtBaseController
 import iht.models.RegistrationDetails
-import iht.utils.AddressHelper._
+import iht.utils.AddressHelper
 import iht.utils.ApplicantHelper._
 import iht.utils.CommonHelper._
-import iht.utils.DeceasedInfoHelper._
-import iht.utils.{IhtSection, RegistrationKickOutHelper}
+import iht.utils.{DeceasedInfoHelper, IhtSection, RegistrationKickOutHelper}
 import play.api.i18n.Lang
 import play.api.mvc.{AnyContent, Call, Request, Result}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -38,20 +36,16 @@ trait RegistrationController extends FrontendController with IhtBaseController w
   override lazy val ihtSection = IhtSection.Registration
 
   def cachingConnector: CachingConnector
-
   protected def language(implicit request: Request[AnyContent]) = request.acceptLanguages.foldRight(Lang.apply("en"))((_, lang) => lang)
+  lazy val guardConditionsDeceasedPermanentHome = Set(DeceasedInfoHelper.isThereADateOfDeath)
 
-  implicit val formPartialRetriever: FormPartialRetriever
+  lazy val guardConditionsAboutDeceased = Set(DeceasedInfoHelper.isThereADeceasedDomicile)
 
-  lazy val guardConditionsDeceasedPermanentHome = Set(isThereADateOfDeath)
+  lazy val guardConditionsDeceasedLastContactAddressQuestion = Set(DeceasedInfoHelper.isThereADeceasedFirstName)
 
-  lazy val guardConditionsAboutDeceased = Set(isThereADeceasedDomicile)
+  lazy val guardConditionsDeceasedLastContactAddress = Set(DeceasedInfoHelper.isDeceasedAddressQuestionAnswered)
 
-  lazy val guardConditionsDeceasedLastContactAddressQuestion = Set(isThereADeceasedFirstName)
-
-  lazy val guardConditionsDeceasedLastContactAddress = Set(isDeceasedAddressQuestionAnswered)
-
-  lazy val guardConditionsApplicantApplyingForProbateQuestion = Set(isThereADeceasedAddress)
+  lazy val guardConditionsApplicantApplyingForProbateQuestion = Set(DeceasedInfoHelper.isThereADeceasedAddress)
 
   lazy val guardConditionsApplicantExecutorOfEstateQuestion = Set(isApplicantApplyingForProbateQuestionAnswered)
 
@@ -61,20 +55,20 @@ trait RegistrationController extends FrontendController with IhtBaseController w
 
   lazy val guardConditionsApplicantAddress = Set(isThereAnApplicantPhoneNo)
 
-  lazy val guardConditionsCoExecutorOthersApplyingForProbateQuestion = Set(isThereAnApplicantAddress)
+  lazy val guardConditionsCoExecutorOthersApplyingForProbateQuestion = Set(AddressHelper.isThereAnApplicantAddress)
 
   lazy val guardConditionsCoExecutorPersonalDetails = Set(isApplicantOthersApplyingForProbateQuestionAnsweredYes)
 
   lazy val guardConditionsCoExecutorAddress = Set(isThereACoExecutorWithId, isThereACoExecutorFirstName)
 
-  lazy val guardConditionsRegistrationSummary = Set(isThereADateOfDeath,
-    isThereADeceasedFirstName,
-    isDeceasedAddressQuestionAnswered,
-    isThereADeceasedAddress,
+  lazy val guardConditionsRegistrationSummary = Set(DeceasedInfoHelper.isThereADateOfDeath,
+    DeceasedInfoHelper.isThereADeceasedFirstName,
+    DeceasedInfoHelper.isDeceasedAddressQuestionAnswered,
+    DeceasedInfoHelper.isThereADeceasedAddress,
     isApplicantApplyingForProbateQuestionAnswered,
     isThereAnApplicantProbateLocation,
     isThereAnApplicantPhoneNo,
-    isThereAnApplicantAddress,
+    AddressHelper.isThereAnApplicantAddress,
     isApplicantOthersApplyingForProbateQuestionAnswered)
 
   lazy val regSummaryRoute = routes.RegistrationSummaryController.onPageLoad

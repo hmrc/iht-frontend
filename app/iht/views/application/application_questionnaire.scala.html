@@ -14,14 +14,15 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
-@import iht.views.html.iht_main_template_application
-@import iht.views.html.ihtHelpers
+@this(
+    ihtMainTemplateApplication: iht_main_template_application,
+    form: FormWithCSRF,
+    questionnaireForm: ihtHelpers.custom.questionnaire_form
+)
 
-@(form: Form[_], includeIntendReturnQuestion: Boolean, postRoute: Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@(form: Form[_], includeIntendReturnQuestion: Boolean, postRoute: Call)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("iht.signedOut"), browserTitle = Some(Messages("iht.signedOut")), hasSignOut=false) {
+@ihtMainTemplateApplication(title = Messages("iht.signedOut"), browserTitle = Some(Messages("iht.signedOut")), hasSignOut=false) {
 <div>
     <p>@Messages("page.iht.estateReport.allDetailsSaved")</p>
 </div>
@@ -34,7 +35,7 @@
     <div class="form-group">
     <p>@Messages("page.iht.questionnaire.improve_service")</p>
     </div>
-   @ihtHelpers.custom.questionnaire_form(
+   @questionnaireForm(
         ihtForm = form,
         postRoute = postRoute,
         includeIntendReturnQuestion = includeIntendReturnQuestion

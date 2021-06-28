@@ -15,29 +15,35 @@
  *@
 
 @import iht.models.application.tnrb.TnrbEligibiltyModel
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group,
+    nameHelper: ihtHelpers.custom.name
+)
 
 @(estatePassedToDeceasedOrCharityForm:Form[TnrbEligibiltyModel],
 deceasedName:String,
-cancelUrl:Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+cancelUrl:Call)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(
+@ihtMainTemplateApplication(
     title = "",
     browserTitle = Some(Messages("page.iht.application.tnrb.estatePassedToDeceasedOrCharity.browserTitle")),
     cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
     cancelUrl = Some(cancelUrl)
 ){
-    @ihtHelpers.custom.error_summary(estatePassedToDeceasedOrCharityForm)
+    @errorSummary(estatePassedToDeceasedOrCharityForm)
 
     @form(action = iht.controllers.application.tnrb.routes.EstatePassedToDeceasedOrCharityController.onSubmit,'autoComplete -> "off") {
 
-        @ihtHelpers.standard.input_yes_no_radio_group(
+        @inputYesNoRadioGroup(
             estatePassedToDeceasedOrCharityForm("isEstateBelowIhtThresholdApplied"),
             '_divClass -> Some("form-group"),
-            '_legend -> Messages("page.iht.application.tnrb.estatePassedToDeceasedOrCharity.question", ihtHelpers.custom.name(deceasedName)),
+            '_legend -> Messages("page.iht.application.tnrb.estatePassedToDeceasedOrCharity.question", nameHelper(deceasedName)),
             '_legendClass -> Some("legend-with-heading"),
             '_legendIsHeading -> true,
             '_headingClass -> "heading-large"

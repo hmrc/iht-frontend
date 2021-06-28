@@ -30,25 +30,25 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+
 
 class PensionsOwnedQuestionControllerImpl @Inject()(val metrics: IhtMetrics,
                                                     val ihtConnector: IhtConnector,
                                                     val cachingConnector: CachingConnector,
                                                     val authConnector: AuthConnector,
-                                                    val formPartialRetriever: FormPartialRetriever,
+                                                    val pensionsOwnedQuestionView: pensions_owned_question,
                                                     implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with PensionsOwnedQuestionController
 
 trait PensionsOwnedQuestionController extends EstateController {
 
-
+  val pensionsOwnedQuestionView: pensions_owned_question
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
     iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad(), Some(appConfig.AssetsPensionsOwnedID))
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
-      estateElementOnPageLoad[PrivatePension](pensionsOwnedQuestionForm, pensions_owned_question.apply, _.allAssets.flatMap(_.privatePension), userNino)
+      estateElementOnPageLoad[PrivatePension](pensionsOwnedQuestionForm, pensionsOwnedQuestionView.apply, _.allAssets.flatMap(_.privatePension), userNino)
   }
 
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -73,7 +73,7 @@ trait PensionsOwnedQuestionController extends EstateController {
 
       estateElementOnSubmitConditionalRedirect[PrivatePension](
         pensionsOwnedQuestionForm,
-        pensions_owned_question.apply,
+        pensionsOwnedQuestionView.apply,
         updateApplicationDetails,
         (ad, _) => ad.allAssets.flatMap(allAssets => allAssets.privatePension).flatMap(_.isOwned) match {
           case Some(true) => submitUrl

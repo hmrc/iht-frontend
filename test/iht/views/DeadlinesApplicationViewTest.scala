@@ -17,7 +17,7 @@
 package iht.views
 
 import iht.testhelpers.TestHelper
-import iht.views.html.{deadlines_application, deadlines_registration}
+import iht.views.html.deadlines_application
 import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
 
@@ -43,8 +43,8 @@ class DeadlinesApplicationViewTest extends GenericNonSubmittablePageBehaviour {
     )
   )
 
-  override def view =
-    deadlines_application(request, messages, formPartialRetriever, appConfig).toString
+  lazy val deadlinesApplicationView: deadlines_application = app.injector.instanceOf[deadlines_application]
+  override def view = deadlinesApplicationView(request, messages).toString
 
   "Deadlines view" must {
     behave like nonSubmittablePage()

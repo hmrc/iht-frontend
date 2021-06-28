@@ -27,12 +27,12 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.asset.vehicles.vehicles_overview
 
 class VehiclesOverviewControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                val cachingConnector: CachingConnector,
                                                val authConnector: AuthConnector,
-                                               val formPartialRetriever: FormPartialRetriever,
+                                               val vehiclesOverviewView: vehicles_overview,
                                                implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with VehiclesOverviewController {
 
@@ -44,6 +44,7 @@ trait VehiclesOverviewController extends ApplicationController {
   def cachingConnector: CachingConnector
 
   def ihtConnector: IhtConnector
+  val vehiclesOverviewView: vehicles_overview
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
@@ -56,7 +57,7 @@ trait VehiclesOverviewController extends ApplicationController {
           )
           vehicles: Option[ShareableBasicEstateElement] = applicationDetails.flatMap(_.allAssets.flatMap(_.vehicles))
         } yield {
-          Ok(iht.views.html.application.asset.vehicles.vehicles_overview(vehicles, registrationDetails))
+          Ok(vehiclesOverviewView(vehicles, registrationDetails))
         }
       }
     }

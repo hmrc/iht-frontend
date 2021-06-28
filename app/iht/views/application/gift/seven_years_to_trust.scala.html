@@ -16,26 +16,32 @@
 
 @import iht.models.application.gifts.AllGifts
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
 @import iht.models.RegistrationDetails
 
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group,
+    returnLink: ihtHelpers.custom.return_link,
+    nameHelper: ihtHelpers.custom.name,
+    errorSummary: ihtHelpers.custom.error_summary
+)
 
 @(GiftSevenYearsToTrustForm: Form[AllGifts],
-registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"),
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"),
 browserTitle = Some(Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"))
 ){
 
-@ihtHelpers.custom.error_summary(GiftSevenYearsToTrustForm)
+@errorSummary(GiftSevenYearsToTrustForm)
 
 @form(action = iht.controllers.application.gifts.routes.SevenYearsToTrustController.onSubmit,'autoComplete -> "off") {
 
 <div id="seven-years-to-trust-question">
-        @ihtHelpers.standard.input_yes_no_radio_group(
+        @inputYesNoRadioGroup(
         GiftSevenYearsToTrustForm("trust.isToTrust"),
         '_legend -> Html(Messages("page.iht.application.gifts.trust.question", DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true))),
         '_hintText -> Messages("page.iht.application.gifts.trust.question.hint"),
@@ -45,8 +51,8 @@ browserTitle = Some(Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeat
   <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
 </div>
 @registrationDetails.deceasedDetails.map{ dd=>
-        @ihtHelpers.custom.return_link(
-                Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.custom.name(dd.name)),
+        @returnLink(
+                Messages("page.iht.application.gifts.return.to.givenAwayBy", nameHelper(dd.name)),
                 Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()),
                 appConfig.GiftsSevenYearsQuestionID2
         )

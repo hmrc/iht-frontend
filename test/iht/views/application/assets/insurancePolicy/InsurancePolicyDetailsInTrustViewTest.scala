@@ -19,19 +19,17 @@ package iht.views.application.assets.insurancePolicy
 import iht.controllers.application.assets.insurancePolicy.routes
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.InsurancePolicy
-import iht.testhelpers.CommonBuilder
-import iht.testhelpers.TestHelper
+import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_in_trust
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
 
 class InsurancePolicyDetailsInTrustViewTest extends YesNoQuestionViewBehaviour[InsurancePolicy] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+  lazy val insurancePolicyDetailsInTrustView: insurance_policy_details_in_trust = app.injector.instanceOf[insurance_policy_details_in_trust]
 
   override def pageTitle = messagesApi("page.iht.application.insurance.policies.section4.title", deceasedName)
 
@@ -44,7 +42,7 @@ class InsurancePolicyDetailsInTrustViewTest extends YesNoQuestionViewBehaviour[I
   override def form: Form[InsurancePolicy] = insurancePolicyInTrustForm
 
   override def formToView: Form[InsurancePolicy] => Appendable =
-    form => insurance_policy_details_in_trust(form, regDetails)
+    form => insurancePolicyDetailsInTrustView(form, regDetails)
 
   override def cancelComponent = Some(CancelComponent(routes.InsurancePolicyOverviewController.onPageLoad(),
     messagesApi("site.link.return.insurance.policies"),

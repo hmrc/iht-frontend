@@ -18,18 +18,25 @@
 @import iht.controllers.registration.applicant.{routes => applicantRoutes}
 @import iht.controllers.registration.deceased.{routes => deceasedRoutes}
 @import iht.models.RegistrationDetails
-@import iht.views.html._
 @import iht.utils._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateRegistration: iht_main_template_registration,
+    summaryItem: ihtHelpers.custom.summary_item,
+    nameHelper: ihtHelpers.custom.name,
+    registrationSummaryCoexecutorNonePanel: registration.registration_summary_coexecutor_none_panel,
+    registrationSummaryCoexecutorPanel: registration.registration_summary_coexecutor_panel
+)
 
 @(registrationDetails: RegistrationDetails,
-role:String)(implicit request : Request[_], messages: Messages, lang : play.api.i18n.Lang, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+role:String)(implicit request : Request[_], messages: Messages, lang : play.api.i18n.Lang)
 
 @deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)}
 
-@iht_main_template_registration(title = Messages("iht.registration.checkYourAnswers"),
+@ihtMainTemplateRegistration(title = Messages("iht.registration.checkYourAnswers"),
                    browserTitle = Some(Messages("iht.registration.checkYourAnswers")),
                    isFullWidth=false,
                    hasTimeOut=true) {
@@ -37,20 +44,20 @@ role:String)(implicit request : Request[_], messages: Messages, lang : play.api.
     <p>@Messages("page.iht.registration.registrationSummary.subTitle")</p>
 
     <section class="form-group">
-        <h2>@Html(Messages("site.nameDetails", ihtHelpers.custom.name(deceasedName).toString))</h2>
+        <h2>@Html(Messages("site.nameDetails", nameHelper(deceasedName).toString))</h2>
         <ul class="tabular-data tabular-data--list">
             @defining(CommonHelper.getOrException(registrationDetails.deceasedDetails, "Deceased Details could not be found")) { deceasedDetails=>
 
-                @ihtHelpers.custom.summary_item(
+                @summaryItem(
                     label = Messages("iht.name.upperCaseInitial"),
-                    data = ihtHelpers.custom.name(CommonHelper.getOrException(deceasedDetails.firstName) + " \n" + CommonHelper.getOrException(deceasedDetails.lastName)).toString,
+                    data = nameHelper(CommonHelper.getOrException(deceasedDetails.firstName) + " \n" + CommonHelper.getOrException(deceasedDetails.lastName)).toString,
                     dataScreenReaderText = Messages("page.iht.registration.registrationSummary.deceasedInfo.name.data.screenReader"),
                     changeLink = deceasedRoutes.AboutDeceasedController.onEditPageLoad.url + "#firstName",
                     changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.name.link.screenReader", deceasedName),
                     linkId="change-deceased-name"
                 )
 
-                @ihtHelpers.custom.summary_item(
+                @summaryItem(
                     label = Messages("iht.dateofbirth"),
                     data = CustomLanguageUtils.Dates.formatDate(CommonHelper.getOrException(deceasedDetails.dateOfBirth)).toString,
                     dataScreenReaderText = Messages("page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.data.screenReader", deceasedName),
@@ -59,7 +66,7 @@ role:String)(implicit request : Request[_], messages: Messages, lang : play.api.
                     linkId="change-deceased-date-of-birth"
                 )
 
-                @ihtHelpers.custom.summary_item(
+                @summaryItem(
                     label = Messages("iht.dateOfDeath"),
                     data = CustomLanguageUtils.Dates.formatDate(registrationDetails.deceasedDateOfDeath.getOrElse(throw new RuntimeException("Deceased Date of death could not be found"))
                     .dateOfDeath).toString,
@@ -69,7 +76,7 @@ role:String)(implicit request : Request[_], messages: Messages, lang : play.api.
                     linkId="change-date-of-death"
                 )
 
-                @ihtHelpers.custom.summary_item(
+                @summaryItem(
                     label = Messages("iht.nationalInsuranceNo"),
                     data = deceasedDetails.nino.getOrElse(""),
                     dataScreenReaderText = Messages("page.iht.registration.registrationSummary.deceasedInfo.nino.data.screenReader", deceasedName),
@@ -78,7 +85,7 @@ role:String)(implicit request : Request[_], messages: Messages, lang : play.api.
                     linkId="change-deceased-nino"
                 )
 
-                @ihtHelpers.custom.summary_item(
+                @summaryItem(
                     label = Messages("iht.registration.contactAddress"),
                     data = AddressHelper.addressFormatter(CommonHelper.getOrException(deceasedDetails.ukAddress)),
                     dataScreenReaderText = Messages("page.iht.registration.registrationSummary.deceasedInfo.address.data.screenReader", deceasedName),
@@ -91,7 +98,7 @@ role:String)(implicit request : Request[_], messages: Messages, lang : play.api.
                 )
 
 
-                @ihtHelpers.custom.summary_item(
+                @summaryItem(
                     label = Messages("iht.registration.deceased.locationOfPermanentHome"),
                     data = FieldMappings.domicileMap(messages, appConfig)(CommonHelper.getOrException(deceasedDetails.domicile)).toString,
                     dataScreenReaderText = Messages("page.iht.registration.registrationSummary.deceasedInfo.location.data.screenReader", deceasedName),
@@ -100,7 +107,7 @@ role:String)(implicit request : Request[_], messages: Messages, lang : play.api.
                     linkId="change-location-of-deceaseds-permanent-home"
                 )
 
-                @ihtHelpers.custom.summary_item(
+                @summaryItem(
                     label = Messages("page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.label"),
                     data = FieldMappings.maritalStatusMap(messages, appConfig)(CommonHelper.getOrException(deceasedDetails.maritalStatus)).toString,
                     dataScreenReaderText = Messages("page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.data.screenReader", deceasedName),
@@ -118,25 +125,25 @@ role:String)(implicit request : Request[_], messages: Messages, lang : play.api.
         <ul class="tabular-data tabular-data--list">
             @defining( CommonHelper.getOrException(registrationDetails.applicantDetails, "Applicant Details could not be found") ) { applicantDetails=>
 
-                @ihtHelpers.custom.summary_item(
+                @summaryItem(
                     label = Messages("iht.name.upperCaseInitial"),
-                    data = ihtHelpers.custom.name(CommonHelper.getOrException(applicantDetails.firstName) + " \n" + CommonHelper.getOrException(applicantDetails.lastName)).toString,
+                    data = nameHelper(CommonHelper.getOrException(applicantDetails.firstName) + " \n" + CommonHelper.getOrException(applicantDetails.lastName)).toString,
                     dataScreenReaderText = Messages("page.iht.registration.registrationSummary.applicantInfo.name.data.screenReader", CommonHelper.getOrException(applicantDetails.firstName) + " " + CommonHelper.getOrException(applicantDetails.lastName)),
                     hasChangeLink = false
                 )
-                    @ihtHelpers.custom.summary_item(
+                    @summaryItem(
                     label = Messages("iht.dateofbirth"),
                     data = CustomLanguageUtils.Dates.formatDate(CommonHelper.getOrException(applicantDetails.dateOfBirth)).toString,
                     dataScreenReaderText = Messages("page.iht.registration.registrationSummary.applicantInfo.dateOfBirth.data.screenReader", CustomLanguageUtils.Dates.formatDate(CommonHelper.getOrException(applicantDetails.dateOfBirth)).toString),
                     hasChangeLink = false
                 )
-                @ihtHelpers.custom.summary_item(
+                @summaryItem(
                     label = Messages("iht.nationalInsuranceNo"),
                     data = applicantDetails.nino.getOrElse(""),
                     dataScreenReaderText = Messages("page.iht.registration.registrationSummary.applicantInfo.nino.data.screenReader", applicantDetails.nino.getOrElse("")),
                     hasChangeLink = false
                 )
-                @ihtHelpers.custom.summary_item(
+                @summaryItem(
                     label = Messages("iht.address.upperCaseInitial"),
                     data = AddressHelper.addressFormatter(CommonHelper.getOrException(applicantDetails.ukAddress)),
                     dataScreenReaderText = Messages("page.iht.registration.applicantAddress.title", AddressHelper.addressFormatter(CommonHelper.getOrException(applicantDetails.ukAddress))),
@@ -147,7 +154,7 @@ role:String)(implicit request : Request[_], messages: Messages, lang : play.api.
                     changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.applicantInfo.address.link.screenReader"),
                     linkId="change-address"
                 )
-                @ihtHelpers.custom.summary_item(
+                @summaryItem(
                     label = Messages("iht.registration.checklist.phoneNo.upperCaseInitial"),
                     data = CommonHelper.getOrException(applicantDetails.phoneNo),
                     dataScreenReaderText = Messages("page.iht.registration.applicantDetails.phoneNo.label", CommonHelper.getOrException(applicantDetails.phoneNo)),
@@ -155,7 +162,7 @@ role:String)(implicit request : Request[_], messages: Messages, lang : play.api.
                     changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.applicantInfo.phoneNumber.link.screenReader"),
                     linkId="change-phone-number"
                 )
-                @ihtHelpers.custom.summary_item(
+                @summaryItem(
                     label = Messages("iht.registration.applicant.applyingForProbate"),
                     data = StringHelperFixture().yesNoFormat(applicantDetails.isApplyingForProbate),
                     dataScreenReaderText = Messages("iht.registration.applicant.applyingForProbate"),
@@ -163,7 +170,7 @@ role:String)(implicit request : Request[_], messages: Messages, lang : play.api.
                     changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.applicantInfo.applyingForProbate.link.screenReader"),
                     linkId="change-applying-for-probate"
                 )
-                @ihtHelpers.custom.summary_item(
+                @summaryItem(
                     label = Messages("page.iht.registration.applicant.probateLocation.title"),
                     data = FieldMappings.domicileMap(messages, appConfig)(CommonHelper.getOrException(applicantDetails.country)).toString,
                     dataScreenReaderText = Messages("page.iht.registration.applicant.probateLocation.title"),
@@ -177,9 +184,9 @@ role:String)(implicit request : Request[_], messages: Messages, lang : play.api.
 
 
         @if(registrationDetails.coExecutors.isEmpty) {
-            @registration_summary_coexecutor_none_panel(role)
+            @registrationSummaryCoexecutorNonePanel(role)
         } else {
-            @registration_summary_coexecutor_panel(registrationDetails.coExecutors)
+            @registrationSummaryCoexecutorPanel(registrationDetails.coExecutors)
         }
 
     <div class="form-group">

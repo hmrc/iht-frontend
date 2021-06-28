@@ -16,25 +16,22 @@
 
 package iht.views.registration
 
+import iht.controllers.registration.applicant.{routes => applicantRoutes}
+import iht.controllers.registration.deceased.{routes => deceasedRoutes}
+import iht.controllers.registration.executor.{routes => executorRoutes}
 import iht.models.{RegistrationDetails, UkAddress}
 import iht.testhelpers.{CommonBuilder, NinoBuilder, TestHelper}
 import iht.utils.DeceasedInfoHelper
 import iht.views.ViewTestHelper
+import iht.views.html.ihtHelpers.custom.name
 import iht.views.html.registration.registration_summary
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
-import iht.views.html._
 
 import scala.collection.JavaConversions._
 import scala.util.{Failure, Success, Try}
-import iht.controllers.registration.applicant.{routes => applicantRoutes}
-import iht.controllers.registration.deceased.{routes => deceasedRoutes}
-import iht.controllers.registration.executor.{routes => executorRoutes}
-import play.api.i18n.MessagesApi
 
 class RegistrationSummaryViewTest extends ViewTestHelper {
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
@@ -236,12 +233,14 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
     s"$coExecutor2Addr1 $coExecutor2Addr2 $coExecutor2Addr3 $coExecutor2Addr4 $foreign",
     s"$coExecutor3Addr1 $coExecutor3Addr2 $coExecutor3Addr3 $coExecutor3Addr4 $foreign"
   )
+  lazy val registrationSummaryView: registration_summary = app.injector.instanceOf[registration_summary]
+  lazy val nameView: name = app.injector.instanceOf[name]
 
-  def viewAsString: String = registration_summary(registrationDetailsAllUKAddresses, "").toString
+  def viewAsString: String = registrationSummaryView(registrationDetailsAllUKAddresses, "").toString
 
   def doc = asDocument(viewAsString)
 
-  def viewAsStringForeign: String = registration_summary(registrationDetailsAllForeignAddresses, "").toString
+  def viewAsStringForeign: String = registrationSummaryView(registrationDetailsAllForeignAddresses, "").toString
 
   def docForeign = asDocument(viewAsStringForeign)
 
@@ -271,22 +270,22 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
 
     "have section title for deceased" in {
       messagesShouldBePresent(viewAsString,
-        messagesApi("site.nameDetails", ihtHelpers.custom.name(deceasedName)).toString)
+        messagesApi("site.nameDetails", nameView(deceasedName)).toString)
     }
 
     "have section title for co-executor 1" in {
       messagesShouldBePresent(viewAsString,
-        messagesApi("site.nameDetails", ihtHelpers.custom.name(registrationDetailsAllUKAddresses.coExecutors.head.name)).toString)
+        messagesApi("site.nameDetails", nameView(registrationDetailsAllUKAddresses.coExecutors.head.name)).toString)
     }
 
     "have section title for co-executor 2" in {
       messagesShouldBePresent(viewAsString,
-        messagesApi("site.nameDetails", ihtHelpers.custom.name(registrationDetailsAllUKAddresses.coExecutors(1).name)).toString)
+        messagesApi("site.nameDetails", nameView(registrationDetailsAllUKAddresses.coExecutors(1).name)).toString)
     }
 
     "have section title for co-executor 3" in {
       messagesShouldBePresent(viewAsString,
-        messagesApi("site.nameDetails", ihtHelpers.custom.name(registrationDetailsAllUKAddresses.coExecutors(2).name)).toString)
+        messagesApi("site.nameDetails", nameView(registrationDetailsAllUKAddresses.coExecutors(2).name)).toString)
     }
 
     "display the correct values in the table of entered details where all UK addresses" in {

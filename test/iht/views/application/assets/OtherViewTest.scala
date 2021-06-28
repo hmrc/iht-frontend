@@ -23,20 +23,18 @@ import iht.models.application.basicElements.BasicEstateElement
 import iht.testhelpers.CommonBuilder
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.other
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
-import iht.constants.Constants._
 
 
 class OtherViewTest extends ShareableElementInputViewBehaviour[BasicEstateElement] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+  lazy val otherView: other = app.injector.instanceOf[other]
 
   override def form:Form[BasicEstateElement] = otherForm
-  override def formToView:Form[BasicEstateElement] => Appendable = form => other(form, regDetails)
+  override def formToView:Form[BasicEstateElement] => Appendable = form => otherView(form, regDetails)
 
   override def pageTitle = messagesApi("iht.estateReport.assets.other.title")
   override def browserTitle = messagesApi("page.iht.application.assets.other.browserTitle")

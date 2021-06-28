@@ -18,15 +18,16 @@ package iht.views.application.overview
 
 import iht.views.ViewTestHelper
 import iht.views.helpers.MessagesHelper
+import iht.views.html.application.overview.estate_overview_json_error
 import org.jsoup.Jsoup
 import play.api.test.FakeRequest
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 
 class EstateOverviewJsonError  extends ViewTestHelper with MessagesHelper {
 
   implicit lazy val fakeRequest = FakeRequest()
-  lazy val view = iht.views.html.application.overview.estate_overview_json_error()
+  lazy val estateOverviewJsonErrorView: estate_overview_json_error = app.injector.instanceOf[estate_overview_json_error]
+
+  lazy val view = estateOverviewJsonErrorView()
   lazy val doc = Jsoup.parse(view.body)
 
   "EstateOverviewJsonError" must {

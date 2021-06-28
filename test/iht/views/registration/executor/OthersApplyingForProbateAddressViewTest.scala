@@ -29,6 +29,8 @@ import play.twirl.api.HtmlFormat.Appendable
 trait OthersApplyingForProbateAddressViewTest extends ViewTestHelper with StringHelper with CoExecutorForms {
   def guidance: Seq[String] = Seq(messagesApi("page.iht.registration.others-applying-for-probate-address.address.guidance"))
   def executorName: String = CommonBuilder.firstNameGenerator
+  lazy val othersApplyingForProbateAddressView: others_applying_for_probate_address = app.injector.instanceOf[others_applying_for_probate_address]
+
 }
 
 class OthersApplyingForProbateAddressViewInUKModeTest extends RegistrationPageBehaviour[UkAddress] with OthersApplyingForProbateAddressViewTest {
@@ -38,7 +40,7 @@ class OthersApplyingForProbateAddressViewInUKModeTest extends RegistrationPageBe
 
   override def form:Form[UkAddress] = coExecutorAddressUkForm
   override def formToView:Form[UkAddress] => Appendable = form =>
-    others_applying_for_probate_address(form, "1", executorName,
+    othersApplyingForProbateAddressView(form, "1", executorName,
       isInternational = false, CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall1)
 
   "Others Applying for Probate Address View in UK Mode" must {
@@ -54,7 +56,7 @@ class OthersApplyingForProbateAddressViewInAbroadModeTest extends RegistrationPa
 
   override def form:Form[UkAddress] = coExecutorAddressAbroadForm
   override def formToView:Form[UkAddress] => Appendable = form =>
-    others_applying_for_probate_address(form, "1", executorName,
+    othersApplyingForProbateAddressView(form, "1", executorName,
       isInternational = true, CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall1)
 
   "Others Applying for Probate Address View in Abroad Mode" must {

@@ -19,24 +19,30 @@
 @import iht.models._
 @import iht.models.application.assets.HeldInTrust
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummaryOverrideKeys: ihtHelpers.custom.error_summary_override_keys,
+    inputEstateValue: ihtHelpers.custom.input_estate_value,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(trustsValueForm: Form[HeldInTrust],
-registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
-@iht_main_template_application(title = "",
+@ihtMainTemplateApplication(title = "",
 browserTitle = Some(Messages("page.iht.application.assets.trusts.value.browserTitle")),
 isFullWidth=false
 ){
-    @ihtHelpers.custom.error_summary_override_keys(trustsValueForm, Constants.AppSectionHeldInTrust)
+    @errorSummaryOverrideKeys(trustsValueForm, Constants.AppSectionHeldInTrust)
     @form(action = iht.controllers.application.assets.trusts.routes.TrustsValueController.onSubmit,'autoComplete -> "off") {
 
-        @ihtHelpers.custom.input_estate_value(trustsValueForm("value"),
+        @inputEstateValue(trustsValueForm("value"),
             '_label -> Messages("iht.estateReport.assets.heldInTrust.valueOfTrust",deceasedName),
             '_currency -> "GBP",
             '_divClass -> "form-group",
@@ -49,7 +55,7 @@ isFullWidth=false
 
     }
 
-    @ihtHelpers.custom.return_link(
+    @returnLink(
         Messages("site.link.return.trusts"),
         Some(iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad()),
         appConfig.AssetsTrustsValueID

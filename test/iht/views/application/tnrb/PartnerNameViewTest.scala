@@ -18,17 +18,13 @@ package iht.views.application.tnrb
 
 import iht.forms.TnrbForms._
 import iht.models.application.tnrb.TnrbEligibiltyModel
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
-import iht.testhelpers.TestHelper
 import iht.views.application.{CancelComponent, SubmittableApplicationPageBehaviour}
 import iht.views.html.application.tnrb.partner_name
 import org.joda.time.LocalDate
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
-import iht.testhelpers.TestHelper
 
 class PartnerNameViewTest extends SubmittableApplicationPageBehaviour[TnrbEligibiltyModel] {
 
@@ -51,10 +47,11 @@ class PartnerNameViewTest extends SubmittableApplicationPageBehaviour[TnrbEligib
   override def formTarget = Some(iht.controllers.application.tnrb.routes.PartnerNameController.onSubmit())
 
   override def form: Form[TnrbEligibiltyModel] = partnerNameForm
+  lazy val partnerNameView: partner_name = app.injector.instanceOf[partner_name]
 
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
     form =>
-      partner_name(form, Some(new LocalDate(2000,10,1)),
+      partnerNameView(form, Some(new LocalDate(2000,10,1)),
         CommonHelper.addFragmentIdentifier(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad(), Some(TestHelper.TnrbSpouseNameID))
         )
 

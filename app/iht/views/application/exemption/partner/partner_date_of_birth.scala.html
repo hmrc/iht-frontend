@@ -19,13 +19,20 @@
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
 @import iht.models.RegistrationDetails
 
+@this(
+    appConfig: AppConfig,
+    form: FormWithCSRF,
+    errorSummary: ihtHelpers.custom.error_summary,
+    ihtMainTemplateApplication: iht_main_template_application,
+    dateFields: ihtHelpers.standard.date_fields,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(spouseDateOfBirthForm: Form[PartnerExemption],
-registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
-@iht_main_template_application(
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
+@ihtMainTemplateApplication(
     title = "",
     browserTitle=Some(Messages("page.iht.application.exemptions.partner.dateOfBirth.browserTitle")),
     isFullWidth=false
@@ -35,11 +42,11 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
     @form(action = iht.controllers.application.exemptions.partner.routes.PartnerDateOfBirthController.onSubmit,
         'autoComplete -> "off") {
 
-        @ihtHelpers.custom.error_summary(spouseDateOfBirthForm)
+        @errorSummary(spouseDateOfBirthForm)
 
         <h1 class="heading-xlarge">@messages("page.iht.application.exemptions.partner.dateOfBirth.question.title")</h1>
 
-        @ihtHelpers.standard.date_fields(
+        @dateFields(
             spouseDateOfBirthForm,
             "dateOfBirth",
             "",
@@ -57,7 +64,7 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
 
-    @ihtHelpers.custom.return_link(
+    @returnLink(
         Messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"),
         Some(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad()),
         appConfig.ExemptionsPartnerDobID

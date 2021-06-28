@@ -14,30 +14,36 @@
  * limitations under the License.
  *@
 
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
 @import iht.models.application.tnrb.TnrbEligibiltyModel
-@import uk.gov.hmrc.play.views.html.helpers.form
+@import iht.config.AppConfig
+
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group,
+    nameHelper: ihtHelpers.custom.name
+)
 
 @(jointAssetPassedForm:Form[TnrbEligibiltyModel],
 deceasedName:String,
-cancelUrl:Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+cancelUrl:Call)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(
+@ihtMainTemplateApplication(
     title = "",
     browserTitle = Some(Messages("page.iht.application.tnrb.jointlyOwnedAssets.browserTitle")),
     cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
     cancelUrl = Some(cancelUrl)
 ){
-    @ihtHelpers.custom.error_summary(jointAssetPassedForm)
+    @errorSummary(jointAssetPassedForm)
 
     @form(action = iht.controllers.application.tnrb.routes.JointlyOwnedAssetsController.onSubmit,'autoComplete -> "off") {
 
-        @ihtHelpers.standard.input_yes_no_radio_group(
+        @inputYesNoRadioGroup(
             jointAssetPassedForm("isJointAssetPassed"),
             '_divClass -> Some("-change form-group"),
-            '_legend -> Messages("page.iht.application.tnrb.jointlyOwnedAssets.question", ihtHelpers.custom.name(deceasedName)),
+            '_legend -> Messages("page.iht.application.tnrb.jointlyOwnedAssets.question", nameHelper(deceasedName)),
             '_legendClass -> Some("legend-with-heading"),
             '_legendIsHeading -> true,
             '_headingClass -> "heading-large"

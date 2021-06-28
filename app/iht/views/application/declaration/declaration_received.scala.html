@@ -15,14 +15,18 @@
  *@
 
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
 @import iht.models.RegistrationDetails
+@import iht.config.AppConfig
 
-@(registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@this(
+    implicit val appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application
+)
 
-@iht_main_template_application(title = Messages("page.iht.application.declaration_received.title", DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+
+@(registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
+
+@ihtMainTemplateApplication(title = Messages("page.iht.application.declaration_received.title", DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)),
 browserTitle = Some(Messages("page.iht.application.declaration_received.browserTitle")),
 isFullWidth=false, highlightBoxClass = Some("govuk-box-highlight")
 ){

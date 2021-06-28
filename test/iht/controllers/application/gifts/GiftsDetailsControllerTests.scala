@@ -22,20 +22,21 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.PreviousYearsGifts
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.application.gift.gifts_details
 import play.api.http.Status._
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.{await, contentAsString, redirectLocation, status => playStatus}
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class GiftsDetailsControllerTests extends ApplicationControllerTest {
 
   protected abstract class TestController extends FrontendController(mockControllerComponents) with GiftsDetailsController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val giftsDetailsView: gifts_details = app.injector.instanceOf[gifts_details]
   }
 
   val registrationDetails = CommonBuilder.buildRegistrationDetails copy (
@@ -50,8 +51,6 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def giftsDetailsControllerNotAuthorised = new TestController {
@@ -60,7 +59,6 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   implicit val headerCarrier = FakeHeaders()

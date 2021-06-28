@@ -16,23 +16,28 @@
 
 @import iht.models._
 @import iht.utils.CommonHelper._
-@import iht.utils.DeceasedInfoHelper._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.utils.DeceasedInfoHelper
 @import iht.config.AppConfig
 @import iht.models.RegistrationDetails
-@import uk.gov.hmrc.play.views.html.helpers.form
 
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group,
+    nameHelper: ihtHelpers.custom.name
+)
 
 @(assetsLeftToCharityQuestionForm: Form[iht.models.application.exemptions.BasicExemptionElement],
-registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("iht.estateReport.exemptions.charities.assetsLeftToACharity.title"),
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.exemptions.charities.assetsLeftToACharity.title"),
 browserTitle = Some(Messages("page.iht.application.exemptions.assetLeftToCharity.browserTitle")),
 isFullWidth=false,
 cancelUrl = Some(addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(appConfig.ExemptionsCharityID))),
-cancelLabel = Some(Messages("page.iht.application.return.to.exemptionsOf", ihtHelpers.custom.name(registrationDetails.deceasedDetails.map(_.name).fold("")(identity))))){
-    @ihtHelpers.custom.error_summary(assetsLeftToCharityQuestionForm)
+cancelLabel = Some(Messages("page.iht.application.return.to.exemptionsOf", nameHelper(registrationDetails.deceasedDetails.map(_.name).fold("")(identity))))){
+    @errorSummary(assetsLeftToCharityQuestionForm)
     @form(action = iht.controllers.application.exemptions.charity.routes.AssetsLeftToCharityQuestionController.onSubmit,'autoComplete -> "off") {
 
         <div class="form-group">
@@ -41,10 +46,10 @@ cancelLabel = Some(Messages("page.iht.application.return.to.exemptionsOf", ihtHe
         </div>
 
 
-            @ihtHelpers.standard.input_yes_no_radio_group(
+            @inputYesNoRadioGroup(
             assetsLeftToCharityQuestionForm("isAssetForCharity"),
             '_legend -> Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
-                                      getDeceasedNameOrDefaultString(registrationDetails, true)),
+            DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
             '_divClass -> Some("-change form-group"))
 
          <div id="action-button" class="form-group">

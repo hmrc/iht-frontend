@@ -22,7 +22,9 @@ import iht.views.html.application.timeout_application
 class TimeoutApplicationViewTest extends ViewTestHelper {
   private lazy val viewAsDocument = {
     implicit val request = createFakeRequest()
-    asDocument(timeout_application().toString)
+    lazy val timeoutApplicationView: timeout_application = app.injector.instanceOf[timeout_application]
+
+    asDocument(timeoutApplicationView().toString)
   }
 
   "TimeoutApplication View" must {

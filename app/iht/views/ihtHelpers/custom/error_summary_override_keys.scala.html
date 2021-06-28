@@ -14,6 +14,10 @@
  * limitations under the License.
  *@
 
+@this(
+    errorSummary: ihtHelpers.custom.error_summary
+)
+
 @(form: Form[_], sectionKey: String)(implicit request:Request[_], messages: Messages)
 
 @{
@@ -22,6 +26,6 @@
             "error.currencyValue.incorrect" -> s"error.$sectionKey.currencyValue.summary",
             "error.currencyValue.length" -> s"error.$sectionKey.currencyValue.length.summary"
         )
-    ) { mapOfSummaryKeys => error_summary(form, Some(mapOfSummaryKeys)) }
+    ) { mapOfSummaryKeys => errorSummary(form, Some(mapOfSummaryKeys)) }
 }
 

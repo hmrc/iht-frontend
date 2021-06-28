@@ -17,29 +17,28 @@
 package iht.views
 
 import iht.views.html.iht_main_template
+import play.api.i18n.MessagesApi
 import play.api.mvc.Call
 import play.twirl.api.HtmlFormat
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import play.api.i18n.MessagesApi
 
 class IhtMainTemplateTest extends ViewTestHelper {
 
-  implicit  override val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit override val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  lazy val ihtMainTemplateView: iht_main_template = app.injector.instanceOf[iht_main_template]
 
   "RegistrationMainTemplate" must {
 
     "contain the correct text for the sign out link" in {
       implicit val request = createFakeRequest()
       val signOutUrl = "localhost"
-      iht_main_template(title = "", signOutText = "", signOutUrl = Some(Call("GET", signOutUrl)), headerTitle = None)(HtmlFormat.empty)
+      ihtMainTemplateView(title = "", signOutText = "", signOutUrl = Some(Call("GET", signOutUrl)), headerTitle = None)(HtmlFormat.empty)
         .toString must include (signOutUrl)
     }
 
     "contain the correct text for need help accordion component" in {
       implicit val request = createFakeRequest()
       val signOutUrl = "localhost"
-      val view = iht_main_template(title = "", signOutText = "", signOutUrl = Some(Call("GET", signOutUrl)), headerTitle = None)(HtmlFormat.empty)
+      val view = ihtMainTemplateView(title = "", signOutText = "", signOutUrl = Some(Call("GET", signOutUrl)), headerTitle = None)(HtmlFormat.empty)
         .toString
       view must include (messagesApi("site.progressiveDisclosure"))
     }

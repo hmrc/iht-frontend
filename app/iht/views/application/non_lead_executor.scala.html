@@ -14,13 +14,13 @@
  * limitations under the License.
  *@
 
-@import iht.views.html._
-@import iht.config.AppConfig
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
+@this(
+    ihtMainTemplateApplication: iht_main_template_application
+)
 
-@()(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@()(implicit request : Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("page.application.kickout.nonLeadExec.title"),
+@ihtMainTemplateApplication(title = Messages("page.application.kickout.nonLeadExec.title"),
     hasTimeOut=true, hasSignOut = false) {
     <p>@Messages("page.application.kickout.nonLeadExec.para1")</p>
     <p>@Messages("page.application.kickout.nonLeadExec.para2")</p>

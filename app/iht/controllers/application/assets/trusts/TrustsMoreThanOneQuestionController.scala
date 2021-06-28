@@ -29,12 +29,11 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class TrustsMoreThanOneQuestionControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                         val cachingConnector: CachingConnector,
                                                         val authConnector: AuthConnector,
-                                                        val formPartialRetriever: FormPartialRetriever,
+                                                        val trustsMoreThanOneQuestionView: trusts_more_than_one_question,
                                                         implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with TrustsMoreThanOneQuestionController {
 
@@ -47,9 +46,10 @@ trait TrustsMoreThanOneQuestionController extends EstateController {
     iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(), Some(appConfig.AssetsTrustsMultipleID))
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoreThanOneTrust)
 
+  val trustsMoreThanOneQuestionView: trusts_more_than_one_question
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
-      estateElementOnPageLoad[HeldInTrust](trustsMoreThanOneQuestionForm, trusts_more_than_one_question.apply, _.allAssets.flatMap(_.heldInTrust), userNino)
+      estateElementOnPageLoad[HeldInTrust](trustsMoreThanOneQuestionForm, trustsMoreThanOneQuestionView.apply, _.allAssets.flatMap(_.heldInTrust), userNino)
   }
 
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -70,7 +70,7 @@ trait TrustsMoreThanOneQuestionController extends EstateController {
 
       estateElementOnSubmit[HeldInTrust](
         trustsMoreThanOneQuestionForm,
-        trusts_more_than_one_question.apply,
+        trustsMoreThanOneQuestionView.apply,
         updateApplicationDetails,
         submitUrl,
         userNino

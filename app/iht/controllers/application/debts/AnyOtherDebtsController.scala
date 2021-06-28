@@ -29,12 +29,11 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class AnyOtherDebtsControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                             val cachingConnector: CachingConnector,
                                             val authConnector: AuthConnector,
-                                            val formPartialRetriever: FormPartialRetriever,
+                                            val anyOtherDebtsView: any_other_debts,
 implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with AnyOtherDebtsController {
 
@@ -42,11 +41,11 @@ val cc: MessagesControllerComponents) extends FrontendController(cc) with AnyOth
 
 trait AnyOtherDebtsController extends EstateController {
 
-
+  val anyOtherDebtsView: any_other_debts
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
       estateElementOnPageLoad[BasicEstateElementLiabilities](anyOtherDebtsForm,
-        any_other_debts.apply, _.allLiabilities.flatMap(_.other), userNino)
+        anyOtherDebtsView.apply, _.allLiabilities.flatMap(_.other), userNino)
   }
 
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -67,7 +66,7 @@ trait AnyOtherDebtsController extends EstateController {
         }
       estateElementOnSubmit[BasicEstateElementLiabilities](
         anyOtherDebtsForm,
-        any_other_debts.apply,
+        anyOtherDebtsView.apply,
         updateApplicationDetails,
         CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(appConfig.DebtsOtherID)),
         userNino

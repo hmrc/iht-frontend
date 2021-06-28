@@ -27,13 +27,12 @@ import play.api.mvc.{Call, MessagesControllerComponents, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class InsurancePolicyDetailsFinalGuidanceControllerImpl @Inject()(val metrics: IhtMetrics,
                                                                   val ihtConnector: IhtConnector,
                                                                   val cachingConnector: CachingConnector,
                                                                   val authConnector: AuthConnector,
-                                                                  val formPartialRetriever: FormPartialRetriever,
+                                                                  val insurancePolicyDetailsFinalGuidanceView: insurance_policy_details_final_guidance,
                                                                   implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with InsurancePolicyDetailsFinalGuidanceController {
 
@@ -41,7 +40,7 @@ val cc: MessagesControllerComponents) extends FrontendController(cc) with Insura
 
 trait InsurancePolicyDetailsFinalGuidanceController extends EstateController {
 
-
+  val insurancePolicyDetailsFinalGuidanceView: insurance_policy_details_final_guidance
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       withRegistrationDetails { registrationDetails =>
@@ -54,7 +53,7 @@ trait InsurancePolicyDetailsFinalGuidanceController extends EstateController {
         } yield {
           applicationDetails.fold[Result](InternalServerError)(ad =>
             Ok(
-              insurance_policy_details_final_guidance(
+              insurancePolicyDetailsFinalGuidanceView(
                 giftsPageRedirect(ad.allGifts.flatMap(_.isGivenAway)),
                 deceasedName
               )

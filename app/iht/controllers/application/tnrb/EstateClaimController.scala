@@ -31,7 +31,7 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.tnrb.estate_claim
 
 import scala.concurrent.Future
 
@@ -39,7 +39,7 @@ import scala.concurrent.Future
 class EstateClaimControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                           val cachingConnector: CachingConnector,
                                           val authConnector: AuthConnector,
-                                          val formPartialRetriever: FormPartialRetriever,
+                                          val estateClaimView: estate_claim,
                                           implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with EstateClaimController
 
@@ -47,6 +47,7 @@ trait EstateClaimController extends EstateController with StringHelper with Tnrb
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   def cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
+  val estateClaimView: estate_claim
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
 
       implicit request => {
@@ -62,7 +63,7 @@ trait EstateClaimController extends EstateController with StringHelper with Tnrb
                 val filledForm = estateClaimAnyBusinessForm.fill(appDetails.increaseIhtThreshold.getOrElse(
                   TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
 
-                Ok(iht.views.html.application.tnrb.estate_claim(
+                Ok(estateClaimView(
                   filledForm,
                   CommonHelper.addFragmentIdentifier(cancelUrl, Some(appConfig.TnrbEstateReliefID))
                 ))
@@ -89,7 +90,7 @@ trait EstateClaimController extends EstateController with StringHelper with Tnrb
             case Some(appDetails) => {
               boundForm.fold(
                 formWithErrors => {
-                  Future.successful(BadRequest(iht.views.html.application.tnrb.estate_claim(formWithErrors, cancelUrl)))
+                  Future.successful(BadRequest(estateClaimView(formWithErrors, cancelUrl)))
                 },
                 tnrbModel => {
                   saveApplication(getNino(userNino), tnrbModel, appDetails, regDetails)

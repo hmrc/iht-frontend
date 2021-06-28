@@ -18,20 +18,25 @@
 @import iht.models.application.tnrb._
 @import iht.utils._
 @import iht.utils.tnrb.TnrbHelper
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
 @import iht.models.application.tnrb.TnrbEligibiltyModel
 @import iht.models.application.tnrb.WidowCheck
-@import uk.gov.hmrc.play.views.html.helpers.form
-
 @import iht.utils.tnrb.TnrbHelperFixture
+@import iht.config.AppConfig
+
+@this(
+    implicit val appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application,
+    form: FormWithCSRF,
+    errorSummary: ihtHelpers.custom.error_summary,
+    dateFields: ihtHelpers.standard.date_fields
+)
+
 @(deceasedWidowCheckDateForm:Form[WidowCheck],
 widowCheckModel: WidowCheck,
 tnrbModel: TnrbEligibiltyModel,
 registrationDetails:RegistrationDetails,
 cancelLinkUrl:Call,
-cancelLinkText:String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+cancelLinkText:String)(implicit request:Request[_], messages: Messages)
 
 @partnerName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 @spouseLabel() = @{TnrbHelperFixture().spouseOrCivilPartnerLabelGenitive(
@@ -41,7 +46,7 @@ cancelLinkText:String)(implicit request:Request[_], messages: Messages, ihtFormP
                         true
                 )}
 
-@iht_main_template_application(
+@ihtMainTemplateApplication(
     title = "",
     browserTitle  = Some(Messages("iht.estateReport.tnrb.increasingIHTThreshold")),
     cancelUrl = Some(cancelLinkUrl),
@@ -52,7 +57,7 @@ cancelLinkText:String)(implicit request:Request[_], messages: Messages, ihtFormP
 @form(action = iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onSubmit,'autoComplete -> "off") {
 
 
-@ihtHelpers.custom.error_summary(deceasedWidowCheckDateForm, Some(
+@errorSummary(deceasedWidowCheckDateForm, Some(
     Map(
         "error.predeceasedDateOfDeath.afterMarriage" -> "error.dateOfDeath.incorrect.summary"
         )
@@ -61,7 +66,7 @@ cancelLinkText:String)(implicit request:Request[_], messages: Messages, ihtFormP
 
 <h1 class = heading-xlarge>@Html(Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question", spouseLabel))</h1>
 
-@ihtHelpers.standard.date_fields(
+@dateFields(
     deceasedWidowCheckDateForm,
     "dateOfPreDeceased",
     "",

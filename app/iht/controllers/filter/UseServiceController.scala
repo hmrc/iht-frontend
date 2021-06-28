@@ -23,13 +23,13 @@ import javax.inject.Inject
 import play.api.i18n.I18nSupport
 import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.filter.use_service
 
 import scala.concurrent.Future
 
 class UseServiceControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                          val ihtConnector: IhtConnector,
-                                         val formPartialRetriever: FormPartialRetriever,
+                                         val useServiceView: use_service,
                                          val cc: MessagesControllerComponents,
                                          implicit val appConfig: AppConfig) extends FrontendController(cc) with UseServiceController {
 }
@@ -39,11 +39,11 @@ trait UseServiceController extends FrontendController with I18nSupport {
   def cachingConnector: CachingConnector
   def ihtConnector: IhtConnector
 
-  implicit val formPartialRetriever: FormPartialRetriever
+  val useServiceView: use_service
 
   private def onPageLoad(estimatedValue: String, jointAssets: Boolean, titleStr: String) = Action.async {
     implicit request => {
-      Future.successful(Ok(iht.views.html.filter.use_service(estimatedValue, jointAssets, titleStr)))
+      Future.successful(Ok(useServiceView(estimatedValue, jointAssets, titleStr)))
     }
   }
 

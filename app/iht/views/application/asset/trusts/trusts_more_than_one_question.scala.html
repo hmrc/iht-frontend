@@ -17,25 +17,30 @@
 @import iht.models._
 @import iht.models.application.assets.HeldInTrust
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 @import iht.models.RegistrationDetails
 
-@import uk.gov.hmrc.play.views.html.helpers.form
+@this(
+    implicit val appConfig: AppConfig,
+    errorSummary: ihtHelpers.custom.error_summary,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(trustsMoreThanOneQuestionForm: Form[HeldInTrust],
-registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
-@iht_main_template_application(title = "",
+@ihtMainTemplateApplication(title = "",
 browserTitle = Some(Messages("page.iht.application.assets.trusts.moreThanOne.browserTitle")),
 isFullWidth=false){
-    @ihtHelpers.custom.error_summary(trustsMoreThanOneQuestionForm)
+    @errorSummary(trustsMoreThanOneQuestionForm)
     @form(action = iht.controllers.application.assets.trusts.routes.TrustsMoreThanOneQuestionController.onSubmit,'autoComplete -> "off") {
 
-            @ihtHelpers.standard.input_yes_no_radio_group(
+            @inputYesNoRadioGroup(
             trustsMoreThanOneQuestionForm("isMoreThanOne"),
             '_divClass -> Some("-change form-group"),
             '_legend -> Html(Messages("iht.estateReport.assets.trusts.moreThanOne.question", deceasedName)),
@@ -52,7 +57,7 @@ isFullWidth=false){
     }
 
 
-    @ihtHelpers.custom.return_link(
+    @returnLink(
         Messages("site.link.return.trusts"),
         Some(iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad()),
         appConfig.AssetsTrustsMultipleID

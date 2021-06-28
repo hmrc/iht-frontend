@@ -22,7 +22,7 @@ import iht.controllers.ControllerHelper.Mode
 import iht.controllers.registration.RegistrationBaseControllerWithEditMode
 import iht.forms.registration.DeceasedForms._
 import iht.models.{DeceasedDateOfDeath, RegistrationDetails}
-import iht.views.html.registration.{deceased => views}
+import iht.views.html.registration.deceased.deceased_date_of_death
 import javax.inject.Inject
 import org.joda.time.LocalDate
 import play.api.data.{Form, FormError}
@@ -30,14 +30,13 @@ import play.api.i18n.Messages
 import play.api.mvc.{MessagesControllerComponents, _}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.util.{Failure, Success, Try}
 
 class DeceasedDateOfDeathControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                   val cachingConnector: CachingConnector,
                                                   val authConnector: AuthConnector,
-                                                  val formPartialRetriever: FormPartialRetriever,
+                                                  val deceasedDateOfDeathView: deceased_date_of_death,
                                                   implicit val appConfig: AppConfig,
                                                   val cc: MessagesControllerComponents) extends FrontendController(cc) with DeceasedDateOfDeathController {
 
@@ -56,18 +55,18 @@ trait DeceasedDateOfDeathController extends RegistrationBaseControllerWithEditMo
 
   lazy val submitRoute = routes.DeceasedDateOfDeathController.onSubmit
   lazy val editSubmitRoute = routes.DeceasedDateOfDeathController.onEditSubmit
-
+  val deceasedDateOfDeathView: deceased_date_of_death
   def okForPageLoad(form: Form[DeceasedDateOfDeath], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.deceased_date_of_death(form, submitRoute))
+    Ok(deceasedDateOfDeathView(form, submitRoute))
 
   def okForEditPageLoad(form: Form[DeceasedDateOfDeath], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.deceased_date_of_death(form, editSubmitRoute, cancelToRegSummary))
+    Ok(deceasedDateOfDeathView(form, editSubmitRoute, cancelToRegSummary))
 
   def badRequestForSubmit(form: Form[DeceasedDateOfDeath], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_date_of_death(form, submitRoute))
+    BadRequest(deceasedDateOfDeathView(form, submitRoute))
 
   def badRequestForEditSubmit(form: Form[DeceasedDateOfDeath], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_date_of_death(form, editSubmitRoute, cancelToRegSummary))
+    BadRequest(deceasedDateOfDeathView(form, editSubmitRoute, cancelToRegSummary))
 
   def onwardRoute(rd: RegistrationDetails) = routes.DeceasedPermanentHomeController.onPageLoad
 

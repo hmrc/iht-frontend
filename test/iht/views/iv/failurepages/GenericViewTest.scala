@@ -30,8 +30,9 @@ class GenericViewTest extends GenericNonSubmittablePageBehaviour {
   def pageTitle = messagesApi("page.iht.iv.failure.couldNotConfirmIdentity")
 
   def browserTitle = messagesApi("page.iht.iv.failure.couldNotConfirmIdentity")
+  lazy val genericView: generic = app.injector.instanceOf[generic]
 
-  def view: String = generic(CommonBuilder.DefaultCall1.url)(createFakeRequest(), messages, formPartialRetriever, appConfig).toString
+  def view: String = genericView(CommonBuilder.DefaultCall1.url)(createFakeRequest(), messages).toString
 
   override def exitComponent = Some(
     ExitComponent(

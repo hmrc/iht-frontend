@@ -14,34 +14,39 @@
  * limitations under the License.
  *@
 
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import iht.views.html.filter._
 
+@this(
+    appConfig: AppConfig,
+    ihtMainTemplateRegistration: iht_main_template_registration,
+    usePaperFormScotland: filter.use_paper_form_scotland,
+    usePaperFormNorthernIreland: filter.use_paper_form_northern_ireland,
+    usePaperFormOtherCountry: filter.use_paper_form_other_country,
+    previousAnswers: filter.previous_answers
+)
 
-@(countryMessageKey: String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@(countryMessageKey: String)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_registration(title = Messages("iht.usePaperForm"),
+@ihtMainTemplateRegistration(title = Messages("iht.usePaperForm"),
     browserTitle = Some(Messages("iht.usePaperForm")),
     isFullWidth = false,
     hasSignOut = false,
     hasTimeOut = false){
 
 @if(countryMessageKey == "iht.countries.scotland") {
-    @use_paper_form_scotland()
+    @usePaperFormScotland()
 }
 @if(countryMessageKey == "iht.countries.northernIreland") {
-    @use_paper_form_northern_ireland()
+    @usePaperFormNorthernIreland()
 }
 @if(countryMessageKey == "page.iht.filter.domicile.choice.other") {
-    @use_paper_form_other_country()
+    @usePaperFormOtherCountry()
 }
 <div id='continue-button' class="subsection">
     <a id="exit" href="@appConfig.linkExitToGovUKIHTForms" class="button">@Messages("iht.exitToGovUK")</a>
 </div>
 
-@previous_answers(
+@previousAnswers(
         messages(countryMessageKey)
     )
 }

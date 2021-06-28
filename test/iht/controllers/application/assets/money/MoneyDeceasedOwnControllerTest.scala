@@ -20,13 +20,13 @@ import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
+import iht.testhelpers.CommonBuilder
 import iht.testhelpers.TestHelper._
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils._
+import iht.views.html.application.asset.money.money_deceased_own
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.{contentAsString, _}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
  * Created by jennygj on 17/06/16.
@@ -36,6 +36,7 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
   protected abstract class TestController extends FrontendController(mockControllerComponents) with MoneyDeceasedOwnController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val moneyDeceasedOwnView: money_deceased_own = app.injector.instanceOf[money_deceased_own]
   }
 
   lazy val returnToOverviewUrl = CommonHelper.addFragmentIdentifierToUrl(routes.MoneyOverviewController.onPageLoad.url, AssetsMoneyOwnID)
@@ -59,14 +60,12 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
     val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def moneyDeceasedOwnControllerNotAuthorised = new TestController {
     val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
 

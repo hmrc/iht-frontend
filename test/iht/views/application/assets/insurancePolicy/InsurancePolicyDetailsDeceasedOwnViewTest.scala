@@ -20,24 +20,20 @@ import iht.controllers.application.assets.insurancePolicy.routes
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.InsurancePolicy
 import iht.testhelpers.CommonBuilder
-import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_deceased_own
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
-import iht.constants.Constants._
 
 
 class InsurancePolicyDetailsDeceasedOwnViewTest extends ShareableElementInputViewBehaviour[InsurancePolicy]{
 
     lazy val regDetails = CommonBuilder.buildRegistrationDetails1
     lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+    lazy val insurancePolicyDetailsDeceasedOwnView: insurance_policy_details_deceased_own = app.injector.instanceOf[insurance_policy_details_deceased_own]
 
     override def form:Form[InsurancePolicy] = insurancePolicyDeceasedOwnQuestionForm
-    override def formToView:Form[InsurancePolicy] => Appendable = form => insurance_policy_details_deceased_own(form, regDetails)
+    override def formToView:Form[InsurancePolicy] => Appendable = form => insurancePolicyDetailsDeceasedOwnView(form, regDetails)
 
     override def pageTitle = messagesApi("iht.estateReport.assets.insurancePolicies.payingOutToDeceased", deceasedName)
     override def browserTitle = messagesApi("page.iht.application.insurance.policies.section1.browserTitle")

@@ -16,36 +16,41 @@
 
 package iht.controllers
 
-import iht.config.{AppConfig, IhtFormPartialRetriever}
+import iht.config.AppConfig
 import javax.inject.Inject
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.registration.timeout_registration
+import iht.views.html.application.timeout_application
+import iht.views.html.estateReports.save_your_estate_report
 
-class SessionTimeoutControllerImpl @Inject()(val formPartialRetriever: IhtFormPartialRetriever,
+class SessionTimeoutControllerImpl @Inject()(val timeoutRegistrationView: timeout_registration,
+                                             val timeoutApplicationView: timeout_application,
+                                             val saveYourEstateReportView: save_your_estate_report,
                                              val cc: MessagesControllerComponents,
                                              implicit val appConfig: AppConfig) extends FrontendController(cc) with SessionTimeoutController
 
 trait SessionTimeoutController extends FrontendController with I18nSupport {
   implicit val appConfig: AppConfig
-  implicit val formPartialRetriever: FormPartialRetriever
-
+  val timeoutRegistrationView: timeout_registration
+  val timeoutApplicationView: timeout_application
+  val saveYourEstateReportView: save_your_estate_report
   def onRegistrationPageLoad: Action[AnyContent] = Action {
     implicit request => {
-      Ok(iht.views.html.registration.timeout_registration())
+      Ok(timeoutRegistrationView())
     }
   }
 
   def onApplicationPageLoad: Action[AnyContent] = Action {
     implicit request => {
-      Ok(iht.views.html.application.timeout_application())
+      Ok(timeoutApplicationView())
     }
   }
 
   def onSaveAndExitPageLoad: Action[AnyContent] = Action {
     implicit request => {
-      Ok(iht.views.html.estateReports.save_your_estate_report())
+      Ok(saveYourEstateReportView())
     }
   }
 }

@@ -24,7 +24,8 @@ import iht.forms.registration.ApplicantForms._
 import iht.metrics.IhtMetrics
 import iht.models.{ApplicantDetails, CidPerson, RegistrationDetails}
 import iht.utils.{SessionHelper, StringHelper}
-import iht.views.html.registration.{applicant => views}
+import iht.views.html.registration.applicant.applicant_tell_us_about_yourself
+import iht.views.html.registration.registration_error_citizenDetails
 import javax.inject.Inject
 import play.api.data.Form
 import play.api.i18n.Messages
@@ -34,7 +35,6 @@ import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.http.NotFoundException
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -42,7 +42,8 @@ class ApplicantTellUsAboutYourselfControllerImpl @Inject()(val citizenDetailsCon
                                                            val metrics: IhtMetrics,
                                                            val cachingConnector: CachingConnector,
                                                            val authConnector: AuthConnector,
-                                                           val formPartialRetriever: FormPartialRetriever,
+                                                           val registrationErrorCitizenDetailsView: registration_error_citizenDetails,
+                                                           val applicantTellUsAboutYourselfView: applicant_tell_us_about_yourself,
                                                            implicit val appConfig: AppConfig,
                                                            val cc: MessagesControllerComponents)
   extends FrontendController(cc) with ApplicantTellUsAboutYourselfController
@@ -58,9 +59,10 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
 
   lazy val submitRoute = routes.ApplicantTellUsAboutYourselfController.onSubmit
   lazy val editSubmitRoute = routes.ApplicantTellUsAboutYourselfController.onEditSubmit
-
+  val registrationErrorCitizenDetailsView: registration_error_citizenDetails
+  val applicantTellUsAboutYourselfView: applicant_tell_us_about_yourself
   def okForPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.applicant_tell_us_about_yourself(form, Mode.Standard, submitRoute))
+    Ok(applicantTellUsAboutYourselfView(form, Mode.Standard, submitRoute))
 
   override def pageLoad(mode: Mode.Value) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
@@ -77,13 +79,13 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
   }
 
   def okForEditPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.applicant_tell_us_about_yourself(form, Mode.Edit, editSubmitRoute, cancelToRegSummary))
+    Ok(applicantTellUsAboutYourselfView(form, Mode.Edit, editSubmitRoute, cancelToRegSummary))
 
   def badRequestForSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.applicant_tell_us_about_yourself(form, Mode.Standard, submitRoute))
+    BadRequest(applicantTellUsAboutYourselfView(form, Mode.Standard, submitRoute))
 
   def badRequestForEditSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.applicant_tell_us_about_yourself(form, Mode.Edit, editSubmitRoute, cancelToRegSummary))
+    BadRequest(applicantTellUsAboutYourselfView(form, Mode.Edit, editSubmitRoute, cancelToRegSummary))
 
   // Implementation not required as we are overriding the submit method
   def applyChangesToRegistrationDetails(rd: RegistrationDetails, ad: ApplicantDetails, mode: Mode.Value = Mode.Standard) = ???
@@ -134,7 +136,7 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
                 storeRegistrationDetails(copyOfRD,
                   route,
                   "Fails to store registration details during application tell us about yourself submission")
-            } recover citizenDetailsFailure
+            } recover citizenDetailsFailure()
           }
         )
       }
@@ -143,7 +145,7 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
 
   def citizenDetailsFailure()(implicit request: Request[_]): PartialFunction[Throwable, Result] = {
     case ex: NotFoundException => {
-      BadRequest(iht.views.html.registration.registration_error_citizenDetails(
+      BadRequest(registrationErrorCitizenDetailsView(
         "page.iht.registration.applicantDetails.citizenDetailsNotFound.title",
         "page.iht.registration.applicantDetails.citizenDetailsNotFound.guidance"))
     }

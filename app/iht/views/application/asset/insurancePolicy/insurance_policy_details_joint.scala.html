@@ -17,24 +17,31 @@
 @import iht.models.application.assets.InsurancePolicy
 
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
 @import iht.models.RegistrationDetails
+
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group,
+    inputEstateValue: ihtHelpers.custom.input_estate_value,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(insurancePolicyForm: Form[InsurancePolicy],
 registrationDetails: RegistrationDetails
-)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
-@iht_main_template_application(title = Messages("page.iht.application.insurance.policies.section2.title"),
+@ihtMainTemplateApplication(title = Messages("page.iht.application.insurance.policies.section2.title"),
     browserTitle = Some(Messages("page.iht.application.insurance.policies.section2.browserTitle")),
     isFullWidth=false
     ) {
 
-    @ihtHelpers.custom.error_summary(insurancePolicyForm, None, CommonHelper.insurancePoliciesEndLineMessageKey(insurancePolicyForm))
+    @errorSummary(insurancePolicyForm, None, CommonHelper.insurancePoliciesEndLineMessageKey(insurancePolicyForm))
 
     @form(action = iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsJointController.onSubmit,'autoComplete -> "off") {
 
@@ -46,7 +53,7 @@ registrationDetails: RegistrationDetails
 
          @defining( Messages("page.iht.application.assets.insurances.sectionName")) { sectionName =>
             <div data-exclude="true" class="form-group">
-                @ihtHelpers.standard.input_yes_no_radio_group(
+                @inputYesNoRadioGroup(
                     insurancePolicyForm("isJointlyOwned"),
                     '_legend -> Html(Messages("iht.estateReport.insurancePolicies.jointlyHeld.question", deceasedName)),
                     '_shownElementNo -> None,
@@ -57,7 +64,7 @@ registrationDetails: RegistrationDetails
                     '_mainQuestion -> true)
 
                 <div class="js-hidden panel panel-border-narrow" id="deceaseds-policy">
-                    @ihtHelpers.custom.input_estate_value(insurancePolicyForm("shareValue"),
+                    @inputEstateValue(insurancePolicyForm("shareValue"),
                     '_label -> Messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare", deceasedName),
                     '_hintText -> Html(Messages("page.iht.application.insurance.policies.section2.guidance2", deceasedName)),
                     '_sectionName -> (sectionName + "1"),
@@ -73,7 +80,7 @@ registrationDetails: RegistrationDetails
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
 
-    @ihtHelpers.custom.return_link(
+    @returnLink(
         Messages("site.link.return.insurance.policies"),
         Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()),
         appConfig.InsuranceJointlyHeldYesNoID

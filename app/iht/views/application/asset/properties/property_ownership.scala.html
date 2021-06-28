@@ -16,29 +16,35 @@
 
 @import iht.constants.{FieldMappings, IhtProperties}
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputRadioGroupWithHints: ihtHelpers.standard.input_radio_group_with_hints,
+    nameHelper: ihtHelpers.custom.name
+)
 
 @(propertyOwnership:Form[iht.models.application.assets.Property],
 submitUrl:Call,
 cancelUrl:Call,
 deceasedName: String
-)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = "",
+@ihtMainTemplateApplication(title = "",
 browserTitle = Some(Messages("page.iht.application.assets.property.ownership.browserTitle")),
 cancelUrl=Some(CommonHelper.addFragmentIdentifier(cancelUrl, Some(appConfig.AssetsPropertiesPropertyOwnershipID))),
 cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty"))
 ) {
 
-@ihtHelpers.custom.error_summary(propertyOwnership)
+@errorSummary(propertyOwnership)
 
 @form(action = submitUrl,'autoComplete -> "off") {
 
 <div class="form-group">
-    @ihtHelpers.standard.input_radio_group_with_hints(
+    @inputRadioGroupWithHints(
         propertyOwnership("typeOfOwnership"),
         FieldMappings.typesOfOwnership(deceasedName).toSeq,
         '_fieldsetId -> "role1",
@@ -46,7 +52,7 @@ cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProp
         '_labelTextClass -> "bold",
         '_labelAfter -> false,
         '_ariaHintID -> "tenancyHint",
-        '_legend -> Messages("iht.estateReport.assets.howOwnedByDeceased", ihtHelpers.custom.name(deceasedName).toString),
+        '_legend -> Messages("iht.estateReport.assets.howOwnedByDeceased", nameHelper(deceasedName).toString),
         '_legendClass -> Some("legend-with-heading"),
         '_legendIsHeading -> true,
         '_headingClass -> "heading-large",

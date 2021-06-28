@@ -14,37 +14,43 @@
  * limitations under the License.
  *@
 
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.utils.tnrb.TnrbHelperFixture
-@import iht.config.AppConfig
 @import iht.models.application.tnrb.TnrbEligibiltyModel
 @import iht.models.application.tnrb.WidowCheck
-@import uk.gov.hmrc.play.views.html.helpers.form
+@import iht.config.AppConfig
+
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    errorSummary: ihtHelpers.custom.error_summary,
+    ihtMainTemplateApplication: iht_main_template_application,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group,
+    nameHelper: ihtHelpers.custom.name
+)
 
 @(partnerGiftWithResToOtherForm:Form[TnrbEligibiltyModel],
 tnrbModel:TnrbEligibiltyModel,
 deceasedName:String,
-cancelUrl:Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+cancelUrl:Call)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(
+@ihtMainTemplateApplication(
     title = "",
     browserTitle = Some(Messages("page.iht.application.tnrb.giftsWithReservationOfBenefit.browserTitle")),
     cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
     cancelUrl = Some(cancelUrl)
 ){
-    @ihtHelpers.custom.error_summary(partnerGiftWithResToOtherForm)
+    @errorSummary(partnerGiftWithResToOtherForm)
 
     @form(action = iht.controllers.application.tnrb.routes.GiftsWithReservationOfBenefitController.onSubmit,'autoComplete -> "off") {
 
-        @ihtHelpers.standard.input_yes_no_radio_group(
+        @inputYesNoRadioGroup(
             partnerGiftWithResToOtherForm("isPartnerGiftWithResToOther"),
             '_hintText -> Html(Messages("page.iht.application.tnrb.giftsWithReservationOfBenefit.question.hint",
                             TnrbHelperFixture().spouseOrCivilPartnerName(tnrbModel, Messages("iht.estateReport.tnrb.thSouseAndCivilPartner")),
-                            ihtHelpers.custom.name(deceasedName),
+                            nameHelper(deceasedName),
                             TnrbHelperFixture().spouseOrCivilPartnerName(tnrbModel, Messages("iht.estateReport.tnrb.thSouseAndCivilPartner")))),
             '_divClass -> Some("-change form-group"),
-            '_legend -> Messages("iht.estateReport.tnrb.giftsWithReservationOfBenefit.question", ihtHelpers.custom.name(deceasedName)),
+            '_legend -> Messages("iht.estateReport.tnrb.giftsWithReservationOfBenefit.question", nameHelper(deceasedName)),
             '_legendClass -> Some("legend-with-heading"),
             '_legendIsHeading -> true,
             '_headingClass -> "heading-large"

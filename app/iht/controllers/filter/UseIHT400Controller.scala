@@ -22,13 +22,13 @@ import javax.inject.Inject
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.filter.use_iht400
 
 import scala.concurrent.Future
 
 class UseIHT400ControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                         val ihtConnector: IhtConnector,
-                                        val formPartialRetriever: FormPartialRetriever,
+                                        val useIht400View: use_iht400,
                                         implicit val appConfig: AppConfig,
                                         val cc: MessagesControllerComponents) extends FrontendController(cc) with UseIHT400Controller
 
@@ -38,11 +38,11 @@ trait UseIHT400Controller extends FrontendController with I18nSupport {
 
   implicit val appConfig: AppConfig
 
-  implicit val formPartialRetriever: FormPartialRetriever
+  val useIht400View: use_iht400
 
   def onPageLoad(jointAssets: Boolean): Action[AnyContent] = Action.async {
     implicit request => {
-      Future.successful(Ok(iht.views.html.filter.use_iht400(jointAssets)))
+      Future.successful(Ok(useIht400View(jointAssets)))
     }
   }
 

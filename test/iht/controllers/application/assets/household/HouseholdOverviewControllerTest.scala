@@ -18,25 +18,24 @@ package iht.controllers.application.assets.household
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.application.asset.household.household_overview
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class HouseholdOverviewControllerTest extends ApplicationControllerTest {
 
   protected abstract class TestController extends FrontendController(mockControllerComponents) with HouseholdOverviewController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val householdOverviewView: household_overview = app.injector.instanceOf[household_overview]
   }
 
   def householdOverviewController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   val allAssets=CommonBuilder.buildAllAssets

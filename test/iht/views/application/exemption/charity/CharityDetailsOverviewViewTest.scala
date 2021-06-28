@@ -18,19 +18,16 @@ package iht.views.application.exemption.charity
 
 import iht.models.application.exemptions.Charity
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.TestHelper._
 import iht.utils.CommonHelper._
 import iht.views.html.application.exemption.charity.charity_details_overview
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
-import iht.testhelpers.TestHelper._
-
-import scala.concurrent.ExecutionContext.Implicits.global
 
 trait CharityDetailsOverviewViewBehaviour extends GenericNonSubmittablePageBehaviour {
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
+  lazy val charityDetailsOverviewView: charity_details_overview = app.injector.instanceOf[charity_details_overview]
 
   override def guidanceParagraphs = Set.empty
 
@@ -72,7 +69,7 @@ trait CharityDetailsOverviewViewBehaviour extends GenericNonSubmittablePageBehav
 
 class CharityDetailsOverviewViewTest extends CharityDetailsOverviewViewBehaviour {
   override def view =
-    charity_details_overview(Some(CommonBuilder.charity)).toString()
+    charityDetailsOverviewView(Some(CommonBuilder.charity)).toString()
 
   "Charity details overview view" must {
     behave like nonSubmittablePage()
@@ -105,7 +102,7 @@ class CharityDetailsOverviewViewWithNoValuesTest extends CharityDetailsOverviewV
       number = None,
       totalValue = None
     )
-    charity_details_overview(Some(charity2)).toString()
+    charityDetailsOverviewView(Some(charity2)).toString()
   }
 
   "Charity details overview view where no values entered" must {

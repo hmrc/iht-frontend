@@ -18,13 +18,11 @@ package iht.views.application.tnrb
 
 import iht.forms.TnrbForms._
 import iht.models.application.tnrb.TnrbEligibiltyModel
-import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.testhelpers.CommonBuilder
 import iht.utils.tnrb.TnrbHelper
 import iht.views.application.YesNoQuestionViewBehaviour
 import iht.views.html.application.tnrb.permanent_home
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
 
 class PermanentHomeViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] with TnrbHelper {
@@ -44,10 +42,11 @@ class PermanentHomeViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyMod
   override def formTarget = Some(iht.controllers.application.tnrb.routes.PermanentHomeController.onSubmit())
 
   override def form: Form[TnrbEligibiltyModel] = partnerLivingInUkForm
+  lazy val permanentHomeView: permanent_home = app.injector.instanceOf[permanent_home]
 
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
     form =>
-      permanent_home(form, tnrbModel, widowCheck, CommonBuilder.DefaultCall2, CommonBuilder.buildRegistrationDetails3)
+      permanentHomeView(form, tnrbModel, widowCheck, CommonBuilder.DefaultCall2, CommonBuilder.buildRegistrationDetails3)
 
   override def cancelComponent = None
 

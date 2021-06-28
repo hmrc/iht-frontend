@@ -15,12 +15,13 @@
  *@
 
 @import iht.viewmodels.estateReports.YourEstateReportsRowViewModel
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
-@import iht.views.html.iht_main_template_application
-@import iht.views.html.estateReports.your_estate_reports_application_table
 
-@(applications:Seq[YourEstateReportsRowViewModel], showGuidance: Boolean)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@this(
+    ihtMainTemplateApplication: iht_main_template_application,
+    yourEstateReportsApplicationTable: estateReports.your_estate_reports_application_table
+)
+
+@(applications:Seq[YourEstateReportsRowViewModel], showGuidance: Boolean)(implicit request:Request[_], messages: Messages)
 
     @personalDetailsReveal = {
         <details id="personal-details-reveal">
@@ -59,7 +60,7 @@
         </details>
     }
 
-    @iht_main_template_application(title = Messages("page.iht.home.title"),
+    @ihtMainTemplateApplication(title = Messages("page.iht.home.title"),
     browserTitle=Some(Messages("page.iht.home.browserTitle")),
     isFullWidth=true) {
 
@@ -73,7 +74,7 @@
         <div class="panel panel-border-wide grid-2-3">
             <p>@Messages("page.iht.home.text")</p>
         </div>
-    @your_estate_reports_application_table(applications)
+    @yourEstateReportsApplicationTable(applications)
     }
 
 <a id="start-new-registration" href="@iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad()">@Messages("site.link.startNewRegistration")</a>

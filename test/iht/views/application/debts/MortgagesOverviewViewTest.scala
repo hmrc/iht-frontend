@@ -21,9 +21,6 @@ import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
 import iht.views.application.{ApplicationPageBehaviour, CancelComponent}
 import iht.views.html.application.debts.mortgages_overview
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.constants.Constants._
 
 
 
@@ -37,6 +34,7 @@ class MortgagesOverviewViewTest extends ApplicationPageBehaviour {
 
   val fakeRequest = createFakeRequest(isAuthorised = false)
   val debtsOverviewPageUrl = iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()
+  lazy val mortgagesOverviewView: mortgages_overview = app.injector.instanceOf[mortgages_overview]
 
   override def guidance = guidance(
     Set(
@@ -63,10 +61,10 @@ class MortgagesOverviewViewTest extends ApplicationPageBehaviour {
 
   val returnLinkText = messagesApi("site.link.return.debts")
 
-  override def view = mortgages_overview(List(CommonBuilder.property, CommonBuilder.property2),
+  override def view = mortgagesOverviewView(List(CommonBuilder.property, CommonBuilder.property2),
     Nil,
     FieldMappings.typesOfOwnership(deceasedName),
-    regDetails, debtsOverviewPageUrl, returnLinkText)(fakeRequest, messages, formPartialRetriever, appConfig).toString
+    regDetails, debtsOverviewPageUrl, returnLinkText)(fakeRequest, messages).toString
 
   val addressTableId = "properties"
 

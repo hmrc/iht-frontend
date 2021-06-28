@@ -17,7 +17,12 @@
 @import iht.utils.ProgressiveDisclosureHelper._
 
 @import iht.config.AppConfig
-@(location: String)(implicit request:Request[_], messages: Messages, appConfig: AppConfig)
+
+@this(
+    appConfig: AppConfig
+)
+
+@(location: String)(implicit request:Request[_], messages: Messages)
 
 <script type="text/javascript">
     var reportProblemAjaxUrl = "@{Html(appConfig.reportAProblemPartialUrl)}"

@@ -27,6 +27,7 @@ import iht.views.html.application.tnrb.date_of_marriage
 class DateOfMarriageViewTest extends ViewTestHelper with TnrbHelper {
   val tnrbModel = CommonBuilder.buildTnrbEligibility
   val widowCheckModel = CommonBuilder.buildWidowedCheck
+  lazy val dateOfMarriageView: date_of_marriage = app.injector.instanceOf[date_of_marriage]
 
   lazy val pageTitle = messagesApi("iht.estateReport.tnrb.dateOfMarriage",
     marriageOrCivilPartnerShipLabel(widowCheckModel))
@@ -45,14 +46,14 @@ class DateOfMarriageViewTest extends ViewTestHelper with TnrbHelper {
 
     "have no message keys in html" in {
       implicit val request = createFakeRequest()
-      val view = date_of_marriage(dateOfMarriageForm, widowCheckModel, deceasedName, predeceasedName, returnLinkTargetUrl).toString
+      val view = dateOfMarriageView(dateOfMarriageForm, widowCheckModel, deceasedName, predeceasedName, returnLinkTargetUrl).toString
       noMessageKeysShouldBePresent(view)
     }
 
     "have the correct title" in {
       implicit val request = createFakeRequest()
 
-      val view = date_of_marriage(dateOfMarriageForm, widowCheckModel, deceasedName, predeceasedName, returnLinkTargetUrl).toString
+      val view = dateOfMarriageView(dateOfMarriageForm, widowCheckModel, deceasedName, predeceasedName, returnLinkTargetUrl).toString
 
       titleShouldBeCorrect(view, pageTitle)
     }
@@ -60,7 +61,7 @@ class DateOfMarriageViewTest extends ViewTestHelper with TnrbHelper {
     "have the correct browser title" in {
       implicit val request = createFakeRequest()
 
-      val view = date_of_marriage(dateOfMarriageForm, widowCheckModel, deceasedName, predeceasedName, returnLinkTargetUrl).toString
+      val view = dateOfMarriageView(dateOfMarriageForm, widowCheckModel, deceasedName, predeceasedName, returnLinkTargetUrl).toString
 
       browserTitleShouldBeCorrect(view, pageTitle)
     }
@@ -68,7 +69,7 @@ class DateOfMarriageViewTest extends ViewTestHelper with TnrbHelper {
     "show the correct guidance paragraphs" in {
       implicit val request = createFakeRequest()
 
-      val view = date_of_marriage(dateOfMarriageForm, widowCheckModel, deceasedName, predeceasedName, returnLinkTargetUrl).toString
+      val view = dateOfMarriageView(dateOfMarriageForm, widowCheckModel, deceasedName, predeceasedName, returnLinkTargetUrl).toString
 
       for (paragraph <- guidanceParagraphs) messagesShouldBePresent(view, paragraph)
     }
@@ -76,7 +77,7 @@ class DateOfMarriageViewTest extends ViewTestHelper with TnrbHelper {
     "show the Save and continue button" in {
       implicit val request = createFakeRequest()
 
-      val view = date_of_marriage(dateOfMarriageForm, widowCheckModel, deceasedName, predeceasedName, returnLinkTargetUrl).toString
+      val view = dateOfMarriageView(dateOfMarriageForm, widowCheckModel, deceasedName, predeceasedName, returnLinkTargetUrl).toString
 
       val saveAndContinueButton = asDocument(view).getElementById("save-continue")
       saveAndContinueButton.text() mustBe messagesApi("iht.saveAndContinue")
@@ -85,7 +86,7 @@ class DateOfMarriageViewTest extends ViewTestHelper with TnrbHelper {
     "show the correct return link with text" in {
       implicit val request = createFakeRequest()
 
-      val view = date_of_marriage(dateOfMarriageForm, widowCheckModel, deceasedName, predeceasedName, CommonHelper.addFragmentIdentifier(returnLinkTargetUrl, Some(appConfig.TnrbSpouseDateOfMarriageID))).toString
+      val view = dateOfMarriageView(dateOfMarriageForm, widowCheckModel, deceasedName, predeceasedName, CommonHelper.addFragmentIdentifier(returnLinkTargetUrl, Some(appConfig.TnrbSpouseDateOfMarriageID))).toString
 
       val returnLink = asDocument(view).getElementById(returnLinkId)
       returnLink.attr("href") mustBe returnLinkTargetUrl.url + "#" + appConfig.TnrbSpouseDateOfMarriageID

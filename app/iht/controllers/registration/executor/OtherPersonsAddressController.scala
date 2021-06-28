@@ -21,13 +21,13 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.registration.RegistrationController
 import iht.forms.registration.CoExecutorForms
 import iht.models.UkAddress
+import iht.utils.AddressHelper
 import iht.utils.CommonHelper._
-import iht.views.html.registration.{executor => views}
+import iht.views.html.registration.executor.others_applying_for_probate_address
 import javax.inject.Inject
 import play.api.mvc.{Call, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -35,7 +35,7 @@ import scala.concurrent.Future
 class OtherPersonsAddressControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                   val cachingConnector: CachingConnector,
                                                   val authConnector: AuthConnector,
-                                                  val formPartialRetriever: FormPartialRetriever,
+                                                  val othersApplyingForProbateAddressView: others_applying_for_probate_address,
                                                   implicit val appConfig: AppConfig,
                                                   val cc: MessagesControllerComponents) extends FrontendController(cc) with OtherPersonsAddressController {
 
@@ -76,7 +76,7 @@ trait OtherPersonsAddressController extends RegistrationController with CoExecut
 
   def onEditPageLoadAbroad(id: String) = onPageLoad(id, isInternational = true, editSubmitRouteAbroad(id),
     editLoadRouteUk(id), cancelToRegSummary)
-
+  val othersApplyingForProbateAddressView: others_applying_for_probate_address
   def onPageLoad(id: String, isInternational: Boolean, actionCall: Call, changeNationalityCall: Call,
                  cancelCall: Option[Call] = None) = authorisedForIht {
     implicit request => {
@@ -91,7 +91,7 @@ trait OtherPersonsAddressController extends RegistrationController with CoExecut
               coExecutor.ukAddress.fold(formType)(address => formType.fill(address))
             }
             Future.successful(
-              Ok(views.others_applying_for_probate_address(form, id, coExecutor.name, isInternational,
+              Ok(othersApplyingForProbateAddressView(form, id, coExecutor.name, isInternational,
                 actionCall, changeNationalityCall, cancelCall)))
           }
           case None => throw new Exception("Unknown id")
@@ -124,7 +124,7 @@ trait OtherPersonsAddressController extends RegistrationController with CoExecut
             boundForm.fold(
               formWithErrors => {
                 Future.successful(
-                  BadRequest(views.others_applying_for_probate_address(formWithErrors, coExecutorId, coExecutor.name,
+                  BadRequest(othersApplyingForProbateAddressView(formWithErrors, coExecutorId, coExecutor.name,
                     isInternational, onFailureActionCall, changeNationalityCall, cancelCall)))
               },
               (address: UkAddress) => {

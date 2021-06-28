@@ -20,9 +20,12 @@ import iht.views.ViewTestHelper
 import iht.views.html.registration.timeout_registration
 
 class TimeoutRegistrationViewTest extends ViewTestHelper {
+
   private lazy val viewAsDocument = {
     implicit val request = createFakeRequest()
-    asDocument(timeout_registration().toString)
+    lazy val timeoutRegistrationView: timeout_registration = app.injector.instanceOf[timeout_registration]
+
+    asDocument(timeoutRegistrationView().toString)
   }
 
   "TimeoutRegistration View" must {

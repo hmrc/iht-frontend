@@ -14,14 +14,14 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
-@import iht.views.html.iht_main_template_application
+@this(
+    ihtMainTemplateApplication: iht_main_template_application,
+    form: FormWithCSRF
+)
 
-@(ihtReference:String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@(ihtReference:String)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("page.iht.application.exemptions.guidance.increasing.threshold.title"),
+@ihtMainTemplateApplication(title = Messages("page.iht.application.exemptions.guidance.increasing.threshold.title"),
     browserTitle = Some(Messages("page.iht.application.exemptions.guidance.increasing.threshold.title")),
     isFullWidth=false
 )  {

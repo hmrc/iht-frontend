@@ -21,14 +21,13 @@ import iht.connector.CachingConnector
 import iht.controllers.registration.{RegistrationControllerTest, routes => registrationRoutes}
 import iht.forms.registration.CoExecutorForms
 import iht.metrics.IhtMetrics
+import iht.testhelpers.CommonBuilder
 import iht.testhelpers.CommonBuilder._
-
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.views.html.registration.executor.executor_overview
 import org.scalatest.BeforeAndAfter
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -39,20 +38,19 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
   protected abstract class TestController extends FrontendController(mockControllerComponents) with ExecutorOverviewController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val executorOverviewView: executor_overview = app.injector.instanceOf[executor_overview]
   }
 
   def executorOverviewController = new TestController {
     override def cachingConnector: CachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override def metrics: IhtMetrics = mockIhtMetrics
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def executorOverviewControllerNotAuthorised = new TestController {
     override def cachingConnector: CachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override def metrics: IhtMetrics = mockIhtMetrics
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "ExecutorOverviewController" must {

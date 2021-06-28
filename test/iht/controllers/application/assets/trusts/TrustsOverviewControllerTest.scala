@@ -18,11 +18,11 @@ package iht.controllers.application.assets.trusts
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.application.asset.trusts.trusts_overview
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
  * Created by jennygj on 30/06/16.
@@ -33,6 +33,7 @@ class TrustsOverviewControllerTest extends ApplicationControllerTest {
   protected abstract class TestController extends FrontendController(mockControllerComponents) with TrustsOverviewController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val trustsOverviewView: trusts_overview = app.injector.instanceOf[trusts_overview]
   }
 
   "TrustsOverviewControllerTest" must {
@@ -43,14 +44,12 @@ class TrustsOverviewControllerTest extends ApplicationControllerTest {
       override val authConnector = mockAuthConnector
       override val cachingConnector = mockCachingConnector
       override val ihtConnector = mockIhtConnector
-      override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
     }
 
     def trustsOverviewControllerNotAuthorised = new TestController  {
       override val authConnector = mockAuthConnector
       override val cachingConnector = mockCachingConnector
       override val ihtConnector = mockIhtConnector
-      override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
     }
 
     "respond with OK on page load" in {

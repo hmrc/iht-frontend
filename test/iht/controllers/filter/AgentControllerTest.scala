@@ -18,12 +18,11 @@ package iht.controllers.filter
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.MockFormPartialRetriever
 import iht.views.HtmlSpec
+import iht.views.html.filter.agent_view
 import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class AgentControllerTest extends ApplicationControllerTest with HtmlSpec {
 
@@ -32,9 +31,10 @@ class AgentControllerTest extends ApplicationControllerTest with HtmlSpec {
   }
 
   def controller: AgentController = new TestController {
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
 
     override def messagesApi: MessagesApi = mockControllerComponents.messagesApi
+
+    override val agentViewView: agent_view = app.injector.instanceOf[agent_view]
   }
 
   "AgentController" must {

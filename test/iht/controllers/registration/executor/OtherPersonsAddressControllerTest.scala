@@ -14,22 +14,6 @@
  * limitations under the License.
  */
 
-/*
- * Copyright 2019 HM Revenue & Customs
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package iht.controllers.registration.executor
 
 import iht.config.AppConfig
@@ -37,9 +21,9 @@ import iht.controllers.registration.RegistrationControllerTest
 import iht.forms.registration.CoExecutorForms
 import iht.models.{RegistrationDetails, UkAddress}
 import iht.testhelpers.CommonBuilder._
-
-import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever, NinoBuilder}
+import iht.testhelpers.{CommonBuilder, ContentChecker, NinoBuilder}
 import iht.utils.StringHelper
+import iht.views.html.registration.executor.others_applying_for_probate_address
 import org.joda.time._
 import org.scalatest.BeforeAndAfter
 import play.api.data.Form
@@ -47,7 +31,6 @@ import play.api.i18n.{Lang, Messages}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -61,6 +44,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
   protected abstract class TestController extends FrontendController(mockControllerComponents) with OtherPersonsAddressController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val othersApplyingForProbateAddressView: others_applying_for_probate_address = app.injector.instanceOf[others_applying_for_probate_address]
   }
 
   lazy val appConfig = mockAppConfig
@@ -68,15 +52,11 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
   def controller = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "OtherPersonsAddressController" must {

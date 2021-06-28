@@ -23,19 +23,18 @@ import iht.controllers.registration.applicant.{routes => applicantRoutes}
 import iht.forms.registration.DeceasedForms._
 import iht.models.{DeceasedDetails, RegistrationDetails}
 import iht.utils.{CommonHelper, DeceasedInfoHelper}
-import iht.views.html.registration.{deceased => views}
+import iht.views.html.registration.deceased.deceased_address_details_outside_uk
 import javax.inject.Inject
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.mvc.{AnyContent, MessagesControllerComponents, Request}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class DeceasedAddressDetailsOutsideUKControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                               val cachingConnector: CachingConnector,
                                                               val authConnector: AuthConnector,
-                                                              val formPartialRetriever: FormPartialRetriever,
+                                                              val deceasedAddressDetailsOutsideUkView: deceased_address_details_outside_uk,
                                                               implicit val appConfig: AppConfig,
                                                               val cc: MessagesControllerComponents) extends FrontendController(cc) with DeceasedAddressDetailsOutsideUKController {
 
@@ -52,28 +51,28 @@ trait DeceasedAddressDetailsOutsideUKController extends RegistrationDeceasedCont
   lazy val editSubmitRoute = routes.DeceasedAddressDetailsOutsideUKController.onEditSubmit
   lazy val switchToUkRoute = routes.DeceasedAddressDetailsUKController.onPageLoad
   lazy val switchToUkEditRoute = routes.DeceasedAddressDetailsUKController.onEditPageLoad
-
+  val deceasedAddressDetailsOutsideUkView: deceased_address_details_outside_uk
   def okForPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.deceased_address_details_outside_uk(form,
+    Ok(deceasedAddressDetailsOutsideUkView(form,
       DeceasedInfoHelper.getDeceasedNameOrDefaultString(name),
       submitRoute,
       switchToUkRoute))
 
   def okForEditPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.deceased_address_details_outside_uk(form,
+    Ok(deceasedAddressDetailsOutsideUkView(form,
       DeceasedInfoHelper.getDeceasedNameOrDefaultString(name),
       editSubmitRoute,
       switchToUkEditRoute,
       cancelToRegSummary))
 
   def badRequestForSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_address_details_outside_uk(form,
+    BadRequest(deceasedAddressDetailsOutsideUkView(form,
       DeceasedInfoHelper.getDeceasedNameOrDefaultString(name),
       submitRoute,
       switchToUkRoute))
 
   def badRequestForEditSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_address_details_outside_uk(form,
+    BadRequest(deceasedAddressDetailsOutsideUkView(form,
       DeceasedInfoHelper.getDeceasedNameOrDefaultString(name),
       editSubmitRoute,
       switchToUkEditRoute,

@@ -31,14 +31,13 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class HouseholdDeceasedOwnControllerImpl @Inject()(val metrics: IhtMetrics,
                                                    val ihtConnector: IhtConnector,
                                                    val cachingConnector: CachingConnector,
                                                    val authConnector: AuthConnector,
-                                                   val formPartialRetriever: FormPartialRetriever,
-                                                   implicit val appConfig: AppConfig,
+                                                   val householdDeceasedOwnView: household_deceased_own,
+                                                   val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with HouseholdDeceasedOwnController {
 
 }
@@ -49,9 +48,11 @@ trait HouseholdDeceasedOwnController extends EstateController {
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
     iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad(), Some(appConfig.AssetsHouseholdOwnID))
 
+  val householdDeceasedOwnView: household_deceased_own
+
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
-      estateElementOnPageLoad[ShareableBasicEstateElement](householdFormOwn, household_deceased_own.apply, _.allAssets.flatMap(_.household), userNino)
+      estateElementOnPageLoad[ShareableBasicEstateElement](householdFormOwn, householdDeceasedOwnView.apply, _.allAssets.flatMap(_.household), userNino)
     }
   }
 
@@ -77,7 +78,7 @@ trait HouseholdDeceasedOwnController extends EstateController {
 
       estateElementOnSubmit[ShareableBasicEstateElement](
         householdFormOwn,
-        household_deceased_own.apply,
+        householdDeceasedOwnView.apply,
         updateApplicationDetails,
         submitUrl,
         userNino

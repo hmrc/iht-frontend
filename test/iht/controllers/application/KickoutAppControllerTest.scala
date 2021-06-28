@@ -17,15 +17,17 @@
 package iht.controllers.application
 
 import java.util.UUID
+
 import iht.config.AppConfig
 import iht.metrics.IhtMetrics
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
+import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.{DeceasedInfoHelper, KickOutReason, ApplicationStatus => AppStatus}
+import iht.views.html.application.{iht_kickout_application, iht_kickout_final_application}
 import org.mockito.ArgumentMatchers._
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.{status => playStatus, _}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+
 import scala.concurrent.Future
 
 class KickoutAppControllerTest extends ApplicationControllerTest {
@@ -33,6 +35,8 @@ class KickoutAppControllerTest extends ApplicationControllerTest {
   protected abstract class TestController extends FrontendController(mockControllerComponents) with KickoutAppController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val ihtKickoutApplicationView: iht_kickout_application = app.injector.instanceOf[iht_kickout_application]
+    override val ihtKickoutFinalApplicationView: iht_kickout_final_application = app.injector.instanceOf[iht_kickout_final_application]
   }
 
   def kickoutController = new TestController {
@@ -41,7 +45,7 @@ class KickoutAppControllerTest extends ApplicationControllerTest {
     override val authConnector = mockAuthConnector
 
     override lazy val metrics:IhtMetrics = mock[IhtMetrics]
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+
   }
 
   def kickoutControllerNotAuthorised = new TestController {
@@ -50,7 +54,6 @@ class KickoutAppControllerTest extends ApplicationControllerTest {
     override val authConnector = mockAuthConnector
 
     override lazy val metrics:IhtMetrics = mock[IhtMetrics]
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   val uuid = s"session-${UUID.randomUUID}"

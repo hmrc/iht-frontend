@@ -20,12 +20,12 @@ import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.assets.Property
 import iht.models.application.debts._
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.application.debts.mortgages_overview
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
@@ -36,14 +36,13 @@ class MortgagesOverviewControllerTest extends ApplicationControllerTest {
   protected abstract class TestController extends FrontendController(mockControllerComponents) with MortgagesOverviewController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val mortgagesOverviewView: mortgages_overview = app.injector.instanceOf[mortgages_overview]
   }
 
   def mortgagesOverviewController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "MortgagesOverviewController controller" must {

@@ -20,14 +20,11 @@ import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.AllGifts
 import iht.testhelpers.CommonBuilder
-import iht.utils.{CommonHelper, DeceasedInfoHelper}
+import iht.testhelpers.TestHelper._
 import iht.utils.OverviewHelper._
+import iht.utils.{CommonHelper, DeceasedInfoHelper}
 import iht.views.ViewTestHelper
 import iht.views.html.application.gift.gifts_overview
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.constants.Constants._
-import iht.testhelpers.TestHelper._
 
 class GiftsOverviewViewTest extends ViewTestHelper {
 
@@ -39,11 +36,13 @@ class GiftsOverviewViewTest extends ViewTestHelper {
   lazy val giftGivenInLastSevenYearsPageUrl = iht.controllers.application.gifts.routes.SevenYearsGivenInLast7YearsController.onPageLoad()
   lazy val giftSevenYearsValuesPageUrl = iht.controllers.application.gifts.routes.SevenYearsGiftsValuesController.onPageLoad()
   lazy val giftsForTrustPageUrl = iht.controllers.application.gifts.routes.SevenYearsToTrustController.onPageLoad()
+  lazy val giftsOverviewTemplate: gifts_overview = app.injector.instanceOf[gifts_overview]
 
   def giftsOverviewView(sectionsToDisplay: Seq[Section] = Nil) = {
     implicit val request = createFakeRequest()
-    
-    val view = gifts_overview(regDetails,
+
+
+    val view = giftsOverviewTemplate(regDetails,
                               sectionsToDisplay,
                               Some(estateOverviewPageUrl),
                               "iht.estateReport.returnToEstateOverview").toString()
@@ -95,7 +94,7 @@ class GiftsOverviewViewTest extends ViewTestHelper {
       val seqOfQuestions = createSeqOfQuestions(regDetails, appDetails, allGifts)
       val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
 
-      val view = gifts_overview(regDetails,
+      val view = giftsOverviewTemplate(regDetails,
                                 seqOfQuestions,
                                 Some(estateOverviewPageUrl),
                                 "iht.estateReport.returnToEstateOverview")

@@ -20,27 +20,26 @@ import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.HeldInTrust
-
 import iht.testhelpers.TestHelper._
-import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
+import iht.testhelpers.{CommonBuilder, ContentChecker}
 import iht.utils.CommonHelper
+import iht.views.html.application.asset.trusts.trusts_value
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class TrustsValueControllerTest extends ApplicationControllerTest{
 
   protected abstract class TestController extends FrontendController(mockControllerComponents) with TrustsValueController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val trustsValueView: trusts_value = app.injector.instanceOf[trusts_value]
   }
 
   def trustsValueController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def trustsValueControllerNotAuthorised = new TestController {
@@ -48,7 +47,6 @@ class TrustsValueControllerTest extends ApplicationControllerTest{
 //    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "TrustsValueController" must {

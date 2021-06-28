@@ -19,23 +19,28 @@
 @import iht.models.application.tnrb.TnrbEligibiltyModel
 @import iht.models.application.tnrb._
 @import iht.utils.CommonHelper._
-@import iht.utils.DeceasedInfoHelper._
+@import iht.utils.DeceasedInfoHelper
 @import iht.utils.OverviewHelper._
 @import iht.utils._
 @import iht.utils.tnrb.TnrbHelper
-@import iht.views.html._
-@import iht.views.html.application.tnrb._
 @import iht.utils.CustomLanguageUtils.Dates
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-
 @import iht.utils.tnrb.TnrbHelperFixture
+
+@this(
+    implicit val appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application,
+    tnrbOverviewTableRow: application.tnrb.tnrb_overview_table_row,
+    nameHelper: ihtHelpers.custom.name,
+    returnLinkButton: ihtHelpers.custom.return_link_button
+)
+
 @(registrationDetails: RegistrationDetails,
         widowCheckModel: WidowCheck,
         tnrbModel: TnrbEligibiltyModel,
-        ihtReference: String)(implicit request: Request[_], messages: Messages, lang : play.api.i18n.Lang, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+        ihtReference: String)(implicit request: Request[_], messages: Messages, lang : play.api.i18n.Lang)
 
-    @iht_main_template_application(
+    @ihtMainTemplateApplication(
         title = Messages("iht.estateReport.tnrb.increasingIHTThreshold"),
         browserTitle = Some(Messages("iht.estateReport.tnrb.increasingThreshold")),
         isFullWidth = false,
@@ -51,7 +56,7 @@
                     TnrbHelperFixture().spouseOrCivilPartnerLabelGenitive(
                         tnrbModel,
                         widowCheckModel,
-                        getDeceasedNameOrDefaultString(registrationDetails)
+                        DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)
                     ),
                     CommonHelper.getOrException(widowCheckModel.dateOfPreDeceased).getYear.toString
                 )
@@ -62,15 +67,15 @@
         <p id="tnrb-guidance3">@Messages("iht.estateReport.completeEverySection")</p>
 
         @defining(getOrException(registrationDetails.deceasedDetails).name) { deceasedName =>
-            @defining(TnrbHelperFixture().spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheckModel, getDeceasedNameOrDefaultString(registrationDetails, true), true)) { predeceasedName =>
+            @defining(TnrbHelperFixture().spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheckModel, DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true), true)) { predeceasedName =>
 
                 <section class="form-group">
 
                     <ul class="tabular-data tabular-data--list">
                         @if(!CommonHelper.getOrException(CommonHelper.getOrException(registrationDetails.deceasedDetails).maritalStatus).equals(appConfig.statusWidowed)) {
-                            @tnrb_overview_table_row(id = "partner-marital-status",
+                            @tnrbOverviewTableRow(id = "partner-marital-status",
                                 questionText = Html(messages("iht.estateReport.tnrb.partner.married",
-                                    ihtHelpers.custom.name(deceasedName),
+                                    nameHelper(deceasedName),
                                     messages(TnrbHelperFixture().preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased)),
                                     messages(TnrbHelperFixture().spouseOrCivilPartnerMessage(widowCheckModel.dateOfPreDeceased))
                                 )
@@ -81,19 +86,19 @@
                                 link = Some(iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad),
                                 linkScreenReader = mapYesNoNoneDisplayValue(
                                     messages(getBooleanDisplayValue(widowCheckModel.widowed)),
-                                    messages("page.iht.application.tnrbEligibilty.overview.partner.maritalStatus.question.screenReader.text.yes", ihtHelpers.custom.name(deceasedName)),
+                                    messages("page.iht.application.tnrbEligibilty.overview.partner.maritalStatus.question.screenReader.text.yes", nameHelper(deceasedName)),
                                     "","")
                                 ,
                                 linkID = appConfig.TnrbSpouseMartialStatusID)
                         }
                         @defining(widowCheckModel.dateOfPreDeceased.map(x => Dates.formatDate(x).toString).fold("")(identity)) { answerValue =>
-                            @tnrb_overview_table_row(id = "date-of-preDeceased",
+                            @tnrbOverviewTableRow(id = "date-of-preDeceased",
                                 questionText = Html(messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question",
 
                                     messages(TnrbHelperFixture().spouseOrCivilPartnerLabelGenitive(
                                         tnrbModel,
                                         widowCheckModel,
-                                        getDeceasedNameOrDefaultString(registrationDetails, true),
+                                        DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true),
                                         true
                                     ))
 
@@ -104,7 +109,7 @@
                                 answerValue = answerValue,
                                 link = Some(iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad),
                                 linkScreenReader = Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question.screenReader.text",
-                                    predeceasedName, ihtHelpers.custom.name(deceasedName), answerValue),
+                                    predeceasedName, nameHelper(deceasedName), answerValue),
                                 linkID = appConfig.TnrbSpouseDateOfDeathID
                                 )
                         }
@@ -124,7 +129,7 @@
                     messages(TnrbHelperFixture().spouseOrCivilPartnerLabelGenitive(
                         tnrbModel,
                         widowCheckModel,
-                        getDeceasedNameOrDefaultString(registrationDetails, true),
+                        DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true),
                         true
                     ))
                 )
@@ -134,20 +139,20 @@
             <ul class="tabular-data tabular-data--list">
 
             @defining(getOrException(registrationDetails.deceasedDetails).name) { deceasedName =>
-                @defining(TnrbHelperFixture().spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheckModel, getDeceasedNameOrDefaultString(registrationDetails, true), true)) { predeceasedName =>
+                @defining(TnrbHelperFixture().spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheckModel, DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true), true)) { predeceasedName =>
 
                     @defining(if(tnrbModel.firstName.isDefined) "some" else "none") { messageFileSuffix =>
                         @defining(if(tnrbModel.Name.toString.trim == "") "" else tnrbModel.Name.toString) { answerValue =>
-                            @tnrb_overview_table_row(id = "partner-name",
+                            @tnrbOverviewTableRow(id = "partner-name",
                                 questionText = Html(messages("page.iht.application.tnrbEligibilty.overview.partner.name.question",
                                     messages(TnrbHelperFixture().spouseOrCivilPartnerNameLabel(tnrbModel, widowCheckModel, messages("page.iht.application.tnrbEligibilty.partner.additional.label.name.of.the"))))),
                                 questionScreenReaderText = Messages("page.iht.application.tnrbEligibilty.overview.partner.name.question.screenReader.text"),
                                 questionCategory = "name",
                                 answerValue = answerValue,
-                                answerValueFormatted = Some(ihtHelpers.custom.name(answerValue)),
+                                answerValueFormatted = Some(nameHelper(answerValue)),
                                 link = Some(iht.controllers.application.tnrb.routes.PartnerNameController.onPageLoad),
                                 linkScreenReader = messages("page.iht.application.tnrbEligibilty.overview.partner.name.question.screenReader.text." + messageFileSuffix,
-                                    predeceasedName, ihtHelpers.custom.name(deceasedName), ihtHelpers.custom.name(answerValue)),
+                                    predeceasedName, nameHelper(deceasedName), nameHelper(answerValue)),
                                 linkID = appConfig.TnrbSpouseNameID
                                 )
                         }
@@ -155,7 +160,7 @@
 
                     @defining(if(tnrbModel.dateOfMarriage.isDefined) "some" else "none") { messageFileSuffix =>
                         @defining(tnrbModel.dateOfMarriage.map(x => Dates.formatDate(x).toString).fold("")(identity)) { answerValue =>
-                            @tnrb_overview_table_row(id = "date-of-marriage",
+                            @tnrbOverviewTableRow(id = "date-of-marriage",
                                 questionText = Html(messages("iht.estateReport.tnrb.dateOfMarriage",
                                     messages(TnrbHelperFixture().marriageOrCivilPartnerShipLabel(widowCheckModel)))),
                                 questionScreenReaderText = messages("page.iht.application.tnrbEligibilty.overview.partner.marriageDate.question.screenReader.text"),
@@ -163,23 +168,23 @@
                                 answerValue = answerValue,
                                 link = Some(iht.controllers.application.tnrb.routes.DateOfMarriageController.onPageLoad),
                                 linkScreenReader = messages("page.iht.application.tnrbEligibilty.overview.partner.marriageDate.question.screenReader.text." + messageFileSuffix,
-                                    predeceasedName, ihtHelpers.custom.name(deceasedName), answerValue),
+                                    predeceasedName, nameHelper(deceasedName), answerValue),
                                 linkID = appConfig.TnrbSpouseDateOfMarriageID
                             )
                         }
                     }
 
-                    @tnrb_overview_table_row(id = "home-in-uk",
-                        questionText = Html(Messages("iht.estateReport.tnrb.permanentHome.question", predeceasedName, ihtHelpers.custom.name(deceasedName))),
+                    @tnrbOverviewTableRow(id = "home-in-uk",
+                        questionText = Html(Messages("iht.estateReport.tnrb.permanentHome.question", predeceasedName, nameHelper(deceasedName))),
                         questionScreenReaderText = Messages("page.iht.application.tnrbEligibilty.overview.homeInUk.question.screenReader.text"),
                         questionCategory = "questionAnswer",
                         answerValue = Messages(getBooleanDisplayValue(tnrbModel.isPartnerLivingInUk)),
                         link = Some(iht.controllers.application.tnrb.routes.PermanentHomeController.onPageLoad),
                         linkScreenReader = mapYesNoNoneDisplayValue(
                             Messages(getBooleanDisplayValue(tnrbModel.isPartnerLivingInUk)),
-                            Messages("page.iht.application.tnrbEligibilty.overview.homeInUk.question.screenReader.text.yes", predeceasedName, ihtHelpers.custom.name(deceasedName)),
-                            Messages("page.iht.application.tnrbEligibilty.overview.homeInUk.question.screenReader.text.no", predeceasedName, ihtHelpers.custom.name(deceasedName)),
-                            Messages("page.iht.application.tnrbEligibilty.overview.homeInUk.question.screenReader.text.none", predeceasedName, ihtHelpers.custom.name(deceasedName))
+                            Messages("page.iht.application.tnrbEligibilty.overview.homeInUk.question.screenReader.text.yes", predeceasedName, nameHelper(deceasedName)),
+                            Messages("page.iht.application.tnrbEligibilty.overview.homeInUk.question.screenReader.text.no", predeceasedName, nameHelper(deceasedName)),
+                            Messages("page.iht.application.tnrbEligibilty.overview.homeInUk.question.screenReader.text.none", predeceasedName, nameHelper(deceasedName))
                         ),
                         linkID = appConfig.TnrbSpousePermanentHomeInUKID)
 
@@ -191,7 +196,7 @@
 
         <section class="form-group">
             @defining(getOrException(registrationDetails.deceasedDetails).name) { deceasedName =>
-                @defining(TnrbHelperFixture().spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheckModel, getDeceasedNameOrDefaultString(registrationDetails, true), true)) { predeceasedName =>
+                @defining(TnrbHelperFixture().spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheckModel, DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true), true)) { predeceasedName =>
 
                     <h2 id="tnrb-partner-estate">
                         @Html(
@@ -203,8 +208,8 @@
 
                     <ul id="tnrb-overview-partner-estate-table" class="tabular-data tabular-data--list">
 
-                    @tnrb_overview_table_row(id = "is-estate-below-iht-threshold-applied",
-                        questionText = Html(Messages("page.iht.application.tnrbEligibilty.overview.charity.question", predeceasedName, ihtHelpers.custom.name(deceasedName))),
+                    @tnrbOverviewTableRow(id = "is-estate-below-iht-threshold-applied",
+                        questionText = Html(Messages("page.iht.application.tnrbEligibilty.overview.charity.question", predeceasedName, nameHelper(deceasedName))),
                         questionScreenReaderText = Messages("page.iht.application.tnrbEligibilty.overview.charity.question.screenReader.text"),
                         questionCategory = "questionAnswer",
                         answerValue = Messages(getBooleanDisplayValue(tnrbModel.isEstateBelowIhtThresholdApplied)),
@@ -217,8 +222,8 @@
                         ),
                         linkID = appConfig.TnrbEstatePassedToDeceasedID)
 
-                    @tnrb_overview_table_row(id = "is-joint-asset-passed",
-                        questionText = Html(Messages("page.iht.application.tnrbEligibilty.overview.jointlyOwned.question", predeceasedName, ihtHelpers.custom.name(deceasedName))),
+                    @tnrbOverviewTableRow(id = "is-joint-asset-passed",
+                        questionText = Html(Messages("page.iht.application.tnrbEligibilty.overview.jointlyOwned.question", predeceasedName, nameHelper(deceasedName))),
                         questionScreenReaderText = Messages("page.iht.application.tnrbEligibilty.overview.jointlyOwned.question.screenReader.text"),
                         questionCategory = "questionAnswer",
                         answerValue = Messages(getBooleanDisplayValue(tnrbModel.isJointAssetPassed)),
@@ -231,7 +236,7 @@
                         ),
                         linkID = appConfig.TnrbJointAssetsPassedToDeceasedID)
 
-                    @tnrb_overview_table_row(id = "state-claim-any-business",
+                    @tnrbOverviewTableRow(id = "state-claim-any-business",
                         questionText = Html(Messages("iht.estateReport.tnrb.stateClaim.question")),
                         questionScreenReaderText = Messages("page.iht.application.tnrbEligibilty.overview.stateClaimAnyBusiness.question.screenReader.text"),
                         questionCategory = "questionAnswer",
@@ -245,7 +250,7 @@
                         ),
                         linkID = appConfig.TnrbEstateReliefID)
 
-                    @tnrb_overview_table_row(id = "is-partner-ben-from-trust",
+                    @tnrbOverviewTableRow(id = "is-partner-ben-from-trust",
                         questionText = Html(Messages("iht.estateReport.tnrb.benefitFromTrust.question", predeceasedName)),
                         questionScreenReaderText = Messages("page.iht.application.tnrbEligibilty.overview.benefitFromTrust.question.screenReader.text"),
                         questionCategory = "questionAnswer",
@@ -259,7 +264,7 @@
                         ),
                         linkID = appConfig.TnrbSpouseBenefitFromTrustID)
 
-                    @tnrb_overview_table_row(id = "gifts-given-away",
+                    @tnrbOverviewTableRow(id = "gifts-given-away",
                         questionText = Html(Messages("iht.estateReport.tnrb.giftsMadeBeforeDeath.question", predeceasedName)),
                         questionScreenReaderText = Messages("page.iht.application.tnrbEligibilty.overview.giftsGivenAway.question.screenReader.text"),
                         questionCategory = "questionAnswer",
@@ -273,8 +278,8 @@
                         ),
                         linkID = appConfig.TnrbGiftsGivenAwayID)
 
-                    @tnrb_overview_table_row(id = "gifts-with-reservation",
-                        questionText = Html(Messages("page.iht.application.tnrbEligibilty.overview.giftsWithReservation.question", predeceasedName, ihtHelpers.custom.name(deceasedName))),
+                    @tnrbOverviewTableRow(id = "gifts-with-reservation",
+                        questionText = Html(Messages("page.iht.application.tnrbEligibilty.overview.giftsWithReservation.question", predeceasedName, nameHelper(deceasedName))),
                         questionScreenReaderText = Messages("page.iht.application.tnrbEligibilty.overview.giftsWithReservation.question.screenReader.text"),
                         questionCategory = "questionAnswer",
                         answerValue = Messages(getBooleanDisplayValue(tnrbModel.isPartnerGiftWithResToOther)),
@@ -298,7 +303,7 @@
         </section>
     }
 
-        @ihtHelpers.custom.return_link_button(
+        @returnLinkButton(
             Some(Messages("iht.estateReport.returnToEstateOverview")),
             Some(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference)),
             appConfig.EstateIncreasingID

@@ -15,24 +15,29 @@
  *@
 
 @import iht.utils.tnrb.TnrbHelper
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 @import iht.models.application.tnrb.TnrbEligibiltyModel
 @import iht.models.application.tnrb.WidowCheck
-@import uk.gov.hmrc.play.views.html.helpers.form
-
 @import iht.utils.tnrb.TnrbHelperFixture
+
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummary: ihtHelpers.custom.error_summary,
+    dateFields: ihtHelpers.standard.date_fields
+)
+
 @(dateOfMarriageForm: Form[TnrbEligibiltyModel],
         widowCheckModel: WidowCheck,
         deceasedName: String,
         predeceasedName: String,
         cancelUrl: Call
-)(implicit request: Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+)(implicit request: Request[_], messages: Messages)
 
 @defining(Messages("iht.estateReport.tnrb.dateOfMarriage",
     TnrbHelperFixture().marriageOrCivilPartnerShipLabel(widowCheckModel))) { pageTitle =>
-    @iht_main_template_application(
+    @ihtMainTemplateApplication(
         title = "",
         browserTitle = Some(pageTitle),
         cancelLabel = Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
@@ -41,7 +46,7 @@
         @form(action = iht.controllers.application.tnrb.routes.DateOfMarriageController.onSubmit, 'autoComplete -> "off") {
 
 
-            @ihtHelpers.custom.error_summary(dateOfMarriageForm, Some(
+            @errorSummary(dateOfMarriageForm, Some(
                 Map(
             "error.predeceasedDateOfMarriage.beforeDateOfDeath" -> "error.dateOfMarriage.incorrect.summary"
                  )
@@ -50,7 +55,7 @@
 
             <h1 class = heading-xlarge>@pageTitle</h1>
 
-            @ihtHelpers.standard.date_fields(
+            @dateFields(
                 dateOfMarriageForm,
                 "dateOfMarriage",
                 "",

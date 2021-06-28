@@ -25,7 +25,6 @@ import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.auth.core.authorise.Predicate
 import uk.gov.hmrc.auth.core.retrieve.Retrieval
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -41,8 +40,6 @@ trait IhtBaseController extends FrontendController with AuthorisedFunctions with
   protected lazy val confidenceLevel: Int = appConfig.ivUpliftConfidenceLevel
 
   private lazy val predicate: Predicate = AffinityGroup.Individual and ConfidenceLevel.fromInt(confidenceLevel).get
-
-  implicit val formPartialRetriever: FormPartialRetriever
 
   private def handleAuthErrors(implicit request: Request[_]): PartialFunction[Throwable, Result] = {
     case e: InsufficientConfidenceLevel =>

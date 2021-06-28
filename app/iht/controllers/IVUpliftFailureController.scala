@@ -32,11 +32,16 @@ import scala.concurrent.{ExecutionContext, Future}
 class IVUpliftFailureControllerImpl @Inject()(val formPartialRetriever: FormPartialRetriever,
                                               val identityVerificationConnector: IdentityVerificationConnector,
                                               implicit val appConfig: AppConfig,
+                                              val genericView: generic,
+                                              val preconditionFailedView: precondition_failed,
+                                              val lockedOutView: locked_out,
+                                              val timeoutView: timeout,
+                                              val technicalIssueView: technical_issue,
+                                              val failure2faView: failure_2fa,
                                               val cc: MessagesControllerComponents) extends FrontendController(cc) with IVUpliftFailureController
 
 trait IVUpliftFailureController extends FrontendController with I18nSupport with Logging {
   val identityVerificationConnector: IdentityVerificationConnector
-  implicit val formPartialRetriever: FormPartialRetriever
   implicit val appConfig: AppConfig
 
   val cc: MessagesControllerComponents
@@ -53,26 +58,32 @@ trait IVUpliftFailureController extends FrontendController with I18nSupport with
     showNotAuthorised(journeyId, ivUrlRegistration)
   }
 
+  val genericView: generic
+  val preconditionFailedView: precondition_failed
+  val lockedOutView: locked_out
+  val timeoutView: timeout
+  val technicalIssueView: technical_issue
+  val failure2faView: failure_2fa
   private def showNotAuthorised(oJourneyId: Option[String], tryAgainRoute: String)(implicit request: Request[AnyContent]): Future[Result] = {
     import IdentityVerificationResult.{PreconditionFailed => PreconditionFailedIV, _}
 
     oJourneyId.map { journeyId =>
       identityVerificationConnector.identityVerificationResponse(journeyId).map {
-        case FailedMatching =>       Forbidden(generic(tryAgainRoute))
-        case PreconditionFailedIV => Forbidden(precondition_failed())
-        case FailedIV =>             Forbidden(generic(tryAgainRoute))
-        case InsufficientEvidence => Unauthorized(generic(tryAgainRoute))
-        case LockedOut =>            Unauthorized(locked_out())
-        case Timeout =>              Unauthorized(timeout(tryAgainRoute))
-        case Incomplete =>           Unauthorized(generic(tryAgainRoute))
-        case UserAborted =>          Unauthorized(generic(tryAgainRoute))
-        case TechnicalIssue =>       InternalServerError(technical_issue(tryAgainRoute))
+        case FailedMatching =>       Forbidden(genericView(tryAgainRoute))
+        case PreconditionFailedIV => Forbidden(preconditionFailedView())
+        case FailedIV =>             Forbidden(genericView(tryAgainRoute))
+        case InsufficientEvidence => Unauthorized(genericView(tryAgainRoute))
+        case LockedOut =>            Unauthorized(lockedOutView())
+        case Timeout =>              Unauthorized(timeoutView(tryAgainRoute))
+        case Incomplete =>           Unauthorized(genericView(tryAgainRoute))
+        case UserAborted =>          Unauthorized(genericView(tryAgainRoute))
+        case TechnicalIssue =>       InternalServerError(technicalIssueView(tryAgainRoute))
         case other =>
                                      logger.error(s"Unknown identityVerificationResult ($other)")
-                                     InternalServerError(technical_issue(tryAgainRoute))
+                                     InternalServerError(technicalIssueView(tryAgainRoute))
       }
     }.getOrElse {
-      Future.successful(Unauthorized(failure_2fa(tryAgainRoute))) // 2FA returns no journeyId
+      Future.successful(Unauthorized(failure2faView(tryAgainRoute))) // 2FA returns no journeyId
     }.map(_.withNewSession)
   }
 

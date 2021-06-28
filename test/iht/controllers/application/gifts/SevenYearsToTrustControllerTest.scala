@@ -20,32 +20,30 @@ package iht.controllers.application.gifts
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
-
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.application.gift.seven_years_to_trust
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class SevenYearsToTrustControllerTest  extends ApplicationControllerTest{
 
   protected abstract class TestController extends FrontendController(mockControllerComponents) with SevenYearsToTrustController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val sevenYearsToTrustView: seven_years_to_trust = app.injector.instanceOf[seven_years_to_trust]
   }
 
   def sevenYearsToTrustController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def sevenYearsToTrustControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   val allGifts=CommonBuilder.buildAllGifts

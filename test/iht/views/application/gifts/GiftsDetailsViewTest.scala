@@ -19,13 +19,10 @@ package iht.views.application.gifts
 import iht.forms.ApplicationForms._
 import iht.models.application.gifts.PreviousYearsGifts
 import iht.testhelpers.CommonBuilder
-import iht.views.application.{SubmittableApplicationPageBehaviour, CancelComponent}
+import iht.views.application.{CancelComponent, SubmittableApplicationPageBehaviour}
 import iht.views.html.application.gift.gifts_details
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 
 
 class GiftsDetailsViewTest extends SubmittableApplicationPageBehaviour[PreviousYearsGifts] {
@@ -36,6 +33,7 @@ class GiftsDetailsViewTest extends SubmittableApplicationPageBehaviour[PreviousY
 
   lazy val giftsValue = BigDecimal(200)
   lazy val exemptionsValue = BigDecimal(100)
+  lazy val giftsDetailsView: gifts_details = app.injector.instanceOf[gifts_details]
 
   def pageTitle: String = messagesApi("page.iht.application.giftsDetails.subtitle", "13 March 2007") + " 5 April 2007"
 
@@ -62,7 +60,7 @@ class GiftsDetailsViewTest extends SubmittableApplicationPageBehaviour[PreviousY
 
   override def formToView: Form[PreviousYearsGifts] => Appendable =
     form =>
-      gifts_details(form,
+      giftsDetailsView(form,
         regDetails,
         Some(returnLocation),
         Some(messagesApi(returnLinkLabelMsgKey)))

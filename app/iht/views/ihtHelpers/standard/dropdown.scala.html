@@ -14,11 +14,14 @@
  * limitations under the License.
  *@
 
-@(field: play.api.data.Field, elementOptions: Seq[(String, String)], displayEmptyValue: Boolean, isComboBox: Boolean,  args: (Symbol,Any)*)(implicit messages: Messages)
-
 @import iht.utils._
 @import play.api.i18n._
 @import views.html.helper._
+
+@this()
+
+@(field: play.api.data.Field, elementOptions: Seq[(String, String)], displayEmptyValue: Boolean, isComboBox: Boolean,  args: (Symbol,Any)*)(implicit messages: Messages)
+
 @elements = @{ new FieldElements(field.id, field, null, args.toMap, messages) }
 @parentField = @{args.toMap.get('parentField).asInstanceOf[Option[Field]]}
 

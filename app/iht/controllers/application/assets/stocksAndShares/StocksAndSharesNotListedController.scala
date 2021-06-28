@@ -29,12 +29,11 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class StocksAndSharesNotListedControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                        val cachingConnector: CachingConnector,
                                                        val authConnector: AuthConnector,
-                                                       val formPartialRetriever: FormPartialRetriever,
+                                                       val stocksAndSharesNotListedView: stocks_and_shares_not_listed,
                                                        implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with StocksAndSharesNotListedController {
 
@@ -47,10 +46,11 @@ trait StocksAndSharesNotListedController extends EstateController {
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
     iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad(),
     Some(appConfig.AssetsStocksNotListedID))
+  val stocksAndSharesNotListedView: stocks_and_shares_not_listed
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
-      estateElementOnPageLoad[StockAndShare](stockAndShareNotListedForm, stocks_and_shares_not_listed.apply,
+      estateElementOnPageLoad[StockAndShare](stockAndShareNotListedForm, stocksAndSharesNotListedView.apply,
         _.allAssets.flatMap(_.stockAndShare), userNino)
     }
   }
@@ -78,7 +78,7 @@ trait StocksAndSharesNotListedController extends EstateController {
 
       estateElementOnSubmit[StockAndShare](
         stockAndShareNotListedForm,
-        stocks_and_shares_not_listed.apply,
+        stocksAndSharesNotListedView.apply,
         updateApplicationDetails,
         submitUrl,
         userNino

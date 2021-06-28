@@ -15,16 +15,22 @@
  *@
 
 @import iht.constants.FieldMappings
+@import iht.config.AppConfig
 
 @import iht.controllers.application.assets.properties.routes._
 @import iht.models.application.assets.Property
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 
+@this(
+    implicit val appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application,
+    nameHelper: ihtHelpers.custom.name,
+    returnLink: ihtHelpers.custom.return_link
+)
+
 @(deceasedName: String,
-property:Option[Property]=None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+property:Option[Property]=None)(implicit request:Request[_], messages: Messages)
 
 @getUpdateElements(data: Option[_], changeText: String, noValueText: String, currencyValue: Boolean = false) = {
     @(data, currencyValue) match {
@@ -43,7 +49,7 @@ property:Option[Property]=None)(implicit request:Request[_], messages: Messages,
     }
 }
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.propertyAdd"),
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.assets.propertyAdd"),
 browserTitle = Some(Messages("iht.estateReport.assets.propertyAdd")),
 isFullWidth = false) {
 
@@ -100,7 +106,7 @@ isFullWidth = false) {
             }
             @defining(property.flatMap(_.typeOfOwnership))  { typeOfOwnership =>
                 <li id="type-of-ownership-question" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
-                    <div class="tabular-data__data tabular-data__data--6-12">@Html(Messages("iht.estateReport.assets.howOwnedByDeceased", ihtHelpers.custom.name(deceasedName)))</div>
+                    <div class="tabular-data__data tabular-data__data--6-12">@Html(Messages("iht.estateReport.assets.howOwnedByDeceased", nameHelper(deceasedName)))</div>
                     <div class="tabular-data__data tabular-data__data--4-12">
                         @{typeOfOwnership match {
                         case Some(x) => {FieldMappings.typesOfOwnership(deceasedName)(messages, appConfig)(x)._1}
@@ -146,7 +152,7 @@ isFullWidth = false) {
             }
             @defining(property.flatMap(_.value)) { value =>
                 <li id="property-value-question" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
-                    <div class="tabular-data__data tabular-data__data--6-12">@Html(Messages("iht.estateReport.assets.properties.value.question", ihtHelpers.custom.name(deceasedName)))</div>
+                    <div class="tabular-data__data tabular-data__data--6-12">@Html(Messages("iht.estateReport.assets.properties.value.question", nameHelper(deceasedName)))</div>
                     <div class="tabular-data__data tabular-data__data--4-12">
                         @{value match {
                         case Some(x) => {"£" + CommonHelper.numberWithCommas(x)}
@@ -177,7 +183,7 @@ isFullWidth = false) {
 </div>
 
 @defining(property.flatMap(_.id))  { propertyId =>
-    @ihtHelpers.custom.return_link(
+    @returnLink(
         Messages("page.iht.application.assets.property.detailsOverview.returnLink"),
         Some(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad()),
         propertyId match{

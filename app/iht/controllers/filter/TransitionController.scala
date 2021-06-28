@@ -21,11 +21,11 @@ import javax.inject.Inject
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.filter.use_paper_form
 
 import scala.concurrent.Future
 
-class TransitionControllerImpl @Inject()(val formPartialRetriever: FormPartialRetriever,
+class TransitionControllerImpl @Inject()(val usePaperFormView: use_paper_form,
                                          val cc: MessagesControllerComponents,
                                          implicit val appConfig: AppConfig) extends FrontendController(cc) with TransitionController
 
@@ -36,11 +36,11 @@ trait TransitionController extends FrontendController with I18nSupport {
   def onPageLoadNorthernIreland: Action[AnyContent] = doPageLoad("iht.countries.northernIreland")
   def onPageLoadOtherCountry: Action[AnyContent] = doPageLoad("page.iht.filter.domicile.choice.other")
 
-  implicit val formPartialRetriever: FormPartialRetriever
+  val usePaperFormView: use_paper_form
 
   def doPageLoad(countryMessageKey: String): Action[AnyContent] = Action.async {
     implicit request => {
-      Future.successful(Ok(iht.views.html.filter.use_paper_form(countryMessageKey)))
+      Future.successful(Ok(usePaperFormView(countryMessageKey)))
     }
   }
 }

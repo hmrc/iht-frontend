@@ -18,8 +18,14 @@
 @import iht.utils.OverviewHelper._
 @import iht.utils.DeceasedInfoHelper
 @import iht.models.RegistrationDetails
-@import iht.views.html._
 @import iht.config.AppConfig
+
+@this(
+    implicit val appConfig: AppConfig,
+    returnLinkButton: ihtHelpers.custom.return_link_button,
+    returnLink: ihtHelpers.custom.return_link,
+    nameHelper: ihtHelpers.custom.name
+)
 
 @(registrationDetails:RegistrationDetails,
 seqRows:Seq[Section],
@@ -31,7 +37,7 @@ returnAsButton: Boolean = false,
 showStatus: Boolean = true,
 returnHash: String = "",
 messagesFileBullets:Seq[String] = Seq.empty
-)(implicit request:Request[_], messages: Messages, appConfig: AppConfig)
+)(implicit request:Request[_], messages: Messages)
 
 <p id="assets-guidance1">@Html(Messages(messagesFileSectionLine1))</p>
 @if(messagesFileBullets.nonEmpty) {
@@ -104,8 +110,8 @@ messagesFileBullets:Seq[String] = Seq.empty
 
 @registrationDetails.deceasedDetails.map{ dd=>
   @if(returnAsButton){
-    @ihtHelpers.custom.return_link_button(Some(Messages(returnToMessagesKey, dd.name)), returnToCall)
+    @returnLinkButton(Some(Messages(returnToMessagesKey, dd.name)), returnToCall)
   } else {
-      @ihtHelpers.custom.return_link(Messages(returnToMessagesKey, ihtHelpers.custom.name(dd.name)), returnToCall, returnHash)
+      @returnLink(Messages(returnToMessagesKey, nameHelper(dd.name)), returnToCall, returnHash)
   }
 }

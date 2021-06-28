@@ -27,7 +27,7 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.gift.seven_years_gift_values
 
 import scala.concurrent.Future
 
@@ -35,7 +35,7 @@ import scala.concurrent.Future
 class SevenYearsGiftsValuesControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                     val cachingConnector: CachingConnector,
                                                     val authConnector: AuthConnector,
-                                                    val formPartialRetriever: FormPartialRetriever,
+                                                    val sevenYearsGiftValuesView: seven_years_gift_values,
 implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with SevenYearsGiftsValuesController {
 
@@ -48,6 +48,7 @@ trait SevenYearsGiftsValuesController extends EstateController {
 
   def ihtConnector: IhtConnector
 
+  val sevenYearsGiftValuesView: seven_years_gift_values
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
       implicit val lang: Lang = messagesApi.preferred(request).lang
@@ -55,7 +56,7 @@ trait SevenYearsGiftsValuesController extends EstateController {
       withApplicationDetails(userNino) { rd =>
         ad =>
           CommonHelper.getOrException(rd.deceasedDateOfDeath.map(ddod =>
-            Future.successful(Ok(iht.views.html.application.gift.seven_years_gift_values(
+            Future.successful(Ok(sevenYearsGiftValuesView(
               ad.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity),
               rd,
               ad.totalPastYearsGiftsValueExcludingExemptions,

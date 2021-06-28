@@ -17,18 +17,25 @@
 @import iht.models.application.basicElements.ShareableBasicEstateElement
 @import iht.utils.OverviewHelper._
 @import iht.utils._
-@import iht.views.html._
-@import iht.views.html.ihtHelpers.custom._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 @import iht.models.RegistrationDetails
 
+@this(
+    implicit val appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application,
+    genericOverviewTableSection: ihtHelpers.custom.generic_overview_table_section,
+    genericOverviewTableHeadingItem: ihtHelpers.custom.generic_overview_table_heading_item,
+    genericOverviewTableItem: ihtHelpers.custom.generic_overview_table_item,
+    returnLink: ihtHelpers.custom.return_link,
+    nameHelper: ihtHelpers.custom.name
+)
+
 @(money:Option[ShareableBasicEstateElement],
-registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.money.upperCaseInitial"),
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.assets.money.upperCaseInitial"),
 browserTitle = Some(Messages("iht.estateReport.assets.money.upperCaseInitial")),
 isFullWidth=false
 ) {
@@ -41,10 +48,10 @@ isFullWidth=false
 
 
     @{
-        generic_overview_table_section(
+        genericOverviewTableSection(
         "deceased-own-money-section",
          money.flatMap(_.isOwned),
-            generic_overview_table_heading_item(id = appConfig.AssetsMoneyOwnID,
+            genericOverviewTableHeadingItem(id = appConfig.AssetsMoneyOwnID,
                 questionText = Messages("iht.estateReport.assets.moneyOwned",deceasedName),
                 questionScreenReaderText = Messages("iht.estateReport.assets.moneyOwned",
                                                     deceasedName),
@@ -52,7 +59,7 @@ isFullWidth=false
                 linkScreenReader = Messages("page.iht.application.assets.money.overview.deceased.isOwned.screenReader.link.noValue", deceasedName),
                 isAnswerValue = money.flatMap(_.isOwned).isEmpty
             ),
-            generic_overview_table_item(id = appConfig.AssetsMoneyOwnID,
+            genericOverviewTableItem(id = appConfig.AssetsMoneyOwnID,
                 questionText = Messages("iht.estateReport.assets.money.ownName.question",deceasedName),
                 questionScreenReaderText= Messages("iht.estateReport.assets.money.ownName.question",
                                                     Messages("iht.the.deceased")),
@@ -61,7 +68,7 @@ isFullWidth=false
                 link = Some(iht.controllers.application.assets.money.routes.MoneyDeceasedOwnController.onPageLoad),
                 linkScreenReader = Messages("page.iht.application.assets.money.overview.deceased.isOwned.screenReader.link.change", deceasedName)),
 
-            generic_overview_table_item(id = "deceased-own-value",
+            genericOverviewTableItem(id = "deceased-own-value",
                 questionText = Messages("iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName", deceasedName),
                 questionScreenReaderText= Messages("iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName", deceasedName),
                 questionCategory= "change",
@@ -72,24 +79,24 @@ isFullWidth=false
     }
 
     @{
-        generic_overview_table_section(
+        genericOverviewTableSection(
         "deceased-shared-money-section",
         money.flatMap(_.isOwnedShare),
-            generic_overview_table_heading_item(id = appConfig.AssetsMoneySharedID,
+            genericOverviewTableHeadingItem(id = appConfig.AssetsMoneySharedID,
                 questionText = Messages("iht.estateReport.assets.money.jointlyOwned"),
                 questionScreenReaderText = Messages("iht.estateReport.assets.money.jointlyOwned"),
                 link = Some(iht.controllers.application.assets.money.routes.MoneyJointlyOwnedController.onPageLoad),
                 linkScreenReader = Messages("page.iht.application.assets.money.overview.deceased.joint.screenReader.link.noValue"),
                 isAnswerValue = money.flatMap(_.isOwnedShare).isEmpty
                 ),
-            generic_overview_table_item(id = appConfig.AssetsMoneySharedID,
+            genericOverviewTableItem(id = appConfig.AssetsMoneySharedID,
                 questionText = Messages("page.iht.application.assets.money.jointly.owned.question", deceasedName),
                 questionScreenReaderText= Messages("page.iht.application.assets.money.jointly.owned.question", deceasedName),
                 questionCategory= "change",
                 answerValue=Messages(getBooleanDisplayValue(money.flatMap(_.isOwnedShare.map(x=>x)))),
                 link = Some(iht.controllers.application.assets.money.routes.MoneyJointlyOwnedController.onPageLoad),
                 linkScreenReader = Messages("page.iht.application.assets.money.overview.deceased.joint.screenReader.link.change")),
-            generic_overview_table_item(id = "deceased-shared-value",
+            genericOverviewTableItem(id = "deceased-shared-value",
                 questionText = Messages("page.iht.application.assets.money.jointly.owned.input.value.label",deceasedName),
                 questionScreenReaderText= Messages("page.iht.application.assets.money.overview.deceased.shareValue"),
                 questionCategory= "change",
@@ -101,7 +108,7 @@ isFullWidth=false
 
 
     @registrationDetails.deceasedDetails.map{ dd=>
-        @ihtHelpers.custom.return_link(Messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(dd.name)),
+        @returnLink(Messages("page.iht.application.return.to.assetsOf", nameHelper(dd.name)),
                                         Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
             appConfig.AppSectionMoneyID
         )

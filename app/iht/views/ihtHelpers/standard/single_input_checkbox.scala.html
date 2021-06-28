@@ -16,6 +16,8 @@
 
 @import views.html.helper.FieldElements
 
+@this()
+
 @(field: play.api.data.Field, args: (Symbol,Any)*)(implicit messages: Messages)
 @elements = @{ new FieldElements(field.id, field, null, args.toMap, messages) }
 @value = @{ field.value match { case Some(x) => x case None => "false" case x => x }}

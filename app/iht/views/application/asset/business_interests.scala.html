@@ -19,20 +19,27 @@
 @import iht.models.RegistrationDetails
 @import iht.models.application.basicElements.BasicEstateElement
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummaryOverrideKeys: ihtHelpers.custom.error_summary_override_keys,
+    genericEstateElementAssets: ihtHelpers.custom.generic_estate_element_assets,
+    nameHelper: ihtHelpers.custom.name,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(businessInterestForm: Form[BasicEstateElement],
-registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.businessInterests.title"),
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.assets.businessInterests.title"),
     browserTitle = Some(Messages("page.iht.application.assets.businessInterest.browserTitle")),
     isFullWidth = false
 ) {
-    @ihtHelpers.custom.error_summary_override_keys(businessInterestForm, AppSectionBusinessInterest)
+    @errorSummaryOverrideKeys(businessInterestForm, AppSectionBusinessInterest)
 
     @form(action = iht.controllers.application.assets.routes.BusinessInterestsController.onSubmit, 'autoComplete -> "off") {
         <div class="form-group">
@@ -40,7 +47,7 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
             <p>@Html(Messages("page.iht.application.assets.businessInterest.description.p2",deceasedName))</p>
         </div>
 
-        @ihtHelpers.custom.generic_estate_element_assets(
+        @genericEstateElementAssets(
             assetType = AssetTypeSingle,
             questionLabel= Messages("page.iht.application.assets.businessInterest.isOwned",deceasedName),
             inputTextLabel = Messages("page.iht.application.assets.businessInterest.inputLabel1",deceasedName),
@@ -54,8 +61,8 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
         </div>
 
         @registrationDetails.deceasedDetails.map{ dd=>
-            @ihtHelpers.custom.return_link(
-                Messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(dd.name)),
+            @returnLink(
+                Messages("page.iht.application.return.to.assetsOf", nameHelper(dd.name)),
                 Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
                 appConfig.AppSectionBusinessInterestID
             )

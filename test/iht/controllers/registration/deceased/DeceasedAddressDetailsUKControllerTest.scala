@@ -21,12 +21,13 @@ import iht.controllers.registration.applicant.{routes => applicantRoutes}
 import iht.controllers.registration.{routes => registrationRoutes}
 import iht.forms.registration.DeceasedForms._
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails, UkAddress}
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.registration.deceased.deceased_address_details_uk
 import org.joda.time.LocalDate
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+
 import scala.concurrent.Future
 
 class DeceasedAddressDetailsUKControllerTest
@@ -35,20 +36,20 @@ class DeceasedAddressDetailsUKControllerTest
   protected abstract class TestController extends FrontendController(mockControllerComponents) with DeceasedAddressDetailsUKController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val deceasedAddressDetailsUkView: deceased_address_details_uk = app.injector.instanceOf[deceased_address_details_uk]
+
   }
 
   def controller = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+    
   }
 
   "DeceasedAddressDetailsUKController" must {

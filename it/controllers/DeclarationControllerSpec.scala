@@ -23,16 +23,17 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.declaration.DeclarationController
 import iht.forms.ApplicationForms.declarationForm
 import iht.metrics.IhtMetrics
+import iht.views.html.application.declaration.declaration
+import iht.views.html.estateReports.estateReports_error_serviceUnavailable
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.data.Form
 import play.api.libs.json.Json
-import play.api.mvc.{AnyContentAsFormUrlEncoded, MessagesControllerComponents, RequestHeader}
+import play.api.mvc.{AnyContentAsFormUrlEncoded, MessagesControllerComponents}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import play.twirl.api.Html
-import uk.gov.hmrc.http.{HttpGet, UpstreamErrorResponse}
+import uk.gov.hmrc.http.UpstreamErrorResponse
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import utils.WiremockHelper.{wiremockHost, wiremockPort}
@@ -40,15 +41,6 @@ import utils.{IntegrationBaseSpec, TestDataUtil}
 
 import scala.concurrent.Future
 import scala.util.Try
-
-object MockFormPartialRetriever extends FormPartialRetriever {
-
-  override def crypto: (String) => String = ???
-
-  override def httpGet: HttpGet = ???
-
-  override def getPartialContent(url: String, templateParameters: Map[String, String], errorMessage: Html)(implicit request: RequestHeader): Html = Html("")
-}
 
 
 class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar with TestDataUtil {
@@ -67,6 +59,8 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
   protected abstract class TestController extends FrontendController(mockCC) with DeclarationController {
     override val cc: MessagesControllerComponents = mockCC
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val declarationView: declaration = app.injector.instanceOf[declaration]
+    override val estateReportsErrorServiceUnavailableView: estateReports_error_serviceUnavailable = app.injector.instanceOf[estateReports_error_serviceUnavailable]
   }
 
   lazy val controller: TestController = new TestController {
@@ -74,8 +68,6 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
     override lazy val metrics: IhtMetrics = mock[IhtMetrics]
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "Calling onSubmit" when {

@@ -17,8 +17,6 @@
 package iht.views.application
 
 import iht.views.ViewTestHelper
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import iht.views.html.application.iht_kickout_final_application
 
 
@@ -26,10 +24,11 @@ import iht.views.html.application.iht_kickout_final_application
 class IhtKickoutFinalApplicationViewTest extends ViewTestHelper{
 
   lazy val ihtRef = "ABCABC"
+  lazy val ihtKickoutFinalApplicationView: iht_kickout_final_application = app.injector.instanceOf[iht_kickout_final_application]
 
  def ihtKickOutFinalApplicationView = {
     implicit val request = createFakeRequest()
-    val view = iht_kickout_final_application(ihtRef).toString()
+    val view = ihtKickoutFinalApplicationView(ihtRef).toString()
     asDocument(view)
   }
 

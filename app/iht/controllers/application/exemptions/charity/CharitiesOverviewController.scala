@@ -25,14 +25,14 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.exemption.charity.charities_overview
 
 import scala.concurrent.Future
 
 class CharitiesOverviewControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                                 val ihtConnector: IhtConnector,
                                                 val authConnector: AuthConnector,
-                                                override implicit val formPartialRetriever: FormPartialRetriever,
+                                                val charitiesOverviewView: charities_overview,
 implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with CharitiesOverviewController
 
@@ -42,6 +42,7 @@ trait CharitiesOverviewController extends ApplicationController {
   def cachingConnector: CachingConnector
   def ihtConnector: IhtConnector
 
+  val charitiesOverviewView: charities_overview
   def onPageLoad() = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       withApplicationDetails(userNino) {
@@ -49,7 +50,7 @@ trait CharitiesOverviewController extends ApplicationController {
 
           val isAssetLeftToCharity: Option[Boolean] = ad.allExemptions.flatMap(_.charity).flatMap(_.isSelected)
 
-          Future.successful(Ok(iht.views.html.application.exemption.charity.charities_overview(ad.charities,
+          Future.successful(Ok(charitiesOverviewView(ad.charities,
             rd,
             CommonHelper.getOrException(isAssetLeftToCharity))))
         }

@@ -26,7 +26,6 @@ import play.api.Logging
 import play.api.mvc.Request
 import play.twirl.api.HtmlFormat.Appendable
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -36,7 +35,7 @@ trait ApplicationStatusController extends EstateController with StringHelper wit
 
   def ihtConnector: IhtConnector
 
-  def getView: (String, String, ProbateDetails) => (Request[_], FormPartialRetriever) => Appendable
+  def getView: (String, String, ProbateDetails) => (Request[_]) => Appendable
 
   def onPageLoad(ihtReference: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
@@ -49,7 +48,7 @@ trait ApplicationStatusController extends EstateController with StringHelper wit
           )
           val deceasedDetails = CommonHelper.getOrException(caseDetails.deceasedDetails)
           futureProbateDetails.map { probateDetails =>
-            Ok(getView(ihtReference, deceasedDetails.name, probateDetails)(request, formPartialRetriever))
+            Ok(getView(ihtReference, deceasedDetails.name, probateDetails)(request))
           }
         }
       }

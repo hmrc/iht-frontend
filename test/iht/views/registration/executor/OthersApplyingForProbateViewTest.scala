@@ -31,11 +31,13 @@ trait OthersApplyingForProbateViewFixture extends YesNoQuestionViewBehaviour[Opt
   override def browserTitle = messagesApi("page.iht.registration.others-applying-for-probate.browserTitle")
 
   override def form: Form[Option[Boolean]] = othersApplyingForProbateForm
+
+  lazy val othersApplyingForProbateView: others_applying_for_probate = app.injector.instanceOf[others_applying_for_probate]
 }
 
 class OthersApplyingForProbateViewTest extends OthersApplyingForProbateViewFixture {
   override def formToView: Form[Option[Boolean]] => Appendable =
-    form => others_applying_for_probate(form, CommonBuilder.DefaultCall1)
+    form => othersApplyingForProbateView(form, CommonBuilder.DefaultCall1)
 
   "Others Applying for Probate View" must {
     behave like yesNoQuestion
@@ -44,7 +46,7 @@ class OthersApplyingForProbateViewTest extends OthersApplyingForProbateViewFixtu
 
 class OthersApplyingForProbateViewTestInEditMode extends OthersApplyingForProbateViewFixture {
   override def formToView: Form[Option[Boolean]] => Appendable =
-    form => others_applying_for_probate(form,
+    form => othersApplyingForProbateView(form,
       CommonBuilder.DefaultCall1, Some(CommonBuilder.DefaultCall2))
 
   "Others Applying for Probate View in Edit Mode" must {

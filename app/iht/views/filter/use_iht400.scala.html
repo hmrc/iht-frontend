@@ -15,14 +15,17 @@
  *@
 
 @import iht.constants.Constants._
-@import iht.views.html.filter.previous_answers
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 
-@(jointAssets: Boolean = false)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@this(
+    appConfig: AppConfig,
+    ihtMainTemplateRegistration: iht_main_template_registration,
+    previousAnswers: filter.previous_answers
+)
 
-@iht_main_template_registration(title = Messages("iht.useIHT400PaperForm"),
+@(jointAssets: Boolean = false)(implicit request:Request[_], messages: Messages)
+
+@ihtMainTemplateRegistration(title = Messages("iht.useIHT400PaperForm"),
     browserTitle = Some(Messages("iht.useIHT400PaperForm")),
     isFullWidth = false,
     hasSignOut = false,
@@ -37,6 +40,6 @@
         <a id="continue" href="@iht.controllers.routes.DeadlinesController.onPageLoadRegistration" class="button">@Messages("iht.continue")</a>
     </div>
 
-    @previous_answers(Messages("iht.countries.englandOrWales"), Some(jointAssets), Some(moreThan1million))
+    @previousAnswers(Messages("iht.countries.englandOrWales"), Some(jointAssets), Some(moreThan1million))
 
 }

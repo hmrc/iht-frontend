@@ -29,12 +29,11 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class AssetsLeftToCharityQuestionControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                           val cachingConnector: CachingConnector,
                                                           val authConnector: AuthConnector,
-                                                          val formPartialRetriever: FormPartialRetriever,
+                                                          val assetsLeftToCharityQuestionView: assets_left_to_charity_question,
                                                           implicit val appConfig: AppConfig,
                                                           val cc: MessagesControllerComponents)
   extends FrontendController(cc) with AssetsLeftToCharityQuestionController
@@ -51,10 +50,11 @@ trait AssetsLeftToCharityQuestionController extends EstateController {
   lazy val charityDetailsOverviewPage = CommonHelper.addFragmentIdentifier(
     iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onPageLoad(), Some(appConfig.ExemptionsCharitiesAssetsID))
 
+  val assetsLeftToCharityQuestionView: assets_left_to_charity_question
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       estateElementOnPageLoad[BasicExemptionElement](assetsLeftToCharityQuestionForm,
-        assets_left_to_charity_question.apply, _.allExemptions.flatMap(_.charity), userNino)
+        assetsLeftToCharityQuestionView.apply, _.allExemptions.flatMap(_.charity), userNino)
     }
   }
 
@@ -82,7 +82,7 @@ trait AssetsLeftToCharityQuestionController extends EstateController {
     implicit request => {
       estateElementOnSubmitConditionalRedirect[BasicExemptionElement](
         assetsLeftToCharityQuestionForm,
-        assets_left_to_charity_question.apply,
+        assetsLeftToCharityQuestionView.apply,
         updateApplicationDetails,
         (ad, _) => {
           val charitiesOwnedAnswer= CommonHelper.getOrException(ad.allExemptions.flatMap(_.charity).flatMap(_.isSelected))

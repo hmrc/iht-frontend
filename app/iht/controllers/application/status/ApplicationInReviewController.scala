@@ -22,21 +22,21 @@ import javax.inject.Inject
 import play.api.mvc.{MessagesControllerComponents, Request}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.status.in_review_application
 
 class ApplicationInReviewControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                   val cachingConnector: CachingConnector,
                                                   val authConnector: AuthConnector,
-                                                  val formPartialRetriever: FormPartialRetriever,
+                                                  val inReviewApplicationView: in_review_application,
 implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with ApplicationInReviewController
 
 trait ApplicationInReviewController extends ApplicationStatusController {
-  def getView = (ihtReference, deceasedName, probateDetails) => (request: Request[_], formPartialRetriever: FormPartialRetriever) => {
+  val inReviewApplicationView: in_review_application
+  def getView = (ihtReference, deceasedName, probateDetails) => (request: Request[_]) => {
 
         implicit val req = request
-        implicit val fpr = formPartialRetriever
 
-        iht.views.html.application.status.in_review_application(ihtReference, deceasedName, probateDetails)
+    inReviewApplicationView(ihtReference, deceasedName, probateDetails)
       }
 }

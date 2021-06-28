@@ -14,14 +14,14 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
-@import iht.views.html._
-@import uk.gov.hmrc.play.views.html.helpers.form
+@this(
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application
+)
 
-@()(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@()(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = "Store Registration Details",
+@ihtMainTemplateApplication(title = "Store Registration Details",
     browserTitle = Some("Store Registration Details"),
     isFullWidth=false
 ) {

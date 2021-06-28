@@ -21,23 +21,24 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.views.ViewTestHelper
 import iht.views.html.application.asset.assets_overview
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 
 class AssetsOverviewViewTest extends ViewTestHelper  {
+
+  lazy val assetsOverviewView: assets_overview = app.injector.instanceOf[assets_overview]
+
   "assets_overview" must {
 
     "have no message keys in html" in {
       implicit val request = createFakeRequest()
       val assets = AllAssets(privatePension = Some(PrivatePension(isChanged = None, value = None, isOwned = Some(true))))
-      val view = assets_overview(ApplicationDetails(allAssets = Some(assets)), assets, "", "").toString()
+      val view = assetsOverviewView(ApplicationDetails(allAssets = Some(assets)), assets, "", "").toString()
       noMessageKeysShouldBePresent(view)
     }
 
     def assertPensionOvervewLinkPointsToCorrectPage(hasPension: Option[Boolean], url: String) = {
       implicit val request = createFakeRequest()
       val assets = AllAssets(privatePension = Some(PrivatePension(isChanged = None, value = None, isOwned = hasPension)))
-      assets_overview(ApplicationDetails(allAssets = Some(assets)), assets, "", "").toString() must include(url)
+      assetsOverviewView(ApplicationDetails(allAssets = Some(assets)), assets, "", "").toString() must include(url)
     }
 
     "link to the pension Yes/No screen when the user has not indicated that they have a private pension" in {

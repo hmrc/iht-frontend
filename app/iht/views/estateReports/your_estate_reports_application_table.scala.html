@@ -15,11 +15,15 @@
  *@
 
 @import iht.utils._
-@import iht.views.html.ihtHelpers
 @import iht.viewmodels.estateReports.YourEstateReportsRowViewModel
-
 @import iht.config.AppConfig
-@(applications: Seq[YourEstateReportsRowViewModel])(implicit messages: Messages, appConfig: AppConfig)
+
+@this(
+    implicit val appConfig: AppConfig,
+    nameHelper: ihtHelpers.custom.name
+)
+
+@(applications: Seq[YourEstateReportsRowViewModel])(implicit messages: Messages)
 
 <div class="section">
 
@@ -37,7 +41,7 @@
   @for(application <- applications){
     <tr class="table__row--responsive">
         <td class="table__detail--responsive" data-heading="@Messages("page.iht.home.deceasedName.label")">
-          @ihtHelpers.custom.name(application.deceasedName)
+          @nameHelper(application.deceasedName)
         </td>
         <td class="table__detail--responsive" data-heading="@Messages("iht.dateOfDeath")">
         @application.dateOfDeath

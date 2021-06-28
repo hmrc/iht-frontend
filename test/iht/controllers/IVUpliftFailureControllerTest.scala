@@ -21,7 +21,7 @@ import iht.connector.IdentityVerificationConnector
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.enums.IdentityVerificationResult
 import iht.models.enums.IdentityVerificationResult.IdentityVerificationResult
-import iht.testhelpers.MockFormPartialRetriever
+import iht.views.html.iv.failurepages._
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
 import play.api.i18n.{Lang, Messages}
@@ -29,7 +29,6 @@ import play.api.mvc.{MessagesControllerComponents, Result}
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -45,7 +44,12 @@ class IVUpliftFailureControllerTest extends ApplicationControllerTest {
 
   def controller = new TestController {
     override val identityVerificationConnector = mockIdentityVerificationConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+    override val genericView: generic = app.injector.instanceOf[generic]
+    override val preconditionFailedView: precondition_failed = app.injector.instanceOf[precondition_failed]
+    override val lockedOutView: locked_out = app.injector.instanceOf[locked_out]
+    override val timeoutView: timeout = app.injector.instanceOf[timeout]
+    override val technicalIssueView: technical_issue = app.injector.instanceOf[technical_issue]
+    override val failure2faView: failure_2fa = app.injector.instanceOf[failure_2fa]
   }
 
 

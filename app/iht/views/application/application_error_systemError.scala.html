@@ -14,9 +14,9 @@
  * limitations under the License.
  *@
 
-@(implicit request:Request[_], messages: Messages)
+@this()
 
-
+@()(implicit request:Request[_], messages: Messages)
 
 <p><strong class="bold">@Messages("error.cannotSend")</strong></p>
 <p>@Messages("error.report.redo")</p>

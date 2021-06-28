@@ -14,17 +14,22 @@
  * limitations under the License.
  *@
 
-@import iht.views.html.ihtHelpers.custom._
 @import iht.viewmodels.application.overview.ReducingEstateValueSectionViewModel
+
+@this(
+    overviewTotal: ihtHelpers.custom.overview_total,
+    overviewItem: ihtHelpers.custom.overview_item
+)
+
 
 @(model: ReducingEstateValueSectionViewModel)(implicit request:Request[_], messages: Messages)
 
 <section id="reducing-estate-value-section" class="section">
     <h2 class="divider--bottom">@Messages("page.iht.application.overview.reducingTheEstateValue.total")</h2>
     <ul id="exemptions-overview" class="tabular-data tabular-data--list">
-        @if(model.debtRow.isDefined){@overview_item(model.debtRow.get, Some("divider--bottom"))}
-        @overview_item(model.exemptionRow)
+        @if(model.debtRow.isDefined){@overviewItem(model.debtRow.get, Some("divider--bottom"))}
+        @overviewItem(model.exemptionRow)
 
     </ul>
-    @overview_total(model.totalRow)
+    @overviewTotal(model.totalRow)
 </section>

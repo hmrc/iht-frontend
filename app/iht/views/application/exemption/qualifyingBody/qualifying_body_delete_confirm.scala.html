@@ -14,16 +14,20 @@
  * limitations under the License.
  *@
 
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 
-@import uk.gov.hmrc.play.views.html.helpers.form
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    returnLink: ihtHelpers.custom.return_link,
+    nameHelper: ihtHelpers.custom.name
+)
 
 @(qualifyingBody: iht.models.application.exemptions.QualifyingBody,
-submitUrl:Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+submitUrl:Call)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("iht.estateReport.exemptions.qualifyingBodies.confirmDeleteQualifyingBody"),
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.exemptions.qualifyingBodies.confirmDeleteQualifyingBody"),
 browserTitle = Some(Messages("page.iht.application.exemptions.qualifyingBodyDelete.browserTitle")),
 isFullWidth=false){
 @form(action = submitUrl, 'autoComplete -> "off") {
@@ -33,7 +37,7 @@ isFullWidth=false){
             <strong class="bold">
                 @defining(qualifyingBody.name)  { qualifyingBodyName =>
                     @qualifyingBodyName match{
-                        case Some(x) => {@ihtHelpers.custom.name(qualifyingBodyName.getOrElse(""))}
+                        case Some(x) => {@nameHelper(qualifyingBodyName.getOrElse(""))}
                         case None => {@Messages("iht.estateReport.exemptions.charities.noNameAdded")}
                     }
                 }
@@ -41,7 +45,7 @@ isFullWidth=false){
         </p>
     </div>
     <p id="action-button"><button class="button" id="confirm-delete" name="action" value="save">@Messages("site.button.confirmDelete")</button></p>
-    @ihtHelpers.custom.return_link(
+    @returnLink(
         Messages("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies"),
         Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad()),
         appConfig.ExemptionsOtherDeleteID + qualifyingBody.id.getOrElse("")

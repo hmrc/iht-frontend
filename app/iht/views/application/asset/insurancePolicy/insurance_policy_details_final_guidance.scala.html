@@ -14,25 +14,29 @@
  * limitations under the License.
  *@
 
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 
+@this(
+    implicit val appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application,
+    returnLink: ihtHelpers.custom.return_link,
+    nameHelper: ihtHelpers.custom.name
+)
 
 @(giftsPageLocation:Call,
-deceasedName: String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+deceasedName: String)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.insurancePolicies.premiumsPaidByOther",
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.assets.insurancePolicies.premiumsPaidByOther",
                                                 deceasedName),
 browserTitle = Some(Messages("iht.estateReport.assets.insurancePolicies.premiumsPaidByOther",
                                 Messages("iht.the.deceased"))),
 isFullWidth=false,
 headingName = deceasedName){
-    <p id="insurance-policy-description">@Html(Messages("page.iht.application.insurance.policies.section7.guidance", ihtHelpers.custom.name(deceasedName)))</p>
+    <p id="insurance-policy-description">@Html(Messages("page.iht.application.insurance.policies.section7.guidance", nameHelper(deceasedName)))</p>
     <p id="insurance-policy-description2">@Messages("page.iht.application.insurance.policies.section7.guidance2")</p>
     <p><a id="return-button-gifts" href="@giftsPageLocation">@Html(Messages("site.link.go.to.gifts", deceasedName))</a></p>
 
-    @ihtHelpers.custom.return_link(
+    @returnLink(
         Messages("site.link.return.insurance.policies"),
         Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()),
         appConfig.InsurancePlacedInTrustYesNoID

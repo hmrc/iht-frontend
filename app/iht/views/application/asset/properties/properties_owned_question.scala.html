@@ -16,24 +16,30 @@
 
 @import iht.models._
 @import iht.models.application.assets.Properties
-@import iht.utils.DeceasedInfoHelper._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.utils.DeceasedInfoHelper
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
 @import iht.models.RegistrationDetails
 
+@this(
+    implicit val appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummary: ihtHelpers.custom.error_summary,
+    form: FormWithCSRF,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group,
+    returnLink: ihtHelpers.custom.return_link,
+    nameHelper: ihtHelpers.custom.name
+)
 
 @(propertiesForm: Form[Properties],
-registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@deceasedName() = @{getDeceasedNameOrDefaultString(registrationDetails)}
+@deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)}
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.propertiesBuildingsAndLand"),
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.assets.propertiesBuildingsAndLand"),
 browserTitle = Some(Messages("iht.estateReport.assets.propertiesBuildingsAndLand")),
 isFullWidth=false){
 
-    @ihtHelpers.custom.error_summary(propertiesForm)
+    @errorSummary(propertiesForm)
     @form(action = iht.controllers.application.assets.properties.routes.PropertiesOwnedQuestionController.onSubmit,'autoComplete -> "off") {
 
         <div class="form-group">
@@ -41,7 +47,7 @@ isFullWidth=false){
         </div>
 
         <div class="form-group">
-            @ihtHelpers.standard.input_yes_no_radio_group(
+            @inputYesNoRadioGroup(
             propertiesForm("isOwned"),
             '_legend -> Html(Messages("page.iht.application.assets.properties.question.question", deceasedName)),
             '_shownElementNo -> Some("mortgage-guidance-panel"),
@@ -57,8 +63,8 @@ isFullWidth=false){
         </div>
 
         @registrationDetails.deceasedDetails.map{ dd=>
-        @ihtHelpers.custom.return_link(
-            Messages("page.iht.application.return.to.assetsOf",ihtHelpers.custom.name(dd.name)),
+        @returnLink(
+            Messages("page.iht.application.return.to.assetsOf", nameHelper(dd.name)),
             Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
             appConfig.AppSectionPropertiesID
         )

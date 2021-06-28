@@ -22,8 +22,6 @@ import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.deceased.deceased_address_question
 import iht.views.registration.YesNoQuestionViewBehaviour
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
 
 class DeceasedAddressQuestionViewTest extends YesNoQuestionViewBehaviour[DeceasedDetails] {
@@ -37,9 +35,10 @@ class DeceasedAddressQuestionViewTest extends YesNoQuestionViewBehaviour[Decease
   override def browserTitle = messagesApi("iht.registration.contactAddress")
 
   override def form: Form[DeceasedDetails] = deceasedAddressQuestionForm
+  lazy val deceasedAddressQuestionView: deceased_address_question = app.injector.instanceOf[deceased_address_question]
 
   override def formToView: Form[DeceasedDetails] => Appendable =
-    form => deceased_address_question(form, name, CommonBuilder.DefaultCall1)
+    form => deceasedAddressQuestionView(form, name, CommonBuilder.DefaultCall1)
 
   "Deceased Address Question View" must {
     "show the correct guidance paragraphs" in {

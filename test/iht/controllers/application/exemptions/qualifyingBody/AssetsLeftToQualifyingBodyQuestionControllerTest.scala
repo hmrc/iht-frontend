@@ -20,11 +20,11 @@ import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms.assetsLeftToQualifyingBodyQuestionForm
 import iht.models.application.exemptions.BasicExemptionElement
-import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
+import iht.testhelpers.{CommonBuilder, ContentChecker}
+import iht.views.html.application.exemption.qualifyingBody.assets_left_to_qualifying_body_question
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
  * Created by james on 16/08/16.
@@ -34,20 +34,19 @@ class AssetsLeftToQualifyingBodyQuestionControllerTest extends ApplicationContro
   protected abstract class TestController extends FrontendController(mockControllerComponents) with AssetsLeftToQualifyingBodyQuestionController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val assetsLeftToQualifyingBodyQuestionView: assets_left_to_qualifying_body_question = app.injector.instanceOf[assets_left_to_qualifying_body_question]
   }
 
   def assetsLeftToQualifyingBodyQuestionController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def assetsLeftToQualifyingBodyQuestionControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "AssetsLeftToQualifyingBodyQuestionControllerTest" must {

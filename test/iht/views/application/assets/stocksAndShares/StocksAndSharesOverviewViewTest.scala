@@ -23,8 +23,6 @@ import iht.testhelpers.CommonBuilder
 import iht.views.application.StocksAndSharesOverviewViewBehaviour
 import iht.views.html.application.asset.stocksAndShares.stocks_and_shares_overview
 import org.jsoup.nodes.Document
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 
 class StocksAndSharesOverviewViewTest extends StocksAndSharesOverviewViewBehaviour {
 
@@ -89,7 +87,9 @@ class StocksAndSharesOverviewViewTest extends StocksAndSharesOverviewViewBehavio
 
   override def fixture(data: Option[StockAndShare]) = new {
     implicit val request = createFakeRequest()
-    val view = stocks_and_shares_overview(data, regDetails).toString
+    lazy val stocksAndSharesOverviewView: stocks_and_shares_overview = app.injector.instanceOf[stocks_and_shares_overview]
+
+    val view = stocksAndSharesOverviewView(data, regDetails).toString
     val doc: Document = asDocument(view)
   }
 }

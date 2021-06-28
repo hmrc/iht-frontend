@@ -34,20 +34,21 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.tnrb.deceased_widow_check_date
 
 import scala.concurrent.Future
 
 class DeceasedWidowCheckDateControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                      val cachingConnector: CachingConnector,
                                                      val authConnector: AuthConnector,
-                                                     val formPartialRetriever: FormPartialRetriever,
+                                                     val deceasedWidowCheckDateView: deceased_widow_check_date,
                                                      implicit val appConfig: AppConfig,
                                                      val cc: MessagesControllerComponents) extends FrontendController(cc) with DeceasedWidowCheckDateController
 
 trait DeceasedWidowCheckDateController extends EstateController with TnrbHelper with Logging {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
 
+  val deceasedWidowCheckDateView: deceased_widow_check_date
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
       implicit request => {
         withRegistrationDetails { registrationDetails =>
@@ -62,7 +63,7 @@ trait DeceasedWidowCheckDateController extends EstateController with TnrbHelper 
                 val filledForm = deceasedWidowCheckDateForm.fill(appDetails.widowCheck.getOrElse(
                   WidowCheck(None, None)))
 
-                Ok(iht.views.html.application.tnrb.deceased_widow_check_date(
+                Ok(deceasedWidowCheckDateView(
                   filledForm,
                   appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
                   appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
@@ -90,7 +91,7 @@ trait DeceasedWidowCheckDateController extends EstateController with TnrbHelper 
               val dateOfMarriage = appDetails.increaseIhtThreshold.flatMap(tnrbModel => tnrbModel.dateOfMarriage)
               additionalErrorsForForm(boundForm, dateOfMarriage).fold(
                 formWithErrors => {
-                  Future.successful(BadRequest(iht.views.html.application.tnrb.deceased_widow_check_date(formWithErrors,
+                  Future.successful(BadRequest(deceasedWidowCheckDateView(formWithErrors,
                     appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
                     appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                     regDetails,

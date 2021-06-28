@@ -14,12 +14,12 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
-@import iht.views.html.iht_main_template
 @import play.twirl.api.HtmlFormat
 
-@import iht.config.AppConfig
+@this(
+    ihtMainTemplate: iht_main_template
+)
+
 @(title: String,
 browserTitle: Option[String] = None,
 contentHeader: Option[Html] = None,
@@ -35,9 +35,9 @@ headingName: String = "",
 highlightBoxClass:Option[String] = None,
 optionContentBelowTitle: Option[Html] = None,
 signOutCall: Option[Call] = Some(iht.controllers.routes.FeedbackSurveyController.redirectExitSurvey)
-)(mainContent: Html)(implicit  request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+)(mainContent: Html)(implicit  request:Request[_], messages: Messages)
 
-@iht_main_template(
+@ihtMainTemplate(
     title = title,
     signOutText = Messages("site.button.signOut"),
     browserTitle = browserTitle,

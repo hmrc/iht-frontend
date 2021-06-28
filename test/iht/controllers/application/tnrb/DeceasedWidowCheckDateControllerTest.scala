@@ -22,37 +22,35 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.forms.TnrbForms._
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.WidowCheck
-
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
+import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
 import iht.utils.tnrb.TnrbHelper
 import iht.views.HtmlSpec
+import iht.views.html.application.tnrb.deceased_widow_check_date
 import org.joda.time.LocalDate
 import org.scalatest.BeforeAndAfter
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest with HtmlSpec with BeforeAndAfter with TnrbHelper {
 
   protected abstract class TestController extends FrontendController(mockControllerComponents) with DeceasedWidowCheckDateController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val deceasedWidowCheckDateView: deceased_widow_check_date = app.injector.instanceOf[deceased_widow_check_date]
   }
 
   def deceasedWidowCheckDateController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def deceasedWidowCheckDateControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "DeceasedWidowCheckDateController" must {

@@ -14,15 +14,16 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
-@import iht.views.html._
 @import iht.constants.Constants._
-@import iht.views.html.filter.previous_answers
 
-@(estimatedValue: String, jointAssets: Boolean, titleStr: String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@this(
+previousAnswers: filter.previous_answers,
+ihtMainTemplateRegistration: iht_main_template_registration
+)
 
-@iht_main_template_registration(title = Messages(titleStr),
+@(estimatedValue: String, jointAssets: Boolean, titleStr: String)(implicit request:Request[_], messages: Messages)
+
+@ihtMainTemplateRegistration(title = Messages(titleStr),
   browserTitle = Some(Messages(titleStr)),
   isFullWidth = false,
   hasSignOut = false,
@@ -111,8 +112,7 @@
   }
 
  <div class="subsection">
-    <a href="@iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad().url" class="button" id="continue"
-     onClick = ga('send','event','Click','You-may-need-to-use-a-different-form','Continue-to-the-online-service')>
+    <a href="@iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad().url" class="button" id="continue">
     @if(estimatedValue == under325000) { @Messages("iht.continue") } else { @Messages("page.iht.filter.useService.between325000And1Million.report") }
     </a>
  </div>
@@ -143,6 +143,6 @@
     }
 }
 
-@previous_answers(Messages("iht.countries.englandOrWales"), Some(jointAssets), Some(estimatedValue))
+@previousAnswers(Messages("iht.countries.englandOrWales"), Some(jointAssets), Some(estimatedValue))
 
 }

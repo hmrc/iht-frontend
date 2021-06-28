@@ -22,6 +22,7 @@ import iht.views.html.registration.registration_summary_coexecutor_panel
 import play.api.i18n.Lang
 
 class RegistrationSummaryCoExecutorPanelTest extends ViewTestHelper with TestUtils {
+  lazy val registrationSummaryCoexecutorPanelView: registration_summary_coexecutor_panel = app.injector.instanceOf[registration_summary_coexecutor_panel]
 
   "RegistrationSummaryCoExecutorPanelTest" must {
 
@@ -30,7 +31,7 @@ class RegistrationSummaryCoExecutorPanelTest extends ViewTestHelper with TestUti
       implicit val lang = Lang.defaultLang
 
 
-      val view = registration_summary_coexecutor_panel(Seq())(request, messages, lang, appConfig).toString
+      val view = registrationSummaryCoexecutorPanelView(Seq())(request, messages, lang).toString
       noMessageKeysShouldBePresent(view)
     }
 
@@ -38,7 +39,7 @@ class RegistrationSummaryCoExecutorPanelTest extends ViewTestHelper with TestUti
       implicit val request = createFakeRequest()
       implicit val lang = Lang.defaultLang
 
-      registration_summary_coexecutor_panel(Seq())(request, messages, lang, appConfig).toString must include
+      registrationSummaryCoexecutorPanelView(Seq())(request, messages, lang).toString must include
         iht.controllers.registration.executor.routes.OthersApplyingForProbateController.onPageLoadFromOverview().url
     }
   }

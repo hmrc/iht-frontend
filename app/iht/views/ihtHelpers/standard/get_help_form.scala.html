@@ -14,14 +14,17 @@
  * limitations under the License.
  *@
 
-@import iht.config.AppConfig
 @import play.api.i18n.Messages
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
+
+@this(
+    appConfig: AppConfig,
+    implicit val ec: scala.concurrent.ExecutionContext,
+    ihtFormPartialRetriever: FormPartialRetriever
+)
 
 @(supportLinkEnabled: Boolean = true,
-includeGridWrapper: Boolean = true)(implicit  messages: Messages,
-                                    requestHeader: RequestHeader,
-                                    ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+includeGridWrapper: Boolean = true)(implicit messages: Messages, requestHeader: RequestHeader)
 
-@ihtFormPartialRetriever.getPartialContent(appConfig.reportAProblemPartialUrl)(requestHeader)
+@ihtFormPartialRetriever.getPartialContent(appConfig.reportAProblemPartialUrl)

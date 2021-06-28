@@ -14,16 +14,20 @@
  * limitations under the License.
  *@
 
-@import iht.views.html.ihtHelpers.custom._
 @import iht.viewmodels.application.overview.AssetsAndGiftsSectionViewModel
+
+@this(
+    overviewTotal: ihtHelpers.custom.overview_total,
+    overviewItem: ihtHelpers.custom.overview_item
+)
 
 @(model: AssetsAndGiftsSectionViewModel)(implicit request:Request[_], messages: Messages)
 
     <h2 class="divider--bottom @if(!model.behaveAsIncreasingTheEstateSection) {visually-hidden}">@Messages("page.iht.application.estateOverview.totalAddedToTheEstateValue")</h2>
 
     <ul class="tabular-data tabular-data--list">
-        @overview_item(model.assetRow, Some("divider--bottom"))
-        @overview_item(model.giftRow)
+        @overviewItem(model.assetRow, Some("divider--bottom"))
+        @overviewItem(model.giftRow)
     </ul>
 
-    @overview_total(model.totalRow)
+    @overviewTotal(model.totalRow)

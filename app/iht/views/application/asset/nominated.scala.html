@@ -18,23 +18,30 @@
 
 @import iht.models.application.basicElements.BasicEstateElement
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 @import iht.models.RegistrationDetails
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummaryOverrideKeys: ihtHelpers.custom.error_summary_override_keys,
+    genericEstateElementAssets: ihtHelpers.custom.generic_estate_element_assets,
+    returnLink: ihtHelpers.custom.return_link,
+    nameHelper: ihtHelpers.custom.name
+)
 
 @(nominatedForm: Form[BasicEstateElement],
-registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.nominated"),
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.assets.nominated"),
 browserTitle = Some(Messages("page.iht.application.assets.nominated.browserTitle")),
 isFullWidth=false
 ) {
 
-    @ihtHelpers.custom.error_summary_override_keys(nominatedForm, Constants.AppSectionNominated)
+    @errorSummaryOverrideKeys(nominatedForm, Constants.AppSectionNominated)
 
     @form(action = iht.controllers.application.assets.routes.NominatedController.onSubmit,'autoComplete -> "off") {
 
@@ -45,7 +52,7 @@ isFullWidth=false
             <p>@Messages("page.iht.application.assets.nominated.description.p4")</p>
         </div>
 
-        @ihtHelpers.custom.generic_estate_element_assets(
+        @genericEstateElementAssets(
                 assetType = Constants.AssetTypeSingle,
                 questionLabel= Messages("page.iht.application.assets.nominated.question",deceasedName),
                 inputTextLabel = Messages("page.iht.application.assets.nominated.inputLabel1", deceasedName),
@@ -59,8 +66,8 @@ isFullWidth=false
         </div>
 
         @registrationDetails.deceasedDetails.map{ dd=>
-            @ihtHelpers.custom.return_link(
-                Messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(dd.name)),
+            @returnLink(
+                Messages("page.iht.application.return.to.assetsOf", nameHelper(dd.name)),
                 Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
                 appConfig.AppSectionNominatedID
             )

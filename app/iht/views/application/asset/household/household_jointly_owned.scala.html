@@ -18,19 +18,25 @@
 
 @import iht.models.application.basicElements.ShareableBasicEstateElement
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 @import iht.models.RegistrationDetails
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    implicit val appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummaryOverrideKeys: ihtHelpers.custom.error_summary_override_keys,
+    form: FormWithCSRF,
+    genericEstateElementAssets: ihtHelpers.custom.generic_estate_element_assets,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(householdJointlyOwned: Form[ShareableBasicEstateElement],
-     registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+     registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, false)}
 @deceasedNameWrap() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
-@iht_main_template_application(
+@ihtMainTemplateApplication(
     title = Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title", deceasedName),
     browserTitle = Some(Messages("page.iht.application.assets.household.joint.browserTitle")),
     isFullWidth=false,
@@ -38,24 +44,24 @@
 ) {
 
 
-    @ihtHelpers.custom.error_summary_override_keys(householdJointlyOwned, Constants.AppSectionHousehold)
+    @errorSummaryOverrideKeys(householdJointlyOwned, Constants.AppSectionHousehold)
 
     @form(action = iht.controllers.application.assets.household.routes.HouseholdJointlyOwnedController.onSubmit(),'autoComplete -> "off") {
 
-    @ihtHelpers.custom.generic_estate_element_assets(
-                                                assetType = Constants.AssetTypeJoint,
-                                                questionLabel= Messages("iht.estateReport.assets.household.joint.question",deceasedNameWrap),
-                                                inputTextLabel = Messages("iht.estateReport.assets.household.valueOfJointlyOwned", deceasedNameWrap),
-                                                inputTextHelp =  Messages("iht.estateReport.assets.getProfessionalValuation"),
-                                                sharableElementForm = householdJointlyOwned,
-                                                clearTargetInput = Some("shareValue")
-                                              )
+    @genericEstateElementAssets(
+                                assetType = Constants.AssetTypeJoint,
+                                questionLabel= Messages("iht.estateReport.assets.household.joint.question",deceasedNameWrap),
+                                inputTextLabel = Messages("iht.estateReport.assets.household.valueOfJointlyOwned", deceasedNameWrap),
+                                inputTextHelp =  Messages("iht.estateReport.assets.getProfessionalValuation"),
+                                sharableElementForm = householdJointlyOwned,
+                                clearTargetInput = Some("shareValue")
+                              )
 
     <div id="action-button" class="form-group">
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
     }
-    @ihtHelpers.custom.return_link(
+    @returnLink(
         Messages("site.link.return.household"),
         Some(iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad()),
         appConfig.AssetsHouseholdSharedID

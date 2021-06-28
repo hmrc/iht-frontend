@@ -17,18 +17,12 @@
 package iht.views.application.assets.money
 
 import iht.controllers.application.assets.money.routes._
-import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementOverviewViewBehaviour
 import iht.views.html.application.asset.money.money_overview
-import org.jsoup.nodes.Document
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
-import iht.constants.Constants._
-import iht.testhelpers.TestHelper._
 
 class MoneyOverviewViewTest extends ViewTestHelper with ShareableElementOverviewViewBehaviour {
 
@@ -55,12 +49,13 @@ class MoneyOverviewViewTest extends ViewTestHelper with ShareableElementOverview
   override def jointlyOwnedValueRowId = "deceased-shared-value-block"
   override def jointlyOwnedValueText = messagesApi("page.iht.application.assets.money.jointly.owned.input.value.label", deceasedName)
   override def linkHash = appConfig.AppSectionMoneyID
+  lazy val moneyOverviewView: money_overview = app.injector.instanceOf[money_overview]
 
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
-  override def viewWithQuestionsAnsweredNo: String = money_overview(dataWithQuestionsAnsweredNo, regDetails).toString
-  override def viewWithQuestionsAnsweredYes: String = money_overview(dataWithQuestionsAnsweredYes, regDetails).toString
-  override def viewWithQuestionsUnanswered: String = money_overview(None, regDetails).toString
-  override def viewWithValues: String = money_overview(dataWithValues, regDetails).toString
+  override def viewWithQuestionsAnsweredNo: String = moneyOverviewView(dataWithQuestionsAnsweredNo, regDetails).toString
+  override def viewWithQuestionsAnsweredYes: String = moneyOverviewView(dataWithQuestionsAnsweredYes, regDetails).toString
+  override def viewWithQuestionsUnanswered: String = moneyOverviewView(None, regDetails).toString
+  override def viewWithValues: String = moneyOverviewView(dataWithValues, regDetails).toString
 
   "Money overview view" must {
     behave like overviewPage()

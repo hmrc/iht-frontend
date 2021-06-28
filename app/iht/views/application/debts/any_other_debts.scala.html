@@ -17,23 +17,28 @@
 @import iht.models._
 @import iht.models.application.debts.BasicEstateElementLiabilities
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 @import iht.models.RegistrationDetails
 @import iht.constants.Constants._
 
-@import uk.gov.hmrc.play.views.html.helpers.form
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummaryOverrideKeys: ihtHelpers.custom.error_summary_override_keys,
+    genericEstateElementAssets: ihtHelpers.custom.generic_estate_element_assets,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(anyOtherDebtsForm: Form[BasicEstateElementLiabilities],
-registrationDetails: RegistrationDetails)(implicit request: Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+registrationDetails: RegistrationDetails)(implicit request: Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("iht.estateReport.debts.other.title"),
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.debts.other.title"),
     browserTitle = Some(Messages("page.iht.application.debts.other.browserTitle")),
     isFullWidth = false
 ) {
 
-    @ihtHelpers.custom.error_summary_override_keys(anyOtherDebtsForm, AppSectionDebtsOther)
+    @errorSummaryOverrideKeys(anyOtherDebtsForm, AppSectionDebtsOther)
 
     @form(action = iht.controllers.application.debts.routes.AnyOtherDebtsController.onSubmit, 'autoComplete -> "off") {
 
@@ -44,7 +49,7 @@ registrationDetails: RegistrationDetails)(implicit request: Request[_], messages
             <p>@Messages("page.iht.application.debts.other.description.p3")</p>
         </div>
 
-        @ihtHelpers.custom.generic_estate_element_assets(
+        @genericEstateElementAssets(
             assetType = AssetTypeSingle,
             questionLabel= Messages("page.iht.application.debts.other.isOwned"),
             inputTextLabel = Messages("page.iht.application.debts.other.inputLabel1"),
@@ -57,7 +62,7 @@ registrationDetails: RegistrationDetails)(implicit request: Request[_], messages
         </div>
 
 
-        @ihtHelpers.custom.return_link(
+        @returnLink(
             Messages("site.link.return.debts"),
             Some(iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()),
             appConfig.DebtsOtherID

@@ -18,15 +18,16 @@ package iht.views.registration
 
 import iht.views.ViewTestHelper
 import iht.views.helpers.MessagesHelper
+import iht.views.html.registration.registration_generic_error
 import org.jsoup.Jsoup
 import play.api.test.FakeRequest
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 
 class RegistrationGenericErrorViewTest extends ViewTestHelper with MessagesHelper {
 
   implicit lazy val fakeRequest = FakeRequest()
-  lazy val view = iht.views.html.registration.registration_generic_error()
+  lazy val registrationGenericErrorView: registration_generic_error = app.injector.instanceOf[registration_generic_error]
+
+  lazy val view = registrationGenericErrorView()
   lazy val doc = Jsoup.parse(view.body)
 
   "RegistrationGenericError" must {

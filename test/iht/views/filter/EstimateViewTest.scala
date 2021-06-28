@@ -31,7 +31,9 @@ class EstimateViewTest extends ViewTestHelper {
   val submitRoute = iht.controllers.filter.routes.EstimateController.onSubmitWithoutJointAssets()
 
   def getPageAsDoc(form: Form[Option[String]] = fakeForm, request: FakeRequest[AnyContentAsEmpty.type] = fakeRequest) = {
-    val result = estimate(form, false, submitRoute)(request, messages, formPartialRetriever, appConfig)
+    lazy val estimateView: estimate = app.injector.instanceOf[estimate]
+
+    val result = estimateView(form, false, submitRoute)(request, messages)
     asDocument(contentAsString(result))
   }
 

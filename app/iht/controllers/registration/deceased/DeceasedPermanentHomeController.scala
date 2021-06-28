@@ -21,19 +21,18 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.ControllerHelper.Mode
 import iht.forms.registration.DeceasedForms._
 import iht.models.{DeceasedDetails, RegistrationDetails}
-import iht.views.html.registration.{deceased => views}
+import iht.views.html.registration.deceased.deceased_permanent_home
 import javax.inject.Inject
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.mvc.{MessagesControllerComponents, _}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class DeceasedPermanentHomeControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                     val cachingConnector: CachingConnector,
                                                     val authConnector: AuthConnector,
-                                                    val formPartialRetriever: FormPartialRetriever,
+                                                    val deceasedPermanentHomeView: deceased_permanent_home,
                                                     implicit val appConfig: AppConfig,
                                                     val cc: MessagesControllerComponents) extends FrontendController(cc) with DeceasedPermanentHomeController
 
@@ -49,19 +48,19 @@ trait DeceasedPermanentHomeController extends RegistrationDeceasedControllerWith
 
   lazy val submitRoute = routes.DeceasedPermanentHomeController.onSubmit
   lazy val editSubmitRoute = routes.DeceasedPermanentHomeController.onEditSubmit
-
+  val deceasedPermanentHomeView: deceased_permanent_home
   def okForPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) = {
-    Ok(views.deceased_permanent_home(form, submitRoute))
+    Ok(deceasedPermanentHomeView(form, submitRoute))
   }
 
   def okForEditPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.deceased_permanent_home(form, editSubmitRoute, cancelToRegSummary))
+    Ok(deceasedPermanentHomeView(form, editSubmitRoute, cancelToRegSummary))
 
   def badRequestForSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_permanent_home(form, submitRoute))
+    BadRequest(deceasedPermanentHomeView(form, submitRoute))
 
   def badRequestForEditSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_permanent_home(form, editSubmitRoute, cancelToRegSummary))
+    BadRequest(deceasedPermanentHomeView(form, editSubmitRoute, cancelToRegSummary))
 
   def onwardRoute(rd: RegistrationDetails) = routes.AboutDeceasedController.onPageLoad
 

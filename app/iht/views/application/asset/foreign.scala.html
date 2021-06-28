@@ -18,23 +18,30 @@
 
 @import iht.models.application.basicElements.BasicEstateElement
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 @import iht.models.RegistrationDetails
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummaryOverrideKeys: ihtHelpers.custom.error_summary_override_keys,
+    genericEstateElementAssets: ihtHelpers.custom.generic_estate_element_assets,
+    nameHelper: ihtHelpers.custom.name,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(foreignForm: Form[BasicEstateElement],
-registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.foreign.title"),
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.assets.foreign.title"),
     browserTitle = Some(Messages("iht.estateReport.assets.foreign.title")),
     isFullWidth = false
 ) {
 
-    @ihtHelpers.custom.error_summary_override_keys(foreignForm, Constants.AppSectionForeign)
+    @errorSummaryOverrideKeys(foreignForm, Constants.AppSectionForeign)
 
     @form(action = iht.controllers.application.assets.routes.ForeignController.onSubmit, 'autoComplete -> "off") {
 
@@ -42,7 +49,7 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
             <p>@Html(Messages("page.iht.application.assets.foreign.description.p1",deceasedName))</p>
         </div>
 
-        @ihtHelpers.custom.generic_estate_element_assets(
+        @genericEstateElementAssets(
             assetType = Constants.AssetTypeSingle,
             questionLabel= Messages("page.iht.application.assets.foreign.deceasedOwned.question",deceasedName),
             inputTextLabel = Messages("page.iht.application.assets.foreign.inputLabel1",deceasedName),
@@ -55,8 +62,8 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
         </div>
 
         @registrationDetails.deceasedDetails.map{ dd=>
-            @ihtHelpers.custom.return_link(
-                Messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(dd.name)),
+            @returnLink(
+                Messages("page.iht.application.return.to.assetsOf", nameHelper(dd.name)),
                 Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
                 appConfig.AppSectionForeignID
             )

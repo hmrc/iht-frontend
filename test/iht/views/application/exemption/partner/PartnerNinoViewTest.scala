@@ -16,16 +16,14 @@
 
 package iht.views.application.exemption.partner
 
+import iht.forms.ApplicationForms._
 import iht.models.application.exemptions.PartnerExemption
 import iht.testhelpers.CommonBuilder
-import iht.views.application.{CancelComponent, ValueViewBehaviour}
-import iht.views.html.application.exemption.partner.{partner_name, partner_nino}
-import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import play.twirl.api.HtmlFormat.Appendable
-import iht.forms.ApplicationForms._
 import iht.testhelpers.TestHelper._
+import iht.views.application.{CancelComponent, ValueViewBehaviour}
+import iht.views.html.application.exemption.partner.partner_nino
+import play.api.data.Form
+import play.twirl.api.HtmlFormat.Appendable
 
 class PartnerNinoViewTest extends ValueViewBehaviour[PartnerExemption] {
 
@@ -49,11 +47,12 @@ class PartnerNinoViewTest extends ValueViewBehaviour[PartnerExemption] {
       ExemptionsPartnerNinoID
     )
   )
+  lazy val partnerNinoView: partner_nino = app.injector.instanceOf[partner_nino]
 
   override def form: Form[PartnerExemption] = partnerNinoForm
 
   override def formToView: Form[PartnerExemption] => Appendable =
-    form => partner_nino(form, registrationDetails)
+    form => partnerNinoView(form, registrationDetails)
 
   override val value_id = "nino"
 

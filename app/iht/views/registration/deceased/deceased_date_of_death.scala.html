@@ -14,16 +14,19 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
-@import iht.views.html._
-@import uk.gov.hmrc.play.views.html.helpers.form
+@this(
+    form: FormWithCSRF,
+    ihtMainTemplateRegistration: iht_main_template_registration,
+    errorSummary: ihtHelpers.custom.error_summary,
+    dateFields: ihtHelpers.standard.date_fields,
+    continueButton: ihtHelpers.custom.continue_button
+)
 
 @(deceasedDateOfDeath:Form[iht.models.DeceasedDateOfDeath],
 actionLocation: Call,
-cancelLocation:Option[Call]=None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+cancelLocation:Option[Call]=None)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_registration(
+@ihtMainTemplateRegistration(
     title = "",
     browserTitle = Some(Messages("iht.dateOfDeath")),
     cancelUrl=cancelLocation,
@@ -33,11 +36,11 @@ cancelLocation:Option[Call]=None)(implicit request:Request[_], messages: Message
 
         @form(action = actionLocation, 'autoComplete -> "off") {
 
-        @ihtHelpers.custom.error_summary(deceasedDateOfDeath)
+        @errorSummary(deceasedDateOfDeath)
 
         <h1 class = heading-xlarge>@messages("page.iht.registration.deceasedDateOfDeath.title")</h1>
 
-        @ihtHelpers.standard.date_fields(
+        @dateFields(
             deceasedDateOfDeath,
             "dateOfDeath",
             "",
@@ -50,6 +53,6 @@ cancelLocation:Option[Call]=None)(implicit request:Request[_], messages: Message
             '_fieldsetId -> "date-of-death",
             '_legendIsHeading -> false
             )
-            @ihtHelpers.custom.continue_button()
+            @continueButton()
     }
 }

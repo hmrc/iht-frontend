@@ -18,20 +18,25 @@
 @import iht.models.application.tnrb.TnrbEligibiltyModel
 @import iht.utils._
 @import iht.utils.tnrb.TnrbHelper
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
 @import iht.models.application.tnrb.WidowCheck
-@import uk.gov.hmrc.play.views.html.helpers.form
-
 @import iht.utils.tnrb.TnrbHelperFixture
+@import iht.config.AppConfig
+
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group
+)
+
 @(deceasedWidowCheckQuestionForm:Form[WidowCheck],
 widowCheckModel: WidowCheck,
 tnrbModel: TnrbEligibiltyModel,
 registrationDetails:RegistrationDetails,
 cancelLinkUrl:Call,
 cancelLinkText:String
-)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+)(implicit request:Request[_], messages: Messages)
 
 @deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, false)}
 @deceasedNameWrap() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
@@ -48,17 +53,17 @@ cancelLinkText:String
     <p>{messages("iht.estateReport.tnrb.partner.hint", deceasedName, maritalStatus, spouseCivilPartner)}</p>
 }
 
-@iht_main_template_application(
+@ihtMainTemplateApplication(
     title = "",
     browserTitle  = Some(Messages("iht.estateReport.tnrb.increasingIHTThreshold")),
     cancelUrl = Some(cancelLinkUrl),
     cancelLabel=Some(cancelLinkText)
 ){
-@ihtHelpers.custom.error_summary(deceasedWidowCheckQuestionForm)
+@errorSummary(deceasedWidowCheckQuestionForm)
 
 @form(action = iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onSubmit,'autoComplete -> "off") {
 
-@ihtHelpers.standard.input_yes_no_radio_group(
+@inputYesNoRadioGroup(
     deceasedWidowCheckQuestionForm("widowed"),
     '_divClass -> Some("form-group"),
     '_legend -> Html(question),

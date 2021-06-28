@@ -20,13 +20,13 @@ import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
+import iht.testhelpers.CommonBuilder
 import iht.testhelpers.TestHelper._
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.CommonHelper
+import iht.views.html.application.asset.stocksAndShares.stocks_and_shares_not_listed
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.{contentAsString, _}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class StocksAndSharesNotListedControllerTest extends ApplicationControllerTest {
   lazy val submitUrl = CommonHelper.addFragmentIdentifierToUrl(routes.StocksAndSharesOverviewController.onPageLoad().url, AssetsStocksNotListedID)
@@ -43,20 +43,19 @@ class StocksAndSharesNotListedControllerTest extends ApplicationControllerTest {
   protected abstract class TestController extends FrontendController(mockControllerComponents) with StocksAndSharesNotListedController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val stocksAndSharesNotListedView: stocks_and_shares_not_listed = app.injector.instanceOf[stocks_and_shares_not_listed]
   }
 
   def stocksAndSharesNotListedController = new TestController {
     val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def stocksAndSharesNotListedControllerNotAuthorised = new TestController {
     val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "StocksAndSharesNotListedController" must {

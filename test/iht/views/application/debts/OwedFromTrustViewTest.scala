@@ -16,19 +16,14 @@
 
 package iht.views.application.debts
 
+import iht.controllers.application.debts.routes
 import iht.forms.ApplicationForms._
 import iht.models.application.debts.BasicEstateElementLiabilities
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.DeceasedInfoHelper
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import iht.views.html.application.debts.owed_from_trust
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
-import iht.constants.Constants._
-
-import iht.controllers.application.debts.routes
 
 
 
@@ -39,9 +34,10 @@ class OwedFromTrustViewTest extends DebtsElementViewBehaviour[BasicEstateElement
                                                       deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(
                                                                 maritalStatus = Some(TestHelper.MaritalStatusMarried))),
                                                       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
+  lazy val owedFromTrustView: owed_from_trust = app.injector.instanceOf[owed_from_trust]
 
   override def form:Form[BasicEstateElementLiabilities] = debtsTrustForm
-  override def formToView:Form[BasicEstateElementLiabilities] => Appendable = form => owed_from_trust(form, regDetails)
+  override def formToView:Form[BasicEstateElementLiabilities] => Appendable = form => owedFromTrustView(form, regDetails)
 
   override def pageTitle = messagesApi("iht.estateReport.debts.debtsTrust.title")
   override def browserTitle = messagesApi("page.iht.application.debts.debtsTrust.browserTitle")

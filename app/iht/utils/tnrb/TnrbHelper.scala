@@ -38,6 +38,8 @@ trait TnrbHelper {
   lazy val deceasedWidowCheckDatePage = iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad()
   lazy val deceasedWidowCheckQuestionPage = iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad()
 
+  val nameView = new ihtHelpers.custom.name()
+
   def previousSpouseOrCivilPartner(optionTnrbModel: Option[TnrbEligibiltyModel],
                                    optionWidowCheck: Option[WidowCheck],
                                    deceasedName: String)(implicit messages: Messages): String = {
@@ -64,7 +66,7 @@ trait TnrbHelper {
                                         wrapName: Boolean = false)(implicit messages: Messages): String = {
     if (tnrbModel.Name.toString.trim != "") {
       if (wrapName) {
-        ihtHelpers.custom.name(tnrbModel.Name.toString).toString
+        nameView(tnrbModel.Name.toString).toString
       } else {
         StringEscapeUtils.escapeHtml4(tnrbModel.Name.toString)
       }
@@ -84,7 +86,7 @@ trait TnrbHelper {
     if (tnrbModel.Name.toString.trim != "") {
       val and = messages(vowelConsciousAnd(tnrbModel.Name.toString, messages.lang.code))
       if (wrapName) {
-        and + " " + ihtHelpers.custom.name(tnrbModel.Name.toString).toString
+        and + " " + nameView(tnrbModel.Name.toString).toString
       } else {
         and + " " + StringEscapeUtils.escapeHtml4(tnrbModel.Name.toString)
       }
@@ -102,7 +104,7 @@ trait TnrbHelper {
     CommonHelper.withValue(tnrbModel.Name.toString.trim) {
       case name if name.isEmpty => prefixText
       case name => if (wrapName) {
-        ihtHelpers.custom.name(name).toString
+        nameView(name).toString
       } else {
         StringEscapeUtils.escapeHtml4(name)
       }

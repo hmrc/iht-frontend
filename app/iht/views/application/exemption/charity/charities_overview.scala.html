@@ -18,17 +18,21 @@
 @import iht.utils.OverviewHelper._
 @import iht.models.RegistrationDetails
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 
-@import iht.views.html.ihtHelpers.custom._
+@this(
+    implicit val appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application,
+    genericOverviewTableItem: ihtHelpers.custom.generic_overview_table_item,
+    nameHelper: ihtHelpers.custom.name,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(charities: Seq[Charity],
 registrationDetails: RegistrationDetails,
-isAssetLeftToCharity: Boolean)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+isAssetLeftToCharity: Boolean)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("iht.estateReport.exemptions.charities.assetsLeftToCharities.title",
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.exemptions.charities.assetsLeftToCharities.title",
 CommonHelper.getOrException(registrationDetails.deceasedDetails).name),
 browserTitle = Some(Messages("iht.estateReport.exemptions.charities.assetsLeftToCharities.title")),
 isFullWidth=false
@@ -36,7 +40,7 @@ isFullWidth=false
 
     <section id="charity-table">
         <ul>
-        @generic_overview_table_item(id = appConfig.ExemptionsCharitiesAssetsID,
+        @genericOverviewTableItem(id = appConfig.ExemptionsCharitiesAssetsID,
         questionText = Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
                                 DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
         questionScreenReaderText= Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question"),
@@ -54,7 +58,7 @@ isFullWidth=false
           <li class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
               <div class="tabular-data__data tabular-data__data--4-12">
                   <span class="visually-hidden">@Messages("page.iht.application.exemptions.assetLeftToCharity.screenreader.ident", (i + 1)) </span>
-                  @element.nameValidationMessage.fold(ihtHelpers.custom.name(element.name))(message=>Html(message))
+                  @element.nameValidationMessage.fold(nameHelper(element.name))(message=>Html(message))
               </div>
               <div class="tabular-data__data tabular-data__data--4-12 u-align--tablet-right">
                   <span id="charity-total">@if(element.totalValue.isDefined){&pound;@CommonHelper.numberWithCommas(element.totalValue.getOrElse(BigDecimal(0)))}</span>
@@ -97,7 +101,7 @@ isFullWidth=false
 
 <p>
     @registrationDetails.deceasedDetails.map{ dd=>
-    @ihtHelpers.custom.return_link(Messages("page.iht.application.return.to.exemptionsOf", ihtHelpers.custom.name(dd.name)),
+    @returnLink(Messages("page.iht.application.return.to.exemptionsOf", nameHelper(dd.name)),
     Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()),
     appConfig.ExemptionsCharityID
     )

@@ -17,21 +17,22 @@
 package iht.controllers.application.status
 
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
 import iht.views.HtmlSpec
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.status.in_review_application
 
 class ApplicationInReviewControllerTest extends ApplicationControllerTest with HtmlSpec {
+  val inReviewApplicationView: in_review_application = app.injector.instanceOf[in_review_application]
+
   val applicationInReviewController = new ApplicationInReviewControllerImpl(
-    mockIhtConnector, mockCachingConnector, mockAuthConnector, mockPartialRetriever, mockAppConfig, mockControllerComponents
+    mockIhtConnector, mockCachingConnector, mockAuthConnector, inReviewApplicationView, mockAppConfig, mockControllerComponents
   )
 
   "ApplicationInReviewController" must {
     "implement the correct view" in {
       val deceasedName = "Xyz"
       val request = createFakeRequest()
-      implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
-      val pageContent = applicationInReviewController.getView("",deceasedName,CommonBuilder.buildProbateDetails)(request, formPartialRetriever).toString
+      val pageContent = applicationInReviewController.getView("",deceasedName,CommonBuilder.buildProbateDetails)(request).toString
       titleShouldBeCorrect(pageContent, messagesApi("page.iht.application.overview.inreview.title", deceasedName))
     }
   }

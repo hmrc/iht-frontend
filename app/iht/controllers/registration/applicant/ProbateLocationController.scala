@@ -23,19 +23,19 @@ import iht.forms.registration.ApplicantForms._
 import iht.metrics.IhtMetrics
 import iht.models.{ApplicantDetails, RegistrationDetails}
 import iht.utils.CommonHelper
-import iht.views.html.registration.{applicant => views}
+import iht.views.html.registration.applicant.probate_location
 import javax.inject.Inject
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.mvc.{AnyContent, MessagesControllerComponents, Request}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+
 
 class ProbateLocationControllerImpl @Inject()(val metrics: IhtMetrics,
                                               val cachingConnector: CachingConnector,
                                               val authConnector: AuthConnector,
-                                              val formPartialRetriever: FormPartialRetriever,
+                                              val probateLocationView: probate_location,
                                               implicit val appConfig: AppConfig,
                                               val cc: MessagesControllerComponents) extends FrontendController(cc) with ProbateLocationController
 
@@ -53,18 +53,18 @@ trait ProbateLocationController extends RegistrationApplicantControllerWithEditM
 
   lazy val submitRoute = routes.ProbateLocationController.onSubmit
   lazy val editSubmitRoute = routes.ProbateLocationController.onEditSubmit
-
+  val probateLocationView: probate_location
   def okForPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.probate_location(form, submitRoute))
+    Ok(probateLocationView(form, submitRoute))
 
   def okForEditPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.probate_location(form, editSubmitRoute, cancelToRegSummary))
+    Ok(probateLocationView(form, editSubmitRoute, cancelToRegSummary))
 
   def badRequestForSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.probate_location(form, submitRoute))
+    BadRequest(probateLocationView(form, submitRoute))
 
   def badRequestForEditSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.probate_location(form, editSubmitRoute, cancelToRegSummary))
+    BadRequest(probateLocationView(form, editSubmitRoute, cancelToRegSummary))
 
   def applyChangesToRegistrationDetails(rd: RegistrationDetails, ad: ApplicantDetails, mode: Mode.Value) = {
     val x = CommonHelper.getOrException(rd.applicantDetails) copy (country = ad.country)

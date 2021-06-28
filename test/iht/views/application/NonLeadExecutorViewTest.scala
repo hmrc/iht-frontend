@@ -23,15 +23,16 @@ import play.api.i18n.{Lang, Messages}
 class NonLeadExecutorViewTest extends ViewTestHelper {
 
   implicit val request = createFakeRequest()
+  lazy val nonLeadExecutorView: non_lead_executor = app.injector.instanceOf[non_lead_executor]
 
-  lazy val view = non_lead_executor()
+  lazy val view = nonLeadExecutorView()
   lazy val doc = asDocument(view.body)
 
   class WelshView {
 
     implicit val lang = Lang("cy")
     implicit val messages: Messages = mockControllerComponents.messagesApi.preferred(Seq(lang)).messages
-    lazy val view = non_lead_executor()
+    lazy val view = nonLeadExecutorView()
     lazy val doc = asDocument(view.body)
   }
 

@@ -45,9 +45,10 @@ class TnrbOverviewTableRowViewTest extends ViewTestHelper {
                            linkScreenReader:String = "",
                            linkID: String = appConfig.TnrbSpousePermanentHomeInUKID
                           ) =  {
+    lazy val tnrbOverviewTableRowView: tnrb_overview_table_row = app.injector.instanceOf[tnrb_overview_table_row]
 
     implicit val request = createFakeRequest()
-      val view = tnrb_overview_table_row(id,
+      val view = tnrbOverviewTableRowView(id,
           questionText,
           questionScreenReaderText,
           questionCategory,

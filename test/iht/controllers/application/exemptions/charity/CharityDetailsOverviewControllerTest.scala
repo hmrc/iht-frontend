@@ -19,28 +19,26 @@ package iht.controllers.application.exemptions.charity
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.ApplicationDetails
-
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.application.exemption.charity.charity_details_overview
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class CharityDetailsOverviewControllerTest extends ApplicationControllerTest {
 
   protected abstract class TestController extends FrontendController(mockControllerComponents) with CharityDetailsOverviewController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val charityDetailsOverviewView: charity_details_overview = app.injector.instanceOf[charity_details_overview]
   }
 
   def charityDetailsOverviewController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def charityDetailsOverviewControllerNotAuthorised = new TestController {
@@ -48,7 +46,6 @@ class CharityDetailsOverviewControllerTest extends ApplicationControllerTest {
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   implicit val headerCarrier = FakeHeaders()

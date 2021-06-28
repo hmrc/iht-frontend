@@ -30,13 +30,12 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class InsurancePolicyDetailsAnnuityControllerImpl @Inject()(val metrics: IhtMetrics,
                                                             val ihtConnector: IhtConnector,
                                                             val cachingConnector: CachingConnector,
                                                             val authConnector: AuthConnector,
-                                                            val formPartialRetriever: FormPartialRetriever,
+                                                            val insurancePolicyDetailsAnnuityView: insurance_policy_details_annuity,
                                                             implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with InsurancePolicyDetailsAnnuityController {
 
@@ -45,10 +44,10 @@ val cc: MessagesControllerComponents) extends FrontendController(cc) with Insura
 trait InsurancePolicyDetailsAnnuityController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsInsurancePoliciesAnnuities)
 
-
+  val insurancePolicyDetailsAnnuityView: insurance_policy_details_annuity
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
-      estateElementOnPageLoad[InsurancePolicy](insurancePolicyAnnuityForm, insurance_policy_details_annuity.apply,
+      estateElementOnPageLoad[InsurancePolicy](insurancePolicyAnnuityForm, insurancePolicyDetailsAnnuityView.apply,
         _.allAssets.flatMap(_.insurancePolicy), userNino)
     }
   }
@@ -66,7 +65,7 @@ trait InsurancePolicyDetailsAnnuityController extends EstateController {
         }
 
       estateElementOnSubmitConditionalRedirect[InsurancePolicy](insurancePolicyAnnuityForm,
-        insurance_policy_details_annuity.apply, updateApplicationDetails,
+        insurancePolicyDetailsAnnuityView.apply, updateApplicationDetails,
         (ad, _) => ad.allAssets.flatMap(allAssets => allAssets.insurancePolicy).flatMap(_.isAnnuitiesBought)
           .fold(insurancePoliciesRedirectLocation)(_ =>
             iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsInTrustController.onPageLoad()),

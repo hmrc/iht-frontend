@@ -16,15 +16,18 @@
 
 @import iht.models.application.ProbateDetails
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
 @import iht.models.RegistrationDetails
+@import iht.config.AppConfig
+
+@this(
+    implicit val appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application
+)
 
 @(probateDetails: ProbateDetails,
-        registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+        registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("page.iht.application.probate.title"),
+@ihtMainTemplateApplication(title = Messages("page.iht.application.probate.title"),
     browserTitle = Some(Messages("page.iht.application.probate.browserTitle"))
 ){
     <div class="form-group">

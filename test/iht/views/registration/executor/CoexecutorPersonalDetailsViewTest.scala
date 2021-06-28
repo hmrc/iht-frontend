@@ -27,8 +27,6 @@ import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 import uk.gov.hmrc.http.HeaderCarrier
 
-import scala.concurrent.ExecutionContext.Implicits.global
-
 class CoexecutorPersonalDetailsViewTest extends YesNoQuestionViewBehaviour[CoExecutor] with PersonalDetailsViewBehaviour[CoExecutor] with CoExecutorForms {
 
   override def guidanceParagraphs = Set.empty
@@ -44,17 +42,18 @@ class CoexecutorPersonalDetailsViewTest extends YesNoQuestionViewBehaviour[CoExe
     implicit val hc = new HeaderCarrier()
     coExecutorPersonalDetailsForm(loginNino = fakedFormNino)
   }
+  lazy val coexecutorPersonalDetailsView: coexecutor_personal_details = app.injector.instanceOf[coexecutor_personal_details]
 
   override def formToView: Form[CoExecutor] => Appendable =
-    form => coexecutor_personal_details(form,
+    form => coexecutorPersonalDetailsView(form,
       Mode.Standard,
-      CommonBuilder.DefaultCall1)(createFakeRequest(), messages, formPartialRetriever, appConfig)
+      CommonBuilder.DefaultCall1)(createFakeRequest(), messages)
 
 
   def editModeViewAsDocument(): Document = {
     implicit val request = createFakeRequest()
     implicit val hc = new HeaderCarrier()
-    val view = coexecutor_personal_details(coExecutorPersonalDetailsForm(loginNino = fakedFormNino), Mode.Edit,
+    val view = coexecutorPersonalDetailsView(coExecutorPersonalDetailsForm(loginNino = fakedFormNino), Mode.Edit,
                                                 CommonBuilder.DefaultCall1, Some(CommonBuilder.DefaultCall2)).toString
     asDocument(view)
   }

@@ -18,13 +18,12 @@ package iht.controllers
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.MockFormPartialRetriever
+import iht.views.html.application.non_lead_executor
 import play.api.i18n.MessagesApi
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class NonLeadExecutorControllerTest extends ApplicationControllerTest {
   implicit val hc = HeaderCarrier()
@@ -32,12 +31,13 @@ class NonLeadExecutorControllerTest extends ApplicationControllerTest {
 
   protected abstract class TestController extends FrontendController(mockControllerComponents) with NonLeadExecutorController {
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val nonLeadExecutorView: non_lead_executor = app.injector.instanceOf[non_lead_executor]
+
   }
 
   def controller = new TestController {
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
-
     override def messagesApi: MessagesApi = fakedMessagesApi
+
   }
 
   val request = FakeRequest()

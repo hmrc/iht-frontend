@@ -16,27 +16,34 @@
 
 @import iht.constants._
 @import iht.controllers.ControllerHelper._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateRegistration: iht_main_template_registration,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputWithHelp: ihtHelpers.standard.input_with_help,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group,
+    continueButton: ihtHelpers.custom.continue_button
+)
 
 @(applicantTellUsAboutYourselfForm:Form[iht.models.ApplicantDetails],
     mode: Mode.Value = Mode.Standard,
     actionLocation: Call,
-    cancelLocation: Option[Call] = None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+    cancelLocation: Option[Call] = None)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_registration(title = Messages("iht.registration.applicant.tellUsAboutYourself"),
+@ihtMainTemplateRegistration(title = Messages("iht.registration.applicant.tellUsAboutYourself"),
 browserTitle = Some(Messages("iht.registration.applicant.tellUsAboutYourself")),
 isFullWidth=false,
 cancelUrl=cancelLocation,
 hasTimeOut=true) {
 
-    @ihtHelpers.custom.error_summary(applicantTellUsAboutYourselfForm)
+    @errorSummary(applicantTellUsAboutYourselfForm)
 
     @form(action = actionLocation,'autoComplete -> "off") {
 
-    @ihtHelpers.standard.input_with_help(applicantTellUsAboutYourselfForm("phoneNo"),
+    @inputWithHelp(applicantTellUsAboutYourselfForm("phoneNo"),
         '_maxlength -> appConfig.validationMaxLengthPhoneNo,
         '_label -> Messages("page.iht.registration.applicantTellUsAboutYourself.value.label"),
         '_hintText -> Messages("page.iht.registration.applicantTellUsAboutYourself.value.sublabel"),
@@ -47,13 +54,13 @@ hasTimeOut=true) {
         '_type -> "tel")
 
     @if(mode == Mode.Standard) {
-    @ihtHelpers.standard.input_yes_no_radio_group(
+    @inputYesNoRadioGroup(
         applicantTellUsAboutYourselfForm("doesLiveInUK"),
         '_legend -> Html(Messages("page.iht.registration.applicantTellUsAboutYourself.question.label")),
         '_divClass -> Some("form-group"))
     }
 
-    @ihtHelpers.custom.continue_button()
+    @continueButton()
 
     }
 

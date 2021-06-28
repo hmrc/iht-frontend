@@ -21,14 +21,13 @@ import iht.testhelpers.CommonBuilder
 import iht.utils.{ApplicationKickOutHelper, KickOutReason}
 import iht.views.ViewTestHelper
 import iht.views.html.application.iht_kickout_application
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 
 
 
 class IhtKickoutApplicationViewTest extends ViewTestHelper{
 
   lazy val appDetails = CommonBuilder.buildApplicationDetails
+  lazy val ihtKickoutApplicationView: iht_kickout_application = app.injector.instanceOf[iht_kickout_application]
 
   def ihtKickOutApplicationView(kickOutReason: String,
                                 applicationDetails: ApplicationDetails,
@@ -39,7 +38,7 @@ class IhtKickoutApplicationViewTest extends ViewTestHelper{
 
     implicit val request = createFakeRequest()
 
-    val view = iht_kickout_application(kickOutReason,
+    val view = ihtKickoutApplicationView(kickOutReason,
                                        applicationDetails,
                                        applicationLastSection,
                                        applicationLastID,

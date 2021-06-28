@@ -31,14 +31,14 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.gift.gifts_overview
 
 import scala.concurrent.Future
 
 class GiftsOverviewControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                             val cachingConnector: CachingConnector,
                                             val authConnector: AuthConnector,
-                                            val formPartialRetriever: FormPartialRetriever,
+                                            val giftsOverviewView: gifts_overview,
                                             implicit val appConfig: AppConfig,
                                             val cc: MessagesControllerComponents) extends FrontendController(cc) with GiftsOverviewController
 
@@ -54,7 +54,6 @@ trait GiftsOverviewController extends EstateController with ExemptionsGuidanceHe
         "page.iht.application.gifts.overview.givenAway.question1.none.screenReader.link.value")
     )
   }
-
   private def withReservationYesNoItems(allGifts: AllGifts, rd: RegistrationDetails)(implicit messages:Messages) =  {
     val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd, wrapName = true)
     Seq[QuestionAnswer](
@@ -81,6 +80,7 @@ trait GiftsOverviewController extends EstateController with ExemptionsGuidanceHe
         messages("page.iht.application.gifts.trust.question.none.screenReader.link.value", deceasedName))
     )
   }
+  val giftsOverviewView: gifts_overview
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
 
@@ -104,7 +104,7 @@ trait GiftsOverviewController extends EstateController with ExemptionsGuidanceHe
                     lazy val ihtRef = CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference)
                     lazy val seqToDisplay = createSeqOfQuestions(regDetails, ad, allGifts)
 
-                    Ok(iht.views.html.application.gift.gifts_overview(regDetails,
+                    Ok(giftsOverviewView(regDetails,
                       seqToDisplay,
                       Some(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtRef)),
                       "iht.estateReport.returnToEstateOverview"))

@@ -50,10 +50,12 @@ class VehiclesOverviewViewTest extends ShareableElementOverviewViewBehaviour {
   override def jointlyOwnedValueText = messagesApi("iht.estateReport.assets.vehicles.valueOfJointlyOwned", deceasedName)
 
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
-  override def viewWithQuestionsAnsweredNo: String = vehicles_overview(dataWithQuestionsAnsweredNo, regDetails).toString
-  override def viewWithQuestionsAnsweredYes: String = vehicles_overview(dataWithQuestionsAnsweredYes, regDetails).toString
-  override def viewWithQuestionsUnanswered: String = vehicles_overview(None, regDetails).toString
-  override def viewWithValues: String = vehicles_overview(dataWithValues, regDetails).toString
+  lazy val vehiclesOverviewView: vehicles_overview = app.injector.instanceOf[vehicles_overview]
+
+  override def viewWithQuestionsAnsweredNo: String = vehiclesOverviewView(dataWithQuestionsAnsweredNo, regDetails).toString
+  override def viewWithQuestionsAnsweredYes: String = vehiclesOverviewView(dataWithQuestionsAnsweredYes, regDetails).toString
+  override def viewWithQuestionsUnanswered: String = vehiclesOverviewView(None, regDetails).toString
+  override def viewWithValues: String = vehiclesOverviewView(dataWithValues, regDetails).toString
   override def linkHash = appConfig.AppSectionVehiclesID
 
   "Vehicles overview view" must {

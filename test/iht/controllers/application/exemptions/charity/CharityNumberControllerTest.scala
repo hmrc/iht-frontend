@@ -22,32 +22,32 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions.Charity
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.application.exemption.charity.charity_number
 import org.scalatest.BeforeAndAfter
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class CharityNumberControllerTest extends ApplicationControllerTest with BeforeAndAfter {
 
   protected abstract class TestController extends FrontendController(mockControllerComponents) with CharityNumberController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val charityNumberView: charity_number = app.injector.instanceOf[charity_number]
+
   }
 
   def charityNumberController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def charityNumberControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   val charity1 = CommonBuilder.buildCharity.copy(id = Some("1"),
@@ -184,7 +184,6 @@ class CharityNumberControllerTest extends ApplicationControllerTest with BeforeA
         override val authConnector = mockAuthConnector
         override val cachingConnector = mockCachingConnectorTemp
         override val ihtConnector = mockIhtConnectorTemp
-        override implicit val formPartialRetriever: FormPartialRetriever = mockPartialRetriever
       }
 
       lazy val charity1 = CommonBuilder.buildCharity.copy(

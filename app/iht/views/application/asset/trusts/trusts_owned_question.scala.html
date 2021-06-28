@@ -17,25 +17,31 @@
 @import iht.models._
 @import iht.models.application.assets.HeldInTrust
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 @import iht.models.RegistrationDetails
-@import uk.gov.hmrc.play.views.html.helpers.form
 
+@this(
+    implicit val appConfig: AppConfig,
+    errorSummary: ihtHelpers.custom.error_summary,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group,
+    nameHelper: ihtHelpers.custom.name,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(trustsOwnedQuestionForm: Form[HeldInTrust],
-registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)}
-@deceasedNameWrap = @{ihtHelpers.custom.name(deceasedName)}
+@deceasedNameWrap = @{nameHelper(deceasedName)}
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.trusts.question",deceasedName),
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.assets.trusts.question",deceasedName),
 browserTitle = Some(Messages("page.iht.application.assets.trusts.isOwned.browserTitle")),
 isFullWidth=false,
 headingName = deceasedName,
 headingClass = "heading-large"){
-    @ihtHelpers.custom.error_summary(trustsOwnedQuestionForm)
+    @errorSummary(trustsOwnedQuestionForm)
     @form(action = iht.controllers.application.assets.trusts.routes.TrustsOwnedQuestionController.onSubmit,'autoComplete -> "off") {
 
       <div class="form-group">
@@ -44,7 +50,7 @@ headingClass = "heading-large"){
         <p id="trusts-question-description3">@Html(Messages("iht.estateReport.assets.heldInTrust.needInclusion",deceasedNameWrap))</p>
       </div>
 
-            @ihtHelpers.standard.input_yes_no_radio_group(
+            @inputYesNoRadioGroup(
             trustsOwnedQuestionForm("isOwned"),
             '_legend -> Html(Messages("iht.estateReport.assets.trusts.question",deceasedNameWrap)),
             '_shownElementNo -> Some("mortgage-guidance-panel"),
@@ -56,8 +62,8 @@ headingClass = "heading-large"){
       </div>
 
         @registrationDetails.deceasedDetails.map{ dd=>
-            @ihtHelpers.custom.return_link(
-                Messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(dd.name)),
+            @returnLink(
+                Messages("page.iht.application.return.to.assetsOf", nameHelper(dd.name)),
                 Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
                 appConfig.AppSectionHeldInTrustID
             )

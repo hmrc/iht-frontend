@@ -30,14 +30,13 @@ import play.api.mvc.{Call, MessagesControllerComponents, Request}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class CharityNumberControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                             val cachingConnector: CachingConnector,
                                             val authConnector: AuthConnector,
-                                            val formPartialRetriever: FormPartialRetriever,
+                                            val charityNumberView: charity_number,
                                             implicit val appConfig: AppConfig,
                                             val cc: MessagesControllerComponents) extends FrontendController(cc) with CharityNumberController {
 
@@ -71,10 +70,11 @@ trait CharityNumberController extends EstateController {
   def locationAfterSuccessfulSave(optionID: Option[String]) = CommonHelper.getOrException(
     optionID.map(id=>routes.CharityDetailsOverviewController.onEditPageLoad(id)))
 
+  val charityNumberView: charity_number
   def onPageLoad = authorisedForIht {
     implicit request => {
       withRegistrationDetails { regDetails =>
-        Future.successful(Ok(iht.views.html.application.exemption.charity.charity_number(charityNumberForm,
+        Future.successful(Ok(charityNumberView(charityNumberForm,
           regDetails,
           submitUrl,
           cancelUrl)))
@@ -85,7 +85,7 @@ trait CharityNumberController extends EstateController {
   def onEditPageLoad(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       estateElementOnEditPageLoadWithNavigation[Charity](charityNumberForm,
-            charity_number.apply,
+        charityNumberView.apply,
             retrieveSectionDetailsOrExceptionIfInvalidID(id),
             editSubmitUrl(id),
             editCancelUrl(id),
@@ -120,7 +120,7 @@ trait CharityNumberController extends EstateController {
                         implicit request: Request[_]) = {
     estateElementOnSubmitWithIdAndNavigation[Charity](
       charityNumberForm,
-      charity_number.apply,
+      charityNumberView.apply,
       updateApplicationDetails,
       (_, updatedCharityID) => locationAfterSuccessfulSave(updatedCharityID),
       None,

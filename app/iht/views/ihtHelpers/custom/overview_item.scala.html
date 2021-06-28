@@ -18,6 +18,8 @@
 @import iht.viewmodels.application.overview.NotStarted
 @import iht.viewmodels.application.overview.PartiallyComplete
 
+@this()
+
 @(model: OverviewRow, customClass: Option[String] = Some(""))(implicit messages: Messages)
 
 <li class="tabular-data__entry tabular-data__entry--grouped @customClass" id="@model.id-row">

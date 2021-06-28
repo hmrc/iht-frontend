@@ -19,30 +19,37 @@
 @import iht.models._
 @import iht.models.application.assets.PrivatePension
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummaryOverrideKeys: ihtHelpers.custom.error_summary_override_keys,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group,
+    returnLink: ihtHelpers.custom.return_link,
+    nameHelper: ihtHelpers.custom.name
+)
 
 @(pensionsChangedQuestionForm: Form[PrivatePension],
-registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)}
 
-@iht_main_template_application(
+@ihtMainTemplateApplication(
     title = "",
     browserTitle = Some(Messages("page.iht.application.assets.pensions.changed.browserTitle")),
     isFullWidth=false
 ){
 
-    @ihtHelpers.custom.error_summary_override_keys(pensionsChangedQuestionForm, Constants.AppSectionPrivatePension)
+    @errorSummaryOverrideKeys(pensionsChangedQuestionForm, Constants.AppSectionPrivatePension)
 
     @form(action = iht.controllers.application.assets.pensions.routes.PensionsChangedQuestionController.onSubmit,'autoComplete -> "off") {
 
 
-            @ihtHelpers.standard.input_yes_no_radio_group(
+            @inputYesNoRadioGroup(
                 pensionsChangedQuestionForm("isChanged"),
-                '_legend -> Html(Messages("page.iht.application.assets.pensions.changed.title", ihtHelpers.custom.name(deceasedName).toString)),
+                '_legend -> Html(Messages("page.iht.application.assets.pensions.changed.title", nameHelper(deceasedName).toString)),
                 '_legendClass -> Some("legend-with-heading"),
                 '_divClass -> Some("form-group"),
                 '_legendIsHeading -> true,
@@ -57,7 +64,7 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
     }
 
 
-@ihtHelpers.custom.return_link(
+@returnLink(
     Messages("iht.estateReport.assets.pensions.returnToPrivatePensions"),
     Some(iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad()),
     appConfig.AssetsPensionChangesID

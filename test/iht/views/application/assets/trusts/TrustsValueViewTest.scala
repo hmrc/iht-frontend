@@ -19,13 +19,11 @@ package iht.views.application.assets.trusts
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.HeldInTrust
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.TestHelper._
 import iht.views.application.{CancelComponent, ValueViewBehaviour}
 import iht.views.html.application.asset.trusts.trusts_value
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
-import iht.testhelpers.TestHelper._
 
 class TrustsValueViewTest extends ValueViewBehaviour[HeldInTrust] {
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
@@ -49,10 +47,11 @@ class TrustsValueViewTest extends ValueViewBehaviour[HeldInTrust] {
   )
 
   override def form: Form[HeldInTrust] = trustsValueForm
+  lazy val trustsValueView: trusts_value = app.injector.instanceOf[trusts_value]
 
   override def formToView: Form[HeldInTrust] => Appendable =
     form =>
-      trusts_value(form, registrationDetails)
+      trustsValueView(form, registrationDetails)
 
   "Permanent home page Question View" must {
     behave like valueView()

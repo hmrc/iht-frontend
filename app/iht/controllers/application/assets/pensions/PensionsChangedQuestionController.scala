@@ -30,14 +30,13 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 
 class PensionsChangedQuestionControllerImpl @Inject()(val metrics: IhtMetrics,
                                                       val ihtConnector: IhtConnector,
                                                       val cachingConnector: CachingConnector,
                                                       val authConnector: AuthConnector,
-                                                      val formPartialRetriever: FormPartialRetriever,
+                                                      val pensionsChangedQuestionView: pensions_changed_question,
                                                       implicit val appConfig: AppConfig,
                                                       val cc: MessagesControllerComponents) extends FrontendController(cc) with PensionsChangedQuestionController
 
@@ -47,10 +46,10 @@ trait PensionsChangedQuestionController extends EstateController {
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
     iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad(), Some(appConfig.AssetsPensionChangesID))
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsPensions)
-
+  val pensionsChangedQuestionView: pensions_changed_question
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
-      estateElementOnPageLoad[PrivatePension](pensionsChangedQuestionForm, pensions_changed_question.apply, _.allAssets.flatMap(_.privatePension), userNino)
+      estateElementOnPageLoad[PrivatePension](pensionsChangedQuestionForm, pensionsChangedQuestionView.apply, _.allAssets.flatMap(_.privatePension), userNino)
   }
 
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -71,7 +70,7 @@ trait PensionsChangedQuestionController extends EstateController {
 
       estateElementOnSubmit[PrivatePension](
         pensionsChangedQuestionForm,
-        pensions_changed_question.apply,
+        pensionsChangedQuestionView.apply,
         updateApplicationDetails,
         submitUrl,
         userNino

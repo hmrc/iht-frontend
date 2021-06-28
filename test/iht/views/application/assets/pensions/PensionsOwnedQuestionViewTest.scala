@@ -16,27 +16,20 @@
 
 package iht.views.application.assets.pensions
 
+import iht.controllers.application.assets.pensions.routes
 import iht.forms.ApplicationForms.pensionsOwnedQuestionForm
 import iht.models.application.assets.PrivatePension
-import iht.models.application.tnrb.TnrbEligibiltyModel
-import iht.testhelpers.CommonBuilder
-import iht.views.application.YesNoQuestionViewBehaviour
+import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
 import iht.views.html.application.asset.pensions.pensions_owned_question
-import iht.testhelpers.TestHelper
 import play.api.data.Form
-import play.api.i18n.Messages
-import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable
-import iht.controllers.application.assets.pensions.routes
-import iht.views.application.CancelComponent
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.testhelpers.TestHelper._
 
 class PensionsOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[PrivatePension] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+  lazy val pensionsOwnedQuestionView: pensions_owned_question = app.injector.instanceOf[pensions_owned_question]
 
   override def guidance = noGuidance
 
@@ -49,7 +42,7 @@ class PensionsOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[PrivatePe
   override def form: Form[PrivatePension] = pensionsOwnedQuestionForm
 
   override def formToView: Form[PrivatePension] => Appendable =
-    form => pensions_owned_question(form, regDetails)
+    form => pensionsOwnedQuestionView(form, regDetails)
 
   override def cancelComponent = Some(
                         CancelComponent(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),

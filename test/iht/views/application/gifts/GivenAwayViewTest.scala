@@ -16,21 +16,17 @@
 
 package iht.views.application.gifts
 
-import iht.constants.IhtProperties
 import iht.forms.ApplicationForms._
 import iht.models.application.gifts.AllGifts
 import iht.testhelpers.{CommonBuilder, TestHelper}
-import iht.utils.{CommonHelper, DateHelper}
+import iht.utils.CommonHelper
 import iht.utils.CommonHelper._
 import iht.views.application.{CancelComponent, SubmittableApplicationPageBehaviour}
 import iht.views.html.application.gift.given_away
-import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import play.twirl.api.HtmlFormat.Appendable
-
 import org.joda.time.LocalDate
+import play.api.data.Form
 import play.api.i18n.Lang
+import play.twirl.api.HtmlFormat.Appendable
 
 class GivenAwayViewTest extends SubmittableApplicationPageBehaviour[AllGifts] {
 
@@ -38,6 +34,7 @@ class GivenAwayViewTest extends SubmittableApplicationPageBehaviour[AllGifts] {
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(
       maritalStatus = Some(TestHelper.MaritalStatusMarried))),
     deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
+  lazy val givenAwayView: given_away = app.injector.instanceOf[given_away]
 
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
 
@@ -74,7 +71,7 @@ class GivenAwayViewTest extends SubmittableApplicationPageBehaviour[AllGifts] {
 
   override def formToView: Form[AllGifts] => Appendable =
     form =>
-      given_away(form, registrationDetails, CommonBuilder.buildGiftsList)
+      givenAwayView(form, registrationDetails, CommonBuilder.buildGiftsList)
 
 
   "GivenAway View" must {
@@ -86,7 +83,7 @@ class GivenAwayViewTest extends SubmittableApplicationPageBehaviour[AllGifts] {
       val fakeRequest = createFakeRequest(isAuthorised = false)
       val allGifts = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(true))
       val filledForm = giftsGivenAwayForm.fill(allGifts)
-      val view = given_away(filledForm, registrationDetails, CommonBuilder.buildGiftsList)
+      val view = givenAwayView(filledForm, registrationDetails, CommonBuilder.buildGiftsList)
       val doc = asDocument(view)
 
       val link = doc.getElementById("return-button")
@@ -102,7 +99,7 @@ class GivenAwayViewTest extends SubmittableApplicationPageBehaviour[AllGifts] {
 
       val allGifts = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(true))
       val filledForm = giftsGivenAwayForm.fill(allGifts)
-      val view = given_away(filledForm, registrationDetails, CommonBuilder.buildGiftsList)
+      val view = givenAwayView(filledForm, registrationDetails, CommonBuilder.buildGiftsList)
       val doc = asDocument(view)
 
       doc.getElementById("tax-year-1").text mustBe "6 April 2014 to 12 December 2014"

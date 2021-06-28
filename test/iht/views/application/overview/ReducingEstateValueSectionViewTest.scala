@@ -17,12 +17,10 @@
 package iht.views.application.overview
 
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.TestHelper._
 import iht.viewmodels.application.overview.ReducingEstateValueSectionViewModel
 import iht.views.ViewTestHelper
 import iht.views.html.application.overview.reducing_estate_value_section
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.testhelpers.TestHelper._
 
 class ReducingEstateValueSectionViewTest extends ViewTestHelper {
 
@@ -31,18 +29,19 @@ class ReducingEstateValueSectionViewTest extends ViewTestHelper {
                                                     allLiabilities = Some(CommonBuilder.buildEveryLiability))
   def regDetails = CommonBuilder.buildRegistrationDetails4
   def viewModel = ReducingEstateValueSectionViewModel(appDetailsWithSomeExemptionsAndLiabilities, regDetails)
+  lazy val reducingEstateValueSectionView: reducing_estate_value_section = app.injector.instanceOf[reducing_estate_value_section]
 
   "reducing the estate value section" must {
 
     "have no message keys in html" in {
       implicit val request = createFakeRequest()
-      val view = reducing_estate_value_section(viewModel).toString
+      val view = reducingEstateValueSectionView(viewModel).toString
       noMessageKeysShouldBePresent(view)
     }
 
     "have the correct title" in {
       implicit val request = createFakeRequest()
-      val view = reducing_estate_value_section(viewModel)
+      val view = reducingEstateValueSectionView(viewModel)
       val doc = asDocument(view)
       val header = doc.getElementsByTag("h2")
       header.text() must include(messagesApi("page.iht.application.overview.reducingTheEstateValue.total"))
@@ -50,21 +49,21 @@ class ReducingEstateValueSectionViewTest extends ViewTestHelper {
 
     "contain the Exemptions row" in {
       implicit val request = createFakeRequest()
-      val view = reducing_estate_value_section(viewModel)
+      val view = reducingEstateValueSectionView(viewModel)
       val doc = asDocument(view)
       assertRenderedById(doc, EstateExemptionsID + "-row")
     }
 
     "contain the totals row" in {
       implicit val request = createFakeRequest()
-      val view = reducing_estate_value_section(viewModel)
+      val view = reducingEstateValueSectionView(viewModel)
       val doc = asDocument(view)
       assertRenderedById(doc, "reducing-estate-totals-row")
     }
 
     "contain the Debts row if there are debts in the model" in {
       implicit val request = createFakeRequest()
-      val view = reducing_estate_value_section(viewModel)
+      val view = reducingEstateValueSectionView(viewModel)
       val doc = asDocument(view)
       assertRenderedById(doc, EstateDebtsID + "-row")
     }
@@ -74,7 +73,7 @@ class ReducingEstateValueSectionViewTest extends ViewTestHelper {
       val appDetails1 = CommonBuilder.buildExemptionsWithNoValues(appDetails) copy (
                                                           allLiabilities = Some(CommonBuilder.buildEveryLiability))
       val viewModel = ReducingEstateValueSectionViewModel(appDetails1, regDetails)
-      val view = reducing_estate_value_section(viewModel)
+      val view = reducingEstateValueSectionView(viewModel)
       val doc = asDocument(view)
       assertNotRenderedById(doc, EstateDebtsID + "-row")
     }
@@ -84,7 +83,7 @@ class ReducingEstateValueSectionViewTest extends ViewTestHelper {
       val appDetails1 = CommonBuilder.buildExemptionsWithPartnerZeroValue(appDetails) copy (
                                                            allLiabilities = Some(CommonBuilder.buildEveryLiability))
       val viewModel = ReducingEstateValueSectionViewModel(appDetails1, regDetails)
-      val view = reducing_estate_value_section(viewModel)
+      val view = reducingEstateValueSectionView(viewModel)
       val doc = asDocument(view)
       assertNotRenderedById(doc, EstateDebtsID + "-row")
     }

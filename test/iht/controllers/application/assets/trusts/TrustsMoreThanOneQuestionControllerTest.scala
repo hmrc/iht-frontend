@@ -21,26 +21,26 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.HeldInTrust
 import iht.testhelpers.TestHelper._
-import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
+import iht.testhelpers.{CommonBuilder, ContentChecker}
 import iht.utils.CommonHelper
+import iht.views.html.application.asset.trusts.trusts_more_than_one_question
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class TrustsMoreThanOneQuestionControllerTest extends ApplicationControllerTest{
   override implicit val messages: Messages = mockControllerComponents.messagesApi.preferred(Seq(Lang.defaultLang)).messages
   protected abstract class TestController extends FrontendController(mockControllerComponents) with TrustsMoreThanOneQuestionController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val trustsMoreThanOneQuestionView: trusts_more_than_one_question = app.injector.instanceOf[trusts_more_than_one_question]
   }
 
   def trustsMoreThanOneQuestionController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def trustsMoreThanOneQuestionControllerNotAuthorised = new TestController {
@@ -48,7 +48,6 @@ class TrustsMoreThanOneQuestionControllerTest extends ApplicationControllerTest{
 //    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "TrustsMoreThanOneQuestionController" must {

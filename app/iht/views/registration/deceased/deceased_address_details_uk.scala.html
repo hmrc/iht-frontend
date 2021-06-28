@@ -15,28 +15,35 @@
  *@
 
 @import iht.constants._
-@import iht.views.html._
 @import org.apache.commons.lang3.StringEscapeUtils
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateRegistration: iht_main_template_registration,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputWithHelp: ihtHelpers.standard.input_with_help,
+    continueButton: ihtHelpers.custom.continue_button,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(deceasedAddressDetailsUKForm:Form[iht.models.DeceasedDetails], deceasedName: String,
     actionLocation: Call,
     changeNationalityLocation: Call,
-    cancelLocation: Option[Call] = None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+    cancelLocation: Option[Call] = None)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_registration(title = Messages("iht.registration.deceased.lastContactAddress", StringEscapeUtils.escapeHtml4(deceasedName)),
+@ihtMainTemplateRegistration(title = Messages("iht.registration.deceased.lastContactAddress", StringEscapeUtils.escapeHtml4(deceasedName)),
     browserTitle = Some(Messages("iht.registration.contactAddress")),
     cancelUrl=cancelLocation) {
 
-    @ihtHelpers.custom.error_summary(deceasedAddressDetailsUKForm)
+    @errorSummary(deceasedAddressDetailsUKForm)
 
     <p>@Messages("page.iht.registration.deceasedDetails.addressheader.uk.hint", deceasedName)</p>
 
     @form(action = actionLocation,'autoComplete -> "off") {
 
-    @ihtHelpers.standard.input_with_help(
+    @inputWithHelp(
     deceasedAddressDetailsUKForm("ukAddress.ukAddressLine1"),
     '_maxlength -> appConfig.validationMaxLengthAddresslines,
     '_divClass -> "form-group ",
@@ -44,7 +51,7 @@
     '_labelTextClass -> "bold ",
     '_label -> Html(Messages("iht.address.line1")))
 
-    @ihtHelpers.standard.input_with_help(
+    @inputWithHelp(
     deceasedAddressDetailsUKForm("ukAddress.ukAddressLine2"),
     '_maxlength -> appConfig.validationMaxLengthAddresslines,
     '_divClass -> "form-group ",
@@ -52,7 +59,7 @@
     '_labelTextClass -> "bold ",
     '_label -> Html(Messages("iht.address.line2")))
 
-    @ihtHelpers.standard.input_with_help(
+    @inputWithHelp(
     deceasedAddressDetailsUKForm("ukAddress.ukAddressLine3"),
     '_maxlength -> appConfig.validationMaxLengthAddresslines,
     '_divClass -> "form-group ",
@@ -60,7 +67,7 @@
     '_labelTextClass -> "bold ",
     '_label -> Html(Messages("iht.address.line3")))
 
-    @ihtHelpers.standard.input_with_help(
+    @inputWithHelp(
     deceasedAddressDetailsUKForm("ukAddress.ukAddressLine4"),
     '_maxlength -> appConfig.validationMaxLengthAddresslines,
     '_divClass -> "form-group ",
@@ -68,7 +75,7 @@
     '_labelTextClass -> "bold ",
     '_label -> Html(Messages("iht.address.line4")))
 
-    @ihtHelpers.standard.input_with_help(
+    @inputWithHelp(
     deceasedAddressDetailsUKForm("ukAddress.postCode"),
     '_maxlength -> appConfig.validationMaxLengthPostcode,
     '_divClass -> "form-group",
@@ -77,9 +84,9 @@
     '_label -> Html(Messages("iht.postcode")))
 
     <div class="form-group">
-        <p>@ihtHelpers.custom.return_link(Messages("iht.registration.changeAddressToAbroad"),Some(changeNationalityLocation))</p>
+        <p>@returnLink(Messages("iht.registration.changeAddressToAbroad"),Some(changeNationalityLocation))</p>
     </div>
 
-    @ihtHelpers.custom.continue_button()
+    @continueButton()
     }
 }

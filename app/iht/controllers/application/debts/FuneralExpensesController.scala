@@ -29,12 +29,11 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class FuneralExpensesControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                               val cachingConnector: CachingConnector,
                                               val authConnector: AuthConnector,
-                                              val formPartialRetriever: FormPartialRetriever,
+                                              val funeralExpensesView: funeral_expenses,
                                               implicit val appConfig: AppConfig,
                                               val cc: MessagesControllerComponents) extends FrontendController(cc) with FuneralExpensesController {
 
@@ -42,11 +41,11 @@ class FuneralExpensesControllerImpl @Inject()(val ihtConnector: IhtConnector,
 
 trait FuneralExpensesController extends EstateController {
 
-
+  val funeralExpensesView: funeral_expenses
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
       estateElementOnPageLoad[BasicEstateElementLiabilities](funeralExpensesForm,
-        funeral_expenses.apply, _.allLiabilities.flatMap(_.funeralExpenses), userNino)
+        funeralExpensesView.apply, _.allLiabilities.flatMap(_.funeralExpenses), userNino)
   }
 
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -67,7 +66,7 @@ trait FuneralExpensesController extends EstateController {
         }
       estateElementOnSubmit[BasicEstateElementLiabilities](
         funeralExpensesForm,
-        funeral_expenses.apply,
+        funeralExpensesView.apply,
         updateApplicationDetails,
         CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(appConfig.DebtsFuneralExpensesID)),
         userNino

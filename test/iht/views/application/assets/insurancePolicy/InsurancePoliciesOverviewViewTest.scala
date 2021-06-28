@@ -19,8 +19,6 @@ package iht.views.application.assets.insurancePolicy
 import iht.testhelpers.CommonBuilder
 import iht.views.application.{ApplicationPageBehaviour, CancelComponent, Guidance}
 import iht.views.html.application.asset.insurancePolicy.insurance_policies_overview
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.mvc.Call
 
 class InsurancePoliciesOverviewViewTest extends ApplicationPageBehaviour {
@@ -29,12 +27,13 @@ class InsurancePoliciesOverviewViewTest extends ApplicationPageBehaviour {
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val returnUrlTextMsgKey = "page.iht.application.return.to.assetsOf"
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+  lazy val insurancePoliciesOverviewView: insurance_policies_overview = app.injector.instanceOf[insurance_policies_overview]
 
   override def pageTitle = messagesApi("iht.estateReport.assets.insurancePolicies")
 
   override def browserTitle = messagesApi("iht.estateReport.assets.insurancePolicies")
 
-  override def view:String = insurance_policies_overview(regDetails, Nil, Some(call), returnUrlTextMsgKey).toString()
+  override def view:String = insurancePoliciesOverviewView(regDetails, Nil, Some(call), returnUrlTextMsgKey).toString()
 
   override def guidance: Guidance = guidance(Set(
     messagesApi("page.iht.application.assets.insurance.policies.overview.guidance1", deceasedName),

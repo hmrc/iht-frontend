@@ -24,14 +24,14 @@ import javax.inject.Inject
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.exemption.exemptions_guidance_increasing_threshold
 
 import scala.concurrent.Future
 
 class ExemptionsGuidanceIncreasingThresholdControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                                                     val ihtConnector: IhtConnector,
                                                                     val authConnector: AuthConnector,
-                                                                    override implicit val formPartialRetriever: FormPartialRetriever,
+                                                                    val exemptionsGuidanceIncreasingThresholdView: exemptions_guidance_increasing_threshold,
                                                                     implicit val appConfig: AppConfig,
                                                                     val cc: MessagesControllerComponents)
   extends FrontendController(cc) with ExemptionsGuidanceIncreasingThresholdController
@@ -41,9 +41,10 @@ trait ExemptionsGuidanceIncreasingThresholdController extends ApplicationControl
 
   def ihtConnector: IhtConnector
 
+  val exemptionsGuidanceIncreasingThresholdView: exemptions_guidance_increasing_threshold
   def onPageLoad(ihtReference: String): Action[AnyContent] = authorisedForIht {
     implicit request => {
-      Future.successful(Ok(iht.views.html.application.exemption.exemptions_guidance_increasing_threshold(ihtReference)))
+      Future.successful(Ok(exemptionsGuidanceIncreasingThresholdView(ihtReference)))
     }
   }
 

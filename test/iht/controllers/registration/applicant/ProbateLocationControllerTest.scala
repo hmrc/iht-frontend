@@ -21,15 +21,14 @@ import iht.controllers.registration.{routes => registrationRoutes}
 import iht.forms.registration.ApplicantForms._
 import iht.metrics.IhtMetrics
 import iht.models.{ApplicantDetails, DeceasedDateOfDeath, RegistrationDetails}
-
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
+import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.RegistrationKickOutHelper
+import iht.views.html.registration.applicant.probate_location
 import org.joda.time.LocalDate
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -41,6 +40,8 @@ class ProbateLocationControllerTest
   protected abstract class TestController extends FrontendController(mockControllerComponents) with ProbateLocationController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val probateLocationView: probate_location = app.injector.instanceOf[probate_location]
+
   }
 
  def controller = new TestController {
@@ -48,7 +49,6 @@ class ProbateLocationControllerTest
    override val authConnector = mockAuthConnector
    override val metrics: IhtMetrics = mock[IhtMetrics]
 
-   override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
    override val cc: MessagesControllerComponents = mockControllerComponents
    override implicit val appConfig: AppConfig = mockAppConfig
  }
@@ -58,7 +58,6 @@ class ProbateLocationControllerTest
     override val authConnector = mockAuthConnector
     override val metrics: IhtMetrics = mock[IhtMetrics]
 
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
   }

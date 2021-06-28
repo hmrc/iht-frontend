@@ -17,24 +17,32 @@
 @import iht.constants._
 @import iht.controllers.ControllerHelper._
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    ihtMainTemplateRegistration: iht_main_template_registration,
+    appConfig: AppConfig,
+    form: FormWithCSRF,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputWithHelp: ihtHelpers.standard.input_with_help,
+    dateFields: ihtHelpers.standard.date_fields,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group,
+    continueButton: ihtHelpers.custom.continue_button
+)
 
 @(coExecutorDetails:Form[iht.models.CoExecutor],
 mode: Mode.Value = Mode.Standard,
 actionLocation: Call,
-cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Messages)
 
-@iht_main_template_registration(title = Messages("page.iht.registration.co-executor-personal-details.title"),
+@ihtMainTemplateRegistration(title = Messages("page.iht.registration.co-executor-personal-details.title"),
   browserTitle = Some(Messages("page.iht.registration.co-executor-personal-details.browserTitle")),
   isFullWidth=false,
   cancelUrl=cancelLocation,
   hasTimeOut=true,
   headingClass="heading-xlarge") {
 
-@ihtHelpers.custom.error_summary(coExecutorDetails, Some(
+@errorSummary(coExecutorDetails, Some(
     Map(
       "error.dateOfBirth.numeric" -> "error.dateOfBirth.incorrect.summary"
     )
@@ -45,7 +53,7 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
 
     <input type="hidden" name="id" value='@coExecutorDetails.data.get("id")'>
 
-      @ihtHelpers.standard.input_with_help(coExecutorDetails("firstName"),
+      @inputWithHelp(coExecutorDetails("firstName"),
           '_maxlength -> appConfig.validationMaxLengthFirstName,
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
@@ -53,14 +61,14 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
           '_label -> Html(Messages("iht.firstName")),
           '_hintText -> Html(Messages("iht.firstName.hint")))
 
-      @ihtHelpers.standard.input_with_help(coExecutorDetails("lastName"),
+      @inputWithHelp(coExecutorDetails("lastName"),
           '_maxlength -> appConfig.validationMaxLengthLastName,
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
           '_label -> Html(Messages("iht.lastName")))
 
-      @ihtHelpers.standard.date_fields(
+      @dateFields(
           coExecutorDetails,
           "dateOfBirth",
           Messages("iht.dateofbirth"),
@@ -72,7 +80,7 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
           '_fieldsetId -> "date-of-birth",
           '_legend -> Html(Messages("iht.dateofbirth")))
 
-      @ihtHelpers.standard.input_with_help(coExecutorDetails("nino"),
+      @inputWithHelp(coExecutorDetails("nino"),
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
@@ -80,7 +88,7 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
           '_hintText -> Html(Messages("iht.ninoExample")))
 
 
-      @ihtHelpers.standard.input_with_help(coExecutorDetails("phoneNo"),
+      @inputWithHelp(coExecutorDetails("phoneNo"),
           '_maxlength -> appConfig.validationMaxLengthPhoneNo,
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
@@ -90,7 +98,7 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
 
     @if(mode == Mode.Standard) {
         @defining("co-executor-personal-details")  { sectionName =>
-          @ihtHelpers.standard.input_yes_no_radio_group(
+          @inputYesNoRadioGroup(
               coExecutorDetails("isAddressInUk"),
               '_legend -> Html(Messages("page.iht.registration.co-executor-personal-details.isAddressInUk")),
               '_shownElementNo -> Some(sectionName+ "1-details "+ sectionName+ "-joint "),
@@ -100,6 +108,6 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
       }
     }
 
-    @ihtHelpers.custom.continue_button()
+    @continueButton()
   }
 }

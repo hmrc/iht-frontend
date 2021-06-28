@@ -31,21 +31,21 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.tnrb.jointly_owned_assets
 
 import scala.concurrent.Future
 
 class JointlyOwnedAssetsControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                  val cachingConnector: CachingConnector,
                                                  val authConnector: AuthConnector,
-                                                 val formPartialRetriever: FormPartialRetriever,
+                                                 val jointlyOwnedAssetsView: jointly_owned_assets,
                                                  implicit val appConfig: AppConfig,
                                                  val cc: MessagesControllerComponents) extends FrontendController(cc) with JointlyOwnedAssetsController
 
 trait JointlyOwnedAssetsController extends EstateController with TnrbHelper {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   def cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
-
+  val jointlyOwnedAssetsView: jointly_owned_assets
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
 
       implicit request => {
@@ -63,7 +63,7 @@ trait JointlyOwnedAssetsController extends EstateController with TnrbHelper {
                 val filledForm = jointAssetPassedForm.fill(appDetails.increaseIhtThreshold.getOrElse(
                   TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
 
-                Ok(iht.views.html.application.tnrb.jointly_owned_assets(
+                Ok(jointlyOwnedAssetsView(
                   filledForm,
                   deceasedName,
                   CommonHelper.addFragmentIdentifier(cancelUrl, Some(appConfig.TnrbJointAssetsPassedToDeceasedID))
@@ -93,7 +93,7 @@ trait JointlyOwnedAssetsController extends EstateController with TnrbHelper {
             case Some(appDetails) => {
               boundForm.fold(
                 formWithErrors => {
-                  Future.successful(BadRequest(iht.views.html.application.tnrb.jointly_owned_assets(formWithErrors, deceasedName, cancelUrl)))
+                  Future.successful(BadRequest(jointlyOwnedAssetsView(formWithErrors, deceasedName, cancelUrl)))
                 },
                 tnrbModel => {
                   saveApplication(getNino(userNino), tnrbModel, appDetails, regDetails)

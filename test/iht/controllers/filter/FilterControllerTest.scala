@@ -20,13 +20,12 @@ import iht.config.AppConfig
 import iht.constants.Constants._
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.FilterForms._
-import iht.testhelpers.MockFormPartialRetriever
 import iht.views.HtmlSpec
+import iht.views.html.filter.filter_view
 import play.api.i18n.MessagesApi
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class FilterControllerTest extends ApplicationControllerTest with HtmlSpec {
 
@@ -35,14 +34,14 @@ class FilterControllerTest extends ApplicationControllerTest with HtmlSpec {
 
   protected abstract class TestController extends FrontendController(mockControllerComponents) with FilterController {
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val filterViewView: filter_view = app.injector.instanceOf[filter_view]
   }
 
   def controller = new TestController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
-
     override def messagesApi: MessagesApi = fakedMessagesApi
+
   }
 
   "FilterController" must {

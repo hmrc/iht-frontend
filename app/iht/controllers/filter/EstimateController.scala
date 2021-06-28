@@ -16,7 +16,7 @@
 
 package iht.controllers.filter
 
-import iht.config.{AppConfig, IhtFormPartialRetriever}
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.Constants
 import iht.forms.FilterForms._
@@ -25,7 +25,7 @@ import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, Call, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.filter.estimate
 
 import scala.concurrent.Future
 
@@ -33,16 +33,15 @@ class EstimateControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                        val cachingConnector: CachingConnector,
                                        val authConnector: AuthConnector,
                                        val cc: MessagesControllerComponents,
-                                       implicit val formPartialRetriever: IhtFormPartialRetriever,
+                                       val estimateView: estimate,
                                        implicit val appConfig: AppConfig) extends FrontendController(cc) with EstimateController
 
 trait EstimateController extends FrontendController with I18nSupport {
-  implicit val formPartialRetriever: FormPartialRetriever
   implicit val appConfig: AppConfig
-
+  val estimateView: estimate
   def onPageLoad(jointAssets: Boolean, submitRoute: Call): Action[AnyContent] = Action.async {
     implicit request => {
-      Future.successful(Ok(iht.views.html.filter.estimate(estimateForm, jointAssets,
+      Future.successful(Ok(estimateView(estimateForm, jointAssets,
         submitRoute)))
     }
   }
@@ -56,7 +55,7 @@ trait EstimateController extends FrontendController with I18nSupport {
       val boundForm = estimateForm.bindFromRequest()
 
       boundForm.fold(
-        formWithErrors => Future.successful(BadRequest(iht.views.html.filter.estimate(formWithErrors, jointAssets,
+        formWithErrors => Future.successful(BadRequest(estimateView(formWithErrors, jointAssets,
           submitRoute))), {
           choice => (choice.getOrElse(""), jointAssets) match {
             case (Constants.under325000, false) =>

@@ -29,12 +29,11 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class JointlyOwnedDebtsControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                 val cachingConnector: CachingConnector,
                                                 val authConnector: AuthConnector,
-                                                val formPartialRetriever: FormPartialRetriever,
+                                                val jointlyOwnedView: jointly_owned,
 implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with JointlyOwnedDebtsController {
 
@@ -42,11 +41,11 @@ val cc: MessagesControllerComponents) extends FrontendController(cc) with Jointl
 
 trait JointlyOwnedDebtsController extends EstateController {
 
-
+  val jointlyOwnedView: jointly_owned
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
       estateElementOnPageLoad[BasicEstateElementLiabilities](jointlyOwnedDebts,
-        jointly_owned.apply, _.allLiabilities.flatMap(_.jointlyOwned), userNino)
+        jointlyOwnedView.apply, _.allLiabilities.flatMap(_.jointlyOwned), userNino)
   }
 
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -67,7 +66,7 @@ trait JointlyOwnedDebtsController extends EstateController {
         }
       estateElementOnSubmit[BasicEstateElementLiabilities](
         jointlyOwnedDebts,
-        jointly_owned.apply,
+        jointlyOwnedView.apply,
         updateApplicationDetails,
         CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(appConfig.DebtsOwedJointlyID)),
         userNino

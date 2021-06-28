@@ -16,30 +16,36 @@
 
 @import iht.constants._
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateRegistration: iht_main_template_registration,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputWithHelp: ihtHelpers.standard.input_with_help,
+    dropdown: ihtHelpers.standard.dropdown,
+    continueButton: ihtHelpers.custom.continue_button,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(deceasedAddressDetailsOutsideUKForm:Form[iht.models.DeceasedDetails], deceasedName: String,
     actionLocation: Call,
     changeNationalityLocation: Call,
-    cancelLocation: Option[Call] = None)(implicit request:Request[_],
-                                                  messages: Messages,
-                                                  ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+    cancelLocation: Option[Call] = None)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_registration(title = Messages("iht.registration.deceased.lastContactAddress", deceasedName),
+@ihtMainTemplateRegistration(title = Messages("iht.registration.deceased.lastContactAddress", deceasedName),
     browserTitle = Some(Messages("iht.registration.contactAddress")),
     cancelUrl=cancelLocation) {
 
 
-    @ihtHelpers.custom.error_summary(deceasedAddressDetailsOutsideUKForm)
+    @errorSummary(deceasedAddressDetailsOutsideUKForm)
 
     <p>@Messages("page.iht.registration.deceasedDetails.addressheader.abroad.hint", deceasedName)</p>
 
     @form(action = actionLocation,'autoComplete -> "off") {
 
-    @ihtHelpers.standard.input_with_help(
+    @inputWithHelp(
     deceasedAddressDetailsOutsideUKForm("ukAddress.ukAddressLine1"),
     '_maxlength -> appConfig.validationMaxLengthAddresslines,
     '_divClass -> "form-group ",
@@ -47,7 +53,7 @@
     '_labelTextClass -> "bold ",
     '_label -> Html(Messages("iht.address.line1")))
 
-    @ihtHelpers.standard.input_with_help(
+    @inputWithHelp(
     deceasedAddressDetailsOutsideUKForm("ukAddress.ukAddressLine2"),
     '_maxlength -> appConfig.validationMaxLengthAddresslines,
     '_divClass -> "form-group ",
@@ -55,7 +61,7 @@
     '_labelTextClass -> "bold ",
     '_label -> Html(Messages("iht.address.line2")))
 
-    @ihtHelpers.standard.input_with_help(
+    @inputWithHelp(
     deceasedAddressDetailsOutsideUKForm("ukAddress.ukAddressLine3"),
     '_maxlength -> appConfig.validationMaxLengthAddresslines,
     '_divClass -> "form-group ",
@@ -63,7 +69,7 @@
     '_labelTextClass -> "bold ",
     '_label -> Html(Messages("iht.address.line3")))
 
-    @ihtHelpers.standard.input_with_help(
+    @inputWithHelp(
     deceasedAddressDetailsOutsideUKForm("ukAddress.ukAddressLine4"),
     '_maxlength -> appConfig.validationMaxLengthAddresslines,
     '_divClass -> "form-group ",
@@ -72,7 +78,7 @@
     '_label -> Html(Messages("iht.address.line4")))
 
 
-    @ihtHelpers.standard.dropdown(deceasedAddressDetailsOutsideUKForm("ukAddress.countryCode"),
+    @dropdown(deceasedAddressDetailsOutsideUKForm("ukAddress.countryCode"),
     countryCodes,
     true,
     true,
@@ -86,10 +92,10 @@
 
 
     <div class="form-group">
-        <p>@ihtHelpers.custom.return_link(Messages("iht.registration.changeAddressToUK"),Some(changeNationalityLocation))</p>
+        <p>@returnLink(Messages("iht.registration.changeAddressToUK"),Some(changeNationalityLocation))</p>
     </div>
 
-    @ihtHelpers.custom.continue_button()
+    @continueButton()
     }
 
 }

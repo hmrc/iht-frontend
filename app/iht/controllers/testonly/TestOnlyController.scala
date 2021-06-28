@@ -16,12 +16,13 @@
 
 package iht.controllers.testonly
 
-import iht.config.{AppConfig, IhtFormPartialRetriever}
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationController
 import iht.forms.testonly.TestOnlyForms.{storeRegistrationDetailsForm, _}
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
+import iht.views.html.testOnly.{store_application_details, store_application_details_result, store_registration_details, store_registration_details_result}
 import javax.inject.Inject
 import play.api.Logging
 import play.api.libs.json.Json
@@ -30,19 +31,26 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
+
 import scala.concurrent.Future
 
 class TestOnlyControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                        val cachingConnector: CachingConnector,
                                        val authConnector: AuthConnector,
-                                       implicit val formPartialRetriever: IhtFormPartialRetriever,
+                                       val storeRegistrationDetailsView: store_registration_details,
+                                       val storeRegistrationDetailsResultView: store_registration_details_result,
+                                       val storeApplicationDetailsView: store_application_details,
+                                       val storeApplicationDetailsResultView: store_application_details_result,
                                        implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with TestOnlyController
 
 trait TestOnlyController extends ApplicationController with Logging {
   def ihtConnector: IhtConnector
   def cachingConnector: CachingConnector
-
+  val storeRegistrationDetailsView: store_registration_details
+  val storeRegistrationDetailsResultView: store_registration_details_result
+  val storeApplicationDetailsView: store_application_details
+  val storeApplicationDetailsResultView: store_application_details_result
   def deleteFirstCase: Action[AnyContent] = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       val nino = getNino(userNino)
@@ -75,7 +83,7 @@ trait TestOnlyController extends ApplicationController with Logging {
 
   def storeRegistrationDetailsPageLoad: Action[AnyContent] = authorisedForIht {
     implicit request => {
-      Future.successful(Ok(iht.views.html.testOnly.store_registration_details()))
+      Future.successful(Ok(storeRegistrationDetailsView()))
     }
   }
 
@@ -84,7 +92,7 @@ trait TestOnlyController extends ApplicationController with Logging {
       val boundForm = storeRegistrationDetailsForm.bindFromRequest
 
       boundForm.fold(formWithErrors => {
-        Future.successful(Ok(iht.views.html.testOnly.store_registration_details_result("There was a problem with the data you submitted.")))
+        Future.successful(Ok(storeRegistrationDetailsResultView("There was a problem with the data you submitted.")))
       },
 
         details => {
@@ -92,11 +100,11 @@ trait TestOnlyController extends ApplicationController with Logging {
             val rd = Json.parse(details).as[RegistrationDetails]
             cachingConnector.storeRegistrationDetails(rd)
 
-            Future.successful(Ok(iht.views.html.testOnly.store_registration_details_result("Registration details stored.")))
+            Future.successful(Ok(storeRegistrationDetailsResultView("Registration details stored.")))
           }
           catch {
             case _: Throwable => Future.successful(
-              Ok(iht.views.html.testOnly.store_registration_details_result("Could not store these registration details.")))
+              Ok(storeRegistrationDetailsResultView("Could not store these registration details.")))
           }
         }
       )
@@ -105,7 +113,7 @@ trait TestOnlyController extends ApplicationController with Logging {
 
   def storeApplicationDetailsPageLoad = authorisedForIht {
     implicit request => {
-      Future.successful(Ok(iht.views.html.testOnly.store_application_details()))
+      Future.successful(Ok(storeApplicationDetailsView()))
     }
   }
 
@@ -114,7 +122,7 @@ trait TestOnlyController extends ApplicationController with Logging {
       val boundForm = storeApplicationDetailsForm.bindFromRequest
 
       boundForm.fold(formWithErrors => {
-        Future.successful(Ok(iht.views.html.testOnly.store_application_details_result("There was a problem with the data you submitted.")))
+        Future.successful(Ok(storeApplicationDetailsResultView("There was a problem with the data you submitted.")))
       },
         details => {
           try {
@@ -129,15 +137,15 @@ trait TestOnlyController extends ApplicationController with Logging {
                 optionApplicationDetailsSaved.fold {
                   InternalServerError("Application Details not stored.")
                 }(_ => {
-                  Ok(iht.views.html.testOnly.store_application_details_result("Application details stored."))
+                  Ok(storeApplicationDetailsResultView("Application details stored."))
                 })
               })
-            Future.successful(Ok(iht.views.html.testOnly.store_application_details_result("Application details stored.")))
+            Future.successful(Ok(storeApplicationDetailsResultView("Application details stored.")))
           }
           catch {
             case x: Throwable => {
               Future.successful(
-                Ok(iht.views.html.testOnly.store_application_details_result("Could not store these application details.")))
+                Ok(storeApplicationDetailsResultView("Could not store these application details.")))
             }
           }
         }

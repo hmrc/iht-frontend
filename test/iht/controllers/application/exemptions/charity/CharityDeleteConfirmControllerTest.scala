@@ -18,32 +18,31 @@ package iht.controllers.application.exemptions.charity
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.application.exemption.charity.charity_delete_confirm
 import org.scalatest.BeforeAndAfter
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class CharityDeleteConfirmControllerTest extends ApplicationControllerTest with BeforeAndAfter {
 
   protected abstract class TestController extends FrontendController(mockControllerComponents) with CharityDeleteConfirmController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val charityDeleteConfirmView: charity_delete_confirm = app.injector.instanceOf[charity_delete_confirm]
   }
 
   def charityDeleteConfirmController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def charityDeleteControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   val charity1 = CommonBuilder.buildCharity.copy(

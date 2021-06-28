@@ -29,19 +29,19 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.tnrb.tnrb_overview
 
 import scala.concurrent.Future
 
 class TnrbOverviewControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                            val cachingConnector: CachingConnector,
                                            val authConnector: AuthConnector,
-                                           val formPartialRetriever: FormPartialRetriever,
+                                           val tnrbOverviewView: tnrb_overview,
                                            implicit val appConfig: AppConfig,
                                            val cc: MessagesControllerComponents) extends FrontendController(cc) with TnrbOverviewController
 
 trait TnrbOverviewController extends EstateController with StringHelper {
-
+  val tnrbOverviewView: tnrb_overview
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
       implicit request => {
         implicit val lang: Lang = messagesApi.preferred(request).lang
@@ -55,7 +55,7 @@ trait TnrbOverviewController extends EstateController with StringHelper {
             val ad = getOrExceptionNoApplication(optionApplicationDetails)
             lazy val ihtRef = CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference)
 
-            Ok(iht.views.html.application.tnrb.tnrb_overview(regDetails,
+            Ok(tnrbOverviewView(regDetails,
               ad.widowCheck.fold(WidowCheck(None, None))(identity),
               ad.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
               ihtRef))

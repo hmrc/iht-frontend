@@ -22,8 +22,9 @@ import iht.controllers.registration.{routes => registrationRoutes}
 import iht.forms.registration.ApplicantForms._
 import iht.metrics.IhtMetrics
 import iht.models.{ApplicantDetails, RegistrationDetails, _}
-
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, NinoBuilder}
+import iht.testhelpers.{CommonBuilder, NinoBuilder}
+import iht.views.html.registration.applicant.applicant_tell_us_about_yourself
+import iht.views.html.registration.registration_error_citizenDetails
 import org.joda.time.LocalDate
 import org.mockito.Mockito._
 import play.api.i18n.{Lang, Messages}
@@ -31,7 +32,6 @@ import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.domain.TaxIds
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -49,6 +49,8 @@ class ApplicantTellUsAboutYourselfControllerTest
   protected abstract class TestController extends FrontendController(mockControllerComponents) with ApplicantTellUsAboutYourselfController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val registrationErrorCitizenDetailsView: registration_error_citizenDetails = app.injector.instanceOf[registration_error_citizenDetails]
+    override val applicantTellUsAboutYourselfView: applicant_tell_us_about_yourself = app.injector.instanceOf[applicant_tell_us_about_yourself]
   }
 
   def controller = new TestController {
@@ -57,7 +59,6 @@ class ApplicantTellUsAboutYourselfControllerTest
     override val metrics: IhtMetrics = mock[IhtMetrics]
 
     override def citizenDetailsConnector = mockCitizenDetailsConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new TestController {
@@ -67,7 +68,6 @@ class ApplicantTellUsAboutYourselfControllerTest
 
     override def guardConditions: Set[Predicate] = Set((_, _) => true)
     override def citizenDetailsConnector = mockCitizenDetailsConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   override def beforeEach {

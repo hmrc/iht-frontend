@@ -17,14 +17,27 @@
 @import iht.constants.IhtProperties
 @import iht.controllers.CustomLanguageController
 @import iht.utils.StringHelperFixture
-@import iht.views.html.ihtHelpers.custom
-@import iht.views.html.ihtHelpers.custom.full_width_banner
-@import iht.views.html.ihtHelpers.standard
 @import uk.gov.hmrc.play.language.LanguageUtils
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.layouts
 @import play.twirl.api.HtmlFormat
+
+@this(
+    implicit val appConfig: AppConfig,
+    nameHelper: ihtHelpers.custom.name,
+    languageSelection: ihtHelpers.standard.language_selection,
+    ihtFormPartialRetriever: FormPartialRetriever,
+    headerNav: ihtHelpers.standard.header_nav,
+    standardServiceInfo: ihtHelpers.standard.serviceInfo,
+    standardArticle: ihtHelpers.standard.article,
+    standardSidebar: ihtHelpers.standard.sidebar,
+    uiMainContent: MainContent,
+    uiFooter: Footer,
+    govukTemplate: layouts.GovUkTemplate,
+    headWithTrackingConsent: HeadWithTrackingConsent,
+    progressiveDisclosure: ihtHelpers.custom.progressive_disclosure,
+    uiFooterLinks: FooterLinks
+)
 
 @(title: String = "",
         signOutText: String = "",
@@ -45,9 +58,7 @@
         optionContentBelowTitle: Option[Html] = None
 )(mainContent: Html)(
         implicit request:Request[_],
-        messages: Messages,
-        ihtFormPartialRetriever: FormPartialRetriever,
-        appConfig: AppConfig)
+        messages: Messages)
 
 @currentLang = @{messages.lang.language}
 
@@ -65,7 +76,7 @@
 
 @parseForName(heading: String, name: String) = @{
     if(heading contains name){
-        Html(heading.replace(name, custom.name(name).toString()));
+        Html(heading.replace(name, nameHelper(name).toString()));
     } else {
         heading;
     }
@@ -119,7 +130,7 @@
     @commonContentHeader = {
     @if(appConfig.isWelshEnabled){
         @{
-            standard.language_selection(
+            languageSelection(
                 Map(
                     "english" -> Lang("en"),
                     "cymraeg" -> Lang("cy")
@@ -133,7 +144,7 @@
 }
 
     @insideHeader = {
-    @standard.header_nav(headerTitle, None, Some(navLinks))
+    @headerNav(headerTitle, None, Some(navLinks))
 }
 
     @mainContentIht = {
@@ -168,28 +179,28 @@
 }
 
     @serviceInfo = {
-    @standard.serviceInfo(
+    @standardServiceInfo(
         includeGridWrapper = false,
         serviceInfoContent = None)
 }
 
     @content = {
-    @layouts.main_content(
-        article = standard.article(content = mainContentIht,
+    @uiMainContent(
+        article = standardArticle(content = mainContentIht,
             includeGridWrapper = false,
             isFullWidth = isFullWidth,
             currentLang = currentLang),
         mainContentHeader = commonContentHeader,
         serviceInfo = serviceInfo,
-        getHelpForm = custom.progressive_disclosure(request.uri),
-        sidebar = standard.sidebar(sidebarLinks = sidebarLinks,
+        getHelpForm = progressiveDisclosure(request.uri),
+        sidebar = standardSidebar(sidebarLinks = sidebarLinks,
             sidebarClass = Some("sidebar"),
             currentLang = currentLang)
     )
 }
 
     @bodyEnd = {
-    @layouts.footer(
+    @uiFooter(
         analyticsToken = None,
         analyticsHost = "",
         ssoUrl = None,
@@ -198,13 +209,13 @@
     )
 }
 
-@views.html.layouts.govuk_template(
+@govukTemplate(
     title = if(browserTitle.isDefined) { browserTitle.map(_ + " " + Messages("site.title.govuk")) } else Some(title),
     bodyClasses = None)(
-    head = layouts.headWithTrackingConsent(linkElem = Some(linkElement), headScripts = None),
+    head = headWithTrackingConsent(linkElem = Some(linkElement), headScripts = None),
     bodyEnd = bodyEnd,
     insideHeader = insideHeader,
     afterHeader = HtmlFormat.empty,
     footerTop = HtmlFormat.empty,
-    footerLinks = Some(layouts.footer_links()),
+    footerLinks = Some(uiFooterLinks()),
     nav = true)(content)

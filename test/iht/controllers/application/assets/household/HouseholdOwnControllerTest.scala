@@ -21,13 +21,12 @@ import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
-
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
 import iht.utils.CommonHelper
+import iht.views.html.application.asset.household.household_deceased_own
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.{contentAsString, _}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class HouseholdDeceasedOwnControllerTest extends ApplicationControllerTest {
 
@@ -48,19 +47,18 @@ class HouseholdDeceasedOwnControllerTest extends ApplicationControllerTest {
     val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def householdDeceasedOwnControllerNotAuthorised = new TestController {
     val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   protected abstract class TestController extends FrontendController(mockControllerComponents) with HouseholdDeceasedOwnController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val householdDeceasedOwnView: household_deceased_own = app.injector.instanceOf[household_deceased_own]
   }
   "HouseholdDeceasedOwnController" must {
 

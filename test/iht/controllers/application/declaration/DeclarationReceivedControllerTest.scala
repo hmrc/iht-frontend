@@ -19,14 +19,14 @@ package iht.controllers.application.declaration
 import iht.config.AppConfig
 import iht.constants.Constants
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.application.declaration.declaration_received
 import org.mockito.ArgumentMatchers._
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 
 class DeclarationReceivedControllerTest extends ApplicationControllerTest {
@@ -36,6 +36,8 @@ class DeclarationReceivedControllerTest extends ApplicationControllerTest {
   protected abstract class TestController extends FrontendController(mockControllerComponents) with DeclarationReceivedController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val declarationReceivedView: declaration_received = app.injector.instanceOf[declaration_received]
+
   }
 
   def declarationReceivedController = new TestController {
@@ -43,7 +45,7 @@ class DeclarationReceivedControllerTest extends ApplicationControllerTest {
     override val authConnector = mockAuthConnector
 
     def ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+
   }
 
   def declarationReceivedControllerNotAuthorised = new TestController {
@@ -51,7 +53,6 @@ class DeclarationReceivedControllerTest extends ApplicationControllerTest {
     override val authConnector = mockAuthConnector
 
     def ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "Declaration Received " must {

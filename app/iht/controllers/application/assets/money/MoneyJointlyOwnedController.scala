@@ -31,14 +31,13 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 
 class MoneyJointlyOwnedControllerImpl @Inject()(val metrics: IhtMetrics,
                                                 val ihtConnector: IhtConnector,
                                                 val cachingConnector: CachingConnector,
                                                 val authConnector: AuthConnector,
-                                                val formPartialRetriever: FormPartialRetriever,
+                                                val moneyJointlyOwnedView: money_jointly_owned,
                                                 implicit val appConfig: AppConfig,
                                                 val cc: MessagesControllerComponents) extends FrontendController(cc) with MoneyJointlyOwnedController {
 
@@ -47,13 +46,13 @@ class MoneyJointlyOwnedControllerImpl @Inject()(val metrics: IhtMetrics,
 trait MoneyJointlyOwnedController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyJointlyOwned)
 
-
+  val moneyJointlyOwnedView: money_jointly_owned
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
     iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad(), Some(appConfig.AssetsMoneySharedID))
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
-      estateElementOnPageLoad[ShareableBasicEstateElement](moneyJointlyOwnedForm, money_jointly_owned.apply, _.allAssets.flatMap(_.money), userNino)
+      estateElementOnPageLoad[ShareableBasicEstateElement](moneyJointlyOwnedForm, moneyJointlyOwnedView.apply, _.allAssets.flatMap(_.money), userNino)
   }
 
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -80,7 +79,7 @@ trait MoneyJointlyOwnedController extends EstateController {
 
       estateElementOnSubmit[ShareableBasicEstateElement](
         moneyJointlyOwnedForm,
-        money_jointly_owned.apply,
+        moneyJointlyOwnedView.apply,
         updateApplicationDetails,
         submitUrl,
         userNino

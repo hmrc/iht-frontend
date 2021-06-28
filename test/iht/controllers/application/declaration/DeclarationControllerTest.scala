@@ -28,8 +28,10 @@ import iht.models.application.exemptions.{AllExemptions, PartnerExemption}
 import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.models.enums.StatsSource
 import iht.models.{CoExecutor, ContactDetails}
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
 import iht.utils.ApplicationStatus
+import iht.views.html.application.declaration.declaration
+import iht.views.html.estateReports.estateReports_error_serviceUnavailable
 import org.joda.time.LocalDate
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito.when
@@ -39,7 +41,6 @@ import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.http.{GatewayTimeoutException, HeaderCarrier, UpstreamErrorResponse}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -56,6 +57,8 @@ class DeclarationControllerTest extends ApplicationControllerTest {
   protected abstract class TestController extends FrontendController(mockControllerComponents) with DeclarationController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val declarationView: declaration = app.injector.instanceOf[declaration]
+    override val estateReportsErrorServiceUnavailableView: estateReports_error_serviceUnavailable = app.injector.instanceOf[estateReports_error_serviceUnavailable]
   }
 
   def declarationController = new TestController {
@@ -63,8 +66,6 @@ class DeclarationControllerTest extends ApplicationControllerTest {
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
     override lazy val metrics: IhtMetrics = mock[IhtMetrics]
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def declarationControllerNotAuthorised = new TestController {
@@ -73,7 +74,6 @@ class DeclarationControllerTest extends ApplicationControllerTest {
     override val authConnector = mockAuthConnector
     override lazy val metrics: IhtMetrics = mock[IhtMetrics]
 
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def mockForApplicationStatus(requiredStatus: String, coExecutorsEnabled: Boolean = false) = {

@@ -17,11 +17,16 @@
 @import iht.controllers.registration.executor.{routes => executorRoutes}
 @import iht.models.CoExecutor
 @import iht.utils._
-@import iht.views.html.ihtHelpers
 @import iht.utils.CustomLanguageUtils.Dates
 @import iht.config.AppConfig
 
-@(coExecutors: Seq[CoExecutor])(implicit request : Request[_], messages: Messages, lang : play.api.i18n.Lang, appConfig: AppConfig)
+@this(
+    implicit val appConfig: AppConfig,
+    nameHelper: ihtHelpers.custom.name,
+    summaryItem: ihtHelpers.custom.summary_item
+)
+
+@(coExecutors: Seq[CoExecutor])(implicit request : Request[_], messages: Messages, lang : play.api.i18n.Lang)
 <section class="section tabular-data">
   <h2 class="heading-medium additionalExecutorHeader">
       @Messages("iht.registration.othersApplyingForProbate")
@@ -49,7 +54,7 @@
     @defining(coExecutors(i)) { coExecutor =>
         @defining(CommonHelper.getOrException(coExecutor.id, "CoExecutor Id could not be found") ) { id =>
 
-            @defining(ihtHelpers.custom.name(coExecutor.firstName + " " + coExecutor.lastName).toString){execName=>
+            @defining(nameHelper(coExecutor.firstName + " " + coExecutor.lastName).toString){execName=>
 
                 <section class="subsection">
                   <h3 class='heading-medium'>
@@ -57,9 +62,9 @@
                     </h3>
                     <ul class="tabular-data tabular-data--list">
 
-                    @ihtHelpers.custom.summary_item(
+                    @summaryItem(
                         label = Messages("iht.name.upperCaseInitial"),
-                        data = ihtHelpers.custom.name(coExecutor.firstName + " \n" + coExecutor.lastName).toString,
+                        data = nameHelper(coExecutor.firstName + " \n" + coExecutor.lastName).toString,
                         dataScreenReaderText = Messages("page.iht.registration.checklist.exec.name.screenreader", execName),
                         changeLink = executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad(id).url + "#firstName",
                         changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.coExecutorTable.name.link.screenReader", coExecutor.name),
@@ -67,7 +72,7 @@
                         isNested = true
                     )
 
-                    @ihtHelpers.custom.summary_item(
+                    @summaryItem(
                         label = Messages("iht.dateofbirth"),
                         data = Dates.formatDate(coExecutor.dateOfBirth).toString,
                         dataScreenReaderText = Messages("page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.data.screenReader", execName),
@@ -77,7 +82,7 @@
                         isNested = true
                     )
 
-                    @ihtHelpers.custom.summary_item(
+                    @summaryItem(
                         label = Messages("iht.nationalInsuranceNo"),
                         data = coExecutor.nino,
                         dataScreenReaderText = Messages("page.iht.registration.checklist.exec.nino.screenreader", execName),
@@ -87,7 +92,7 @@
                         isNested = true
                     )
 
-                    @ihtHelpers.custom.summary_item(
+                    @summaryItem(
                         label = Messages("iht.address.upperCaseInitial"),
                         data = AddressHelper.addressFormatter(CommonHelper.getOrException(coExecutor.ukAddress)),
                         dataScreenReaderText = Messages("page.iht.registration.registrationSummary.deceasedInfo.address.data.screenReader", execName),
@@ -100,7 +105,7 @@
                         isNested = true
                     )
 
-                    @ihtHelpers.custom.summary_item(
+                    @summaryItem(
                         label = Messages("iht.registration.checklist.phoneNo.upperCaseInitial"),
                         data = coExecutor.contactDetails.phoneNo,
                         dataScreenReaderText = Messages("page.iht.registration.checklist.exec.phone.screenreader", execName),

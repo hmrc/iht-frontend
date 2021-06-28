@@ -20,7 +20,8 @@ import iht.config.AppConfig
 import iht.controllers.registration.RegistrationControllerTest
 import iht.forms.registration.DeceasedForms.deceasedAddressQuestionForm
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails}
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.registration.deceased.deceased_address_question
 import org.joda.time.LocalDate
 import org.scalatest.BeforeAndAfter
 import play.api.data.Form
@@ -28,7 +29,6 @@ import play.api.i18n.{Lang, Messages}
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -37,6 +37,7 @@ class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest w
   protected abstract class TestController extends FrontendController(mockControllerComponents) with DeceasedAddressQuestionController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val deceasedAddressQuestionView: deceased_address_question = app.injector.instanceOf[deceased_address_question]
   }
 
   implicit val messages: Messages = mockControllerComponents.messagesApi.preferred(Seq(Lang.defaultLang)).messages
@@ -44,15 +45,11 @@ class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest w
   def deceasedAddressQuestionController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def deceasedAddressQuestionControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "DeceasedAddressQuestionController" must {

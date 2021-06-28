@@ -23,7 +23,7 @@ import javax.inject.Inject
 import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.exemption.exemptions_guidance
 
 import scala.concurrent.Future
 
@@ -33,7 +33,7 @@ import scala.concurrent.Future
 class ExemptionsGuidanceControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                                  val ihtConnector: IhtConnector,
                                                  val authConnector: AuthConnector,
-                                                 override implicit val formPartialRetriever: FormPartialRetriever,
+                                                 val exemptionsGuidanceView: exemptions_guidance,
                                                  implicit val appConfig: AppConfig,
                                                  val cc: MessagesControllerComponents) extends FrontendController(cc) with ExemptionsGuidanceController
 
@@ -43,10 +43,11 @@ trait ExemptionsGuidanceController extends ApplicationController {
   def cachingConnector: CachingConnector
 
   def ihtConnector: IhtConnector
+  val exemptionsGuidanceView: exemptions_guidance
 
   def onPageLoad(ihtReference: String) = authorisedForIht {
     implicit request => {
-      Future.successful(Ok(iht.views.html.application.exemption.exemptions_guidance(ihtReference)))
+      Future.successful(Ok(exemptionsGuidanceView(ihtReference)))
     }
   }
 

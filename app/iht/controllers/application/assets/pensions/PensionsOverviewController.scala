@@ -28,13 +28,13 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.asset.pensions.pensions_overview
 
 class PensionsOverviewControllerImpl @Inject()(val metrics: IhtMetrics,
                                                val ihtConnector: IhtConnector,
                                                val cachingConnector: CachingConnector,
                                                val authConnector: AuthConnector,
-                                               val formPartialRetriever: FormPartialRetriever,
+                                               val pensionsOverviewView: pensions_overview,
                                                implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with PensionsOverviewController {
 }
@@ -42,7 +42,7 @@ val cc: MessagesControllerComponents) extends FrontendController(cc) with Pensio
 trait PensionsOverviewController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsPensions)
 
-
+  val pensionsOverviewView: pensions_overview
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       withRegistrationDetails { registrationDetails =>
@@ -55,7 +55,7 @@ trait PensionsOverviewController extends EstateController {
           )
           pensions: Option[PrivatePension] = applicationDetails.flatMap(_.allAssets.flatMap(_.privatePension))
         } yield {
-          Ok(iht.views.html.application.asset.pensions.pensions_overview(pensions, registrationDetails))
+          Ok(pensionsOverviewView(pensions, registrationDetails))
         }
       }
     }

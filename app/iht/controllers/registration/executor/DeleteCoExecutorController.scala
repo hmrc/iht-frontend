@@ -19,18 +19,19 @@ package iht.controllers.registration.executor
 import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.registration.RegistrationController
+import iht.utils.AddressHelper
+import iht.views.html.registration.executor.delete_coexecutor_confirm
 import javax.inject.Inject
 import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class DeleteCoExecutorControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                val cachingConnector: CachingConnector,
                                                val authConnector: AuthConnector,
-                                               val formPartialRetriever: FormPartialRetriever,
+                                               val deleteCoexecutorConfirmView: delete_coexecutor_confirm,
                                                implicit val appConfig: AppConfig,
                                                val cc: MessagesControllerComponents) extends FrontendController(cc) with DeleteCoExecutorController
 
@@ -42,7 +43,7 @@ trait DeleteCoExecutorController extends RegistrationController {
   override def guardConditions: Set[Predicate] = Set(areThereOthersApplying, isThereMoreThanOneCoExecutor)
 
   def cachingConnector: CachingConnector
-
+  val deleteCoexecutorConfirmView: delete_coexecutor_confirm
   def onPageLoad(id: String) = authorisedForIht {
     implicit request =>
       withRegistrationDetailsRedirectOnGuardCondition {
@@ -54,7 +55,7 @@ trait DeleteCoExecutorController extends RegistrationController {
             Future.successful(InternalServerError("Coexecutor confirm deletion of id " + id + " fails. Id not found."))
           } else {
             val coExecutor = rd.coExecutors(index)
-            Future.successful(Ok(iht.views.html.registration.executor.delete_coexecutor_confirm(coExecutor)))
+            Future.successful(Ok(deleteCoexecutorConfirmView(coExecutor)))
           }
         }
       }

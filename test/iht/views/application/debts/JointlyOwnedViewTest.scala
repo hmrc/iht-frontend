@@ -32,9 +32,10 @@ class JointlyOwnedViewTest extends DebtsElementViewBehaviour[BasicEstateElementL
                                                       deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(
                                                                maritalStatus = Some(TestHelper.MaritalStatusMarried))),
                                                       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
+  lazy val jointlyOwnedView: jointly_owned = app.injector.instanceOf[jointly_owned]
 
   override def form:Form[BasicEstateElementLiabilities] = jointlyOwnedDebts
-  override def formToView:Form[BasicEstateElementLiabilities] => Appendable = form => jointly_owned(form, regDetails)
+  override def formToView:Form[BasicEstateElementLiabilities] => Appendable = form => jointlyOwnedView(form, regDetails)
 
   override def pageTitle = messagesApi("iht.estateReport.debts.owedOnJointAssets")
   override def browserTitle = messagesApi("page.iht.application.debts.jointlyOwned.browserTitle")

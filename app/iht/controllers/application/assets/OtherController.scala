@@ -31,23 +31,22 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class OtherControllerImpl @Inject()(val metrics: IhtMetrics,
                                     val ihtConnector: IhtConnector,
                                     val cachingConnector: CachingConnector,
                                     val authConnector: AuthConnector,
-                                    val formPartialRetriever: FormPartialRetriever,
+                                    val otherView: other,
                                     implicit val appConfig: AppConfig,
                                     val cc: MessagesControllerComponents) extends FrontendController(cc) with OtherController
 
 trait OtherController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsOther)
 
-
+  val otherView: other
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
-      estateElementOnPageLoad[BasicEstateElement](otherForm, other.apply, _.allAssets.flatMap(_.other), userNino)
+      estateElementOnPageLoad[BasicEstateElement](otherForm, otherView.apply, _.allAssets.flatMap(_.other), userNino)
   }
 
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -68,7 +67,7 @@ trait OtherController extends EstateController {
         }
 
       estateElementOnSubmit[BasicEstateElement](otherForm,
-        other.apply,
+        otherView.apply,
         updateApplicationDetails,
         CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(appConfig.AppSectionOtherID)),
         userNino

@@ -20,32 +20,30 @@ import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.exemptions.PartnerExemption
-
-import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
+import iht.testhelpers.{CommonBuilder, ContentChecker}
+import iht.views.html.application.exemption.partner.assets_left_to_partner_question
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTest{
 
   protected abstract class TestController extends FrontendController(mockControllerComponents) with AssetsLeftToPartnerQuestionController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val assetsLeftToPartnerQuestionView: assets_left_to_partner_question = app.injector.instanceOf[assets_left_to_partner_question]
   }
 
   def assetsLeftToPartnerQuestionController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def assetsLeftToPartnerQuestionControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
 

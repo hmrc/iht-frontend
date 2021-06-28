@@ -24,17 +24,16 @@ import iht.testhelpers.TestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_joint
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
 
 class InsurancePolicyDetailsJointViewTest extends ShareableElementInputViewBehaviour[InsurancePolicy]{
 
     lazy val regDetails = CommonBuilder.buildRegistrationDetails1
     lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+    lazy val insurancePolicyDetailsJointView: insurance_policy_details_joint = app.injector.instanceOf[insurance_policy_details_joint]
 
     override def form:Form[InsurancePolicy] = insurancePolicyJointQuestionForm
-    override def formToView:Form[InsurancePolicy] => Appendable = form => insurance_policy_details_joint(form, regDetails)
+    override def formToView:Form[InsurancePolicy] => Appendable = form => insurancePolicyDetailsJointView(form, regDetails)
 
     override def pageTitle = messagesApi("page.iht.application.insurance.policies.section2.title", deceasedName)
     override def browserTitle = messagesApi("page.iht.application.insurance.policies.section2.browserTitle")

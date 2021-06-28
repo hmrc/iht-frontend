@@ -19,13 +19,17 @@ package iht.controllers.application.status
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.CommonBuilder
 import iht.views.HtmlSpec
+import iht.views.html.application.status.closed_application
 
 class ApplicationClosedControllerTest extends ApplicationControllerTest with HtmlSpec {
+
+  val closedApplicationView: closed_application = app.injector.instanceOf[closed_application]
+
   val applicationClosedController = new ApplicationClosedControllerImpl(
     mockIhtConnector,
     mockCachingConnector,
     mockAuthConnector,
-    mockPartialRetriever,
+    closedApplicationView,
     mockAppConfig,
     mockControllerComponents
   )
@@ -34,7 +38,7 @@ class ApplicationClosedControllerTest extends ApplicationControllerTest with Htm
     "implement a view" in {
       val deceasedName = "Xyz"
       val request = createFakeRequest()
-      val pageContent = applicationClosedController.getView("",deceasedName,CommonBuilder.buildProbateDetails)(request, formPartialRetriever).toString
+      val pageContent = applicationClosedController.getView("",deceasedName,CommonBuilder.buildProbateDetails)(request).toString
       titleShouldBeCorrect(pageContent, messagesApi("page.iht.application.overview.closed.title", deceasedName))
     }
   }

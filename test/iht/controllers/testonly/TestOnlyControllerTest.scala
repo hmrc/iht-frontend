@@ -20,24 +20,27 @@ import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.AssetsWithAllSectionsSetToNoBuilder
+import iht.views.html.testOnly.{store_application_details, store_application_details_result, store_registration_details, store_registration_details_result}
 import org.scalatest.BeforeAndAfter
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class TestOnlyControllerTest extends ApplicationControllerTest with BeforeAndAfter {
 
   protected abstract class TestController extends FrontendController(mockControllerComponents) with TestOnlyController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val storeRegistrationDetailsView: store_registration_details = app.injector.instanceOf[store_registration_details]
+    override val storeRegistrationDetailsResultView: store_registration_details_result = app.injector.instanceOf[store_registration_details_result]
+    override val storeApplicationDetailsView: store_application_details = app.injector.instanceOf[store_application_details]
+    override val storeApplicationDetailsResultView: store_application_details_result = app.injector.instanceOf[store_application_details_result]
   }
 
   def testOnlyController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = mockPartialRetriever
   }
 
   "Test Only Controller" must {

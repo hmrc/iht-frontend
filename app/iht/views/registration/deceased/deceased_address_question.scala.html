@@ -15,23 +15,26 @@
  *@
 
 @import org.apache.commons.lang3.StringEscapeUtils
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
-@import iht.views.html._
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    form: FormWithCSRF,
+    ihtMainTemplateRegistration: iht_main_template_registration,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputRadioGroup: ihtHelpers.standard.input_radio_group
+)
 
 @(deceasedAddressQuestionForm:Form[iht.models.DeceasedDetails], deceasedName: String,
-actionLocation: Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+actionLocation: Call)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_registration(
+@ihtMainTemplateRegistration(
     title = "",
     browserTitle = Some(Messages("iht.registration.contactAddress"))) {
 
-    @ihtHelpers.custom.error_summary(deceasedAddressQuestionForm)
+    @errorSummary(deceasedAddressQuestionForm)
 
     @form(action = actionLocation,'autoComplete -> "off") {
 
-    @ihtHelpers.standard.input_radio_group(
+    @inputRadioGroup(
         deceasedAddressQuestionForm("isAddressInUk"),
         Seq(
             ("true", Messages("page.iht.registration.deceasedAddressAnswerInUk")),

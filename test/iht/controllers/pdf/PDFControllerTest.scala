@@ -27,7 +27,6 @@ import org.mockito.ArgumentMatchers._
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -49,7 +48,6 @@ class PDFControllerTest extends ApplicationControllerTest {
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
     override val xmlFoToPDF: XmlFoToPDF = mockXmlFoToPDF
-    override implicit val formPartialRetriever: FormPartialRetriever = mockPartialRetriever
   }
 
   private def setUpMocks() {

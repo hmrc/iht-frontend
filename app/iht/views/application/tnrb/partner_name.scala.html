@@ -17,32 +17,37 @@
 @import iht.constants.IhtProperties
 @import iht.utils._
 @import iht.utils.tnrb.TnrbHelperFixture
-@import iht.views.html._
 @import org.joda.time.LocalDate
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 @import iht.models.application.tnrb.TnrbEligibiltyModel
 @import iht.models.application.tnrb.WidowCheck
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputWithHelp: ihtHelpers.standard.input_with_help
+)
 
 @(partnerNameForm:Form[TnrbEligibiltyModel],
 predeceasedDate: Option[LocalDate],
 cancelUrl: Call
-)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("page.iht.application.TnrbEligibilty.partnerName.label",TnrbHelperFixture().spouseOrCivilPartnerMessage(predeceasedDate)),
+@ihtMainTemplateApplication(title = Messages("page.iht.application.TnrbEligibilty.partnerName.label",TnrbHelperFixture().spouseOrCivilPartnerMessage(predeceasedDate)),
 browserTitle = Some(Messages("page.iht.application.TnrbEligibilty.partnerName.label",TnrbHelperFixture().spouseOrCivilPartnerMessage(predeceasedDate))),
 cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
 cancelUrl = Some(cancelUrl)){
 
-    @ihtHelpers.custom.error_summary(partnerNameForm)
+    @errorSummary(partnerNameForm)
 
     @form(action = iht.controllers.application.tnrb.routes.PartnerNameController.onSubmit,'autoComplete -> "off") {
 
     <p>@Messages("page.iht.application.TnrbEligibilty.partnerName.hint",
     CommonHelper.getOrException(predeceasedDate).getYear.toString)</p>
 
-    @ihtHelpers.standard.input_with_help(partnerNameForm("firstName"),
+    @inputWithHelp(partnerNameForm("firstName"),
         '_maxlength -> appConfig.validationMaxLengthFirstName,
         '_divClass -> "form-group ",
         '_inputClass -> "form-control",
@@ -51,7 +56,7 @@ cancelUrl = Some(cancelUrl)){
         '_hintText -> Messages("iht.firstName.hint")
     )
 
-    @ihtHelpers.standard.input_with_help(partnerNameForm("lastName"),
+    @inputWithHelp(partnerNameForm("lastName"),
         '_maxlength -> appConfig.validationMaxLengthLastName,
         '_divClass -> "form-group ",
         '_inputClass -> "form-control",

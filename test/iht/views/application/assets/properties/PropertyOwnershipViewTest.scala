@@ -16,18 +16,13 @@
 
 package iht.views.application.assets.properties
 
-import iht.constants.IhtProperties
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.Property
-import iht.testhelpers.CommonBuilder
-import iht.views.application.{SubmittableApplicationPageBehaviour, CancelComponent}
-import iht.views.html.application.asset.properties.{property_ownership, property_tenure}
+import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.views.application.{CancelComponent, SubmittableApplicationPageBehaviour}
+import iht.views.html.application.asset.properties.property_ownership
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.testhelpers.TestHelper
 
 class PropertyOwnershipViewTest extends SubmittableApplicationPageBehaviour[Property] {
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
@@ -45,6 +40,7 @@ class PropertyOwnershipViewTest extends SubmittableApplicationPageBehaviour[Prop
   override def browserTitle = messagesApi("page.iht.application.assets.property.ownership.browserTitle")
 
   override def formTarget = Some(CommonBuilder.DefaultCall1)
+  lazy val propertyOwnershipView: property_ownership = app.injector.instanceOf[property_ownership]
 
   override def cancelComponent = Some(
     CancelComponent(
@@ -60,7 +56,7 @@ class PropertyOwnershipViewTest extends SubmittableApplicationPageBehaviour[Prop
 
   override def formToView: Form[Property] => Appendable =
     form =>
-      property_ownership(form, CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall2, deceasedName)
+      propertyOwnershipView(form, CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall2, deceasedName)
 
   "Property Ownership View" must {
     behave like applicationPageWithErrorSummaryBox()

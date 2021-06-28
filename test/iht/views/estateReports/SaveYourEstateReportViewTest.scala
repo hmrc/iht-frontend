@@ -19,39 +19,38 @@ package iht.views.estateReports
 import iht.views.ViewTestHelper
 import iht.views.html.estateReports.save_your_estate_report
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.test.FakeRequest
 
 class SaveYourEstateReportViewTest extends ViewTestHelper {
+  lazy val saveYourEstateReportView: save_your_estate_report = app.injector.instanceOf[save_your_estate_report]
 
   "the SaveYourEstateReport" must {
 
       implicit lazy val fakeRequest = FakeRequest()
 
     "have the correct title" in {
-      lazy val view = save_your_estate_report()
+      lazy val view = saveYourEstateReportView()
       lazy val doc = Jsoup.parse(view.body)
 
       doc.select("h1").text() mustBe messagesApi("page.iht.exit.title")
     }
 
     "have some introductory text" in {
-      lazy val view = save_your_estate_report()
+      lazy val view = saveYourEstateReportView()
       lazy val doc = Jsoup.parse(view.body)
 
       doc.select("div p").get(2).text() mustBe messagesApi("page.iht.exit.text")
     }
 
     "have a link for users to save" ignore {
-      lazy val view = save_your_estate_report()
+      lazy val view = saveYourEstateReportView()
       lazy val doc = Jsoup.parse(view.body)
 
       doc.select("div a").get(6).text() mustBe messagesApi("page.iht.exit.link")
     }
 
     "have a link with href" ignore {
-      lazy val view = save_your_estate_report()
+      lazy val view = saveYourEstateReportView()
       lazy val doc = Jsoup.parse(view.body)
 
       doc.select("div a").get(6).attr("href") mustBe "/inheritance-tax/estate-report"
@@ -59,21 +58,21 @@ class SaveYourEstateReportViewTest extends ViewTestHelper {
 
     "have a button that" should {
       "text on button that..." in {
-        lazy val view = save_your_estate_report()
+        lazy val view = saveYourEstateReportView()
         lazy val doc = Jsoup.parse(view.body)
 
         doc.getElementById("exit-button").text() mustBe messagesApi("page.iht.exit.button")
       }
 
       "have href of...." in {
-        lazy val view = save_your_estate_report()
+        lazy val view = saveYourEstateReportView()
         lazy val doc = Jsoup.parse(view.body)
 
         doc.getElementById("exit-button").attr("href") mustBe "/inheritance-tax/feedback-survey"
       }
 
       "have a class of button" in {
-        lazy val view = save_your_estate_report()
+        lazy val view = saveYourEstateReportView()
         lazy val doc = Jsoup.parse(view.body)
 
         doc.getElementById("exit-button").hasClass("button") mustBe true

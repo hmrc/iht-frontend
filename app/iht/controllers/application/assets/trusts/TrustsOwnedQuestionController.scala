@@ -29,12 +29,11 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class TrustsOwnedQuestionControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                   val cachingConnector: CachingConnector,
                                                   val authConnector: AuthConnector,
-                                                  val formPartialRetriever: FormPartialRetriever,
+                                                  val trustsOwnedQuestionView: trusts_owned_question,
                                                   implicit val appConfig: AppConfig,
                                                   val cc: MessagesControllerComponents) extends FrontendController(cc) with TrustsOwnedQuestionController {
 
@@ -45,10 +44,11 @@ trait TrustsOwnedQuestionController extends EstateController {
 
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
     iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(), Some(appConfig.AssetsTrustsBenefitedID))
+  val trustsOwnedQuestionView: trusts_owned_question
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
-      estateElementOnPageLoad[HeldInTrust](trustsOwnedQuestionForm, trusts_owned_question.apply, _.allAssets.flatMap(_.heldInTrust), userNino)
+      estateElementOnPageLoad[HeldInTrust](trustsOwnedQuestionForm, trustsOwnedQuestionView.apply, _.allAssets.flatMap(_.heldInTrust), userNino)
   }
 
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -74,7 +74,7 @@ trait TrustsOwnedQuestionController extends EstateController {
 
       estateElementOnSubmitConditionalRedirect[HeldInTrust](
         trustsOwnedQuestionForm,
-        trusts_owned_question.apply,
+        trustsOwnedQuestionView.apply,
         updateApplicationDetails,
         (ad, _) => ad.allAssets.flatMap(allAssets => allAssets.heldInTrust).flatMap(_.isOwned) match {
           case Some(true) => submitUrl

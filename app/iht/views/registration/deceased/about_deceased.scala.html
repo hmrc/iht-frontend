@@ -15,27 +15,35 @@
  *@
 
 @import iht.constants._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputWithHelp: ihtHelpers.standard.input_with_help,
+    ihtMainTemplateRegistration: iht_main_template_registration,
+    dateFields: ihtHelpers.standard.date_fields,
+    inputRadioGroup: ihtHelpers.standard.input_radio_group,
+    continueButton: ihtHelpers.custom.continue_button
+)
 
 @(aboutDeceased:Form[iht.models.DeceasedDetails],
 actionLocation: Call,
-cancelLocation: Option[Call] = None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+cancelLocation: Option[Call] = None)(implicit request:Request[_], messages: Messages)
 
 
-@iht_main_template_registration(title = Messages("iht.registration.deceasedDetails.title"),
+@ihtMainTemplateRegistration(title = Messages("iht.registration.deceasedDetails.title"),
 browserTitle = Some(Messages("iht.registration.deceasedDetails.title")),
 hasTimeOut=true,
 cancelUrl=cancelLocation,
 isFullWidth=false) {
 
 
-@ihtHelpers.custom.error_summary(aboutDeceased)
+@errorSummary(aboutDeceased)
 
 @form(action = actionLocation, 'autoComplete -> "off") {
-    @ihtHelpers.standard.input_with_help(aboutDeceased("firstName"),
+    @inputWithHelp(aboutDeceased("firstName"),
         '_maxlength -> appConfig.validationMaxLengthFirstName,
         '_divClass -> "form-group",
         '_inputClass -> "form-control form-control--block",
@@ -44,7 +52,7 @@ isFullWidth=false) {
         '_hintText -> Messages("iht.firstName.hint"),
         '_label -> Html(Messages("iht.firstName")))
 
-    @ihtHelpers.standard.input_with_help(aboutDeceased("lastName"),
+    @inputWithHelp(aboutDeceased("lastName"),
         '_maxlength -> appConfig.validationMaxLengthLastName,
         '_divClass -> "form-group",
         '_inputClass -> "form-control form-control--block",
@@ -52,7 +60,7 @@ isFullWidth=false) {
         '_labelClass -> "",
         '_label -> Html(Messages("iht.lastName")))
 
-    @ihtHelpers.standard.date_fields(aboutDeceased,
+    @dateFields(aboutDeceased,
         "dateOfBirth",
         Messages("iht.dateofbirth"),
         None,
@@ -63,7 +71,7 @@ isFullWidth=false) {
         '_legend -> Html(Messages("iht.dateofbirth")),
         '_fieldsetId -> "date-of-birth")
 
-    @ihtHelpers.standard.input_with_help(aboutDeceased("nino"),
+    @inputWithHelp(aboutDeceased("nino"),
         '_divClass -> "form-group",
         '_inputClass -> "form-control form-control--block",
         '_labelClass -> "",
@@ -72,7 +80,7 @@ isFullWidth=false) {
         '_hintText -> Html(Messages("iht.ninoExample.deceased")))
 
         <div id="maritalStatus-container">
-            @ihtHelpers.standard.input_radio_group(
+            @inputRadioGroup(
             aboutDeceased("maritalStatus"),
             FieldMappings.maritalStatusMap.toSeq,
             '_legend -> Html(Messages("page.iht.registration.deceasedDetails.maritalStatus.label")),
@@ -83,7 +91,7 @@ isFullWidth=false) {
             '_labelTextClass -> ""
             )
         </div>
-            @ihtHelpers.custom.continue_button()
+            @continueButton()
 
     }
 }

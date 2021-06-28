@@ -16,18 +16,13 @@
 
 package iht.views.application.assets.properties
 
-import iht.constants.IhtProperties
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.Property
-import iht.testhelpers.CommonBuilder
-import iht.views.application.{SubmittableApplicationPageBehaviour, CancelComponent}
+import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.views.application.{CancelComponent, SubmittableApplicationPageBehaviour}
 import iht.views.html.application.asset.properties.property_tenure
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.testhelpers.TestHelper
 
 class PropertyTenureViewTest extends SubmittableApplicationPageBehaviour[Property] {
   override def guidance = guidance(
@@ -37,6 +32,7 @@ class PropertyTenureViewTest extends SubmittableApplicationPageBehaviour[Propert
       messagesApi("page.iht.application.assets.property.tenure.guidance1b")
     )
   )
+  lazy val propertyTenureView: property_tenure = app.injector.instanceOf[property_tenure]
 
   override def pageTitle = messagesApi("iht.estateReport.assets.properties.freeholdOrLeasehold")
 
@@ -60,7 +56,7 @@ class PropertyTenureViewTest extends SubmittableApplicationPageBehaviour[Propert
 
   override def formToView: Form[Property] => Appendable =
     form =>
-      property_tenure(form, CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall2, deceasedName)
+      propertyTenureView(form, CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall2, deceasedName)
 
   "Property Tenure View" must {
     behave like applicationPageWithErrorSummaryBox()

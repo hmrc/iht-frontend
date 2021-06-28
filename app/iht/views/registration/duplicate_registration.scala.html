@@ -14,13 +14,13 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
-@import iht.views.html._
+@this(
+    ihtMainTemplateRegistration: iht_main_template_registration
+)
 
-@(ihtReference : String)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@(ihtReference : String)(implicit request : Request[_], messages: Messages)
 
-@iht_main_template_registration(title = Messages("page.iht.registration.duplicateRegistration.title")) {
+@ihtMainTemplateRegistration(title = Messages("page.iht.registration.duplicateRegistration.title")) {
 
 
 <div class="subsection">

@@ -20,14 +20,14 @@ import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.testhelpers.TestHelper._
-import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
+import iht.testhelpers.{CommonBuilder, ContentChecker}
 import iht.utils._
+import iht.views.html.application.debts.mortgage_value
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
@@ -38,6 +38,7 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
   protected abstract class TestController extends FrontendController(mockControllerComponents) with MortgageValueController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val mortgageValueView: mortgage_value = app.injector.instanceOf[mortgage_value]
   }
 
   def mortgageValueController = new TestController {
@@ -45,15 +46,12 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def mortgageValueControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   implicit val headerCarrier = FakeHeaders()

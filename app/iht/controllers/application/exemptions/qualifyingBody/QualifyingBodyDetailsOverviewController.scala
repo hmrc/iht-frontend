@@ -26,7 +26,7 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.exemption.qualifyingBody.qualifying_body_details_overview
 
 import scala.concurrent.Future
 
@@ -37,7 +37,7 @@ import scala.concurrent.Future
 class QualifyingBodyDetailsOverviewControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                             val cachingConnector: CachingConnector,
                                                             val authConnector: AuthConnector,
-                                                            val formPartialRetriever: FormPartialRetriever,
+                                                            val qualifyingBodyDetailsOverviewView: qualifying_body_details_overview,
                                                             implicit val appConfig: AppConfig,
                                                             val cc: MessagesControllerComponents)
   extends FrontendController(cc) with QualifyingBodyDetailsOverviewController {
@@ -50,12 +50,12 @@ trait QualifyingBodyDetailsOverviewController extends EstateController with Logg
   def ihtConnector: IhtConnector
 
   def cachingConnector: CachingConnector
-
+  val qualifyingBodyDetailsOverviewView: qualifying_body_details_overview
   def onPageLoad() = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       withApplicationDetails(userNino) { rd =>
         ad =>
-          Future.successful(Ok(iht.views.html.application.exemption.qualifyingBody.qualifying_body_details_overview()))
+          Future.successful(Ok(qualifyingBodyDetailsOverviewView()))
       }
     }
   }
@@ -75,7 +75,7 @@ trait QualifyingBodyDetailsOverviewController extends EstateController with Logg
                 throw new RuntimeException("No qualifyingBody found for id " + id)
               } {
                 (matchedQualifyingBody) =>
-                  Ok(iht.views.html.application.exemption.qualifyingBody.qualifying_body_details_overview(Some(matchedQualifyingBody)
+                  Ok(qualifyingBodyDetailsOverviewView(Some(matchedQualifyingBody)
                   ))
               }
             case _ =>

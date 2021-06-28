@@ -16,6 +16,7 @@
 
 package iht.views.application.tnrb
 
+import iht.testhelpers.TestHelper._
 import iht.testhelpers.{CommonBuilder, ContentChecker}
 import iht.utils._
 import iht.utils.tnrb.TnrbHelper
@@ -23,10 +24,6 @@ import iht.views.ViewTestHelper
 import iht.views.html.application.tnrb.tnrb_overview
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.constants.Constants._
-import iht.testhelpers.TestHelper._
 
 class TnrbOverviewViewTest extends ViewTestHelper with TnrbHelper {
 
@@ -34,12 +31,13 @@ class TnrbOverviewViewTest extends ViewTestHelper with TnrbHelper {
   val regDetails = CommonBuilder.buildRegistrationDetails1.copy(ihtReference = Some(ihtReference))
   val widowCheckModel = CommonBuilder.buildWidowedCheck
   val tnrbModel = CommonBuilder.buildTnrbEligibility
+  lazy val tnrbOverviewView: tnrb_overview = app.injector.instanceOf[tnrb_overview]
 
   "tnrb Overview page" must {
 
     "show the correct title" in {
       implicit val request = createFakeRequest()
-      val view = tnrb_overview(regDetails, widowCheckModel, tnrbModel, ihtReference).toString
+      val view = tnrbOverviewView(regDetails, widowCheckModel, tnrbModel, ihtReference).toString
       val doc = asDocument(view)
       val headers: Elements = doc.getElementsByTag("h1")
       headers.size() mustBe 1
@@ -48,7 +46,7 @@ class TnrbOverviewViewTest extends ViewTestHelper with TnrbHelper {
 
     "show the correct browser title" in {
       implicit val request = createFakeRequest()
-      val view = tnrb_overview(regDetails, widowCheckModel, tnrbModel, ihtReference).toString
+      val view = tnrbOverviewView(regDetails, widowCheckModel, tnrbModel, ihtReference).toString
       val doc = asDocument(view)
       assertEqualsValue(doc, "title",
         messagesApi("iht.estateReport.tnrb.increasingThreshold") + " " + messagesApi("site.title.govuk"))
@@ -56,7 +54,7 @@ class TnrbOverviewViewTest extends ViewTestHelper with TnrbHelper {
 
     "show the correct guidance paragraphs" in {
       implicit val request = createFakeRequest()
-      val view = ContentChecker.stripLineBreaks(tnrb_overview(regDetails, widowCheckModel, tnrbModel, ihtReference).toString)
+      val view = ContentChecker.stripLineBreaks(tnrbOverviewView(regDetails, widowCheckModel, tnrbModel, ihtReference).toString)
       view must include(messagesApi("page.iht.application.tnrbEligibilty.overview.guidance1"))
       view must include(messagesApi("page.iht.application.tnrbEligibilty.overview.guidance2",
                             spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheckModel,
@@ -74,7 +72,7 @@ class TnrbOverviewViewTest extends ViewTestHelper with TnrbHelper {
                                             messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the"))
 
       implicit val request = createFakeRequest()
-      val view = tnrb_overview(regDetails, widowCheckModel, tnrbModel, ihtReference).toString
+      val view = tnrbOverviewView(regDetails, widowCheckModel, tnrbModel, ihtReference).toString
       val doc = asDocument(view)
 
       assertEqualsValue(doc, "h2#tnrb-partner-estate",
@@ -135,7 +133,7 @@ class TnrbOverviewViewTest extends ViewTestHelper with TnrbHelper {
 
     "show the correct links for all the questions" in {
       implicit val request = createFakeRequest()
-      val view = tnrb_overview(regDetails, widowCheckModel, tnrbModel, ihtReference).toString
+      val view = tnrbOverviewView(regDetails, widowCheckModel, tnrbModel, ihtReference).toString
       val doc = asDocument(view)
 
       val homeInTheUKQuestion = doc.getElementById(TnrbSpousePermanentHomeInUKID)
@@ -187,7 +185,7 @@ class TnrbOverviewViewTest extends ViewTestHelper with TnrbHelper {
 
     "show a return to estate overview button which has specified iht reference" in {
       implicit val request = createFakeRequest()
-      val view = tnrb_overview(regDetails, widowCheckModel, tnrbModel, ihtReference).toString
+      val view = tnrbOverviewView(regDetails, widowCheckModel, tnrbModel, ihtReference).toString
       val doc = asDocument(view)
       val button: Element = doc.getElementById("return-button")
       button.text() mustBe messagesApi("iht.estateReport.returnToEstateOverview")

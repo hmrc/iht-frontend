@@ -27,14 +27,14 @@ import play.api.mvc.{Call, MessagesControllerComponents, Request}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.debts.mortgages_overview
 
 import scala.concurrent.Future
 
 class MortgagesOverviewControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                                 val ihtConnector: IhtConnector,
                                                 val authConnector: AuthConnector,
-                                                override implicit val formPartialRetriever: FormPartialRetriever,
+                                                val mortgagesOverviewView: mortgages_overview,
 implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with MortgagesOverviewController
 
@@ -46,7 +46,7 @@ trait MortgagesOverviewController extends ApplicationController with PropertyAnd
   def cachingConnector: CachingConnector
 
   def ihtConnector: IhtConnector
-
+  val mortgagesOverviewView: mortgages_overview
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       doPageLoad(
@@ -71,7 +71,7 @@ trait MortgagesOverviewController extends ApplicationController with PropertyAnd
           val updatedMortgages = updateMortgages(properties, applicationDetails)
           val mortgageList = if(updatedMortgages.getOrElse(None) == None) Nil else { updatedMortgages.get.mortgageList }
 
-          Future.successful(Ok(iht.views.html.application.debts.mortgages_overview(propertyList,
+          Future.successful(Ok(mortgagesOverviewView(propertyList,
             mortgageList,
             FieldMappings.typesOfOwnership(regDetails.deceasedDetails.fold("")(_.name)),
             regDetails,
@@ -80,7 +80,7 @@ trait MortgagesOverviewController extends ApplicationController with PropertyAnd
 
         }
         case _ => {
-          Future.successful(Ok(iht.views.html.application.debts.mortgages_overview(Nil,
+          Future.successful(Ok(mortgagesOverviewView(Nil,
             Nil,
             FieldMappings.typesOfOwnership(regDetails.deceasedDetails.fold("")(_.name)),
             regDetails,

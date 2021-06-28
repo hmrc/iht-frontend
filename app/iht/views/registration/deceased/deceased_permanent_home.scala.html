@@ -14,29 +14,33 @@
  * limitations under the License.
  *@
 
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
 @import iht.constants.FieldMappings._
+@import iht.config.AppConfig
+
+@this(
+    implicit val appConfig: AppConfig,
+    ihtMainTemplateRegistration: iht_main_template_registration,
+    errorSummary: ihtHelpers.custom.error_summary,
+    form: FormWithCSRF,
+    inputRadioGroup: ihtHelpers.standard.input_radio_group,
+    continueButton: ihtHelpers.custom.continue_button
+)
 
 @(deceasedPermanentHomeForm:Form[iht.models.DeceasedDetails],
 actionLocation: Call,
-cancelLocation: Option[Call] = None)(implicit request:Request[_],
-                                               messages: Messages,
-                                               ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+cancelLocation: Option[Call] = None)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_registration(title = "",
+@ihtMainTemplateRegistration(title = "",
                     cancelUrl=cancelLocation,
                     browserTitle = Some(Messages("page.iht.registration.deceasedPermanentHome.browserTitle")),
                     isFullWidth=false,
                     hasTimeOut=true) {
 
-    @ihtHelpers.custom.error_summary(deceasedPermanentHomeForm)
+    @errorSummary(deceasedPermanentHomeForm)
 
     @form(action = actionLocation,'autoComplete -> "off") {
 <div id="domicile-container">
-    @ihtHelpers.standard.input_radio_group(
+    @inputRadioGroup(
     deceasedPermanentHomeForm("domicile"),
     domicileMap.toSeq,
     '_fieldsetId -> "country",
@@ -47,7 +51,7 @@ cancelLocation: Option[Call] = None)(implicit request:Request[_],
     '_legendClass -> "legend-with-heading",
     '_legendIsHeading -> true)
 </div>
-    @ihtHelpers.custom.continue_button()
+    @continueButton()
     }
 
 }

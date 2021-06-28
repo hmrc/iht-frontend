@@ -18,6 +18,9 @@ package iht.config
 
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import iht.utils.CommonHelper
+import iht.views.html.application.application_generic_error
+import iht.views.html.registration.registration_generic_error
+import iht.views.html.{iht_error_template, iht_not_found_template}
 import org.jsoup.Jsoup
 import play.api.Configuration
 import play.api.http.Status._
@@ -32,17 +35,22 @@ class ApplicationGlobalTest extends CommonPlaySpec with WithCommonFakeApplicatio
 
   val fakedMessagesApi: MessagesApi = fakeApplication.injector.instanceOf[MessagesApi]
   val fakedConfiguration: Configuration = fakeApplication.injector.instanceOf[Configuration]
-  val fakedPartialRetriever: IhtFormPartialRetriever = fakeApplication.injector.instanceOf[IhtFormPartialRetriever]
   implicit val appConfig: AppConfig = fakeApplication.injector.instanceOf[AppConfig]
+  val ihtErrorTemplateView: iht_error_template = fakeApplication.injector.instanceOf[iht_error_template]
+  val ihtNotFoundTemplateView: iht_not_found_template = fakeApplication.injector.instanceOf[iht_not_found_template]
+  val registrationGenericErrorView: registration_generic_error = fakeApplication.injector.instanceOf[registration_generic_error]
+  val applicationGenericErrorView: application_generic_error = fakeApplication.injector.instanceOf[application_generic_error]
 
   def fakeRequest(path: String) = FakeRequest("POST", path)
 
   class Setup {
     val errorHandler = new IHTErrorHandler(
       fakedConfiguration,
-      fakedMessagesApi,
-      fakedPartialRetriever,
-      appConfig
+      ihtErrorTemplateView,
+      ihtNotFoundTemplateView,
+      registrationGenericErrorView,
+      applicationGenericErrorView,
+      fakedMessagesApi
     )
   }
 

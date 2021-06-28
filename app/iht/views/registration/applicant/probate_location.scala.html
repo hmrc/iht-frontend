@@ -14,28 +14,32 @@
  * limitations under the License.
  *@
 
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
 @import iht.constants.FieldMappings._
 
-@(probateLocationForm:Form[iht.models.ApplicantDetails],
-    actionLocation: Call, cancelLocation: Option[Call] = None)(implicit request:Request[_],
-                                                                        messages: Messages,
-                                                                        ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@this(
+    appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateRegistration: iht_main_template_registration,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputRadioGroup: ihtHelpers.standard.input_radio_group,
+    continueButton: ihtHelpers.custom.continue_button
+)
 
-@iht_main_template_registration(title = "",
+@(probateLocationForm:Form[iht.models.ApplicantDetails],
+    actionLocation: Call, cancelLocation: Option[Call] = None)(implicit request:Request[_], messages: Messages)
+
+@ihtMainTemplateRegistration(title = "",
 browserTitle = Some(Messages("page.iht.registration.applicant.probateLocation.browserTitle")),
 isFullWidth=false,
 cancelUrl=cancelLocation,
 hasTimeOut=true) {
 
-    @ihtHelpers.custom.error_summary(probateLocationForm)
+    @errorSummary(probateLocationForm)
 
     @form(action = actionLocation,'autoComplete -> "off") {
 
-    @ihtHelpers.standard.input_radio_group(
+    @inputRadioGroup(
         probateLocationForm("country"),
         applicantCountryMap(messages, appConfig).toSeq,
         '_fieldsetId -> "country",
@@ -47,7 +51,7 @@ hasTimeOut=true) {
         '_legendIsHeading -> true
     )
 
-    @ihtHelpers.custom.continue_button()
+    @continueButton()
     }
 
 }

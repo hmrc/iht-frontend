@@ -17,15 +17,12 @@
 package iht.views.application.tnrb
 
 import iht.forms.TnrbForms._
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.testhelpers.CommonBuilder
 import iht.utils.tnrb.TnrbHelper
 import iht.views.application.YesNoQuestionViewBehaviour
 import iht.views.html.application.tnrb.gifts_made_before_death
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 
 class GiftsMadeBeforeDeathViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] with TnrbHelper {
@@ -53,10 +50,11 @@ class GiftsMadeBeforeDeathViewTest extends YesNoQuestionViewBehaviour[TnrbEligib
   override def formTarget = Some(iht.controllers.application.tnrb.routes.GiftsMadeBeforeDeathController.onSubmit())
 
   override def form: Form[TnrbEligibiltyModel] = giftMadeBeforeDeathForm
+  lazy val giftsMadeBeforeDeathView: gifts_made_before_death = app.injector.instanceOf[gifts_made_before_death]
 
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
     form =>
-      gifts_made_before_death(form, tnrbModel, widowCheck, CommonBuilder.DefaultCall2, CommonBuilder.buildRegistrationDetails)
+      giftsMadeBeforeDeathView(form, tnrbModel, widowCheck, CommonBuilder.DefaultCall2, CommonBuilder.buildRegistrationDetails)
 
   override def cancelComponent = None
 

@@ -20,21 +20,21 @@ import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
-
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
+import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
+import iht.views.html.application.asset.properties.property_tenure
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class PropertyTenureControllerTest extends ApplicationControllerTest {
 
   protected abstract class TestController extends FrontendController(mockControllerComponents) with PropertyTenureController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val propertyTenureView: property_tenure = app.injector.instanceOf[property_tenure]
   }
 
   def setUpTests(applicationDetails: Option[ApplicationDetails] = None) = {
@@ -50,16 +50,12 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def propertyTenureControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   implicit val headerCarrier = FakeHeaders()

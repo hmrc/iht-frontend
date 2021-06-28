@@ -34,14 +34,14 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+
 
 import scala.concurrent.Future
 
 class AssetsLeftToPartnerQuestionControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                           val cachingConnector: CachingConnector,
                                                           val authConnector: AuthConnector,
-                                                          val formPartialRetriever: FormPartialRetriever,
+                                                          val assetsLeftToPartnerQuestionView: assets_left_to_partner_question,
                                                           implicit val appConfig: AppConfig,
                                                           val cc: MessagesControllerComponents)
   extends FrontendController(cc) with AssetsLeftToPartnerQuestionController
@@ -56,6 +56,7 @@ trait AssetsLeftToPartnerQuestionController extends EstateController with Applic
 
   lazy val partnerOverviewPage = addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(appConfig.ExemptionsPartnerAssetsID))
 
+  val assetsLeftToPartnerQuestionView: assets_left_to_partner_question
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
       implicit request =>
         withRegistrationDetails { registrationDetails =>
@@ -69,7 +70,7 @@ trait AssetsLeftToPartnerQuestionController extends EstateController with Applic
                 val filledForm = appDetails.allExemptions.flatMap(_.partner)
                   .fold(assetsLeftToSpouseQuestionForm)(assetsLeftToSpouseQuestionForm.fill)
 
-                Ok(assets_left_to_partner_question(filledForm,
+                Ok(assetsLeftToPartnerQuestionView(filledForm,
                   registrationDetails,
                   returnLabel(registrationDetails, appDetails),
                   returnUrl(registrationDetails, appDetails)
@@ -97,7 +98,7 @@ trait AssetsLeftToPartnerQuestionController extends EstateController with Applic
               IhtFormValidator.addDeceasedNameToAllFormErrors(boundForm, regDetails.deceasedDetails.fold("")(_.name))
                 .fold(
                 formWithErrors => {
-                  Future.successful(BadRequest(assets_left_to_partner_question(formWithErrors,
+                  Future.successful(BadRequest(assetsLeftToPartnerQuestionView(formWithErrors,
                     regDetails,
                     returnLabel(regDetails, appDetails),
                     returnUrl(regDetails, appDetails))))

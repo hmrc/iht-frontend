@@ -22,15 +22,14 @@ import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.html.registration.applicant.applicant_address
 import iht.views.registration.RegistrationPageBehaviour
-import play.api.i18n.MessagesApi
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import org.jsoup.nodes.Document
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 
 trait ApplicantAddressViewTest extends ViewTestHelper {
   def guidance: Seq[String] = Seq(messagesApi("page.iht.registration.applicantAddress.hint"))
+  lazy val applicantAddressView: applicant_address = app.injector.instanceOf[applicant_address]
+
 }
 
 class ApplicantAddressViewInUKModeTest extends RegistrationPageBehaviour[UkAddress] with ApplicantAddressViewTest {
@@ -41,11 +40,11 @@ class ApplicantAddressViewInUKModeTest extends RegistrationPageBehaviour[UkAddre
   override def form: Form[UkAddress] = applicantAddressUkForm
 
   override def formToView: Form[UkAddress] => Appendable = form =>
-    applicant_address(form, isInternational=false,
+    applicantAddressView(form, isInternational=false,
       CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall1)
 
   def abroadAddressDocument(): Document = {
-    val view = applicant_address(applicantAddressAbroadForm, isInternational=true,
+    val view = applicantAddressView(applicantAddressAbroadForm, isInternational=true,
       CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall1).toString
     asDocument(view)
   }
@@ -66,7 +65,7 @@ class ApplicantAddressViewInAbroadModeTest extends RegistrationPageBehaviour[UkA
   override def form: Form[UkAddress] = applicantAddressAbroadForm
 
   override def formToView: Form[UkAddress] => Appendable = form =>
-    applicant_address(form, isInternational=true,
+    applicantAddressView(form, isInternational=true,
       CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall1)
 
   "Applicant Address View In Abroad Mode" must {

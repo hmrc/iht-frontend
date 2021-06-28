@@ -28,19 +28,21 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.asset.money.money_overview
 
 class MoneyOverviewControllerImpl @Inject()(val metrics: IhtMetrics,
                                             val ihtConnector: IhtConnector,
                                             val cachingConnector: CachingConnector,
                                             val authConnector: AuthConnector,
-                                            val formPartialRetriever: FormPartialRetriever,
+                                            val moneyOverviewView: money_overview,
                                             implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with MoneyOverviewController {
 
 }
 
 trait MoneyOverviewController extends EstateController {
+
+  val moneyOverviewView: money_overview
   def onPageLoad: Action[AnyContent] = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       withRegistrationDetails { registrationDetails =>
@@ -52,7 +54,7 @@ trait MoneyOverviewController extends EstateController {
           )
           money: Option[ShareableBasicEstateElement] = applicationDetails.flatMap(_.allAssets.flatMap(_.money))
         } yield {
-          Ok(iht.views.html.application.asset.money.money_overview(money, registrationDetails))
+          Ok(moneyOverviewView(money, registrationDetails))
         }
       }
     }

@@ -18,15 +18,16 @@ package iht.views.iv.wayfinderpages
 
 import iht.views.ViewTestHelper
 import iht.views.helpers.MessagesHelper
+import iht.views.html.iv.wayfinderpages.login_pass
 import org.jsoup.Jsoup
 import play.api.test.FakeRequest
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 
 class LoginPassViewTest extends ViewTestHelper with MessagesHelper {
 
   implicit lazy val fakeRequest = FakeRequest()
-  lazy val view = iht.views.html.iv.wayfinderpages.login_pass()
+  lazy val loginPassView: login_pass = app.injector.instanceOf[login_pass]
+
+  lazy val view = loginPassView()
   lazy val doc = Jsoup.parse(view.body)
 
   "Login Pass" ignore {

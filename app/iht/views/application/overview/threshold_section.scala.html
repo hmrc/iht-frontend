@@ -14,8 +14,13 @@
  * limitations under the License.
  *@
 
-@import iht.views.html.ihtHelpers.custom._
 @import iht.viewmodels.application.overview.ThresholdSectionViewModel
+
+@this(
+    overviewItem: ihtHelpers.custom.overview_item,
+    overviewTotal: ihtHelpers.custom.overview_total,
+    overviewItemWithoutLink: ihtHelpers.custom.overview_item_without_link
+)
 
 @(model: ThresholdSectionViewModel, sectionClass: String = "")(implicit request:Request[_], messages: Messages)
 
@@ -23,14 +28,14 @@
     <h2 class="visually-hidden">@Messages("iht.estateReport.ihtThreshold")</h2>
     <ul class="tabular-data tabular-data--list">
         @if(model.increasingThresholdRow.isDefined) {
-            @overview_item(model.increasingThresholdRow.get)
+            @overviewItem(model.increasingThresholdRow.get)
         }
 
     @if(model.thresholdIncreased) {
       </ul>
-      @overview_total(model.thresholdRow)
+      @overviewTotal(model.thresholdRow)
     } else {
-      @overview_item_without_link(model.thresholdRow)
+      @overviewItemWithoutLink(model.thresholdRow)
       </ul>
     }
     @if(model.showIncreaseThresholdLink) {

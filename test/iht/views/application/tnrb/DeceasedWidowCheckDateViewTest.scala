@@ -30,6 +30,7 @@ class DeceasedWidowCheckDateViewTest extends ViewTestHelper with TnrbHelper {
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
     deceasedDetails = Some(deceasedDetails.copy(maritalStatus = Some(TestHelper.MaritalStatusMarried))),
     deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
+  lazy val deceasedWidowCheckDateView: deceased_widow_check_date = app.injector.instanceOf[deceased_widow_check_date]
 
   val tnrbModel = CommonBuilder.buildTnrbEligibility
   val widowCheckModel = CommonBuilder.buildWidowedCheck
@@ -53,7 +54,7 @@ class DeceasedWidowCheckDateViewTest extends ViewTestHelper with TnrbHelper {
     "have no message keys in html" in {
       implicit val request = createFakeRequest()
 
-      val view = deceased_widow_check_date(deceasedWidowCheckQuestionForm,
+      val view = deceasedWidowCheckDateView(deceasedWidowCheckQuestionForm,
         widowCheckModel, tnrbModel, regDetails,
         returnLinkTargetUrl, returnLinkText).toString
       noMessageKeysShouldBePresent(view)
@@ -62,7 +63,7 @@ class DeceasedWidowCheckDateViewTest extends ViewTestHelper with TnrbHelper {
     "have the correct title" in {
       implicit val request = createFakeRequest()
 
-      val view = deceased_widow_check_date(deceasedWidowCheckQuestionForm,
+      val view = deceasedWidowCheckDateView(deceasedWidowCheckQuestionForm,
         widowCheckModel, tnrbModel, regDetails,
         returnLinkTargetUrl, returnLinkText).toString
 
@@ -72,7 +73,7 @@ class DeceasedWidowCheckDateViewTest extends ViewTestHelper with TnrbHelper {
     "have the correct browser title" in {
       implicit val request = createFakeRequest()
 
-      val view = deceased_widow_check_date(deceasedWidowCheckQuestionForm,
+      val view = deceasedWidowCheckDateView(deceasedWidowCheckQuestionForm,
         widowCheckModel, tnrbModel, regDetails,
         returnLinkTargetUrl, returnLinkText).toString
 
@@ -82,7 +83,7 @@ class DeceasedWidowCheckDateViewTest extends ViewTestHelper with TnrbHelper {
     "show the correct guidance paragraphs" in {
       implicit val request = createFakeRequest()
 
-      val view = deceased_widow_check_date(deceasedWidowCheckQuestionForm,
+      val view = deceasedWidowCheckDateView(deceasedWidowCheckQuestionForm,
         widowCheckModel, tnrbModel, regDetails,
         returnLinkTargetUrl, returnLinkText).toString
 
@@ -92,7 +93,7 @@ class DeceasedWidowCheckDateViewTest extends ViewTestHelper with TnrbHelper {
     "show the Save and continue button" in {
       implicit val request = createFakeRequest()
 
-      val view = deceased_widow_check_date(deceasedWidowCheckQuestionForm,
+      val view = deceasedWidowCheckDateView(deceasedWidowCheckQuestionForm,
         widowCheckModel, tnrbModel, regDetails,
         returnLinkTargetUrl, returnLinkText).toString
 
@@ -103,7 +104,7 @@ class DeceasedWidowCheckDateViewTest extends ViewTestHelper with TnrbHelper {
     "show the correct return link with text" in {
       implicit val request = createFakeRequest()
 
-      val view = deceased_widow_check_date(deceasedWidowCheckQuestionForm,
+      val view = deceasedWidowCheckDateView(deceasedWidowCheckQuestionForm,
         widowCheckModel, tnrbModel, regDetails,
         returnLinkTargetUrl, returnLinkText).toString
 

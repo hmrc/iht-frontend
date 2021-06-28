@@ -20,13 +20,12 @@ import iht.config.AppConfig
 import iht.constants.Constants._
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.FilterForms._
-import iht.testhelpers.MockFormPartialRetriever
 import iht.views.HtmlSpec
+import iht.views.html.filter.estimate
 import play.api.i18n.MessagesApi
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class EstimateControllerTest extends ApplicationControllerTest with HtmlSpec {
 
@@ -35,10 +34,10 @@ class EstimateControllerTest extends ApplicationControllerTest with HtmlSpec {
 
   protected abstract class TestController extends FrontendController(mockControllerComponents) with EstimateController {
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val estimateView: estimate = app.injector.instanceOf[estimate]
   }
 
   def controller = new TestController {
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
 
     override def messagesApi: MessagesApi = fakedMessagesApi
   }

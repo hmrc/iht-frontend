@@ -30,20 +30,20 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class GivenAwayControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                         val cachingConnector: CachingConnector,
                                         val authConnector: AuthConnector,
-                                        val formPartialRetriever: FormPartialRetriever,
+                                        val givenAwayView: given_away,
                                         implicit val appConfig: AppConfig,
                                         val cc: MessagesControllerComponents) extends FrontendController(cc) with GivenAwayController
 
 trait GivenAwayController extends EstateController {
 
 
+  val givenAwayView: given_away
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
       withApplicationDetails(userNino) { regDetails =>
@@ -54,7 +54,7 @@ trait GivenAwayController extends EstateController {
             val giftsList = appDetails.giftsList
               .fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
 
-            Future.successful(Ok(given_away(fm, regDetails, giftsList)))
+            Future.successful(Ok(givenAwayView(fm, regDetails, giftsList)))
           })
       }
   }
@@ -79,7 +79,7 @@ trait GivenAwayController extends EstateController {
                 val giftsList = appDetails.giftsList
                   .fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
                   .reverse
-                Future.successful(BadRequest(given_away(formWithErrors, regDetails, giftsList)))
+                Future.successful(BadRequest(givenAwayView(formWithErrors, regDetails, giftsList)))
               })
             },
             estateElementModel => {

@@ -15,14 +15,18 @@
  *@
 
 @import iht.views.html.iht_main_template_application
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 
-@()(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@this(
+    appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application
+)
+
+@()(implicit request : Request[_], messages: Messages)
 
 
 @defining(Messages("page.iht.iv.failure.couldNotConfirmIdentity")) { pageTitle =>
-    @iht_main_template_application(title = pageTitle, browserTitle = Some(pageTitle)) {
+    @ihtMainTemplateApplication(title = pageTitle, browserTitle = Some(pageTitle)) {
         <p>@Html(Messages("page.iht.iv.failure.youCanReport", appConfig.linkIHT205PDF))</p>
         <p>@Html(Messages("page.iht.iv.failure.lockedOutTryAgain", iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad))</p>
 

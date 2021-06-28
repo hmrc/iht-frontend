@@ -14,9 +14,12 @@
  * limitations under the License.
  *@
 
+@this(
+    accordionSliderHelpText: ihtHelpers.standard.accordion_slider_help_text
+)
+
 @(field: Field, args: (Symbol, Any)*)(implicit messages: Messages)
 
-@import iht.views.html._
 @import play.api.i18n._
 @import views.html.helper._
 
@@ -66,7 +69,7 @@
 }
 
 @if(elements.args.contains('_hintText) && elements.args.contains('_slideOutText)) {
-    @ihtHelpers.standard.accordion_slider_help_text(
+    @accordionSliderHelpText(
     '_helpText -> elements.args.get('_hintText),
     '_slideOutText -> elements.args.get('_slideOutText),
     '_needHighlight -> true)

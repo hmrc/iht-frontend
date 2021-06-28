@@ -15,13 +15,14 @@
  *@
 
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
 
-@(referenceNumber : String)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@this(
+    ihtMainTemplateApplication: iht_main_template_application
+)
 
-@iht_main_template_application(title = Messages("iht.registration.complete"),
+@(referenceNumber : String)(implicit request : Request[_], messages: Messages)
+
+@ihtMainTemplateApplication(title = Messages("iht.registration.complete"),
     browserTitle=Some(Messages("iht.registration.complete")),
     isFullWidth=false,
     hasTimeOut=true) {

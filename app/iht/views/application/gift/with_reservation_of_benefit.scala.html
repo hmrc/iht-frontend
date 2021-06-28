@@ -16,24 +16,30 @@
 
 @import iht.models._
 @import iht.models.application.gifts.AllGifts
-@import iht.utils.DeceasedInfoHelper._
-@import iht.views.html._
-@import uk.gov.hmrc.play.views.html.helpers.form
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.utils.DeceasedInfoHelper
 @import iht.config.AppConfig
 @import iht.models.RegistrationDetails
 
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group,
+    nameHelper: ihtHelpers.custom.name,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(giftWithReservationFromBenefitForm:Form[AllGifts],
-registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
-@deceasedName = @{getDeceasedNameOrDefaultString(registrationDetails, false)}
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
+@deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, false)}
 
-@iht_main_template_application(
+@ihtMainTemplateApplication(
     title = Messages("iht.estateReport.gifts.withReservation.title", deceasedName),
     browserTitle = Some(Messages("iht.estateReport.gifts.withReservation.titleWithoutName")),
     headingName = deceasedName
 ){
-    @ihtHelpers.custom.error_summary(giftWithReservationFromBenefitForm)
+    @errorSummary(giftWithReservationFromBenefitForm)
 
     @form(action = iht.controllers.application.gifts.routes.WithReservationOfBenefitController.onSubmit,'autoComplete -> "off") {
 
@@ -43,9 +49,9 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
             <p>@messages("iht.estateReport.gifts.withReservation.p3")</p>
         </div>
 
-        @ihtHelpers.standard.input_yes_no_radio_group(
+        @inputYesNoRadioGroup(
         giftWithReservationFromBenefitForm("reservation.isReservation"),
-        '_legend -> Html(Messages("iht.estateReport.gifts.reservation.question", getDeceasedNameOrDefaultString(registrationDetails, true))),        
+        '_legend -> Html(Messages("iht.estateReport.gifts.reservation.question", DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true))),
         '_divClass -> Some("form-group"))
 
         <div id="action-button" class="form-group">
@@ -53,8 +59,8 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
         </div>
 
         @registrationDetails.deceasedDetails.map{ dd=>
-            @ihtHelpers.custom.return_link(
-                Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.custom.name(dd.name)),
+            @returnLink(
+                Messages("page.iht.application.gifts.return.to.givenAwayBy", nameHelper(dd.name)),
                 Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()),
                 appConfig.GiftsReservationBenefitQuestionID
             )

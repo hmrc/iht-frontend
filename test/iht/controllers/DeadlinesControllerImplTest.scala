@@ -16,21 +16,24 @@
 
 package iht.controllers
 
-import iht.config.IhtFormPartialRetriever
 import iht.connector.CachingConnector
 import iht.views.ViewTestHelper
+import iht.views.html.{deadlines_application, deadlines_registration}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class DeadlinesControllerImplTest extends ViewTestHelper {
   val mockCachingConnector = mock[CachingConnector]
-  val mockFormPartialRetriever = mock[IhtFormPartialRetriever]
+  val mockFormPartialRetriever = mock[FormPartialRetriever]
   val mockMessagesControllerComponents = mockControllerComponents
   val mockAppConfig = appConfig
   val fakeRequest = FakeRequest()
+  val deadlinesApplicationView: deadlines_application = app.injector.instanceOf[deadlines_application]
+  val deadlinesRegistrationView: deadlines_registration = app.injector.instanceOf[deadlines_registration]
 
-  val deadlinesControllerImpl = new DeadlinesControllerImpl(mockCachingConnector, mockFormPartialRetriever,
-    mockMessagesControllerComponents, mockAppConfig)
+  val deadlinesControllerImpl = new DeadlinesControllerImpl(mockCachingConnector, mockMessagesControllerComponents,
+    deadlinesApplicationView, deadlinesRegistrationView, mockAppConfig)
 
   "DeadlinesControllerImpl#onPageLoadReistration" must {
     "serve the deadlines_registration view" in {

@@ -17,15 +17,18 @@
 @import iht.models.application.assets.HeldInTrust
 @import iht.utils.OverviewHelper._
 @import iht.utils._
-@import iht.views.html._
-@import iht.views.html.ihtHelpers.custom._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 @import iht.models.RegistrationDetails
 
+@this(
+    implicit val appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application,
+    genericOverviewTableItem: ihtHelpers.custom.generic_overview_table_item,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(trusts:Option[HeldInTrust],
-registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
@@ -36,12 +39,12 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
     }
 }
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.heldInTrust.title"),
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.assets.heldInTrust.title"),
 Some(Messages("iht.estateReport.assets.heldInTrust.title")),
 isFullWidth=false
 ) {
 
-<div id='trusts-description' >
+<div id='trusts-description'>
     <p>@Html(Messages("iht.estateReport.assets.trusts.benefittedFromHeldInTrust",deceasedName))</p>
     <p>@Html(Messages("iht.estateReport.assets.trusts.needInclusion",deceasedName))</p>
     <p>@Html(Messages("iht.estateReport.assets.heldInTrust.needInclusion",deceasedName))</p>
@@ -51,7 +54,7 @@ isFullWidth=false
     <section id="trusts-section" class="form-group">
         <ul>
             @{
-                generic_overview_table_item(id = appConfig.AssetsTrustsBenefitedID,
+                genericOverviewTableItem(id = appConfig.AssetsTrustsBenefitedID,
                     questionText = Messages("iht.estateReport.assets.trusts.question",deceasedName),
                     questionScreenReaderText= Messages("iht.estateReport.assets.trusts.question", Messages("iht.the.deceased")),
                     questionCategory= "questionAnswer",
@@ -64,7 +67,7 @@ isFullWidth=false
                 )
             }
             @{
-                generic_overview_table_item(id = appConfig.AssetsTrustsMultipleID,
+                genericOverviewTableItem(id = appConfig.AssetsTrustsMultipleID,
                     questionText = Messages("iht.estateReport.assets.trusts.moreThanOne.question",deceasedName),
                     questionScreenReaderText= Messages("iht.estateReport.assets.trusts.moreThanOne.question",
                                                         Messages("iht.the.deceased")),
@@ -78,7 +81,7 @@ isFullWidth=false
                 )
             }
             @{
-                generic_overview_table_item(id = appConfig.AssetsTrustsValueID,
+                genericOverviewTableItem(id = appConfig.AssetsTrustsValueID,
                     questionText = Messages("iht.estateReport.assets.heldInTrust.valueOfTrust",deceasedName),
                     questionScreenReaderText= Messages("iht.estateReport.assets.heldInTrust.valueOfTrust",
                                                         Messages("iht.the.deceased")),
@@ -94,7 +97,7 @@ isFullWidth=false
         </ul>
     </section>
 
-    @ihtHelpers.custom.return_link(
+    @returnLink(
         Messages("page.iht.application.return.to.assetsOf", deceasedName),
         Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
         appConfig.AppSectionHeldInTrustID

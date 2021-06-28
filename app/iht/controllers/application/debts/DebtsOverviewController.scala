@@ -25,14 +25,14 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.debts.debts_overview
 
 import scala.concurrent.Future
 
 class DebtsOverviewControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                             val ihtConnector: IhtConnector,
                                             val authConnector: AuthConnector,
-                                            override implicit val formPartialRetriever: FormPartialRetriever,
+                                            val debtsOverviewView: debts_overview,
 implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with DebtsOverviewController
 
@@ -42,12 +42,12 @@ trait DebtsOverviewController extends ApplicationController {
   def cachingConnector: CachingConnector
 
   def ihtConnector: IhtConnector
-
+  val debtsOverviewView: debts_overview
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       withApplicationDetails(userNino) { rd => ad =>
         val debts = ad.allLiabilities.fold(new AllLiabilities())(l => l)
-        Future.successful(Ok(iht.views.html.application.debts.debts_overview(ad, debts, rd)))
+        Future.successful(Ok(debtsOverviewView(ad, debts, rd)))
       }
     }
   }

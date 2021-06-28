@@ -21,21 +21,17 @@ import iht.models.ApplicantDetails
 import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.applicant.probate_location
 import iht.views.registration.RegistrationPageBehaviour
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.data.Form
-import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable
-
-import scala.collection.immutable.ListMap
 
 class ProbateLocationViewTest extends RegistrationPageBehaviour[ApplicantDetails] {
 
   override def pageTitle = messagesApi("page.iht.registration.applicant.probateLocation.title")
   override def browserTitle = messagesApi("page.iht.registration.applicant.probateLocation.browserTitle")
+  lazy val probateLocationView: probate_location = app.injector.instanceOf[probate_location]
 
   override def form:Form[ApplicantDetails] = probateLocationForm
-  override def formToView:Form[ApplicantDetails] => Appendable = form => probate_location(form, CommonBuilder.DefaultCall1)
+  override def formToView:Form[ApplicantDetails] => Appendable = form => probateLocationView(form, CommonBuilder.DefaultCall1)
 
   "Probate Location View" must {
 

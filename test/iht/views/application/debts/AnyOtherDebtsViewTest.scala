@@ -40,7 +40,9 @@ class AnyOtherDebtsViewTest extends DebtsElementViewBehaviour[BasicEstateElement
                                                       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
 
   override def form:Form[BasicEstateElementLiabilities] = anyOtherDebtsForm
-  override def formToView:Form[BasicEstateElementLiabilities] => Appendable = form => any_other_debts(form, regDetails)
+  lazy val anyOtherDebtsView: any_other_debts = app.injector.instanceOf[any_other_debts]
+
+  override def formToView:Form[BasicEstateElementLiabilities] => Appendable = form => anyOtherDebtsView(form, regDetails)
 
   override def pageTitle = messagesApi("iht.estateReport.debts.other.title")
   override def browserTitle = messagesApi("page.iht.application.debts.other.browserTitle")

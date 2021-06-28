@@ -16,17 +16,13 @@
 
 package iht.testhelpers
 
-import play.api.mvc.RequestHeader
-import play.twirl.api.Html
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.http.HttpGet
+import uk.gov.hmrc.play.partials.{FormPartialRetriever, HeaderCarrierForPartialsConverter}
 
 
 object MockFormPartialRetriever extends FormPartialRetriever {
 
-  override def crypto: (String) => String = ???
-
   override def httpGet: HttpGet = ???
 
-  override def getPartialContent(url: String, templateParameters: Map[String, String], errorMessage: Html)(implicit request: RequestHeader): Html = Html("")
+  override def headerCarrierForPartialsConverter: HeaderCarrierForPartialsConverter = ???
 }

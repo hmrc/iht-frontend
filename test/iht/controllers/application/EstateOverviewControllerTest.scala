@@ -22,15 +22,15 @@ import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.models.application.exemptions.BasicExemptionElement
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
+import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.views.HtmlSpec
+import iht.views.html.application.overview.{estate_overview, estate_overview_json_error}
 import org.mockito.ArgumentMatchers._
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.{status => playStatus, _}
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.http.{HeaderCarrier, UpstreamErrorResponse}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -40,6 +40,8 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
   protected abstract class TestController extends FrontendController(mockControllerComponents) with EstateOverviewController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val estateOverviewJsonErrorView: estate_overview_json_error = app.injector.instanceOf[estate_overview_json_error]
+    override val estateOverviewView: estate_overview = app.injector.instanceOf[estate_overview]
   }
 
   implicit val headerCarrier = FakeHeaders()
@@ -65,15 +67,12 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
 //    override val authConnector = mockAuthConnector
     override val authConnector = mockAuthConnector
 
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def createMocksForRegistrationAndApplication(rd: Future[Option[RegistrationDetails]], ad: ApplicationDetails) = {

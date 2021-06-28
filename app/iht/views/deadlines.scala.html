@@ -16,10 +16,13 @@
 
 @import iht.constants.IhtProperties
 @import iht.utils._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 
-@(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@this(
+    appConfig: AppConfig
+)
+
+@()(implicit request:Request[_], messages: Messages)
 <p>@messages("page.iht.deadlines.p1")</p>
 <p>@messages("page.iht.deadlines.p2") <a id="pay-early" href="@appConfig.linkPayEarly">@messages("page.iht.deadlines.anchorText")</a>.</p>
 <p>@messages("page.iht.deadlines.p3")</p>

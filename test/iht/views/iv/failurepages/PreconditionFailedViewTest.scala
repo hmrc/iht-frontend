@@ -28,8 +28,9 @@ class PreconditionFailedViewTest extends GenericNonSubmittablePageBehaviour {
   def pageTitle = messagesApi("page.iht.iv.failure.preconditionFailed.heading")
 
   def browserTitle = messagesApi("page.iht.iv.failure.preconditionFailed.heading")
+  lazy val preconditionFailedView: precondition_failed = app.injector.instanceOf[precondition_failed]
 
-  def view: String = precondition_failed()(createFakeRequest(), messages, formPartialRetriever, appConfig).toString
+  def view: String = preconditionFailedView()(createFakeRequest(), messages).toString
 
   override def exitComponent = None
 

@@ -18,27 +18,28 @@ package iht.controllers.registration
 
 import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
+import iht.utils.AddressHelper
+import iht.views.html.registration.duplicate_registration
 import javax.inject.Inject
 import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class DuplicateRegistrationControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                                     val ihtConnector: IhtConnector,
                                                     val authConnector: AuthConnector,
-                                                    override implicit val formPartialRetriever: FormPartialRetriever,
+                                                    val duplicateRegistrationView: duplicate_registration,
                                                     implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with DuplicateRegistrationController
 
 trait DuplicateRegistrationController extends RegistrationController {
   override def guardConditions: Set[Predicate] = Set.empty
-
+  val duplicateRegistrationView: duplicate_registration
   def onPageLoad(ihtReference: String) = authorisedForIht {
     implicit request => { // False positive warning. Workaround: scala/bug#11175 -Ywarn-unused:params false positive
-      Future.successful(Ok(iht.views.html.registration.duplicate_registration(ihtReference)))
+      Future.successful(Ok(duplicateRegistrationView(ihtReference)))
     }
   }
 

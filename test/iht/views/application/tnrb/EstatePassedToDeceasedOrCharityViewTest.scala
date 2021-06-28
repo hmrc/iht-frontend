@@ -22,8 +22,6 @@ import iht.testhelpers.CommonBuilder
 import iht.views.application.YesNoQuestionViewBehaviour
 import iht.views.html.application.tnrb.estate_passed_to_deceased_or_charity
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
 
 class EstatePassedToDeceasedOrCharityViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
@@ -43,10 +41,11 @@ class EstatePassedToDeceasedOrCharityViewTest extends YesNoQuestionViewBehaviour
   override def formTarget = Some(iht.controllers.application.tnrb.routes.EstatePassedToDeceasedOrCharityController.onSubmit())
 
   override def form: Form[TnrbEligibiltyModel] = estatePassedToDeceasedOrCharityForm
+  lazy val estatePassedToDeceasedOrCharityView: estate_passed_to_deceased_or_charity = app.injector.instanceOf[estate_passed_to_deceased_or_charity]
 
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
     form =>
-      estate_passed_to_deceased_or_charity(form, deceasedDetailsName, CommonBuilder.DefaultCall2)
+      estatePassedToDeceasedOrCharityView(form, deceasedDetailsName, CommonBuilder.DefaultCall2)
 
   override def cancelComponent = None
 

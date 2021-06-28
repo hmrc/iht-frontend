@@ -17,21 +17,26 @@
 @import iht.models.application.exemptions._
 @import iht.utils.OverviewHelper._
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 @import iht.models.RegistrationDetails
 @import iht.models.application.exemptions.QualifyingBody
-@import iht.views.html.ihtHelpers.custom._
 
+@this(
+    implicit val appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application,
+    progressiveDisclosure: ihtHelpers.custom.progressive_disclosure,
+    genericOverviewTableItem: ihtHelpers.custom.generic_overview_table_item,
+    returnLink: ihtHelpers.custom.return_link,
+    nameHelper: ihtHelpers.custom.name
+)
 
 @(qualifyingBodies: Seq[QualifyingBody],
 registrationDetails: RegistrationDetails,
-isAssetLeftToQualifyingBody: Boolean)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+isAssetLeftToQualifyingBody: Boolean)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{CommonHelper.getOrException(registrationDetails.deceasedDetails).name}
 
-@iht_main_template_application(title = Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title", deceasedName),
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title", deceasedName),
 browserTitle = Some(Messages("page.iht.application.exemptions.qualifyingBodyOverview.browserTitle")),
 isFullWidth=false,
 headingName = deceasedName
@@ -39,11 +44,11 @@ headingName = deceasedName
 
 <p class="lede">@Messages("page.iht.application.exemptions.qualifyingBodyOverview.lede")</p>
 
-@progressive_disclosure(request.uri)
+@progressiveDisclosure(request.uri)
 
     <section id="qualifyingBody-table">
         <ul class="tabular-data tabular-data--list">
-        @generic_overview_table_item(id = appConfig.ExemptionsOtherAssetsID,
+        @genericOverviewTableItem(id = appConfig.ExemptionsOtherAssetsID,
             questionText = Messages("page.iht.application.exemptions.qualifyingBodyOverview.question",
             DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
             questionScreenReaderText= Messages("page.iht.application.exemptions.qualifyingBodyOverview.question",
@@ -62,7 +67,7 @@ headingName = deceasedName
                 <span class="visually-hidden">@Messages("page.iht.application.exemptions.qualifyingBodyOverview.screenreader.ident", (i + 1)) </span>
                 @(element.name) match {
                     case (None) => { @Messages("iht.estateReport.exemptions.charities.noNameAdded") }
-                    case (Some(name)) => { @ihtHelpers.custom.name(name) }
+                    case (Some(name)) => { @nameHelper(name) }
                 }
             </div>
             <div class="tabular-data__data tabular-data__data--4-12 u-align--tablet-right">
@@ -116,7 +121,7 @@ headingName = deceasedName
 
 <p>
     @registrationDetails.deceasedDetails.map{ dd=>
-    @ihtHelpers.custom.return_link(Messages("site.link.return.exemptions"),
+    @returnLink(Messages("site.link.return.exemptions"),
     Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()),
     appConfig.ExemptionsOtherID
     )

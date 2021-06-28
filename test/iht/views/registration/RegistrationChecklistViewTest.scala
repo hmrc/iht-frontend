@@ -18,16 +18,15 @@ package iht.views.registration
 
 import iht.testhelpers.viewSpecshelper.registration.RegistrationChecklistMessages
 import iht.views.ViewTestHelper
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.views.html.registration.{registration_checklist => views}
+import iht.views.html.registration.registration_checklist
 import org.jsoup.Jsoup
 
 class RegistrationChecklistViewTest extends ViewTestHelper with RegistrationChecklistMessages {
+  lazy val registrationChecklistView: registration_checklist = app.injector.instanceOf[registration_checklist]
 
   "RegistrationChecklistView" should {
 
-    lazy val view = views()(createFakeRequest(), messages, formPartialRetriever, appConfig)
+    lazy val view = registrationChecklistView()(createFakeRequest(), messages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the correct title" in {

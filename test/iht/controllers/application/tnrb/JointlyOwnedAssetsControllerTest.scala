@@ -19,14 +19,13 @@ package iht.controllers.application.tnrb
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.TnrbForms._
-
-import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
+import iht.testhelpers.{CommonBuilder, ContentChecker}
+import iht.views.html.application.tnrb.jointly_owned_assets
 import org.joda.time.LocalDate
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class JointlyOwnedAssetsControllerTest  extends ApplicationControllerTest{
 
@@ -34,13 +33,13 @@ class JointlyOwnedAssetsControllerTest  extends ApplicationControllerTest{
   protected abstract class TestController extends FrontendController(mockControllerComponents) with JointlyOwnedAssetsController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val jointlyOwnedAssetsView: jointly_owned_assets = app.injector.instanceOf[jointly_owned_assets]
   }
 
   def jointlyOwnedAssetsController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def jointlyOwnedAssetsControllerNotAuthorised = new TestController {
@@ -48,7 +47,6 @@ class JointlyOwnedAssetsControllerTest  extends ApplicationControllerTest{
 //    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "JointlyOwnedAssetsController" must {

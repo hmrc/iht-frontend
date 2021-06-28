@@ -14,15 +14,16 @@
  * limitations under the License.
  *@
 
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 
-@()(implicit request:Request[_],
-        messages: Messages,
-        ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@this(
+    appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application
+)
 
-@iht_main_template_application(title = Messages("page.iht.iv.failure.technicalIssue.heading"),
+@()(implicit request:Request[_], messages: Messages)
+
+@ihtMainTemplateApplication(title = Messages("page.iht.iv.failure.technicalIssue.heading"),
     browserTitle = Some(Messages("page.iht.iv.failure.technicalIssue.heading"))
 ) {
     <p data-journey="json-error-page:page-view:json-validation-issue">@Messages("error.estateOverview.jsonError.p1")</p>

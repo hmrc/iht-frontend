@@ -26,12 +26,15 @@ trait ApplicationErrorViewBehaviour extends GenericNonSubmittablePageBehaviour {
   override def browserTitle = messagesApi("error.problem")
 
   override def exitComponent = None
+
+  lazy val applicationErrorView: application_error = app.injector.instanceOf[application_error]
 }
 
 class ApplicationErrorViewServiceUnavailableTest extends ApplicationErrorViewBehaviour {
   override def guidanceParagraphs = Set(messagesApi("error.report.redo"))
 
-  override def view: String = application_error("serviceUnavailable")(createFakeRequest(), messages, formPartialRetriever, appConfig).toString
+
+  override def view: String = applicationErrorView("serviceUnavailable")(createFakeRequest(), messages).toString
 
   "Application error view for service unavailable" must {
     behave like nonSubmittablePage()
@@ -41,7 +44,7 @@ class ApplicationErrorViewServiceUnavailableTest extends ApplicationErrorViewBeh
 class ApplicationErrorViewRequestTimeOutTest extends ApplicationErrorViewBehaviour {
   override def guidanceParagraphs = Set(messagesApi("error.cannotSend"))
 
-  override def view: String = application_error("requestTimeOut")(createFakeRequest(), messages, formPartialRetriever, appConfig).toString
+  override def view: String = applicationErrorView("requestTimeOut")(createFakeRequest(), messages).toString
 
   "Application error view for request timeOut" must {
     behave like nonSubmittablePage()
@@ -55,7 +58,7 @@ class ApplicationErrorViewRequestTimeOutTest extends ApplicationErrorViewBehavio
 class ApplicationErrorViewSomeOtherTest extends ApplicationErrorViewBehaviour {
   override def guidanceParagraphs = Set(messagesApi("error.cannotSend"), messagesApi("error.report.redo"))
 
-  override def view: String = application_error("someOther")(createFakeRequest(), messages, formPartialRetriever, appConfig).toString
+  override def view: String = applicationErrorView("someOther")(createFakeRequest(), messages).toString
 
   "Application error view for some other error" must {
     behave like nonSubmittablePage()
