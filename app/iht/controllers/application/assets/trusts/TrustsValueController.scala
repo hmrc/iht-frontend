@@ -29,12 +29,11 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class TrustsValueControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                           val cachingConnector: CachingConnector,
                                           val authConnector: AuthConnector,
-                                          val formPartialRetriever: FormPartialRetriever,
+                                          val trustsValueView: trusts_value,
                                           implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with TrustsValueController {
 
@@ -46,10 +45,11 @@ trait TrustsValueController extends EstateController {
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
     iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(), Some(appConfig.AssetsTrustsValueID))
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsTrustsValue)
+  val trustsValueView: trusts_value
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
-      estateElementOnPageLoad[HeldInTrust](trustsValueForm, trusts_value.apply, _.allAssets.flatMap(_.heldInTrust), userNino)
+      estateElementOnPageLoad[HeldInTrust](trustsValueForm, trustsValueView.apply, _.allAssets.flatMap(_.heldInTrust), userNino)
   }
 
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -70,7 +70,7 @@ trait TrustsValueController extends EstateController {
 
       estateElementOnSubmit[HeldInTrust](
         trustsValueForm,
-        trusts_value.apply,
+        trustsValueView.apply,
         updateApplicationDetails,
         submitUrl,
         userNino

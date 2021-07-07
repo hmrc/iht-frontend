@@ -18,19 +18,16 @@ package iht.views.application.exemption.qualifyingBody
 
 import iht.models.application.exemptions.QualifyingBody
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.TestHelper._
 import iht.utils.CommonHelper._
 import iht.views.html.application.exemption.qualifyingBody.qualifying_body_details_overview
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
-import iht.testhelpers.TestHelper._
-
-import scala.concurrent.ExecutionContext.Implicits.global
 
 trait QualifyingBodyDetailsOverviewViewBehaviour extends GenericNonSubmittablePageBehaviour {
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
+  lazy val qualifyingBodyDetailsOverviewView: qualifying_body_details_overview = app.injector.instanceOf[qualifying_body_details_overview]
 
   override def guidanceParagraphs = Set(
     messagesApi("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodyNotCharities")
@@ -74,7 +71,7 @@ trait QualifyingBodyDetailsOverviewViewBehaviour extends GenericNonSubmittablePa
 
 class QualifyingBodyDetailsOverviewViewTest extends QualifyingBodyDetailsOverviewViewBehaviour {
   override def view =
-    qualifying_body_details_overview(Some(CommonBuilder.qualifyingBody)).toString()
+    qualifyingBodyDetailsOverviewView(Some(CommonBuilder.qualifyingBody)).toString()
 
   "Qualifying body details overview view" must {
     behave like nonSubmittablePage()
@@ -100,7 +97,7 @@ class QualifyingBodyDetailsOverviewViewWithNoValuesTest extends QualifyingBodyDe
       name = None,
       totalValue = None
     )
-    qualifying_body_details_overview(Some(qualifyingBody2)).toString()
+    qualifyingBodyDetailsOverviewView(Some(qualifyingBody2)).toString()
   }
 
   "Qualifying body details overview view where no values entered" must {

@@ -19,14 +19,14 @@ package iht.controllers.application.declaration
 import iht.config.AppConfig
 import iht.constants.Constants
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.application.declaration.probate_application_form_details
 import org.mockito.ArgumentMatchers._
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.FakeHeaders
 import play.api.test.Helpers.{OK, SEE_OTHER, redirectLocation, _}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class ProbateApplicationFormDetailsControllerTest extends ApplicationControllerTest {
   implicit val headerCarrier = FakeHeaders()
@@ -35,6 +35,7 @@ class ProbateApplicationFormDetailsControllerTest extends ApplicationControllerT
   protected abstract class TestController extends FrontendController(mockControllerComponents) with ProbateApplicationFormDetailsController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val probateApplicationFormDetailsView: probate_application_form_details = app.injector.instanceOf[probate_application_form_details]
   }
 
   def probateApplicationFormDetailsController = new TestController{
@@ -42,7 +43,7 @@ class ProbateApplicationFormDetailsControllerTest extends ApplicationControllerT
     override val authConnector = mockAuthConnector
 
     def ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+
   }
 
   def probateApplicationFormDetailsControllerNotAuthorised = new TestController{
@@ -50,7 +51,6 @@ class ProbateApplicationFormDetailsControllerTest extends ApplicationControllerT
     override val authConnector = mockAuthConnector
 
     def ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   val registrationDetails = CommonBuilder.buildRegistrationDetails copy (

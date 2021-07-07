@@ -57,7 +57,6 @@ trait RegistrationBaseController[T] extends RegistrationController {
   // This method provides a hook to allow controllers to apply extra form validation if needed.  By default
   // it simply passes back the unmodified form
   def performAdditionalValidation(form: Form[T], rd: RegistrationDetails, mode: Mode.Value): Form[T] = form
-
   def pageLoad(mode: Mode.Value) = authorisedForIht {
     implicit request =>
       withRegistrationDetailsRedirectOnGuardCondition { rd =>

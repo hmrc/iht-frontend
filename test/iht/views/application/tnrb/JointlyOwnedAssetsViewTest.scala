@@ -20,10 +20,8 @@ import iht.forms.TnrbForms._
 import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.testhelpers.CommonBuilder
 import iht.views.application.YesNoQuestionViewBehaviour
-import iht.views.html.application.tnrb.{jointly_owned_assets, permanent_home}
+import iht.views.html.application.tnrb.jointly_owned_assets
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
 
 class JointlyOwnedAssetsViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
@@ -43,10 +41,11 @@ class JointlyOwnedAssetsViewTest extends YesNoQuestionViewBehaviour[TnrbEligibil
   override def formTarget = Some(iht.controllers.application.tnrb.routes.JointlyOwnedAssetsController.onSubmit())
 
   override def form: Form[TnrbEligibiltyModel] = jointAssetPassedForm
+  lazy val jointlyOwnedAssetsView: jointly_owned_assets = app.injector.instanceOf[jointly_owned_assets]
 
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
     form =>
-      jointly_owned_assets(form, deceasedDetailsName, CommonBuilder.DefaultCall2)
+      jointlyOwnedAssetsView(form, deceasedDetailsName, CommonBuilder.DefaultCall2)
 
   override def cancelComponent = None
 

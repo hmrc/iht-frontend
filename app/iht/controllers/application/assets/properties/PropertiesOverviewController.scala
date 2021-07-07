@@ -28,13 +28,13 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.asset.properties.properties_overview
 
 class PropertiesOverviewControllerImpl @Inject()(val metrics: IhtMetrics,
                                                  val ihtConnector: IhtConnector,
                                                  val cachingConnector: CachingConnector,
                                                  val authConnector: AuthConnector,
-                                                 val formPartialRetriever: FormPartialRetriever,
+                                                 val propertiesOverviewView: properties_overview,
                                                  implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with PropertiesOverviewController
 
@@ -44,6 +44,7 @@ trait PropertiesOverviewController extends ApplicationController {
   def cachingConnector: CachingConnector
 
   def ihtConnector: IhtConnector
+  val propertiesOverviewView: properties_overview
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
@@ -57,7 +58,7 @@ trait PropertiesOverviewController extends ApplicationController {
           propertyList: List[Property] = applicationDetails.map(_.propertyList).getOrElse(Nil)
           properties: Option[Properties] = applicationDetails.flatMap(_.allAssets.flatMap(_.properties))
         } yield {
-          Ok(iht.views.html.application.asset.properties.properties_overview(propertyList, properties, registrationDetails))
+          Ok(propertiesOverviewView(propertyList, properties, registrationDetails))
         }
       }
     }

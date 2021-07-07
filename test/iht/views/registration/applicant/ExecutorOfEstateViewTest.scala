@@ -37,9 +37,10 @@ class ExecutorOfEstateViewTest extends YesNoQuestionViewBehaviour[ApplicantDetai
   override def browserTitle = messagesApi("page.iht.registration.applicant.executorOfEstate.browserTitle")
 
   override def form: Form[ApplicantDetails] = executorOfEstateForm
+  lazy val executorOfEstateView: executor_of_estate = app.injector.instanceOf[executor_of_estate]
 
   override def formToView: Form[ApplicantDetails] => Appendable =
-    form => executor_of_estate(form, name, CommonBuilder.DefaultCall1)
+    form => executorOfEstateView(form, name, CommonBuilder.DefaultCall1)
 
   "Applying For Probate View" must {
     behave like yesNoQuestion

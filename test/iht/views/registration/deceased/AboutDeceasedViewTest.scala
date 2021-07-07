@@ -22,11 +22,8 @@ import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.deceased.about_deceased
 import iht.views.registration.RegistrationPageBehaviour
 import org.joda.time.LocalDate
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
-import scala.concurrent.ExecutionContext.Implicits.global
 import uk.gov.hmrc.http.HeaderCarrier
 
 class AboutDeceasedViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
@@ -35,14 +32,15 @@ class AboutDeceasedViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
   override def browserTitle = messagesApi("iht.registration.deceasedDetails.title")
 
   implicit val hc = mock[HeaderCarrier]
+  lazy val aboutDeceasedView: about_deceased = app.injector.instanceOf[about_deceased]
 
   override def form:Form[DeceasedDetails] = aboutDeceasedForm(new LocalDate(), loginNino = CommonBuilder.DefaultNino)
-  override def formToView:Form[DeceasedDetails] => Appendable = form => about_deceased(form, CommonBuilder.DefaultCall1)
+  override def formToView:Form[DeceasedDetails] => Appendable = form => aboutDeceasedView(form, CommonBuilder.DefaultCall1)
 
 
   def editModeViewAsDocument = {
     implicit val request = createFakeRequest()
-    val view = about_deceased(form, CommonBuilder.DefaultCall1, Some(CommonBuilder.DefaultCall2)).toString
+    val view = aboutDeceasedView(form, CommonBuilder.DefaultCall1, Some(CommonBuilder.DefaultCall2)).toString
     asDocument(view)
   }
 

@@ -19,18 +19,17 @@ package iht.views.application.exemption.qualifyingBody
 import iht.forms.ApplicationForms._
 import iht.models.application.exemptions.QualifyingBody
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.TestHelper._
 import iht.views.application.{CancelComponent, ValueViewBehaviour}
 import iht.views.html.application.exemption.qualifyingBody.qualifying_body_name
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
-import iht.testhelpers.TestHelper._
 
 class QualifyingBodyNameViewTest extends ValueViewBehaviour[QualifyingBody] {
 
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
+  lazy val qualifyingBodyNameView: qualifying_body_name = app.injector.instanceOf[qualifying_body_name]
 
   override def guidance = noGuidance
 
@@ -53,7 +52,7 @@ class QualifyingBodyNameViewTest extends ValueViewBehaviour[QualifyingBody] {
   override def form: Form[QualifyingBody] = qualifyingBodyNameForm
 
   override def formToView: Form[QualifyingBody] => Appendable =
-    form => qualifying_body_name(form, registrationDetails, CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall2)
+    form => qualifyingBodyNameView(form, registrationDetails, CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall2)
 
   override val value_id = "name"
 

@@ -14,25 +14,24 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
-@import iht.views.html.iht_main_template_application
-@import iht.views.html.application._
-@import iht.views.html.estateReports
+@this(
+    ihtMainTemplateApplication: iht_main_template_application,
+    applicationErrorSystemError: application.application_error_systemError,
+    estateReportsErrorServiceUnavailable: estateReports.estateReports_error_serviceUnavailable,
+    applicationErrorTimeout: application.application_error_timeOut
+)
 
-@(errorType:String)(implicit request:Request[_],
-                             messages: Messages,
-                             ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@(errorType:String)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("error.problem"),
+@ihtMainTemplateApplication(title = Messages("error.problem"),
 browserTitle = Some(Messages("error.problem"))
 ) {
     @{
     errorType match {
-    case "serviceUnavailable" => application_error_timeOut(errorType)(request, messages)
-    case "requestTimeOut" => application_error_timeOut(errorType)(request, messages)
-    case "desServiceUnavailable" => estateReports.estateReports_error_serviceUnavailable()
-    case _ => application_error_systemError(request, messages)
+    case "serviceUnavailable" => applicationErrorTimeout(errorType)
+    case "requestTimeOut" => applicationErrorTimeout(errorType)
+    case "desServiceUnavailable" => estateReportsErrorServiceUnavailable()
+    case _ => applicationErrorSystemError()
     }
     }
 }

@@ -20,14 +20,13 @@ import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
-
 import iht.testhelpers.TestHelper._
-import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
+import iht.testhelpers.{CommonBuilder, ContentChecker}
 import iht.utils._
+import iht.views.html.application.asset.vehicles.vehicles_deceased_own
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.{contentAsString, _}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
  * Created by jennygj on 17/06/16.
@@ -38,6 +37,7 @@ class VehiclesDeceasedOwnControllerTest extends ApplicationControllerTest {
   protected abstract class TestController extends FrontendController(mockControllerComponents) with VehiclesDeceasedOwnController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val vehiclesDeceasedOwnView: vehicles_deceased_own = app.injector.instanceOf[vehicles_deceased_own]
   }
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails copy (
@@ -58,14 +58,12 @@ class VehiclesDeceasedOwnControllerTest extends ApplicationControllerTest {
     val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def vehiclesDeceasedOwnControllerNotAuthorised = new TestController {
     val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
 

@@ -31,14 +31,14 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.tnrb.partner_name
 
 import scala.concurrent.Future
 
 class PartnerNameControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                           val cachingConnector: CachingConnector,
                                           val authConnector: AuthConnector,
-                                          val formPartialRetriever: FormPartialRetriever,
+                                          val partnerNameView: partner_name,
                                           implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with PartnerNameController {
 
@@ -47,7 +47,7 @@ val cc: MessagesControllerComponents) extends FrontendController(cc) with Partne
 trait PartnerNameController extends EstateController with StringHelper with TnrbHelper {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   def cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
-
+  val partnerNameView: partner_name
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
 
       implicit request => {
@@ -63,7 +63,7 @@ trait PartnerNameController extends EstateController with StringHelper with Tnrb
                 val filledForm = partnerNameForm.fill(appDetails.increaseIhtThreshold.getOrElse(
                   TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
 
-                Ok(iht.views.html.application.tnrb.partner_name(
+                Ok(partnerNameView(
                   filledForm,
                   CommonHelper.getOrException(appDetails.widowCheck).dateOfPreDeceased,
                   CommonHelper.addFragmentIdentifier(cancelUrl, Some(appConfig.TnrbSpouseNameID))
@@ -91,7 +91,7 @@ trait PartnerNameController extends EstateController with StringHelper with Tnrb
             case Some(appDetails) => {
               boundForm.fold(
                 formWithErrors => {
-                  Future.successful(BadRequest(iht.views.html.application.tnrb.partner_name(formWithErrors,
+                  Future.successful(BadRequest(partnerNameView(formWithErrors,
                     CommonHelper.getOrException(appDetails.widowCheck).dateOfPreDeceased, cancelUrl)))
                 },
                 tnrbModel => {

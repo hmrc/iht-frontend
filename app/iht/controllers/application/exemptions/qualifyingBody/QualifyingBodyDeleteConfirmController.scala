@@ -27,14 +27,13 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class QualifyingBodyDeleteConfirmControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                           val cachingConnector: CachingConnector,
                                                           val authConnector: AuthConnector,
-                                                          val formPartialRetriever: FormPartialRetriever,
+                                                          val qualifyingBodyDeleteConfirmView: qualifying_body_delete_confirm,
                                                           implicit val appConfig: AppConfig,
                                                           val cc: MessagesControllerComponents)
   extends FrontendController(cc) with QualifyingBodyDeleteConfirmController {
@@ -43,7 +42,7 @@ class QualifyingBodyDeleteConfirmControllerImpl @Inject()(val ihtConnector: IhtC
 
 trait QualifyingBodyDeleteConfirmController extends EstateController with StringHelper with Logging {
 
-
+  val qualifyingBodyDeleteConfirmView: qualifying_body_delete_confirm
   def onPageLoad(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       withApplicationDetails(userNino) {
@@ -52,7 +51,7 @@ trait QualifyingBodyDeleteConfirmController extends EstateController with String
             logger.warn("QualifyingBody with id = " + id + " not found during onLoad of delete confirmation")
             InternalServerError("QualifyingBody with id = " + id + " not found during onLoad of delete confirmation")
           } { c =>
-            Ok(qualifying_body_delete_confirm(c, routes.QualifyingBodyDeleteConfirmController.onSubmit(id)))
+            Ok(qualifyingBodyDeleteConfirmView(c, routes.QualifyingBodyDeleteConfirmController.onSubmit(id)))
           })
         }
       }

@@ -16,15 +16,11 @@
 
 package iht.views.registration.deceased
 
-import iht.forms.registration.ApplicantForms.applyingForProbateForm
 import iht.forms.registration.DeceasedForms._
-import iht.models.{ApplicantDetails, DeceasedDetails}
-import iht.views.html.registration.applicant.applying_for_probate
+import iht.models.DeceasedDetails
 import iht.views.html.registration.deceased.deceased_permanent_home
 import iht.views.registration.RegistrationPageBehaviour
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable
 
@@ -32,9 +28,10 @@ class DeceasedPermanentHomeViewTest extends RegistrationPageBehaviour[DeceasedDe
   override def pageTitle = messagesApi("page.iht.registration.deceasedPermanentHome.title")
 
   override def browserTitle = messagesApi("page.iht.registration.deceasedPermanentHome.browserTitle")
+  lazy val deceasedPermanentHomeView: deceased_permanent_home = app.injector.instanceOf[deceased_permanent_home]
 
   override def form:Form[DeceasedDetails] = deceasedPermanentHomeForm
-  override def formToView:Form[DeceasedDetails] => Appendable = form => deceased_permanent_home(form, Call("", ""))
+  override def formToView:Form[DeceasedDetails] => Appendable = form => deceasedPermanentHomeView(form, Call("", ""))
 
   "Deceased Permanent Home View" must {
     behave like registrationPageWithErrorSummaryBox()

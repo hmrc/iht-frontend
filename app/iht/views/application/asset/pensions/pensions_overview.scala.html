@@ -17,15 +17,18 @@
 @import iht.models.application.assets.PrivatePension
 @import iht.utils.OverviewHelper._
 @import iht.utils._
-@import iht.views.html._
-@import iht.views.html.ihtHelpers.custom._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 @import iht.models.RegistrationDetails
 
+@this(
+    implicit val appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application,
+    genericOverviewTableItem: ihtHelpers.custom.generic_overview_table_item,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(pensions:Option[PrivatePension],
- registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
@@ -36,7 +39,7 @@
     }
 }
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.privatePensions"),
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.assets.privatePensions"),
 browserTitle = Some(Messages("iht.estateReport.assets.privatePensions")),
 isFullWidth=false
 ) {
@@ -49,7 +52,7 @@ isFullWidth=false
 <section id="pensions-section" class="form-group">
         <ul class="tabular-data tabular-data--list">
             @{
-                generic_overview_table_item(id = appConfig.AssetsPensionsOwnedID,
+                genericOverviewTableItem(id = appConfig.AssetsPensionsOwnedID,
                     questionText = Messages("page.iht.application.assets.pensions.question", deceasedName),
                     questionScreenReaderText= Messages("page.iht.application.assets.pensions.question", Messages("iht.the.deceased")),
                     questionCategory= "questionAnswer",
@@ -62,7 +65,7 @@ isFullWidth=false
                 )
             }
             @{
-                generic_overview_table_item(id = appConfig.AssetsPensionChangesID,
+                genericOverviewTableItem(id = appConfig.AssetsPensionChangesID,
                     questionText = Messages("page.iht.application.assets.pensions.changed.title", deceasedName),
                     questionScreenReaderText= Messages("page.iht.application.assets.pensions.changed.question",
                                                 Messages("iht.the.deceased")),
@@ -76,7 +79,7 @@ isFullWidth=false
                 )
             }
             @{
-                generic_overview_table_item(id = appConfig.AssetsPensionsValueID,
+                genericOverviewTableItem(id = appConfig.AssetsPensionsValueID,
                     questionText = Messages("iht.estateReport.assets.pensions.valueOfRemainingPaymentsBeingPaid"),
                     questionScreenReaderText= Messages("iht.estateReport.assets.pensions.valueOfRemainingPaymentsBeingPaid"),
                     questionCategory= "change",
@@ -91,7 +94,7 @@ isFullWidth=false
         </ul>
     </section>
 
-    @ihtHelpers.custom.return_link(
+    @returnLink(
         Messages("page.iht.application.return.to.assetsOf", deceasedName),
         Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
         appConfig.AppSectionPrivatePensionID

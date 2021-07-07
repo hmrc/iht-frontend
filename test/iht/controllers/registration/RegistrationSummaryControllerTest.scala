@@ -20,8 +20,8 @@ import iht.config.AppConfig
 import iht.metrics.IhtMetrics
 import iht.models._
 import iht.models.application.ApplicationDetails
-
-import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
+import iht.testhelpers.{CommonBuilder, ContentChecker}
+import iht.views.html.registration.{registration_error, registration_error_serviceUnavailable, registration_summary}
 import org.joda.time.LocalDate
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
@@ -31,7 +31,6 @@ import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.{GatewayTimeoutException, UpstreamErrorResponse}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
@@ -41,6 +40,9 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
   protected abstract class TestController extends FrontendController(mockControllerComponents) with RegistrationSummaryController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val registrationSummaryView: registration_summary = app.injector.instanceOf[registration_summary]
+    override val registrationErrorView: registration_error = app.injector.instanceOf[registration_error]
+    override val registrationErrorServiceUnavailableView: registration_error_serviceUnavailable = app.injector.instanceOf[registration_error_serviceUnavailable]
   }
 
   def controller = new TestController {
@@ -48,8 +50,6 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
     override val metrics: IhtMetrics = mock[IhtMetrics]
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new TestController {
@@ -57,8 +57,6 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
     override val metrics: IhtMetrics = mock[IhtMetrics]
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def anchorLink(route: String, postfix: String) = s"$route#$postfix"

@@ -14,13 +14,16 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.views.html._
 @import iht.config.AppConfig
 
-@()(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@this(
+    appConfig: AppConfig,
+    ihtMainTemplateRegistration: iht_main_template_registration
+)
 
-@iht_main_template_registration(title = Messages("iht.noChangeToHowReportToHMRC"),
+@()(implicit request:Request[_], messages: Messages)
+
+@ihtMainTemplateRegistration(title = Messages("iht.noChangeToHowReportToHMRC"),
   browserTitle = Some(Messages("iht.noChangeToHowReportToHMRC")),
   isFullWidth = false,
   hasSignOut = false,

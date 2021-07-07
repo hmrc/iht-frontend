@@ -24,6 +24,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import iht.config.AppConfig
 
 class OverviewItemViewTest extends ViewTestHelper {
+  lazy val overviewItemView: overview_item = app.injector.instanceOf[overview_item]
 
   "OverviewItem helper" must {
     "have no message keys in html" in {
@@ -34,7 +35,7 @@ class OverviewItemViewTest extends ViewTestHelper {
         iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
         "")
 
-      val view = overview_item(overviewRow)
+      val view = overviewItemView(overviewRow)
       noMessageKeysShouldBePresent(view.toString)
     }
 
@@ -46,7 +47,7 @@ class OverviewItemViewTest extends ViewTestHelper {
         iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
         "")
 
-      val view = overview_item(overviewRow)
+      val view = overviewItemView(overviewRow)
       val doc = asDocument(view)
       assertEqualsValue(doc, s"#" + EstateAssetsID + "-caption span", messagesApi("iht.estateReport.assets.inEstate"))
       assertRenderedById(doc, EstateAssetsID + "-row")
@@ -60,7 +61,7 @@ class OverviewItemViewTest extends ViewTestHelper {
         iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
         "")
 
-      val view = overview_item(overviewRow)
+      val view = overviewItemView(overviewRow)
       val doc = asDocument(view)
       assertEqualsValue(doc, s"#" + EstateAssetsID + "-value", "£2,000")
     }
@@ -73,7 +74,7 @@ class OverviewItemViewTest extends ViewTestHelper {
         iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
         "")
 
-      val view = overview_item(overviewRow)
+      val view = overviewItemView(overviewRow)
       val doc = asDocument(view)
 
       val link = doc.getElementById(EstateAssetsID)
@@ -91,7 +92,7 @@ class OverviewItemViewTest extends ViewTestHelper {
         iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
         "")
 
-      val view = overview_item(overviewRow)
+      val view = overviewItemView(overviewRow)
       val doc = asDocument(view)
 
       val link = doc.getElementById(EstateAssetsID)
@@ -109,7 +110,7 @@ class OverviewItemViewTest extends ViewTestHelper {
         iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
         "")
 
-      val view = overview_item(overviewRow)
+      val view = overviewItemView(overviewRow)
       val doc = asDocument(view)
 
       val link = doc.getElementById(EstateAssetsID)

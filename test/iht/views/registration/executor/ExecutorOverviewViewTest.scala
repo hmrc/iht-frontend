@@ -20,6 +20,7 @@ import iht.forms.registration.CoExecutorForms
 import iht.models.CoExecutor
 import iht.testhelpers.CommonBuilder
 import iht.views.html._
+import iht.views.html.ihtHelpers.custom.name
 import iht.views.html.registration.executor.executor_overview
 import iht.views.registration.YesNoQuestionViewBehaviour
 import play.api.data.Form
@@ -35,18 +36,20 @@ class ExecutorOverviewViewTest extends YesNoQuestionViewBehaviour[Option[Boolean
   override def browserTitle = messagesApi("page.iht.registration.executor-overview.browserTitle")
 
   override def form: Form[Option[Boolean]] = executorOverviewForm
+  lazy val executorOverviewView: executor_overview = app.injector.instanceOf[executor_overview]
+  lazy val nameView: name = app.injector.instanceOf[name]
 
   override def formToView: Form[Option[Boolean]] => Appendable =
-    form => executor_overview(form, true,
+    form => executorOverviewView(form, true,
       Seq(CommonBuilder.DefaultCoExecutor1, CommonBuilder.DefaultCoExecutor2),
-      CommonBuilder.DefaultCall1)(createFakeRequest(), messages, formPartialRetriever, appConfig)
+      CommonBuilder.DefaultCall1)(createFakeRequest(), messages)
 
   def editModeViewAsDocument = {
     implicit val request = createFakeRequest()
-    val view = executor_overview(form,
+    val view = executorOverviewView(form,
       true, Seq(),
       CommonBuilder.DefaultCall1,
-      Some(CommonBuilder.DefaultCall2))(createFakeRequest(), messages, formPartialRetriever, appConfig)
+      Some(CommonBuilder.DefaultCall2))(createFakeRequest(), messages)
     asDocument(view)
   }
 
@@ -81,7 +84,7 @@ class ExecutorOverviewViewTest extends YesNoQuestionViewBehaviour[Option[Boolean
     }
 
     "Display executor 1 name in table" in {
-      ihtHelpers.custom.name(CommonBuilder.DefaultCoExecutor1.name.toString).toString must
+      nameView(CommonBuilder.DefaultCoExecutor1.name.toString).toString must
         include(doc.getElementById("executorName-1").text)
     }
 
@@ -95,7 +98,7 @@ class ExecutorOverviewViewTest extends YesNoQuestionViewBehaviour[Option[Boolean
 
     "Display executor 2 name in table" in {
       doc.getElementById("executorName-2").text
-      ihtHelpers.custom.name(CommonBuilder.DefaultCoExecutor2.name.toString).toString must
+      nameView(CommonBuilder.DefaultCoExecutor2.name.toString).toString must
         include(doc.getElementById("executorName-2").text)
     }
 

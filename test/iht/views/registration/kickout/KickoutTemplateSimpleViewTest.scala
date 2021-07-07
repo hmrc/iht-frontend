@@ -18,19 +18,18 @@ package iht.views.registration.kickout
 
 import iht.views.ViewTestHelper
 import iht.views.html.registration.kickout.kickout_template_simple
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 
 
 class KickoutTemplateSimpleViewTest extends ViewTestHelper{
 
   val returnLinkUrl = iht.controllers.registration.applicant.routes.ExecutorOfEstateController.onPageLoad
   val Contents = messagesApi("page.iht.registration.notAnExecutor.kickout.p1")
+  lazy val kickoutTemplateSimpleView: kickout_template_simple = app.injector.instanceOf[kickout_template_simple]
 
   def kickOutTemplateView() = {
     implicit val request = createFakeRequest()
 
-    val view = kickout_template_simple(returnLinkUrl, "Change your answer")(Contents).toString()
+    val view = kickoutTemplateSimpleView(returnLinkUrl, "Change your answer")(Contents).toString()
     asDocument(view)
   }
 

@@ -18,8 +18,6 @@ package iht.views.application.overview
 
 import iht.views.ViewTestHelper
 import iht.views.html.application.overview.overview_sidebar
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 
 class OverviewSidebarViewTest extends ViewTestHelper {
 
@@ -27,18 +25,19 @@ class OverviewSidebarViewTest extends ViewTestHelper {
   lazy val submissionMonthsLeftOver = 5
   lazy val submissionMonthsYear = 12
   lazy val submissionMonthsLeft = 13
+  lazy val overviewSidebarView: overview_sidebar = app.injector.instanceOf[overview_sidebar]
 
  lazy val viewAsDoc = {
     implicit val request = createFakeRequest()
-    asDocument(overview_sidebar(submissionDate, submissionMonthsLeftOver).toString)
+    asDocument(overviewSidebarView(submissionDate, submissionMonthsLeftOver).toString)
   }
   lazy val viewAsDocWithYear = {
     implicit val request = createFakeRequest()
-    asDocument(overview_sidebar(submissionDate, submissionMonthsYear).toString)
+    asDocument(overviewSidebarView(submissionDate, submissionMonthsYear).toString)
   }
   lazy val viewAsDocWithMonths = {
     implicit val request = createFakeRequest()
-    asDocument(overview_sidebar(submissionDate, submissionMonthsLeft).toString)
+    asDocument(overviewSidebarView(submissionDate, submissionMonthsLeft).toString)
   }
 
   "Overview Sidebar view" must {

@@ -18,11 +18,10 @@ package iht.views.application.assets.insurancePolicy
 
 import iht.controllers.application.assets.insurancePolicy.routes
 import iht.testhelpers.CommonBuilder
-import iht.views.application.{ApplicationPageBehaviour, CancelComponent, Guidance}
-import play.api.mvc.Call
-import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_final_guidance
-import play.api.i18n.Messages.Implicits.applicationMessages
 import iht.testhelpers.TestHelper._
+import iht.views.application.{ApplicationPageBehaviour, CancelComponent, Guidance}
+import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_final_guidance
+import play.api.mvc.Call
 
 class InsurancePolicyDetailsGuidanceViewTest extends ApplicationPageBehaviour {
 
@@ -32,9 +31,10 @@ class InsurancePolicyDetailsGuidanceViewTest extends ApplicationPageBehaviour {
   override def pageTitle = messagesApi("iht.estateReport.assets.insurancePolicies.premiumsPaidByOther", deceasedName)
 
   override def browserTitle = messagesApi("iht.estateReport.assets.insurancePolicies.premiumsPaidByOther", messagesApi("iht.the.deceased"))
+  lazy val insurancePolicyDetailsFinalGuidanceView: insurance_policy_details_final_guidance = app.injector.instanceOf[insurance_policy_details_final_guidance]
 
-  override def view:String = insurance_policy_details_final_guidance(giftsLocation, deceasedName)(
-    createFakeRequest(isAuthorised = false), messages, formPartialRetriever, appConfig).toString()
+  override def view:String = insurancePolicyDetailsFinalGuidanceView(giftsLocation, deceasedName)(
+    createFakeRequest(isAuthorised = false), messages).toString()
 
   override def guidance: Guidance = guidance(Set(messagesApi("page.iht.application.insurance.policies.section7.guidance", deceasedName),
     messagesApi("page.iht.application.insurance.policies.section7.guidance2", deceasedName)))

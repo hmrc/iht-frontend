@@ -19,26 +19,25 @@ package iht.views.application.overview
 import iht.viewmodels.application.overview.{NotStarted, OtherDetailsSectionViewModel, OverviewRow}
 import iht.views.ViewTestHelper
 import iht.views.html.application.overview.other_details_section
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.mvc.Call
 
 class OtherDetailsSectionViewTest extends ViewTestHelper {
 
   def dummyOverviewRow = OverviewRow("debts", "", "", NotStarted, Call("", ""), "")
   val dummyOtherDetailsSection = OtherDetailsSectionViewModel(dummyOverviewRow, false, "")
+  lazy val otherDetailsSectionView: other_details_section = app.injector.instanceOf[other_details_section]
 
   "other details section" must {
 
     "have no message keys in html" in {
       implicit val request = createFakeRequest()
-      val view = other_details_section(dummyOtherDetailsSection).toString
+      val view = otherDetailsSectionView(dummyOtherDetailsSection).toString
       noMessageKeysShouldBePresent(view)
     }
 
     "have the correct title" in {
       implicit val request = createFakeRequest()
-      val view = other_details_section(dummyOtherDetailsSection)
+      val view = otherDetailsSectionView(dummyOtherDetailsSection)
       val doc = asDocument(view)
       val assetsSection = doc.getElementById("other-details-section")
       val header = assetsSection.getElementsByTag("h2")
@@ -47,7 +46,7 @@ class OtherDetailsSectionViewTest extends ViewTestHelper {
 
     "contain the Debts row" in {
       implicit val request = createFakeRequest()
-      val view = other_details_section(dummyOtherDetailsSection)
+      val view = otherDetailsSectionView(dummyOtherDetailsSection)
       val doc = asDocument(view)
       assertRenderedById(doc, "debts-row")
     }
@@ -55,7 +54,7 @@ class OtherDetailsSectionViewTest extends ViewTestHelper {
     "show the exemptions link when asked to" in {
       implicit val request = createFakeRequest()
       val viewModel = dummyOtherDetailsSection copy (showClaimExemptionLink = true, ihtReference = "123")
-      val view = other_details_section(viewModel)
+      val view = otherDetailsSectionView(viewModel)
       val doc = asDocument(view)
       val link = doc.getElementById("exemptions-link")
       link.text mustBe messagesApi("page.iht.application.estateOverview.claimExemptions.link")
@@ -64,7 +63,7 @@ class OtherDetailsSectionViewTest extends ViewTestHelper {
 
     "not show the exemptions link when asked not to" in {
       implicit val request = createFakeRequest()
-      val view = other_details_section(dummyOtherDetailsSection)
+      val view = otherDetailsSectionView(dummyOtherDetailsSection)
       val doc = asDocument(view)
       assertNotRenderedById(doc, "exemptions-link")
     }

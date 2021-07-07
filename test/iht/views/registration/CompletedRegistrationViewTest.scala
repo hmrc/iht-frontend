@@ -16,27 +16,26 @@
 
 package iht.views.registration
 
-import iht.views.ViewTestHelper
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import iht.utils._
+import iht.views.ViewTestHelper
 import iht.views.html.registration.completed_registration
 
 class CompletedRegistrationViewTest extends ViewTestHelper{
 
   val ihtRef = "A1A1A1"
+  lazy val completedRegistrationView: completed_registration = app.injector.instanceOf[completed_registration]
 
   "CompletedRegistrationView" must {
 
     "have no message keys in html" in {
       implicit val request = createFakeRequest()
-      val view = completed_registration(ihtRef).toString
+      val view = completedRegistrationView(ihtRef).toString
       noMessageKeysShouldBePresent(view)
     }
 
     "contain the correct title and browser title" in {
       implicit val request = createFakeRequest()
-      val view = completed_registration(ihtRef).toString
+      val view = completedRegistrationView(ihtRef).toString
 
       titleShouldBeCorrect(view, messagesApi("iht.registration.complete"))
       browserTitleShouldBeCorrect(view, messagesApi("iht.registration.complete"))
@@ -44,7 +43,7 @@ class CompletedRegistrationViewTest extends ViewTestHelper{
 
     "contain the correct guidance" in {
       implicit val request = createFakeRequest()
-      val view = completed_registration(ihtRef).toString
+      val view = completedRegistrationView(ihtRef).toString
 
       messagesShouldBePresent(view, messagesApi("page.iht.registration.completedRegistration.ref.title"))
       messagesShouldBePresent(view, messagesApi("page.iht.registration.completedRegistration.ref.text"))
@@ -55,7 +54,7 @@ class CompletedRegistrationViewTest extends ViewTestHelper{
 
     "contain correct formatted reference number" in {
       implicit val request = createFakeRequest()
-      val view = completed_registration(ihtRef).toString
+      val view = completedRegistrationView(ihtRef).toString
 
       messagesShouldBePresent(view, formattedIHTReference(ihtRef))
     }
@@ -63,7 +62,7 @@ class CompletedRegistrationViewTest extends ViewTestHelper{
    "contain button with correct text and target as Estate report page" in {
 
       implicit val request = createFakeRequest()
-      val view = completed_registration(ihtRef).toString
+      val view = completedRegistrationView(ihtRef).toString
       val doc = asDocument(view)
 
       val button = doc.getElementById("go-to-inheritance-tax-report")
@@ -75,7 +74,7 @@ class CompletedRegistrationViewTest extends ViewTestHelper{
     "contain text-link with correct text and target as Save and Exit page" in {
 
       implicit val request = createFakeRequest()
-      val view = completed_registration(ihtRef).toString
+      val view = completedRegistrationView(ihtRef).toString
       val doc = asDocument(view)
 
       val textlink = doc.getElementById("go-to-save-and-exit")

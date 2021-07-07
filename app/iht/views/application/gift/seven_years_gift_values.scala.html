@@ -18,11 +18,16 @@
 
 @import iht.models.application.gifts.PreviousYearsGifts
 @import iht.utils._
-@import iht.views.html._
 @import org.joda.time.LocalDate
 @import iht.models.RegistrationDetails
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
+
+@this(
+    implicit val appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application,
+    nameHelper: ihtHelpers.custom.name,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(
 giftsList: Seq[PreviousYearsGifts],
@@ -32,10 +37,10 @@ totalPastYearsGiftsValueExcludingExemptions: BigDecimal,
 totalExemptionsValue: BigDecimal,
 previousYearsGiftsExemptionsIsDefined: Boolean,
 previousYearsGiftsValueIsDefined: Boolean
-)(implicit request:Request[_], messages: Messages, lang : play.api.i18n.Lang, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+)(implicit request:Request[_], messages: Messages, lang : play.api.i18n.Lang)
 
 
-@iht_main_template_application(title = Messages("iht.estateReport.gifts.valueOfGiftsGivenAway"),
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.gifts.valueOfGiftsGivenAway"),
 browserTitle = Some(Messages("page.iht.application.gifts.sevenYears.values.browserTitle"))
 ){
 
@@ -102,8 +107,8 @@ browserTitle = Some(Messages("page.iht.application.gifts.sevenYears.values.brows
 
       
         @registrationDetails.deceasedDetails.map{ dd=>
-            @ihtHelpers.custom.return_link(
-                Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.custom.name(dd.name)),
+            @returnLink(
+                Messages("page.iht.application.gifts.return.to.givenAwayBy", nameHelper(dd.name)),
                 Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()),
                 appConfig.GiftsValueOfGiftsQuestionID
             )

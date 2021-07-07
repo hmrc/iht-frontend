@@ -20,12 +20,12 @@ import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.exemptions.Charity
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.application.exemption.charity.assets_left_to_charity_value
 import org.scalatest.BeforeAndAfter
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 
 class CharityValueControllerTest extends ApplicationControllerTest with BeforeAndAfter {
@@ -37,20 +37,19 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
   protected abstract class TestController extends FrontendController(mockControllerComponents) with CharityValueController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val assetsLeftToCharityValueView: assets_left_to_charity_value = app.injector.instanceOf[assets_left_to_charity_value]
   }
 
   def assetsLeftToCharityValueController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def assetsLeftToTestControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def createMocksForApplicationWithCharity = {
@@ -125,7 +124,7 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
     "when given a valid charity id and a value by the user on the form, " +
       "the page should redirect to the next one on submission" in {
       createMocksForApplicationWithCharity
-      val valueForm = assetsLeftToCharityValueForm.fill(defaultCharity copy (totalValue = Some(1000)))
+      val valueForm = assetsLeftToCharityValueForm.fill(defaultCharity copy (totalValue = Some(BigDecimal(1000))))
       val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
         host = "localhost:9070",
         data = valueForm.data.toSeq)
@@ -138,7 +137,7 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
     "when given a valid charity id and a value by the user on the form, " +
       "the page should redirect to the next one on submission when not in edit mode" in {
       createMocksForApplicationWithCharity
-      val valueForm = assetsLeftToCharityValueForm.fill(defaultCharity copy (totalValue = Some(1000)))
+      val valueForm = assetsLeftToCharityValueForm.fill(defaultCharity copy (totalValue = Some(BigDecimal(1000))))
       val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
         host = "localhost:9070",
         data = valueForm.data.toSeq)
@@ -151,7 +150,7 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
     "when given a valid charity id and a value by the user on the form, " +
       "the application details must be updated on submission" in {
       createMocksForApplicationWithCharity
-      val valueForm = assetsLeftToCharityValueForm.fill(defaultCharity copy (totalValue = Some(1000)))
+      val valueForm = assetsLeftToCharityValueForm.fill(defaultCharity copy (totalValue = Some(BigDecimal(1000))))
       val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
         host = "localhost:9070",
         data = valueForm.data.toSeq)
@@ -167,7 +166,7 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
     "when given a valid charity id and a value by the user on the form, " +
       "the charity name and number must not be updated on submission" in {
       createMocksForApplicationWithCharity
-      val valueForm = assetsLeftToCharityValueForm.fill(defaultCharity copy (totalValue = Some(1000)))
+      val valueForm = assetsLeftToCharityValueForm.fill(defaultCharity copy (totalValue = Some(BigDecimal(1000))))
       val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
         host = "localhost:9070",
         data = valueForm.data.toSeq)

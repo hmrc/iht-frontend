@@ -23,21 +23,20 @@ import javax.inject.Inject
 import play.api.i18n.I18nSupport
 import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.filter.domicile
 
 import scala.concurrent.Future
 
-class DomicileControllerImpl @Inject()(val formPartialRetriever: FormPartialRetriever,
+class DomicileControllerImpl @Inject()(val domicileView: domicile,
                                        implicit val appConfig: AppConfig,
                                        val cc: MessagesControllerComponents) extends FrontendController(cc) with DomicileController
 
 trait DomicileController extends FrontendController with I18nSupport {
   implicit val appConfig: AppConfig
-  implicit val formPartialRetriever: FormPartialRetriever
-
+  val domicileView: domicile
   def onPageLoad = Action.async {
     implicit request => {
-      Future.successful(Ok(iht.views.html.filter.domicile(domicileForm)))
+      Future.successful(Ok(domicileView(domicileForm)))
     }
   }
 
@@ -47,7 +46,7 @@ trait DomicileController extends FrontendController with I18nSupport {
       val boundForm = domicileForm.bindFromRequest
 
       boundForm.fold(
-        formWithErrors => Future.successful(BadRequest(iht.views.html.filter.domicile(formWithErrors))),
+        formWithErrors => Future.successful(BadRequest(domicileView(formWithErrors))),
         choice => choice.getOrElse("") match {
           case Constants.englandOrWales =>
             Future.successful(Redirect(iht.controllers.filter.routes.FilterJointlyOwnedController.onPageLoad()))

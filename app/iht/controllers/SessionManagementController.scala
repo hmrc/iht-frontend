@@ -16,7 +16,7 @@
 
 package iht.controllers
 
-import iht.config.{AppConfig, IhtFormPartialRetriever}
+import iht.config.AppConfig
 import iht.controllers.auth.IhtBaseController
 import iht.utils.IhtSection
 import javax.inject.Inject
@@ -24,23 +24,23 @@ import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.sign_out
 
 import scala.concurrent.Future
 
 class SessionManagementControllerImpl @Inject()(val authConnector: AuthConnector,
-                                                implicit val formPartialRetriever: IhtFormPartialRetriever,
+                                                val signOutView: sign_out,
                                                 implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents)
   extends FrontendController(cc) with SessionManagementController
 
 trait SessionManagementController extends IhtBaseController with I18nSupport {
   override lazy val ihtSection: IhtSection.Value = IhtSection.Application
-  implicit val formPartialRetriever: FormPartialRetriever
+  val signOutView: sign_out
 
   def signOut: Action[AnyContent] = Action.async {
     implicit request => { // False positive warning. Workaround: scala/bug#11175 -Ywarn-unused:params false positive
-      Future.successful(Ok(iht.views.html.sign_out()).withNewSession)
+      Future.successful(Ok(signOutView()).withNewSession)
     }
   }
 

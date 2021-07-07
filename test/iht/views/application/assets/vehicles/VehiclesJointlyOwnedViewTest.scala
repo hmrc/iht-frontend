@@ -21,14 +21,10 @@ import iht.controllers.application.assets.vehicles.routes._
 import iht.forms.ApplicationForms._
 import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.testhelpers.CommonBuilder
-import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.vehicles.vehicles_jointly_owned
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
-import iht.testhelpers.TestHelper._
 
 class VehiclesJointlyOwnedViewTest extends ShareableElementInputViewBehaviour[ShareableBasicEstateElement] {
 
@@ -36,7 +32,9 @@ class VehiclesJointlyOwnedViewTest extends ShareableElementInputViewBehaviour[Sh
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 
   override def form:Form[ShareableBasicEstateElement] = vehiclesJointlyOwnedForm
-  override def formToView:Form[ShareableBasicEstateElement] => Appendable = form => vehicles_jointly_owned(form, regDetails)
+  lazy val vehiclesJointlyOwnedView: vehicles_jointly_owned = app.injector.instanceOf[vehicles_jointly_owned]
+
+  override def formToView:Form[ShareableBasicEstateElement] => Appendable = form => vehiclesJointlyOwnedView(form, regDetails)
 
   override def pageTitle = messagesApi("page.iht.application.assets.vehicles.jointly.owned.title")
   override def browserTitle = messagesApi("page.iht.application.assets.vehicles.jointly.owned.browserTitle")

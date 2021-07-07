@@ -25,21 +25,21 @@ import iht.controllers.application.ApplicationController
 import iht.models.application.IhtApplication
 import iht.utils.{CommonHelper, DeceasedInfoHelper, SessionHelper, ApplicationStatus => AppStatus}
 import iht.viewmodels.estateReports.YourEstateReportsRowViewModel
+import iht.views.html.estateReports.your_estate_reports
 import javax.inject.Inject
 import play.api.Logging
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
-import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys, Upstream4xxResponse, UpstreamErrorResponse}
+import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys, UpstreamErrorResponse}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class YourEstateReportsControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                                 val ihtConnector: IhtConnector,
                                                 val authConnector: AuthConnector,
-                                                override implicit val formPartialRetriever: FormPartialRetriever,
+                                                val yourEstateReportsView: your_estate_reports,
                                                 implicit val appConfig: AppConfig,
                                                 val cc: MessagesControllerComponents)
   extends FrontendController(cc) with YourEstateReportsController
@@ -49,7 +49,7 @@ trait YourEstateReportsController extends ApplicationController with Logging {
   def cachingConnector: CachingConnector
 
   def ihtConnector: IhtConnector
-
+  val yourEstateReportsView: your_estate_reports
   def onPageLoad: Action[AnyContent] = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     {
       implicit request => {
@@ -74,15 +74,15 @@ trait YourEstateReportsController extends ApplicationController with Logging {
             })
 
             futureViewModels.map(seqOfModels =>
-              Ok(iht.views.html.estateReports.your_estate_reports(seqOfModels, showGuidance(seqOfModels)))
+              Ok(yourEstateReportsView(seqOfModels, showGuidance(seqOfModels)))
                 .withSession(request.session + (SessionKeys.sessionId -> s"session-${UUID.randomUUID}") + (Constants.NINO -> nino)))
           case _ =>
-            Future.successful(Ok(iht.views.html.estateReports.your_estate_reports(Nil, showGuidance = false)).withSession(
+            Future.successful(Ok(yourEstateReportsView(Nil, showGuidance = false)).withSession(
               SessionHelper.ensureSessionHasNino(request.session, userNino) +
                 (SessionKeys.sessionId -> s"session-${UUID.randomUUID}")))
         } recover {
           case e: UpstreamErrorResponse if e.statusCode == 404 =>
-            Ok(iht.views.html.estateReports.your_estate_reports(Nil, showGuidance = false)).withSession(
+            Ok(yourEstateReportsView(Nil, showGuidance = false)).withSession(
               SessionHelper.ensureSessionHasNino(request.session, userNino) +
                 (SessionKeys.sessionId -> s"session-${UUID.randomUUID}")
             )

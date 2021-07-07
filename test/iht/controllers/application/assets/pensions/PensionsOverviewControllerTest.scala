@@ -18,13 +18,12 @@ package iht.controllers.application.assets.pensions
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.application.asset.pensions.pensions_overview
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class PensionsOverviewControllerTest extends ApplicationControllerTest {
 
@@ -32,20 +31,19 @@ class PensionsOverviewControllerTest extends ApplicationControllerTest {
   protected abstract class TestController extends FrontendController(mockControllerComponents) with PensionsOverviewController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val pensionsOverviewView: pensions_overview = app.injector.instanceOf[pensions_overview]
   }
 
   def pensionsOverviewController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def pensionsOverviewControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
   "PensionsOverviewController" must {
     "redirect to login page on PageLoad if the user is not logged in" in {

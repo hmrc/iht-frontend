@@ -18,14 +18,14 @@ package iht.controllers.application.assets.properties
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
+import iht.testhelpers.{CommonBuilder, ContentChecker}
 import iht.utils._
+import iht.views.html.application.asset.properties.property_details_overview
 import play.api.mvc.{MessagesControllerComponents, Request, Result}
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -44,22 +44,19 @@ trait PropertyDetailsOverviewControllerBehaviour extends ApplicationControllerTe
   protected abstract class TestController extends FrontendController(mockControllerComponents) with PropertyDetailsOverviewController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val propertyDetailsOverviewView: property_details_overview = app.injector.instanceOf[property_details_overview]
   }
 
   def propertyDetailsOverviewController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def propertyDetailsOverviewControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   implicit val headerCarrier = FakeHeaders()

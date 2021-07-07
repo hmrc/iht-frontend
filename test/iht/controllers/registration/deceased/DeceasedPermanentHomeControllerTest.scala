@@ -20,15 +20,15 @@ import iht.config.AppConfig
 import iht.controllers.ControllerHelper.Mode
 import iht.forms.registration.DeceasedForms._
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails}
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
+import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.RegistrationKickOutHelper
+import iht.views.html.registration.deceased.deceased_permanent_home
 import org.joda.time.LocalDate
 import play.api.data.Form
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -44,20 +44,18 @@ class DeceasedPermanentHomeControllerTest
   protected abstract class TestController extends FrontendController(mockControllerComponents) with DeceasedPermanentHomeController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val deceasedPermanentHomeView: deceased_permanent_home = app.injector.instanceOf[deceased_permanent_home]
+
   }
 
   def controller = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   // Perform tests.

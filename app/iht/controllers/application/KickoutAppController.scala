@@ -31,7 +31,8 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.iht_kickout_application
+import iht.views.html.application.iht_kickout_final_application
 
 import scala.concurrent.Future
 
@@ -39,7 +40,8 @@ class KickoutAppControllerImpl @Inject()(val metrics: IhtMetrics,
                                          val ihtConnector: IhtConnector,
                                          val cachingConnector: CachingConnector,
                                          val authConnector: AuthConnector,
-                                         implicit val formPartialRetriever: FormPartialRetriever,
+                                         val ihtKickoutApplicationView: iht_kickout_application,
+                                         val ihtKickoutFinalApplicationView: iht_kickout_final_application,
                                          implicit val appConfig: AppConfig,
                                          val cc: MessagesControllerComponents) extends FrontendController(cc) with KickoutAppController with Logging
 trait KickoutAppController extends ApplicationController with StringHelper with TnrbHelper {
@@ -50,7 +52,8 @@ trait KickoutAppController extends ApplicationController with StringHelper with 
   def ihtConnector: IhtConnector
 
   def metrics: IhtMetrics
-
+  val ihtKickoutApplicationView: iht_kickout_application
+  val ihtKickoutFinalApplicationView: iht_kickout_final_application
   def onPageLoad: Action[AnyContent] = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       withRegistrationDetails { regDetails =>
@@ -69,7 +72,7 @@ trait KickoutAppController extends ApplicationController with StringHelper with 
                 applicationLastSection <- cachingConnector.getSingleValue(ApplicationKickOutHelper.applicationLastSectionKey)
                 applicationLastID <- cachingConnector.getSingleValue(ApplicationKickOutHelper.applicationLastIDKey)
               } yield {
-                Ok(iht.views.html.application.iht_kickout_application(kickoutReason, applicationDetails,
+                Ok(ihtKickoutApplicationView(kickoutReason, applicationDetails,
                   applicationLastSection, applicationLastID, summaryParameter1, deceasedName))
               }
 
@@ -160,7 +163,7 @@ trait KickoutAppController extends ApplicationController with StringHelper with 
       withApplicationDetails(userNino) { rd =>
         ad =>
           lazy val ihtReference = CommonHelper.getOrExceptionNoIHTRef(rd.ihtReference)
-          Future.successful(Ok(iht.views.html.application.iht_kickout_final_application(ihtReference)))
+          Future.successful(Ok(ihtKickoutFinalApplicationView(ihtReference)))
       }
     }
   }

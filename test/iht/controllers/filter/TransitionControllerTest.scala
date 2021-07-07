@@ -18,12 +18,11 @@ package iht.controllers.filter
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.MockFormPartialRetriever
 import iht.views.HtmlSpec
+import iht.views.html.filter.use_paper_form
 import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class TransitionControllerTest extends ApplicationControllerTest with HtmlSpec {
 
@@ -33,9 +32,10 @@ class TransitionControllerTest extends ApplicationControllerTest with HtmlSpec {
   }
 
   def controller: TransitionController = new TestController {
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
 
     override def messagesApi: MessagesApi = fakedMessagesApi
+
+    override val usePaperFormView: use_paper_form = app.injector.instanceOf[use_paper_form]
   }
 
   "Transition Controller" must {

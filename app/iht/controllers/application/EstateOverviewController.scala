@@ -24,6 +24,8 @@ import iht.utils.CommonHelper._
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.{ApplicationKickOutNonSummaryHelper, ApplicationStatus, EstateNotDeclarableHelper, ExemptionsGuidanceHelper, RegistrationDetailsHelper, StringHelper, SubmissionDeadlineHelper}
 import iht.viewmodels.application.overview.EstateOverviewViewModel
+import iht.views.html.application.overview.estate_overview_json_error
+import iht.views.html.application.overview.estate_overview
 import javax.inject.Inject
 import org.joda.time.LocalDate
 import play.api.mvc.{MessagesControllerComponents, _}
@@ -31,14 +33,14 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class EstateOverviewControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                              val cachingConnector: CachingConnector,
                                              val authConnector: AuthConnector,
-                                             val formPartialRetriever: FormPartialRetriever,
+                                             val estateOverviewJsonErrorView: estate_overview_json_error,
+                                             val estateOverviewView: estate_overview,
                                              implicit val appConfig: AppConfig,
                                              val cc: MessagesControllerComponents) extends FrontendController(cc) with EstateOverviewController
 
@@ -54,14 +56,15 @@ trait EstateOverviewController extends ApplicationController with ExemptionsGuid
   def cachingConnector: CachingConnector
 
   def ihtConnector: IhtConnector
-
+  val estateOverviewJsonErrorView: estate_overview_json_error
+  val estateOverviewView: estate_overview
   def onPageLoadWithIhtRef(ihtReference: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       def errorHandler: PartialFunction[Throwable, Result] = {
         case ex: UpstreamErrorResponse if ex.statusCode == 500 &&
           ex.getMessage.contains("JSON validation against schema failed") => {
           logger.warn("JSON validation against schema failed. Redirecting to error page", ex)
-          InternalServerError(iht.views.html.application.overview.estate_overview_json_error())
+          InternalServerError(estateOverviewJsonErrorView())
         }
       }
       val nino = getNino(userNino)
@@ -82,7 +85,7 @@ trait EstateOverviewController extends ApplicationController with ExemptionsGuid
                   case Some(call) => Redirect(call)
                   case None => {
                     val viewModel = EstateOverviewViewModel(registrationDetails, applicationDetails, deadlineDate)
-                    Ok(iht.views.html.application.overview.estate_overview(viewModel))
+                    Ok(estateOverviewView(viewModel))
                   }
                 }
               }

@@ -30,14 +30,13 @@ import play.api.mvc.{Call, MessagesControllerComponents, Request}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class QualifyingBodyValueControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                   val cachingConnector: CachingConnector,
                                                   val authConnector: AuthConnector,
-                                                  val formPartialRetriever: FormPartialRetriever,
+                                                  val qualifyingBodyValueView: qualifying_body_value,
                                                   implicit val appConfig: AppConfig,
                                                   val cc: MessagesControllerComponents) extends FrontendController(cc) with QualifyingBodyValueController {
 
@@ -74,11 +73,12 @@ trait QualifyingBodyValueController extends EstateController {
       (appDetails.copy(qualifyingBodies = updatedQBTuple._1), Some(updatedQBTuple._2))
     }
 
+  val qualifyingBodyValueView: qualifying_body_value
   def onPageLoad = authorisedForIht {
     implicit request => {
       withRegistrationDetails { regDetails =>
         Future.successful(Ok(
-          iht.views.html.application.exemption.qualifyingBody.qualifying_body_value(qualifyingBodyValueForm,
+          qualifyingBodyValueView(qualifyingBodyValueForm,
             regDetails,
             submitUrl,
             cancelUrl)))
@@ -89,7 +89,7 @@ trait QualifyingBodyValueController extends EstateController {
   def onEditPageLoad(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       estateElementOnEditPageLoadWithNavigation[QualifyingBody](qualifyingBodyValueForm,
-        qualifying_body_value.apply,
+        qualifyingBodyValueView.apply,
         retrieveQualifyingBodyDetailsOrExceptionIfInvalidID(id),
         editSubmitUrl(id),
         editCancelUrl(id),
@@ -124,7 +124,7 @@ trait QualifyingBodyValueController extends EstateController {
                         implicit request: Request[_]) = {
     estateElementOnSubmitWithIdAndNavigation[QualifyingBody](
       qualifyingBodyValueForm,
-      qualifying_body_value.apply,
+      qualifyingBodyValueView.apply,
       updateApplicationDetails,
       (_, updatedQualifyingBodyID) => locationAfterSuccessfulSave(updatedQualifyingBodyID),
       None,

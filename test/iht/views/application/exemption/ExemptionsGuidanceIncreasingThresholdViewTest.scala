@@ -18,27 +18,24 @@ package iht.views.application.exemption
 
 import iht.views.ViewTestHelper
 import iht.views.html.application.exemption.exemptions_guidance_increasing_threshold
-import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
-import play.api.i18n.Lang
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 
 class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
 
+  lazy val exemptionsGuidanceIncreasingThresholdView: exemptions_guidance_increasing_threshold = app.injector.instanceOf[exemptions_guidance_increasing_threshold]
 
   "exemptions guidance increasing threshold page" must {
 
     "have no message keys in html" in {
       implicit val request = createFakeRequest()
-      val view = exemptions_guidance_increasing_threshold("ihtReference").toString
+      val view = exemptionsGuidanceIncreasingThresholdView("ihtReference").toString
       noMessageKeysShouldBePresent(view)
     }
 
     "show the correct title" in {
       implicit val request = createFakeRequest()
-      val view = exemptions_guidance_increasing_threshold("ihtReference").toString
+      val view = exemptionsGuidanceIncreasingThresholdView("ihtReference").toString
       val doc = asDocument(view)
       val headers: Elements = doc.getElementsByTag("h1")
       headers.size() mustBe 1
@@ -47,7 +44,7 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
 
     "show the correct browser title" in {
       implicit val request = createFakeRequest()
-      val view = exemptions_guidance_increasing_threshold("ihtReference").toString
+      val view = exemptionsGuidanceIncreasingThresholdView("ihtReference").toString
       val doc = asDocument(view)
       assertEqualsValue(doc, "title",
         messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.title") + " " + messagesApi("site.title.govuk"))
@@ -55,7 +52,7 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
 
     "show the correct paragraphs" in {
       implicit val request = createFakeRequest()
-      val view = exemptions_guidance_increasing_threshold("ihtReference").toString
+      val view = exemptionsGuidanceIncreasingThresholdView("ihtReference").toString
       val doc = asDocument(view)
       doc.select("div#Section1 p").text() must include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.start"))
       doc.select("#p1Link").text() must include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.section1.p1.link"))
@@ -75,7 +72,7 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
 
     "show the correct sub headings" in {
       implicit val request = createFakeRequest()
-      val view = exemptions_guidance_increasing_threshold("ihtReference").toString
+      val view = exemptionsGuidanceIncreasingThresholdView("ihtReference").toString
       val doc = asDocument(view)
       val headers: Elements = doc.select("article h2")
       headers.size() mustBe 3
@@ -86,7 +83,7 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
 
     "show the correct bullet points" in {
       implicit val request = createFakeRequest()
-      val view = exemptions_guidance_increasing_threshold("ihtReference").toString
+      val view = exemptionsGuidanceIncreasingThresholdView("ihtReference").toString
       val doc = asDocument(view)
       val bullets: Elements = doc.select("article li")
       bullets.size() mustBe 6
@@ -100,7 +97,7 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
 
     "show a url linked to transfer of threshold page" in {
       implicit val request = createFakeRequest()
-      val view = exemptions_guidance_increasing_threshold("ihtReference").toString
+      val view = exemptionsGuidanceIncreasingThresholdView("ihtReference").toString
       val doc = asDocument(view)
 
       assertRenderedById(doc, "transferThresholdLink")
@@ -111,7 +108,7 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
 
     "show a url linked to IHT400 page" in {
       implicit val request = createFakeRequest()
-      val view = exemptions_guidance_increasing_threshold("ihtReference").toString
+      val view = exemptionsGuidanceIncreasingThresholdView("ihtReference").toString
       val doc = asDocument(view)
 
       assertRenderedById(doc, "iht400Link")
@@ -122,7 +119,7 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
 
     "shows a second url linked to IHT400 page" in {
       implicit val request = createFakeRequest()
-      val view = exemptions_guidance_increasing_threshold("ihtReference").toString
+      val view = exemptionsGuidanceIncreasingThresholdView("ihtReference").toString
       val doc = asDocument(view)
 
       assertRenderedById(doc, "iht400FormLink")
@@ -133,7 +130,7 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
 
     "show button with Continue as the title" in {
       implicit val request = createFakeRequest()
-      val view = exemptions_guidance_increasing_threshold("ihtReference").toString
+      val view = exemptionsGuidanceIncreasingThresholdView("ihtReference").toString
       val doc = asDocument(view)
       val button: Element = doc.getElementById("continue")
 

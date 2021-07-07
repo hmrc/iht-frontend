@@ -19,10 +19,9 @@ package iht.views.iv.failurepages
 import iht.testhelpers.CommonBuilder
 import iht.views.html.iv.failurepages.technical_issue
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 
 class TechnicalIssueViewTest extends GenericNonSubmittablePageBehaviour {
+  lazy val technicalIssueView: technical_issue = app.injector.instanceOf[technical_issue]
 
   def guidanceParagraphs = Set(
     messagesApi("page.iht.iv.failure.youCanAlso")
@@ -32,7 +31,7 @@ class TechnicalIssueViewTest extends GenericNonSubmittablePageBehaviour {
 
   def browserTitle = messagesApi("page.iht.iv.failure.technicalIssue.heading")
 
-  def view: String = technical_issue(CommonBuilder.DefaultCall1.url)(createFakeRequest(), messages, formPartialRetriever, appConfig).toString
+  def view: String = technicalIssueView(CommonBuilder.DefaultCall1.url)(createFakeRequest(), messages).toString
 
   override def exitComponent = Some(
     ExitComponent(

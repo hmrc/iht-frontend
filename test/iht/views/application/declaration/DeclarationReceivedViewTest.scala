@@ -17,11 +17,9 @@
 package iht.views.application.declaration
 
 import iht.testhelpers.CommonBuilder
+import iht.utils._
 import iht.views.ViewTestHelper
 import iht.views.html.application.declaration.declaration_received
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.utils._
 
 class DeclarationReceivedViewTest extends ViewTestHelper {
 
@@ -30,8 +28,8 @@ class DeclarationReceivedViewTest extends ViewTestHelper {
 
   def declarationReceivedView() = {
     implicit val request = createFakeRequest()
-
-    val view = declaration_received(regDetails).toString
+    lazy val declarationReceivedTemplate: declaration_received = app.injector.instanceOf[declaration_received]
+    val view = declarationReceivedTemplate(regDetails).toString
     asDocument(view)
   }
 

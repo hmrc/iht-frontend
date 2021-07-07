@@ -20,19 +20,19 @@ import iht.config.AppConfig
 import javax.inject.Inject
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.non_lead_executor
 
 import scala.concurrent.Future
 
 class NonLeadExecutorControllerImp @Inject()(val cc: MessagesControllerComponents,
-                                          implicit val formPartialRetriever: FormPartialRetriever,
+                                             val nonLeadExecutorView: non_lead_executor,
                                           implicit val appConfig: AppConfig) extends FrontendController(cc) with NonLeadExecutorController
 
 trait NonLeadExecutorController extends FrontendController {
-  implicit val formPartialRetriever: FormPartialRetriever
+  val nonLeadExecutorView: non_lead_executor
   implicit val appConfig: AppConfig
 
   def onPageLoad: Action[AnyContent] = Action.async { implicit request =>
-    Future.successful(Ok(iht.views.html.application.non_lead_executor()))
+    Future.successful(Ok(nonLeadExecutorView()))
   }
 }

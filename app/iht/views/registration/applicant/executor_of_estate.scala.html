@@ -14,31 +14,37 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.utils._
 @import iht.controllers.ControllerHelper._
 @import iht.utils._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
 @import org.apache.commons.lang3.StringEscapeUtils
+@import iht.config.AppConfig
+
+@this(
+    implicit val appConfig: AppConfig,
+    ihtMainTemplateRegistration: iht_main_template_registration,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group,
+    nameHelper: ihtHelpers.custom.name,
+    continueButton: ihtHelpers.custom.continue_button,
+    errorSummary: ihtHelpers.custom.error_summary,
+    form: FormWithCSRF
+)
 
 @(executorOfEstateForm:Form[iht.models.ApplicantDetails], deceasedName: String,
     actionLocation: Call,
-    cancelLocation: Option[Call] = None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+    cancelLocation: Option[Call] = None)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_registration(
+@ihtMainTemplateRegistration(
     title = "",
     browserTitle = Some(Messages("page.iht.registration.applicant.executorOfEstate.browserTitle")),
     cancelUrl=cancelLocation) {
 
-@ihtHelpers.custom.error_summary(executorOfEstateForm)
+@errorSummary(executorOfEstateForm)
 
-@helpers.form(action = actionLocation,'autoComplete -> "off") {
+@form(action = actionLocation,'autoComplete -> "off") {
 
-  @ihtHelpers.standard.input_yes_no_radio_group(
+  @inputYesNoRadioGroup(
     executorOfEstateForm("executorOfEstate"),
-    '_legend -> Messages("page.iht.registration.applicant.executorOfEstate", ihtHelpers.custom.name(deceasedName).toString),
+    '_legend -> Messages("page.iht.registration.applicant.executorOfEstate", nameHelper(deceasedName).toString),
     '_legendClass -> Some("legend-with-heading"),
     '_fieldsetId -> "executor-of-estate",
     '_divClass -> "form-group",
@@ -46,7 +52,7 @@
     '_extraText -> Html("<p>" + Messages("page.iht.registration.applicant.executorOfEstate.p1") + "</p>")
   )
 
-@ihtHelpers.custom.continue_button()
+@continueButton()
 }
 
 }

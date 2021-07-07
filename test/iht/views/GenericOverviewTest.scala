@@ -34,12 +34,13 @@ class GenericOverviewTest extends FakeIhtApp with HtmlSpec {
   lazy val call1 = CommonBuilder.DefaultCall1
   lazy val call2 = CommonBuilder.DefaultCall2
   lazy val call3 = Call("GET", "Call3")
+  lazy val genericOverviewView: generic_overview = app.injector.instanceOf[generic_overview]
 
   "GenericOverview" must {
 
     "display the first guidance paragraph" in {
       implicit val request = createFakeRequest()
-      val result = generic_overview(registrationDetails = regDetails,
+      val result = genericOverviewView(registrationDetails = regDetails,
         seqRows = Nil,
         messagesFileSectionLine1 = "site.button.confirm",
         messagesFileSectionLine2 = "",
@@ -52,7 +53,7 @@ class GenericOverviewTest extends FakeIhtApp with HtmlSpec {
     "have the second paragraph" which {
       "is NOT displayed when message key doesn't exist" in {
         implicit val request = createFakeRequest()
-        val result = generic_overview(registrationDetails = regDetails,
+        val result = genericOverviewView(registrationDetails = regDetails,
           seqRows = Nil,
           messagesFileSectionLine1 = "",
           messagesFileSectionLine2 = "",
@@ -63,7 +64,7 @@ class GenericOverviewTest extends FakeIhtApp with HtmlSpec {
       }
       "is displayed when message key exists" in {
         implicit val request = createFakeRequest()
-        val result = generic_overview(registrationDetails = regDetails,
+        val result = genericOverviewView(registrationDetails = regDetails,
           seqRows = Nil,
           messagesFileSectionLine1 = "",
           messagesFileSectionLine2 = "site.button.confirm",
@@ -78,7 +79,7 @@ class GenericOverviewTest extends FakeIhtApp with HtmlSpec {
 
       def doc = {
         implicit val request = createFakeRequest()
-        val view = generic_overview(registrationDetails = regDetails,
+        val view = genericOverviewView(registrationDetails = regDetails,
           seqRows = Seq(Section(id = "section-id",
             title = Some("section-title"),
             link = Link(linkText = "link-text", linkTextAccessibility = "link-accessibility", linkUrl = call1),

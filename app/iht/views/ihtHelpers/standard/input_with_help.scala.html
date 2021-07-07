@@ -14,11 +14,16 @@
  * limitations under the License.
  *@
 
-@(field: play.api.data.Field, args: (Symbol,Any)*)(implicit messages: Messages)
 @import iht.utils._
-@import iht.views.html._
 @import play.api.i18n._
 @import views.html.helper._
+
+@this(
+    accordionSliderHelpText: ihtHelpers.standard.accordion_slider_help_text
+)
+
+@(field: play.api.data.Field, args: (Symbol,Any)*)(implicit messages: Messages)
+
 @elements = @{ new FieldElements(field.id, field, null, args.toMap, messages) }
 @parentField = @{args.toMap.get('parentField).asInstanceOf[Option[Field]]}
 @parentElements = @{parentField.map(pf => new FieldElements(pf.id, pf, null, Map(), messages) )}
@@ -102,7 +107,7 @@
         <div id="@hintID" class="form-hint@if(elements.args.get('_hintClass).isDefined) { @elements.args.get('_hintClass)}">@elements.args.get('_hintText)</div>
     }
     @if(elements.args.contains('_hintText) && elements.args.contains('_slideOutText)) {
-        @ihtHelpers.standard.accordion_slider_help_text(
+        @accordionSliderHelpText(
         '_hintText -> elements.args.get('_hintText),
         '_slideOutText -> elements.args.get('_slideOutText),
         '_needHighlight -> true)

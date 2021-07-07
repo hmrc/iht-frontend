@@ -31,7 +31,7 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.asset.properties.property_tenure
 
 import scala.concurrent.Future
 
@@ -39,7 +39,7 @@ class PropertyTenureControllerImpl @Inject()(val metrics: IhtMetrics,
                                              val ihtConnector: IhtConnector,
                                              val cachingConnector: CachingConnector,
                                              val authConnector: AuthConnector,
-                                             val formPartialRetriever: FormPartialRetriever,
+                                             val propertyTenureView: property_tenure,
                                              implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with PropertyTenureController
 
@@ -63,12 +63,12 @@ trait PropertyTenureController extends EstateController with StringHelper {
   def ihtConnector: IhtConnector
 
   def cachingConnector: CachingConnector
-
+  val propertyTenureView: property_tenure
   def onPageLoad = authorisedForIht {
     implicit request => {
       withRegistrationDetails { regDetails =>
         val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
-        Future.successful(Ok(iht.views.html.application.asset.properties.property_tenure(propertyTenureForm,
+        Future.successful(Ok(propertyTenureView(propertyTenureForm,
           submitUrl,
           cancelUrl,
           deceasedName)))
@@ -91,7 +91,7 @@ trait PropertyTenureController extends EstateController with StringHelper {
                 throw new RuntimeException("No Property found for the id")
               } {
                 (matchedProperty) =>
-                  Ok(iht.views.html.application.asset.properties.property_tenure(propertyTenureForm.fill(matchedProperty),
+                  Ok(propertyTenureView(propertyTenureForm.fill(matchedProperty),
                     editSubmitUrl(id),
                     editCancelUrl(id),
                     deceasedName))
@@ -141,7 +141,7 @@ trait PropertyTenureController extends EstateController with StringHelper {
       boundForm.fold(
         formWithErrors => {
           LogHelper.logFormError(formWithErrors)
-          Future.successful(BadRequest(iht.views.html.application.asset.properties.property_tenure(formWithErrors,
+          Future.successful(BadRequest(propertyTenureView(formWithErrors,
             submitUrl,
             cancelUrl,
             deceasedName)))

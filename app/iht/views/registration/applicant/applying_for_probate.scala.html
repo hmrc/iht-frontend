@@ -14,35 +14,42 @@
  * limitations under the License.
  *@
 
-@import iht.views.html._
 @import org.apache.commons.lang3.StringEscapeUtils
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateRegistration: iht_main_template_registration,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group,
+    nameHelper: ihtHelpers.custom.name,
+    continueButton: ihtHelpers.custom.continue_button
+)
 
 @(applyingForProbateForm:Form[iht.models.ApplicantDetails], deceasedName: String,
     actionLocation: Call,
-    cancelLocation: Option[Call] = None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+    cancelLocation: Option[Call] = None)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_registration(
+@ihtMainTemplateRegistration(
     title = "",
     browserTitle = Some(Messages("page.iht.registration.applicant.applyingForProbate.browserTitle")),
     cancelUrl=cancelLocation) {
 
-@ihtHelpers.custom.error_summary(applyingForProbateForm)
+@errorSummary(applyingForProbateForm)
 
 @form(action = actionLocation,'autoComplete -> "off") {
 
-  @ihtHelpers.standard.input_yes_no_radio_group(
+  @inputYesNoRadioGroup(
     applyingForProbateForm("isApplyingForProbate"),
-    '_legend -> Messages("page.iht.registration.applicant.applyingForProbate", ihtHelpers.custom.name(deceasedName).toString),
+    '_legend -> Messages("page.iht.registration.applicant.applyingForProbate", nameHelper(deceasedName).toString),
     '_legendClass -> Some("legend-with-heading"),
     '_fieldsetId -> "applying-for-probate",
     '_divClass -> "form-group",
     '_legendIsHeading -> true
   )
 
-    @ihtHelpers.custom.continue_button()
+    @continueButton()
 }
 
 }

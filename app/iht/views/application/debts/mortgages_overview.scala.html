@@ -16,25 +16,30 @@
 
 @import iht.models.application.assets.Property
 @import iht.models.application.debts._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
+@import iht.utils._
 @import iht.models.RegistrationDetails
 @import iht.models.application.debts.Mortgage
+
+@this(
+    implicit val appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(propertyList: List[Property] = List.empty[Property],
 mortgageList: List[Mortgage] = List.empty[Mortgage],
 typesOfOwnership: scala.collection.immutable.ListMap[String, (String, Option[String],Option[Boolean])],
 registrationDetails: RegistrationDetails,
 onCancel: Call,
-onCancelMessageKey: String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+onCancelMessageKey: String)(implicit request:Request[_], messages: Messages)
 
 
 @import iht.utils.{CommonHelper, _}
-@import iht.views.html._
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
-@iht_main_template_application(title = Messages("iht.estateReport.debts.mortgages"),
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.debts.mortgages"),
 browserTitle = Some(Messages("iht.estateReport.debts.mortgages")),
 isFullWidth= false) {
     <p>@Messages("page.iht.application.debts.mortgages.description.p1")</p>
@@ -112,7 +117,7 @@ isFullWidth= false) {
           </section>
 
     }
-    @ihtHelpers.custom.return_link(
+    @returnLink(
         Messages(onCancelMessageKey),
         Some(onCancel),
         appConfig.DebtsMortgagesID

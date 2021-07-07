@@ -22,19 +22,18 @@ import iht.controllers.ControllerHelper.Mode
 import iht.forms.registration.DeceasedForms._
 import iht.models.{DeceasedDetails, RegistrationDetails}
 import iht.utils.DeceasedInfoHelper
-import iht.views.html.registration.{deceased => views}
+import iht.views.html.registration.deceased.deceased_address_question
 import javax.inject.Inject
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.mvc.{AnyContent, MessagesControllerComponents, Request}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class DeceasedAddressQuestionControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                       val cachingConnector: CachingConnector,
                                                       val authConnector: AuthConnector,
-                                                      val formPartialRetriever: FormPartialRetriever,
+                                                      val deceasedAddressQuestionView: deceased_address_question,
                                                       implicit val appConfig: AppConfig,
                                                       val cc: MessagesControllerComponents) extends FrontendController(cc) with DeceasedAddressQuestionController {
 
@@ -46,15 +45,15 @@ trait DeceasedAddressQuestionController extends RegistrationDeceasedController {
   override def guardConditions: Set[Predicate] = guardConditionsDeceasedLastContactAddressQuestion
 
   override val storageFailureMessage = "Storage of registration details fails during deceased address question"
-
+  val deceasedAddressQuestionView: deceased_address_question
   def okForPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.deceased_address_question(form,
+    Ok(deceasedAddressQuestionView(form,
       DeceasedInfoHelper.getDeceasedNameOrDefaultString(name),
       routes.DeceasedAddressQuestionController.onSubmit())
     )
 
   def badRequestForSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_address_question(form,
+    BadRequest(deceasedAddressQuestionView(form,
       DeceasedInfoHelper.getDeceasedNameOrDefaultString(name),
       routes.DeceasedAddressQuestionController.onSubmit())
     )

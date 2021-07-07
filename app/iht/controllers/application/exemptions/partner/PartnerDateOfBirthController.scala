@@ -30,7 +30,6 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -40,7 +39,7 @@ import scala.concurrent.Future
 class PartnerDateOfBirthControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                                  val ihtConnector: IhtConnector,
                                                  val authConnector: AuthConnector,
-                                                 override implicit val formPartialRetriever: FormPartialRetriever,
+                                                 val partnerDateOfBirthView: partner_date_of_birth,
 implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with PartnerDateOfBirthController
 
@@ -50,10 +49,11 @@ trait PartnerDateOfBirthController extends EstateController {
   def cachingConnector: CachingConnector
 
   def ihtConnector: IhtConnector
+  val partnerDateOfBirthView: partner_date_of_birth
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
-      estateElementOnPageLoad[PartnerExemption](spouseDateOfBirthForm, partner_date_of_birth.apply, _.allExemptions.flatMap(_.partner), userNino)
+      estateElementOnPageLoad[PartnerExemption](spouseDateOfBirthForm, partnerDateOfBirthView.apply, _.allExemptions.flatMap(_.partner), userNino)
   }
 
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -64,7 +64,7 @@ trait PartnerDateOfBirthController extends EstateController {
 
         boundForm.fold(
           formWithErrors =>
-            Future.successful(Ok(iht.views.html.application.exemption.partner.partner_date_of_birth(formWithErrors, regDetails))),
+            Future.successful(Ok(partnerDateOfBirthView(formWithErrors, regDetails))),
           pe => saveApplication(getNino(userNino), pe, regDetails)
         )
       }

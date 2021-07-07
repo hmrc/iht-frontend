@@ -14,22 +14,27 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import iht.views.html._
+
+@this(
+    implicit val appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application,
+    nameHelper: ihtHelpers.custom.name,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(deceasedName: String,
 preDeceasedName: String,
 ihtReference: String
-)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(
+@ihtMainTemplateApplication(
 title = Messages("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.title"),
 browserTitle = Some(Messages("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.browserTitle"))
 ){
 
 <div class="panel panel-border-wide">
-    <p id="increased-tnrb-threshold-paragraph1">@Html(Messages("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph1", ihtHelpers.custom.name(deceasedName), ihtHelpers.custom.name(preDeceasedName)))</p>
+    <p id="increased-tnrb-threshold-paragraph1">@Html(Messages("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph1", nameHelper(deceasedName), nameHelper(preDeceasedName)))</p>
 </div>
 
 <div class="form-group">
@@ -42,6 +47,6 @@ browserTitle = Some(Messages("page.iht.application.tnrbEligibilty.increasedTnrbT
     </a>
 </div>
 
-@ihtHelpers.custom.return_link(Messages("page.iht.application.tnrbEligibilty.returnToTnrbEligibilty"), Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()))
+@returnLink(Messages("page.iht.application.tnrbEligibilty.returnToTnrbEligibilty"), Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()))
 
 }

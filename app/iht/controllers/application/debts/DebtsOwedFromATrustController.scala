@@ -29,23 +29,22 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class DebtsOwedFromATrustControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                   val cachingConnector: CachingConnector,
                                                   val authConnector: AuthConnector,
-                                                  val formPartialRetriever: FormPartialRetriever,
+                                                  val owedFromTrustView: owed_from_trust,
                                                   implicit val appConfig: AppConfig,
                                                   val cc: MessagesControllerComponents)
   extends FrontendController(cc) with DebtsOwedFromATrustController
 
 trait DebtsOwedFromATrustController extends EstateController {
 
-
+  val owedFromTrustView: owed_from_trust
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
       estateElementOnPageLoad[BasicEstateElementLiabilities](debtsTrustForm,
-        owed_from_trust.apply, _.allLiabilities.flatMap(_.trust), userNino)
+        owedFromTrustView.apply, _.allLiabilities.flatMap(_.trust), userNino)
   }
 
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -66,7 +65,7 @@ trait DebtsOwedFromATrustController extends EstateController {
         }
 
       estateElementOnSubmit[BasicEstateElementLiabilities](debtsTrustForm,
-        owed_from_trust.apply,
+        owedFromTrustView.apply,
         updateApplicationDetails,
         CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(appConfig.DebtsOwedFromTrustID)),
         userNino

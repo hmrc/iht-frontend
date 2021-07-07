@@ -14,9 +14,9 @@
  * limitations under the License.
  *@
 
+@this()
+
 @(errorType:String)(implicit request:Request[_], messages: Messages)
-
-
 
 <p><strong class="bold">@Messages("error.cannotSend")</strong></p>
 @if(errorType.equals("serviceUnavailable")) {

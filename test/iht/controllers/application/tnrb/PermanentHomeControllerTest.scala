@@ -19,26 +19,25 @@ package iht.controllers.application.tnrb
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.TnrbForms._
-
-import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
+import iht.testhelpers.{CommonBuilder, ContentChecker}
+import iht.views.html.application.tnrb.permanent_home
 import org.joda.time.LocalDate
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class PermanentHomeControllerTest  extends ApplicationControllerTest{
 
   protected abstract class TestController extends FrontendController(mockControllerComponents) with PermanentHomeController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val permanentHomeView: permanent_home = app.injector.instanceOf[permanent_home]
   }
 
   def permanentHomeController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def permanentHomeControllerNotAuthorised = new TestController {
@@ -46,7 +45,6 @@ class PermanentHomeControllerTest  extends ApplicationControllerTest{
 //    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "PermanentHomeController" must {

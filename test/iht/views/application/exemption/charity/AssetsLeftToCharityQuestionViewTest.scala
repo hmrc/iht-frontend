@@ -19,20 +19,19 @@ package iht.views.application.exemption.charity
 import iht.forms.ApplicationForms._
 import iht.models.application.exemptions.BasicExemptionElement
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.TestHelper._
 import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
 import iht.views.html.application.exemption.charity.assets_left_to_charity_question
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.testhelpers.TestHelper._
 
 class AssetsLeftToCharityQuestionViewTest extends YesNoQuestionViewBehaviour[BasicExemptionElement] {
   val regDetails = CommonBuilder.buildRegistrationDetails1
 
   val deceasedName = regDetails.deceasedDetails.map(_.name).fold("")(identity)
+  lazy val assetsLeftToCharityQuestionView: assets_left_to_charity_question = app.injector.instanceOf[assets_left_to_charity_question]
 
   override def form = assetsLeftToCharityQuestionForm
 
-  override def formToView = form => assets_left_to_charity_question(form, regDetails)
+  override def formToView = form => assetsLeftToCharityQuestionView(form, regDetails)
 
   override def pageTitle = messagesApi("iht.estateReport.exemptions.charities.assetsLeftToACharity.title", deceasedName)
 

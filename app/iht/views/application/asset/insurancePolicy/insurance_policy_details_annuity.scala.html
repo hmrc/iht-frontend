@@ -17,32 +17,38 @@
 @import iht.models._
 @import iht.models.application.assets._
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
 @import iht.models.RegistrationDetails
 
+@this(
+    implicit val appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummary: ihtHelpers.custom.error_summary,
+    form: FormWithCSRF,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group,
+    returnLink: ihtHelpers.custom.return_link,
+    nameHelper: ihtHelpers.custom.name
+)
 
 @(insurancePolicyForm: Form[InsurancePolicy],
-registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)}
 @helpCopy() = @{
     <p id="insurance-policy-description">{Messages("page.iht.application.insurance.policies.section6.guidance")}</p>
 }
 
-@iht_main_template_application(title = "",
+@ihtMainTemplateApplication(title = "",
 browserTitle=Some(Messages("page.iht.application.insurance.policies.section6.browserTitle")),
 isFullWidth=false
 ){
-    @ihtHelpers.custom.error_summary(insurancePolicyForm, None, CommonHelper.insurancePoliciesEndLineMessageKey(insurancePolicyForm))
+    @errorSummary(insurancePolicyForm, None, CommonHelper.insurancePoliciesEndLineMessageKey(insurancePolicyForm))
     @form(action = iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsAnnuityController.onSubmit,'autoComplete -> "off") {
 
-        @ihtHelpers.standard.input_yes_no_radio_group(
+        @inputYesNoRadioGroup(
             insurancePolicyForm("isAnnuitiesBought"),
             '_divClass -> Some("form-group"),
-            '_legend -> Html(Messages("iht.estateReport.assets.insurancePolicies.buyAnnuity.question", ihtHelpers.custom.name(deceasedName).toString)),
+            '_legend -> Html(Messages("iht.estateReport.assets.insurancePolicies.buyAnnuity.question", nameHelper(deceasedName).toString)),
             '_legendClass -> Some("legend-with-heading"),
             '_divClass -> Some("form-group"),
             '_legendIsHeading -> true,
@@ -54,7 +60,7 @@ isFullWidth=false
         <div id="action-button" class="form-group">
           <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
-        @ihtHelpers.custom.return_link(
+        @returnLink(
             Messages("site.link.return.insurance.policies"),
             Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()),
             appConfig.InsuranceAnnuityYesNoID

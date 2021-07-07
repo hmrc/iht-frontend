@@ -30,14 +30,13 @@ import play.api.mvc.{Call, MessagesControllerComponents, Request}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class QualifyingBodyNameControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                  val cachingConnector: CachingConnector,
                                                  val authConnector: AuthConnector,
-                                                 val formPartialRetriever: FormPartialRetriever,
+                                                 val qualifyingBodyNameView: qualifying_body_name,
                                                  implicit val appConfig: AppConfig,
                                                  val cc: MessagesControllerComponents) extends FrontendController(cc) with QualifyingBodyNameController
 
@@ -75,12 +74,12 @@ trait QualifyingBodyNameController extends EstateController {
       }
       (appDetails.copy(qualifyingBodies = updatedQBTuple._1), Some(updatedQBTuple._2))
     }
-
+  val qualifyingBodyNameView: qualifying_body_name
   def onPageLoad = authorisedForIht {
     implicit request => {
       withRegistrationDetails { regDetails =>
         Future.successful(Ok(
-          iht.views.html.application.exemption.qualifyingBody.qualifying_body_name(qualifyingBodyNameForm,
+          qualifyingBodyNameView(qualifyingBodyNameForm,
             regDetails,
             submitUrl,
             cancelUrl)))
@@ -91,7 +90,7 @@ trait QualifyingBodyNameController extends EstateController {
   def onEditPageLoad(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       estateElementOnEditPageLoadWithNavigation[QualifyingBody](qualifyingBodyNameForm,
-        qualifying_body_name.apply,
+        qualifyingBodyNameView.apply,
         retrieveQualifyingBodyDetailsOrExceptionIfInvalidID(id),
         editSubmitUrl(id),
         editCancelUrl(id),
@@ -116,7 +115,7 @@ trait QualifyingBodyNameController extends EstateController {
                       (implicit request: Request[_]) = {
     estateElementOnSubmitWithIdAndNavigation[QualifyingBody](
       qualifyingBodyNameForm,
-      qualifying_body_name.apply,
+      qualifyingBodyNameView.apply,
       updateApplicationDetails,
       (_, updatedQualifyingBodyID) => locationAfterSuccessfulSave(updatedQualifyingBodyID),
       None,

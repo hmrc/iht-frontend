@@ -17,16 +17,13 @@
 package iht.views.application.overview
 
 import iht.testhelpers.CommonBuilder
-import iht.utils.CommonHelper
+import iht.testhelpers.TestHelper._
 import iht.viewmodels.application.overview._
 import iht.views.ViewTestHelper
 import iht.views.html.application.overview.{estate_overview, overview_sidebar}
 import org.joda.time.LocalDate
 import org.jsoup.nodes.Element
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.mvc.Call
-import iht.testhelpers.TestHelper._
 
 class EstateOverviewViewTest extends ViewTestHelper{
 
@@ -70,20 +67,22 @@ class EstateOverviewViewTest extends ViewTestHelper{
     increasingThresholdRow = Some(dummyOverviewRow),
     submissionMonthsLeft = 5
   )
+  lazy val estateOverviewView: estate_overview = app.injector.instanceOf[estate_overview]
+  lazy val overviewSidebarView: overview_sidebar = app.injector.instanceOf[overview_sidebar]
 
   "Estate overview view" must {
 
     "have no message keys in html" in {
       implicit val request = createFakeRequest()
 
-      val view = estate_overview(dummyViewModel).toString
+      val view = estateOverviewView(dummyViewModel).toString
       noMessageKeysShouldBePresent(view)
     }
 
     "contain the correct guidance text" in {
       implicit val request = createFakeRequest()
 
-      val view = estate_overview(dummyViewModel).toString
+      val view = estateOverviewView(dummyViewModel).toString
       val doc = asDocument(view)
       view must include(messagesApi("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text2"))
     }
@@ -91,7 +90,7 @@ class EstateOverviewViewTest extends ViewTestHelper{
     "contain the assets and gifts section" in {
       implicit val request = createFakeRequest()
 
-      val view = estate_overview(dummyViewModel).toString
+      val view = estateOverviewView(dummyViewModel).toString
       val doc = asDocument(view)
       assertRenderedById(doc, "assets-gifts-section")
     }
@@ -99,7 +98,7 @@ class EstateOverviewViewTest extends ViewTestHelper{
     "contain a sidebar with the deadline date" in {
       implicit val request = createFakeRequest()
 
-      val view = estate_overview(dummyViewModel).toString
+      val view = estateOverviewView(dummyViewModel).toString
       view must include(messagesApi("page.iht.application.overview.timeScale.guidance"))
       view must include("01 Apr 2016")
     }
@@ -107,14 +106,14 @@ class EstateOverviewViewTest extends ViewTestHelper{
     "contain a sidebar with the 'Go to your Inheritance Tax estate reports' link" in {
       implicit val request = createFakeRequest()
 
-      val view = estate_overview(dummyViewModel).toString
+      val view = estateOverviewView(dummyViewModel).toString
       view must include(messagesApi("iht.estateReport.goToEstateReports"))
     }
 
     "show the correct 'Go to your Inheritance Tax estate reports' link" in {
       implicit val request = createFakeRequest()
       val expectedUrl = "/inheritance-tax/estate-report"
-      val view = overview_sidebar("", 5).toString
+      val view = overviewSidebarView("", 5).toString
       val doc = asDocument(view)
       assertRenderedById(doc, "return-to-estate-report-link")
       val link: Element = doc.getElementById("return-to-estate-report-link")
@@ -125,7 +124,7 @@ class EstateOverviewViewTest extends ViewTestHelper{
     "contain the threshold section" in {
       implicit val request = createFakeRequest()
 
-      val view = estate_overview(dummyViewModel).toString
+      val view = estateOverviewView(dummyViewModel).toString
       val doc = asDocument(view)
       assertRenderedById(doc, "threshold-section")
     }
@@ -135,7 +134,7 @@ class EstateOverviewViewTest extends ViewTestHelper{
 
       val viewModel = dummyViewModel copy (otherDetailsSection = Some(dummyOtherDetailsSection))
 
-      val view = estate_overview(viewModel).toString
+      val view = estateOverviewView(viewModel).toString
       val doc = asDocument(view)
       assertRenderedById(doc, "other-details-section")
     }
@@ -143,7 +142,7 @@ class EstateOverviewViewTest extends ViewTestHelper{
     "not contain the other details section when not given one" in {
       implicit val request = createFakeRequest()
 
-      val view = estate_overview(dummyViewModel).toString
+      val view = estateOverviewView(dummyViewModel).toString
       val doc = asDocument(view)
       assertNotRenderedById(doc, "other-details-section")
     }
@@ -153,7 +152,7 @@ class EstateOverviewViewTest extends ViewTestHelper{
 
       val viewModel = dummyViewModel copy (reducingEstateValueSection = Some(dummyReducingEstateValueSection))
 
-      val view = estate_overview(viewModel).toString
+      val view = estateOverviewView(viewModel).toString
       val doc = asDocument(view)
       assertRenderedById(doc, "reducing-estate-value-section")
     }
@@ -161,7 +160,7 @@ class EstateOverviewViewTest extends ViewTestHelper{
     "not contain the reducing the estate section when not given one" in {
       implicit val request = createFakeRequest()
 
-      val view = estate_overview(dummyViewModel).toString
+      val view = estateOverviewView(dummyViewModel).toString
       val doc = asDocument(view)
       assertNotRenderedById(doc, "reducing-estate-value-section")
     }
@@ -172,7 +171,7 @@ class EstateOverviewViewTest extends ViewTestHelper{
       val viewModel = dummyViewModel copy (
         reducingEstateValueSection = Some(dummyReducingEstateValueSection),
         grandTotalRow = Some(OverviewRowWithoutLink("grand-total", "", "", "")))
-      val view = estate_overview(viewModel).toString
+      val view = estateOverviewView(viewModel).toString
       val doc = asDocument(view)
       assertRenderedById(doc, "grand-total-row")
     }
@@ -180,7 +179,7 @@ class EstateOverviewViewTest extends ViewTestHelper{
     "not contain the grand total when not given one" in {
       implicit val request = createFakeRequest()
 
-      val view = estate_overview(dummyViewModel).toString
+      val view = estateOverviewView(dummyViewModel).toString
       val doc = asDocument(view)
       assertNotRenderedById(doc, "grand-total")
     }
@@ -195,7 +194,7 @@ class EstateOverviewViewTest extends ViewTestHelper{
       val applicationDetails = appDetails copy (allLiabilities = Some(CommonBuilder.buildEveryLiability))
       val estateOverviewViewModel = EstateOverviewViewModel(regDetails, applicationDetails, new LocalDate(2016, 4, 1))
 
-      val view = estate_overview(estateOverviewViewModel)
+      val view = estateOverviewView(estateOverviewViewModel)
       val doc = asDocument(view)
 
       assertRenderedById(doc, EstateDebtsID + "-row")
@@ -216,7 +215,7 @@ class EstateOverviewViewTest extends ViewTestHelper{
                                                 allExemptions = exemptions)
       val estateOverviewViewModel = EstateOverviewViewModel(regDetails, applicationDetails, new LocalDate(2016, 4, 1))
 
-      val view = estate_overview(estateOverviewViewModel)
+      val view = estateOverviewView(estateOverviewViewModel)
       val doc = asDocument(view)
 
       assertRenderedById(doc, EstateDebtsID + "-row")
@@ -230,7 +229,7 @@ class EstateOverviewViewTest extends ViewTestHelper{
 
       val viewModel = dummyViewModel
 
-      val view = estate_overview(viewModel).toString
+      val view = estateOverviewView(viewModel).toString
       val doc = asDocument(view)
 
       assertEqualsValue(doc, "a#continue-to-declaration", messagesApi("iht.continue"))

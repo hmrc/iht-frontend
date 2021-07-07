@@ -22,19 +22,19 @@ import iht.controllers.registration.{RegistrationController, routes => registrat
 import iht.forms.registration.CoExecutorForms
 import iht.metrics.IhtMetrics
 import iht.models.RegistrationDetails
+import iht.views.html.registration.executor.executor_overview
 import javax.inject.Inject
 import play.api.data.Form
 import play.api.mvc.{AnyContent, Call, MessagesControllerComponents, Request}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class ExecutorOverviewControllerImpl @Inject()(val metrics: IhtMetrics,
                                                val cachingConnector: CachingConnector,
                                                val authConnector: AuthConnector,
-                                               val formPartialRetriever: FormPartialRetriever,
+                                               val executorOverviewView: executor_overview,
                                                implicit val appConfig: AppConfig,
                                                val cc: MessagesControllerComponents) extends FrontendController(cc) with ExecutorOverviewController
 
@@ -47,13 +47,13 @@ trait ExecutorOverviewController extends RegistrationController with CoExecutorF
 
   def submitRoute = routes.ExecutorOverviewController.onSubmit()
   def editSubmitRoute = routes.ExecutorOverviewController.onEditSubmit()
-
+  val executorOverviewView: executor_overview
   private def badRequest(rd: RegistrationDetails, submitRoute: Call, showCancelRoute: Boolean,
                          formWithErrors: Form[Option[Boolean]], request: Request[AnyContent]) =
     {
       implicit val req = request
       Future.successful(
-        BadRequest(iht.views.html.registration.executor.executor_overview(
+        BadRequest(executorOverviewView(
           formWithErrors,
           rd.areOthersApplyingForProbate.get,
           rd.coExecutors,
@@ -65,7 +65,7 @@ trait ExecutorOverviewController extends RegistrationController with CoExecutorF
     {
       implicit val req = request
       Future.successful(
-        Ok(iht.views.html.registration.executor.executor_overview(executorOverviewForm,
+        Ok(executorOverviewView(executorOverviewForm,
           rd.areOthersApplyingForProbate.getOrElse(false),
           rd.coExecutors,
           submitRoute,

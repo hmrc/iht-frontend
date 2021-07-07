@@ -23,20 +23,17 @@ import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.testhelpers.CommonBuilder
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.household.household_jointly_owned
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
-import iht.testhelpers.TestHelper._
 
 class HouseholdJointlyOwnedViewTest extends ShareableElementInputViewBehaviour[ShareableBasicEstateElement] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+  lazy val householdJointlyOwnedView: household_jointly_owned = app.injector.instanceOf[household_jointly_owned]
 
   override def form:Form[ShareableBasicEstateElement] = householdJointlyOwnedForm
-  override def formToView:Form[ShareableBasicEstateElement] => Appendable = form => household_jointly_owned(form, regDetails)
+  override def formToView:Form[ShareableBasicEstateElement] => Appendable = form => householdJointlyOwnedView(form, regDetails)
 
   override def pageTitle = messagesApi("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title", deceasedName)
   override def browserTitle = messagesApi("page.iht.application.assets.household.joint.browserTitle")

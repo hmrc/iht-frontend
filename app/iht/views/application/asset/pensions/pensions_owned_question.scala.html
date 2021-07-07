@@ -19,28 +19,35 @@
 @import iht.models._
 @import iht.models.application.assets.PrivatePension
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group,
+    errorSummaryOverrideKeys: ihtHelpers.custom.error_summary_override_keys,
+    nameHelper: ihtHelpers.custom.name,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(pensionsOwnedQuestionForm: Form[PrivatePension],
-registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)}
 
-@iht_main_template_application(
+@ihtMainTemplateApplication(
     title = "",
     browserTitle = Some(Messages("page.iht.application.pensions.isOwned.browserTitle")),
     isFullWidth=false
 ){
-    @ihtHelpers.custom.error_summary_override_keys(pensionsOwnedQuestionForm, Constants.AppSectionPrivatePension)
+    @errorSummaryOverrideKeys(pensionsOwnedQuestionForm, Constants.AppSectionPrivatePension)
 
     @form(action = iht.controllers.application.assets.pensions.routes.PensionsOwnedQuestionController.onSubmit,'autoComplete -> "off") {
 
-            @ihtHelpers.standard.input_yes_no_radio_group(
+            @inputYesNoRadioGroup(
             pensionsOwnedQuestionForm("isOwned"),
-            '_legend -> Html(Messages("page.iht.application.pensions.isOwned.title",ihtHelpers.custom.name(deceasedName).toString)),
+            '_legend -> Html(Messages("page.iht.application.pensions.isOwned.title", nameHelper(deceasedName).toString)),
             '_legendClass -> "legend-with-heading",
             '_shownElementNo -> Some("mortgage-guidance-panel"),
             '_hiddenElementYes -> Some("mortgage-guidance-panel"),
@@ -56,8 +63,8 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 
 
 
-        @ihtHelpers.custom.return_link(
-            Messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(deceasedName)),
+        @returnLink(
+            Messages("page.iht.application.return.to.assetsOf", nameHelper(deceasedName)),
             Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
             appConfig.AppSectionPrivatePensionID
         )

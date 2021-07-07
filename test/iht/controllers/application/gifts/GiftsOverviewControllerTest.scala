@@ -22,11 +22,11 @@ import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.testhelpers._
 import iht.utils._
+import iht.views.html.application.gift.gifts_overview
 import org.mockito.ArgumentMatchers._
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -36,20 +36,19 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
   protected abstract class TestController extends FrontendController(mockControllerComponents) with GiftsOverviewController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val giftsOverviewView: gifts_overview = app.injector.instanceOf[gifts_overview]
   }
 
   def giftsOverviewController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def giftsOverviewControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def createMocksForRegistrationAndApplication(rd: RegistrationDetails, ad: ApplicationDetails) = {

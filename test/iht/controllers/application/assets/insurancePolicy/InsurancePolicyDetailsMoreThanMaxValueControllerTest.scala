@@ -19,31 +19,30 @@ package iht.controllers.application.assets.insurancePolicy
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_more_than_max_value
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class InsurancePolicyDetailsMoreThanMaxValueControllerTest extends ApplicationControllerTest{
 
   protected abstract class TestController extends FrontendController(mockControllerComponents) with InsurancePolicyDetailsMoreThanMaxValueController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val insurancePolicyDetailsMoreThanMaxValueView: insurance_policy_details_more_than_max_value = app.injector.instanceOf[insurance_policy_details_more_than_max_value]
   }
 
   def controller = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "InsurancePolicyDetailsMoreThanMaxValueController" must {

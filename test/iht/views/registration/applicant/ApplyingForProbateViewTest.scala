@@ -20,8 +20,6 @@ import iht.forms.registration.ApplicantForms.applyingForProbateForm
 import iht.models.ApplicantDetails
 import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.applicant.applying_for_probate
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import iht.views.registration.YesNoQuestionViewBehaviour
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
@@ -37,9 +35,10 @@ class ApplyingForProbateViewTest extends YesNoQuestionViewBehaviour[ApplicantDet
   override def browserTitle = messagesApi("page.iht.registration.applicant.applyingForProbate.browserTitle")
 
   override def form: Form[ApplicantDetails] = applyingForProbateForm
+  lazy val applyingForProbateView: applying_for_probate = app.injector.instanceOf[applying_for_probate]
 
   override def formToView: Form[ApplicantDetails] => Appendable =
-    form => applying_for_probate(form, name, CommonBuilder.DefaultCall1)
+    form => applyingForProbateView(form, name, CommonBuilder.DefaultCall1)
 
   "Applying For Probate View" must {
     behave like yesNoQuestion

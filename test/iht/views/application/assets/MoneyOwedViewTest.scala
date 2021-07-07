@@ -31,8 +31,9 @@ class MoneyOwedViewTest extends ShareableElementInputViewBehaviour[BasicEstateEl
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 
+  lazy val moneyOwedView: money_owed = app.injector.instanceOf[money_owed]
   override def form:Form[BasicEstateElement] = moneyOwedForm
-  override def formToView:Form[BasicEstateElement] => Appendable = form => money_owed(form, regDetails)
+  override def formToView:Form[BasicEstateElement] => Appendable = form => moneyOwedView(form, regDetails)
 
   override def pageTitle = messagesApi("iht.estateReport.assets.moneyOwed", deceasedName)
   override def browserTitle = messagesApi("iht.estateReport.assets.moneyOwed", messagesApi("iht.the.deceased"))

@@ -19,33 +19,31 @@ package iht.controllers.application.assets.insurancePolicy
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.assets.InsurancePolicy
-
-import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
+import iht.testhelpers.{CommonBuilder, ContentChecker}
 import iht.utils.DeceasedInfoHelper
+import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_final_guidance
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationControllerTest {
 
   protected abstract class TestController extends FrontendController(mockControllerComponents) with InsurancePolicyDetailsFinalGuidanceController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val insurancePolicyDetailsFinalGuidanceView: insurance_policy_details_final_guidance = app.injector.instanceOf[insurance_policy_details_final_guidance]
   }
 
   def insurancePolicyDetailsFinalGuidanceController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def insurancePolicyDetailsFinalGuidanceControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   val registrationDetails = CommonBuilder.buildRegistrationDetails copy(

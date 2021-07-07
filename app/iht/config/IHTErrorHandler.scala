@@ -24,19 +24,23 @@ import play.api.mvc.{Request, RequestHeader, Result}
 import play.twirl.api.Html
 import uk.gov.hmrc.http.UpstreamErrorResponse
 import uk.gov.hmrc.play.bootstrap.frontend.http.FrontendErrorHandler
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.{iht_error_template, iht_not_found_template}
+import iht.views.html.registration.registration_generic_error
+import iht.views.html.application.application_generic_error
 
 class IHTErrorHandler @Inject()(val configuration: Configuration,
-                                val messagesApi: MessagesApi,
-                                implicit val formPartialRetriever: FormPartialRetriever,
-                                implicit val appConfig: AppConfig) extends FrontendErrorHandler {
+                                val ihtErrorTemplateView: iht_error_template,
+                                val ihtNotFoundTemplateView: iht_not_found_template,
+                                val registrationGenericErrorView: registration_generic_error,
+                                val applicationGenericErrorView: application_generic_error,
+                                val messagesApi: MessagesApi) extends FrontendErrorHandler {
 
   override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: Request[_]): Html = {
-    iht.views.html.iht_error_template()
+    ihtErrorTemplateView()
   }
 
   override def notFoundTemplate(implicit request: Request[_]): Html = {
-    iht.views.html.iht_not_found_template(
+    ihtNotFoundTemplateView(
       Messages("global.error.pageNotFound404.title"),
       Messages("global.error.pageNotFound404.heading"),
       Messages("global.error.pageNotFound404.message")
@@ -45,8 +49,8 @@ class IHTErrorHandler @Inject()(val configuration: Configuration,
 
   private[config] def desInternalServerErrorTemplate(implicit request: Request[_]): Html = {
     request.uri match {
-      case s: String if s.contains("/registration/") => iht.views.html.registration.registration_generic_error()
-      case s: String if s.contains("/estate-report/") => iht.views.html.application.application_generic_error()
+      case s: String if s.contains("/registration/") => registrationGenericErrorView()
+      case s: String if s.contains("/estate-report/") => applicationGenericErrorView()
       case _ =>     standardErrorTemplate(
         Messages("global.error.InternalServerError500.title"),
         Messages("global.error.InternalServerError500.heading"),

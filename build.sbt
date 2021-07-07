@@ -10,7 +10,6 @@ lazy val appDependencies: Seq[ModuleID] = AppDependencies()
 
 lazy val plugins : Seq[Plugins] = Seq(
   play.sbt.PlayScala,
-  SbtAutoBuildPlugin,
   SbtDistributablesPlugin
 )
 lazy val playSettings : Seq[Setting[_]] = Seq.empty
@@ -54,6 +53,11 @@ lazy val microservice = Project(appName, file("."))
   .settings(integrationTestSettings())
   .settings(majorVersion := 6)
   .settings(isPublicArtefact := true)
+  .settings(TwirlKeys.templateImports ++= Seq(
+    "uk.gov.hmrc.play.views.html.helpers._",
+    "uk.gov.hmrc.play.views.html.layouts._",
+    "iht.views.html._"
+  ))
   // ***************
   // Use the silencer plugin to suppress warnings from unused imports in compiled twirl templates
   scalacOptions += "-P:silencer:pathFilters=views;routes;--feature"

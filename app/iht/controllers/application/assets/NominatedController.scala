@@ -31,13 +31,12 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class NominatedControllerImpl @Inject()(val metrics: IhtMetrics,
                                         val ihtConnector: IhtConnector,
                                         val cachingConnector: CachingConnector,
                                         val authConnector: AuthConnector,
-                                        val formPartialRetriever: FormPartialRetriever,
+                                        val nominatedView: nominated,
                                         implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with NominatedController {
 }
@@ -45,10 +44,10 @@ val cc: MessagesControllerComponents) extends FrontendController(cc) with Nomina
 trait NominatedController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsNominatedAssets)
 
-
+  val nominatedView: nominated
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
-      estateElementOnPageLoad[BasicEstateElement](nominatedForm, nominated.apply, _.allAssets.flatMap(_.nominated), userNino)
+      estateElementOnPageLoad[BasicEstateElement](nominatedForm, nominatedView.apply, _.allAssets.flatMap(_.nominated), userNino)
   }
 
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -68,7 +67,7 @@ trait NominatedController extends EstateController {
           (updatedAD, None)
         }
       estateElementOnSubmit[BasicEstateElement](nominatedForm,
-        nominated.apply,
+        nominatedView.apply,
         updateApplicationDetails,
         CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(appConfig.AppSectionNominatedID)),
         userNino

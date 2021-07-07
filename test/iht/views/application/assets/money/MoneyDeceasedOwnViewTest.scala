@@ -20,24 +20,21 @@ import iht.controllers.application.assets.money.routes
 import iht.controllers.application.assets.money.routes._
 import iht.forms.ApplicationForms._
 import iht.models.application.basicElements.ShareableBasicEstateElement
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.utils.CommonHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.money.money_deceased_own
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
-import iht.testhelpers.TestHelper
-import iht.utils.CommonHelper
 
 class MoneyDeceasedOwnViewTest  extends ShareableElementInputViewBehaviour[ShareableBasicEstateElement] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+  lazy val moneyDeceasedOwnView: money_deceased_own = app.injector.instanceOf[money_deceased_own]
 
   override def form:Form[ShareableBasicEstateElement] = moneyFormOwn
-  override def formToView:Form[ShareableBasicEstateElement] => Appendable = form => money_deceased_own(form, regDetails)
+  override def formToView:Form[ShareableBasicEstateElement] => Appendable = form => moneyDeceasedOwnView(form, regDetails)
 
   override def pageTitle = messagesApi("iht.estateReport.assets.moneyOwned", deceasedName)
   override def browserTitle = messagesApi("page.iht.application.assets.money.deceased.browserTitle")

@@ -20,15 +20,14 @@ import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.controllers.application.exemptions.charity.CharitiesOverviewController
 import iht.models.application.exemptions.Charity
-
-import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
+import iht.testhelpers.{CommonBuilder, ContentChecker}
 import iht.utils._
+import iht.views.html.application.exemption.charity.charities_overview
 import org.mockito.Mockito.when
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class CharitiesOverviewControllerTest extends ApplicationControllerTest {
 
@@ -37,6 +36,8 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
   protected abstract class TestController extends FrontendController(mockControllerComponents) with CharitiesOverviewController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val charitiesOverviewView: charities_overview = app.injector.instanceOf[charities_overview]
+
   }
 
   val applicationDetailsWithCharityLeftTrue = CommonBuilder.buildApplicationDetails.copy(
@@ -47,8 +48,6 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def charitiesOverviewControllerNotAuthorised = new TestController {
@@ -56,7 +55,6 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
     override val authConnector = mockAuthConnector
     override val ihtConnector = mockIhtConnector
 
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "Charity exemptions controller" must {

@@ -17,12 +17,18 @@
 @import iht.controllers.application.exemptions.qualifyingBody.routes._
 @import iht.models.application.exemptions._
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 
+@this(
+    implicit val appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application,
+    genericOverviewItem: ihtHelpers.custom.generic_overview_item,
+    genericOverviewStatusLink: ihtHelpers.custom.generic_overview_status_link,
+    returnLink: ihtHelpers.custom.return_link,
+    nameHelper: ihtHelpers.custom.name
+)
 
-@(qualifyingBody:Option[QualifyingBody]=None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@(qualifyingBody:Option[QualifyingBody]=None)(implicit request:Request[_], messages: Messages)
 
 
 @returnId() = @{
@@ -34,7 +40,7 @@
     }
 }
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.qualifyingBodyAdd"),
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.assets.qualifyingBodyAdd"),
 browserTitle = Some(Messages("page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.browserTitle")),
 isFullWidth = false) {
 
@@ -46,17 +52,17 @@ isFullWidth = false) {
 
         @defining(qualifyingBody.flatMap(_.name))  { qualifyingBodyName =>
 
-                @ihtHelpers.custom.generic_overview_item(
+                @genericOverviewItem(
                     title = Messages("iht.estateReport.qualifyingBodies.qualifyingBodyName"),
                     name = "qualifyingBody.detailsOverview.name",
                     id = appConfig.ExemptionsOtherNameID,
-                    value = ihtHelpers.custom.name(qualifyingBodyName).toString(),
+                    value = nameHelper(qualifyingBodyName).toString(),
                     valueScreenReader = "",
                     link = qualifyingBodyId match {
                         case Some(id) => Some(QualifyingBodyNameController.onEditPageLoad(qualifyingBodyId))
                         case None => Some(QualifyingBodyNameController.onPageLoad)
                     },
-                    linkText=ihtHelpers.custom.generic_overview_status_link(
+                    linkText=genericOverviewStatusLink(
                         isComplete = qualifyingBodyName match {
                             case Some(name) => Some(true)
                             case None => None
@@ -74,7 +80,7 @@ isFullWidth = false) {
 
         @defining(qualifyingBody.flatMap(_.totalValue))  { qualifyingBodyValue =>
 
-                @ihtHelpers.custom.generic_overview_item(
+                @genericOverviewItem(
                     title = Messages("page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.value.title"),
                     name = "qualifyingBody.detailsOverview.value",
                     id = appConfig.ExemptionsOtherValueID,
@@ -86,7 +92,7 @@ isFullWidth = false) {
                     link = qualifyingBodyId match {
                         case Some(id) => Some(QualifyingBodyValueController.onEditPageLoad(qualifyingBodyId))
                         case None => Some(QualifyingBodyValueController.onPageLoad) } ,
-                    linkText=ihtHelpers.custom.generic_overview_status_link(
+                    linkText=genericOverviewStatusLink(
                         isComplete = qualifyingBodyValue match {
                             case Some(name) => Some(true)
                             case None => None
@@ -105,7 +111,7 @@ isFullWidth = false) {
     </ul>
 </section>
 <p>
-@ihtHelpers.custom.return_link(
+@returnLink(
     Messages("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies"),
     Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad()),
     returnId.toString

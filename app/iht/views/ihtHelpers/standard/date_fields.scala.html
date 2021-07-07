@@ -14,6 +14,14 @@
  * limitations under the License.
  *@
 
+@import play.api.i18n._
+@import views.html.helper._
+@import uk.gov.hmrc.play.mappers.DateFields._
+
+@this(
+dateInput: ihtHelpers.standard.date_input
+)
+
 @(
     formItem:Form[_],
     fieldName: String,
@@ -21,11 +29,6 @@
     childFormName: Option[String],
     args:(Symbol,Any)*
 )(implicit messages: Messages)
-
-@import play.api.i18n._
-@import views.html.helper._
-@import iht.views.html.ihtHelpers.standard.date_input
-@import uk.gov.hmrc.play.mappers.DateFields._
 
 @childFormField={@if(!childFormName.getOrElse("").isEmpty){@childFormName.getOrElse("").}else{}}
 @elements = @{ new FieldElements(formItem(childFormField+fieldName).id, formItem(childFormField+fieldName),null,args.toMap, messages) }
@@ -71,7 +74,7 @@
 
 
     @dayElem = @{fieldName + "." + day}
-    @date_input(
+    @dateInput(
     formItem(childFormField+dayElem),
     '_label -> Messages("iht.date.day"),
     '_labelClass -> "label--inlineTextinput",
@@ -85,7 +88,7 @@
 
 
     @monthElem = @{fieldName + "." + month}
-    @date_input(
+    @dateInput(
     formItem(childFormField+monthElem),
     '_label -> Messages("iht.date.month"),
     '_labelClass -> "label--inlineTextinput ",
@@ -100,7 +103,7 @@
 
 
     @yearElem = @{fieldName + "." + year}
-    @date_input(
+    @dateInput(
     formItem(childFormField+yearElem),
     '_label -> Messages("iht.date.year"),
     '_labelClass -> "label--inlineTextinput ",

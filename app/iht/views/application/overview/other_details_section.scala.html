@@ -14,8 +14,11 @@
  * limitations under the License.
  *@
 
-@import iht.views.html.ihtHelpers.custom._
 @import iht.viewmodels.application.overview.OtherDetailsSectionViewModel
+
+@this(
+    overviewItem: ihtHelpers.custom.overview_item
+)
 
 @(model: OtherDetailsSectionViewModel)(implicit request:Request[_], messages: Messages)
 
@@ -23,7 +26,7 @@
 
     <h2>@Messages("page.iht.application.estateOverview.otherDetailsNeeded")</h2>
     <ul id="table-overview" class="tabular-data tabular-data--list">
-        @overview_item(model.debtRow, Some("divider--bottom"))
+        @overviewItem(model.debtRow, Some("divider--bottom"))
     </ul>
 
     @if(model.showClaimExemptionLink) {

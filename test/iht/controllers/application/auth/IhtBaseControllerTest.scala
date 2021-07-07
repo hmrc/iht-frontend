@@ -25,7 +25,6 @@ import play.api.test.Helpers.{redirectLocation, status => playStatus}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -53,7 +52,6 @@ class IhtBaseControllerTest extends ApplicationControllerTest {
           Future.successful(Ok(s"$responseContent with $userNino"))
         }
       }
-      override implicit val formPartialRetriever: FormPartialRetriever = mockPartialRetriever
     }
   }
 

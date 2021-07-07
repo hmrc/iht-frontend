@@ -16,16 +16,12 @@
 
 package iht.views.application.assets.properties
 
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
 import iht.views.GenericNonSubmittablePageBehaviour
 import iht.views.html.application.asset.properties.delete_property_confirm
-import play.api.i18n.Messages
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.testhelpers.TestHelper
 
 class DeletePropertyConfirmViewTest extends GenericNonSubmittablePageBehaviour {
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
@@ -33,6 +29,7 @@ class DeletePropertyConfirmViewTest extends GenericNonSubmittablePageBehaviour {
   override def guidanceParagraphs = Set(
     messagesApi("page.iht.application.assets.main-section.properties.delete.warning")
   )
+  lazy val deletePropertyConfirmView: delete_property_confirm = app.injector.instanceOf[delete_property_confirm]
 
   override def pageTitle = messagesApi("page.iht.application.propertyDetails.deleteProperty.title")
 
@@ -40,7 +37,7 @@ class DeletePropertyConfirmViewTest extends GenericNonSubmittablePageBehaviour {
 
   def exitComponent = None
 
-  def view = delete_property_confirm(CommonBuilder.property).toString
+  def view = deletePropertyConfirmView(CommonBuilder.property).toString
 
   "Delete property confirmation page Question View" must {
     behave like nonSubmittablePage()

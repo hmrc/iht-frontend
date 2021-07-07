@@ -19,12 +19,11 @@ package iht.views.application.overview
 import iht.viewmodels.application.overview._
 import iht.views.ViewTestHelper
 import iht.views.html.application.overview.declaration_section
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 
 class DeclarationSectionViewTest extends ViewTestHelper {
 
   val ihtRef = "ABC123"
+  lazy val declarationSectionView: declaration_section = app.injector.instanceOf[declaration_section]
 
   val declarationSectionViewModel = DeclarationSectionViewModel(
     ihtReference = ihtRef,
@@ -35,14 +34,14 @@ class DeclarationSectionViewTest extends ViewTestHelper {
 
     "have no message keys in html" in {
       implicit val request = createFakeRequest()
-      val view = declaration_section(declarationSectionViewModel.copy(declarationSectionStatus = InComplete)).toString
+      val view = declarationSectionView(declarationSectionViewModel.copy(declarationSectionStatus = InComplete)).toString
       noMessageKeysShouldBePresent(view)
     }
 
     "contain the incomplete guidance text when Declaration status is InComplete" in {
       implicit val request = createFakeRequest()
 
-      val view = declaration_section(declarationSectionViewModel.copy(declarationSectionStatus = InComplete)).toString
+      val view = declarationSectionView(declarationSectionViewModel.copy(declarationSectionStatus = InComplete)).toString
       val doc = asDocument(view)
 
       assertEqualsValue(doc, "p#all-sections-not-complete-declaration-guidance-text1 strong",
@@ -55,7 +54,7 @@ class DeclarationSectionViewTest extends ViewTestHelper {
     "contain the NotDeclarable guidance text when Declaration status is NotDeclarable" in {
       implicit val request = createFakeRequest()
 
-      val view = declaration_section(declarationSectionViewModel.copy(declarationSectionStatus = NotDeclarable)).toString
+      val view = declarationSectionView(declarationSectionViewModel.copy(declarationSectionStatus = NotDeclarable)).toString
       val doc = asDocument(view)
 
       assertEqualsValue(doc, "p#not-declarable-guidance",
@@ -66,7 +65,7 @@ class DeclarationSectionViewTest extends ViewTestHelper {
     "contain the Declarable guidance text when Declaration status is Declarable" in {
       implicit val request = createFakeRequest()
 
-      val view = declaration_section(declarationSectionViewModel).toString
+      val view = declarationSectionView(declarationSectionViewModel).toString
       val doc = asDocument(view)
 
       assertEqualsValue(doc, "p#declarable-guidance",
@@ -77,7 +76,7 @@ class DeclarationSectionViewTest extends ViewTestHelper {
     "contain the Continue button when Declaration status is NotDeclarable" in {
       implicit val request = createFakeRequest()
 
-      val view = declaration_section(declarationSectionViewModel.copy(declarationSectionStatus = NotDeclarable)).toString
+      val view = declarationSectionView(declarationSectionViewModel.copy(declarationSectionStatus = NotDeclarable)).toString
       val doc = asDocument(view)
 
       val link = doc.getElementById("continue")
@@ -89,7 +88,7 @@ class DeclarationSectionViewTest extends ViewTestHelper {
     "contain the Continue to declaration button when Declaration status is Declarable" in {
       implicit val request = createFakeRequest()
 
-      val view = declaration_section(declarationSectionViewModel.copy(declarationSectionStatus = Declarable)).toString
+      val view = declarationSectionView(declarationSectionViewModel.copy(declarationSectionStatus = Declarable)).toString
       val doc = asDocument(view)
 
       val link = doc.getElementById("continue-to-declaration")

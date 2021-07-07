@@ -21,20 +21,19 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.registration.RegistrationController
 import iht.controllers.registration.executor.{routes => executorRoutes}
 import iht.forms.registration.ApplicantForms._
-import iht.utils.CommonHelper
-import iht.views.html.registration.{applicant => views}
+import iht.utils.{AddressHelper, CommonHelper}
+import iht.views.html.registration.applicant.applicant_address
 import javax.inject.Inject
 import play.api.mvc.{Call, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class ApplicantAddressControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                val cachingConnector: CachingConnector,
                                                val authConnector: AuthConnector,
-                                               val formPartialRetriever: FormPartialRetriever,
+                                               val applicantAddressView: applicant_address,
                                                implicit val appConfig: AppConfig,
                                                val cc: MessagesControllerComponents) extends FrontendController(cc) with ApplicantAddressController {
 
@@ -42,7 +41,6 @@ class ApplicantAddressControllerImpl @Inject()(val ihtConnector: IhtConnector,
 
 trait ApplicantAddressController extends RegistrationController {
   def cachingConnector: CachingConnector
-
   override def guardConditions: Set[Predicate] = guardConditionsApplicantAddress
 
   lazy val loadRouteUk = routes.ApplicantAddressController.onPageLoadUk
@@ -59,7 +57,7 @@ trait ApplicantAddressController extends RegistrationController {
   def onPageLoadAbroad = pageLoad(isInternational = true, submitRouteAbroad, loadRouteUk)
   def onEditPageLoadUk = pageLoad(isInternational = false, editSubmitRouteUk, editLoadRouteAbroad, cancelToRegSummary)
   def onEditPageLoadAbroad = pageLoad(isInternational = true, editSubmitRouteAbroad, editLoadRouteUk, cancelToRegSummary)
-
+  val applicantAddressView: applicant_address
   private def pageLoad(isInternational: Boolean, actionCall: Call, changeNationalityCall: Call,
                        cancelCall: Option[Call] = None) = authorisedForIht {
     implicit request => {
@@ -73,7 +71,7 @@ trait ApplicantAddressController extends RegistrationController {
           ad.ukAddress.fold(formType)(address => formType.fill(address))
         }
 
-        Future.successful(Ok(views.applicant_address(form, isInternational, actionCall, changeNationalityCall, cancelCall)))
+        Future.successful(Ok(applicantAddressView(form, isInternational, actionCall, changeNationalityCall, cancelCall)))
       }
     }
   }
@@ -93,7 +91,7 @@ trait ApplicantAddressController extends RegistrationController {
           if (isInternational) applicantAddressAbroadForm.bindFromRequest else applicantAddressUkForm.bindFromRequest
 
         boundForm.fold(formWithErrors => {
-          Future.successful(BadRequest(views.applicant_address(formWithErrors,
+          Future.successful(BadRequest(applicantAddressView(formWithErrors,
             isInternational, onFailureActionCall, changeNationalityCall, cancelCall)))
         },
 

@@ -15,9 +15,13 @@
  *@
 
 @import iht.config.AppConfig
-@()(implicit request:Request[_], messages: Messages, appConfig: AppConfig)
-
 @import iht.constants.IhtProperties
+
+@this(
+    appConfig: AppConfig
+)
+
+@()(implicit request:Request[_], messages: Messages)
 
 <p>
     @messages("page.iht.filter.paperform.other.country.p1.sentence1.start")

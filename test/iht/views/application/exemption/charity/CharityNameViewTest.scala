@@ -19,18 +19,17 @@ package iht.views.application.exemption.charity
 import iht.forms.ApplicationForms._
 import iht.models.application.exemptions.Charity
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.TestHelper._
 import iht.views.application.{CancelComponent, ValueViewBehaviour}
 import iht.views.html.application.exemption.charity.charity_name
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
-import iht.testhelpers.TestHelper._
 
 class CharityNameViewTest extends ValueViewBehaviour[Charity] {
 
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
+  lazy val charityNameView: charity_name = app.injector.instanceOf[charity_name]
 
   override def guidance = noGuidance
 
@@ -53,7 +52,7 @@ class CharityNameViewTest extends ValueViewBehaviour[Charity] {
   override def form: Form[Charity] = charityNameForm
 
   override def formToView: Form[Charity] => Appendable =
-    form => charity_name(form, registrationDetails, CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall2)
+    form => charityNameView(form, registrationDetails, CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall2)
 
   override val value_id = "name"
 

@@ -19,14 +19,13 @@ package iht.views.application.overview
 import iht.viewmodels.application.overview.{AssetsAndGiftsSectionViewModel, NotStarted, OverviewRow, OverviewRowWithoutLink}
 import iht.views.ViewTestHelper
 import iht.views.html.application.overview.assets_and_gifts_section
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.mvc.Call
 
 class AssetsAndGiftsSectionViewTest extends ViewTestHelper {
 
   def dummyOverviewRow = OverviewRow("", "", "", NotStarted, Call("", ""), "")
   def dummyTotalRow = OverviewRowWithoutLink("", "", "", "")
+  lazy val assetsAndGiftsSectionView: assets_and_gifts_section = app.injector.instanceOf[assets_and_gifts_section]
 
   val dummyAssetsAndGiftsSection = AssetsAndGiftsSectionViewModel(
     behaveAsIncreasingTheEstateSection = false,
@@ -41,7 +40,7 @@ class AssetsAndGiftsSectionViewTest extends ViewTestHelper {
       implicit val request = createFakeRequest()
       val viewModel: AssetsAndGiftsSectionViewModel = dummyAssetsAndGiftsSection copy (behaveAsIncreasingTheEstateSection = true)
 
-      val view = assets_and_gifts_section(viewModel).toString
+      val view = assetsAndGiftsSectionView(viewModel).toString
       noMessageKeysShouldBePresent(view)
     }
 
@@ -49,7 +48,7 @@ class AssetsAndGiftsSectionViewTest extends ViewTestHelper {
       implicit val request = createFakeRequest()
       val viewModel: AssetsAndGiftsSectionViewModel = dummyAssetsAndGiftsSection copy (behaveAsIncreasingTheEstateSection = true)
 
-      val view = assets_and_gifts_section(viewModel).toString
+      val view = assetsAndGiftsSectionView(viewModel).toString
       val doc = asDocument(view)
       val header = doc.getElementsByTag("h2")
       header.text() must include(messagesApi("page.iht.application.estateOverview.totalAddedToTheEstateValue"))
@@ -58,7 +57,7 @@ class AssetsAndGiftsSectionViewTest extends ViewTestHelper {
     "not show a title when asked not to" in {
       implicit val request = createFakeRequest()
       val viewModel = dummyAssetsAndGiftsSection copy (behaveAsIncreasingTheEstateSection = false)
-      val view = assets_and_gifts_section(viewModel).toString
+      val view = assetsAndGiftsSectionView(viewModel).toString
       val doc = asDocument(view)
       doc.getElementsByTag("h2").first.classNames contains "visually-hidden"
     }
@@ -73,7 +72,7 @@ class AssetsAndGiftsSectionViewTest extends ViewTestHelper {
           linkUrl = Call("Get","localhost"),
           qualifyingText = ""))
 
-      val view = assets_and_gifts_section(viewModel).toString
+      val view = assetsAndGiftsSectionView(viewModel).toString
       val doc = asDocument(view)
       view must include(messagesApi("iht.estateReport.assets.inEstate"))
       assertRenderedById(doc, "assets-row")
@@ -90,7 +89,7 @@ class AssetsAndGiftsSectionViewTest extends ViewTestHelper {
           qualifyingText = "")
         )
 
-      val view = assets_and_gifts_section(viewModel).toString
+      val view = assetsAndGiftsSectionView(viewModel).toString
       val doc = asDocument(view)
       view must include(messagesApi("iht.estateReport.gifts.givenAway.title"))
       assertRenderedById(doc, "gifts-row")
@@ -106,7 +105,7 @@ class AssetsAndGiftsSectionViewTest extends ViewTestHelper {
           qualifyingText = "")
         )
 
-      val view = assets_and_gifts_section(viewModel).toString()
+      val view = assetsAndGiftsSectionView(viewModel).toString()
       view must include(messagesApi("£1,234.56"))
     }
   }

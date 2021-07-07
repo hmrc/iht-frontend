@@ -16,14 +16,17 @@
 
 @import iht.constants.FieldMappings
 @import iht.constants.Constants.filterChoices
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
 
-@(ihtForm: Form[Option[String]])(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@this(
+    errorSummary: ihtHelpers.custom.error_summary,
+    form: FormWithCSRF,
+    ihtMainTemplateRegistration: iht_main_template_registration,
+    inputRadioGroupWithHints: ihtHelpers.standard.input_radio_group_with_hints
+)
 
-  @iht_main_template_registration(title = Messages("iht.whatDoYouWantToDo"),
+@(ihtForm: Form[Option[String]])(implicit request:Request[_], messages: Messages)
+
+  @ihtMainTemplateRegistration(title = Messages("iht.whatDoYouWantToDo"),
     browserTitle = Some(Messages("iht.whatDoYouWantToDo")),
     hasSignOut = false,
     hasTimeOut = false,
@@ -31,9 +34,9 @@
 
   @form(action = iht.controllers.filter.routes.FilterController.onSubmit,'autoComplete -> "off") {
 
-      @ihtHelpers.custom.error_summary(ihtForm)
+      @errorSummary(ihtForm)
 
-      @ihtHelpers.standard.input_radio_group_with_hints(
+      @inputRadioGroupWithHints(
           ihtForm(filterChoices),
           FieldMappings.filterChoices.toSeq,
           '_legendClass -> "visually-hidden",

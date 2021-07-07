@@ -14,16 +14,20 @@
  * limitations under the License.
  *@
 
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
 
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    returnLink: ihtHelpers.custom.return_link,
+    nameHelper: ihtHelpers.custom.name
+)
 
 @(charity: iht.models.application.exemptions.Charity,
-  submitUrl:Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+  submitUrl:Call)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("page.iht.application.exemptions.charityDelete.sectionTitle"),
+@ihtMainTemplateApplication(title = Messages("page.iht.application.exemptions.charityDelete.sectionTitle"),
 browserTitle = Some(Messages("page.iht.application.exemptions.charityDelete.browserTitle")),
 isFullWidth=false){
 @form(action = submitUrl, 'autoComplete -> "off") {
@@ -32,7 +36,7 @@ isFullWidth=false){
         <strong class="bold">
             @defining(charity.name) {
                 case charityName@Some(x) => {
-                    @ihtHelpers.custom.name(charityName.getOrElse(""))
+                    @nameHelper(charityName.getOrElse(""))
                 }
                 case None => {
                     @Messages("iht.estateReport.exemptions.charities.noNameAdded")
@@ -47,7 +51,7 @@ isFullWidth=false){
 
 
 
-    @ihtHelpers.custom.return_link(
+    @returnLink(
         Messages("iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities"),
         Some(iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad()),
         appConfig.ExemptionsCharitiesDeleteID + charity.id.getOrElse("")

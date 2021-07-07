@@ -23,8 +23,6 @@ import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.applicant.applicant_tell_us_about_yourself
 import iht.views.registration.{PersonalDetailsViewBehaviour, YesNoQuestionViewBehaviour}
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
 
 class TellUsAboutYourselfViewTest extends YesNoQuestionViewBehaviour[ApplicantDetails] with PersonalDetailsViewBehaviour[ApplicantDetails]{
@@ -36,13 +34,14 @@ class TellUsAboutYourselfViewTest extends YesNoQuestionViewBehaviour[ApplicantDe
   override def browserTitle = messagesApi("iht.registration.applicant.tellUsAboutYourself")
 
   override def form: Form[ApplicantDetails] = applicantTellUsAboutYourselfForm
+  lazy val applicantTellUsAboutYourselfView: applicant_tell_us_about_yourself = app.injector.instanceOf[applicant_tell_us_about_yourself]
 
   override def formToView: Form[ApplicantDetails] => Appendable =
-    form => applicant_tell_us_about_yourself(form, Mode.Standard, CommonBuilder.DefaultCall1)
+    form => applicantTellUsAboutYourselfView(form, Mode.Standard, CommonBuilder.DefaultCall1)
 
   def editModeView = {
     implicit val request = createFakeRequest()
-    val view = applicant_tell_us_about_yourself(
+    val view = applicantTellUsAboutYourselfView(
       form, Mode.Standard, CommonBuilder.DefaultCall1, Some(CommonBuilder.DefaultCall2)).toString
     asDocument(view)
   }

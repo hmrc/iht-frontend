@@ -20,12 +20,12 @@ import iht.config.AppConfig
 import iht.controllers.registration.{RegistrationControllerTest, routes => registrationRoutes}
 import iht.forms.registration.ApplicantForms._
 import iht.models.{ApplicantDetails, UkAddress}
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.registration.applicant.applicant_address
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class ApplicantAddressControllerTest extends RegistrationControllerTest  {
 
@@ -35,21 +35,18 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
   protected abstract class TestController extends FrontendController(mockControllerComponents) with ApplicantAddressController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val applicantAddressView: applicant_address = app.injector.instanceOf[applicant_address]
   }
 
   // Create controller object and pass in mock.
   def controller = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def registrationDetailsWithUkApplicant =

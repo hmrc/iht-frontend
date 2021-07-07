@@ -25,17 +25,17 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.tnrb.tnrb_success
 
 class TnrbSuccessControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                           val cachingConnector: CachingConnector,
                                           val authConnector: AuthConnector,
-                                          val formPartialRetriever: FormPartialRetriever,
+                                          val tnrbSuccessView: tnrb_success,
                                           implicit val appConfig: AppConfig,
                                           val cc: MessagesControllerComponents) extends FrontendController(cc) with TnrbSuccessController
 
 trait TnrbSuccessController extends EstateController with StringHelper {
-
+  val tnrbSuccessView: tnrb_success
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
 
       implicit request => {
@@ -47,7 +47,7 @@ trait TnrbSuccessController extends EstateController with StringHelper {
           } yield {
             applicationDetails match {
               case Some(appDetails) =>
-                Ok(iht.views.html.application.tnrb.tnrb_success(
+                Ok(tnrbSuccessView(
                   CommonHelper.getOrException(registrationDetails.deceasedDetails).name,
                   CommonHelper.getOrException(appDetails.increaseIhtThreshold).Name.toString,
                   CommonHelper.getOrException(registrationDetails.ihtReference)

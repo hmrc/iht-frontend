@@ -26,19 +26,18 @@ import javax.inject.Inject
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class TnrbGuidanceControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                            val cachingConnector: CachingConnector,
                                            val authConnector: AuthConnector,
-                                           val formPartialRetriever: FormPartialRetriever,
+                                           val tnrbGuidanceView: tnrb_guidance,
                                            implicit val appConfig: AppConfig,
                                            val cc: MessagesControllerComponents) extends FrontendController(cc) with TnrbGuidanceController
 
 trait TnrbGuidanceController extends EstateController with TnrbHelper {
-
+  val tnrbGuidanceView: tnrb_guidance
   def onPageLoad: Action[AnyContent] = authorisedForIht {
     implicit request => {
       withRegistrationDetails { rd =>
@@ -46,7 +45,7 @@ trait TnrbGuidanceController extends EstateController with TnrbHelper {
           val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd)
           val title = "iht.estateReport.tnrb.increasingIHTThreshold"
           val browserTitle = "iht.estateReport.tnrb.increasingThreshold"
-          Future.successful(Ok(tnrb_guidance(
+          Future.successful(Ok(tnrbGuidanceView(
             ihtReference,
             urlForIncreasingThreshold(CommonHelper.getOrException(rd.deceasedDetails.flatMap(_.maritalStatus))).url,
             deceasedName,
@@ -65,7 +64,7 @@ trait TnrbGuidanceController extends EstateController with TnrbHelper {
           val ihtReference = CommonHelper.getOrException(rd.ihtReference)
           val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd)
           val title = "page.iht.application.tnrb.guidance.system.title"
-          Future.successful(Ok(tnrb_guidance(
+          Future.successful(Ok(tnrbGuidanceView(
             ihtReference,
             urlForIncreasingThreshold(CommonHelper.getOrException(rd.deceasedDetails.flatMap(_.maritalStatus))).url,
             deceasedName,

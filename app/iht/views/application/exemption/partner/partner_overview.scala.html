@@ -15,43 +15,47 @@
  *@
 
 @import iht.models.RegistrationDetails
-@import iht.utils.DeceasedInfoHelper._
+@import iht.utils.DeceasedInfoHelper
 @import iht.utils.OverviewHelper._
-@import iht.views.html._
-
 @import iht.constants.Constants._
 @import iht.models.application.ApplicationDetails
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 
-@(appDetails:ApplicationDetails,
-registrationDetails: RegistrationDetails)(implicit request:Request[_],
-                                                   messages: Messages,
-                                                   ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@this(
+    implicit val appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application,
+    genericOverviewItem: ihtHelpers.custom.generic_overview_item,
+    genericOverviewStatusLink: ihtHelpers.custom.generic_overview_status_link,
+    nameHelper: ihtHelpers.custom.name,
+    returnLink: ihtHelpers.custom.return_link
+)
 
-@iht_main_template_application(title = Messages("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title"),
+@(appDetails:ApplicationDetails,
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
+
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title"),
 browserTitle = Some(Messages("page.iht.application.exemptions.partner.overview.browserTitle")),
 isFullWidth=false) {
     <section id="overview-table" class="section">
         <ul id="partner-overview-table" class="tabular-data tabular-data--list">
         @{
             defining(appDetails.allExemptions.flatMap(_.partner).flatMap(_.isAssetForDeceasedPartner).map(_=>true)) { isComplete =>
-                ihtHelpers.custom.generic_overview_item(
+                genericOverviewItem(
                     title = Messages("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question",
-                                      getDeceasedNameOrDefaultString(registrationDetails, true)),
+                                    DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
                     name="partner.assetsLeftForPartner",
                     id = appConfig.ExemptionsPartnerAssetsID,
                     value=Messages(getDisplayValueForBoolean(isComplete)),
                     valueScreenReader="",
                     link=Some(iht.controllers.application.exemptions.partner.routes.AssetsLeftToPartnerQuestionController.onPageLoad()),
-                    linkText=ihtHelpers.custom.generic_overview_status_link(
+                    linkText=genericOverviewStatusLink(
                       isComplete = isComplete,
                       screenreaderQualifyingText = if(isComplete){
                           Messages("page.iht.application.exemptions.overview.partner.assetsLeftForPartner.screenreader.link.value",
-                              getDeceasedNameOrDefaultString(registrationDetails, true))
+                            DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true))
                       } else {
                           Messages("page.iht.application.exemptions.overview.partner.assetsLeftForPartner.screenreader.link.noValue",
-                              getDeceasedNameOrDefaultString(registrationDetails, true))
+                            DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true))
                       }
                     ),
                     classValueCell="",
@@ -62,14 +66,14 @@ isFullWidth=false) {
 
         @{
             defining(appDetails.allExemptions.flatMap(_.partner).flatMap(_.isPartnerHomeInUK).map(_=>true)) { isComplete =>
-                ihtHelpers.custom.generic_overview_item(
+                genericOverviewItem(
                     title = Messages("iht.estateReport.exemptions.partner.homeInUK.question"),
                     name = "partner.homeInUK",
                     id = appConfig.ExemptionsPartnerHomeID,
                     value=Messages(getDisplayValueForBoolean(isComplete)),
                     valueScreenReader="",
                     link=Some(iht.controllers.application.exemptions.partner.routes.PartnerPermanentHomeQuestionController.onPageLoad()),
-                    linkText=ihtHelpers.custom.generic_overview_status_link(
+                    linkText=genericOverviewStatusLink(
                       isComplete = isComplete,
                       screenreaderQualifyingText = if(isComplete){
                           Messages("page.iht.application.exemptions.overview.partner.homeInUK.screenreader.link.value")
@@ -85,14 +89,14 @@ isFullWidth=false) {
 
         @{
             defining(appDetails.allExemptions.flatMap(_.partner).flatMap(_.name ).map(_=>true)) { isComplete =>
-                ihtHelpers.custom.generic_overview_item(
+                genericOverviewItem(
                     title = Messages("page.iht.application.exemptions.partner.name.title"),
                     name="partner.name",
                     id = appConfig.ExemptionsPartnerNameID,
-                    value=ihtHelpers.custom.name(displayValue(appDetails, AppSectionExemptionsPartnerName, isComplete)).toString,
+                    value=nameHelper(displayValue(appDetails, AppSectionExemptionsPartnerName, isComplete)).toString,
                     valueScreenReader="",
                     link=Some(iht.controllers.application.exemptions.partner.routes.ExemptionPartnerNameController.onPageLoad()),
-                    linkText=ihtHelpers.custom.generic_overview_status_link(
+                    linkText=genericOverviewStatusLink(
                       isComplete = isComplete,
                       messagesFileGiveAnswer = "site.link.giveName",
                       screenreaderQualifyingText = if(isComplete){
@@ -109,14 +113,14 @@ isFullWidth=false) {
 
         @{
             defining(appDetails.allExemptions.flatMap(_.partner).flatMap(_.dateOfBirth ).map(_=>true)) { isComplete =>
-                ihtHelpers.custom.generic_overview_item(
+                genericOverviewItem(
                     title = Messages("page.iht.application.exemptions.partner.dateOfBirth.question.title"),
                     name="partner.dob",
                     id = appConfig.ExemptionsPartnerDobID,
                     value=displayValue(appDetails, AppSectionExemptionsPartnerDateOfBirth, isComplete)(messages),
                     valueScreenReader="",
                     link=Some(iht.controllers.application.exemptions.partner.routes.PartnerDateOfBirthController.onPageLoad()),
-                    linkText=ihtHelpers.custom.generic_overview_status_link(
+                    linkText=genericOverviewStatusLink(
                       isComplete = isComplete,
                       messagesFileGiveAnswer = "site.link.giveDate",
                       screenreaderQualifyingText = if(isComplete){
@@ -133,14 +137,14 @@ isFullWidth=false) {
 
         @{
             defining(appDetails.allExemptions.flatMap(_.partner).flatMap(_.nino ).map(_=>true)) { isComplete =>
-                ihtHelpers.custom.generic_overview_item(
+                genericOverviewItem(
                     title = Messages("page.iht.application.exemptions.partner.nino.sectionTitle"),
                     name="partner.nino",
                     id = appConfig.ExemptionsPartnerNinoID,
                     value=displayValue(appDetails, AppSectionExemptionsPartnerNino, isComplete),
                     valueScreenReader="",
                     link=Some(iht.controllers.application.exemptions.partner.routes.PartnerNinoController.onPageLoad()),
-                    linkText=ihtHelpers.custom.generic_overview_status_link(
+                    linkText=genericOverviewStatusLink(
                       isComplete = isComplete,
                       messagesFileGiveAnswer = "site.link.giveDetails",
                       screenreaderQualifyingText = if(isComplete){
@@ -157,14 +161,14 @@ isFullWidth=false) {
 
         @{
             defining(appDetails.allExemptions.flatMap(_.partner).flatMap(_.totalAssets ).map(_=>true)) { isComplete =>
-                ihtHelpers.custom.generic_overview_item(
+                genericOverviewItem(
                     title = Messages("page.iht.application.exemptions.overview.partner.totalAssets.title"),
                     name="partner.totalAssets",
                     id = appConfig.ExemptionsPartnerValueID,
                     value=displayValue(appDetails, AppSectionExemptionsPartnerTotalAssets, isComplete),
                     valueScreenReader="",
                     link=Some(iht.controllers.application.exemptions.partner.routes.PartnerValueController.onPageLoad()),
-                    linkText=ihtHelpers.custom.generic_overview_status_link(
+                    linkText=genericOverviewStatusLink(
                       isComplete = isComplete,
                       messagesFileGiveAnswer = "site.link.giveValue",
                       screenreaderQualifyingText = if(isComplete){
@@ -182,8 +186,8 @@ isFullWidth=false) {
     </section>
 
     @registrationDetails.deceasedDetails.map{ dd=>
-        @ihtHelpers.custom.return_link(
-            Messages("page.iht.application.return.to.exemptionsOf", ihtHelpers.custom.name(dd.name)),
+        @returnLink(
+            Messages("page.iht.application.return.to.exemptionsOf", nameHelper(dd.name)),
             Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()),
             appConfig.ExemptionsPartnerID
         )

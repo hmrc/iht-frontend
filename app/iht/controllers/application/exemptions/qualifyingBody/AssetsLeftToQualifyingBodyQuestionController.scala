@@ -29,7 +29,6 @@ import play.api.mvc.{Call, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
  * Created by james on 17/08/16.
@@ -37,7 +36,7 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 class AssetsLeftToQualifyingBodyQuestionControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                                  val cachingConnector: CachingConnector,
                                                                  val authConnector: AuthConnector,
-                                                                 val formPartialRetriever: FormPartialRetriever,
+                                                                 val assetsLeftToQualifyingBodyQuestionView: assets_left_to_qualifying_body_question,
                                                                  implicit val appConfig: AppConfig,
                                                                  val cc: MessagesControllerComponents) extends FrontendController(cc) with AssetsLeftToQualifyingBodyQuestionController {
 
@@ -53,11 +52,12 @@ trait AssetsLeftToQualifyingBodyQuestionController extends EstateController {
       iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad(), Some(appConfig.ExemptionsOtherAssetsID))
   lazy val qualifyingBodyDetailsOverviewPage: Call =
     iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onPageLoad()
+  val assetsLeftToQualifyingBodyQuestionView: assets_left_to_qualifying_body_question
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       estateElementOnPageLoad[BasicExemptionElement](assetsLeftToQualifyingBodyQuestionForm,
-        assets_left_to_qualifying_body_question.apply, _.allExemptions.flatMap(_.qualifyingBody), userNino)
+        assetsLeftToQualifyingBodyQuestionView.apply, _.allExemptions.flatMap(_.qualifyingBody), userNino)
     }
   }
 
@@ -84,7 +84,7 @@ trait AssetsLeftToQualifyingBodyQuestionController extends EstateController {
     implicit request => {
       estateElementOnSubmitConditionalRedirect[BasicExemptionElement](
         assetsLeftToQualifyingBodyQuestionForm,
-        assets_left_to_qualifying_body_question.apply,
+        assetsLeftToQualifyingBodyQuestionView.apply,
         updateApplicationDetails,
         (ad, _) => {
           val qualifyingBodiesOwnedAnswer= CommonHelper.getOrException(ad.allExemptions.flatMap(_.qualifyingBody).flatMap(_.isSelected))

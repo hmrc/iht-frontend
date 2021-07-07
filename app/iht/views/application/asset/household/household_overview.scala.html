@@ -17,15 +17,21 @@
 @import iht.models.RegistrationDetails
 @import iht.models.application.basicElements.ShareableBasicEstateElement
 @import iht.utils.OverviewHelper._
-
 @import iht.utils._
-@import iht.views.html._
-@import iht.views.html.ihtHelpers.custom._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 
+@this(
+    implicit val appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application,
+    genericOverviewTableSection: ihtHelpers.custom.generic_overview_table_section,
+    genericOverviewTableHeadingItem: ihtHelpers.custom.generic_overview_table_heading_item,
+    genericOverviewTableItem: ihtHelpers.custom.generic_overview_table_item,
+    nameHelper: ihtHelpers.custom.name,
+    returnLink: ihtHelpers.custom.return_link
+)
+
 @(household:Option[ShareableBasicEstateElement],
-  registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+  registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
@@ -36,7 +42,7 @@
     }
 }
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.householdAndPersonalItems.title"),
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.assets.householdAndPersonalItems.title"),
 browserTitle = Some(Messages("iht.estateReport.assets.householdAndPersonalItems.title")),
 isFullWidth=false
 ) {
@@ -46,10 +52,10 @@ isFullWidth=false
 </div>
 
         @{
-            generic_overview_table_section(
+        genericOverviewTableSection(
                     "deceased-own-household-section",
                     household.flatMap(_.isOwned),
-                    generic_overview_table_heading_item(id = appConfig.AssetsHouseholdOwnID,
+                    genericOverviewTableHeadingItem(id = appConfig.AssetsHouseholdOwnID,
                         questionText = Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",deceasedName),
                         questionScreenReaderText = Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",
                             deceasedName),
@@ -60,7 +66,7 @@ isFullWidth=false
                             Messages("page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.noValue", deceasedName)),
                         isAnswerValue = household.flatMap(_.isOwned).isEmpty
                         ),
-                        generic_overview_table_item(id = appConfig.AssetsHouseholdOwnID,
+                        genericOverviewTableItem(id = appConfig.AssetsHouseholdOwnID,
                             questionText = Messages("iht.estateReport.assets.household.ownName.question",deceasedName),
                             questionScreenReaderText= Messages("iht.estateReport.assets.household.ownName.question",
                                                                 deceasedName),
@@ -70,7 +76,7 @@ isFullWidth=false
                             linkScreenReader = Messages("page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.change", deceasedName)
                         ),
 
-                        generic_overview_table_item(id = "deceased-own-value",
+                        genericOverviewTableItem(id = "deceased-own-value",
                             questionText = Messages("iht.estateReport.assets.household.deceasedOwnedValue", deceasedName),
                             questionScreenReaderText= Messages("iht.estateReport.assets.household.deceasedOwnedValue", deceasedName),
                             questionCategory= "change",
@@ -82,10 +88,10 @@ isFullWidth=false
             )
         }
         @{
-            generic_overview_table_section(
+                genericOverviewTableSection(
                     "deceased-shared-household-section",
                     household.flatMap(_.isOwnedShare),
-                    generic_overview_table_heading_item(id = appConfig.AssetsHouseholdSharedID,
+                    genericOverviewTableHeadingItem(id = appConfig.AssetsHouseholdSharedID,
                         questionText = Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title",deceasedName),
                         questionScreenReaderText = Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title",
                             deceasedName),
@@ -96,7 +102,7 @@ isFullWidth=false
                             Messages("page.iht.application.assets.household.overview.joint.isOwned.screenreader.link.noValue")),
                         isAnswerValue = household.flatMap(_.isOwnedShare).isEmpty
                         ),
-                        generic_overview_table_item(id = appConfig.AssetsHouseholdSharedID,
+                        genericOverviewTableItem(id = appConfig.AssetsHouseholdSharedID,
                             questionText = Messages("iht.estateReport.assets.household.joint.question",deceasedName),
                             questionScreenReaderText= Messages("iht.estateReport.assets.household.joint.question",
                                 deceasedName),
@@ -105,7 +111,7 @@ isFullWidth=false
                             link = Some(iht.controllers.application.assets.household.routes.HouseholdJointlyOwnedController.onPageLoad),
                             linkScreenReader = Messages("page.iht.application.assets.household.overview.joint.isOwned.screenreader.link.change")
                             ),
-                        generic_overview_table_item(id = "deceased-shared-value",
+                        genericOverviewTableItem(id = "deceased-shared-value",
                             questionText = Messages("page.iht.application.assets.household.overview.joint.value", deceasedName),
                             questionScreenReaderText= Messages("page.iht.application.assets.household.overview.joint.value", deceasedName),
                             questionCategory= "change",
@@ -117,8 +123,8 @@ isFullWidth=false
         }
 
     @registrationDetails.deceasedDetails.map{ dd=>
-         @ihtHelpers.custom.return_link(
-            Messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(dd.name)),
+         @returnLink(
+            Messages("page.iht.application.return.to.assetsOf", nameHelper(dd.name)),
             Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
             appConfig.AppSectionHouseholdID
         )

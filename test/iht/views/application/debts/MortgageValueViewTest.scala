@@ -16,19 +16,16 @@
 
 package iht.views.application.debts
 
+import iht.controllers.application.debts.routes
 import iht.forms.ApplicationForms._
-import iht.models.application.debts.{Mortgage, BasicEstateElementLiabilities}
+import iht.models.application.debts.Mortgage
+import iht.testhelpers.TestHelper._
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.DeceasedInfoHelper
 import iht.views.application.CancelComponent
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.views.html.application.debts.{funeral_expenses, mortgage_value}
+import iht.views.html.application.debts.mortgage_value
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
-import iht.testhelpers.TestHelper._
-
-import iht.controllers.application.debts.routes
 
 
 class MortgageValueViewTest extends DebtsElementViewBehaviour[Mortgage]{
@@ -38,9 +35,10 @@ class MortgageValueViewTest extends DebtsElementViewBehaviour[Mortgage]{
                                     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(
                                                             maritalStatus = Some(TestHelper.MaritalStatusMarried))),
                                     deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
+  lazy val mortgageValueView: mortgage_value = app.injector.instanceOf[mortgage_value]
 
   override def form:Form[Mortgage] = mortgagesForm
-  override def formToView:Form[Mortgage] => Appendable = form => mortgage_value(form,
+  override def formToView:Form[Mortgage] => Appendable = form => mortgageValueView(form,
                               CommonBuilder.buildProperty.copy(id = Some("1"), typeOfOwnership = Some("Deceased only"),
                                 address = Some(CommonBuilder.DefaultUkAddress)
                               ),

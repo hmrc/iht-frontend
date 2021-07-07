@@ -17,17 +17,13 @@
 package iht.views.application.assets.stocksAndShares
 
 import iht.controllers.application.assets.stocksAndShares.routes
+import iht.forms.ApplicationForms._
 import iht.models.application.assets.StockAndShare
 import iht.testhelpers.CommonBuilder
 import iht.views.application.ShareableElementInputViewBehaviour
-import play.api.data.Form
-import play.api.i18n.Messages
-import play.twirl.api.HtmlFormat.Appendable
 import iht.views.html.application.asset.stocksAndShares.stocks_and_shares_listed
-import iht.forms.ApplicationForms._
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.testhelpers.TestHelper._
+import play.api.data.Form
+import play.twirl.api.HtmlFormat.Appendable
 
 class StocksAndSharesListedViewTest extends ShareableElementInputViewBehaviour[StockAndShare] {
 
@@ -47,8 +43,10 @@ class StocksAndSharesListedViewTest extends ShareableElementInputViewBehaviour[S
   override def linkHash = appConfig.AssetsStocksListedID
   override def formTarget = Some(routes.StocksAndSharesListedController.onSubmit())
   override def form: Form[StockAndShare] = stockAndShareListedForm
+  lazy val stocksAndSharesListedView: stocks_and_shares_listed = app.injector.instanceOf[stocks_and_shares_listed]
+
   override def formToView: Form[StockAndShare] => Appendable =
-    form => stocks_and_shares_listed(form, regDetails)
+    form => stocksAndSharesListedView(form, regDetails)
 
 
   "Stocks and Shares Listed View" must {

@@ -18,23 +18,21 @@ package iht.views.application.assets.properties
 
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.Property
-import iht.testhelpers.CommonBuilder
-import iht.views.application.{SubmittableApplicationPageBehaviour, CancelComponent}
-import iht.views.html._
+import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.views.application.{CancelComponent, SubmittableApplicationPageBehaviour}
 import iht.views.html.application.asset.properties.property_type
+import iht.views.html.ihtHelpers.custom.name
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.testhelpers.TestHelper
 
 class PropertyTypeViewTest extends SubmittableApplicationPageBehaviour[Property] {
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
 
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
+  lazy val nameView: name = app.injector.instanceOf[name]
+  lazy val propertyTypeView: property_type = app.injector.instanceOf[property_type]
 
-  def name(deceasedName: => String) = ihtHelpers.custom.name(deceasedName)
+  def name(deceasedName: => String) = nameView(deceasedName)
 
   override def guidance = guidance(
     Set(
@@ -63,7 +61,7 @@ class PropertyTypeViewTest extends SubmittableApplicationPageBehaviour[Property]
 
   override def formToView: Form[Property] => Appendable =
     form =>
-      property_type(form, CommonBuilder.DefaultCall2, CommonBuilder.DefaultCall1, deceasedName)
+      propertyTypeView(form, CommonBuilder.DefaultCall2, CommonBuilder.DefaultCall1, deceasedName)
 
   "Property Type View" must {
     behave like applicationPageWithErrorSummaryBox()

@@ -20,9 +20,10 @@ import iht.config.AppConfig
 import iht.connector.IhtConnector
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.{ApplicationDetails, IhtApplication}
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
+import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.{ApplicationStatus => Status}
 import iht.viewmodels.estateReports.YourEstateReportsRowViewModel
+import iht.views.html.estateReports.your_estate_reports
 import org.joda.time.LocalDate
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
@@ -33,7 +34,6 @@ import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.{HeaderCarrier, UpstreamErrorResponse}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent._
 
@@ -42,6 +42,7 @@ class YourEstateReportsControllerTest  extends ApplicationControllerTest{
   protected abstract class TestController extends FrontendController(mockControllerComponents) with YourEstateReportsController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val yourEstateReportsView: your_estate_reports = app.injector.instanceOf[your_estate_reports]
   }
 
   implicit val headerCarrier = FakeHeaders()
@@ -53,16 +54,12 @@ class YourEstateReportsControllerTest  extends ApplicationControllerTest{
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def yourEstateReportsControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "YourEstateReportsController" must {

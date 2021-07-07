@@ -32,7 +32,7 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.asset.properties.property_ownership
 
 import scala.concurrent.Future
 
@@ -40,7 +40,7 @@ class PropertyOwnershipControllerImpl @Inject()(val metrics: IhtMetrics,
                                                 val ihtConnector: IhtConnector,
                                                 val cachingConnector: CachingConnector,
                                                 val authConnector: AuthConnector,
-                                                val formPartialRetriever: FormPartialRetriever,
+                                                val propertyOwnershipView: property_ownership,
                                                 implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with PropertyOwnershipController
 
@@ -61,14 +61,14 @@ trait PropertyOwnershipController extends EstateController with StringHelper wit
   def ihtConnector: IhtConnector
 
   def cachingConnector: CachingConnector
-
+  val propertyOwnershipView: property_ownership
   def onPageLoad = authorisedForIht {
     implicit request => {
 
       withRegistrationDetails { regDetails =>
         val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
 
-        Future.successful(Ok(iht.views.html.application.asset.properties.property_ownership(typeOfOwnershipForm,
+        Future.successful(Ok(propertyOwnershipView(typeOfOwnershipForm,
           submitUrl,
           cancelUrl,
           deceasedName)))
@@ -93,7 +93,7 @@ trait PropertyOwnershipController extends EstateController with StringHelper wit
                 throw new RuntimeException("No Property found for the id")
               } {
                 (matchedProperty) =>
-                  Ok(iht.views.html.application.asset.properties.property_ownership(typeOfOwnershipForm.fill(matchedProperty),
+                  Ok(propertyOwnershipView(typeOfOwnershipForm.fill(matchedProperty),
                     editSubmitUrl(id),
                     editCancelUrl(id),
                     deceasedName))
@@ -143,7 +143,7 @@ trait PropertyOwnershipController extends EstateController with StringHelper wit
       boundForm.fold(
         formWithErrors => {
           LogHelper.logFormError(formWithErrors)
-          Future.successful(BadRequest(iht.views.html.application.asset.properties.property_ownership(formWithErrors,
+          Future.successful(BadRequest(propertyOwnershipView(formWithErrors,
             submitUrl,
             cancelUrl,
             deceasedName)))

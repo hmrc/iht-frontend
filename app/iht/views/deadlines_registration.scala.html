@@ -14,13 +14,14 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
-@import iht.views.html._
+@this(
+    ihtMainTemplateRegistration: iht_main_template_registration,
+    deadlines: deadlines
+)
 
-@(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_registration(title = messages("page.iht.deadlines.title"),
+@ihtMainTemplateRegistration(title = messages("page.iht.deadlines.title"),
     browserTitle = Some(messages("page.iht.deadlines.title"))) {
-    @deadlines.apply
+    @deadlines()
 }

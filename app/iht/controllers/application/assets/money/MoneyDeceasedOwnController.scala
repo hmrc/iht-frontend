@@ -31,14 +31,13 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 
 class MoneyDeceasedOwnControllerImpl @Inject()(val metrics: IhtMetrics,
                                                val ihtConnector: IhtConnector,
                                                val cachingConnector: CachingConnector,
                                                val authConnector: AuthConnector,
-                                               val formPartialRetriever: FormPartialRetriever,
+                                               val moneyDeceasedOwnView: money_deceased_own,
                                                implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with MoneyDeceasedOwnController {
 
@@ -46,14 +45,14 @@ val cc: MessagesControllerComponents) extends FrontendController(cc) with MoneyD
 
 trait MoneyDeceasedOwnController extends EstateController {
 
-
+  val moneyDeceasedOwnView: money_deceased_own
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyDeceasedOwned)
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
     iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad(), Some(appConfig.AssetsMoneyOwnID))
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
-      estateElementOnPageLoad[ShareableBasicEstateElement](moneyFormOwn, money_deceased_own.apply, _.allAssets.flatMap(_.money), userNino)
+      estateElementOnPageLoad[ShareableBasicEstateElement](moneyFormOwn, moneyDeceasedOwnView.apply, _.allAssets.flatMap(_.money), userNino)
     }
   }
 
@@ -80,7 +79,7 @@ trait MoneyDeceasedOwnController extends EstateController {
 
       estateElementOnSubmit[ShareableBasicEstateElement](
         moneyFormOwn,
-        money_deceased_own.apply,
+        moneyDeceasedOwnView.apply,
         updateApplicationDetails,
         submitUrl,
         userNino

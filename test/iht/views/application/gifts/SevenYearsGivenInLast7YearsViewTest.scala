@@ -20,14 +20,10 @@ import iht.forms.ApplicationForms._
 import iht.models.application.gifts.AllGifts
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.{CommonHelper, DeceasedInfoHelper}
-import iht.views.application.{SubmittableApplicationPageBehaviour, CancelComponent}
+import iht.views.application.{CancelComponent, SubmittableApplicationPageBehaviour}
 import iht.views.html.application.gift.seven_years_given_in_last_7_years
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.constants.Constants._
 
 
 
@@ -70,10 +66,11 @@ class SevenYearsGivenInLast7YearsViewTest extends SubmittableApplicationPageBeha
   override def linkHash = TestHelper.GiftsSevenYearsQuestionID
 
   override def form: Form[AllGifts] = giftSevenYearsGivenInLast7YearsForm
+  lazy val sevenYearsGivenInLast7YearsView: seven_years_given_in_last_7_years = app.injector.instanceOf[seven_years_given_in_last_7_years]
 
   override def formToView: Form[AllGifts] => Appendable =
     form =>
-      seven_years_given_in_last_7_years(form, regDetails)
+      sevenYearsGivenInLast7YearsView(form, regDetails)
 
   "SevenYearsGivenInLast7Years Page" must {
     behave like applicationPageWithErrorSummaryBox()

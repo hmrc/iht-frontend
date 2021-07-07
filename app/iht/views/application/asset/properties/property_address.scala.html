@@ -16,17 +16,21 @@
 
 @import iht.constants._
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 
-@import uk.gov.hmrc.play.views.html.helpers.form
+@this(
+    appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputWithHelp: ihtHelpers.standard.input_with_help
+)
 
 @(propertyAddressForm: Form[iht.models.application.assets.Property],
 cancelUrl: Call,
-submitUrl: Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+submitUrl: Call)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.property.whatIsAddress.question"),
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.assets.property.whatIsAddress.question"),
 browserTitle = Some(Messages("page.iht.application.assets.property.address.browserTitle")),
 isFullWidth = false,
 cancelUrl = Some(CommonHelper.addFragmentIdentifier(cancelUrl, Some(appConfig.AssetsPropertiesPropertyAddressID))),
@@ -34,12 +38,12 @@ cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProp
 headingClass = "heading-large"
 ) {
 
-@ihtHelpers.custom.error_summary(propertyAddressForm)
+@errorSummary(propertyAddressForm)
 
 @form(action = submitUrl, 'autoComplete -> "off") {
 
 <div class="form-group">
-    @ihtHelpers.standard.input_with_help(propertyAddressForm("address.ukAddressLine1"),
+    @inputWithHelp(propertyAddressForm("address.ukAddressLine1"),
     '_maxlength -> appConfig.validationMaxLengthAddresslines,
     '_inputClass -> "form-control js-nonNumeric",
     '_labelTextClass -> "bold",
@@ -47,7 +51,7 @@ headingClass = "heading-large"
     )
 </div>
 <div class="form-group">
-    @ihtHelpers.standard.input_with_help(propertyAddressForm("address.ukAddressLine2"),
+    @inputWithHelp(propertyAddressForm("address.ukAddressLine2"),
     '_maxlength -> appConfig.validationMaxLengthAddresslines,
     '_inputClass -> "form-control js-nonNumeric",
     '_labelTextClass -> "bold",
@@ -55,7 +59,7 @@ headingClass = "heading-large"
     )
 </div>
 <div class="form-group">
-    @ihtHelpers.standard.input_with_help(propertyAddressForm("address.ukAddressLine3"),
+    @inputWithHelp(propertyAddressForm("address.ukAddressLine3"),
     '_maxlength -> appConfig.validationMaxLengthAddresslines,
     '_inputClass -> "form-control js-nonNumeric",
     '_labelTextClass -> "bold",
@@ -63,7 +67,7 @@ headingClass = "heading-large"
     )
 </div>
 <div class="form-group">
-    @ihtHelpers.standard.input_with_help(propertyAddressForm("address.ukAddressLine4"),
+    @inputWithHelp(propertyAddressForm("address.ukAddressLine4"),
     '_maxlength -> appConfig.validationMaxLengthAddresslines,
     '_inputClass -> "form-control js-nonNumeric",
     '_labelTextClass -> "bold",
@@ -71,7 +75,7 @@ headingClass = "heading-large"
     )
 </div>
 <div class="form-group">
-    @ihtHelpers.standard.input_with_help(propertyAddressForm("address.postCode"),
+    @inputWithHelp(propertyAddressForm("address.postCode"),
     '_maxlength -> appConfig.validationMaxLengthPostcode,
     '_divClass -> "",
     '_inputClass -> "form-control form-control-1-4 js-nonNumeric",

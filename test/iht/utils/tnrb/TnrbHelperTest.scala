@@ -34,8 +34,7 @@ class TnrbHelperTest extends FakeIhtApp with MockitoSugar with TnrbHelper {
   implicit val messagesApi: MessagesApi = mockControllerComponents.messagesApi
   implicit val lang = Lang.defaultLang
   implicit val messages: Messages = messagesApi.preferred(Seq(lang)).messages
-  implicit val mockAppConfig: AppConfig = app.injector.instanceOf[AppConfig]
-  val appConfig = mockAppConfig
+  implicit val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
   lazy val spouseOrCivilPartnerFirstName = CommonBuilder.firstNameGenerator
   lazy val spouseOrCivilPartnerLastName = CommonBuilder.surnameGenerator
@@ -345,7 +344,7 @@ class TnrbHelperTest extends FakeIhtApp with MockitoSugar with TnrbHelper {
   "urlForIncreasingThreshold" must {
     "return deceasedWidowCheckDatePage if Marital status is widowed" in {
 
-     urlForIncreasingThreshold(mockAppConfig.statusWidowed) must be
+     urlForIncreasingThreshold(appConfig.statusWidowed) must be
       iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad()
     }
   }
@@ -353,7 +352,7 @@ class TnrbHelperTest extends FakeIhtApp with MockitoSugar with TnrbHelper {
   "urlForIncreasingThreshold" must {
     "return deceasedWidowCheckDatePage if Marital status is either Divorced or Married" in {
 
-      urlForIncreasingThreshold(mockAppConfig.statusWidowed) must be
+      urlForIncreasingThreshold(appConfig.statusWidowed) must be
       iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad()
     }
   }
@@ -369,6 +368,7 @@ class TnrbHelperTest extends FakeIhtApp with MockitoSugar with TnrbHelper {
   }
 
   "spouseOrCivilPartnerName" must {
+
     "return the spouse name" in {
       val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = Some(spouseOrCivilPartnerFirstName),
                                                               lastName = Some(spouseOrCivilPartnerLastName))

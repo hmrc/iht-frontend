@@ -18,16 +18,15 @@ package iht.views.application
 
 import iht.views.ViewTestHelper
 import iht.views.helpers.MessagesHelper
-import iht.views.html.application.timeout_application
+import iht.views.html.application.application_generic_error
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.test.FakeRequest
 
 class ApplicationGenericErrorViewTest extends ViewTestHelper with MessagesHelper {
 
   implicit lazy val fakeRequest = FakeRequest()
-  lazy val view = iht.views.html.application.application_generic_error()
+  lazy val applicationGenericErrorView: application_generic_error = app.injector.instanceOf[application_generic_error]
+  lazy val view = applicationGenericErrorView()
   lazy val doc = Jsoup.parse(view.body)
 
   "ApplicationGenericError" must {

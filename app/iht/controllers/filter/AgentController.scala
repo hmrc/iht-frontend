@@ -21,21 +21,20 @@ import javax.inject.Inject
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.filter.agent_view
 
 import scala.concurrent.Future
 
-class AgentControllerImpl @Inject()(val formPartialRetriever: FormPartialRetriever,
+class AgentControllerImpl @Inject()(val agentViewView: agent_view,
                                     implicit val appConfig: AppConfig,
                                     val cc: MessagesControllerComponents) extends FrontendController(cc) with AgentController
 
 trait AgentController extends FrontendController with I18nSupport {
-  implicit val formPartialRetriever: FormPartialRetriever
   implicit val appConfig: AppConfig
-
+  val agentViewView: agent_view
   def onPageLoad: Action[AnyContent] = Action.async {
     implicit request => {
-      Future.successful(Ok(iht.views.html.filter.agent_view()))
+      Future.successful(Ok(agentViewView()))
     }
   }
 }

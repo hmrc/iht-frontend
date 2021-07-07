@@ -33,6 +33,7 @@ trait QualifyingBodiesOverviewViewBehaviour extends GenericNonSubmittablePageBeh
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
 
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
+  lazy val qualifyingBodiesOverviewView: qualifying_bodies_overview = app.injector.instanceOf[qualifying_bodies_overview]
 
   override def guidanceParagraphs = Set(
     messagesApi(""),
@@ -61,7 +62,7 @@ class QualifyingBodiesOverviewViewTest extends QualifyingBodiesOverviewViewBehav
   val qualifyingBodyTableId = "qualifying_bodies_table"
 
   override def view =
-    qualifying_bodies_overview(
+    qualifyingBodiesOverviewView(
       Seq(CommonBuilder.qualifyingBody, CommonBuilder.qualifyingBody2),
       registrationDetails,
       isAssetLeftToQualifyingBody = true
@@ -117,7 +118,7 @@ class QualifyingBodiesOverviewViewTest extends QualifyingBodiesOverviewViewBehav
 
 class QualifyingBodiesOverviewViewWithNoBodiesTest extends QualifyingBodiesOverviewViewBehaviour {
   override def view =
-    qualifying_bodies_overview(
+    qualifyingBodiesOverviewView(
       Seq.empty,
       registrationDetails,
       isAssetLeftToQualifyingBody = true

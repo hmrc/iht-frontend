@@ -18,7 +18,7 @@ package iht.utils
 
 import iht.config.AppConfig
 import iht.models._
-import iht.views.html._
+import iht.views.html.ihtHelpers
 import play.api.i18n.Messages
 
 object DeceasedInfoHelper {
@@ -37,12 +37,14 @@ object DeceasedInfoHelper {
   val isThereADeceasedAddress: Predicate = (rd, _) => rd.deceasedDetails.flatMap(_.ukAddress).isDefined
 
   def getDeceasedNameOrDefaultString(regDetails: RegistrationDetails, wrapName: Boolean = false)
-                                    (implicit messages: Messages, appConfig: AppConfig): String =
+                                    (implicit messages: Messages, appConfig: AppConfig): String = {
+    val nameView = new ihtHelpers.custom.name()
     if (wrapName) {
-      ihtHelpers.custom.name(regDetails.deceasedDetails.fold(messages("iht.the.deceased"))(_.name)).toString
+      nameView(regDetails.deceasedDetails.fold(messages("iht.the.deceased"))(_.name)).toString
     } else {
       regDetails.deceasedDetails.fold(messages("iht.the.deceased"))(_.name)
     }
+  }
 
   def getDeceasedNameOrDefaultString(deceasedName: Option[String])(implicit messages: Messages): String = {
     deceasedName.fold(messages("iht.the.deceased")) { identity }

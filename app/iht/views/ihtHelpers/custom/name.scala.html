@@ -19,6 +19,7 @@
 @import org.apache.commons.lang3.StringEscapeUtils
 @import iht.config.AppConfig
 
+@this()
 @(name: String)(implicit appConfig: AppConfig)
 @{
     Html(StringHelperFixture().splitAndMapElements(name,appConfig.nameRestrictDelimiters, x =>

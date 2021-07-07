@@ -21,22 +21,19 @@ import iht.controllers.application.assets.household.routes._
 import iht.forms.ApplicationForms._
 import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.testhelpers.CommonBuilder
-import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.household.household_deceased_own
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
-import iht.testhelpers.TestHelper._
 
 class HouseholdDeceasedOwnViewTest extends ShareableElementInputViewBehaviour[ShareableBasicEstateElement] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+  lazy val householdDeceasedOwnView: household_deceased_own = app.injector.instanceOf[household_deceased_own]
 
   override def form:Form[ShareableBasicEstateElement] = householdFormOwn
-  override def formToView:Form[ShareableBasicEstateElement] => Appendable = form => household_deceased_own(form, regDetails)
+  override def formToView:Form[ShareableBasicEstateElement] => Appendable = form => householdDeceasedOwnView(form, regDetails)
 
   override def pageTitle = messagesApi("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",
                                     deceasedName)

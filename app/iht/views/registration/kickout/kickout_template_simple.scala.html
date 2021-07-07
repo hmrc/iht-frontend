@@ -14,15 +14,15 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
-@import iht.views.html._
-@import uk.gov.hmrc.play.views.html.helpers.form
+@this(
+    ihtMainTemplateRegistration: iht_main_template_registration,
+    form: FormWithCSRF
+)
 
 @(returnToUrl: Call,
-returnLinkText: String = "")(content: String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+returnLinkText: String = "")(content: String)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_registration(title=Messages("iht.notPossibleToUseService"),
+@ihtMainTemplateRegistration(title=Messages("iht.notPossibleToUseService"),
 browserTitle = Some(Messages("iht.notPossibleToUseService")),
 hasTimeOut=true) {
 

@@ -80,8 +80,9 @@ class DeclarationViewTest extends ViewTestHelper {
       registrationDetails = regDetails,
       riskMessageFromEdh = None
     )
+    lazy val declarationTemplate: declaration = app.injector.instanceOf[declaration]
 
-    val view = declaration(dvm, messages).toString
+    val view = declarationTemplate(dvm, messages).toString
     asDocument(view)
   }
 

@@ -15,15 +15,17 @@
  *@
 
 @import iht.models.application.ProbateDetails
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
+
+@this(
+    ihtMainTemplateApplication: iht_main_template_application,
+    postSubmitCommon:  application.status.post_submit_common
+)
 
 @(ihtref: String,
 deceasedName: String,
-probateDetails: ProbateDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+probateDetails: ProbateDetails)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("page.iht.application.overview.closed.title", deceasedName),
+@ihtMainTemplateApplication(title = Messages("page.iht.application.overview.closed.title", deceasedName),
 browserTitle = Some(Messages("page.iht.application.overview.closed.browserTitle")),
 isFullWidth=false
 ) {
@@ -52,7 +54,7 @@ isFullWidth=false
     @Messages("page.iht.application.overview.closed.p1")
 </p>
 
-@post_submit_common(deceasedName, probateDetails)
+@postSubmitCommon(deceasedName, probateDetails)
 
 <p><a id="return-link" class="button" href="@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad">@Messages("page.iht.application.overview.common.return")</a></p>
 }

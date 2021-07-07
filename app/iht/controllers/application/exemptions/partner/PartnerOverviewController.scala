@@ -24,14 +24,14 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.exemption.partner.partner_overview
 
 import scala.concurrent.Future
 
 class PartnerOverviewControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                               val ihtConnector: IhtConnector,
                                               val authConnector: AuthConnector,
-                                              override implicit val formPartialRetriever: FormPartialRetriever,
+                                              val partnerOverviewView: partner_overview,
                                               implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with PartnerOverviewController
 
@@ -42,10 +42,11 @@ trait PartnerOverviewController extends ApplicationController {
 
   def ihtConnector: IhtConnector
 
+  val partnerOverviewView: partner_overview
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       withApplicationDetails(userNino) { rd => ad =>
-        Future.successful(Ok(iht.views.html.application.exemption.partner.partner_overview(ad, rd)))
+        Future.successful(Ok(partnerOverviewView(ad, rd)))
       }
     }
   }

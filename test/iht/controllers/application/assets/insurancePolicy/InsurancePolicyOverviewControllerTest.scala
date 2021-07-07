@@ -19,14 +19,14 @@ package iht.controllers.application.assets.insurancePolicy
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.assets.InsurancePolicy
-import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever, TestHelper}
+import iht.testhelpers.{CommonBuilder, ContentChecker, TestHelper}
 import iht.utils.DeceasedInfoHelper
+import iht.views.html.application.asset.insurancePolicy.insurance_policies_overview
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -40,13 +40,14 @@ class InsurancePolicyOverviewControllerTest extends ApplicationControllerTest {
   protected abstract class TestController extends FrontendController(mockControllerComponents) with InsurancePolicyOverviewController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val insurancePoliciesOverviewView: insurance_policies_overview = app.injector.instanceOf[insurance_policies_overview]
+
   }
 
   def insurancePolicyOverviewController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   val registrationDetails = CommonBuilder.buildRegistrationDetails copy(

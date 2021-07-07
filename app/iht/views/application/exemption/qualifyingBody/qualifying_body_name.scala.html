@@ -18,28 +18,33 @@
 @import iht.models._
 @import iht.models.application.exemptions._
 @import iht.utils.CommonHelper._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    appConfig: AppConfig,
+    form: FormWithCSRF,
+    errorSummary: ihtHelpers.custom.error_summary,
+    ihtMainTemplateApplication: iht_main_template_application,
+    inputWithHelp: ihtHelpers.standard.input_with_help
+)
 
 @(qualifyingBodyNameForm: Form[QualifyingBody],
 rd: RegistrationDetails,
 submitUrl: Call,
-cancelUrl: Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+cancelUrl: Call)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(
+@ihtMainTemplateApplication(
     title = "",
     browserTitle = Some(Messages("page.iht.application.exemptions.qualifyingBody.name.browserTitle")),
     cancelUrl = Some(addFragmentIdentifier(cancelUrl, Some(appConfig.ExemptionsOtherNameID))),
     cancelLabel = Some(Messages("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody")),
     isFullWidth=false
 ){
-@ihtHelpers.custom.error_summary(qualifyingBodyNameForm)
+@errorSummary(qualifyingBodyNameForm)
 @form(action = submitUrl,'autoComplete -> "off") {
 
 
-    @ihtHelpers.standard.input_with_help(qualifyingBodyNameForm("name"),
+    @inputWithHelp(qualifyingBodyNameForm("name"),
     '_maxlength -> appConfig.validationMaxLengthQualifyingBodyName,
     '_divClass -> "form-group ",
     '_inputClass -> "form-control",

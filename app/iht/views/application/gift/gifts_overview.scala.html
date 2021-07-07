@@ -17,19 +17,21 @@
 @import iht.utils.CommonHelper.getOrException
 @import iht.utils.OverviewHelper._
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
 @import iht.models.RegistrationDetails
 @import iht.utils.OverviewHelper.Section
+@import iht.config.AppConfig
 
-@import iht.views.html.application.generic_overview
+@this(
+    appConfig: AppConfig,
+    genericOverview: application.generic_overview,
+    ihtMainTemplateApplication: iht_main_template_application
+)
 
 @(registrationDetails:RegistrationDetails,
 seqRows:Seq[Section],
 returnToCall: Option[Call],
 returnToMessagesKey: String
-)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+)(implicit request:Request[_], messages: Messages)
 
 
 @deceasedName() = @{getOrException(registrationDetails.deceasedDetails.map(_.name))}
@@ -40,12 +42,12 @@ returnToMessagesKey: String
 
 }
 
-@iht_main_template_application(
+@ihtMainTemplateApplication(
     title = Messages("iht.estateReport.gifts.givenAwayBy",deceasedName),
     browserTitle = Some(Messages("iht.estateReport.gifts.givenAway.title")),
     isFullWidth=false,
     headingName = deceasedName
-)(generic_overview(
+)(genericOverview(
     registrationDetails,
    seqRows,
    Messages("page.iht.application.gifts.overview.guidance1"),

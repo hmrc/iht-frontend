@@ -34,7 +34,7 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.tnrb.date_of_marriage
 
 import scala.concurrent.Future
 
@@ -42,7 +42,7 @@ import scala.concurrent.Future
 class DateOfMarriageControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                              val cachingConnector: CachingConnector,
                                              val authConnector: AuthConnector,
-                                             val formPartialRetriever: FormPartialRetriever,
+                                             val dateOfMarriageView: date_of_marriage,
                                              implicit val appConfig: AppConfig,
                                              val cc: MessagesControllerComponents) extends FrontendController(cc) with DateOfMarriageController
 
@@ -58,7 +58,7 @@ trait DateOfMarriageController extends EstateController with TnrbHelper with Str
       prefixText = messages("page.iht.application.tnrbEligibilty.partner.additional.label.andTheir"),
       wrapName = true)(messages)
   }
-
+  val dateOfMarriageView: date_of_marriage
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
 
       implicit request => {
@@ -75,7 +75,7 @@ trait DateOfMarriageController extends EstateController with TnrbHelper with Str
                 val filledForm = dateOfMarriageForm.fill(appDetails.increaseIhtThreshold.getOrElse(
                   TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
 
-                Ok(iht.views.html.application.tnrb.date_of_marriage(
+                Ok(dateOfMarriageView(
                   filledForm,
                   appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
                   deceasedName,
@@ -108,7 +108,7 @@ trait DateOfMarriageController extends EstateController with TnrbHelper with Str
 
               additionalErrorsForForm(boundForm, dateOfPreDeceased).fold(
                 formWithErrors => {
-                  Future.successful(BadRequest(iht.views.html.application.tnrb.date_of_marriage(formWithErrors,
+                  Future.successful(BadRequest(dateOfMarriageView(formWithErrors,
                     appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
                     deceasedName,
                     predeceasedName(appDetails),

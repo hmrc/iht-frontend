@@ -21,13 +21,13 @@ import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.TnrbForms._
 import iht.models.application.tnrb.WidowCheck
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
 import iht.views.HtmlSpec
+import iht.views.html.application.tnrb.deceased_widow_check_question
 import play.api.i18n.MessagesApi
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest with HtmlSpec {
 
@@ -36,6 +36,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
   protected abstract class TestController extends FrontendController(mockControllerComponents) with DeceasedWidowCheckQuestionController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val deceasedWidowCheckQuestionView: deceased_widow_check_question = app.injector.instanceOf[deceased_widow_check_question]
   }
 
 
@@ -43,14 +44,12 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def deceasedWidowCheckQuestionControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
 

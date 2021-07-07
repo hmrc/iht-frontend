@@ -30,7 +30,9 @@ import play.api.mvc.{MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.http._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.registration.registration_summary
+import iht.views.html.registration.registration_error
+import iht.views.html.registration.registration_error_serviceUnavailable
 
 import scala.concurrent.Future
 
@@ -38,23 +40,26 @@ class RegistrationSummaryControllerImpl @Inject()(val ihtConnector: IhtConnector
                                                   val cachingConnector: CachingConnector,
                                                   val metrics: IhtMetrics,
                                                   val authConnector: AuthConnector,
-                                                  val formPartialRetriever: FormPartialRetriever,
+                                                  val registrationSummaryView: registration_summary,
+                                                  val registrationErrorView: registration_error,
+                                                  val registrationErrorServiceUnavailableView: registration_error_serviceUnavailable,
                                                   implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with RegistrationSummaryController
 
 trait RegistrationSummaryController extends RegistrationController with StringHelper with RegistrationDetailsHelper {
   override def guardConditions: Set[Predicate] = guardConditionsRegistrationSummary
-
   def cachingConnector: CachingConnector
   def metrics: IhtMetrics
   def ihtConnector: IhtConnector
-  
+  val registrationSummaryView: registration_summary
+  val registrationErrorView: registration_error
+  val registrationErrorServiceUnavailableView: registration_error_serviceUnavailable
   def onPageLoad = authorisedForIht {
     implicit request => {
       implicit val request2Lang: Lang = messagesApi.preferred(request).lang
 
       withRegistrationDetailsRedirectOnGuardCondition { rd =>
-        Future.successful(Ok(iht.views.html.registration.registration_summary(rd, additionalApplicantType(rd.applicantDetails.get.role))))
+        Future.successful(Ok(registrationSummaryView(rd, additionalApplicantType(rd.applicantDetails.get.role))))
       }
     }
   }
@@ -80,21 +85,21 @@ trait RegistrationSummaryController extends RegistrationController with StringHe
       def errorHandler: PartialFunction[Throwable, Result] = {
         case ex: GatewayTimeoutException =>
           logger.warn("Request has been timed out while submitting registration", ex)
-          InternalServerError(iht.views.html.registration.registration_error(ControllerHelper.errorRequestTimeOut))
+          InternalServerError(registrationErrorView(ControllerHelper.errorRequestTimeOut))
         case ex: UpstreamErrorResponse if ex.statusCode == 502 &&
           ex.message.contains("Service Unavailable") =>
           logger.warn("Service Unavailable while submitting registration", ex)
-          InternalServerError(iht.views.html.registration.registration_error_serviceUnavailable())
+          InternalServerError(registrationErrorServiceUnavailableView())
         case ex: UpstreamErrorResponse if ex.statusCode == 502 &&
           ex.message.contains("500 response returned from DES") =>
           throw ex
         case ex: Exception =>
           if (ex.getMessage.contains("Request timed out")) {
             logger.warn("Request has been timed out while submitting registration", ex)
-            InternalServerError(iht.views.html.registration.registration_error(ControllerHelper.errorRequestTimeOut))
+            InternalServerError(registrationErrorView(ControllerHelper.errorRequestTimeOut))
           } else {
             logger.warn("System error while submitting registration", ex)
-            InternalServerError(iht.views.html.registration.registration_error(ControllerHelper.errorSystem))
+            InternalServerError(registrationErrorView(ControllerHelper.errorSystem))
           }
       }
 

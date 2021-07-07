@@ -26,27 +26,27 @@ import play.api.Logging
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.declaration.probate_application_form_details
 
 import scala.concurrent.Future
 
 class ProbateApplicationFormDetailsControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                                             val ihtConnector: IhtConnector,
                                                             val authConnector: AuthConnector,
-                                                            override implicit val formPartialRetriever: FormPartialRetriever,
+                                                            val probateApplicationFormDetailsView: probate_application_form_details,
                                                             implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with ProbateApplicationFormDetailsController
 
 trait ProbateApplicationFormDetailsController extends ApplicationController with Logging {
   def cachingConnector: CachingConnector
-
+  val probateApplicationFormDetailsView: probate_application_form_details
   def onPageLoad: Action[AnyContent] = authorisedForIht {
     implicit request => {
       withRegistrationDetails { rd =>
         val ihtReference = CommonHelper.getOrException(rd.ihtReference)
         cachingConnector.getProbateDetails.flatMap {
           case Some(probateDetails) => cachingConnector.storeSingleValue(Constants.PDFIHTReference, ihtReference).map {
-            _ => Ok(iht.views.html.application.declaration.probate_application_form_details(probateDetails, rd))
+            _ => Ok(probateApplicationFormDetailsView(probateDetails, rd))
           }
           case None =>
             logger.warn("No probate details in keystore")

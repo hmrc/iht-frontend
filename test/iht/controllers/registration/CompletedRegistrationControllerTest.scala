@@ -17,13 +17,13 @@
 package iht.controllers.registration
 
 import iht.config.AppConfig
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
 import iht.utils._
+import iht.views.html.registration.completed_registration
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class CompletedRegistrationControllerTest extends RegistrationControllerTest {
   val requestWithHeaders=FakeRequest().withHeaders(("referer",referrerURL),("host",host))
@@ -31,20 +31,17 @@ class CompletedRegistrationControllerTest extends RegistrationControllerTest {
   protected abstract class TestController extends FrontendController(mockControllerComponents) with CompletedRegistrationController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val completedRegistrationView: completed_registration = app.injector.instanceOf[completed_registration]
   }
 
   def completedRegistrationController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def completedRegistrationControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   val ihtReference = "AB123456"

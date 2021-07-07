@@ -22,15 +22,14 @@ import iht.controllers.ControllerHelper.Mode
 import iht.controllers.registration.RegistrationController
 import iht.forms.registration.CoExecutorForms
 import iht.models.{CoExecutor, RegistrationDetails}
-import iht.utils.StringHelper
-import iht.views.html.registration.{executor => views}
+import iht.utils.{AddressHelper, StringHelper}
+import iht.views.html.registration.executor.coexecutor_personal_details
 import javax.inject.Inject
 import play.api.data.Form
 import play.api.mvc.{Call, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
+import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
 import scala.concurrent.Future
@@ -38,7 +37,7 @@ import scala.concurrent.Future
 class CoExecutorPersonalDetailsControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                         val cachingConnector: CachingConnector,
                                                         val authConnector: AuthConnector,
-                                                        val formPartialRetriever: FormPartialRetriever,
+                                                        val coexecutorPersonalDetailsView: coexecutor_personal_details,
                                                         implicit val appConfig: AppConfig,
                                                         val cc: MessagesControllerComponents) extends FrontendController(cc)
   with CoExecutorPersonalDetailsController
@@ -47,7 +46,7 @@ trait CoExecutorPersonalDetailsController extends RegistrationController with Co
   def cachingConnector: CachingConnector
 
   override def guardConditions = guardConditionsCoExecutorPersonalDetails
-
+  val coexecutorPersonalDetailsView: coexecutor_personal_details
   def onPageLoad(id: Option[String]) = pageLoad(id, routes.CoExecutorPersonalDetailsController.onSubmit(id))
   def onEditPageLoad(id: String) = pageLoad(Some(id), routes.CoExecutorPersonalDetailsController.onEditSubmit(id),
     Mode.Edit, cancelToRegSummary)
@@ -73,7 +72,7 @@ trait CoExecutorPersonalDetailsController extends RegistrationController with Co
             }
         }
 
-        Future.successful(Ok(views.coexecutor_personal_details(form, mode, actionCall, cancelCall)))
+        Future.successful(Ok(coexecutorPersonalDetailsView(form, mode, actionCall, cancelCall)))
       }
   }
 
@@ -125,7 +124,7 @@ trait CoExecutorPersonalDetailsController extends RegistrationController with Co
         val boundForm = formType.bindFromRequest()
 
         boundForm.fold(formWithErrors => {
-          Future.successful(BadRequest(views.coexecutor_personal_details(formWithErrors, mode,
+          Future.successful(BadRequest(coexecutorPersonalDetailsView(formWithErrors, mode,
             onFailureActionCall, cancelCall)))
         },
           coExecutor =>

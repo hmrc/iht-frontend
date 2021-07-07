@@ -20,14 +20,10 @@ import iht.forms.ApplicationForms._
 import iht.models.application.gifts.AllGifts
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.{CommonHelper, DeceasedInfoHelper}
-import iht.views.application.{SubmittableApplicationPageBehaviour, CancelComponent}
+import iht.views.application.{CancelComponent, SubmittableApplicationPageBehaviour}
 import iht.views.html.application.gift.seven_years_to_trust
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.constants.Constants._
 
 
 
@@ -66,10 +62,11 @@ class SevenYearsToTrustViewTest extends SubmittableApplicationPageBehaviour[AllG
   override def linkHash = appConfig.GiftsSevenYearsQuestionID2
 
   override def form: Form[AllGifts] = giftSevenYearsGivenInLast7YearsForm
+  lazy val sevenYearsToTrustView: seven_years_to_trust = app.injector.instanceOf[seven_years_to_trust]
 
   override def formToView: Form[AllGifts] => Appendable =
     form =>
-      seven_years_to_trust(form, regDetails)
+      sevenYearsToTrustView(form, regDetails)
 
 
   "SevenYearsToTrust Page" must {

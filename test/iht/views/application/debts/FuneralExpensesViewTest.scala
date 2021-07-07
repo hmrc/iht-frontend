@@ -16,18 +16,14 @@
 
 package iht.views.application.debts
 
+import iht.controllers.application.debts.routes
 import iht.forms.ApplicationForms._
 import iht.models.application.debts.BasicEstateElementLiabilities
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.DeceasedInfoHelper
 import iht.views.html.application.debts.funeral_expenses
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
-import iht.constants.Constants._
-
-import iht.controllers.application.debts.routes
 
 
 
@@ -40,7 +36,9 @@ class FuneralExpensesViewTest extends DebtsElementViewBehaviour[BasicEstateEleme
                                                   deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
 
   override def form:Form[BasicEstateElementLiabilities] = funeralExpensesForm
-  override def formToView:Form[BasicEstateElementLiabilities] => Appendable = form => funeral_expenses(form, regDetails)
+  lazy val funeralExpensesView: funeral_expenses = app.injector.instanceOf[funeral_expenses]
+
+  override def formToView:Form[BasicEstateElementLiabilities] => Appendable = form => funeralExpensesView(form, regDetails)
 
   override def pageTitle = messagesApi("iht.estateReport.debts.funeralExpenses.title")
   override def browserTitle = messagesApi("iht.estateReport.debts.funeralExpenses.title")

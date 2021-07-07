@@ -16,10 +16,8 @@
 
 package iht.views.iv.failurepages
 
+import iht.views.GenericNonSubmittablePageBehaviour
 import iht.views.html.iv.failurepages.locked_out
-import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 
 class LockedOutViewTest extends GenericNonSubmittablePageBehaviour {
 
@@ -30,8 +28,9 @@ class LockedOutViewTest extends GenericNonSubmittablePageBehaviour {
   def pageTitle = messagesApi("page.iht.iv.failure.couldNotConfirmIdentity")
 
   def browserTitle = messagesApi("page.iht.iv.failure.couldNotConfirmIdentity")
+  lazy val lockedOutView: locked_out = app.injector.instanceOf[locked_out]
 
-  def view: String = locked_out()(createFakeRequest(), messages, formPartialRetriever, appConfig).toString
+  def view: String = lockedOutView()(createFakeRequest(), messages).toString
 
   override def exitComponent = None
 

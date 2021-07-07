@@ -18,8 +18,6 @@ package iht.views.registration.kickout
 
 import iht.views.ViewTestHelper
 import iht.views.html.registration.kickout.kickout_expander
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 
 
 class KickoutExpanderViewTest extends ViewTestHelper{
@@ -27,11 +25,12 @@ class KickoutExpanderViewTest extends ViewTestHelper{
   val summaryMessage = "kickout summary message"
   val returnLinkUrl = iht.controllers.registration.applicant.routes.ApplyingForProbateController.onPageLoad
   val seqOfContents = Seq("lineOne", "lineTwo")
+  lazy val kickoutExpanderView: kickout_expander = app.injector.instanceOf[kickout_expander]
 
   def kickOutTemplateView() = {
     implicit val request = createFakeRequest()
 
-    val view = kickout_expander(summaryMessage,
+    val view = kickoutExpanderView(summaryMessage,
       returnLinkUrl, messagesApi("iht.changeYourAnswer"))(seqOfContents).toString()
     asDocument(view)
   }

@@ -29,12 +29,11 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class SevenYearsToTrustControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                 val cachingConnector: CachingConnector,
                                                 val authConnector: AuthConnector,
-                                                val formPartialRetriever: FormPartialRetriever,
+                                                val sevenYearsToTrustView: seven_years_to_trust,
 implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with SevenYearsToTrustController {
 
@@ -42,9 +41,10 @@ val cc: MessagesControllerComponents) extends FrontendController(cc) with SevenY
 
 trait SevenYearsToTrustController extends EstateController {
 
+  val sevenYearsToTrustView: seven_years_to_trust
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
-      estateElementOnPageLoad[AllGifts](giftSevenYearsToTrustForm, seven_years_to_trust.apply, _.allGifts, userNino)
+      estateElementOnPageLoad[AllGifts](giftSevenYearsToTrustForm, sevenYearsToTrustView.apply, _.allGifts, userNino)
   }
 
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -58,7 +58,7 @@ trait SevenYearsToTrustController extends EstateController {
           (updatedAD, None)
         }
       estateElementOnSubmit[AllGifts](giftSevenYearsToTrustForm,
-        seven_years_to_trust.apply,
+        sevenYearsToTrustView.apply,
         updateApplicationDetails,
         CommonHelper.addFragmentIdentifier(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad(), Some(appConfig.GiftsSevenYearsQuestionID2)),
         userNino

@@ -30,12 +30,11 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class VehiclesDeceasedOwnControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                   val cachingConnector: CachingConnector,
                                                   val authConnector: AuthConnector,
-                                                  val formPartialRetriever: FormPartialRetriever,
+                                                  val vehiclesDeceasedOwnView: vehicles_deceased_own,
                                                   implicit val appConfig: AppConfig,
                                                   val cc: MessagesControllerComponents) extends FrontendController(cc) with VehiclesDeceasedOwnController
 
@@ -46,10 +45,11 @@ trait VehiclesDeceasedOwnController extends EstateController {
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
     iht.controllers.application.assets.vehicles.routes.VehiclesOverviewController.onPageLoad(),
     Some(appConfig.AssetsVehiclesOwnID))
+  val vehiclesDeceasedOwnView: vehicles_deceased_own
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
-      estateElementOnPageLoad[ShareableBasicEstateElement](vehiclesFormOwn, vehicles_deceased_own.apply, _.allAssets.flatMap(_.vehicles), userNino)
+      estateElementOnPageLoad[ShareableBasicEstateElement](vehiclesFormOwn, vehiclesDeceasedOwnView.apply, _.allAssets.flatMap(_.vehicles), userNino)
     }
   }
 
@@ -77,7 +77,7 @@ trait VehiclesDeceasedOwnController extends EstateController {
 
       estateElementOnSubmit[ShareableBasicEstateElement](
         vehiclesFormOwn,
-        vehicles_deceased_own.apply,
+        vehiclesDeceasedOwnView.apply,
         updateApplicationDetails,
         submitUrl,
         userNino

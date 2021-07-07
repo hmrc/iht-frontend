@@ -17,28 +17,33 @@
 @import iht.models.RegistrationDetails
 @import iht.models.application.exemptions._
 @import iht.utils.CommonHelper._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputEstateValue: ihtHelpers.custom.input_estate_value
+)
 
 @(assetsLeftToCharityValueForm: Form[Charity],
         rd: RegistrationDetails,
         submitUrl: Call,
-        cancelUrl: Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+        cancelUrl: Call)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(
+@ihtMainTemplateApplication(
     title = "",
     browserTitle = Some(Messages("page.iht.application.exemptions.charityValue.browserTitle")),
     cancelUrl = Some(addFragmentIdentifier(cancelUrl, Some(appConfig.ExemptionsCharitiesValueID))),
     cancelLabel = Some(Messages("iht.estateReport.exemptions.charities.returnToAddACharity")),
     isFullWidth = false
 ) {
-    @ihtHelpers.custom.error_summary(assetsLeftToCharityValueForm)
+    @errorSummary(assetsLeftToCharityValueForm)
     @form(action = submitUrl, 'autoComplete -> "off") {
 
 
-        @ihtHelpers.custom.input_estate_value(assetsLeftToCharityValueForm("totalValue"),
+        @inputEstateValue(assetsLeftToCharityValueForm("totalValue"),
             '_currency -> "GBP",
             '_divClass -> "form-group",
             '_label -> Html(Messages("page.iht.application.exemptions.charityValue.sectionTitle")),

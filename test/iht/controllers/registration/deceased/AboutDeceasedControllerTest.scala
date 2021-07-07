@@ -21,14 +21,14 @@ import iht.connector.CachingConnector
 import iht.controllers.registration.RegistrationControllerTest
 import iht.forms.registration.DeceasedForms
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails}
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.registration.deceased.about_deceased
 import org.joda.time.LocalDate
 import org.scalatest.BeforeAndAfter
 import play.api.data.Form
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -37,6 +37,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
   protected abstract class TestController extends FrontendController(mockControllerComponents) with AboutDeceasedController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val aboutDeceasedView: about_deceased = app.injector.instanceOf[about_deceased]
   }
 
   def controller(deceasedForms2:DeceasedForms) = new TestController {
@@ -45,15 +46,12 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
 
    override def deceasedForms = deceasedForms2
    override def checkGuardCondition(registrationDetails: RegistrationDetails, id: String): Boolean = true
-   override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
-
     override def deceasedForms = DeceasedForms
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def formWithMockedNinoValidation(deceased: DeceasedDetails, mockCachingConnector: CachingConnector): DeceasedForms = {

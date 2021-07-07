@@ -19,21 +19,27 @@
 @import iht.models.RegistrationDetails
 @import iht.models.application.debts.BasicEstateElementLiabilities
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    errorSummaryOverrideKeys: ihtHelpers.custom.error_summary_override_keys,
+    genericEstateElementAssets: ihtHelpers.custom.generic_estate_element_assets,
+    ihtMainTemplateApplication: iht_main_template_application,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(jointlyOwnedDebtsForm: Form[BasicEstateElementLiabilities],
-  registrationDetails: RegistrationDetails)(implicit request: Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+  registrationDetails: RegistrationDetails)(implicit request: Request[_], messages: Messages)
 
 @deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
-@iht_main_template_application(title = Messages("iht.estateReport.debts.owedOnJointAssets"),
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.debts.owedOnJointAssets"),
     browserTitle = Some(Messages("page.iht.application.debts.jointlyOwned.browserTitle")),
     isFullWidth = false
 ) {
 
-    @ihtHelpers.custom.error_summary_override_keys(jointlyOwnedDebtsForm, AppSectionDebtsOwedOnJointAssets)
+    @errorSummaryOverrideKeys(jointlyOwnedDebtsForm, AppSectionDebtsOwedOnJointAssets)
 
     @form(action = iht.controllers.application.debts.routes.JointlyOwnedDebtsController.onSubmit, 'autoComplete -> "off") {
 
@@ -41,7 +47,7 @@
             <p>@Html(Messages("page.iht.application.debts.jointlyOwned.description.p1", DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
         </div>
 
-        @ihtHelpers.custom.generic_estate_element_assets(
+        @genericEstateElementAssets(
             assetType = AssetTypeSingle,
             questionLabel= Messages("page.iht.application.debts.jointlyOwned.isOwned"),
             inputTextLabel = Messages("iht.estateReport.debts.owedOnJointAssets.value"),
@@ -54,7 +60,7 @@
             <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
 
-        @ihtHelpers.custom.return_link(
+        @returnLink(
             Messages("site.link.return.debts"),
             Some(iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()),
             appConfig.DebtsOwedJointlyID

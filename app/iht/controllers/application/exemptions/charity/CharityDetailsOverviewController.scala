@@ -25,14 +25,14 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.exemption.charity.charity_details_overview
 
 import scala.concurrent.Future
 
 class CharityDetailsOverviewControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                      val cachingConnector: CachingConnector,
                                                      val authConnector: AuthConnector,
-                                                     val formPartialRetriever: FormPartialRetriever,
+                                                     val charityDetailsOverviewView: charity_details_overview,
                                                      implicit val appConfig: AppConfig,
                                                      val cc: MessagesControllerComponents) extends FrontendController(cc) with CharityDetailsOverviewController {
 
@@ -45,11 +45,12 @@ trait CharityDetailsOverviewController extends EstateController {
 
   def cachingConnector: CachingConnector
 
+  val charityDetailsOverviewView: charity_details_overview
   def onPageLoad() = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       withApplicationDetails(userNino) { rd =>
         ad =>
-          Future.successful(Ok(iht.views.html.application.exemption.charity.charity_details_overview()))
+          Future.successful(Ok(charityDetailsOverviewView()))
       }
     }
   }
@@ -69,7 +70,7 @@ trait CharityDetailsOverviewController extends EstateController {
                 throw new RuntimeException("No charity found for the id")
               } {
                 (matchedCharity) =>
-                  Ok(iht.views.html.application.exemption.charity.charity_details_overview(Some(matchedCharity)
+                  Ok(charityDetailsOverviewView(Some(matchedCharity)
                   ))
               }
             case _ =>

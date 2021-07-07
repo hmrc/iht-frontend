@@ -33,14 +33,14 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.gift.gifts_details
 
 import scala.concurrent.Future
 
 class GiftsDetailsControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                            val cachingConnector: CachingConnector,
                                            val authConnector: AuthConnector,
-                                           val formPartialRetriever: FormPartialRetriever,
+                                           val giftsDetailsView: gifts_details,
                                            implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with GiftsDetailsController {
 
@@ -57,6 +57,7 @@ trait GiftsDetailsController extends EstateController {
   def cachingConnector: CachingConnector
 
   def ihtConnector: IhtConnector
+  val giftsDetailsView: gifts_details
 
   def onPageLoad(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
@@ -85,7 +86,7 @@ trait GiftsDetailsController extends EstateController {
             })
         }(form =>
           Ok(
-            iht.views.html.application.gift.gifts_details(
+            giftsDetailsView(
               form,
               rd,
               Some(CommonHelper.addFragmentIdentifier(cancelUrl.get, Some(appConfig.GiftsValueDetailID + id.toString))),
@@ -110,7 +111,7 @@ trait GiftsDetailsController extends EstateController {
             } yield {
               LogHelper.logFormError(formWithErrors)
                 BadRequest(
-                  iht.views.html.application.gift.gifts_details(
+                  giftsDetailsView(
                     formWithErrors,
                     rd,
                     Some(sevenYearsGiftsRedirectLocation),

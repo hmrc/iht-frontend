@@ -23,11 +23,7 @@ import iht.testhelpers.CommonBuilder
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.stocksAndShares.stocks_and_shares_not_listed
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.testhelpers.TestHelper._
 
 class StocksAndSharesNotListedViewTest extends ShareableElementInputViewBehaviour[StockAndShare] {
 
@@ -48,8 +44,10 @@ class StocksAndSharesNotListedViewTest extends ShareableElementInputViewBehaviou
   override def formTarget = Some(routes.StocksAndSharesNotListedController.onSubmit())
 
   override def form: Form[StockAndShare] = stockAndShareNotListedForm
+  lazy val stocksAndSharesNotListedView: stocks_and_shares_not_listed = app.injector.instanceOf[stocks_and_shares_not_listed]
+
   override def formToView: Form[StockAndShare] => Appendable =
-    form => stocks_and_shares_not_listed(form, regDetails)
+    form => stocksAndSharesNotListedView(form, regDetails)
 
 
   "Stocks and Shares Listed View" must {

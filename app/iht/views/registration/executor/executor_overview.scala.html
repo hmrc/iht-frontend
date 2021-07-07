@@ -16,24 +16,31 @@
 
 @import iht.constants.IhtProperties
 @import iht.models.CoExecutor
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateRegistration: iht_main_template_registration,
+    errorSummary: ihtHelpers.custom.error_summary,
+    nameHelper: ihtHelpers.custom.name,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group,
+    continueButton: ihtHelpers.custom.continue_button
+)
 
 @(addMoreCoExecutorsForm: Form[Option[Boolean]],
   areOthersApplying: Boolean,
   coExecutors: Seq[CoExecutor],
   actionCall: Call,
-  cancelCall: Option[Call] = None)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+  cancelCall: Option[Call] = None)(implicit request : Request[_], messages: Messages)
 
-@iht_main_template_registration(title = Messages("iht.registration.othersApplyingForProbate"),
+@ihtMainTemplateRegistration(title = Messages("iht.registration.othersApplyingForProbate"),
   browserTitle = Some(Messages("page.iht.registration.executor-overview.browserTitle")),
   isFullWidth = false,
   cancelUrl = cancelCall,
   hasTimeOut = true) {
 
-@ihtHelpers.custom.error_summary(addMoreCoExecutorsForm)
+@errorSummary(addMoreCoExecutorsForm)
 
 @form(action = actionCall,'autoComplete -> "off") {
   <p>@Messages("page.iht.registration.executor-overview.description")</p>
@@ -51,7 +58,7 @@
   <ul>
       @for(coExecutor <- coExecutors) {
       <li class="grid-layout grid-layout--maintain-width grid-layout--nogutter divider--bottom section">
-        <div id='executorName-@coExecutor.id.getOrElse("")' class="grid-layout__column grid-layout__column--1-2">@ihtHelpers.custom.name(coExecutor.name.toString)</div>
+        <div id='executorName-@coExecutor.id.getOrElse("")' class="grid-layout__column grid-layout__column--1-2">@nameHelper(coExecutor.name.toString)</div>
         <div class="grid-layout__column grid-layout__column--1-4 u-align--right"><a href='@iht.controllers.registration.executor.routes.DeleteCoExecutorController.onPageLoad(coExecutor.id.getOrElse("")).url' id='delete-executor-@coExecutor.id.getOrElse("")'><span aria-hidden="true">@Messages("iht.delete")</span><span class="visually-hidden">@Messages("page.iht.registration.executor-overview.executor.delete.screenReader", coExecutor.name)</span></a></div>
         <div class="grid-layout__column grid-layout__column--1-4 u-align--right"><a href='@iht.controllers.registration.executor.routes.CoExecutorPersonalDetailsController.onPageLoad(coExecutor.id).url' id='change-executor-@coExecutor.id.getOrElse("")'><span aria-hidden="true">@Messages("iht.change")</span><span class="visually-hidden">@Messages("page.iht.registration.executor-overview.executor.change.screenReader", coExecutor.name)</span></a></div>
       </li>
@@ -62,7 +69,7 @@
     @defining( Messages("page.iht.registration.executor-overview.sectionName"))  { sectionName =>
       @defining( Messages("page.iht.registration.executor-overview.yesnoQuestion")) { legend =>
 
-        @ihtHelpers.standard.input_yes_no_radio_group(
+        @inputYesNoRadioGroup(
           addMoreCoExecutorsForm("addMoreCoExecutors"),
           '_legend -> legend,
           '_shownElementNo -> Some(sectionName+ "1-details "+ sectionName+ "-joint "),
@@ -74,6 +81,6 @@
   } else {
     <input type="hidden" id="addMoreCoExecutors-false" name="addMoreCoExecutors" value="false"/>
   }
-  @ihtHelpers.custom.continue_button()
+  @continueButton()
 }
 }

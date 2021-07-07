@@ -20,12 +20,12 @@ package iht.controllers.application.tnrb
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.TnrbForms._
-import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
+import iht.testhelpers.{CommonBuilder, ContentChecker}
+import iht.views.html.application.tnrb.gifts_with_reservation_of_benefit
 import org.joda.time.LocalDate
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 
 class GiftsWithReservationOfBenefitControllerTest  extends ApplicationControllerTest{
@@ -33,13 +33,13 @@ class GiftsWithReservationOfBenefitControllerTest  extends ApplicationController
   protected abstract class TestController extends FrontendController(mockControllerComponents) with GiftsWithReservationOfBenefitController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val giftsWithReservationOfBenefitView: gifts_with_reservation_of_benefit = app.injector.instanceOf[gifts_with_reservation_of_benefit]
   }
 
   def giftsWithReservationOfBenefitController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def giftsWithReservationOfBenefitControllerNotAuthorised = new TestController {
@@ -47,7 +47,6 @@ class GiftsWithReservationOfBenefitControllerTest  extends ApplicationController
 //    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "GiftsWithReservationOfBenefitController" must {

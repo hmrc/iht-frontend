@@ -20,7 +20,7 @@ import iht.config.AppConfig
 import iht.connector.CachingConnector
 import iht.metrics.IhtMetrics
 import iht.models.enums.KickOutSource
-import iht.utils.CommonHelper
+import iht.utils.{AddressHelper, CommonHelper}
 import iht.views.html.registration.kickout._
 import javax.inject.Inject
 import play.api.i18n.Messages
@@ -36,13 +36,14 @@ class KickoutRegControllerImpl @Inject()(val metrics: IhtMetrics,
                                          val formPartialRetriever: FormPartialRetriever,
                                          val cachingConnector: CachingConnector,
                                          val authConnector: AuthConnector,
+                                         val kickoutTemplateView: kickout_template,
+                                         val kickoutExpanderView: kickout_expander,
+                                         val kickoutTemplateSimpleView: kickout_template_simple,
                                          implicit val appConfig: AppConfig,
                                          val cc: MessagesControllerComponents) extends FrontendController(cc) with KickoutRegController
 
 trait KickoutRegController extends RegistrationController {
   val metrics: IhtMetrics
-
-  implicit val formPartialRetriever: FormPartialRetriever
 
   def cachingConnector: CachingConnector
   override def guardConditions: Set[Predicate] = Set.empty
@@ -52,33 +53,36 @@ trait KickoutRegController extends RegistrationController {
   lazy val deceasedDateOfDeathPageLoad = iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad()
   lazy val applicantApplyingForProbatePageLoad = iht.controllers.registration.applicant.routes.ApplyingForProbateController.onPageLoad()
   lazy val applicantExecutorOfEstatePageLoad = iht.controllers.registration.applicant.routes.ExecutorOfEstateController.onPageLoad()
+  val kickoutTemplateView: kickout_template
+  val kickoutExpanderView: kickout_expander
+  val kickoutTemplateSimpleView: kickout_template_simple
 
   def probateKickoutView(contentLines: Seq[String])(implicit request: Request[_]) =
-    kickout_template(Messages("page.iht.registration.applicantDetails.kickout.probate.summary"),
+    kickoutTemplateView(Messages("page.iht.registration.applicantDetails.kickout.probate.summary"),
       applicantProbateLocationPageLoad)(contentLines)
 
   def locationKickoutView(contentLines: Seq[String])(implicit request: Request[_]) =
-    kickout_template(Messages("page.iht.registration.deceasedDetails.kickout.location.summary"),
+    kickoutTemplateView(Messages("page.iht.registration.deceasedDetails.kickout.location.summary"),
       deceasedPermHomePageLoad)(contentLines)
 
   def capitalTaxKickoutView(contentLines: Seq[String])(implicit request: Request[_]) =
-    kickout_template(Messages("page.iht.registration.deceasedDateOfDeath.kickout.date.capital.tax.summary"),
+    kickoutTemplateView(Messages("page.iht.registration.deceasedDateOfDeath.kickout.date.capital.tax.summary"),
       deceasedDateOfDeathPageLoad,
       Messages("iht.registration.kickout.returnToTheDateOfDeath"))(contentLines)
 
   def dateOtherKickoutView(contentLines: Seq[String])(implicit request: Request[_]) = {
     val viewFunc: Seq[String] => HtmlFormat.Appendable =
-      kickout_template(Messages("page.iht.registration.deceasedDateOfDeath.kickout.date.other.summary"), deceasedDateOfDeathPageLoad)
+      kickoutTemplateView(Messages("page.iht.registration.deceasedDateOfDeath.kickout.date.other.summary"), deceasedDateOfDeathPageLoad)
 
     viewFunc(contentLines)
   }
 
   def notApplyingForProbateKickoutView(contentLines: Seq[String])(implicit request: Request[_]) =
-    kickout_expander(Messages("page.iht.registration.notApplyingForProbate.kickout.summary"),
+    kickoutExpanderView(Messages("page.iht.registration.notApplyingForProbate.kickout.summary"),
       applicantApplyingForProbatePageLoad, Messages("iht.changeYourAnswer"))(contentLines)
 
   def notAnExecutorKickoutView(content: String)(implicit request: Request[_]) =
-    kickout_template_simple(applicantExecutorOfEstatePageLoad, Messages("iht.changeYourAnswer"))(content)
+    kickoutTemplateSimpleView(applicantExecutorOfEstatePageLoad, Messages("iht.changeYourAnswer"))(content)
 
   def content(implicit messages:Messages): Map[String, Request[_] => HtmlFormat.Appendable] = Map(
     KickoutApplicantDetailsProbateScotland ->

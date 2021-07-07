@@ -22,8 +22,6 @@ import iht.testhelpers.CommonBuilder
 import iht.views.application.YesNoQuestionViewBehaviour
 import iht.views.html.application.tnrb.estate_claim
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
 
 class EstateClaimViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
@@ -33,6 +31,7 @@ class EstateClaimViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel
   def widowCheck = CommonBuilder.buildWidowedCheck
 
   val deceasedDetailsName = CommonBuilder.buildDeceasedDetails.name
+  lazy val estateClaimView: estate_claim = app.injector.instanceOf[estate_claim]
 
   override def pageTitle = messagesApi("iht.estateReport.tnrb.stateClaim.question")
 
@@ -46,7 +45,7 @@ class EstateClaimViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel
 
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
     form =>
-      estate_claim(form, CommonBuilder.DefaultCall2)
+      estateClaimView(form, CommonBuilder.DefaultCall2)
 
   override def cancelComponent = None
 

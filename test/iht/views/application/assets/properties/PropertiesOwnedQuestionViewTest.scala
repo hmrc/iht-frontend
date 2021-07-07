@@ -18,21 +18,17 @@ package iht.views.application.assets.properties
 
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.Properties
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
 import iht.views.html.application.asset.properties.properties_owned_question
-import iht.views.html.application.asset.trusts.trusts_owned_question
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.testhelpers.TestHelper
 
 class PropertiesOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[Properties] {
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
 
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
+  lazy val propertiesOwnedQuestionView: properties_owned_question = app.injector.instanceOf[properties_owned_question]
 
   override def guidance = guidance(
     Set(
@@ -58,7 +54,7 @@ class PropertiesOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[Propert
 
   override def formToView: Form[Properties] => Appendable =
     form =>
-      properties_owned_question(form, registrationDetails)
+      propertiesOwnedQuestionView(form, registrationDetails)
 
   "Properties Owned Question View" must {
     behave like yesNoQuestionWithLegend(messagesApi("page.iht.application.assets.properties.question.question", deceasedName))

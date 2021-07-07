@@ -17,38 +17,39 @@
 @import iht.constants.Constants
 @import iht.models.RegistrationDetails
 @import iht.models.application.gifts.PreviousYearsGifts
-@import iht.views.html.iht_main_template_application
-@import iht.views.html.ihtHelpers.custom.error_summary_override_keys
-@import iht.views.html.ihtHelpers.custom.input_estate_value
 @import org.joda.time.LocalDate
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.utils.CustomLanguageUtils.Dates
-@import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    form: FormWithCSRF,
+    inputEstateValue: ihtHelpers.custom.input_estate_value,
+    errorSummaryOverrideKeys: ihtHelpers.custom.error_summary_override_keys,
+    ihtMainTemplateApplication: iht_main_template_application
+)
 
 @(previousYearGiftsForm:Form[PreviousYearsGifts],
 registrationDetails:RegistrationDetails,
 cancelUrl: Option[Call],
 cancelLabel: => Option[String]
-)(implicit request:Request[_], messages: Messages, lang : play.api.i18n.Lang, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+)(implicit request:Request[_], messages: Messages, lang : play.api.i18n.Lang)
 
 @startDate = @{previousYearGiftsForm("startDate").value.getOrElse("")}
 @endDate = @{previousYearGiftsForm("endDate").value.getOrElse("")}
 @startDateFormatted = @{if(!startDate.isEmpty)Dates.formatDate(LocalDate.parse(startDate))else""}
 @endDateFormatted = @{if(!endDate.isEmpty)Dates.formatDate(LocalDate.parse(endDate))else""}
 
-@iht_main_template_application(
+@ihtMainTemplateApplication(
 title = (Messages("page.iht.application.giftsDetails.subtitle",startDateFormatted) + " <span class=\"u--block\">" + endDateFormatted + "</span>"),
     browserTitle = Some(Messages("page.iht.application.giftsDetails.browserTitle")),
     cancelUrl=cancelUrl,
     cancelLabel = cancelLabel
 ) {
 
-@error_summary_override_keys(previousYearGiftsForm, Constants.AppSectionEstateGifts)
+@errorSummaryOverrideKeys(previousYearGiftsForm, Constants.AppSectionEstateGifts)
 
 @form(action = iht.controllers.application.gifts.routes.GiftsDetailsController.onSubmit,'autoComplete -> "off") {
 
-    @input_estate_value(previousYearGiftsForm("value"),
+    @inputEstateValue(previousYearGiftsForm("value"),
     '_label -> Messages("page.iht.application.giftsDetails.value.label", startDateFormatted, endDateFormatted),
     '_sectionName -> "gifts-value",
     '_divJsHide -> false,
@@ -58,7 +59,7 @@ title = (Messages("page.iht.application.giftsDetails.subtitle",startDateFormatte
     '_ariaControls -> "value-of-gifts-added",
     '_inputClass -> "form-control")
 
-    @input_estate_value(previousYearGiftsForm("exemptions"),
+    @inputEstateValue(previousYearGiftsForm("exemptions"),
     '_label -> Messages("page.iht.application.giftsDetails.exemptions.label", startDateFormatted, endDateFormatted),
     '_sectionName -> "gifts-exemption",
     '_divJsHide -> false,

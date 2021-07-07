@@ -17,7 +17,7 @@
 package iht.modules
 
 import com.google.inject.AbstractModule
-import iht.config.{AppConfig, DefaultAppConfig, DefaultIHTPropertyRetriever, IhtFormPartialRetriever, IhtPropertyRetriever}
+import iht.config.{AppConfig, DefaultAppConfig, DefaultIHTPropertyRetriever, IhtPropertyRetriever}
 import iht.connector._
 import iht.controllers._
 import iht.controllers.application._
@@ -48,16 +48,15 @@ import iht.controllers.registration.deceased._
 import iht.controllers.registration.executor._
 import iht.controllers.testonly.{TestOnlyController, TestOnlyControllerImpl}
 import iht.metrics.{IhtMetrics, IhtMetricsImpl}
-import iht.utils.pdf.{BaseResourceStreamResolver, DefaultFopURIResolver, DefaultResourceStreamResolver, DefaultStylesheetResourceStreamResolver, DefaultXmlFoToPDF, FopURIResolver, StylesheetResourceStreamResolver, XmlFoToPDF}
+import iht.utils.pdf._
 import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.http.HttpClient
 import uk.gov.hmrc.play.bootstrap.auth.DefaultAuthConnector
-import uk.gov.hmrc.play.bootstrap.http.{DefaultHttpClient, HttpClient}
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
 
 class Module extends AbstractModule {
   override def configure() = {
     bind(classOf[AppConfig]).to(classOf[DefaultAppConfig]).asEagerSingleton
-    bind(classOf[FormPartialRetriever]).to(classOf[IhtFormPartialRetriever])
     bind(classOf[IhtMetrics]).to(classOf[IhtMetricsImpl])
     bind(classOf[HttpClient]).to(classOf[DefaultHttpClient])
     bind(classOf[IhtPropertyRetriever]).to(classOf[DefaultIHTPropertyRetriever])

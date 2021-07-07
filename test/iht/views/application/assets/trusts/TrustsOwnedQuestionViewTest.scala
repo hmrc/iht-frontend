@@ -19,14 +19,11 @@ package iht.views.application.assets.trusts
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.HeldInTrust
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.TestHelper._
 import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
 import iht.views.html.application.asset.trusts.trusts_owned_question
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
-import iht.constants.Constants._
-import iht.testhelpers.TestHelper._
 
 class TrustsOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[HeldInTrust] {
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
@@ -56,10 +53,11 @@ class TrustsOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[HeldInTrust
   )
 
   override def form: Form[HeldInTrust] = trustsOwnedQuestionForm
+  lazy val trustsOwnedQuestionView: trusts_owned_question = app.injector.instanceOf[trusts_owned_question]
 
   override def formToView: Form[HeldInTrust] => Appendable =
     form =>
-      trusts_owned_question(form, registrationDetails)
+      trustsOwnedQuestionView(form, registrationDetails)
 
   "Permanent home page Question View" must {
     behave like yesNoQuestionWithLegend(messagesApi("iht.estateReport.assets.trusts.question", deceasedName))

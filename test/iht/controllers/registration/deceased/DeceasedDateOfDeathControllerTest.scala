@@ -20,9 +20,9 @@ import iht.config.AppConfig
 import iht.controllers.registration.RegistrationControllerTest
 import iht.forms.registration.DeceasedForms._
 import iht.models._
-
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
 import iht.utils.RegistrationKickOutHelper
+import iht.views.html.registration.deceased.deceased_date_of_death
 import org.joda.time.LocalDate
 import org.mockito.ArgumentMatchers._
 import play.api.data.FormError
@@ -30,7 +30,6 @@ import play.api.i18n.{Lang, Messages}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -66,20 +65,17 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest with 
   protected abstract class TestController extends FrontendController(mockControllerComponents) with DeceasedDateOfDeathController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val deceasedDateOfDeathView: deceased_date_of_death = app.injector.instanceOf[deceased_date_of_death]
   }
 
   def controller = new TestController {
     override lazy val cachingConnector = mockCachingConnector
     override lazy val authConnector = mockAuthConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new TestController {
     override lazy val cachingConnector = mockCachingConnector
     override lazy val authConnector = mockAuthConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "dateOfDeath controller" must {

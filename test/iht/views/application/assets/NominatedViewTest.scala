@@ -29,9 +29,10 @@ class NominatedViewTest extends ShareableElementInputViewBehaviour[BasicEstateEl
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+  lazy val nominatedView: nominated = app.injector.instanceOf[nominated]
 
   override def form:Form[BasicEstateElement] = nominatedForm
-  override def formToView:Form[BasicEstateElement] => Appendable = form => nominated(form, regDetails)
+  override def formToView:Form[BasicEstateElement] => Appendable = form => nominatedView(form, regDetails)
 
   override def pageTitle = messagesApi("iht.estateReport.assets.nominated")
   override def browserTitle = messagesApi("page.iht.application.assets.nominated.browserTitle")

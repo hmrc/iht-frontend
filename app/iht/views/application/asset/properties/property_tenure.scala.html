@@ -16,28 +16,33 @@
 
 @import iht.constants.{FieldMappings, IhtProperties}
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputRadioGroupWithHints: ihtHelpers.standard.input_radio_group_with_hints
+)
 
 @(propertyTenure:Form[iht.models.application.assets.Property],
 submitUrl:Call,
 cancelUrl:Call,
 deceasedName: String
-)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = "",
+@ihtMainTemplateApplication(title = "",
 browserTitle = Some(Messages("page.iht.application.assets.property.tenure.browserTitle")),
 cancelUrl=Some(CommonHelper.addFragmentIdentifier(cancelUrl, Some(appConfig.AssetsPropertiesTenureID))),
 cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty"))
 ) {
 
-@ihtHelpers.custom.error_summary(propertyTenure)
+@errorSummary(propertyTenure)
 
 @form(action = submitUrl,'autoComplete -> "off") {
 
-@ihtHelpers.standard.input_radio_group_with_hints(
+@inputRadioGroupWithHints(
 propertyTenure("tenure"),
 FieldMappings.tenures(deceasedName).toSeq,
 '_fieldsetId -> "role2",

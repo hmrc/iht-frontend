@@ -29,12 +29,11 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class WithReservationOfBenefitControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                        val cachingConnector: CachingConnector,
                                                        val authConnector: AuthConnector,
-                                                       val formPartialRetriever: FormPartialRetriever,
+                                                       val withReservationOfBenefitView: with_reservation_of_benefit,
                                                        implicit val appConfig: AppConfig,
                                                        val cc: MessagesControllerComponents)
   extends FrontendController(cc) with WithReservationOfBenefitController
@@ -42,10 +41,10 @@ class WithReservationOfBenefitControllerImpl @Inject()(val ihtConnector: IhtConn
 trait WithReservationOfBenefitController extends EstateController{
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
 
-
+  val withReservationOfBenefitView: with_reservation_of_benefit
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
-      estateElementOnPageLoad[AllGifts](giftWithReservationFromBenefitForm, with_reservation_of_benefit.apply, _.allGifts, userNino)
+      estateElementOnPageLoad[AllGifts](giftWithReservationFromBenefitForm, withReservationOfBenefitView.apply, _.allGifts, userNino)
   }
 
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -59,7 +58,7 @@ trait WithReservationOfBenefitController extends EstateController{
           (updatedAD, None)
         }
       estateElementOnSubmit[AllGifts](giftWithReservationFromBenefitForm,
-        with_reservation_of_benefit.apply,
+        withReservationOfBenefitView.apply,
         updateApplicationDetails,
         CommonHelper.addFragmentIdentifier(giftsRedirectLocation, Some(appConfig.GiftsReservationBenefitQuestionID)),
         userNino

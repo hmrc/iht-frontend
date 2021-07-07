@@ -16,33 +16,33 @@
 
 package iht.controllers
 
-import iht.config.{AppConfig, IhtFormPartialRetriever}
+import iht.config.AppConfig
 import iht.connector.CachingConnector
 import iht.views.html.{deadlines_application, deadlines_registration}
 import javax.inject.Inject
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class DeadlinesControllerImpl @Inject()(val cachingConnector: CachingConnector,
-                                        val formPartialRetriever: IhtFormPartialRetriever,
                                         val cc: MessagesControllerComponents,
+                                        val deadlinesApplicationView: deadlines_application,
+                                        val deadlinesRegistrationView: deadlines_registration,
                                         implicit val appConfig: AppConfig) extends FrontendController(cc) with DeadlinesController
 
 trait DeadlinesController extends FrontendController with I18nSupport {
-  implicit val formPartialRetriever: FormPartialRetriever
   implicit val appConfig: AppConfig
 
   def cachingConnector: CachingConnector
-
+  val deadlinesApplicationView: deadlines_application
+  val deadlinesRegistrationView: deadlines_registration
   def onPageLoadRegistration: Action[AnyContent] = Action.async { implicit request =>
-    Future.successful(Ok(deadlines_registration.apply))
+    Future.successful(Ok(deadlinesRegistrationView.apply))
   }
 
   def onPageLoadApplication: Action[AnyContent] = Action.async { implicit request =>
-    Future.successful(Ok(deadlines_application.apply))
+    Future.successful(Ok(deadlinesApplicationView.apply))
   }
 }

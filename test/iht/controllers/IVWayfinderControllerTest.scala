@@ -18,12 +18,12 @@ package iht.controllers
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.iv.wayfinderpages.{login_pass, verification_pass}
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class IVWayfinderControllerTest extends ApplicationControllerTest {
 
@@ -31,11 +31,13 @@ class IVWayfinderControllerTest extends ApplicationControllerTest {
   protected abstract class TestController extends FrontendController(mockControllerComponents) with IVWayfinderController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val loginPassView: login_pass = app.injector.instanceOf[login_pass]
+    override val verificationPassView: verification_pass = app.injector.instanceOf[verification_pass]
   }
 
   def ivWayfinderController = new TestController {
     override val authConnector = mockAuthConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+
   }
 
   "IV Wayfinder login-pass" must {

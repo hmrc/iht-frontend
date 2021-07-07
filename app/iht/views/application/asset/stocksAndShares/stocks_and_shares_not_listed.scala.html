@@ -19,27 +19,34 @@
 @import iht.models.RegistrationDetails
 @import iht.models.application.assets.StockAndShare
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummaryOverrideKeys: ihtHelpers.custom.error_summary_override_keys,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group,
+    inputEstateValue: ihtHelpers.custom.input_estate_value,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(stockAndSharesNotListed: Form[StockAndShare],
 registrationDetails: RegistrationDetails
-)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.stocksAndSharesNotListed"),
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.assets.stocksAndSharesNotListed"),
     browserTitle = Some(Messages("page.iht.application.assets.stocksAndSharesNotListed.browserTitle")),
     isFullWidth=false) {
 
-    @ihtHelpers.custom.error_summary_override_keys(stockAndSharesNotListed, Constants.AppSectionStockAndShare)
+    @errorSummaryOverrideKeys(stockAndSharesNotListed, Constants.AppSectionStockAndShare)
 
     @form(action = iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesNotListedController.onSubmit(),'autoComplete -> "off") {
 
         <div data-exclude="true" class="form-group">
-            @ihtHelpers.standard.input_yes_no_radio_group(stockAndSharesNotListed("isNotListed"),
+            @inputYesNoRadioGroup(stockAndSharesNotListed("isNotListed"),
                 '_legend -> Html(Messages("iht.estateReport.assets.stocksAndShares.notListed.question", deceasedName)),
                 '_shownElementNo -> None,
                 '_shownElementYes -> Some("stocks-and-shares-value"),
@@ -49,7 +56,7 @@ registrationDetails: RegistrationDetails
                 '_mainQuestion -> true)
 
             <div class="js-hidden panel panel-border-narrow" id="stocks-and-shares-value">
-                @ihtHelpers.custom.input_estate_value(stockAndSharesNotListed("valueNotListed"),
+                @inputEstateValue(stockAndSharesNotListed("valueNotListed"),
                 '_label -> Messages("iht.estateReport.assets.stocksAndShares.valueOfNotListed"),
                 '_sectionName -> ("1"),
                 '_currency -> "GBP",
@@ -63,7 +70,7 @@ registrationDetails: RegistrationDetails
         <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
 }
-    @ihtHelpers.custom.return_link(
+    @returnLink(
         Messages("site.link.return.stocksAndShares"),
         Some(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad()),
         appConfig.AssetsStocksNotListedID

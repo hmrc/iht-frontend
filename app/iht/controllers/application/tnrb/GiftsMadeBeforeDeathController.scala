@@ -32,14 +32,14 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.tnrb.gifts_made_before_death
 
 import scala.concurrent.Future
 
 class GiftsMadeBeforeDeathControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                    val cachingConnector: CachingConnector,
                                                    val authConnector: AuthConnector,
-                                                   val formPartialRetriever: FormPartialRetriever,
+                                                   val giftsMadeBeforeDeathView: gifts_made_before_death,
                                                    implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with GiftsMadeBeforeDeathController
 
@@ -47,9 +47,9 @@ trait GiftsMadeBeforeDeathController extends EstateController with StringHelper 
 
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   def cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
+  val giftsMadeBeforeDeathView: gifts_made_before_death
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
-
       implicit request => {
         withRegistrationDetails { registrationDetails =>
           for {
@@ -63,7 +63,7 @@ trait GiftsMadeBeforeDeathController extends EstateController with StringHelper 
                 val filledForm = giftMadeBeforeDeathForm.fill(appDetails.increaseIhtThreshold.getOrElse(
                   TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
 
-                Ok(iht.views.html.application.tnrb.gifts_made_before_death(
+                Ok(giftsMadeBeforeDeathView(
                   filledForm,
                   appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                   appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
@@ -97,7 +97,7 @@ trait GiftsMadeBeforeDeathController extends EstateController with StringHelper 
               boundForm.fold(
                 formWithErrors => {
 
-                  Future.successful(BadRequest(iht.views.html.application.tnrb.gifts_made_before_death(formWithErrors,
+                  Future.successful(BadRequest(giftsMadeBeforeDeathView(formWithErrors,
                     appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                     appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
                     cancelUrl,

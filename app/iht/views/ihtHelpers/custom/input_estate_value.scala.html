@@ -14,10 +14,12 @@
  * limitations under the License.
  *@
 
-@import iht.views.html.ihtHelpers
+@this(
+    inputWithHelp: ihtHelpers.standard.input_with_help
+)
 
 @(field: play.api.data.Field, args: (Symbol,Any)*)(implicit messages: Messages)
 
 <div id="@args.toMap.get('_sectionName)-details" @if(args.toMap.getOrElse('_divJsHide,"")==true){class="js-hidden"} >
-    @ihtHelpers.standard.input_with_help(field,args: _*)
+    @inputWithHelp(field,args: _*)
 </div>

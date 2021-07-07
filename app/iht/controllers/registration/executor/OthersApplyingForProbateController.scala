@@ -22,27 +22,26 @@ import iht.controllers.registration.{RegistrationController, routes => registrat
 import iht.forms.registration.CoExecutorForms
 import iht.metrics.IhtMetrics
 import iht.models.RegistrationDetails
-import iht.utils.AddressHelper._
+import iht.utils.AddressHelper
 import iht.utils.CommonHelper._
+import iht.views.html.registration.executor.others_applying_for_probate
 import javax.inject.Inject
 import play.api.mvc.{Call, MessagesControllerComponents, Result}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class OthersApplyingForProbateControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                                        val ihtMetrics: IhtMetrics,
                                                        val authConnector: AuthConnector,
-                                                       val formPartialRetriever: FormPartialRetriever,
+                                                       val othersApplyingForProbateView: others_applying_for_probate,
                                                        implicit val appConfig: AppConfig,
                                                        val cc: MessagesControllerComponents) extends FrontendController(cc) with OthersApplyingForProbateController
 
 trait OthersApplyingForProbateController extends RegistrationController with CoExecutorForms {
   def cachingConnector: CachingConnector
-
-  override def guardConditions: Set[Predicate] = Set(isThereAnApplicantAddress)
+  override def guardConditions: Set[Predicate] = Set(AddressHelper.isThereAnApplicantAddress)
 
   private def submitRoute(arrivedFromOverview: Boolean) =
     if (arrivedFromOverview) {
@@ -56,11 +55,11 @@ trait OthersApplyingForProbateController extends RegistrationController with CoE
   def onPageLoadFromOverview() = pageLoad(arrivedFromOverview = true)
 
   def onEditPageLoad() = pageLoad(arrivedFromOverview = false, cancelToRegSummary)
-
+  val othersApplyingForProbateView: others_applying_for_probate
   private def pageLoad(arrivedFromOverview: Boolean, cancelCall: Option[Call] = None) = authorisedForIht {
       implicit request =>
         withRegistrationDetailsRedirectOnGuardCondition { rd =>
-          Future.successful(Ok(iht.views.html.registration.executor.others_applying_for_probate(
+          Future.successful(Ok(othersApplyingForProbateView(
             othersApplyingForProbateForm.fill(rd.areOthersApplyingForProbate),
             submitRoute(arrivedFromOverview), cancelCall)))
         }
@@ -87,7 +86,7 @@ trait OthersApplyingForProbateController extends RegistrationController with CoE
           val boundForm = othersApplyingForProbateForm.bindFromRequest
           boundForm.fold(
             formWithErrors => {
-              Future.successful(BadRequest(iht.views.html.registration.executor.others_applying_for_probate(formWithErrors,
+              Future.successful(BadRequest(othersApplyingForProbateView(formWithErrors,
                 submitRoute(arrivedFromOverview), cancelCall)))
             },
 

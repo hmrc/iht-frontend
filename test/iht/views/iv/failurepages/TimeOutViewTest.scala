@@ -19,8 +19,6 @@ package iht.views.iv.failurepages
 import iht.testhelpers.CommonBuilder
 import iht.views.html.iv.failurepages.timeout
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 
 class TimeOutViewTest extends GenericNonSubmittablePageBehaviour {
 
@@ -31,8 +29,9 @@ class TimeOutViewTest extends GenericNonSubmittablePageBehaviour {
   def pageTitle = messagesApi("page.iht.iv.failure.timeout.heading")
 
   def browserTitle = messagesApi("page.iht.iv.failure.timeout.heading")
+  lazy val timeoutView: timeout = app.injector.instanceOf[timeout]
 
-  def view: String = timeout(CommonBuilder.DefaultCall1.url)(createFakeRequest(), messages, formPartialRetriever, appConfig).toString
+  def view: String = timeoutView(CommonBuilder.DefaultCall1.url)(createFakeRequest(), messages).toString
 
   override def exitComponent = Some(
     ExitComponent(
@@ -46,7 +45,7 @@ class TimeOutViewTest extends GenericNonSubmittablePageBehaviour {
 
     "show the 'your answers have been saved' message" when {
       "the user is completing their application" in {
-        val applicationView = timeout("/estate-report")(createFakeRequest(), messages, formPartialRetriever, appConfig).toString
+        val applicationView = timeoutView("/estate-report")(createFakeRequest(), messages).toString
         applicationView must include(messagesApi("page.iht.iv.failure.timeout.saved"))
         applicationView must not include messagesApi("page.iht.iv.failure.timeout.notSaved")
       }

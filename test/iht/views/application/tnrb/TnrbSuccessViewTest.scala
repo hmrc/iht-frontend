@@ -17,12 +17,9 @@
 package iht.views.application.tnrb
 
 import iht.controllers.application.tnrb.routes
-import iht.utils.CommonHelper
 import iht.views.ViewTestHelper
 import iht.views.html.application.tnrb.tnrb_success
 import org.jsoup.nodes.Element
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 
 class TnrbSuccessViewTest extends ViewTestHelper {
 
@@ -32,8 +29,9 @@ class TnrbSuccessViewTest extends ViewTestHelper {
 
   def tnrbSuccessView() = {
     implicit val request = createFakeRequest()
+    lazy val tnrbSuccessView: tnrb_success = app.injector.instanceOf[tnrb_success]
 
-    val view = tnrb_success(deceasedName, preDeceasedName, ihtReference).toString
+    val view = tnrbSuccessView(deceasedName, preDeceasedName, ihtReference).toString
     asDocument(view)
   }
 

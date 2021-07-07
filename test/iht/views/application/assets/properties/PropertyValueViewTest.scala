@@ -18,20 +18,17 @@ package iht.views.application.assets.properties
 
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.Property
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.views.application.{CancelComponent, ValueViewBehaviour}
 import iht.views.html.application.asset.properties.property_value
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.testhelpers.TestHelper
 
 class PropertyValueViewTest extends ValueViewBehaviour[Property] {
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
 
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
+  lazy val propertyValueView: property_value = app.injector.instanceOf[property_value]
 
   override def guidance = guidance(
     Set(
@@ -60,7 +57,7 @@ class PropertyValueViewTest extends ValueViewBehaviour[Property] {
 
   override def formToView: Form[Property] => Appendable =
     form =>
-      property_value(form, CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall2, deceasedName)
+      propertyValueView(form, CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall2, deceasedName)
 
   "Property value page" must {
     behave like valueView()

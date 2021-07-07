@@ -20,8 +20,6 @@ import iht.testhelpers.CommonBuilder
 import iht.utils.DeceasedInfoHelper
 import iht.views.ViewTestHelper
 import iht.views.html.application.declaration.probate_application_form_details
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 
 class ProbateApplicationFormDetailsViewTest extends ViewTestHelper {
 
@@ -31,8 +29,9 @@ class ProbateApplicationFormDetailsViewTest extends ViewTestHelper {
 
   def probateApplicationFormDetailsView() = {
     implicit val request = createFakeRequest()
+    lazy val probateApplicationFormDetailsTemplate: probate_application_form_details = app.injector.instanceOf[probate_application_form_details]
 
-    val view = probate_application_form_details(probateDetails, regDetails).toString
+    val view = probateApplicationFormDetailsTemplate(probateDetails, regDetails).toString
     asDocument(view)
   }
 

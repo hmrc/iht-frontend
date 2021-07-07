@@ -27,12 +27,12 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.asset.trusts.trusts_overview
 
 class TrustsOverviewControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                              val cachingConnector: CachingConnector,
                                              val authConnector: AuthConnector,
-                                             val formPartialRetriever: FormPartialRetriever,
+                                             val trustsOverviewView: trusts_overview,
                                              implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with TrustsOverviewController {
 
@@ -41,7 +41,7 @@ val cc: MessagesControllerComponents) extends FrontendController(cc) with Trusts
 trait TrustsOverviewController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsInTrust)
 
-
+  val trustsOverviewView: trusts_overview
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
 
     implicit request => {
@@ -54,7 +54,7 @@ trait TrustsOverviewController extends EstateController {
           )
           trusts: Option[HeldInTrust] = applicationDetails.flatMap(_.allAssets.flatMap(_.heldInTrust))
         } yield {
-          Ok(iht.views.html.application.asset.trusts.trusts_overview(trusts, registrationDetails))
+          Ok(trustsOverviewView(trusts, registrationDetails))
         }
       }
     }

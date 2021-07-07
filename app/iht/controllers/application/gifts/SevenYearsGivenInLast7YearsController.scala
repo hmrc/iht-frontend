@@ -29,12 +29,11 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class SevenYearsGivenInLast7YearsControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                           val cachingConnector: CachingConnector,
                                                           val authConnector: AuthConnector,
-                                                          val formPartialRetriever: FormPartialRetriever,
+                                                          val sevenYearsGivenInLast7YearsView: seven_years_given_in_last_7_years,
 implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with SevenYearsGivenInLast7YearsController {
 
@@ -42,10 +41,10 @@ val cc: MessagesControllerComponents) extends FrontendController(cc) with SevenY
 
 trait SevenYearsGivenInLast7YearsController extends EstateController {
 
-
+  val sevenYearsGivenInLast7YearsView: seven_years_given_in_last_7_years
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
-      estateElementOnPageLoad[AllGifts](giftSevenYearsGivenInLast7YearsForm, seven_years_given_in_last_7_years.apply, _.allGifts, userNino)
+      estateElementOnPageLoad[AllGifts](giftSevenYearsGivenInLast7YearsForm, sevenYearsGivenInLast7YearsView.apply, _.allGifts, userNino)
   }
 
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -59,7 +58,7 @@ trait SevenYearsGivenInLast7YearsController extends EstateController {
           (updatedAD, None)
         }
       estateElementOnSubmit[AllGifts](giftSevenYearsGivenInLast7YearsForm,
-        seven_years_given_in_last_7_years.apply,
+        sevenYearsGivenInLast7YearsView.apply,
         updateApplicationDetails,
         iht.controllers.application.gifts.routes.SevenYearsToTrustController.onPageLoad(),
         userNino)

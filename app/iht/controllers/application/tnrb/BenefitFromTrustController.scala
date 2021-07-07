@@ -31,7 +31,7 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.tnrb.benefit_from_trust
 
 import scala.concurrent.Future
 
@@ -39,14 +39,14 @@ import scala.concurrent.Future
 class BenefitFromTrustControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                val cachingConnector: CachingConnector,
                                                val authConnector: AuthConnector,
-                                               val formPartialRetriever: FormPartialRetriever,
+                                               val benefitFromTrustView: benefit_from_trust,
                                                implicit val appConfig: AppConfig,
                                                val cc: MessagesControllerComponents) extends FrontendController(cc) with BenefitFromTrustController
 
 trait BenefitFromTrustController extends EstateController with StringHelper with TnrbHelper {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   def cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
-
+  val benefitFromTrustView: benefit_from_trust
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
 
       implicit request => {
@@ -64,7 +64,7 @@ trait BenefitFromTrustController extends EstateController with StringHelper with
 
                 val deceasedName = CommonHelper.getOrException(registrationDetails.deceasedDetails).name
 
-                Ok(iht.views.html.application.tnrb.benefit_from_trust(
+                Ok(benefitFromTrustView(
                   filledForm,
                   appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                   appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
@@ -96,7 +96,7 @@ trait BenefitFromTrustController extends EstateController with StringHelper with
             case Some(appDetails) => {
               boundForm.fold(
                 formWithErrors => {
-                  Future.successful(BadRequest(iht.views.html.application.tnrb.benefit_from_trust(formWithErrors,
+                  Future.successful(BadRequest(benefitFromTrustView(formWithErrors,
                     appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                     appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
                     deceasedName,

@@ -16,15 +16,11 @@
 
 package iht.views.application.assets.properties
 
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.views.html.application.asset.properties.property_details_overview
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import play.api.i18n.Messages
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.testhelpers.TestHelper
 
 class PropertyDetailsOverviewViewTest extends GenericNonSubmittablePageBehaviour {
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
@@ -32,6 +28,7 @@ class PropertyDetailsOverviewViewTest extends GenericNonSubmittablePageBehaviour
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
 
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
+  lazy val propertyDetailsOverviewView: property_details_overview = app.injector.instanceOf[property_details_overview]
 
   override def guidanceParagraphs = Set(
     messagesApi("page.iht.application.assets.property.detailsOverview.mortgage.text")
@@ -52,7 +49,7 @@ class PropertyDetailsOverviewViewTest extends GenericNonSubmittablePageBehaviour
   )
 
   override def view =
-    property_details_overview(deceasedName, Some(CommonBuilder.property)).toString()
+    propertyDetailsOverviewView(deceasedName, Some(CommonBuilder.property)).toString()
 
   val propertyAttributesTableId = "property-details-table"
 

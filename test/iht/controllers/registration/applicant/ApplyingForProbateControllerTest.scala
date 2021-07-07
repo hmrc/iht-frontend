@@ -19,14 +19,13 @@ package iht.controllers.registration.applicant
 import iht.config.AppConfig
 import iht.forms.registration.ApplicantForms._
 import iht.models.ApplicantDetails
-
-import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
+import iht.testhelpers.{CommonBuilder, ContentChecker}
 import iht.utils.{DeceasedInfoHelper, RegistrationKickOutHelper}
+import iht.views.html.registration.applicant.applying_for_probate
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.{MessagesControllerComponents, Result}
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -37,6 +36,8 @@ class ApplyingForProbateControllerTest
   protected abstract class TestController extends FrontendController(mockControllerComponents) with ApplyingForProbateController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val applyingForProbateView: applying_for_probate = app.injector.instanceOf[applying_for_probate]
+
   }
 
   val appConfig = mockAppConfig
@@ -45,14 +46,11 @@ class ApplyingForProbateControllerTest
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "ApplyingForProbateController" must {

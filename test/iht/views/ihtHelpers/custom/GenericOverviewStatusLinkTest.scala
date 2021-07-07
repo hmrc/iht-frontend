@@ -28,12 +28,13 @@ class GenericOverviewStatusLinkTest extends FakeIhtApp with HtmlSpec {
   override implicit val lang: Lang = Lang.defaultLang
   override val messagesApi: MessagesApi = mockControllerComponents.messagesApi
   implicit val messages: Messages = messagesApi.preferred(Seq(lang)).messages
+  lazy val genericOverviewStatusLinkView: generic_overview_status_link = app.injector.instanceOf[generic_overview_status_link]
 
   "GenericOverviewStatusLink helper" must {
 
     "return 'Give answer' label when item has not been started" in {
       implicit val request = createFakeRequest()
-      val result = generic_overview_status_link(isComplete = None)
+      val result = genericOverviewStatusLinkView(isComplete = None)
       val doc = asDocument(result)
 
       assertContainsText(doc, messagesApi("site.link.giveAnswer"))
@@ -43,7 +44,7 @@ class GenericOverviewStatusLinkTest extends FakeIhtApp with HtmlSpec {
 
     "return 'Give more details' label when item has been started but not completed" in {
       implicit val request = createFakeRequest()
-      val result = generic_overview_status_link(isComplete = Some(false))
+      val result = genericOverviewStatusLinkView(isComplete = Some(false))
       val doc = asDocument(result)
 
       assertContainsText(doc, messagesApi("iht.giveMoreDetails"))
@@ -53,7 +54,7 @@ class GenericOverviewStatusLinkTest extends FakeIhtApp with HtmlSpec {
 
     "return 'View or change' label when item has completed" in {
       implicit val request = createFakeRequest()
-      val result = generic_overview_status_link(isComplete = Some(true))
+      val result = genericOverviewStatusLinkView(isComplete = Some(true))
       val doc = asDocument(result)
 
       assertContainsText(doc, messagesApi("iht.change"))

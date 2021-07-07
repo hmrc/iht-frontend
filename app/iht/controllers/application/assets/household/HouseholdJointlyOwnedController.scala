@@ -31,13 +31,12 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class HouseholdJointlyOwnedControllerImpl @Inject()(val metrics: IhtMetrics,
                                                     val ihtConnector: IhtConnector,
                                                     val cachingConnector: CachingConnector,
                                                     val authConnector: AuthConnector,
-                                                    val formPartialRetriever: FormPartialRetriever,
+                                                    val householdJointlyOwnedView: household_jointly_owned,
                                                     implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with HouseholdJointlyOwnedController {
 
@@ -49,9 +48,11 @@ trait HouseholdJointlyOwnedController extends EstateController {
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
     iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad(), Some(appConfig.AssetsHouseholdSharedID))
 
+  val householdJointlyOwnedView: household_jointly_owned
+
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
-      estateElementOnPageLoad[ShareableBasicEstateElement](householdJointlyOwnedForm, household_jointly_owned.apply, _.allAssets.flatMap(_.household), userNino)
+      estateElementOnPageLoad[ShareableBasicEstateElement](householdJointlyOwnedForm, householdJointlyOwnedView.apply, _.allAssets.flatMap(_.household), userNino)
     }
   }
 
@@ -78,7 +79,7 @@ trait HouseholdJointlyOwnedController extends EstateController {
 
       estateElementOnSubmit[ShareableBasicEstateElement](
         householdJointlyOwnedForm,
-        household_jointly_owned.apply,
+        householdJointlyOwnedView.apply,
         updateApplicationDetails,
         submitUrl,
         userNino

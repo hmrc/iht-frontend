@@ -30,14 +30,13 @@ import play.api.mvc.{Call, MessagesControllerComponents, Request}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class CharityValueControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                            val cachingConnector: CachingConnector,
                                            val authConnector: AuthConnector,
-                                           val formPartialRetriever: FormPartialRetriever,
+                                           val assetsLeftToCharityValueView: assets_left_to_charity_value,
                                            implicit val appConfig: AppConfig,
                                            val cc: MessagesControllerComponents) extends FrontendController(cc) with CharityValueController {
 
@@ -74,10 +73,11 @@ trait CharityValueController extends EstateController {
       (appDetails.copy(charities = updatedCharitiesTuple._1), Some(updatedCharitiesTuple._2))
     }
 
+  val assetsLeftToCharityValueView: assets_left_to_charity_value
   def onPageLoad = authorisedForIht {
     implicit request => {
       withRegistrationDetails { regDetails =>
-        Future.successful(Ok(iht.views.html.application.exemption.charity.assets_left_to_charity_value(assetsLeftToCharityValueForm,
+        Future.successful(Ok(assetsLeftToCharityValueView(assetsLeftToCharityValueForm,
           regDetails,
           submitUrl,
           cancelUrl)))
@@ -88,7 +88,7 @@ trait CharityValueController extends EstateController {
   def onEditPageLoad(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       estateElementOnEditPageLoadWithNavigation[Charity](assetsLeftToCharityValueForm,
-        assets_left_to_charity_value.apply,
+        assetsLeftToCharityValueView.apply,
         retrieveSectionDetailsOrExceptionIfInvalidID(id),
         editSubmitUrl(id),
         editCancelUrl(id),
@@ -123,7 +123,7 @@ trait CharityValueController extends EstateController {
                         implicit request: Request[_]) = {
     estateElementOnSubmitWithIdAndNavigation[Charity](
       assetsLeftToCharityValueForm,
-      assets_left_to_charity_value.apply,
+      assetsLeftToCharityValueView.apply,
       updateApplicationDetails,
       (_, updatedCharityID) => locationAfterSuccessfulSave(updatedCharityID),
       None,

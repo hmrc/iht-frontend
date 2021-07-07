@@ -18,12 +18,11 @@ package iht.controllers.application.assets.vehicles
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.application.asset.vehicles.vehicles_overview
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 
 class VehiclesOverviewControllerTest extends ApplicationControllerTest{
@@ -31,13 +30,13 @@ class VehiclesOverviewControllerTest extends ApplicationControllerTest{
   protected abstract class TestController extends FrontendController(mockControllerComponents) with VehiclesOverviewController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val vehiclesOverviewView: vehicles_overview = app.injector.instanceOf[vehicles_overview]
   }
 
   def vehiclesOverviewController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   val allAssets=CommonBuilder.buildAllAssets

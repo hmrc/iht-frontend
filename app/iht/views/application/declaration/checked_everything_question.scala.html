@@ -15,14 +15,19 @@
  *@
 
 @import iht.utils.CommonHelper._
-@import iht.views.html._
 @import iht.models.RegistrationDetails
-@import uk.gov.hmrc.play.views.html.helpers.form
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 
+@this(
+    appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group
+)
+
 @(checkedEverythingQuestionForm: Form[Option[Boolean]],
-registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @defining(
         Messages(
@@ -30,12 +35,12 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
             getOrException(registrationDetails.deceasedDetails.map(_.name))
         )
     ){ fullTitle =>
-        @iht_main_template_application(
+        @ihtMainTemplateApplication(
             title = fullTitle,
             browserTitle = Some(Messages("iht.estateReport.declaration.checkedEverything.browserTitle")),
             isFullWidth=false,
             headingName = getOrException(registrationDetails.deceasedDetails.map(_.name))){
-                @ihtHelpers.custom.error_summary(checkedEverythingQuestionForm)
+                @errorSummary(checkedEverythingQuestionForm)
 
                 @form(action = iht.controllers.application.declaration.routes.CheckedEverythingQuestionController.onSubmit,'autoComplete -> "off") {
 
@@ -44,7 +49,7 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
                             <p>@Messages("iht.estateReport.declaration.checkedEverything.p2")</p>
                         </div>
 
-                        @ihtHelpers.standard.input_yes_no_radio_group(
+                        @inputYesNoRadioGroup(
                             checkedEverythingQuestionForm("hasChecked"),
                             '_legend -> fullTitle,
                             '_legendClass -> "visually-hidden",

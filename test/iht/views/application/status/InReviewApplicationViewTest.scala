@@ -19,8 +19,6 @@ package iht.views.application.status
 import iht.testhelpers.TestHelper
 import iht.utils.{CommonHelper, formattedProbateReference}
 import iht.views.html.application.status.in_review_application
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 
 class InReviewApplicationViewTest extends ApplicationStatusViewBehaviour {
 
@@ -29,8 +27,9 @@ class InReviewApplicationViewTest extends ApplicationStatusViewBehaviour {
   def pageTitle = messagesApi("page.iht.application.overview.inreview.title", deceasedName)
 
   def browserTitle = messagesApi("page.iht.application.overview.inreview.browserTitle")
+  lazy val inReviewApplicationView: in_review_application = app.injector.instanceOf[in_review_application]
 
-  def view: String = in_review_application(ihtRef, deceasedName, probateDetails)(createFakeRequest(), messages, formPartialRetriever, appConfig).toString
+  def view: String = inReviewApplicationView(ihtRef, deceasedName, probateDetails)(createFakeRequest(), messages).toString
 
   override val exitId: String = "return-link"
 

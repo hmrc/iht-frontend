@@ -18,12 +18,10 @@ package iht.views.application.tnrb
 
 import iht.forms.TnrbForms._
 import iht.models.application.tnrb.TnrbEligibiltyModel
-import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.testhelpers.CommonBuilder
 import iht.utils.tnrb.TnrbHelper
 import iht.views.application.YesNoQuestionViewBehaviour
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.views.html.application.tnrb.{gifts_with_reservation_of_benefit, jointly_owned_assets}
+import iht.views.html.application.tnrb.gifts_with_reservation_of_benefit
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 
@@ -50,10 +48,11 @@ class GiftsWithReservationOfBenefitViewTest extends YesNoQuestionViewBehaviour[T
   override def formTarget = Some(iht.controllers.application.tnrb.routes.GiftsWithReservationOfBenefitController.onSubmit())
 
   override def form: Form[TnrbEligibiltyModel] = partnerGiftWithResToOtherForm
+  lazy val giftsWithReservationOfBenefitView: gifts_with_reservation_of_benefit = app.injector.instanceOf[gifts_with_reservation_of_benefit]
 
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
     form =>
-      gifts_with_reservation_of_benefit(form, tnrbModel, deceasedDetailsName, CommonBuilder.DefaultCall2)
+      giftsWithReservationOfBenefitView(form, tnrbModel, deceasedDetailsName, CommonBuilder.DefaultCall2)
 
   override def cancelComponent = None
 

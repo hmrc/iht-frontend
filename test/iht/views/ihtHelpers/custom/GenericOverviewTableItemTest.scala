@@ -18,13 +18,13 @@ package iht.views.ihtHelpers.custom
 
 import iht.views.ViewTestHelper
 import iht.views.html.ihtHelpers.custom.generic_overview_table_item
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 
 class GenericOverviewTableItemTest extends ViewTestHelper {
+  lazy val genericOverviewTableItemView: generic_overview_table_item = app.injector.instanceOf[generic_overview_table_item]
+
   "generic overview table item" must {
     "contain correct message for date with an answer value" in {
-      val view = generic_overview_table_item(
+      val view = genericOverviewTableItemView(
         id = "",
         questionText = "",
         questionScreenReaderText = "",
@@ -38,7 +38,7 @@ class GenericOverviewTableItemTest extends ViewTestHelper {
     }
 
     "contain correct message for name with an answer value" in {
-      val view = generic_overview_table_item(
+      val view = genericOverviewTableItemView(
         id = "",
         questionText = "",
         questionScreenReaderText = "",
@@ -52,7 +52,7 @@ class GenericOverviewTableItemTest extends ViewTestHelper {
     }
 
     "contain correct message for date with no answer value" in {
-      val view = generic_overview_table_item(
+      val view = genericOverviewTableItemView(
         id = "",
         questionText = "",
         questionScreenReaderText = "",
@@ -65,7 +65,7 @@ class GenericOverviewTableItemTest extends ViewTestHelper {
     }
 
     "contain correct message for name with no answer value" in {
-      val view = generic_overview_table_item(
+      val view = genericOverviewTableItemView(
         id = "",
         questionText = "",
         questionScreenReaderText = "",

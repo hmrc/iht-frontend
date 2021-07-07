@@ -18,14 +18,13 @@ package iht.controllers.registration
 
 import iht.config.AppConfig
 import iht.metrics.IhtMetrics
-
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
 import iht.utils.RegistrationKickOutHelper
+import iht.views.html.registration.kickout.{kickout_expander, kickout_template, kickout_template_simple}
 import org.mockito.ArgumentMatchers._
 import play.api.mvc.{MessagesControllerComponents, Result}
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -34,6 +33,9 @@ class KickoutRegControllerTest extends RegistrationControllerTest with Registrat
   protected abstract class TestController extends FrontendController(mockControllerComponents) with KickoutRegController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val kickoutTemplateView: kickout_template = app.injector.instanceOf[kickout_template]
+    override val kickoutExpanderView: kickout_expander = app.injector.instanceOf[kickout_expander]
+    override val kickoutTemplateSimpleView: kickout_template_simple = app.injector.instanceOf[kickout_template_simple]
   }
 
   val appConfig = mockAppConfig
@@ -46,7 +48,6 @@ class KickoutRegControllerTest extends RegistrationControllerTest with Registrat
         override val authConnector = mockAuthConnector
         override lazy val metrics:IhtMetrics = mock[IhtMetrics]
         override val cachingConnector = mockCachingConnector
-        override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
       }
 
       val registrationDetails = CommonBuilder.buildRegistrationDetailsWithDeceasedDetails
@@ -82,7 +83,6 @@ class KickoutRegControllerTest extends RegistrationControllerTest with Registrat
         override val authConnector = mockAuthConnector
         override lazy val metrics:IhtMetrics = mock[IhtMetrics]
         override val cachingConnector = mockCachingConnector
-        override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
       }
 
       val result: Future[Result] = controller.onSubmit(request)

@@ -28,6 +28,9 @@ class GenericOverviewItemTest extends FakeIhtApp with HtmlSpec {
   val mockControllerComponents: MessagesControllerComponents = app.injector.instanceOf[MessagesControllerComponents]
   override val messagesApi: MessagesApi = mockControllerComponents.messagesApi
   implicit val messages: Messages = messagesApi.preferred(Seq(lang)).messages
+  lazy val genericOverviewStatusLinkView: generic_overview_status_link = app.injector.instanceOf[generic_overview_status_link]
+  lazy val genericOverviewStatusLabelView: generic_overview_status_label = app.injector.instanceOf[generic_overview_status_label]
+  lazy val genericOverviewItemTemplate: generic_overview_item = app.injector.instanceOf[generic_overview_item]
 
   "GenericOverviewItem helper" must {
 //    implicit val request = createFakeRequest()
@@ -41,9 +44,9 @@ class GenericOverviewItemTest extends FakeIhtApp with HtmlSpec {
 
     def genericOverviewItemView() = {
       implicit val request = createFakeRequest()
-      lazy val linkText = generic_overview_status_link(Some(true))
-      lazy val itemStatus = generic_overview_status_label(Some(true))
-      generic_overview_item(title = title, name = name, id = id, value = value,
+      lazy val linkText = genericOverviewStatusLinkView(Some(true))
+      lazy val itemStatus = genericOverviewStatusLabelView(Some(true))
+      genericOverviewItemTemplate(title = title, name = name, id = id, value = value,
                             valueScreenReader = valueScreenReader, link = Some(linkUrl), linkText = linkText,
         itemStatus = itemStatus)
     }
@@ -73,10 +76,10 @@ class GenericOverviewItemTest extends FakeIhtApp with HtmlSpec {
 
     "have the correct Item status" in {
       implicit val request = createFakeRequest()
-     val itemStatus = generic_overview_status_label(Some(true))
-     val linkText = generic_overview_status_link(Some(true))
+     val itemStatus = genericOverviewStatusLabelView(Some(true))
+     val linkText = genericOverviewStatusLinkView(Some(true))
 
-     val view = generic_overview_item(title = title, name = name, id = id, value = value,
+     val view = genericOverviewItemTemplate(title = title, name = name, id = id, value = value,
         valueScreenReader = valueScreenReader, link = Some(linkUrl), linkText = linkText,
         itemStatus = itemStatus)
 

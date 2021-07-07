@@ -18,16 +18,16 @@ package iht.views.ihtHelpers.standard
 
 import iht.FakeIhtApp
 import iht.views.HtmlSpec
-import iht.views.html.ihtHelpers.standard.{article, sidebar}
+import iht.views.html.ihtHelpers.standard.article
 import play.twirl.api.Html
-import common.CommonPlaySpec
 
 class ArticleTest extends FakeIhtApp with HtmlSpec {
+  lazy val articleView: article = app.injector.instanceOf[article]
 
   "article" must {
 
     "display the correct value for articleClasses, content and no lang attribute" in {
-      val result = article(Html("test"), false, None, false, "en")(messagesApi.preferred(createFakeRequest()))
+      val result = articleView(Html("test"), false, None, false, "en")(messagesApi.preferred(createFakeRequest()))
       val doc = asDocument(result)
 
       val tag = doc.getElementsByTag("article")
@@ -37,7 +37,7 @@ class ArticleTest extends FakeIhtApp with HtmlSpec {
     }
 
     "display the lang attribute when currentLang is Welsh " in {
-      val result = article(Html("test"), false, None, false, "cy")(messagesApi.preferred(createFakeRequest()))
+      val result = articleView(Html("test"), false, None, false, "cy")(messagesApi.preferred(createFakeRequest()))
       val doc = asDocument(result)
 
       val tag = doc.getElementsByTag("article")

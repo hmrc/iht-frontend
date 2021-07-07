@@ -29,12 +29,11 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class PartnerNinoControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                           val cachingConnector: CachingConnector,
                                           val authConnector: AuthConnector,
-                                          val formPartialRetriever: FormPartialRetriever,
+                                          val partnerNinoView: partner_nino,
                                           implicit val appConfig: AppConfig,
                                           val cc: MessagesControllerComponents) extends FrontendController(cc) with PartnerNinoController {
 
@@ -46,9 +45,11 @@ trait PartnerNinoController extends EstateController {
   lazy val submitUrl = addFragmentIdentifier(
     iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(), Some(appConfig.ExemptionsPartnerNinoID))
 
+  val partnerNinoView: partner_nino
+
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
-      estateElementOnPageLoad[PartnerExemption](partnerNinoForm, partner_nino.apply, _.allExemptions.flatMap(_.partner), userNino)
+      estateElementOnPageLoad[PartnerExemption](partnerNinoForm, partnerNinoView.apply, _.allExemptions.flatMap(_.partner), userNino)
   }
 
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -83,7 +84,7 @@ trait PartnerNinoController extends EstateController {
 
       estateElementOnSubmit[PartnerExemption](
         partnerNinoForm,
-        partner_nino.apply,
+        partnerNinoView.apply,
         updateApplicationDetails,
         submitUrl,
         userNino

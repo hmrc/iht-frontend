@@ -14,18 +14,19 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
-@import iht.views.html._
+@this(
+    ihtMainTemplateRegistration: iht_main_template_registration,
+    registrationErrorTimeout: registration.registration_error_timeOut,
+    registrationErrorSystemError: registration.registration_error_systemError
+)
 
+@(errorType:String)(implicit request : Request[_], messages: Messages)
 
-@(errorType:String)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
-
-@iht_main_template_registration(title = Messages("error.problem")) {
+@ihtMainTemplateRegistration(title = Messages("error.problem")) {
 @{
 errorType match {
-case "requestTimeOut" => registration_error_timeOut(request, messages, ihtFormPartialRetriever, appConfig)
-case _ => registration_error_systemError(request, messages, ihtFormPartialRetriever, appConfig)
+case "requestTimeOut" => registrationErrorTimeout()
+case _ => registrationErrorSystemError()
 }
 }
 }

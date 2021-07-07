@@ -17,12 +17,9 @@
 package iht.views.registration.executor
 
 import iht.testhelpers.CommonBuilder
+import iht.utils._
 import iht.views.ViewTestHelper
 import iht.views.html.registration.executor.delete_coexecutor_confirm
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.utils._
-import play.api.test.Helpers.contentAsString
 
 class DeleteCoExecutorConfirmViewTest extends ViewTestHelper{
 
@@ -32,16 +29,17 @@ class DeleteCoExecutorConfirmViewTest extends ViewTestHelper{
     isAddressInUk = Some(false),
     ukAddress = Some(CommonBuilder.DefaultUkAddress copy(countryCode = "AF"))
     )
+  lazy val deleteCoexecutorConfirmTemplate: delete_coexecutor_confirm = app.injector.instanceOf[delete_coexecutor_confirm]
 
   def deleteCoExecutorUKAddressConfirmView() = {
     implicit val request = createFakeRequest()
-    val view = delete_coexecutor_confirm(coExecutor).toString
+    val view = deleteCoexecutorConfirmTemplate(coExecutor).toString
      asDocument(view)
   }
 
   def deleteCoExecutorNonUKAddressConfirmView() = {
     implicit val request = createFakeRequest()
-    val view = delete_coexecutor_confirm(coExecutorNonUK).toString
+    val view = deleteCoexecutorConfirmTemplate(coExecutorNonUK).toString
     asDocument(view)
   }
 

@@ -29,12 +29,11 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class PartnerValueControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                            val cachingConnector: CachingConnector,
                                            val authConnector: AuthConnector,
-                                           val formPartialRetriever: FormPartialRetriever,
+                                           val partnerValueView: partner_value,
                                            implicit val appConfig: AppConfig,
                                            val cc: MessagesControllerComponents) extends FrontendController(cc) with PartnerValueController {
 
@@ -47,10 +46,11 @@ trait PartnerValueController extends EstateController {
     iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(),
     Some(appConfig.ExemptionsPartnerValueID))
 
+  val partnerValueView: partner_value
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       estateElementOnPageLoad[PartnerExemption](
-        partnerValueForm, partner_value.apply, _.allExemptions.flatMap(_.partner), userNino)
+        partnerValueForm, partnerValueView.apply, _.allExemptions.flatMap(_.partner), userNino)
     }
   }
 
@@ -68,7 +68,7 @@ trait PartnerValueController extends EstateController {
         }
       estateElementOnSubmit[PartnerExemption](
         partnerValueForm,
-        partner_value.apply,
+        partnerValueView.apply,
         updateApplicationDetails,
         submitUrl,
         userNino

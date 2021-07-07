@@ -18,18 +18,24 @@
 
 @import iht.models.application.basicElements.ShareableBasicEstateElement
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 @import iht.models.RegistrationDetails
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    implicit val appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application,
+    form: FormWithCSRF,
+    errorSummaryOverrideKeys: ihtHelpers.custom.error_summary_override_keys,
+    genericEstateElementAssets: ihtHelpers.custom.generic_estate_element_assets,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(moneyJointlyOwned: Form[ShareableBasicEstateElement],
- registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, wrapName = true)}
 
-@iht_main_template_application(
+@ihtMainTemplateApplication(
     title = Messages("iht.estateReport.assets.money.jointlyOwned"),
     browserTitle = Some(Messages("page.iht.application.assets.money.jointly.owned.browserTitle"))
 ) {
@@ -40,11 +46,11 @@
         <p>@Html(Messages("page.iht.application.assets.money.jointly.owned.guidance.p3", deceasedName, deceasedName))</p>
     </div>
 
-    @ihtHelpers.custom.error_summary_override_keys(moneyJointlyOwned, Constants.AppSectionMoney)
+    @errorSummaryOverrideKeys(moneyJointlyOwned, Constants.AppSectionMoney)
 
     @form(action = iht.controllers.application.assets.money.routes.MoneyJointlyOwnedController.onSubmit(),'autoComplete -> "off") {
 
-    @ihtHelpers.custom.generic_estate_element_assets(
+    @genericEstateElementAssets(
       assetType = Constants.AssetTypeJoint,
       questionLabel= Messages("page.iht.application.assets.money.jointly.owned.question", deceasedName),
       inputTextLabel = Messages("page.iht.application.assets.money.jointly.owned.input.value.label", deceasedName),
@@ -55,7 +61,7 @@
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
     }
-    @ihtHelpers.custom.return_link(
+    @returnLink(
         Messages("site.link.return.money"),
         Some(iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad()),
         appConfig.AssetsMoneySharedID

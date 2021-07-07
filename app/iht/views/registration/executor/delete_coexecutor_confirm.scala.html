@@ -15,14 +15,18 @@
  *@
 
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
 
-@(coExecutor: iht.models.CoExecutor)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateRegistration: iht_main_template_registration,
+    nameHelper: ihtHelpers.custom.name
+)
 
-@iht_main_template_registration(title = Messages("page.iht.registration.deleteExecutor.title", Messages("page.iht.registration.executor-overview.entity-name")),
+@(coExecutor: iht.models.CoExecutor)(implicit request : Request[_], messages: Messages)
+
+@ihtMainTemplateRegistration(title = Messages("page.iht.registration.deleteExecutor.title", Messages("page.iht.registration.executor-overview.entity-name")),
  browserTitle = Some(Messages("page.iht.registration.deleteExecutor.browserTitle")),
     isFullWidth=false,
     cancelUrl=None,
@@ -32,7 +36,7 @@
 @form(action = iht.controllers.registration.executor.routes.DeleteCoExecutorController.onSubmit(coExecutor.id.getOrElse(""))) {
 
   <div class="panel panel-border-narrow">
-      <p>@ihtHelpers.custom.name(coExecutor.name.toString)</p>
+      <p>@nameHelper(coExecutor.name.toString)</p>
 
       @coExecutor.ukAddress.map { addr =>
         @AddressHelper.addressLayout(addr)

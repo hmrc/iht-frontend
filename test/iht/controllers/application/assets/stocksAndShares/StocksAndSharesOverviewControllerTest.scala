@@ -18,11 +18,11 @@ package iht.controllers.application.assets.stocksAndShares
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.application.asset.stocksAndShares.stocks_and_shares_overview
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
  * Created by yasar on 30/06/16.
@@ -32,6 +32,7 @@ class StocksAndSharesOverviewControllerTest extends ApplicationControllerTest {
   protected abstract class TestController extends FrontendController(mockControllerComponents) with StocksAndSharesOverviewController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val stocksAndSharesOverviewView: stocks_and_shares_overview = app.injector.instanceOf[stocks_and_shares_overview]
   }
 
   "StocksAndSharesOverviewControllerTest" must {
@@ -39,14 +40,12 @@ class StocksAndSharesOverviewControllerTest extends ApplicationControllerTest {
       override val authConnector = mockAuthConnector
       override val cachingConnector = mockCachingConnector
       override val ihtConnector = mockIhtConnector
-      override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
     }
 
     def stocksAndSharesOverviewControllerNotAuthorised = new TestController {
       override val authConnector = mockAuthConnector
       override val cachingConnector = mockCachingConnector
       override val ihtConnector = mockIhtConnector
-      override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
     }
 
     "respond with OK on page load" in {

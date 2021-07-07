@@ -18,38 +18,44 @@
 
 @import iht.models.application.basicElements.ShareableBasicEstateElement
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
 @import iht.models.RegistrationDetails
+
+@this(
+    implicit val appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummaryOverrideKeys: ihtHelpers.custom.error_summary_override_keys,
+    form: FormWithCSRF,
+    genericEstateElementAssets: ihtHelpers.custom.generic_estate_element_assets,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(vehicles: Form[ShareableBasicEstateElement],
 registrationDetails: RegistrationDetails
-)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, false)}
 @deceasedNameWrap() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
-@iht_main_template_application(
+@ihtMainTemplateApplication(
     title = Messages("iht.estateReport.assets.vehiclesOwned", deceasedName),
     browserTitle = Some(Messages("page.iht.application.assets.vehicles.deceased.browserTitle")),
     isFullWidth=false,
     headingName = deceasedName
 ) {
 
-@ihtHelpers.custom.error_summary_override_keys(vehicles, Constants.AppSectionVehicles)
+@errorSummaryOverrideKeys(vehicles, Constants.AppSectionVehicles)
 
 @form(action = iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onSubmit(),'autoComplete -> "off") {
 
-@ihtHelpers.custom.generic_estate_element_assets(
-                                    assetType = Constants.AssetTypeSingle,
-                                    questionLabel= Messages("iht.estateReport.assets.vehicles.ownName.question", deceasedNameWrap),
-                                    inputTextLabel = Messages("page.iht.application.assets.vehicles.deceased.value", deceasedNameWrap),
-                                    inputTextHelp =  Messages("iht.estateReport.assets.getProfessionalValuation"),
-                                    sharableElementForm = vehicles,
-                                    clearTargetInput = Some("value")
-                                    )
+@genericEstateElementAssets(
+                            assetType = Constants.AssetTypeSingle,
+                            questionLabel= Messages("iht.estateReport.assets.vehicles.ownName.question", deceasedNameWrap),
+                            inputTextLabel = Messages("page.iht.application.assets.vehicles.deceased.value", deceasedNameWrap),
+                            inputTextHelp =  Messages("iht.estateReport.assets.getProfessionalValuation"),
+                            sharableElementForm = vehicles,
+                            clearTargetInput = Some("value")
+                            )
 
 
 
@@ -57,7 +63,7 @@ registrationDetails: RegistrationDetails
     <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
 </div>
 }
-    @ihtHelpers.custom.return_link(
+    @returnLink(
         Messages("site.link.return.vehicles"),
         Some(iht.controllers.application.assets.vehicles.routes.VehiclesOverviewController.onPageLoad()),
         appConfig.AssetsVehiclesOwnID

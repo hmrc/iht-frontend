@@ -16,27 +16,31 @@
 
 @import iht.models.RegistrationDetails
 @import iht.utils.CommonHelper._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
 
+@this(
+    appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputWithHelp: ihtHelpers.standard.input_with_help
+)
 
 @(partnerNinoForm: Form[iht.models.application.exemptions.PartnerExemption],
-registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(
+@ihtMainTemplateApplication(
     title = "",
     browserTitle = Some(Messages("page.iht.application.exemptions.partner.nino.browserTitle")),
     cancelUrl = Some(addFragmentIdentifier(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad, Some(appConfig.ExemptionsPartnerNinoID))),
     cancelLabel = Some(Messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse")),
     isFullWidth=false
 ){
-    @ihtHelpers.custom.error_summary(partnerNinoForm)
+    @errorSummary(partnerNinoForm)
     @form(action = iht.controllers.application.exemptions.partner.routes.PartnerNinoController.onSubmit,'autoComplete -> "off") {
 
 
-            @ihtHelpers.standard.input_with_help(partnerNinoForm("nino"),
+            @inputWithHelp(partnerNinoForm("nino"),
             '_divClass -> "form-group ",
             '_inputClass -> "form-control",
             '_label -> Html(Messages("page.iht.application.exemptions.partner.nino.sectionTitle")),

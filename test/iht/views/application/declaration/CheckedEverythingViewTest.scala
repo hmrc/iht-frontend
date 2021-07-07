@@ -19,17 +19,17 @@ package iht.views.application.declaration
 import iht.forms.ApplicationForms._
 import iht.models.RegistrationDetails
 import iht.testhelpers.CommonBuilder
-import iht.views.ViewTestHelper
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import iht.utils.CommonHelper._
+import iht.views.ViewTestHelper
+import iht.views.html.application.declaration.checked_everything_question
 
 class CheckedEverythingViewTest extends ViewTestHelper {
 
+  lazy val checkedEverythingQuestionView: checked_everything_question = app.injector.instanceOf[checked_everything_question]
 
   def page(regDetails: RegistrationDetails):String = {
     implicit val request = createFakeRequest()
-    iht.views.html.application.declaration.checked_everything_question(checkedEverythingQuestionForm, regDetails).toString
+    checkedEverythingQuestionView(checkedEverythingQuestionForm, regDetails).toString
   }
 
   "Checked everything page" must {

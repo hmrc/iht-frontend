@@ -18,21 +18,17 @@ package iht.views.ihtHelpers.standard
 
 import iht.FakeIhtApp
 import iht.views.HtmlSpec
-import iht.views.html.ihtHelpers.standard.{sidebar, input_radio_group_with_hints}
-import play.api.data.Form
-import play.api.data.Forms._
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
+import iht.views.html.ihtHelpers.standard.sidebar
 import play.twirl.api.Html
-import common.CommonPlaySpec
 
 class SideBarTest extends FakeIhtApp with HtmlSpec {
+  lazy val sidebarView: sidebar = app.injector.instanceOf[sidebar]
 
   "sidebar" must {
 
     "display the correct value for sidebarLinks and sidebarClass" in {
 
-      val result = sidebar(Html("test"), Some("sidebar"))
+      val result = sidebarView(Html("test"), Some("sidebar"))
       val doc = asDocument(result)
 
       val tag = doc.getElementsByTag("aside")
@@ -42,7 +38,7 @@ class SideBarTest extends FakeIhtApp with HtmlSpec {
     }
 
     "display the lang attribute when currentLang is Welsh " in {
-      val result = sidebar(Html("test"), Some("sidebar"), "cy")
+      val result = sidebarView(Html("test"), Some("sidebar"), "cy")
       val doc = asDocument(result)
 
       val tag = doc.getElementsByAttribute("lang")

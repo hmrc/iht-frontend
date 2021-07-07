@@ -18,34 +18,32 @@ package iht.controllers.application.tnrb
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
+import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.views.HtmlSpec
+import iht.views.html.application.tnrb.tnrb_guidance
 import org.jsoup.nodes.Element
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class TnrbGuidanceControllerTest extends ApplicationControllerTest with HtmlSpec {
 
   protected abstract class TestController extends FrontendController(mockControllerComponents) with TnrbGuidanceController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val tnrbGuidanceView: tnrb_guidance = app.injector.instanceOf[tnrb_guidance]
   }
 
   def controller = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def createMocksForRegistrationAndApplicationWithMaritalStatus(maritalStatus:String) = {

@@ -31,14 +31,14 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.debts.mortgage_value
 
 import scala.concurrent.Future
 
 class MortgageValueControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                             val ihtConnector: IhtConnector,
                                             val authConnector: AuthConnector,
-                                            override implicit val formPartialRetriever: FormPartialRetriever,
+                                            val mortgageValueView: mortgage_value,
                                             implicit val appConfig: AppConfig,
                                             val cc: MessagesControllerComponents) extends FrontendController(cc) with MortgageValueController
 
@@ -51,6 +51,7 @@ trait MortgageValueController extends ApplicationController with StringHelper {
 
   def onSubmitUrl(id: String) = iht.controllers.application.debts.routes.MortgageValueController.onSubmit(id)
 
+  val mortgageValueView: mortgage_value
   def onPageLoad(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
 
       implicit request => {
@@ -86,9 +87,9 @@ trait MortgageValueController extends ApplicationController with StringHelper {
       case Some(mortList) =>
         mortList.find(mortgage => mortgage.id equals id).fold {
           throw new RuntimeException("No Mortgage found for the id")
-        }((matchedMortgage) => Ok(iht.views.html.application.debts.mortgage_value(mortgagesForm.fill(matchedMortgage),
+        }((matchedMortgage) => Ok(mortgageValueView(mortgagesForm.fill(matchedMortgage),
           matchedProperty, onSubmitUrl(id), regDetails)))
-      case _ => Ok(iht.views.html.application.debts.mortgage_value(
+      case _ => Ok(mortgageValueView(
         mortgagesForm.fill(Mortgage(id, None, None)),
         matchedProperty,
         onSubmitUrl(id),
@@ -115,7 +116,7 @@ trait MortgageValueController extends ApplicationController with StringHelper {
 
               boundForm.fold(
                 formWithErrors => {
-                  Future.successful(BadRequest(iht.views.html.application.debts.mortgage_value(formWithErrors,
+                  Future.successful(BadRequest(mortgageValueView(formWithErrors,
                     matchedProperty,
                     onSubmitUrl(id),
                     regDetails)))

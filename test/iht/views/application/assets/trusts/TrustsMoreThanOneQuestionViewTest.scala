@@ -19,13 +19,11 @@ package iht.views.application.assets.trusts
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.HeldInTrust
 import iht.testhelpers.CommonBuilder
-import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
-import iht.views.html.application.asset.trusts.{trusts_more_than_one_question, trusts_owned_question}
-import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import play.twirl.api.HtmlFormat.Appendable
 import iht.testhelpers.TestHelper._
+import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
+import iht.views.html.application.asset.trusts.trusts_more_than_one_question
+import play.api.data.Form
+import play.twirl.api.HtmlFormat.Appendable
 
 class TrustsMoreThanOneQuestionViewTest extends YesNoQuestionViewBehaviour[HeldInTrust] {
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
@@ -49,10 +47,11 @@ class TrustsMoreThanOneQuestionViewTest extends YesNoQuestionViewBehaviour[HeldI
   )
 
   override def form: Form[HeldInTrust] = trustsMoreThanOneQuestionForm
+  lazy val trustsMoreThanOneQuestionView: trusts_more_than_one_question = app.injector.instanceOf[trusts_more_than_one_question]
 
   override def formToView: Form[HeldInTrust] => Appendable =
     form =>
-      trusts_more_than_one_question(form, registrationDetails)
+      trustsMoreThanOneQuestionView(form, registrationDetails)
 
   "Permanent home page Question View" must {
     behave like yesNoQuestion()

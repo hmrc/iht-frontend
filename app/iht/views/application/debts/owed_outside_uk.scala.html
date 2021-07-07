@@ -15,21 +15,27 @@
  *@
 
 @import iht.models.application.debts.BasicEstateElementLiabilities
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
 @import iht.models.RegistrationDetails
 @import iht.constants.Constants._
 
-@(debtsOutsideUkForm: Form[BasicEstateElementLiabilities],
-  registrationDetails: RegistrationDetails)(implicit request: Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@this(
+    appConfig: AppConfig,
+    form: FormWithCSRF,
+    errorSummaryOverrideKeys: ihtHelpers.custom.error_summary_override_keys,
+    ihtMainTemplateApplication: iht_main_template_application,
+    genericEstateElementAssets: ihtHelpers.custom.generic_estate_element_assets,
+    returnLink: ihtHelpers.custom.return_link
+)
 
-@iht_main_template_application(title = Messages("iht.estateReport.debts.owedOutsideUK"),
+@(debtsOutsideUkForm: Form[BasicEstateElementLiabilities],
+  registrationDetails: RegistrationDetails)(implicit request: Request[_], messages: Messages)
+
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.debts.owedOutsideUK"),
     browserTitle = Some(Messages("page.iht.application.debts.debtsOutsideUk.browserTitle")),
     isFullWidth = false
 ) {
-    @ihtHelpers.custom.error_summary_override_keys(debtsOutsideUkForm, AppSectionDebtsOwedToAnyoneOutsideUK)
+    @errorSummaryOverrideKeys(debtsOutsideUkForm, AppSectionDebtsOwedToAnyoneOutsideUK)
 
     @form(action = iht.controllers.application.debts.routes.OwedOutsideUKDebtsController.onSubmit, 'autoComplete -> "off") {
 
@@ -39,7 +45,7 @@
         </div>
 
 
-        @ihtHelpers.custom.generic_estate_element_assets(
+        @genericEstateElementAssets(
             assetType = AssetTypeSingle,
             questionLabel= Messages("page.iht.application.debts.debtsOutsideUk.isOwned"),
             inputTextLabel = Messages("iht.estateReport.debts.owedOutsideUK.value"),
@@ -49,7 +55,7 @@
         <div id="action-button" class="form-group">
             <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
-        @ihtHelpers.custom.return_link(
+        @returnLink(
             Messages("site.link.return.debts"),
             Some(iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()),
             appConfig.DebtsOwedOutsideUKID

@@ -21,11 +21,8 @@ import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementOverviewViewBehaviour
 import iht.views.html.application.asset.household.household_overview
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
-import iht.constants.Constants._
 
 
 class HouseholdOverviewViewTest extends ViewTestHelper with ShareableElementOverviewViewBehaviour {
@@ -54,10 +51,12 @@ class HouseholdOverviewViewTest extends ViewTestHelper with ShareableElementOver
   override def jointlyOwnedValueText = messagesApi("page.iht.application.assets.household.overview.joint.value", deceasedName)
 
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
-  override def viewWithQuestionsAnsweredNo: String = household_overview(dataWithQuestionsAnsweredNo, regDetails).toString
-  override def viewWithQuestionsAnsweredYes: String = household_overview(dataWithQuestionsAnsweredYes, regDetails).toString
-  override def viewWithQuestionsUnanswered: String = household_overview(None, regDetails).toString
-  override def viewWithValues: String = household_overview(dataWithValues, regDetails).toString
+  lazy val householdOverviewView: household_overview = app.injector.instanceOf[household_overview]
+
+  override def viewWithQuestionsAnsweredNo: String = householdOverviewView(dataWithQuestionsAnsweredNo, regDetails).toString
+  override def viewWithQuestionsAnsweredYes: String = householdOverviewView(dataWithQuestionsAnsweredYes, regDetails).toString
+  override def viewWithQuestionsUnanswered: String = householdOverviewView(None, regDetails).toString
+  override def viewWithValues: String = householdOverviewView(dataWithValues, regDetails).toString
   override def linkHash = appConfig.AppSectionHouseholdID
 
   "Household overview view" must {

@@ -25,21 +25,20 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
-
+import iht.views.html.application.exemption.qualifyingBody.qualifying_bodies_overview
 import scala.concurrent.Future
 
 class QualifyingBodiesOverviewControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                                        val ihtConnector: IhtConnector,
                                                        val authConnector: AuthConnector,
-                                                       override implicit val formPartialRetriever: FormPartialRetriever,
+                                                       val qualifyingBodiesOverviewView: qualifying_bodies_overview,
                                                        implicit val appConfig: AppConfig,
                                                        val cc: MessagesControllerComponents)
   extends FrontendController(cc) with QualifyingBodiesOverviewController
 
 trait QualifyingBodiesOverviewController extends ApplicationController {
 
-
+  val qualifyingBodiesOverviewView: qualifying_bodies_overview
   def onPageLoad() = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       withApplicationDetails(userNino) {
@@ -47,7 +46,7 @@ trait QualifyingBodiesOverviewController extends ApplicationController {
 
           val isAssetLeftToQualifyingBody = ad.allExemptions.flatMap(_.qualifyingBody).flatMap(_.isSelected)
 
-          Future.successful(Ok(iht.views.html.application.exemption.qualifyingBody.qualifying_bodies_overview(ad.qualifyingBodies,
+          Future.successful(Ok(qualifyingBodiesOverviewView(ad.qualifyingBodies,
             rd,
             CommonHelper.getOrException(isAssetLeftToQualifyingBody, "Illegal page navigation"))))
         }

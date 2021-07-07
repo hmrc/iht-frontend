@@ -14,15 +14,16 @@
  * limitations under the License.
  *@
 
-@import iht.views.html.iht_main_template_application
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
 
-@(tryAgainRoute: String)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@this(
+    ihtMainTemplateApplication: iht_main_template_application
+)
+
+@(tryAgainRoute: String)(implicit request : Request[_], messages: Messages)
 
 
 @defining(Messages("page.iht.iv.failure.2fa.heading")) { pageTitle =>
-    @iht_main_template_application(title = pageTitle, browserTitle = Some(pageTitle)) {
+    @ihtMainTemplateApplication(title = pageTitle, browserTitle = Some(pageTitle)) {
         <p data-journey="iv-failure:page-view:2fa">@Messages("page.iht.iv.failure.2fa.p1")</p>
         <a id="return-button" class="button" role="button" href="@tryAgainRoute">@Messages("iht.iv.tryAgain")</a>
     }

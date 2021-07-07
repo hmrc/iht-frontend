@@ -24,11 +24,13 @@ import play.api.test.DefaultAwaitTimeout
 import play.api.{Application, Configuration}
 
 import scala.concurrent.duration._
-import org.scalatest.{Matchers, OptionValues, WordSpecLike}
+import org.scalatest.OptionValues
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpecLike
 import play.api.mvc.Result
 import scala.language.implicitConversions
 
-trait IntegrationBaseSpec extends WordSpecLike with Matchers with OptionValues
+trait IntegrationBaseSpec extends AnyWordSpecLike with Matchers with OptionValues
   with GuiceOneAppPerSuite
   with WiremockHelper
   with BeforeAndAfterEach

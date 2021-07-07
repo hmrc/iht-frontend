@@ -17,10 +17,8 @@
 package iht.views.registration.kickout
 
 import iht.views.ViewTestHelper
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import play.twirl.api.Html
 import iht.views.html.registration.kickout.iht_kickout_template
+import play.twirl.api.Html
 
 
 class IhtKickoutTemplateViewTest extends ViewTestHelper{
@@ -28,11 +26,12 @@ class IhtKickoutTemplateViewTest extends ViewTestHelper{
   val title = "selected title"
   val summaryMessage = "kickout summary message"
   val returnLinkUrl = iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad
+  lazy val ihtKickoutTemplate: iht_kickout_template = app.injector.instanceOf[iht_kickout_template]
 
   def ihtKickOutTemplateView() = {
     implicit val request = createFakeRequest()
 
-    val view = iht_kickout_template(title,
+    val view = ihtKickoutTemplate(title,
                         summaryMessage,
                         returnLinkUrl,
                         false)(Html("")).toString()

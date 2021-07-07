@@ -20,15 +20,10 @@ import iht.forms.ApplicationForms._
 import iht.models.application.gifts.AllGifts
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.{CommonHelper, DeceasedInfoHelper}
-import iht.views.application.{SubmittableApplicationPageBehaviour, CancelComponent}
+import iht.views.application.{CancelComponent, SubmittableApplicationPageBehaviour}
 import iht.views.html.application.gift.with_reservation_of_benefit
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import play.api.test.Helpers._
-import iht.constants.Constants._
 
 
 
@@ -65,10 +60,11 @@ class WithReservationOfBenefitViewTest extends SubmittableApplicationPageBehavio
 
   override def form: Form[AllGifts] = giftWithReservationFromBenefitForm
   override def linkHash = TestHelper.GiftsReservationBenefitQuestionID
+  lazy val withReservationOfBenefitView: with_reservation_of_benefit = app.injector.instanceOf[with_reservation_of_benefit]
 
   override def formToView: Form[AllGifts] => Appendable =
     form =>
-      with_reservation_of_benefit(form, regDetails)
+      withReservationOfBenefitView(form, regDetails)
 
   "WithReservationOfBenefit Page" must {
     behave like applicationPageWithErrorSummaryBox()

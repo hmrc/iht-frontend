@@ -17,14 +17,12 @@
 package iht.views.application.exemption.charity
 
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.TestHelper._
 import iht.utils.DeceasedInfoHelper
 import iht.views.html.application.exemption.charity.charities_overview
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
-import iht.testhelpers.TestHelper._
 import play.api.test.Helpers.{await, defaultAwaitTimeout}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -35,6 +33,7 @@ trait CharitiesOverviewViewBehaviour extends GenericNonSubmittablePageBehaviour 
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
 
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
+  lazy val charitiesOverviewView: charities_overview = app.injector.instanceOf[charities_overview]
 
   override def guidanceParagraphs = Set(
     messagesApi("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
@@ -63,7 +62,7 @@ class CharitiesOverviewViewTest extends CharitiesOverviewViewBehaviour {
   val charityTableId = "charities_table"
 
   override def view =
-    charities_overview(
+    charitiesOverviewView(
       Seq(CommonBuilder.charity, CommonBuilder.charity2),
       registrationDetails,
       isAssetLeftToCharity = true
@@ -118,7 +117,7 @@ class CharitiesOverviewViewTest extends CharitiesOverviewViewBehaviour {
 
 class CharitiesOverviewViewWithNoBodiesTest extends CharitiesOverviewViewBehaviour {
   override def view =
-    charities_overview(
+    charitiesOverviewView(
       Seq.empty,
       registrationDetails,
       isAssetLeftToCharity = true

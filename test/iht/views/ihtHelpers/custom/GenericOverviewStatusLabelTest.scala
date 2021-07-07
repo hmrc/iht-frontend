@@ -26,11 +26,12 @@ class GenericOverviewStatusLabelTest extends FakeIhtApp with HtmlSpec {
 
   override implicit val lang = Lang.defaultLang
   implicit val messages = app.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(Seq(lang)).messages
+  lazy val genericOverviewStatusLabelView: generic_overview_status_label = app.injector.instanceOf[generic_overview_status_label]
 
   "GenericOverviewStatusLabel helper" must {
    "return 'NOT STARTED' label when item has not been started" in {
 
-      val result = generic_overview_status_label(isComplete = None, "iht.notStarted", "iht.complete", "iht.inComplete")
+      val result = genericOverviewStatusLabelView(isComplete = None, "iht.notStarted", "iht.complete", "iht.inComplete")
       val doc = asDocument(result)
 
       assertContainsText(doc, messagesApi("iht.notStarted"))
@@ -40,7 +41,7 @@ class GenericOverviewStatusLabelTest extends FakeIhtApp with HtmlSpec {
 
     "return 'INCOMPLETE' label when item has been started but not completed" in {
 
-      val result = generic_overview_status_label(isComplete = Some(false), "iht.notStarted", "iht.complete", "iht.inComplete")
+      val result = genericOverviewStatusLabelView(isComplete = Some(false), "iht.notStarted", "iht.complete", "iht.inComplete")
       val doc = asDocument(result)
 
       assertContainsText(doc, messagesApi("iht.inComplete"))
@@ -49,7 +50,7 @@ class GenericOverviewStatusLabelTest extends FakeIhtApp with HtmlSpec {
 
     "return 'COMPLETE' label when item has completed" in {
 
-      val result = generic_overview_status_label(isComplete = Some(true), "iht.notStarted", "iht.complete", "iht.inComplete")
+      val result = genericOverviewStatusLabelView(isComplete = Some(true), "iht.notStarted", "iht.complete", "iht.inComplete")
       val doc = asDocument(result)
 
       assertContainsText(doc, messagesApi("iht.complete"))

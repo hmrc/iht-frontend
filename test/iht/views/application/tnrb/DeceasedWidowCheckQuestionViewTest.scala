@@ -21,8 +21,6 @@ import iht.models.application.tnrb.WidowCheck
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.tnrb.TnrbHelper
 import iht.views.application.YesNoQuestionViewBehaviour
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import iht.views.html.application.tnrb.deceased_widow_check_question
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
@@ -30,6 +28,7 @@ import play.twirl.api.HtmlFormat.Appendable
 class DeceasedWidowCheckQuestionViewTest extends YesNoQuestionViewBehaviour[WidowCheck] with TnrbHelper {
 
   override def guidance = noGuidance
+  lazy val deceasedWidowCheckQuestionView: deceased_widow_check_question = app.injector.instanceOf[deceased_widow_check_question]
 
 
   def tnrbModel = CommonBuilder.buildTnrbEligibility
@@ -55,7 +54,7 @@ class DeceasedWidowCheckQuestionViewTest extends YesNoQuestionViewBehaviour[Wido
       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
 
     form =>
-      deceased_widow_check_question(form, widowCheck, tnrbModel, regDetails,
+      deceasedWidowCheckQuestionView(form, widowCheck, tnrbModel, regDetails,
         iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad(),
         messagesApi("page.iht.application.tnrb.returnToIncreasingThreshold"))
   }

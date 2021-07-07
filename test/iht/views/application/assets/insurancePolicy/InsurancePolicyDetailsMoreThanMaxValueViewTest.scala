@@ -19,19 +19,18 @@ package iht.views.application.assets.insurancePolicy
 import iht.controllers.application.assets.insurancePolicy.routes
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.InsurancePolicy
-import iht.testhelpers.CommonBuilder
-import iht.testhelpers.TestHelper
+import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_more_than_max_value
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
 
 class InsurancePolicyDetailsMoreThanMaxValueViewTest extends YesNoQuestionViewBehaviour[InsurancePolicy] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+  lazy val insurancePolicyDetailsMoreThanMaxValueView: insurance_policy_details_more_than_max_value = app.injector.instanceOf[insurance_policy_details_more_than_max_value]
+
 
   override def pageTitle = messagesApi("iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question", deceasedName)
 
@@ -44,7 +43,7 @@ class InsurancePolicyDetailsMoreThanMaxValueViewTest extends YesNoQuestionViewBe
   override def form: Form[InsurancePolicy] = insurancePolicyMoreThanMaxForm
 
   override def formToView: Form[InsurancePolicy] => Appendable =
-    form => insurance_policy_details_more_than_max_value(form, regDetails)
+    form => insurancePolicyDetailsMoreThanMaxValueView(form, regDetails)
 
   override def cancelComponent = Some(CancelComponent(routes.InsurancePolicyOverviewController.onPageLoad(),
     messagesApi("site.link.return.insurance.policies"),

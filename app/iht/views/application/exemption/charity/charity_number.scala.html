@@ -16,25 +16,30 @@
 
 @import iht.models.RegistrationDetails
 @import iht.utils.CommonHelper._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputWithHelp: ihtHelpers.standard.input_with_help
+)
 
 @(charityNumberForm: Form[iht.models.application.exemptions.Charity],
   registrationDetails:RegistrationDetails,
   submitUrl:Call,
-  cancelUrl:Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+  cancelUrl:Call)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = "",
+@ihtMainTemplateApplication(title = "",
 browserTitle = Some(Messages("page.iht.application.exemptions.charityNumber.browserTitle")),
 cancelUrl = Some(addFragmentIdentifier(cancelUrl, Some(appConfig.ExemptionsCharitiesNumberID))),
 cancelLabel = Some(Messages("iht.estateReport.exemptions.charities.returnToAddACharity")),
 isFullWidth=false
 ){
-    @ihtHelpers.custom.error_summary(charityNumberForm)
+    @errorSummary(charityNumberForm)
     @form(action = submitUrl, 'autoComplete -> "off") {
-            @ihtHelpers.standard.input_with_help(charityNumberForm("charityNumber"),
+            @inputWithHelp(charityNumberForm("charityNumber"),
                 '_maxlength -> appConfig.validationMaxCharityNumberLength,
                 '_divClass -> "form-group ",
                 '_inputClass -> "form-control",

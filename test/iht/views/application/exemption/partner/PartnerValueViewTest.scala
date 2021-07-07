@@ -19,18 +19,17 @@ package iht.views.application.exemption.partner
 import iht.forms.ApplicationForms._
 import iht.models.application.exemptions.PartnerExemption
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.TestHelper._
 import iht.views.application.{CancelComponent, ValueViewBehaviour}
 import iht.views.html.application.exemption.partner.partner_value
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
-import iht.testhelpers.TestHelper._
 
 class PartnerValueViewTest extends ValueViewBehaviour[PartnerExemption] {
 
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
+  lazy val partnerValueView: partner_value = app.injector.instanceOf[partner_value]
 
   override def guidance = noGuidance
 
@@ -53,7 +52,7 @@ class PartnerValueViewTest extends ValueViewBehaviour[PartnerExemption] {
   override def form: Form[PartnerExemption] = partnerValueForm
 
   override def formToView: Form[PartnerExemption] => Appendable =
-    form => partner_value(form, registrationDetails)
+    form => partnerValueView(form, registrationDetails)
 
   override val value_id = "totalAssets"
 

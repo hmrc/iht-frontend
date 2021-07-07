@@ -16,14 +16,22 @@
 
 @import iht.constants.IhtProperties
 @import iht.viewmodels.application.overview._
-@import iht.views.html.ihtHelpers.custom._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 @import iht.viewmodels.application.overview.EstateOverviewViewModel
-@import iht.views.html._
-@import iht.views.html.application.overview._
 
-@(model: EstateOverviewViewModel)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@this(
+    appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application,
+    overviewSidebar: application.overview.overview_sidebar,
+    assetsAndGiftsSection: application.overview.assets_and_gifts_section,
+    reducingEstateValueSection: application.overview.reducing_estate_value_section,
+    overviewTotal: ihtHelpers.custom.overview_total,
+    thresholdSection: application.overview.threshold_section,
+    otherDetailsSection: application.overview.other_details_section,
+    declarationSection: application.overview.declaration_section
+)
+
+@(model: EstateOverviewViewModel)(implicit request:Request[_], messages: Messages)
 
 @checkNameSize(name: String) = @{
   var nameislong = false
@@ -36,10 +44,10 @@
   nameislong
 }
 
-@iht_main_template_application(title = Messages("page.iht.application.overview.title2", model.deceasedName),
+@ihtMainTemplateApplication(title = Messages("page.iht.application.overview.title2", model.deceasedName),
     browserTitle = Some(Messages("page.iht.application.overview.browserTitle")),
     isFullWidth=false,
-    sidebarLinks = iht.views.html.application.overview.overview_sidebar(model.submissionDeadline, model.submissionMonthsLeft),
+    sidebarLinks = overviewSidebar(model.submissionDeadline, model.submissionMonthsLeft),
     headingClass = if(checkNameSize(model.deceasedName)){"heading-large"} else {"heading-xlarge"},
     headingName = model.deceasedName,
     signOutCall = Some(iht.controllers.routes.FeedbackSurveyController.redirectExitSurvey)
@@ -47,30 +55,30 @@
 
   <p id="estate-overview-guidance" aria-describedby="estate-report-deadline-date" role="heading" aria-level="2">@Messages("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text2")</p>
   <section id="assets-gifts-section" @if(model.reducingEstateValueSection.isDefined) {class="section"}>
-    @assets_and_gifts_section(model.assetsAndGiftsSection)
+    @assetsAndGiftsSection(model.assetsAndGiftsSection)
   </section>
     @if(model.reducingEstateValueSection.isDefined) {
-        @reducing_estate_value_section(model.reducingEstateValueSection.get)
+        @reducingEstateValueSection(model.reducingEstateValueSection.get)
             @if(model.grandTotalRow.isDefined) {
-        @overview_total(model.grandTotalRow.get)
+        @overviewTotal(model.grandTotalRow.get)
             }
 
-      @threshold_section(model.thresholdSection, "")
+      @thresholdSection(model.thresholdSection, "")
 
         @if(model.otherDetailsSection.isDefined) {
-            @other_details_section(model.otherDetailsSection.get)
+            @otherDetailsSection(model.otherDetailsSection.get)
         }
     } else {
       @if(model.increasingThresholdRow.isDefined){
-        @threshold_section(model.thresholdSection, "")
+        @thresholdSection(model.thresholdSection, "")
       } else {
-        @threshold_section(model.thresholdSection, "section section--top-tight")
+        @thresholdSection(model.thresholdSection, "section section--top-tight")
       }
         @if(model.otherDetailsSection.isDefined) {
-            @other_details_section(model.otherDetailsSection.get)
+            @otherDetailsSection(model.otherDetailsSection.get)
         }
     }
 
     
-  @declaration_section(model.declarationSection)
+  @declarationSection(model.declarationSection)
 }

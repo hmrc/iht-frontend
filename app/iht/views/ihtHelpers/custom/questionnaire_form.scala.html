@@ -14,17 +14,23 @@
  * limitations under the License.
  *@
 
-@import iht.config.AppConfig
-@(ihtForm: Form[_], postRoute: play.api.mvc.Call, includeIntendReturnQuestion: Boolean)(implicit request:Request[_], messages: Messages, appConfig: AppConfig)
-
 @import iht.constants.FieldMappings._
-@import iht.views.html._
 @import views.html.helper.textarea
-@import uk.gov.hmrc.play.views.html.helpers.form
+@import iht.config.AppConfig
+
+@this(
+    implicit val appConfig: AppConfig,
+    inputRadioGroup: ihtHelpers.standard.input_radio_group,
+    form: FormWithCSRF,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group,
+    inputWithHelp: ihtHelpers.standard.input_with_help
+)
+
+@(ihtForm: Form[_], postRoute: play.api.mvc.Call, includeIntendReturnQuestion: Boolean)(implicit request:Request[_], messages: Messages)
 
 @form(postRoute) {
 
-    @ihtHelpers.standard.input_radio_group(
+    @inputRadioGroup(
         ihtForm("feelingAboutExperience"),
         questionnaireFeelingAboutExperience.toSeq,
         '_legend -> messages("page.iht.questionnaire.feelingAboutExperience.question"),
@@ -35,7 +41,7 @@
         '_legendClass -> "form-label-bold"
     )
 
-    @ihtHelpers.standard.input_radio_group(
+    @inputRadioGroup(
         ihtForm("easytouse"),
         questionnaireEasyToUse.toSeq,
         '_legend -> messages("page.iht.questionnaire.easy-to-use.question"),
@@ -46,7 +52,7 @@
         '_legendClass -> "form-label-bold"
     )
 
-    @ihtHelpers.standard.input_radio_group(
+    @inputRadioGroup(
         ihtForm("stageInService"),
         questionnaireActivity.toSeq,
         '_legend -> messages("page.iht.questionnaire.activity.question"),
@@ -59,7 +65,7 @@
     )
 
     @if(includeIntendReturnQuestion) {
-        @ihtHelpers.standard.input_yes_no_radio_group(
+        @inputYesNoRadioGroup(
             ihtForm("intendToReturn"),
             '_divClass -> Some("form-group"),
             '_legend -> Messages("page.iht.questionnaire.intendReturn.question"),
@@ -78,13 +84,13 @@
     <p><strong class="bold">@messages("page.iht.questionnaire.fullName.p1")</strong></p>
     <p>@messages("page.iht.questionnaire.fullName.p2")</p>
 
-    @ihtHelpers.standard.input_with_help(ihtForm("fullName"),
+    @inputWithHelp(ihtForm("fullName"),
     '_divClass -> "form-group",
     '_inputClass -> "form-control",
     '_labelTextClass -> "bold",
     '_label -> Html(messages("site.fullName")))
 
-    @ihtHelpers.standard.input_with_help(ihtForm("contactDetails"),
+    @inputWithHelp(ihtForm("contactDetails"),
     '_divClass -> "form-group",
     '_inputClass -> "form-control",
     '_labelTextClass -> "bold",

@@ -17,15 +17,11 @@
 package iht.views.application.assets.properties
 
 import iht.models.application.assets.Properties
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.views.html.application.asset.properties.properties_overview
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import iht.testhelpers.TestHelper
-import play.api.i18n.Messages
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 
 class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
@@ -33,6 +29,7 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
 
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
+  lazy val propertiesOverviewView: properties_overview = app.injector.instanceOf[properties_overview]
 
   override def guidanceParagraphs = Set(
     messagesApi("page.iht.application.assets.deceased-permanent-home.description.p1", deceasedName),
@@ -52,7 +49,7 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
   )
 
   override def view =
-    properties_overview(List(CommonBuilder.property, CommonBuilder.property2),
+    propertiesOverviewView(List(CommonBuilder.property, CommonBuilder.property2),
       Some(Properties(isOwned = Some(true))),
       registrationDetails).toString()
 
@@ -100,7 +97,7 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
     behave like addressWithDeleteAndModify(1, formatAddressForDisplay(CommonBuilder.DefaultUkAddress2))
 
     "show you haven't added message when there are no properties" in {
-      val view = properties_overview(List(),
+      val view = propertiesOverviewView(List(),
         Some(Properties(isOwned = Some(true))),
         registrationDetails).toString()
       val doc = asDocument(view)

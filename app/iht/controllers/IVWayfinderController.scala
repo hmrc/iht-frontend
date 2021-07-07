@@ -16,7 +16,7 @@
 
 package iht.controllers
 
-import iht.config.{AppConfig, IhtFormPartialRetriever}
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.auth.IhtBaseController
 import iht.utils.IhtSection
@@ -24,28 +24,32 @@ import javax.inject.Inject
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
+import iht.views.html.iv.wayfinderpages.login_pass
+import iht.views.html.iv.wayfinderpages.verification_pass
 
 import scala.concurrent.Future
 
 class IVWayfinderControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                           val cachingConnector: CachingConnector,
                                           val authConnector: AuthConnector,
-                                          implicit val formPartialRetriever: IhtFormPartialRetriever,
+                                          val loginPassView: login_pass,
+                                          val verificationPassView: verification_pass,
                                           implicit val appConfig: AppConfig,
                                           val cc: MessagesControllerComponents) extends FrontendController(cc) with IVWayfinderController
 
 trait IVWayfinderController extends IhtBaseController {
   override val ihtSection: IhtSection.Value = IhtSection.Registration
-
+  val loginPassView: login_pass
+  val verificationPassView: verification_pass
   def loginPass: Action[AnyContent] = authorisedForIht {
     implicit request => {
-      Future.successful(Ok(iht.views.html.iv.wayfinderpages.login_pass()))
+      Future.successful(Ok(loginPassView()))
     }
   }
 
   def verificationPass: Action[AnyContent] = authorisedForIht {
     implicit request => {
-      Future.successful(Ok(iht.views.html.iv.wayfinderpages.verification_pass()))
+      Future.successful(Ok(verificationPassView()))
     }
   }
 }

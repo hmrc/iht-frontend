@@ -19,11 +19,9 @@ package iht.views.application.exemption.partner
 import iht.forms.ApplicationForms._
 import iht.models.application.exemptions.PartnerExemption
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.TestHelper._
 import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
 import iht.views.html.application.exemption.partner.partner_permanent_home_question
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.testhelpers.TestHelper._
 
 class PartnerPermanentHomeQuestionViewTest extends YesNoQuestionViewBehaviour[PartnerExemption] {
   val regDetails = CommonBuilder.buildRegistrationDetails1
@@ -31,8 +29,9 @@ class PartnerPermanentHomeQuestionViewTest extends YesNoQuestionViewBehaviour[Pa
   val deceasedName = regDetails.deceasedDetails.map(_.name).fold("")(identity)
 
   override def form = partnerPermanentHomeQuestionForm
+  lazy val partnerPermanentHomeQuestionView: partner_permanent_home_question = app.injector.instanceOf[partner_permanent_home_question]
 
-  override def formToView = form => partner_permanent_home_question(form, regDetails, CommonBuilder.DefaultString, CommonBuilder.DefaultCall1)
+  override def formToView = form => partnerPermanentHomeQuestionView(form, regDetails, CommonBuilder.DefaultString, CommonBuilder.DefaultCall1)
 
   override def pageTitle = messagesApi("iht.estateReport.exemptions.partner.homeInUK.question")
 

@@ -23,8 +23,6 @@ import iht.testhelpers.CommonBuilder
 import iht.utils.CommonHelper
 import iht.views.helpers.GenericOverviewHelper
 import iht.views.html.application.asset.pensions.pensions_overview
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 
 class PensionsOverviewViewTest extends GenericOverviewHelper {
 
@@ -51,7 +49,9 @@ class PensionsOverviewViewTest extends GenericOverviewHelper {
   def pensionOverviewView(pensions:Option[PrivatePension]) = {
     implicit val request = createFakeRequest()
 
-    val view = pensions_overview(pensions, regDetails).toString()
+  lazy val pensionsOverviewView: pensions_overview = app.injector.instanceOf[pensions_overview]
+
+    val view = pensionsOverviewView(pensions, regDetails).toString()
     asDocument(view)
   }
 

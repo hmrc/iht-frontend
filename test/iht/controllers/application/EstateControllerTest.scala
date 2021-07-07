@@ -18,11 +18,10 @@ package iht.controllers.application
 
 import iht.config.AppConfig
 import iht.models.application.assets._
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
 import iht.utils.{ApplicationStatus, KickOutReason}
 import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class EstateControllerTest extends ApplicationControllerTest {
 
@@ -39,7 +38,6 @@ class EstateControllerTest extends ApplicationControllerTest {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "EstateController" must {

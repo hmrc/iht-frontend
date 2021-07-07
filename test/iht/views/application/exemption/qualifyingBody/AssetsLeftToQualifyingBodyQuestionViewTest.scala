@@ -19,20 +19,19 @@ package iht.views.application.exemption.qualifyingBody
 import iht.forms.ApplicationForms._
 import iht.models.application.exemptions.BasicExemptionElement
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.TestHelper._
 import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
 import iht.views.html.application.exemption.qualifyingBody.assets_left_to_qualifying_body_question
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.testhelpers.TestHelper._
 
 class AssetsLeftToQualifyingBodyQuestionViewTest extends YesNoQuestionViewBehaviour[BasicExemptionElement] {
   val regDetails = CommonBuilder.buildRegistrationDetails1
 
   val deceasedName = regDetails.deceasedDetails.map(_.name).fold("")(identity)
+  lazy val assetsLeftToQualifyingBodyQuestionView: assets_left_to_qualifying_body_question = app.injector.instanceOf[assets_left_to_qualifying_body_question]
 
   override def form = assetsLeftToQualifyingBodyQuestionForm
 
-  override def formToView = form => assets_left_to_qualifying_body_question(form, regDetails)
+  override def formToView = form => assetsLeftToQualifyingBodyQuestionView(form, regDetails)
 
   override def pageTitle = messagesApi("page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle", deceasedName)
 

@@ -31,7 +31,6 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -41,7 +40,7 @@ import scala.concurrent.Future
 class ExemptionPartnerNameControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                                    val ihtConnector: IhtConnector,
                                                    val authConnector: AuthConnector,
-                                                   override implicit val formPartialRetriever: FormPartialRetriever,
+                                                   val partnerNameView: partner_name,
 implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with ExemptionPartnerNameController
 
@@ -52,11 +51,12 @@ trait ExemptionPartnerNameController extends EstateController {
   def cachingConnector: CachingConnector
 
   def ihtConnector: IhtConnector
+  val partnerNameView: partner_name
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       estateElementOnPageLoad[PartnerExemption](
-        partnerExemptionNameForm, partner_name.apply, _.allExemptions.flatMap(_.partner), userNino)
+        partnerExemptionNameForm, partnerNameView.apply, _.allExemptions.flatMap(_.partner), userNino)
     }
   }
 
@@ -67,7 +67,7 @@ trait ExemptionPartnerNameController extends EstateController {
 
         boundForm.fold(
           formWithErrors => {
-            Future.successful(BadRequest(iht.views.html.application.exemption.partner.partner_name(
+            Future.successful(BadRequest(partnerNameView(
               formWithErrors, regDetails)))
           },
           partnerExemption => {

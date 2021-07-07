@@ -18,18 +18,24 @@
 @import iht.models.application.exemptions._
 @import iht.utils.OverviewHelper._
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 @import iht.models.RegistrationDetails
 @import iht.constants.Constants._
+
+@this(
+    appConfig: AppConfig,
+    ihtMainTemplateApplication: iht_main_template_application,
+    genericOverviewItem: ihtHelpers.custom.generic_overview_item,
+    genericOverviewStatusLabel: ihtHelpers.custom.generic_overview_status_label,
+    genericOverviewStatusLink: ihtHelpers.custom.generic_overview_status_link
+)
 
 @(appDetails:ApplicationDetails,
 exemptions:AllExemptions,
 charities: Seq[Charity] = Seq(),
 qualifyingBodies: Seq[QualifyingBody]= Seq(),
 married: Boolean,
-registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @getScreenReaderQualifyingText(isComplete: Option[Boolean], moreDetailText: String, valueText: String, noValueText: String) = @{
     isComplete match {
@@ -41,7 +47,7 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
 
 @deceasedName() = @{CommonHelper.getOrException(registrationDetails.deceasedDetails).name}
 
-@iht_main_template_application(title = Messages("page.iht.application.exemptions.deceasedName.title", deceasedName),
+@ihtMainTemplateApplication(title = Messages("page.iht.application.exemptions.deceasedName.title", deceasedName),
 browserTitle = Some(Messages("iht.estateReport.exemptions.title")),
 isFullWidth = false,
 headingName = deceasedName) {
@@ -53,7 +59,7 @@ headingName = deceasedName) {
     <ul class="tabular-data tabular-data--list">
     @if(married) {
         @defining(exemptions.partner.flatMap(_.isComplete)) { isComplete =>
-            @ihtHelpers.custom.generic_overview_item(
+            @genericOverviewItem(
                 title = Messages("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title"),
                 name= "partner",
                 id = appConfig.ExemptionsPartnerID,
@@ -66,7 +72,7 @@ headingName = deceasedName) {
                 } else {
                   Some(iht.controllers.application.exemptions.partner.routes.AssetsLeftToPartnerQuestionController.onPageLoad())
                 },
-            itemStatus = ihtHelpers.custom.generic_overview_status_label(
+            itemStatus = genericOverviewStatusLabel(
                         isComplete = isComplete,
                         screenreaderQualifyingText = getScreenReaderQualifyingText(
                             isComplete,
@@ -75,7 +81,7 @@ headingName = deceasedName) {
                             Messages("iht.notStarted.screenreader", Messages("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title"))
                         )
             ),
-            linkText = ihtHelpers.custom.generic_overview_status_link(
+            linkText = genericOverviewStatusLink(
                   isComplete = isComplete,
                   screenreaderQualifyingText = getScreenReaderQualifyingText(
                       isComplete,
@@ -89,7 +95,7 @@ headingName = deceasedName) {
     }
 
     @defining(appDetails.isCompleteCharities) { isComplete =>
-        @ihtHelpers.custom.generic_overview_item(
+        @genericOverviewItem(
             title = Messages("iht.estateReport.exemptions.charities.assetsLeftToCharities.title"),
             name = "charity",
             id = appConfig.ExemptionsCharityID,
@@ -101,7 +107,7 @@ headingName = deceasedName) {
             link = if(exemptions.charity.flatMap(x=>x.isSelected).contains(true))
                 Some(iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad())
                 else Some(iht.controllers.application.exemptions.charity.routes.AssetsLeftToCharityQuestionController.onPageLoad()),
-            itemStatus = ihtHelpers.custom.generic_overview_status_label(
+            itemStatus = genericOverviewStatusLabel(
                         isComplete = isComplete,
                             screenreaderQualifyingText = getScreenReaderQualifyingText(
                                 isComplete,
@@ -110,7 +116,7 @@ headingName = deceasedName) {
                                 Messages("iht.notStarted.screenreader", Messages("iht.estateReport.exemptions.charities.assetsLeftToCharities.title"))
                             )
             ),
-            linkText = ihtHelpers.custom.generic_overview_status_link(
+            linkText = genericOverviewStatusLink(
               isComplete = isComplete,
               screenreaderQualifyingText = getScreenReaderQualifyingText(
                   isComplete,
@@ -123,7 +129,7 @@ headingName = deceasedName) {
     }
 
     @defining(appDetails.isCompleteQualifyingBodies) { isComplete =>
-        @ihtHelpers.custom.generic_overview_item(
+        @genericOverviewItem(
             title = Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title"),
             name = "qualifyingBody",
             id = appConfig.ExemptionsOtherID,
@@ -135,7 +141,7 @@ headingName = deceasedName) {
             link = if(exemptions.qualifyingBody.flatMap(x=>x.isSelected).contains(true))
             Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad())
             else Some(iht.controllers.application.exemptions.qualifyingBody.routes.AssetsLeftToQualifyingBodyQuestionController.onPageLoad()),
-            itemStatus = ihtHelpers.custom.generic_overview_status_label(
+            itemStatus = genericOverviewStatusLabel(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -144,7 +150,7 @@ headingName = deceasedName) {
                     Messages("iht.notStarted.screenreader", Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title"))
                 )
             ),
-            linkText = ihtHelpers.custom.generic_overview_status_link(
+            linkText = genericOverviewStatusLink(
               isComplete = isComplete,
               screenreaderQualifyingText = getScreenReaderQualifyingText(
                   isComplete,

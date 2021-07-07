@@ -27,20 +27,19 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 class CharityDeleteConfirmControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                    val cachingConnector: CachingConnector,
                                                    val authConnector: AuthConnector,
-                                                   val formPartialRetriever: FormPartialRetriever,
+                                                   val charityDeleteConfirmView: charity_delete_confirm,
                                                    implicit val appConfig: AppConfig,
                                                    val cc: MessagesControllerComponents) extends FrontendController(cc) with CharityDeleteConfirmController
 
 trait CharityDeleteConfirmController extends EstateController with StringHelper with Logging {
 
-
+  val charityDeleteConfirmView: charity_delete_confirm
   def onPageLoad(id: String) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       withApplicationDetails(userNino) {
@@ -49,7 +48,7 @@ trait CharityDeleteConfirmController extends EstateController with StringHelper 
             logger.warn("Charity with id = " + id + " not found during onLoad of delete confirmation")
             InternalServerError("Charity with id = " + id + " not found during onLoad of delete confirmation")
           } { c =>
-            Ok(charity_delete_confirm(c, routes.CharityDeleteConfirmController.onSubmit(id)))
+            Ok(charityDeleteConfirmView(c, routes.CharityDeleteConfirmController.onSubmit(id)))
           })
         }
       }

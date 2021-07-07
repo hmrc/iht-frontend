@@ -18,14 +18,15 @@ package iht.controllers
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.MockFormPartialRetriever
+import iht.views.html.application.timeout_application
+import iht.views.html.estateReports.save_your_estate_report
+import iht.views.html.registration.timeout_registration
 import play.api.http.Status._
 import play.api.i18n.MessagesApi
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{status => playStatus}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class SessionTimeoutControllerTest extends ApplicationControllerTest {
   implicit val hc = HeaderCarrier()
@@ -33,11 +34,12 @@ class SessionTimeoutControllerTest extends ApplicationControllerTest {
 
   protected abstract class TestController extends FrontendController(mockControllerComponents) with SessionTimeoutController {
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val timeoutRegistrationView: timeout_registration = app.injector.instanceOf[timeout_registration]
+    override val timeoutApplicationView: timeout_application = app.injector.instanceOf[timeout_application]
+    override val saveYourEstateReportView: save_your_estate_report = app.injector.instanceOf[save_your_estate_report]
   }
 
   def controller = new TestController {
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
-
     override def messagesApi: MessagesApi = fakedMessagesApi
   }
 

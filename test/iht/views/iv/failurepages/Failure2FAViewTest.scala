@@ -31,8 +31,9 @@ class Failure2FAViewTest extends GenericNonSubmittablePageBehaviour {
   def pageTitle = messagesApi("page.iht.iv.failure.2fa.heading")
 
   def browserTitle = messagesApi("page.iht.iv.failure.2fa.heading")
+  lazy val failure2faView: failure_2fa = app.injector.instanceOf[failure_2fa]
 
-  def view: String = failure_2fa(CommonBuilder.DefaultCall1.url)(createFakeRequest(), messages, formPartialRetriever, appConfig).toString
+  def view: String = failure2faView(CommonBuilder.DefaultCall1.url)(createFakeRequest(), messages).toString
 
   override def exitComponent = Some(
     ExitComponent(

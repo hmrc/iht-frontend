@@ -31,13 +31,12 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class ForeignControllerImpl @Inject()(val metrics: IhtMetrics,
                                       val ihtConnector: IhtConnector,
                                       val cachingConnector: CachingConnector,
                                       val authConnector: AuthConnector,
-                                      val formPartialRetriever: FormPartialRetriever,
+                                      val foreignView: foreign,
                                       implicit val appConfig: AppConfig,
                                       val cc: MessagesControllerComponents) extends FrontendController(cc) with ForeignController {
 }
@@ -45,10 +44,10 @@ class ForeignControllerImpl @Inject()(val metrics: IhtMetrics,
 trait ForeignController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsForeign)
 
-
+  val foreignView: foreign
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
-      estateElementOnPageLoad[BasicEstateElement](foreignForm, foreign.apply, _.allAssets.flatMap(_.foreign), userNino)
+      estateElementOnPageLoad[BasicEstateElement](foreignForm, foreignView.apply, _.allAssets.flatMap(_.foreign), userNino)
   }
 
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -68,7 +67,7 @@ trait ForeignController extends EstateController {
           (updatedAD, None)
         }
       estateElementOnSubmit[BasicEstateElement](foreignForm,
-        foreign.apply,
+        foreignView.apply,
         updateApplicationDetails,
         CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(appConfig.AppSectionForeignID)),
         userNino

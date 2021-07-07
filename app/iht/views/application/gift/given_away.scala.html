@@ -17,26 +17,32 @@
 @import iht.models.RegistrationDetails
 @import iht.models.application.gifts.{AllGifts, PreviousYearsGifts}
 @import iht.utils._
-@import iht.views.html._
 @import org.joda.time.LocalDate
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
 
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group,
+    errorSummary: ihtHelpers.custom.error_summary,
+    nameHelper: ihtHelpers.custom.name,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(giftsGivenAwayForm:Form[AllGifts],
 regDetails:RegistrationDetails,
 giftsList: Seq[PreviousYearsGifts]
-)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)}
 @deceasedNameWrapped() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails, wrapName = true)}
 
-@iht_main_template_application(title = Messages("iht.estateReport.gifts.givenAwayBy",deceasedName),
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.gifts.givenAwayBy",deceasedName),
 browserTitle = Some(Messages("iht.estateReport.gifts.givenAway.title")),
 headingName = deceasedName
 ){
-    @ihtHelpers.custom.error_summary(giftsGivenAwayForm)
+    @errorSummary(giftsGivenAwayForm)
 
     @form(action = iht.controllers.application.gifts.routes.GivenAwayController.onSubmit,'autoComplete -> "off") {
 
@@ -59,7 +65,7 @@ headingName = deceasedName
         </ul>
     </div>
 
-    @ihtHelpers.standard.input_yes_no_radio_group(
+    @inputYesNoRadioGroup(
     giftsGivenAwayForm("isGivenAway"),    
     '_divClass -> Some("form-group"),
     '_legend -> Html(Messages("page.iht.application.gifts.lastYears.givenAway.question", deceasedNameWrapped))
@@ -70,13 +76,13 @@ headingName = deceasedName
     </div>
 
     @if(giftsGivenAwayForm.data.isEmpty) {
-        @ihtHelpers.custom.return_link(Messages("iht.estateReport.returnToEstateOverview"),
+        @returnLink(Messages("iht.estateReport.returnToEstateOverview"),
             Some(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(
                 CommonHelper.getOrException(regDetails.ihtReference))))
     } else {
         @regDetails.deceasedDetails.map { dd =>
-            @ihtHelpers.custom.return_link(
-                Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.custom.name(dd.name)),
+            @returnLink(
+                Messages("page.iht.application.gifts.return.to.givenAwayBy", nameHelper(dd.name)),
                 Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()),
                 appConfig.GiftsGivenAwayQuestionID
             )

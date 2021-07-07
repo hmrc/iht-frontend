@@ -30,19 +30,19 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 
 class PensionsValueControllerImpl @Inject()(val metrics: IhtMetrics,
                                             val ihtConnector: IhtConnector,
                                             val cachingConnector: CachingConnector,
                                             val authConnector: AuthConnector,
-                                            val formPartialRetriever: FormPartialRetriever,
+                                            val pensionsValueView: pensions_value,
                                             implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with PensionsValueController
 
 trait PensionsValueController extends EstateController {
 
+  val pensionsValueView: pensions_value
 
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
     iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad(), Some(appConfig.AssetsPensionsValueID))
@@ -50,7 +50,7 @@ trait PensionsValueController extends EstateController {
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
-      estateElementOnPageLoad[PrivatePension](pensionsValueForm, pensions_value.apply, _.allAssets.flatMap(_.privatePension), userNino)
+      estateElementOnPageLoad[PrivatePension](pensionsValueForm, pensionsValueView.apply, _.allAssets.flatMap(_.privatePension), userNino)
   }
 
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -71,7 +71,7 @@ trait PensionsValueController extends EstateController {
 
       estateElementOnSubmit[PrivatePension](
         pensionsValueForm,
-        pensions_value.apply,
+        pensionsValueView.apply,
         updateApplicationDetails,
         submitUrl,
         userNino

@@ -16,16 +16,13 @@
 
 package iht.views.application.debts
 
+import iht.controllers.application.debts.routes
 import iht.forms.ApplicationForms._
 import iht.models.application.debts.BasicEstateElementLiabilities
 import iht.testhelpers.{CommonBuilder, TestHelper}
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import iht.views.html.application.debts.owed_outside_uk
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
-import iht.controllers.application.debts.routes
-import iht.constants.Constants._
 
 
 
@@ -37,9 +34,10 @@ class OwedOutsideUKViewTest extends DebtsElementViewBehaviour[BasicEstateElement
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(
       maritalStatus = Some(TestHelper.MaritalStatusMarried))),
     deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
+  lazy val owedOutsideUkView: owed_outside_uk = app.injector.instanceOf[owed_outside_uk]
 
   override def form:Form[BasicEstateElementLiabilities] = debtsOutsideUkForm
-  override def formToView:Form[BasicEstateElementLiabilities] => Appendable = form => owed_outside_uk(form, regDetails)
+  override def formToView:Form[BasicEstateElementLiabilities] => Appendable = form => owedOutsideUkView(form, regDetails)
 
   override def pageTitle = messagesApi("iht.estateReport.debts.owedOutsideUK")
   override def browserTitle = messagesApi("page.iht.application.debts.debtsOutsideUk.browserTitle")

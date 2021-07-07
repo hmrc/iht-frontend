@@ -16,19 +16,16 @@
 
 package iht.views.application.exemption.partner
 
-import iht.constants.IhtProperties
 import iht.models.application.exemptions.{AllExemptions, PartnerExemption}
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.TestHelper._
 import iht.utils.CommonHelper
 import iht.utils.CommonHelper._
 import iht.views.html.application.exemption.partner.partner_overview
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
 import org.joda.time.LocalDate
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
-import iht.testhelpers.TestHelper._
 
 trait PartnerOverviewViewBehaviour extends GenericNonSubmittablePageBehaviour {
   val regDetails = CommonBuilder.buildRegistrationDetails1
@@ -42,6 +39,7 @@ trait PartnerOverviewViewBehaviour extends GenericNonSubmittablePageBehaviour {
       AllExemptions(
         partner = Some(partner)
       )))
+  lazy val partnerOverviewView: partner_overview = app.injector.instanceOf[partner_overview]
 
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
 
@@ -95,7 +93,7 @@ class PartnerOverviewViewTest extends PartnerOverviewViewBehaviour {
     totalAssets = Some(CommonBuilder.DefaultTotalAssets))
 
   override def view =
-    partner_overview(applicationDetails, regDetails).toString()
+    partnerOverviewView(applicationDetails, regDetails).toString()
 
   "Partner overview view" must {
     behave like nonSubmittablePage()
@@ -149,7 +147,7 @@ class PartnerOverviewViewWithNoValuesTest extends PartnerOverviewViewBehaviour {
     totalAssets = None)
 
   override def view =
-    partner_overview(applicationDetails, regDetails).toString()
+    partnerOverviewView(applicationDetails, regDetails).toString()
 
   "Partner overview view where no values entered" must {
     behave like assetsLeftToSpouseAttributeWithValueAndChange(2,

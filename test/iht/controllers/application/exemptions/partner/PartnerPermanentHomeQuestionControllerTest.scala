@@ -20,14 +20,14 @@ import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.exemptions.PartnerExemption
-
+import iht.testhelpers.CommonBuilder
 import iht.testhelpers.TestHelper._
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
 import iht.utils.CommonHelper._
+import iht.views.html.application.exemption.partner.partner_permanent_home_question
+import iht.views.html.ihtHelpers.custom.name
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 
 
@@ -36,20 +36,21 @@ class PartnerPermanentHomeQuestionControllerTest extends ApplicationControllerTe
   protected abstract class TestController extends FrontendController(mockControllerComponents) with PartnerPermanentHomeQuestionController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val partnerPermanentHomeQuestionView: partner_permanent_home_question = app.injector.instanceOf[partner_permanent_home_question]
+    override val nameView: name = app.injector.instanceOf[name]
   }
 
   def partnerPermanentHomeQuestionController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+
   }
 
   def partnerPermanentHomeQuestionControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "PartnerPermanentHomeQuestionController" must {

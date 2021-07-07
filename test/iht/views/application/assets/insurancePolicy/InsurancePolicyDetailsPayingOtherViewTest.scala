@@ -19,19 +19,17 @@ package iht.views.application.assets.insurancePolicy
 import iht.controllers.application.assets.insurancePolicy.routes
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.InsurancePolicy
-import iht.testhelpers.CommonBuilder
-import iht.testhelpers.TestHelper
+import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_paying_other
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.twirl.api.HtmlFormat.Appendable
 
 class InsurancePolicyDetailsPayingOtherViewTest extends YesNoQuestionViewBehaviour[InsurancePolicy] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+  lazy val insurancePolicyDetailsPayingOtherView: insurance_policy_details_paying_other = app.injector.instanceOf[insurance_policy_details_paying_other]
 
   override def guidance = guidance(Set(messagesApi("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText1", deceasedName),
     messagesApi("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText2", deceasedName)))
@@ -45,7 +43,7 @@ class InsurancePolicyDetailsPayingOtherViewTest extends YesNoQuestionViewBehavio
   override def form: Form[InsurancePolicy] = insurancePolicyJointQuestionForm
 
   override def formToView: Form[InsurancePolicy] => Appendable =
-  form => insurance_policy_details_paying_other(form, regDetails)
+  form => insurancePolicyDetailsPayingOtherView(form, regDetails)
 
   override def cancelComponent = Some(CancelComponent(routes.InsurancePolicyOverviewController.onPageLoad(),
     messagesApi("site.link.return.insurance.policies"),

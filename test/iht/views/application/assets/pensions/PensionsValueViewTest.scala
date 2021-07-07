@@ -16,23 +16,21 @@
 
 package iht.views.application.assets.pensions
 
+import iht.controllers.application.assets.pensions.routes
 import iht.forms.ApplicationForms.pensionsValueForm
 import iht.models.application.assets.PrivatePension
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.TestHelper._
 import iht.views.application.{CancelComponent, ValueViewBehaviour}
 import iht.views.html.application.asset.pensions.pensions_value
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
-import iht.controllers.application.assets.pensions.routes
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
-import iht.testhelpers.TestHelper._
 
 class PensionsValueViewTest extends ValueViewBehaviour[PrivatePension] {
 
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
+  lazy val pensionsValueView: pensions_value = app.injector.instanceOf[pensions_value]
 
   override def guidance = guidance(Set(messagesApi("page.iht.application.assets.pensions.hint")))
 
@@ -51,7 +49,7 @@ class PensionsValueViewTest extends ValueViewBehaviour[PrivatePension] {
   override def form: Form[PrivatePension] = pensionsValueForm
 
   override def formToView: Form[PrivatePension] => Appendable =
-    form => pensions_value(form, registrationDetails)
+    form => pensionsValueView(form, registrationDetails)
 
   "Pensions Value View" must {
     behave like valueView()

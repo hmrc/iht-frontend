@@ -14,14 +14,15 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
-@import iht.views.html._
-@import uk.gov.hmrc.play.views.html.helpers.form
+@this(
+    ihtMainTemplateApplication: iht_main_template_application,
+    returnLink: ihtHelpers.custom.return_link,
+    form: FormWithCSRF
+)
 
-@(ihtReference: String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+@(ihtReference: String)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("page.iht.application.kickout.final.browserTitle"),
+@ihtMainTemplateApplication(title = Messages("page.iht.application.kickout.final.browserTitle"),
     browserTitle = Some(Messages("page.iht.application.kickout.final.browserTitle"))) {
 
     <h2 class="heading-medium">@Messages("page.iht.application.kickout.final.getCopy.title")</h2>
@@ -40,7 +41,7 @@
     </div>
     <p>@Messages("page.iht.application.kickout.final.getCopy.guidance3")</p>
 
-    <p>@ihtHelpers.custom.return_link(Messages("iht.estateReport.returnToEstateOverview"),
+    <p>@returnLink(Messages("iht.estateReport.returnToEstateOverview"),
     Some(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference)))</p>
 
     <p><strong class="bold">@Messages("page.iht.application.kickout.final.guidance.onFinish")</strong></p>

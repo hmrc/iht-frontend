@@ -20,13 +20,12 @@ import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions.QualifyingBody
-import iht.testhelpers.CommonBuilder._
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
+import iht.views.html.application.exemption.qualifyingBody.qualifying_bodies_overview
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
 
@@ -63,6 +62,7 @@ class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
   protected abstract class TestController extends FrontendController(mockControllerComponents) with QualifyingBodiesOverviewController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val qualifyingBodiesOverviewView: qualifying_bodies_overview = app.injector.instanceOf[qualifying_bodies_overview]
   }
 
   private def getController(authorised: Boolean = true) = new TestController {
@@ -70,8 +70,6 @@ class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
     override val ihtConnector = mockIhtConnector
 //    override val authConnector = createFakeAuthConnector(isAuthorised = authorised)
     override val authConnector = mockAuthConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "Qualifying Bodies Overview Controller" must {

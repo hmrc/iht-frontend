@@ -18,13 +18,13 @@ package iht.controllers.application.tnrb
 
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.application.tnrb.tnrb_success
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -33,6 +33,7 @@ class TnrbSuccessControllerTest extends ApplicationControllerTest {
   protected abstract class TestController extends FrontendController(mockControllerComponents) with TnrbSuccessController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit lazy val appConfig: AppConfig = mockAppConfig
+    override val tnrbSuccessView: tnrb_success = app.injector.instanceOf[tnrb_success]
   }
 
   implicit val headerCarrier = FakeHeaders()
@@ -49,16 +50,12 @@ class TnrbSuccessControllerTest extends ApplicationControllerTest {
     override val cachingConnector = mockCachingConnector
 	  override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def tnrbSuccessControllerNotAuthorised = new TestController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = mockAuthConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "TnrbSuccessController" must {

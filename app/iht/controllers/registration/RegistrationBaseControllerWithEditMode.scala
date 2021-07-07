@@ -33,7 +33,6 @@ trait RegistrationBaseControllerWithEditMode[T] extends RegistrationBaseControll
   def onEditPageLoad = pageLoad(Mode.Edit)
 
   def onEditSubmit = submit(Mode.Edit)
-
   override def pageLoad(mode: Mode.Value) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
       withRegistrationDetailsRedirectOnGuardCondition { rd =>

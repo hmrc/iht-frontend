@@ -21,13 +21,13 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.InsurancePolicy
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_paying_other
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -41,19 +41,19 @@ class InsurancePolicyDetailsPayingOtherControllerTest extends ApplicationControl
   protected abstract class TestController extends FrontendController(mockControllerComponents) with InsurancePolicyDetailsPayingOtherController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val insurancePolicyDetailsPayingOtherView: insurance_policy_details_paying_other = app.injector.instanceOf[insurance_policy_details_paying_other]
+
   }
 
   def insurancePolicyDetailsPayingOtherController = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
   def insurancePolicyDetailsPayingOtherControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   val registrationDetails = CommonBuilder.buildRegistrationDetails copy(

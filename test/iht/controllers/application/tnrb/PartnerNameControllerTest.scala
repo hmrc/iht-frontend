@@ -20,14 +20,13 @@ package iht.controllers.application.tnrb
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.TnrbForms._
-
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.application.tnrb.partner_name
 import org.joda.time.LocalDate
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class PartnerNameControllerTest extends ApplicationControllerTest{
 
@@ -35,6 +34,7 @@ class PartnerNameControllerTest extends ApplicationControllerTest{
   protected abstract class TestController extends FrontendController(mockControllerComponents) with PartnerNameController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val partnerNameView: partner_name = app.injector.instanceOf[partner_name]
   }
 
 
@@ -42,14 +42,12 @@ class PartnerNameControllerTest extends ApplicationControllerTest{
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def partnerNameControllerNotAuthorised = new TestController {
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "PartnerNameController" must {

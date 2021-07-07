@@ -19,8 +19,6 @@ package iht.views.application.overview
 import iht.viewmodels.application.overview.{NotStarted, OverviewRow, OverviewRowWithoutLink, ThresholdSectionViewModel}
 import iht.views.ViewTestHelper
 import iht.views.html.application.overview.threshold_section
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.mvc.Call
 
 class ThresholdSectionViewTest extends ViewTestHelper {
@@ -34,19 +32,20 @@ class ThresholdSectionViewTest extends ViewTestHelper {
     showIncreaseThresholdLink = false,
     thresholdIncreased = false
   )
+  lazy val thresholdSectionView: threshold_section = app.injector.instanceOf[threshold_section]
 
   "threshold section" must {
 
     "have no message keys in html" in {
       implicit val request = createFakeRequest()
-      val view = threshold_section(thresholdSection).toString
+      val view = thresholdSectionView(thresholdSection).toString
       noMessageKeysShouldBePresent(view)
     }
 
     "contain the threshold row" in {
       implicit val request = createFakeRequest()
 
-      val view = threshold_section(thresholdSection).toString
+      val view = thresholdSectionView(thresholdSection).toString
       val doc = asDocument(view)
       assertRenderedById(doc, "threshold-row")
     }
@@ -57,7 +56,7 @@ class ThresholdSectionViewTest extends ViewTestHelper {
       val viewModel = thresholdSection copy (
         increasingThresholdRow = Some(OverviewRow("increasing-threshold", "", "", NotStarted, Call("", ""), "")))
 
-      val view = threshold_section(viewModel).toString
+      val view = thresholdSectionView(viewModel).toString
       val doc = asDocument(view)
       assertRenderedById(doc, "increasing-threshold-row")
     }
@@ -65,7 +64,7 @@ class ThresholdSectionViewTest extends ViewTestHelper {
     "not contain the TNRB link when not asked to" in {
       implicit val request = createFakeRequest()
 
-      val view = threshold_section(thresholdSection).toString
+      val view = thresholdSectionView(thresholdSection).toString
       val doc = asDocument(view)
       assertNotRenderedById(doc, "tnrb-link")
     }
@@ -75,7 +74,7 @@ class ThresholdSectionViewTest extends ViewTestHelper {
 
       val viewModel = thresholdSection copy (showIncreaseThresholdLink = true)
 
-      val view = threshold_section(viewModel).toString
+      val view = thresholdSectionView(viewModel).toString
       val doc = asDocument(view)
       assertRenderedById(doc, "tnrb-link")
       val link = doc.getElementById("tnrb-link")
@@ -85,7 +84,7 @@ class ThresholdSectionViewTest extends ViewTestHelper {
 
     "show the threshold row as a normal row when threshold has not been increased" in {
       implicit val request = createFakeRequest()
-      val view = threshold_section(thresholdSection).toString
+      val view = thresholdSectionView(thresholdSection).toString
       val doc = asDocument(view)
       val thresholdRow = doc.getElementById("threshold-row")
       thresholdRow.attr("data--iht-role") must not include "ledger"
@@ -96,7 +95,7 @@ class ThresholdSectionViewTest extends ViewTestHelper {
 
       val viewModel: ThresholdSectionViewModel = thresholdSection copy (thresholdIncreased = true)
 
-      val view = threshold_section(viewModel).toString
+      val view = thresholdSectionView(viewModel).toString
       val doc = asDocument(view)
       val thresholdRow = doc.getElementById("threshold-row")
       thresholdRow.attr("data--iht-role") must include("ledger")

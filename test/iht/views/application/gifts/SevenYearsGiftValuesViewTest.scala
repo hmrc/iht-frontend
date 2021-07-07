@@ -17,16 +17,12 @@
 package iht.views.application.gifts
 
 import iht.models.application.gifts.PreviousYearsGifts
-import iht.testhelpers.CommonBuilder
-import iht.testhelpers.TestHelper
+import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.views.html.application.gift.seven_years_gift_values
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
 import org.jsoup.nodes.Document
-import play.api.i18n.Messages
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 
 class SevenYearsGiftValuesViewTest extends GenericNonSubmittablePageBehaviour {
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
@@ -52,6 +48,7 @@ class SevenYearsGiftValuesViewTest extends GenericNonSubmittablePageBehaviour {
       TestHelper.GiftsValueOfGiftsQuestionID
     )
   )
+  lazy val sevenYearsGiftValuesView: seven_years_gift_values = app.injector.instanceOf[seven_years_gift_values]
 
   override def view = {
     val giftsList = Seq(
@@ -59,7 +56,7 @@ class SevenYearsGiftValuesViewTest extends GenericNonSubmittablePageBehaviour {
       PreviousYearsGifts(Some("2"), Some(1001.00), Some(44), Some("2013-4-6"), Some("2013-4-5")),
       PreviousYearsGifts(Some("3"), Some(1002.00), Some(55), Some("2012-4-6"), Some("2012-4-5"))
     )
-    seven_years_gift_values(
+    sevenYearsGiftValuesView(
       giftsList = giftsList,
       registrationDetails = registrationDetails,
       BigDecimal(100),

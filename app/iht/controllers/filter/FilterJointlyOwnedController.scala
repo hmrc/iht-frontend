@@ -23,21 +23,21 @@ import javax.inject.Inject
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.filter.filter_jointly_owned
 
 import scala.concurrent.Future
 
-class FilterJointlyOwnedControllerImpl @Inject()(val formPartialRetriever: FormPartialRetriever,
+class FilterJointlyOwnedControllerImpl @Inject()(val filterJointlyOwnedView: filter_jointly_owned,
                                                  val cc: MessagesControllerComponents,
                                                  implicit val appConfig: AppConfig) extends FrontendController(cc) with FilterJointlyOwnedController
 
 trait FilterJointlyOwnedController extends FrontendController with I18nSupport {
   implicit val appConfig: AppConfig
-  implicit val formPartialRetriever: FormPartialRetriever
+  val filterJointlyOwnedView: filter_jointly_owned
 
   def onPageLoad: Action[AnyContent] = Action.async {
     implicit request => {
-      Future.successful(Ok(iht.views.html.filter.filter_jointly_owned(filterJointlyOwnedForm)))
+      Future.successful(Ok(filterJointlyOwnedView(filterJointlyOwnedForm)))
     }
   }
 
@@ -46,7 +46,7 @@ trait FilterJointlyOwnedController extends FrontendController with I18nSupport {
       val boundForm = filterJointlyOwnedForm.bindFromRequest
 
       boundForm.fold(
-        formWithErrors => Future.successful(BadRequest(iht.views.html.filter.filter_jointly_owned(formWithErrors))),
+        formWithErrors => Future.successful(BadRequest(filterJointlyOwnedView(formWithErrors))),
         choice => choice.getOrElse("") match {
           case Constants.filterJointlyOwnedNo => Future.successful(Redirect(iht.controllers.filter.routes.EstimateController.onPageLoadWithoutJointAssets()))
           case Constants.filterJointlyOwnedYes => Future.successful(Redirect(iht.controllers.filter.routes.EstimateController.onPageLoadJointAssets()))

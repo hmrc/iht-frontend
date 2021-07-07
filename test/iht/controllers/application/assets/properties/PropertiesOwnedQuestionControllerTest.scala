@@ -21,18 +21,19 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.Properties
-import iht.testhelpers.{CommonBuilder, MockFormPartialRetriever, TestHelper}
+import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
+import iht.views.html.application.asset.properties.properties_owned_question
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
 
   protected abstract class TestController extends FrontendController(mockControllerComponents) with PropertiesOwnedQuestionController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val propertiesOwnedQuestionView: properties_owned_question = app.injector.instanceOf[properties_owned_question]
   }
 
   def setUpTests(applicationDetails: Option[ApplicationDetails] = None) = {
@@ -48,7 +49,6 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
     override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def propertiesOwnedQuestionControllerNotAuthorised = new TestController {
@@ -56,7 +56,6 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
 //    override val authConnector = mockAuthConnector
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "PropertiesOwnedQuestionController" must {

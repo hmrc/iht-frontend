@@ -25,7 +25,6 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions._
 import iht.utils.CommonHelper._
 import iht.utils.{CommonHelper, IhtFormValidator}
-import iht.views.html._
 import iht.views.html.application.exemption.partner.partner_permanent_home_question
 import javax.inject.Inject
 import play.api.Logging
@@ -35,14 +34,15 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.ihtHelpers.custom.name
 
 import scala.concurrent.Future
 
 class PartnerPermanentHomeQuestionControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                            val cachingConnector: CachingConnector,
                                                            val authConnector: AuthConnector,
-                                                           val formPartialRetriever: FormPartialRetriever,
+                                                           val partnerPermanentHomeQuestionView: partner_permanent_home_question,
+                                                           val nameView: name,
 implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with PartnerPermanentHomeQuestionController {
 
@@ -56,6 +56,8 @@ trait PartnerPermanentHomeQuestionController extends EstateController with Loggi
     iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(appConfig.ExemptionsPartnerHomeID))
   lazy val partnerOverviewPage = addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(appConfig.ExemptionsPartnerHomeID))
 
+  val partnerPermanentHomeQuestionView: partner_permanent_home_question
+  val nameView: name
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
 
       implicit request =>
@@ -72,7 +74,7 @@ trait PartnerPermanentHomeQuestionController extends EstateController with Loggi
                 val filledForm = appDetails.allExemptions.flatMap(_.partner)
                   .fold(partnerPermanentHomeQuestionForm)(partnerPermanentHomeQuestionForm.fill)
 
-                Ok(partner_permanent_home_question(filledForm,
+                Ok(partnerPermanentHomeQuestionView(filledForm,
                   registrationDetails,
                   returnLabel(registrationDetails, appDetails),
                   returnUrl(registrationDetails, appDetails)
@@ -104,7 +106,7 @@ trait PartnerPermanentHomeQuestionController extends EstateController with Loggi
               IhtFormValidator.addDeceasedNameToAllFormErrors(boundForm, regDetails.deceasedDetails.fold("")(_.name))
                 .fold(
                 formWithErrors => {
-                  Future.successful(BadRequest(partner_permanent_home_question(formWithErrors,
+                  Future.successful(BadRequest(partnerPermanentHomeQuestionView(formWithErrors,
                     regDetails,
                     returnLabel(regDetails, appDetails),
                     returnUrl(regDetails, appDetails))))
@@ -156,7 +158,7 @@ trait PartnerPermanentHomeQuestionController extends EstateController with Loggi
 
   private def returnLabel(regDetails: RegistrationDetails,
                           appDetails: ApplicationDetails)(implicit messages: Messages): String = {
-    val deceasedName = ihtHelpers.custom.name(regDetails.deceasedDetails.map(_.name).getOrElse(""))
+    val deceasedName = nameView(regDetails.deceasedDetails.map(_.name).getOrElse(""))
     val partner = appDetails.allExemptions.flatMap(_.partner)
     partner match {
       case Some(x) => {

@@ -18,15 +18,16 @@ package iht.views.registration
 
 import iht.views.ViewTestHelper
 import iht.views.helpers.MessagesHelper
+import iht.views.html.registration.registration_error_serviceUnavailable
 import org.jsoup.Jsoup
 import play.api.test.FakeRequest
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 
 class RegistrationErrorServiceUnavailable extends ViewTestHelper with MessagesHelper {
 
   implicit lazy val fakeRequest = FakeRequest()
-  lazy val view = iht.views.html.registration.registration_error_serviceUnavailable()
+  lazy val registrationErrorServiceUnavailableView: registration_error_serviceUnavailable = app.injector.instanceOf[registration_error_serviceUnavailable]
+
+  lazy val view = registrationErrorServiceUnavailableView()
   lazy val doc = Jsoup.parse(view.body)
 
   "EstateReportsErrorServiceUnavailable" must {

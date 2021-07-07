@@ -31,14 +31,14 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.tnrb.gifts_with_reservation_of_benefit
 
 import scala.concurrent.Future
 
 class GiftsWithReservationOfBenefitControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                             val cachingConnector: CachingConnector,
                                                             val authConnector: AuthConnector,
-                                                            val formPartialRetriever: FormPartialRetriever,
+                                                            val giftsWithReservationOfBenefitView: gifts_with_reservation_of_benefit,
                                                             implicit val appConfig: AppConfig,
                                                             val cc: MessagesControllerComponents)
   extends FrontendController(cc) with GiftsWithReservationOfBenefitController
@@ -46,7 +46,7 @@ class GiftsWithReservationOfBenefitControllerImpl @Inject()(val ihtConnector: Ih
 trait GiftsWithReservationOfBenefitController extends EstateController with TnrbHelper with StringHelper {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   def cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
-
+  val giftsWithReservationOfBenefitView: gifts_with_reservation_of_benefit
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
 
       implicit request => {
@@ -66,7 +66,7 @@ trait GiftsWithReservationOfBenefitController extends EstateController with Tnrb
 
                 val filledForm = partnerGiftWithResToOtherForm.fill(tnrbModel)
 
-                Ok(iht.views.html.application.tnrb.gifts_with_reservation_of_benefit(
+                Ok(giftsWithReservationOfBenefitView(
                   filledForm,
                   tnrbModel,
                   deceasedName,
@@ -101,7 +101,7 @@ trait GiftsWithReservationOfBenefitController extends EstateController with Tnrb
 
               boundForm.fold(
                 formWithErrors => {
-                  Future.successful(BadRequest(iht.views.html.application.tnrb.gifts_with_reservation_of_benefit(formWithErrors,
+                  Future.successful(BadRequest(giftsWithReservationOfBenefitView(formWithErrors,
                     tnrbModel, deceasedName, cancelUrl)))
                 },
                 tnrbModel => {

@@ -26,26 +26,27 @@ import javax.inject.Inject
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+
+import iht.views.html.application.declaration.declaration_received
 
 import scala.concurrent.Future
 
 class DeclarationReceivedControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                                   val ihtConnector: IhtConnector,
                                                   val authConnector: AuthConnector,
-                                                  override implicit val formPartialRetriever: FormPartialRetriever,
+                                                  val declarationReceivedView: declaration_received,
                                                   implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with DeclarationReceivedController
 
 trait DeclarationReceivedController extends ApplicationController {
   def cachingConnector: CachingConnector
-
+  val declarationReceivedView: declaration_received
   def onPageLoad: Action[AnyContent] = authorisedForIht {
     implicit request => {
       withRegistrationDetails { rd =>
         val ihtReference = CommonHelper.getOrException(rd.ihtReference)
         cachingConnector.storeSingleValue(Constants.PDFIHTReference, ihtReference).flatMap { _ =>
-          Future.successful(Ok(iht.views.html.application.declaration.declaration_received(rd)))
+          Future.successful(Ok(declarationReceivedView(rd)))
         }
       }
     }

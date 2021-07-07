@@ -31,7 +31,7 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.asset.properties.property_type
 
 import scala.concurrent.Future
 
@@ -39,7 +39,7 @@ class PropertyTypeControllerImpl @Inject()(val metrics: IhtMetrics,
                                            val ihtConnector: IhtConnector,
                                            val cachingConnector: CachingConnector,
                                            val authConnector: AuthConnector,
-                                           val formPartialRetriever: FormPartialRetriever,
+                                           val propertyTypeView: property_type,
                                            implicit val appConfig: AppConfig,
                                            val cc: MessagesControllerComponents) extends FrontendController(cc) with PropertyTypeController
 
@@ -61,12 +61,12 @@ trait PropertyTypeController extends EstateController with StringHelper {
 
   def locationAfterSuccessfulSave(id: String) = CommonHelper.addFragmentIdentifier(
     routes.PropertyDetailsOverviewController.onEditPageLoad(id), Some(appConfig.AssetsPropertiesPropertyKindID))
-
+  val propertyTypeView: property_type
   def onPageLoad = authorisedForIht {
     implicit request => {
       withRegistrationDetails { regDetails =>
         val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
-        Future.successful(Ok(iht.views.html.application.asset.properties.property_type(
+        Future.successful(Ok(propertyTypeView(
           propertyTypeForm,
           cancelUrl,
           submitUrl,
@@ -91,7 +91,7 @@ trait PropertyTypeController extends EstateController with StringHelper {
                 throw new RuntimeException("No Property found for the id")
               } {
                 (matchedProperty) =>
-                  Ok(iht.views.html.application.asset.properties.property_type(
+                  Ok(propertyTypeView(
                     propertyTypeForm.fill(matchedProperty),
                     editCancelUrl(id),
                     editSubmitUrl(id),
@@ -122,7 +122,7 @@ trait PropertyTypeController extends EstateController with StringHelper {
       boundForm.fold(
         formWithErrors => {
           LogHelper.logFormError(formWithErrors)
-          Future.successful(BadRequest(iht.views.html.application.asset.properties.property_type(formWithErrors,
+          Future.successful(BadRequest(propertyTypeView(formWithErrors,
             cancelUrl,
             submitUrl,
             deceasedName)))

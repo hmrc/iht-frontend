@@ -19,13 +19,12 @@ package iht.controllers.filter
 import iht.config.AppConfig
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.FilterForms._
-import iht.testhelpers.MockFormPartialRetriever
 import iht.views.HtmlSpec
+import iht.views.html.filter.filter_jointly_owned
 import play.api.i18n.MessagesApi
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class FilterJointlyOwnedControllerTest extends ApplicationControllerTest with HtmlSpec {
 
@@ -34,12 +33,12 @@ class FilterJointlyOwnedControllerTest extends ApplicationControllerTest with Ht
 
   protected abstract class TestController extends FrontendController(mockControllerComponents) with FilterJointlyOwnedController {
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val filterJointlyOwnedView: filter_jointly_owned = app.injector.instanceOf[filter_jointly_owned]
   }
 
   def controller = new TestController {
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
-
     override def messagesApi: MessagesApi = fakedMessagesApi
+
   }
 
   "Filter Jointly Owned Controller" must {

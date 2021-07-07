@@ -27,14 +27,14 @@ import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.exemption.exemptions_overview
 
 import scala.concurrent.Future
 
 class ExemptionsOverviewControllerImpl @Inject()(val cachingConnector: CachingConnector,
                                                  val ihtConnector: IhtConnector,
                                                  val authConnector: AuthConnector,
-                                                 override implicit val formPartialRetriever: FormPartialRetriever,
+                                                 val exemptionsOverviewView: exemptions_overview,
                                                  implicit val appConfig: AppConfig,
                                                  val cc: MessagesControllerComponents) extends FrontendController(cc) with ExemptionsOverviewController
 
@@ -43,13 +43,13 @@ trait ExemptionsOverviewController extends ApplicationController with StringHelp
 
   def cachingConnector: CachingConnector
   def ihtConnector: IhtConnector
-
+  val exemptionsOverviewView: exemptions_overview
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       withApplicationDetails(userNino) { rd => ad =>
         val allExemptions = ad.allExemptions.fold(new AllExemptions())(exemptions => exemptions)
-        val response = Ok(iht.views.html.application.exemption.exemptions_overview(
+        val response = Ok(exemptionsOverviewView(
           ad,
           allExemptions,
           ad.charities,

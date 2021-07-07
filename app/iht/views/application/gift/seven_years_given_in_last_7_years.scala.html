@@ -16,23 +16,29 @@
 
 @import iht.models.application.gifts.AllGifts
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
-@import uk.gov.hmrc.play.views.html.helpers.form
 @import iht.models.RegistrationDetails
 
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group,
+    nameHelper: ihtHelpers.custom.name,
+    returnLink: ihtHelpers.custom.return_link
+)
 
 @(SevenYearsGiftsForm: Form[AllGifts],
-registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, wrapName = true)}
 
-@iht_main_template_application(title = Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"),
+@ihtMainTemplateApplication(title = Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"),
 browserTitle = Some(Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"))
 ){
 
-@ihtHelpers.custom.error_summary(SevenYearsGiftsForm)
+@errorSummary(SevenYearsGiftsForm)
 
 @form(action = iht.controllers.application.gifts.routes.SevenYearsGivenInLast7YearsController.onSubmit,'autoComplete -> "off") {
 
@@ -49,7 +55,7 @@ browserTitle = Some(Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeat
 </div>
 
 <div id="seven-years-gifts-question">
-    @ihtHelpers.standard.input_yes_no_radio_group(
+    @inputYesNoRadioGroup(
     SevenYearsGiftsForm("givenInPast.isGivenInLast7Years"),
     '_legend -> Html(Messages("page.iht.application.gifts.lastYears.question", deceasedName)),    
     '_divClass -> Some("form-group"))
@@ -59,8 +65,8 @@ browserTitle = Some(Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeat
   <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
 </div>
     @registrationDetails.deceasedDetails.map{ dd=>
-        @ihtHelpers.custom.return_link(
-            Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.custom.name(dd.name)),
+        @returnLink(
+            Messages("page.iht.application.gifts.return.to.givenAwayBy", nameHelper(dd.name)),
             Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()),
             appConfig.GiftsSevenYearsQuestionID
         )

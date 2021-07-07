@@ -26,14 +26,14 @@ import javax.inject.Inject
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.declaration.checked_everything_question
 
 import scala.concurrent.Future
 
 class CheckedEverythingQuestionControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                                         val cachingConnector: CachingConnector,
                                                         val authConnector: AuthConnector,
-                                                        val formPartialRetriever: FormPartialRetriever,
+                                                        val checkedEverythingQuestionView: checked_everything_question,
                                                         implicit val appConfig: AppConfig,
 val cc: MessagesControllerComponents) extends FrontendController(cc) with CheckedEverythingQuestionController {
 
@@ -41,10 +41,11 @@ val cc: MessagesControllerComponents) extends FrontendController(cc) with Checke
 
 trait CheckedEverythingQuestionController extends EstateController {
 
+  val checkedEverythingQuestionView: checked_everything_question
   def onPageLoad: Action[AnyContent] = authorisedForIht {
     implicit request =>
       withRegistrationDetails { rd =>
-        Future.successful(Ok(iht.views.html.application.declaration.checked_everything_question(checkedEverythingQuestionForm, rd)))
+        Future.successful(Ok(checkedEverythingQuestionView(checkedEverythingQuestionForm, rd)))
       }
   }
 
@@ -55,7 +56,7 @@ trait CheckedEverythingQuestionController extends EstateController {
         boundForm.fold(
           formWithErrors => {
             LogHelper.logFormError(formWithErrors)
-            Future.successful(BadRequest(iht.views.html.application.declaration.checked_everything_question(formWithErrors, rd)))
+            Future.successful(BadRequest(checkedEverythingQuestionView(formWithErrors, rd)))
           }, optionBoolean => {
             val redirectLocation = if (CommonHelper.getOrException(optionBoolean)) {
               Redirect(iht.controllers.application.declaration.routes.DeclarationController.onPageLoad())

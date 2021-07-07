@@ -19,14 +19,13 @@ package iht.controllers.registration.applicant
 import iht.config.AppConfig
 import iht.forms.registration.ApplicantForms._
 import iht.models.ApplicantDetails
-
-import iht.testhelpers.{CommonBuilder, ContentChecker, MockFormPartialRetriever}
+import iht.testhelpers.{CommonBuilder, ContentChecker}
 import iht.utils.{DeceasedInfoHelper, RegistrationKickOutHelper}
+import iht.views.html.registration.applicant.executor_of_estate
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.{MessagesControllerComponents, Result}
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -41,20 +40,19 @@ class ExecutorOfEstateControllerTest
   protected abstract class TestController extends FrontendController(mockControllerComponents) with ExecutorOfEstateController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
+    override val executorOfEstateView: executor_of_estate = app.injector.instanceOf[executor_of_estate]
+
   }
 
   def controller: TestController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
-
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised: TestController = new TestController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = mockAuthConnector
 
-    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "ExecutorOfEstateController" must {

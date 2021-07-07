@@ -16,29 +16,33 @@
 
 @import iht.models._
 @import iht.utils.CommonHelper._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 @import iht.models.RegistrationDetails
-@import uk.gov.hmrc.play.views.html.helpers.form
 
+@this(
+    appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group
+)
 
 @(partnerPermanentHomeQuestionForm: Form[iht.models.application.exemptions.PartnerExemption],
 registrationDetails:RegistrationDetails,
 cancelLabel: String,
-cancelUrl: Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+cancelUrl: Call)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(
+@ihtMainTemplateApplication(
     title = "",
     browserTitle = Some(Messages("page.iht.application.exemptions.partnerPermanentHome.browserTitle")),
     cancelUrl = Some(addFragmentIdentifier(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad, Some(appConfig.ExemptionsPartnerHomeID))),
     cancelLabel = Some(cancelLabel),
     isFullWidth=false
 ){
-    @ihtHelpers.custom.error_summary(partnerPermanentHomeQuestionForm)
+    @errorSummary(partnerPermanentHomeQuestionForm)
     @form(action = iht.controllers.application.exemptions.partner.routes.PartnerPermanentHomeQuestionController.onSubmit,'autoComplete -> "off") {
 
-        @ihtHelpers.standard.input_yes_no_radio_group(
+        @inputYesNoRadioGroup(
             partnerPermanentHomeQuestionForm("isPartnerHomeInUK"),
             '_divClass -> Some("form-group"),
             '_legend -> Messages("iht.estateReport.exemptions.partner.homeInUK.question"),

@@ -18,30 +18,29 @@ package iht.views.registration.deceased
 
 import iht.controllers.registration.routes
 import iht.forms.registration.DeceasedForms.deceasedDateOfDeathForm
-import iht.models.{DeceasedDateOfDeath, DeceasedDetails}
+import iht.models.DeceasedDateOfDeath
+import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.deceased.deceased_date_of_death
 import iht.views.registration.RegistrationPageBehaviour
-import org.jsoup.nodes.Document
 import play.api.data.Form
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import iht.config.AppConfig
 import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable
-import iht.testhelpers.CommonBuilder
 
 class DeceasedDateOfDeathViewTest extends RegistrationPageBehaviour[DeceasedDateOfDeath] {
 
   override def pageTitle = messagesApi("page.iht.registration.deceasedDateOfDeath.title")
   override def browserTitle = messagesApi("iht.dateOfDeath")
   override def form:Form[DeceasedDateOfDeath] = deceasedDateOfDeathForm
-  override def formToView:Form[DeceasedDateOfDeath] => Appendable = form => deceased_date_of_death(form, CommonBuilder.DefaultCall1)
+  lazy val deceasedDateOfDeathView: deceased_date_of_death = app.injector.instanceOf[deceased_date_of_death]
+
+  override def formToView:Form[DeceasedDateOfDeath] => Appendable = form => deceasedDateOfDeathView(form, CommonBuilder.DefaultCall1)
 
   lazy val regSummaryPage: Call = routes.RegistrationSummaryController.onPageLoad
   lazy val editSubmitLocation = iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onEditSubmit
 
   def editModeView = {
     implicit val request = createFakeRequest()
-    val view = deceased_date_of_death(deceasedDateOfDeathForm, editSubmitLocation, Some(regSummaryPage)).toString
+    val view = deceasedDateOfDeathView(deceasedDateOfDeathForm, editSubmitLocation, Some(regSummaryPage)).toString
     asDocument(view)
    }
 

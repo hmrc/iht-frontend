@@ -16,7 +16,7 @@
 
 package iht.controllers.filter
 
-import iht.config.{AppConfig, IhtFormPartialRetriever}
+import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.Constants
 import iht.forms.FilterForms._
@@ -25,7 +25,7 @@ import play.api.i18n.{I18nSupport, Lang}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.filter.filter_view
 
 import scala.concurrent.Future
 
@@ -33,7 +33,7 @@ class FilterControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                      val cachingConnector: CachingConnector,
                                      val authConnector: AuthConnector,
                                      val cc: MessagesControllerComponents,
-                                     val formPartialRetriever: IhtFormPartialRetriever,
+                                     val filterViewView: filter_view,
                                      implicit val appConfig: AppConfig) extends FrontendController(cc) with FilterController
 
 trait FilterController extends FrontendController with I18nSupport {
@@ -41,20 +41,19 @@ trait FilterController extends FrontendController with I18nSupport {
   def cachingConnector: CachingConnector
   def ihtConnector: IhtConnector
 
-  implicit val formPartialRetriever: FormPartialRetriever
+  val filterViewView: filter_view
 
   def onPageLoad: Action[AnyContent] = Action.async {
     implicit request => {
       val refEndsWithCy = request.headers.get(REFERER).exists(_.endsWith(".cy"))
 
       if (refEndsWithCy) {
-        Future.successful(Ok(iht.views.html.filter.filter_view(filterForm)(
+        Future.successful(Ok(filterViewView(filterForm)(
           messages = messagesApi.preferred(Seq(Lang("cy"))),
-          request = request, ihtFormPartialRetriever = formPartialRetriever,
-          appConfig = implicitly[AppConfig]
+          request = request
         )))
       } else {
-        Future.successful(Ok(iht.views.html.filter.filter_view(filterForm)))
+        Future.successful(Ok(filterViewView(filterForm)))
       }
     }
   }
@@ -69,7 +68,7 @@ trait FilterController extends FrontendController with I18nSupport {
 
       boundForm.fold(
         formWithErrors => {
-          Future.successful(BadRequest(iht.views.html.filter.filter_view(formWithErrors)))
+          Future.successful(BadRequest(filterViewView(formWithErrors)))
         }, {
           choice => {
             choice.getOrElse("") match {

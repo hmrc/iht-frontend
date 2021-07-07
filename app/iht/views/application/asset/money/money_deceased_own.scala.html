@@ -18,36 +18,43 @@
 
 @import iht.models.application.basicElements.ShareableBasicEstateElement
 @import iht.utils._
-@import iht.views.html._
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.config.AppConfig
 @import iht.models.RegistrationDetails
-@import uk.gov.hmrc.play.views.html.helpers.form
+
+@this(
+    implicit val appConfig: AppConfig,
+    form: FormWithCSRF,
+    ihtMainTemplateApplication: iht_main_template_application,
+    errorSummaryOverrideKeys: ihtHelpers.custom.error_summary_override_keys,
+    genericEstateElementAssets: ihtHelpers.custom.generic_estate_element_assets,
+    returnLink: ihtHelpers.custom.return_link,
+    nameHelper: ihtHelpers.custom.name
+)
 
 @(money: Form[ShareableBasicEstateElement],
-registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)}
 
-@iht_main_template_application(
+@ihtMainTemplateApplication(
     title = Messages("iht.estateReport.assets.moneyOwned", deceasedName),
     browserTitle = Some(Messages("page.iht.application.assets.money.deceased.browserTitle")),
     isFullWidth=false,
     headingName = deceasedName
 ) {
 
-    @ihtHelpers.custom.error_summary_override_keys(money, Constants.AppSectionMoney)
+    @errorSummaryOverrideKeys(money, Constants.AppSectionMoney)
 
     @form(action = iht.controllers.application.assets.money.routes.MoneyDeceasedOwnController.onSubmit(),'autoComplete -> "off") {
 
     <div class="form-group">
-      <p>@Html(Messages("page.iht.application.assets.money.deceased.guidance", ihtHelpers.custom.name(deceasedName)))</p>
+      <p>@Html(Messages("page.iht.application.assets.money.deceased.guidance", nameHelper(deceasedName)))</p>
     </div>
 
-    @ihtHelpers.custom.generic_estate_element_assets(
+    @genericEstateElementAssets(
       assetType = Constants.AssetTypeSingle,
-      questionLabel= Messages("iht.estateReport.assets.money.ownName.question", ihtHelpers.custom.name(deceasedName)),
-      inputTextLabel = Messages("iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName", ihtHelpers.custom.name(deceasedName)),
+      questionLabel= Messages("iht.estateReport.assets.money.ownName.question", nameHelper(deceasedName)),
+      inputTextLabel = Messages("iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName", nameHelper(deceasedName)),
       sharableElementForm = money,
       clearTargetInput = Some("value")
     )
@@ -56,7 +63,7 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
 }
-    @ihtHelpers.custom.return_link(
+    @returnLink(
         Messages("site.link.return.money"),
         Some(iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad()),
         appConfig.AssetsMoneyOwnID

@@ -14,28 +14,31 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.config.AppConfig
-@import iht.views.html._
-@import uk.gov.hmrc.play.views.html.helpers.form
+@this(
+    form: FormWithCSRF,
+    ihtMainTemplateRegistration: iht_main_template_registration,
+    errorSummary: ihtHelpers.custom.error_summary,
+    inputYesNoRadioGroup: ihtHelpers.standard.input_yes_no_radio_group,
+    continueButton: ihtHelpers.custom.continue_button
+)
 
 @(othersApplyingForProbateForm: Form[Option[Boolean]],
     actionCall: Call,
-    cancelCall: Option[Call] = None)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever, appConfig: AppConfig)
+    cancelCall: Option[Call] = None)(implicit request : Request[_], messages: Messages)
 
-@iht_main_template_registration(title = "",
+@ihtMainTemplateRegistration(title = "",
 browserTitle = Some(Messages("page.iht.registration.others-applying-for-probate.browserTitle")),
 isFullWidth=false,
 cancelUrl=cancelCall,
 hasTimeOut=true) {
 
-@ihtHelpers.custom.error_summary(othersApplyingForProbateForm)
+@errorSummary(othersApplyingForProbateForm)
 
 @form(action = actionCall,'autoComplete -> "off") {
 
 @defining( Messages("page.iht.registration.others-applying-for-probate.sectionName"))  { sectionName =>
 
-@ihtHelpers.standard.input_yes_no_radio_group(
+@inputYesNoRadioGroup(
     othersApplyingForProbateForm("areOthersApplyingForProbate"),
     '_shownElementNo -> Some(sectionName+ "1-details "+ sectionName+ "-joint "),
     '_hiddenElementYes -> Some(sectionName+ "-joint "+ sectionName+ "1-details "+ sectionName+ "2-details"),
@@ -50,7 +53,7 @@ hasTimeOut=true) {
 
 )
 
-@ihtHelpers.custom.continue_button()
+@continueButton()
 }
 }
 }

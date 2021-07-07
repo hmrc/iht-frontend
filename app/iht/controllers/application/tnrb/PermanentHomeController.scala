@@ -32,21 +32,21 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
+import iht.views.html.application.tnrb.permanent_home
 
 import scala.concurrent.Future
 
 class PermanentHomeControllerImpl @Inject()(val ihtConnector: IhtConnector,
                                             val cachingConnector: CachingConnector,
                                             val authConnector: AuthConnector,
-                                            val formPartialRetriever: FormPartialRetriever,
+                                            val permanentHomeView: permanent_home,
                                             implicit val appConfig: AppConfig,
                                             val cc: MessagesControllerComponents) extends FrontendController(cc) with PermanentHomeController
 
 trait PermanentHomeController extends EstateController with StringHelper with TnrbHelper with Logging {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   def cancelUrl: Call = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
-
+  val permanentHomeView: permanent_home
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
 
       implicit request => {
@@ -62,7 +62,7 @@ trait PermanentHomeController extends EstateController with StringHelper with Tn
                 val filledForm = partnerLivingInUkForm.fill(appDetails.increaseIhtThreshold.getOrElse(
                   TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
 
-                Ok(iht.views.html.application.tnrb.permanent_home(
+                Ok(permanentHomeView(
                   filledForm,
                   appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                   appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
@@ -92,7 +92,7 @@ trait PermanentHomeController extends EstateController with StringHelper with Tn
             case Some(appDetails) => {
               boundForm.fold(
                 formWithErrors => {
-                  Future.successful(BadRequest(iht.views.html.application.tnrb.permanent_home(formWithErrors,
+                  Future.successful(BadRequest(permanentHomeView(formWithErrors,
                     appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                     appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
                     cancelUrl,
