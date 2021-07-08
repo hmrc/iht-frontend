@@ -14,12 +14,12 @@
  * limitations under the License.
  *@
 
+@import play.api.i18n._
+@import views.html.helper._
+
 @this()
 
 @(field: Field, radioOptions: Seq[ (String, (String,Option[String],Option[Boolean]) ) ], args: (Symbol, Any)*)(implicit messages: Messages)
-
-@import play.api.i18n._
-@import views.html.helper._
 
 @elements = @{new FieldElements(field.id, field, null, args.toMap, messages) }
 @fieldsetClass = {@elements.args.get('_groupClass)}
@@ -58,7 +58,7 @@
 @defining(elements.field.name){fieldName=>
     @elements.errors.map{error => <span class="error-message" data-journey="error - field:user-input:@fieldName">@Messages(error.toString())</span>}
 }
-@radioOptions.map { case (value, (label, hint, aria)) => {
+@radioOptions.map { case (value, (label, hint, aria)) =>
     @defining(s"${elements.field.name}-${value.toLowerCase.replace(" ","_")}")  { inputId =>
 
         <div class="multiple-choice">
@@ -93,7 +93,6 @@
             </label>
         </div>
         }
-    }
 }
 @if(elements.hasErrors) {
     </div>
