@@ -15,7 +15,7 @@ object AppDependencies {
   private val playLanguageVersion = "5.1.0-play-28"
   private val jsonVersion = "20200518"
   private val wireMockVersion = "2.27.2"
-  private val jsoupVersion = "1.13.1"
+  private val jsoupVersion = "1.14.1"
   private val pegdownVersion = "1.6.0"
   private val mockitoVersion = "3.3.3"
   private val playJsonVersion = "2.6.14"

@@ -18,7 +18,6 @@ package iht.controllers.registration
 
 import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.utils.AddressHelper
 import iht.views.html.registration.duplicate_registration
 import javax.inject.Inject
 import play.api.mvc.MessagesControllerComponents

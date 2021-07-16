@@ -23,7 +23,7 @@ import iht.controllers.registration.{RegistrationController, routes => registrat
 import iht.forms.registration.DeceasedForms
 import iht.forms.registration.DeceasedForms.aboutDeceasedForm
 import iht.models.{DeceasedDetails, RegistrationDetails}
-import iht.utils.{AddressHelper, DeceasedInfoHelper, SessionHelper, StringHelper}
+import iht.utils.{DeceasedInfoHelper, SessionHelper, StringHelper}
 import iht.views.html.registration.deceased.about_deceased
 import javax.inject.Inject
 import org.joda.time.LocalDate

@@ -21,7 +21,6 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.registration.RegistrationController
 import iht.forms.registration.CoExecutorForms
 import iht.models.UkAddress
-import iht.utils.AddressHelper
 import iht.utils.CommonHelper._
 import iht.views.html.registration.executor.others_applying_for_probate_address
 import javax.inject.Inject
