@@ -23,17 +23,18 @@ import iht.utils.CommonHelper
 import iht.{FakeIhtApp, TestUtils}
 import org.jsoup.Jsoup
 import org.jsoup.nodes.{Document, Element}
-import org.jsoup.safety.Whitelist
+import org.jsoup.safety.Safelist
 import org.scalatest.{BeforeAndAfter, BeforeAndAfterEach}
 import org.scalatestplus.mockito.MockitoSugar
-import play.api.i18n.{Lang, Messages, MessagesApi}
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.collection.JavaConversions._
+import scala.util.matching.Regex
 
 trait ViewTestHelper extends FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter with BeforeAndAfterEach with HtmlSpec {
-  val messageKeysRegex = """([A-Za-z]+\.){1,}[\w]+""".r
+  val messageKeysRegex: Regex = """([A-Za-z]+\.){1,}[\w]+""".r
   /**
     * Items which look like message keys but actually are real content, so instances of them
     * found in generated HTML should not cause the message key detection unit test to fail :-
@@ -73,7 +74,7 @@ trait ViewTestHelper extends FakeIhtApp with MockitoSugar with TestUtils with Be
   }
 
   def noMessageKeysShouldBePresent(content:String) = {
-    val cleanedContent = Jsoup.clean(content, Whitelist.basic) // Remove javascript
+    val cleanedContent = Jsoup.clean(content, Safelist.basic) // Remove javascript
     val doc = asDocument(cleanedContent)
     doc.select("a").unwrap // Remove anchor tags but keep the content within them
     val candidatesIterator = messageKeysRegex.findAllIn(doc.toString) // Find all possible message key candidates

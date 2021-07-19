@@ -19,7 +19,6 @@ package iht.controllers.registration.executor
 import iht.config.AppConfig
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.registration.RegistrationController
-import iht.utils.AddressHelper
 import iht.views.html.registration.executor.delete_coexecutor_confirm
 import javax.inject.Inject
 import play.api.mvc.MessagesControllerComponents

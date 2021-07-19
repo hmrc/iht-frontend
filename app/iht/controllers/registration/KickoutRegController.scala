@@ -20,7 +20,7 @@ import iht.config.AppConfig
 import iht.connector.CachingConnector
 import iht.metrics.IhtMetrics
 import iht.models.enums.KickOutSource
-import iht.utils.{AddressHelper, CommonHelper}
+import iht.utils.CommonHelper
 import iht.views.html.registration.kickout._
 import javax.inject.Inject
 import play.api.i18n.Messages

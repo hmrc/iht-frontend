@@ -22,7 +22,7 @@ import iht.controllers.ControllerHelper.Mode
 import iht.controllers.registration.RegistrationController
 import iht.forms.registration.CoExecutorForms
 import iht.models.{CoExecutor, RegistrationDetails}
-import iht.utils.{AddressHelper, StringHelper}
+import iht.utils.StringHelper
 import iht.views.html.registration.executor.coexecutor_personal_details
 import javax.inject.Inject
 import play.api.data.Form

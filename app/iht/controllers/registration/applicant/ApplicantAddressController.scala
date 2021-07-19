@@ -21,7 +21,7 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.registration.RegistrationController
 import iht.controllers.registration.executor.{routes => executorRoutes}
 import iht.forms.registration.ApplicantForms._
-import iht.utils.{AddressHelper, CommonHelper}
+import iht.utils.CommonHelper
 import iht.views.html.registration.applicant.applicant_address
 import javax.inject.Inject
 import play.api.mvc.{Call, MessagesControllerComponents}
