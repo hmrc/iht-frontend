@@ -26,7 +26,8 @@ import iht.testhelpers.CommonBuilder._
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
 import org.mockito.stubbing.OngoingStubbing
-import uk.gov.hmrc.http.NotFoundException
+import uk.gov.hmrc.http.UpstreamErrorResponse
+import play.api.http.Status.NOT_FOUND
 
 import scala.concurrent.Future
 
@@ -66,7 +67,7 @@ trait MockObjectBuilder {
     when(connector.getCitizenDetails(any())(any(), any())).thenThrow(new RuntimeException)
 
   def createMockToThrowNotFoundExceptionWhenGettingCitizenDetails(connector: CitizenDetailsConnector) =
-    when(connector.getCitizenDetails(any())(any(), any())).thenReturn(Future.failed(new NotFoundException("")))
+    when(connector.getCitizenDetails(any())(any(), any())).thenReturn(Future.failed(UpstreamErrorResponse("citizen details 404", NOT_FOUND)))
 
   /**
     * Creates Mock to store RegistrationDetails in Cache using CachingConnector

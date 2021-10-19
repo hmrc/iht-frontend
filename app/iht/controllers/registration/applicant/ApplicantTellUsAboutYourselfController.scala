@@ -33,7 +33,7 @@ import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{nino => ninoRetrieval}
 import uk.gov.hmrc.domain.Nino
-import uk.gov.hmrc.http.NotFoundException
+import uk.gov.hmrc.http.UpstreamErrorResponse.WithStatusCode
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
 import scala.concurrent.Future
@@ -144,10 +144,15 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
   }
 
   def citizenDetailsFailure()(implicit request: Request[_]): PartialFunction[Throwable, Result] = {
-    case ex: NotFoundException => {
+    case WithStatusCode(NOT_FOUND) => {
+      logger.warn("[ApplicantTellUsAboutYourselfController][citizenDetailsFailure]: Citizen Details returned a 404, showing citizenDetailsNotFound guidance")
       BadRequest(registrationErrorCitizenDetailsView(
         "page.iht.registration.applicantDetails.citizenDetailsNotFound.title",
         "page.iht.registration.applicantDetails.citizenDetailsNotFound.guidance"))
+    }
+    case e@WithStatusCode(LOCKED) => {
+      logger.warn("[ApplicantTellUsAboutYourselfController][citizenDetailsFailure]: Citizen Details returned an MCI error")
+      throw e
     }
   }
 
