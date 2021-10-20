@@ -25,7 +25,6 @@ import iht.metrics.IhtMetrics
 import iht.models.{ApplicantDetails, CidPerson, RegistrationDetails}
 import iht.utils.{SessionHelper, StringHelper}
 import iht.views.html.registration.applicant.applicant_tell_us_about_yourself
-import iht.views.html.registration.registration_error_citizenDetails
 import javax.inject.Inject
 import play.api.data.Form
 import play.api.i18n.Messages
@@ -42,7 +41,6 @@ class ApplicantTellUsAboutYourselfControllerImpl @Inject()(val citizenDetailsCon
                                                            val metrics: IhtMetrics,
                                                            val cachingConnector: CachingConnector,
                                                            val authConnector: AuthConnector,
-                                                           val registrationErrorCitizenDetailsView: registration_error_citizenDetails,
                                                            val applicantTellUsAboutYourselfView: applicant_tell_us_about_yourself,
                                                            implicit val appConfig: AppConfig,
                                                            val cc: MessagesControllerComponents)
@@ -59,7 +57,6 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
 
   lazy val submitRoute = routes.ApplicantTellUsAboutYourselfController.onSubmit
   lazy val editSubmitRoute = routes.ApplicantTellUsAboutYourselfController.onEditSubmit
-  val registrationErrorCitizenDetailsView: registration_error_citizenDetails
   val applicantTellUsAboutYourselfView: applicant_tell_us_about_yourself
   def okForPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(applicantTellUsAboutYourselfView(form, Mode.Standard, submitRoute))
@@ -145,14 +142,12 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
 
   def citizenDetailsFailure()(implicit request: Request[_]): PartialFunction[Throwable, Result] = {
     case WithStatusCode(NOT_FOUND) => {
-      logger.warn("[ApplicantTellUsAboutYourselfController][citizenDetailsFailure]: Citizen Details returned a 404, showing citizenDetailsNotFound guidance")
-      BadRequest(registrationErrorCitizenDetailsView(
-        "page.iht.registration.applicantDetails.citizenDetailsNotFound.title",
-        "page.iht.registration.applicantDetails.citizenDetailsNotFound.guidance"))
+      logger.warn("Citizen Details returned a 404, redirecting to details-not-found")
+      Redirect(iht.controllers.registration.routes.CitizenDetailsNotFoundController.onPageLoad())
     }
-    case e@WithStatusCode(LOCKED) => {
-      logger.warn("[ApplicantTellUsAboutYourselfController][citizenDetailsFailure]: Citizen Details returned an MCI error")
-      throw e
+    case WithStatusCode(LOCKED) => {
+      logger.warn("Citizen Details returned an MCI error, redirecting to manual-correspondence-indicator")
+      Redirect(iht.controllers.registration.routes.ManualCorrespondenceIndicatorController.onPageLoad())
     }
   }
 

@@ -428,6 +428,20 @@ page.iht.registration.applicantAddress.hint = This is where HMRC can contact you
 page.iht.registration.applicantDetails.citizenDetailsNotFound.title = HMRC cannot find any details about you.
 page.iht.registration.applicantDetails.citizenDetailsNotFound.guidance = You must call the Inheritance Tax helpline on 0300 123 1072 to continue with this registration, Call +44 300 123 1072 if you are outside of the UK.
 
+page.iht.registration.applicantDetails.mci.title = Manual Correspondence Indicator
+page.iht.registration.applicantDetails.mci.heading = You cannot access your account right now
+page.iht.registration.applicantDetails.mci.p1 = We need to talk to you about an MCI error before you can sign in.
+page.iht.registration.applicantDetails.mci.subheading.1 = How to contact us
+page.iht.registration.applicantDetails.mci.contact.li.1 = Telephone: 0300 200 3300
+page.iht.registration.applicantDetails.mci.contact.li.2 = Textphone: 0300 200 3319
+page.iht.registration.applicantDetails.mci.contact.li.3 = Outside UK: +44 135 535 9022
+page.iht.registration.applicantDetails.mci.subheading.2 = Phone lines are open:
+page.iht.registration.applicantDetails.mci.schedule.li.1 = 8am to 8pm Monday to Friday
+page.iht.registration.applicantDetails.mci.schedule.li.2 = 8am to 4pm Saturdays
+page.iht.registration.applicantDetails.mci.schedule.li.3 = 9am to 5pm Sundays
+page.iht.registration.applicantDetails.mci.p2 = Closed bank holidays
+page.iht.registration.applicantDetails.mci.contact.charges.href = Find out more about call charges (opens in new tab)
+
 #Registration - Applicant Apply for probate
 page.iht.registration.applicant.probateLocation.title = Where are you going to apply for probate?
 page.iht.registration.applicant.probateLocation.browserTitle = Probate location
@@ -2636,3 +2650,5 @@ page.iht.application.overview.closed.viewClearanceCertificate = View this estate
 page.iht.application.overview.closed.p1 = This certificate confirms that we will not make any future tax claims on the estate based on the details you have given in the estate report.
 
 page.iht.questionnaire.intendReturn.question=Do you intend to come back later to complete your estate report?
+
+

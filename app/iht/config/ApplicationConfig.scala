@@ -75,4 +75,5 @@ trait AppConfig extends IhtProperties {
   // Default visibility - off in PROD and on in every other env
   lazy val isWelshEnabled: Boolean = Try(servicesConfig.getBoolean("welsh.enabled")).getOrElse(runningEnvironment != "PROD")
 
+  lazy val hmrcCallChargesUrl: String = readFromConfig("urls.hmrcCallChargesUrl")
 }

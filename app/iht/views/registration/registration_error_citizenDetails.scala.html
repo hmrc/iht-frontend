@@ -19,12 +19,12 @@
     ihtMainTemplateRegistration: iht_main_template_registration
 )
 
-@(title: String, message: String)(implicit request : Request[_], messages: Messages)
+@()(implicit request : Request[_], messages: Messages)
 
-@ihtMainTemplateRegistration(title = messages(title), browserTitle = Some(messages(title)),
+@ihtMainTemplateRegistration(title = messages("page.iht.registration.applicantDetails.citizenDetailsNotFound.title"), browserTitle = Some(messages("page.iht.registration.applicantDetails.citizenDetailsNotFound.title")),
  hasTimeOut=true) {
 
-   <p>@messages(message)</p>
+   <p>@messages("page.iht.registration.applicantDetails.citizenDetailsNotFound.guidance")</p>
 
    <div id="continue-button">
    <a class="button" href="@iht.controllers.routes.SessionManagementController.signOut.url">@messages("site.button.signOut")</a>

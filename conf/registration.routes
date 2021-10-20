@@ -150,6 +150,10 @@ GET         /already-registered/:ihtReference                   @iht.controllers
 GET         /not-possible-to-use-service                        @iht.controllers.registration.KickoutRegController.onPageLoad
 POST        /not-possible-to-use-service                        @iht.controllers.registration.KickoutRegController.onSubmit
 
+GET         /manual-correspondence-indicator                    @iht.controllers.registration.ManualCorrespondenceIndicatorController.onPageLoad
+
+GET         /details-not-found                                  @iht.controllers.registration.CitizenDetailsNotFoundController.onPageLoad
+
 ### To do ####
 
 ### Routes below to be removed after completion of Yes/No changes ###
