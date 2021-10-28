@@ -602,7 +602,7 @@ page.iht.registration.notApplyingForProbate.kickout.p3 = If the estate is not ex
 
 page.iht.registration.notAnExecutor.kickout.p1 = The Inheritance Tax return needs to be made by an executor of the estate who is being named on the probate application, or who is intending to apply to be named as an administrator (if there was no will).
 
-iht.registration.kickout.content = You should complete the Inheritance Tax estate report using either an IHT205 or IHT400 paper form.
+iht.registration.kickout.content = You should complete the Inheritance Tax estate report using IHT207 and C5(OUK) paper forms or an IHT400 paper form.
 iht.registration.kickout.ifWantChangeDeceasedLocation = If you want to change the location of the person who has died’s permanent home
 iht.registration.kickout.ifWantChangeProbateLocation = If you want to change the location of where you intend to apply for probate
 iht.registration.kickout.returnToTheLastPageVisited =return to the last page you visited
