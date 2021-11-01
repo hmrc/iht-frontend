@@ -24,7 +24,6 @@ import iht.metrics.IhtMetrics
 import iht.models.{ApplicantDetails, RegistrationDetails, _}
 import iht.testhelpers.{CommonBuilder, NinoBuilder}
 import iht.views.html.registration.applicant.applicant_tell_us_about_yourself
-import iht.views.html.registration.registration_error_citizenDetails
 import org.joda.time.LocalDate
 import org.mockito.Mockito._
 import play.api.i18n.{Lang, Messages}
@@ -49,7 +48,6 @@ class ApplicantTellUsAboutYourselfControllerTest
   protected abstract class TestController extends FrontendController(mockControllerComponents) with ApplicantTellUsAboutYourselfController {
     override val cc: MessagesControllerComponents = mockControllerComponents
     override implicit val appConfig: AppConfig = mockAppConfig
-    override val registrationErrorCitizenDetailsView: registration_error_citizenDetails = app.injector.instanceOf[registration_error_citizenDetails]
     override val applicantTellUsAboutYourselfView: applicant_tell_us_about_yourself = app.injector.instanceOf[applicant_tell_us_about_yourself]
   }
 
@@ -270,7 +268,7 @@ class ApplicantTellUsAboutYourselfControllerTest
       }
     }
 
-    "raise a not found error when the citizen details service can't find nino" in {
+    "redirect to the guidance page when the citizen details service can't find nino" in {
       createMockToThrowNotFoundExceptionWhenGettingCitizenDetails(mockCitizenDetailsConnector)
 
       val applicantDetails = CommonBuilder.buildApplicantDetails
@@ -284,8 +282,28 @@ class ApplicantTellUsAboutYourselfControllerTest
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
       val result = await(controller.onSubmit()(request))
-      status(result) mustBe BAD_REQUEST
-      contentAsString(result) must include(Messages("page.iht.registration.applicantDetails.citizenDetailsNotFound.guidance"))
+      status(result) mustBe SEE_OTHER
+
+      redirectLocation(result) must be(Some(registrationRoutes.CitizenDetailsNotFoundController.onPageLoad().url))
+    }
+
+    "redirect to the MCI guidance page when the citizen details service returns a locked status" in {
+      createMockToThrowLockedExceptionWhenGettingCitizenDetails(mockCitizenDetailsConnector)
+
+      val applicantDetails = CommonBuilder.buildApplicantDetails
+      val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
+      val form = applicantTellUsAboutYourselfForm.fill(applicantDetails)
+      val request =
+        createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq)
+
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
+      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
+      createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
+
+      val result = await(controller.onSubmit()(request))
+      status(result) mustBe SEE_OTHER
+
+      redirectLocation(result) must be(Some(registrationRoutes.ManualCorrespondenceIndicatorController.onPageLoad().url))
     }
 
     "save valid data correctly including citizen details when coming to this screen for the first time" in {

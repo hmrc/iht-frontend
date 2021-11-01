@@ -1997,6 +1997,20 @@ site.tnrb.value = 650,000
 page.iht.registration.applicantDetails.citizenDetailsNotFound.title = Ni all CThEM ddod o hyd i unrhyw fanylion amdanoch.
 page.iht.registration.applicantDetails.citizenDetailsNotFound.guidance = Mae''n rhaid i chi ffonio''r llinell gymorth Treth Etifeddiant ar 0300 123 1072. Ffoniwch +44 300 123 1072 os ydych y tu allan i''r DU.
 
+page.iht.registration.applicantDetails.mci.title = Dangosydd Gohebiaeth â Llaw
+page.iht.registration.applicantDetails.mci.heading = Ni allwch gael mynediad at eich cyfrif ar hyn o bryd
+page.iht.registration.applicantDetails.mci.p1 = Mae angen i ni siarad â chi am wall MCI (Dangosydd Gohebiaeth â Llaw) cyn i chi allu mewngofnodi.
+page.iht.registration.applicantDetails.mci.subheading.1 = Sut i gysylltu â ni
+page.iht.registration.applicantDetails.mci.contact.li.1 = Ffôn: 0300 200 1900
+page.iht.registration.applicantDetails.mci.contact.li.2 = Ffôn testun: 0300 200 3319
+page.iht.registration.applicantDetails.mci.contact.li.3 = O''r tu allan i''r DU: +44 300 200 1900
+page.iht.registration.applicantDetails.mci.subheading.2 = Mae''r llinellau ffôn ar agor:
+page.iht.registration.applicantDetails.mci.schedule.li.1 = 08:30 – 17:00 o ddydd Llun i ddydd Gwener
+page.iht.registration.applicantDetails.mci.schedule.li.2 = Ar gau ar ddydd Sadwrn
+page.iht.registration.applicantDetails.mci.schedule.li.3 = Ar gau ar ddydd Sul
+page.iht.registration.applicantDetails.mci.p2 = Ar gau ar wyliau banc
+page.iht.registration.applicantDetails.mci.contact.charges.href = Gwybodaeth am gostau galwadau (yn agor tab newydd)
+
 page.iht.filter.useService.under325000.otherWaysToReportValue = Ffyrdd eraill i roi gwybod am werth ystâd
 page.iht.filter.useService.under325000.p1.a = Gallwch
 page.iht.filter.useService.under325000.p1.b = ddefnyddio''r ffurflen bapur IHT205
