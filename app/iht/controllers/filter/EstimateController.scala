@@ -59,9 +59,9 @@ trait EstimateController extends FrontendController with I18nSupport {
           submitRoute))), {
           choice => (choice.getOrElse(""), jointAssets) match {
             case (Constants.under325000, false) =>
-              Future.successful(Redirect(iht.controllers.filter.routes.UseServiceController.onPageLoadUnder()))
+              Future.successful(Redirect(iht.controllers.filter.routes.AnyAssetsController.onPageLoadWithoutJointAssets()))
             case (Constants.under325000, true) =>
-              Future.successful(Redirect(iht.controllers.filter.routes.UseServiceController.onPageLoadUnderWithJointAssets()))
+              Future.successful(Redirect(iht.controllers.filter.routes.AnyAssetsController.onPageLoadWithJointAssets()))
             case (Constants.between325000and1million, false) =>
               Future.successful(Redirect(iht.controllers.filter.routes.UseServiceController.onPageLoadOver()))
             case (Constants.between325000and1million, true) =>

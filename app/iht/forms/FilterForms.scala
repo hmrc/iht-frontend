@@ -24,7 +24,7 @@ import iht.utils.IhtFormValidator._
 import play.api.i18n.Messages
 
 object FilterForms {
-  def filterForm (implicit messages: Messages) = Form(
+  def filterForm (implicit messages: Messages): Form[Option[String]] = Form(
     mapping(
       filterChoices -> of(radioOptionString("error.selectAnswer", FieldMappings.filterChoicesWithoutHints))
     )
@@ -36,7 +36,7 @@ object FilterForms {
     )
   )
 
-  def domicileForm (implicit messages: Messages) = Form(
+  def domicileForm (implicit messages: Messages): Form[Option[String]] = Form(
     mapping(
       domicile -> of(radioOptionString("error.selectAnswer", FieldMappings.domicileChoices))
     )
@@ -48,7 +48,7 @@ object FilterForms {
     )
   )
 
-  def filterJointlyOwnedForm(implicit messages: Messages) = Form(
+  def filterJointlyOwnedForm(implicit messages: Messages): Form[Option[String]] = Form(
     mapping(
       filterJointlyOwned -> of(radioOptionString("error.selectAnswer", FieldMappings.filterJointlyOwnedChoices))
     )
@@ -60,7 +60,7 @@ object FilterForms {
     )
   )
 
-  def estimateForm (implicit messages: Messages) = Form(
+  def estimateForm (implicit messages: Messages): Form[Option[String]] = Form(
     mapping(
       estimate -> of(radioOptionString("error.selectAnswer", FieldMappings.estimateChoices))
     )
@@ -69,6 +69,18 @@ object FilterForms {
     )
     (
       (choice) => Some(choice)
+    )
+  )
+
+  def anyAssetsForm(implicit messages: Messages): Form[Option[String]] = Form(
+    mapping(
+      anyAssets -> of(radioOptionString("error.selectAnswer", FieldMappings.anyAssetsChoices))
+    )
+    (
+      identity
+    )
+    (
+      choice => Some(choice)
     )
   )
 }

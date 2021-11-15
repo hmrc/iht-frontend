@@ -95,10 +95,14 @@ object Constants {
   lazy val between325000and1million = "between-325000-and-1million"
   lazy val moreThan1million = "more-than-1million"
 
-  lazy val  NINO= "customerNino"
+  lazy val anyAssets = "any-assets"
+  lazy val anyAssetsYes = "any-assets-yes"
+  lazy val anyAssetsNo = "any-assets-no"
+
+  lazy val NINO = "customerNino"
 
   lazy val PropertyAssetCodes = Set("0016", "0017", "0018")
-  lazy val  MortgageLiabilityType= "Mortgage"
+  lazy val MortgageLiabilityType = "Mortgage"
 
   lazy val DisplayModeExemption = "exemption"
   lazy val DisplayModeNoExemption = "noExemption"
@@ -107,7 +111,7 @@ object Constants {
   Due to the welsh grammatical rule of "consonant soft mutation" the word
   "priod" ("marriage") changes to "briod" when preceded by the word "gan".
  */
-  lazy val contentMutation = "gan priod" -> "gan briod"
+  lazy val contentMutation: (String, String) = "gan priod" -> "gan briod"
 
   val welshVowels: Set[Char] = Set('a', 'e', 'i', 'o', 'u', 'w', 'y')
 }

@@ -17,44 +17,44 @@
 package iht.controllers.filter
 
 import iht.config.AppConfig
-import iht.constants.Constants._
+import iht.constants.Constants
 import iht.controllers.application.ApplicationControllerTest
-import iht.forms.FilterForms._
+import iht.forms.FilterForms.anyAssetsForm
 import iht.views.HtmlSpec
-import iht.views.html.filter.estimate
+import iht.views.html.filter.any_assets
 import play.api.i18n.MessagesApi
+import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
-class EstimateControllerTest extends ApplicationControllerTest with HtmlSpec {
+class AnyAssetsControllerTest extends ApplicationControllerTest with HtmlSpec {
 
   implicit val fakedMessagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-  implicit val request = FakeRequest()
+  implicit val request: FakeRequest[AnyContentAsEmpty.type] = FakeRequest()
 
-  protected abstract class TestController extends FrontendController(mockControllerComponents) with EstimateController {
+  protected abstract class TestController extends FrontendController(mockControllerComponents) with AnyAssetsController {
     override implicit val appConfig: AppConfig = mockAppConfig
-    override val estimateView: estimate = app.injector.instanceOf[estimate]
+    override val anyAssetsView: any_assets = app.injector.instanceOf[any_assets]
   }
 
   def controller: TestController = new TestController {
-
     override def messagesApi: MessagesApi = fakedMessagesApi
   }
 
-  "Estimate Controller" must {
+  "Any Assets Controller" must {
 
-    "show the Estimate page when access by an unauthorised person" in {
+    "show the Any Assets page when accessed by an unauthorised person" in {
       val result = controller.onPageLoadWithoutJointAssets()(createFakeRequest(isAuthorised = false))
       status(result) must be(OK)
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() must be(messages("iht.roughEstimateEstateWorth"))
+      titleElement.text() must be(messages("page.iht.filter.anyAssets.title"))
     }
 
     "show an error if no radio button is selected" in {
-      val request = createFakeRequestWithBody(isAuthorised = false, data = estimateForm(messages).data.toSeq)
+      val request = createFakeRequestWithBody(isAuthorised = false, data = anyAssetsForm.data.toSeq)
       val result = controller.onSubmitWithoutJointAssets()(request)
 
       status(result) must be(BAD_REQUEST)
@@ -63,31 +63,23 @@ class EstimateControllerTest extends ApplicationControllerTest with HtmlSpec {
       assertRenderedById(doc, "errors")
     }
 
-    "redirect to the Any Assets page if 'Under £325,000' is selected" in {
-      val form = estimateForm(messages).fill(Some(under325000))
+    "redirect to the Use Service page if 'yes' is selected" in {
+      val form = anyAssetsForm.fill(Some(Constants.anyAssetsYes))
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
       val result = controller.onSubmitWithoutJointAssets()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.filter.routes.AnyAssetsController.onSubmitWithoutJointAssets().url))
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.UseServiceController.onPageLoadUnder().url))
     }
 
-    "redirect to the Use Service page if 'Between £325,000 and £1 million' is selected" in {
-      val form = estimateForm(messages).fill(Some(between325000and1million))
+    "redirect to the No Assets page if 'no' is selected" in {
+      val form = anyAssetsForm.fill(Some(Constants.anyAssetsNo))
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
       val result = controller.onSubmitWithoutJointAssets()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.filter.routes.UseServiceController.onPageLoadOver().url))
-    }
-
-    "redirect to the 'Over £1 million transition' page if 'More than £1 million' is selected" in {
-      val form = estimateForm(messages).fill(Some(moreThan1million))
-      val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
-      val result = controller.onSubmitWithoutJointAssets()(request)
-
-      status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.filter.routes.UseIHT400Controller.onPageLoadWithoutJointAssets().url))
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.NoAssetsController.onPageLoadWithoutJointAssets().url))
     }
   }
+
 }

@@ -116,6 +116,11 @@ object FieldMappings {
     createMapEntry(moreThan1million, "page.iht.filter.estimate.choice.over")(messages)
   )
 
+  def anyAssetsChoices(implicit messages: Messages) = ListMap(
+    createMapEntry(anyAssetsYes, "iht.yes")(messages),
+    createMapEntry(anyAssetsNo, "iht.no")(messages)
+  )
+
   def filterChoicesWithoutHints(implicit messages: Messages) = ListMap(
     createMapEntry(continueEstateReport, "page.iht.filter.filter.choice.main.continue")(messages),
     createMapEntry(register, "page.iht.filter.filter.choice.main.register")(messages),

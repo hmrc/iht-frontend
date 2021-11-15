@@ -213,6 +213,7 @@ page.iht.filter.previous.answers = Previous answers
 page.iht.filter.previous.answers.change.estate = Change how much you think the estate is worth
 page.iht.filter.previous.answers.change.jointlyOwned = Change your answer for whether the person who has died jointly owned anything with someone else
 page.iht.filter.previous.answers.change.home = Change your answer for where the permanent home was
+page.iht.filter.previous.answers.change.anyAssets = Change your answer for whether the person who has died had any assets to declare
 
 page.iht.filter.paperform.scotland.p1 = Reporting the estate value in Scotland is completed by using a paper form.
 page.iht.filter.paperform.scotland.p2.start = You can read the
@@ -290,6 +291,37 @@ page.iht.filter.useService.under325000.p1.a = You can
 page.iht.filter.useService.under325000.p1.b = use the paper IHT205 form
 page.iht.filter.useService.under325000.p1.c = if you are not able to report the estate value online.
 page.iht.filter.useService.under325000.p2 = If you are not able to download or print the form, you can ask for a copy to be sent to you by calling the Inheritance Tax helpline on 0300 123 1072. If you are outside of the UK, call +44 300 123 1072.
+
+page.iht.filter.anyAssets.title = Did the person who died have any assets to declare?
+page.iht.filter.anyAssets.heading = Did the person who died have any assets to declare?
+page.iht.filter.anyAssets.p1 = An asset is anything that was owned by the person who died that has a value.
+page.iht.filter.anyAssets.summary.title = What is an asset?
+page.iht.filter.anyAssets.summary.asset1 = Properties, buildings and land
+page.iht.filter.anyAssets.summary.asset2 = Money
+page.iht.filter.anyAssets.summary.asset3 = Household and personal items
+page.iht.filter.anyAssets.summary.asset4 = Motor vehicles
+page.iht.filter.anyAssets.summary.asset5 = Private pensions
+page.iht.filter.anyAssets.summary.asset6 = Stocks and shares
+page.iht.filter.anyAssets.summary.asset7 = Insurance policies
+page.iht.filter.anyAssets.summary.asset8 = Business interests
+page.iht.filter.anyAssets.summary.asset9 = Nominated assets
+page.iht.filter.anyAssets.summary.asset10 = Assets held in a trust
+page.iht.filter.anyAssets.summary.asset11 = Foreign assets
+page.iht.filter.anyAssets.summary.asset12 = Money owed
+page.iht.filter.anyAssets.summary.asset13 = Any other assets not listed
+page.iht.filter.anyAssets.summary.para1.a = If you are unsure whether an asset qualifies for tax purposes contact the {0}
+page.iht.filter.anyAssets.summary.para1.b = Inheritance Tax Helpline (opens in new tab)
+page.iht.filter.anyAssets.summary.helpline.1 = 0300 123 1072 (outside UK: +44 300 123 1072)
+page.iht.filter.anyAssets.summary.helpline.2 = Opening times: Monday to Friday: 9am to 5pm
+page.iht.filter.anyAssets.summary.helpline.3 = Closed on Saturdays, Sundays and bank holidays.
+page.iht.filter.anyAssets.summary.p2.a = Find out more about {0}
+page.iht.filter.anyAssets.summary.p2.b = how to work out and report the value of an estate to HMRC (opens in new tab)
+
+page.iht.filter.noAssets.title = How to declare no assets
+page.iht.filter.noAssets.heading = How to declare no assets
+page.iht.filter.noAssets.label.a = If you are sure that the person who died had no assets at all you cannot use this online service. You have to use an {0} {1}
+page.iht.filter.noAssets.label.b = IHT400 form (opens in new tab)
+page.iht.filter.noAssets.label.c = to let HMRC know about this.
 
 #Registration
 iht.registration.changeAddressToAbroad = Change the address to one that is abroad

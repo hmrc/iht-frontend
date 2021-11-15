@@ -1490,6 +1490,37 @@ page.iht.application.assets.propertyType.nonResidential.label=Tir, adeilad dibre
 page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased={0}
 page.iht.registration.checklist.startRegistrationButton=Dechrau''r broses gofrestru
 
+page.iht.filter.anyAssets.title = A oedd gan y person a fu farw unrhyw asedion i''w datgan?
+page.iht.filter.anyAssets.heading = A oedd gan y person a fu farw unrhyw asedion i''w datgan?
+page.iht.filter.anyAssets.p1 = Mae ased yn unrhyw beth a oedd yn eiddo i''r person a fu farw ac sydd â gwerth.
+page.iht.filter.anyAssets.summary.title = Beth yw ased?
+page.iht.filter.anyAssets.summary.asset1 = Cerbydau modur
+page.iht.filter.anyAssets.summary.asset2 = Arian
+page.iht.filter.anyAssets.summary.asset3 = Eitemau i''r tŷ ac eitemau personol
+page.iht.filter.anyAssets.summary.asset4 = Cerbydau modur
+page.iht.filter.anyAssets.summary.asset5 = Pensiynau preifat
+page.iht.filter.anyAssets.summary.asset6 = Stociau a chyfranddaliadau
+page.iht.filter.anyAssets.summary.asset7 = Polisiau yswiriant
+page.iht.filter.anyAssets.summary.asset8 = Buddiannau busnes
+page.iht.filter.anyAssets.summary.asset9 = Asedion enwebedig
+page.iht.filter.anyAssets.summary.asset10 = Asedion a ddelir mewn ymddiriedolaeth
+page.iht.filter.anyAssets.summary.asset11 = Asedion tramor
+page.iht.filter.anyAssets.summary.asset12 = Arian sy''n ddyledus
+page.iht.filter.anyAssets.summary.asset13 = Unrhyw asedion eraill sydd heb eu rhestru
+page.iht.filter.anyAssets.summary.para1.a = Os nad ydych yn siŵr a yw ased yn gymwys at ddibenion treth, cysylltwch â {0}
+page.iht.filter.anyAssets.summary.para1.b = Gwasanaeth Cwsmeriaid Cymraeg CThEM (yn agor tab newydd)
+page.iht.filter.anyAssets.summary.helpline.1 = 0300 123 1072 (y tu allan i''r DU: +44 300 123 1072)
+page.iht.filter.anyAssets.summary.helpline.2 = Oriau agor: Dydd Llun i Ddydd Gwener: 08:30 – 17:00
+page.iht.filter.anyAssets.summary.helpline.3 = Ar gau ar y penwythnos ac ar wyliau banc
+page.iht.filter.anyAssets.summary.p2.a = Rhagor o wybodaeth am {0}
+page.iht.filter.anyAssets.summary.p2.b = sut i gyfrifo a rhoi gwybod am werth ystâd i CThEM (yn agor tab newydd)
+
+page.iht.filter.noAssets.title = Sut i ddatgan does dim asedion
+page.iht.filter.noAssets.heading = Sut i ddatgan does dim asedion
+page.iht.filter.noAssets.label.a = Os ydych yn siŵr nad oedd gan y person a fu farw unrhyw asedion o gwbl, ni allwch ddefnyddio''r gwasanaeth ar-lein hwn. Mae''n rhaid i chi ddefnyddio {0} {1}
+page.iht.filter.noAssets.label.b = Ffurflen IHT400 (yn agor tab newydd)
+page.iht.filter.noAssets.label.c = i roi gwybod i CThEM am hyn.
+
 page.iht.application.TnrbEligibilty.spouseOrCivilPartner.commonText=priod neu bartner sifil
 page.iht.application.tnrbEligibilty.partner.marriageOrCivilPartnership.label=briodas neu bartneriaeth sifil
 page.iht.application.tnrbEligibilty.partner.marriedOrCivilPartnership.label=yn briod neu mewn partneriaeth sifil
@@ -2069,7 +2100,7 @@ page.iht.questionnaire.activity.declare-app=Wedi cwblhau''r datganiad ac anfon a
 page.iht.filter.previous.answers.change.estate = Newidiwch faint yn eich barn chi yw gwerth yr ystâd
 page.iht.filter.previous.answers.change.jointlyOwned = Newidiwch eich ateb ar gyfer p''un a oedd y person a fu farw yn berchen ar unrhyw beth ar y cyd â rhywun arall
 page.iht.filter.previous.answers.change.home = Newidiwch eich ateb ar gyfer lle''r oedd y cartref parhaol
-
+page.iht.filter.previous.answers.change.anyAssets = Newidiwch eich ateb ynghylch a oedd gan y person a fu farw unrhyw asedion i’w datgan
 page.iht.application.declaration_received.title=Mae''r adroddiad ynghylch ystâd {0} wedi cael ei anfon
 page.iht.application.declaration_received.continue = Bwrw golwg ar fanylion ar gyfer profiant
 page.iht.application.declaration_received.browserTitle=Anfonwyd yr adroddiad ynghylch yr ystâd
