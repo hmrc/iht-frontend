@@ -95,15 +95,7 @@ class EstateOverviewViewTest extends ViewTestHelper{
       assertRenderedById(doc, "assets-gifts-section")
     }
 
-    "contain a sidebar with the deadline date" in {
-      implicit val request = createFakeRequest()
-
-      val view = estateOverviewView(dummyViewModel).toString
-      view must include(messagesApi("page.iht.application.overview.timeScale.guidance"))
-      view must include("01 Apr 2016")
-    }
-
-    "contain a sidebar with the 'Go to your Inheritance Tax estate reports' link" in {
+    "contain a 'Go to your Inheritance Tax estate reports' link" in {
       implicit val request = createFakeRequest()
 
       val view = estateOverviewView(dummyViewModel).toString

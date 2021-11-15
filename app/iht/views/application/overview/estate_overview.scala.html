@@ -22,7 +22,6 @@
 @this(
     appConfig: AppConfig,
     ihtMainTemplateApplication: iht_main_template_application,
-    overviewSidebar: application.overview.overview_sidebar,
     assetsAndGiftsSection: application.overview.assets_and_gifts_section,
     reducingEstateValueSection: application.overview.reducing_estate_value_section,
     overviewTotal: ihtHelpers.custom.overview_total,
@@ -47,7 +46,6 @@
 @ihtMainTemplateApplication(title = Messages("page.iht.application.overview.title2", model.deceasedName),
     browserTitle = Some(Messages("page.iht.application.overview.browserTitle")),
     isFullWidth=false,
-    sidebarLinks = overviewSidebar(model.submissionDeadline, model.submissionMonthsLeft),
     headingClass = if(checkNameSize(model.deceasedName)){"heading-large"} else {"heading-xlarge"},
     headingName = model.deceasedName,
     signOutCall = Some(iht.controllers.routes.FeedbackSurveyController.redirectExitSurvey)

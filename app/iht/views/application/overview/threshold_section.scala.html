@@ -40,5 +40,7 @@
     }
     @if(model.showIncreaseThresholdLink) {
         <a class="font-xsmall" id="tnrb-link" href="@iht.controllers.application.tnrb.routes.TnrbGuidanceController.onPageLoad()">@Messages("page.iht.application.estateOverview.increaseThreshold.link")</a>
+        <br>
     }
+    <a id="return-to-estate-report-link" class="font-xsmall" href="@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()">@Messages("iht.estateReport.goToEstateReports")</a>
 </section>
