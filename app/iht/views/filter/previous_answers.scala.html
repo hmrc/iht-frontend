@@ -18,8 +18,15 @@
 
 @this()
 
-@(country: String, jointAssets: Option[Boolean] = None,
-estimatedValue: Option[String] = None)(implicit request:Request[_], messages: Messages)
+@(
+    country: String,
+    jointAssets: Option[Boolean] = None,
+    estimatedValue: Option[String] = None,
+    anyAssets: Option[Boolean] = None
+)(
+    implicit request:Request[_],
+    messages: Messages
+)
 
 <section class="section">
     <div class="grid-layout grid-layout--stacked grid-layout--nogutter divider--bottom">
@@ -32,6 +39,31 @@ estimatedValue: Option[String] = None)(implicit request:Request[_], messages: Me
           </a>
         </div>
     </div>
+
+    @if(anyAssets.isDefined) {
+    <li id="any-assets-row" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+        <div class="tabular-data__data tabular-data__data--6-12">
+            @Messages("page.iht.filter.anyAssets.title")
+        </div>
+        <div class="tabular-data__data tabular-data__data--3-12">
+            @if(anyAssets.get) { @Messages("iht.yes") } else { @Messages("iht.no") }
+        </div>
+        <div class="tabular-data__data tabular-data__data--3-12">
+            @if(jointAssets.get) {
+            <a id="change-any-assets" href="@iht.controllers.filter.routes.AnyAssetsController.onPageLoadWithJointAssets().url">
+                <span aria-hidden="true">@Messages("iht.change")</span>
+                <span class="visually-hidden">@Messages("page.iht.filter.previous.answers.change.anyAssets")</span>
+            </a>
+            } else {
+            <a id="change-any-assets" href="@iht.controllers.filter.routes.AnyAssetsController.onPageLoadWithoutJointAssets().url">
+                <span aria-hidden="true">@Messages("iht.change")</span>
+                <span class="visually-hidden">@Messages("page.iht.filter.previous.answers.change.anyAssets")</span>
+            </a>
+            }
+        </div>
+    </li>
+    }
+
     <ul id="previous-answers" class="tabular-data tabular-data--list">
         @if(estimatedValue.isDefined) {
         <li id="estimate-row" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
@@ -98,5 +130,9 @@ estimatedValue: Option[String] = None)(implicit request:Request[_], messages: Me
               </a>
             </div>
         </li>
+
+
+
+
     </ul>
 </section>

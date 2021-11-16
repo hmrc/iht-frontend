@@ -1,0 +1,110 @@
+@*
+* Copyright 2021 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import iht.constants.Constants.under325000
+@import iht.constants.FieldMappings
+
+@this(
+    ihtMainTemplateRegistration: iht_main_template_registration,
+    inputRadioGroup: ihtHelpers.standard.input_radio_group,
+    previousAnswers: filter.previous_answers,
+    errorSummary: ihtHelpers.custom.error_summary,
+    formWithCSRF: FormWithCSRF
+)
+
+@(ihtForm: Form[Option[String]], jointAssets: Boolean)(implicit messages: Messages, request: Request[_])
+
+@ihtHelplineLink = {
+    <a href="https://www.gov.uk/government/organisations/hm-revenue-customs/contact/probate-and-inheritance-tax-enquiries" id="form-link" rel="noreferrer noopener" target="_blank">@messages("page.iht.filter.anyAssets.summary.para1.b")</a>:
+}
+
+@estateLink = {
+    <a href="https://www.gov.uk/guidance/work-out-what-part-of-your-estate-pays-inheritance-tax" target="_blank" rel="noreferrer noopener">@messages("page.iht.filter.anyAssets.summary.p2.b")</a>.
+}
+
+@ihtMainTemplateRegistration(
+    title = messages("page.iht.filter.anyAssets.title"),
+    browserTitle = Some(messages("page.iht.filter.anyAssets.title")),
+    isFullWidth = false,
+    hasSignOut=false,
+    hasTimeOut=false
+) {
+
+    @errorSummary(ihtForm)
+
+    <p class="govuk-body">@messages("page.iht.filter.anyAssets.p1")</p>
+
+    <details id="application-details-reveal">
+        <summary class="summary">@messages("page.iht.filter.anyAssets.summary.title")</summary>
+        <div class="panel panel-border-narrow">
+            <ul class="bullets">
+                <li>@messages("page.iht.filter.anyAssets.summary.asset1")</li>
+                <li>@messages("page.iht.filter.anyAssets.summary.asset2")</li>
+                <li>@messages("page.iht.filter.anyAssets.summary.asset3")</li>
+                <li>@messages("page.iht.filter.anyAssets.summary.asset4")</li>
+                <li>@messages("page.iht.filter.anyAssets.summary.asset5")</li>
+                <li>@messages("page.iht.filter.anyAssets.summary.asset6")</li>
+                <li>@messages("page.iht.filter.anyAssets.summary.asset7")</li>
+                <li>@messages("page.iht.filter.anyAssets.summary.asset8")</li>
+                <li>@messages("page.iht.filter.anyAssets.summary.asset9")</li>
+                <li>@messages("page.iht.filter.anyAssets.summary.asset10")</li>
+                <li>@messages("page.iht.filter.anyAssets.summary.asset11")</li>
+                <li>@messages("page.iht.filter.anyAssets.summary.asset12")</li>
+                <li>@messages("page.iht.filter.anyAssets.summary.asset13")</li>
+            </ul>
+
+            <p>@Html(messages("page.iht.filter.anyAssets.summary.para1.a", ihtHelplineLink))</p>
+
+            <ul class="bullets">
+                <li>@messages("page.iht.filter.anyAssets.summary.helpline.1")</li>
+                <li>@messages("page.iht.filter.anyAssets.summary.helpline.2")</li>
+                <li>@messages("page.iht.filter.anyAssets.summary.helpline.3")</li>
+            </ul>
+
+            <p>@Html(messages("page.iht.filter.anyAssets.summary.p2.a", estateLink))</p>
+
+        </div>
+    </details>
+
+    <br>
+
+    @formWithCSRF(
+        action = if(jointAssets) {
+            iht.controllers.filter.routes.AnyAssetsController.onSubmitWithJointAssets()
+        } else{
+            iht.controllers.filter.routes.AnyAssetsController.onSubmitWithoutJointAssets()
+        },
+        'autoComplete -> "off") {
+
+        @inputRadioGroup(
+            ihtForm("any-assets"),
+            FieldMappings.anyAssetsChoices.toSeq,
+            '_legendClass -> "visually-hidden",
+            '_legend -> Html(messages("page.iht.filter.anyAssets.title")),
+            '_groupClass -> "form-group",
+            '_labelClass -> "block-label radio-label",
+            '_labelTextClass -> "form-label-bold"
+        )
+
+        <div id="continue-button" class="form-group">
+            <input id='continue' class='button' type='submit' value='@Messages("iht.continue")'>
+        </div>
+
+        @previousAnswers(messages("iht.countries.englandOrWales"), Some(jointAssets), Some(under325000))
+    }
+
+
+}
