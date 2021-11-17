@@ -32,7 +32,7 @@
 @(jointlyOwnedDebtsForm: Form[BasicEstateElementLiabilities],
   registrationDetails: RegistrationDetails)(implicit request: Request[_], messages: Messages)
 
-@deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+@deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)}
 
 @ihtMainTemplateApplication(title = Messages("iht.estateReport.debts.owedOnJointAssets"),
     browserTitle = Some(Messages("page.iht.application.debts.jointlyOwned.browserTitle")),
