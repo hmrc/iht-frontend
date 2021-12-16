@@ -79,10 +79,8 @@ class NonLeadExecutorViewTest extends ViewTestHelper {
 
       "have two paragraphs with the correct content" in new WelshView {
         doc.select("article > p").size() mustBe 2
-        doc.select("article > p").get(0).text() mustBe
-          "Mae'r adroddiad ynghylch yr ystâd yn gyflawn, a gellir nawr ei gyflwyno. Mae'n rhaid i chi ofyn i'r ysgutor a gofrestrodd yr ystâd hon i fewngofnodi a'i chyflwyno i CThEM."
-        doc.select("article > p").get(1).text() mustBe
-          "Os nad ydych yn siŵr pwy gofrestrodd yr ystâd hon, defnyddiwch y cysylltiad isod i gysylltu â'r llinell gymorth Treth Etifeddiant (IHT)."
+        doc.select("article > p").get(0).text() mustBe messages("page.application.kickout.nonLeadExec.para1")
+        doc.select("article > p").get(1).text() mustBe messages("page.application.kickout.nonLeadExec.para2")
       }
 
       "must have a signout button" in new WelshView{

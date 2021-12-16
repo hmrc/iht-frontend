@@ -182,6 +182,15 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
 
       checkForError(deceasedDateOfDeathForm, emptyForm, expectedErrors)
     }
+
+    "give an error when a date beyond the cut-off date is supplied" in {
+      val innerMockAppConfig = mock[AppConfig]
+      val cutoffDateForm = deceasedDateOfDeathForm()(innerMockAppConfig)
+      when(innerMockAppConfig.dateOfDeathCutOffDate).thenReturn(new LocalDate(2000, 1, 1))
+
+      val data: Map[String, String] = dateOfDeath("01", "01", "2013")
+      checkForError(cutoffDateForm, data, error("dateOfDeath", "error.dateOfDeath.deceasedBefore2022"))
+    }
   }
 
   //endregion

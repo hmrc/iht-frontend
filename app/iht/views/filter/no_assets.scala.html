@@ -30,5 +30,5 @@
 @ihtMainTemplateApplication(title = messages("page.iht.filter.noAssets.title"),  browserTitle = Some(messages("page.iht.filter.noAssets.title")), hasSignOut = false, hasTimeOut = false) {
     <p>@Html(messages("page.iht.filter.noAssets.label.a", iht400Link, messages("page.iht.filter.noAssets.label.c")))</p>
 
-    @previousAnswers(messages("iht.countries.englandOrWales"), Some(jointAssets), Some(under325000), Some(false))
+    @previousAnswers(messages("iht.countries.englandOrWales"), Some(true), Some(jointAssets), Some(under325000), Some(false))
 }

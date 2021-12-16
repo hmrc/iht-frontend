@@ -171,6 +171,8 @@ class Module extends AbstractModule {
     bind(classOf[RegistrationChecklistController]).to(classOf[RegistrationChecklistControllerImpl]).asEagerSingleton
     bind(classOf[AnyAssetsController]).to(classOf[AnyAssetsControllerImpl]).asEagerSingleton
     bind(classOf[NoAssetsController]).to(classOf[NoAssetsControllerImpl]).asEagerSingleton
+    bind(classOf[DeceasedBefore2022Controller]).to(classOf[DeceasedBefore2022ControllerImpl]).asEagerSingleton
+    bind(classOf[UseCheckerController]).to(classOf[UseCheckerControllerImpl]).asEagerSingleton
     bind(classOf[SessionTimeoutController]).to(classOf[SessionTimeoutControllerImpl]).asEagerSingleton
     bind(classOf[UseIHT400Controller]).to(classOf[UseIHT400ControllerImpl]).asEagerSingleton
     bind(classOf[AgentController]).to(classOf[AgentControllerImpl]).asEagerSingleton

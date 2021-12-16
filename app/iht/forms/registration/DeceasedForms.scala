@@ -30,11 +30,11 @@ object DeceasedForms extends DeceasedForms
 
 trait DeceasedForms extends IhtFormValidator {
 
-  val deceasedDateOfDeathForm = Form(
-    mapping(
-      "dateOfDeath" -> DateMapping.dateOfDeath
-    )(DeceasedDateOfDeath.apply)(DeceasedDateOfDeath.unapply)
-  )
+  def deceasedDateOfDeathForm()(implicit appConfig: AppConfig): Form[DeceasedDateOfDeath] =
+    Form(mapping("dateOfDeath" -> DateMapping.dateOfDeath
+            .verifying("error.dateOfDeath.deceasedBefore2022", deceasedDate => deceasedDate.isBefore(appConfig.dateOfDeathCutOffDate))
+      )(DeceasedDateOfDeath.apply)(DeceasedDateOfDeath.unapply)
+    )
 
   def deceasedPermanentHomeForm(implicit messages: Messages, appConfig: AppConfig): Form[DeceasedDetails] = Form(
     mapping(

@@ -23,7 +23,7 @@ trait MessagesHelper {
   val ihtApplicationTimeoutp1 = "We saved your progress on the estate report."
   val pageIhtIVFailureYouCanAlso = "You can also:"
   val pageIhtIVFailureReportWithPaperForm = "report the estate value using the IHT205 paper form instead"
-  val pageIhtIVFailureaskForHelp = "ask for help by email using 'Get help with this page' below"
+  val pageIhtIVFailureaskForHelp = "ask for help by email using ‘Get help with this page’ below"
 
   val errorRegistrationSystemErrorp1 = "Try again later to sign in to the service at https://www.tax.service.gov.uk/inheritance-tax/registration/registration-checklist (save this link)."
 

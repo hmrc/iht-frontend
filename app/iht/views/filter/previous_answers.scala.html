@@ -20,6 +20,7 @@
 
 @(
     country: String,
+    deceasedBefore2022: Option[Boolean] = None,
     jointAssets: Option[Boolean] = None,
     estimatedValue: Option[String] = None,
     anyAssets: Option[Boolean] = None
@@ -40,31 +41,32 @@
         </div>
     </div>
 
-    @if(anyAssets.isDefined) {
-    <li id="any-assets-row" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
-        <div class="tabular-data__data tabular-data__data--6-12">
-            @Messages("page.iht.filter.anyAssets.title")
-        </div>
-        <div class="tabular-data__data tabular-data__data--3-12">
-            @if(anyAssets.get) { @Messages("iht.yes") } else { @Messages("iht.no") }
-        </div>
-        <div class="tabular-data__data tabular-data__data--3-12">
-            @if(jointAssets.get) {
-            <a id="change-any-assets" href="@iht.controllers.filter.routes.AnyAssetsController.onPageLoadWithJointAssets().url">
-                <span aria-hidden="true">@Messages("iht.change")</span>
-                <span class="visually-hidden">@Messages("page.iht.filter.previous.answers.change.anyAssets")</span>
-            </a>
-            } else {
-            <a id="change-any-assets" href="@iht.controllers.filter.routes.AnyAssetsController.onPageLoadWithoutJointAssets().url">
-                <span aria-hidden="true">@Messages("iht.change")</span>
-                <span class="visually-hidden">@Messages("page.iht.filter.previous.answers.change.anyAssets")</span>
-            </a>
-            }
-        </div>
-    </li>
-    }
-
     <ul id="previous-answers" class="tabular-data tabular-data--list">
+
+        @if(anyAssets.isDefined) {
+        <li id="any-assets-row" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+            <div class="tabular-data__data tabular-data__data--6-12">
+                @Messages("page.iht.filter.anyAssets.title")
+            </div>
+            <div class="tabular-data__data tabular-data__data--3-12">
+                @if(anyAssets.get) { @Messages("iht.yes") } else { @Messages("iht.no") }
+            </div>
+            <div class="tabular-data__data tabular-data__data--3-12">
+                @if(jointAssets.get) {
+                <a id="change-any-assets" href="@iht.controllers.filter.routes.AnyAssetsController.onPageLoadWithJointAssets().url">
+                    <span aria-hidden="true">@Messages("iht.change")</span>
+                    <span class="visually-hidden">@Messages("page.iht.filter.previous.answers.change.anyAssets")</span>
+                </a>
+                } else {
+                <a id="change-any-assets" href="@iht.controllers.filter.routes.AnyAssetsController.onPageLoadWithoutJointAssets().url">
+                    <span aria-hidden="true">@Messages("iht.change")</span>
+                    <span class="visually-hidden">@Messages("page.iht.filter.previous.answers.change.anyAssets")</span>
+                </a>
+                }
+            </div>
+        </li>
+        }
+
         @if(estimatedValue.isDefined) {
         <li id="estimate-row" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
             <div class="tabular-data__data tabular-data__data--6-12">
@@ -114,6 +116,23 @@
             </li>
 
 
+        }
+
+        @if(deceasedBefore2022.isDefined){
+            <li id="deceased-before-2022-row" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+                <div class="tabular-data__data tabular-data__data--6-12">
+                    @Messages("page.iht.filter.deceased.before.2022.heading")
+                </div>
+                <div class="tabular-data__data tabular-data__data--3-12">
+                    @if(deceasedBefore2022.get) { @Messages("iht.yes") } else { @Messages("iht.no") }
+                </div>
+                <div class="tabular-data__data tabular-data__data--3-12">
+                    <a id="change-deceased-before-2022" href="@iht.controllers.filter.routes.DeceasedBefore2022Controller.onPageLoad().url">
+                        <span aria-hidden="true">@Messages("iht.change")</span>
+                        <span class="visually-hidden">@Messages("page.iht.filter.previous.answers.change.deceasedBefore2022")</span>
+                    </a>
+                </div>
+            </li>
         }
 
         <li id="domicile-row" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">

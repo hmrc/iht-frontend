@@ -32,9 +32,12 @@
     hasTimeOut = false,
     isUserResearchBannerVisible = true){
 
+    @errorSummary(ihtForm)
+    <div class="panel panel-border-wide">
+        @Messages("page.iht.filter.filter.intro")
+    </div>
   @form(action = iht.controllers.filter.routes.FilterController.onSubmit,'autoComplete -> "off") {
 
-      @errorSummary(ihtForm)
 
       @inputRadioGroupWithHints(
           ihtForm(filterChoices),

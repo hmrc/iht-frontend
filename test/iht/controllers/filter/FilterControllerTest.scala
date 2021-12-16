@@ -22,7 +22,7 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.forms.FilterForms._
 import iht.views.HtmlSpec
 import iht.views.html.filter.filter_view
-import play.api.i18n.MessagesApi
+import play.api.i18n.{Lang, MessagesApi}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
@@ -102,9 +102,10 @@ class FilterControllerTest extends ApplicationControllerTest with HtmlSpec {
 
     "switch languages when the referer ends with .cy" in {
       val request = createFakeRequest(isAuthorised = false, Some("test.cy"))
+      val welshMessages = app.injector.instanceOf[MessagesApi].preferred(Seq(Lang("cy")))
       val result = controller.onPageLoad(request)
       contentAsString(result) mustNot include(messages("site.registration.title"))
-      contentAsString(result) must include("Cofrestru i lenwi adroddiad ystâd")
+      contentAsString(result) must include(welshMessages("site.registration.title"))
     }
   }
 }
