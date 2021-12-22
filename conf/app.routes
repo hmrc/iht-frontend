@@ -58,6 +58,11 @@ GET         /joint-assets-use-service-under-325000                   @iht.contro
 GET         /use-service-over-325000                                 @iht.controllers.filter.UseServiceController.onPageLoadOver
 GET         /joint-assets-use-service-over-325000                    @iht.controllers.filter.UseServiceController.onPageLoadOverWithJointAssets
 
+GET         /deceased-before-2022                                    @iht.controllers.filter.DeceasedBefore2022Controller.onPageLoad
+POST        /deceased-before-2022                                    @iht.controllers.filter.DeceasedBefore2022Controller.onSubmit
+
+GET         /use-checker                                             @iht.controllers.filter.UseCheckerController.onPageLoad
+
 GET         /deadlines-to-pay-inheritance-tax                        @iht.controllers.DeadlinesController.onPageLoadRegistration
 GET         /deadlines-for-paying-inheritance-tax                    @iht.controllers.DeadlinesController.onPageLoadApplication
 

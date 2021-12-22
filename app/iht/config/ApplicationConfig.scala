@@ -76,4 +76,5 @@ trait AppConfig extends IhtProperties {
   lazy val isWelshEnabled: Boolean = Try(servicesConfig.getBoolean("welsh.enabled")).getOrElse(runningEnvironment != "PROD")
 
   lazy val hmrcCallChargesUrl: String = readFromConfig("urls.hmrcCallChargesUrl")
+  lazy val checkerToolUrl: String = readFromConfig("urls.checkerToolUrl")
 }

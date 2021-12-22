@@ -31,7 +31,7 @@ trait RegistrationChecklistMessages {
   val ihtRegistrationDetailsNeededLabel2                = "You will need the person who died’s:"
   val ihtRegistrationDetailsNeededOname                 = "official name"
   val ihtRegistrationChecklistDateOfBirth               = "date of birth"
-  val pageIhtRegistrationChecklistDeceasedLabel3        = "date of death"
+  val pageIhtRegistrationChecklistDeceasedLabel3        = "date of death (needs to be on or before 31 December 2021)"
   val ihtNationalInsuranceNo                            = "National Insurance number"
   val pageIhtRegistrationChecklistDeceasedLabel5        = "last known contact address"
   val pageIhtRegistrationChecklistDeceasedLabel7        = "relationship status"

@@ -28,15 +28,16 @@
 @labelAsHeading = @{ elements.args.get('_legendIsHeading).getOrElse(false).asInstanceOf[Boolean] }
 @label = @{ Html(elements.args.get('_legend).get.toString) }
 @hintID = @{elements.args.get('_hintId).getOrElse("ynHint").asInstanceOf[String]}
+@isInline = @{ elements.args.get('_fieldsetInline).getOrElse(true).asInstanceOf[Boolean] }
 
 <div @if(elements.args.get('_shownElementYes).isDefined ||elements.args.get('_clearTargetYes).isDefined || elements.args.get('_hiddenElementYes).isDefined){data-exclude="true"} id="@{elements.field.name}-container" class="@elements.args.get('_divClass)" data-main-question="@elements.args.get('_mainQuestion).getOrElse(true)">
 
 
 @if(elements.args.get('_legend).isDefined) {
     @if(elements.args.get('_fieldsetId).isDefined) {
-    <fieldset id="@elements.args.get('_fieldsetId)" @if(elements.args.get('_fieldsetAttributes).isDefined) {@elements.args.get('_fieldsetAttributes)} class="inline">
+    <fieldset id="@elements.args.get('_fieldsetId)" @if(elements.args.get('_fieldsetAttributes).isDefined) {@elements.args.get('_fieldsetAttributes)} @if(isInline){class="inline"}>
     } else {
-    <fieldset @if(elements.args.get('_fieldsetAttributes).isDefined) {@elements.args.get('_fieldsetAttributes)} class="inline">
+    <fieldset @if(elements.args.get('_fieldsetAttributes).isDefined) {@elements.args.get('_fieldsetAttributes)} @if(isInline){class="inline"}>
     }
 
     <legend id="yes-no-question-legend" class="@if(!labelAsHeading){bold-small }@elements.args.get('_legendClass)">

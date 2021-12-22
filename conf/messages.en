@@ -191,6 +191,7 @@ iht.theDeceased = The deceased
 #Pre registration filtering
 page.iht.filter.agent.content = There is no change to how agents report estate values to HMRC. You must continue to use either an IHT205 or an IHT400 paper form.
 
+page.iht.filter.filter.intro = Download your Inheritance Tax estate reports and clearance certificates on or before 31 December 2022. They will not be available on this service after that date.
 page.iht.filter.filter.choice.main.continue = I want to continue an estate report that I have already started
 page.iht.filter.filter.choice.main.register = I want to register so I can tell HMRC about a person’s estate
 page.iht.filter.filter.choice.main.register.hint = You will need to answer some questions about the estate to make sure you are using the right service.
@@ -214,6 +215,7 @@ page.iht.filter.previous.answers.change.estate = Change how much you think the e
 page.iht.filter.previous.answers.change.jointlyOwned = Change your answer for whether the person who has died jointly owned anything with someone else
 page.iht.filter.previous.answers.change.home = Change your answer for where the permanent home was
 page.iht.filter.previous.answers.change.anyAssets = Change your answer for whether the person who has died had any assets to declare
+page.iht.filter.previous.answers.change.deceasedBefore2022 = Change your answer for whether the person died on or before 31 December 2021
 
 page.iht.filter.paperform.scotland.p1 = Reporting the estate value in Scotland is completed by using a paper form.
 page.iht.filter.paperform.scotland.p2.start = You can read the
@@ -255,7 +257,7 @@ page.iht.filter.useService.between325000And1Million.bullet2     = if you can rai
 page.iht.filter.useService.between325000And1Million.title = You may need to use a different form
 page.iht.filter.useService.between325000And1Million.section1.title =  If the estate has exemptions
 page.iht.filter.useService.between325000And1Million.section1.p1 = The estate has exemptions when any part of the estate has been left to a surviving spouse (by marriage or civil partnership), or to a registered charity or other qualifying body like a sports club.
-page.iht.filter.useService.between325000And1Million.section1.p2 = This means you will only need to show HMRC that the net estate value is below the threshold. The estate''s debts and mortgages will subtracted from the value of the estate before it is checked against the threshold.
+page.iht.filter.useService.between325000And1Million.section1.p2 = This means you will only need to show HMRC that the net estate value is below the threshold. The estate’s debts and mortgages will subtracted from the value of the estate before it is checked against the threshold.
 page.iht.filter.useService.between325000And1Million.section1.p3 = If it turns out there is tax to pay you will need to submit a full account, which means the
 page.iht.filter.useService.between325000And1Million.section1.p4 = You will be able to keep the calculations from this service to help you.
 
@@ -291,6 +293,15 @@ page.iht.filter.useService.under325000.p1.a = You can
 page.iht.filter.useService.under325000.p1.b = use the paper IHT205 form
 page.iht.filter.useService.under325000.p1.c = if you are not able to report the estate value online.
 page.iht.filter.useService.under325000.p2 = If you are not able to download or print the form, you can ask for a copy to be sent to you by calling the Inheritance Tax helpline on 0300 123 1072. If you are outside of the UK, call +44 300 123 1072.
+
+page.iht.filter.deceased.before.2022.title = Did the person die on or before 31 December 2021?
+page.iht.filter.deceased.before.2022.heading = Did the person die on or before 31 December 2021?
+
+page.iht.filter.useChecker.title = You cannot use this service
+page.iht.filter.useChecker.heading = You cannot use this service
+page.iht.filter.useChecker.p1.a = If the person died after 31 December 2021, see
+page.iht.filter.useChecker.href = Valuing an estate for Inheritance Tax and reporting its value to HMRC
+page.iht.filter.useChecker.p1.b = to find out what to do next.
 
 page.iht.filter.anyAssets.title = Did the person who died have any assets to declare?
 page.iht.filter.anyAssets.heading = Did the person who died have any assets to declare?
@@ -344,7 +355,7 @@ page.iht.registration.checklist.title = Before you start registration
 page.iht.registration.checklist.label1 = Only start once you have everything you will need, because there is no way to save an incomplete registration.
 page.iht.registration.checklist.label2 = To register the estate you will need to sign in to your Government Gateway account (or you will need to create one). You may also be asked some questions to confirm who you are. Details about yourself you may need include:
 page.iht.registration.checklist.deceased.title = You will need the person who has died’s:
-page.iht.registration.checklist.deceased.label3 = date of death
+page.iht.registration.checklist.deceased.label3 = date of death (needs to be on or before 31 December 2021)
 page.iht.registration.checklist.deceased.label5 = last known contact address
 page.iht.registration.checklist.deceased.label6 = country where they had their permanent home – you can only use this service if the person who has died lived in England or Wales
 page.iht.registration.checklist.deceased.label7 = relationship status
@@ -389,6 +400,9 @@ iht.registration.deceasedDetails.title = About the person who has died
 page.iht.registration.deceasedDateOfDeath.title = What was the date of death?
 page.iht.registration.deceasedDateOfDeath.dateOfDeath.label = Enter the deceased’s date of death
 page.iht.registration.deceasedDateOfDeath.dateOfDeath.hint = For example, 21 3 2010
+page.iht.registration.deceasedDateOfDeath.p1.a = To use this service the person needs to have died on or before 31 December 2021. See
+page.iht.registration.deceasedDateOfDeath.p1.href = Valuing an estate for Inheritance Tax and reporting its value to HMRC
+page.iht.registration.deceasedDateOfDeath.p1.b = to find out what to do next.
 
 #Registration - Deceased’s permanent home
 page.iht.registration.deceasedPermanentHome.title = Where was the permanent home of the person who has died?
@@ -1463,7 +1477,7 @@ page.iht.application.exemptions.guidance.increasing.threshold.section2.exemption
 page.iht.application.exemptions.guidance.increasing.threshold.section2.p3 = The estate has exemptions when any part of the estate has been left to either:
 page.iht.application.exemptions.guidance.increasing.threshold.section2.bullet3 = a surviving spouse or civil partner
 page.iht.application.exemptions.guidance.increasing.threshold.section2.bullet4 = a registered charity or other qualifying body like a sports club
-page.iht.application.exemptions.guidance.increasing.threshold.section2.p4 = This means you will only need to show HMRC that the net estate value is below the threshold. The estate''s exemptions, debts and mortgages will be subtracted from the value of the estate before it''s checked against the threshold. The gross value of the estate must be less than £1 million.
+page.iht.application.exemptions.guidance.increasing.threshold.section2.p4 = This means you will only need to show HMRC that the net estate value is below the threshold. The estate’s exemptions, debts and mortgages will be subtracted from the value of the estate before it’s checked against the threshold. The gross value of the estate must be less than £1 million.
 page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.start = If there are no exemptions, the debts cannot be subtracted at this stage. You will have to submit an
 page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.link = IHT400 form
 page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.end = simply because the gross value of the estate exceeds the threshold.
@@ -1820,7 +1834,7 @@ iht.estateReport.declaration.checkedEverything.question = Have you finished find
 iht.estateReport.declaration.checkedEverything.browserTitle = Have you finished finding out what was in the deceased’s estate?
 iht.estateReport.declaration.checkedEverything.p1 = If you are still waiting to hear back from anyone, like a bank or a family member, select no to go to estate overview.
 iht.estateReport.declaration.checkedEverything.p2 = If you have made all of the checks that you can and are happy that you have given everything in the estate report, select yes to go to the declaration.
-iht.application.declaration.risking.money.message = You have said that the deceased had no money in any bank accounts. By sending this application, you''re declaring that you believe this is correct.
+iht.application.declaration.risking.money.message = You have said that the deceased had no money in any bank accounts. By sending this application, you’re declaring that you believe this is correct.
 iht.application.declaration.risking.money.message.amended = You have said that {0} had no money in any bank accounts. By sending this application, you are declaring that you believe this is correct.
 
 #Estate report - Declaration Received
@@ -1865,7 +1879,7 @@ page.iht.application.probate.browserTitle=Probate form details
 page.iht.application.probate.print = Download or print this page
 page.iht.application.probate.guidance.p1=Write these details on the PA1 - Probate application form for {0}’s estate.
 page.iht.application.probate.guidance.indent=These details are also saved on your estate report page.
-page.iht.application.probate.data.visuallyHiddenCaption=PA1 - Probate application form details for {0}'s estate
+page.iht.application.probate.data.visuallyHiddenCaption=PA1 - Probate application form details for {0}’s estate
 page.iht.application.probate.data.ihtIdentifier = IHT Identifier
 page.iht.application.probate.data.grossEstateFigure = Gross Estate Figure
 page.iht.application.probate.data.netEstateFigure = Net Estate Figure
@@ -1909,7 +1923,7 @@ pdf.meta.author = HM Revenue & Customs
 iht.estateReport.pdf.declaration.declaringThat = You are declaring that:
 pdf.page.number = Page
 iht.pdf.TnrbEligibilty.thresholdLimit.label = The Inheritance Tax threshold has been increased to £650,000
-iht.pdf.endOfTheEstateReport = End of {0}''s estate report
+iht.pdf.endOfTheEstateReport = End of {0}’s estate report
 
 #Kickouts - Estate report - common
 page.iht.application.kickout.back.tnrb = Return to increasing the Inheritance Tax threshold
@@ -2313,7 +2327,7 @@ page.iht.iv.failure.cannotConfirmIdentity = We cannot confirm who you are
 page.iht.iv.failure.tryAgainOr = You can try again or:
 page.iht.iv.failure.youCanAlso = You can also:
 page.iht.iv.failure.reportWithPaperForm = report the estate value using the <a id="paperFormLink" href="{0}">IHT205 paper form</a> instead
-page.iht.iv.failure.askForHelp = ask for help by email using ''Get help with this page'' below
+page.iht.iv.failure.askForHelp = ask for help by email using ‘Get help with this page’ below
 
 page.iht.iv.failure.failedMatching.failureReason = The information you have provided does not match what we hold.
 page.iht.iv.failure.insufficientEvidence.failureReason = You have not given us enough information.
@@ -2468,6 +2482,7 @@ error.dateOfDeath.giveNoneFuture = Give a date of death that is not in the futur
 error.dateOfDeath.giveCorrectDayMonth = Give a correct day and month for date of death
 error.dateOfDeath.giveCorrectDayYear = Give a correct day and year for date of death
 error.dateOfDeath.giveCorrectMonthYear = Give a correct month and year for date of death
+error.dateOfDeath.deceasedBefore2022 = Date of death must be on or before 31 December 2021
 
 error.dateOfMarriage.blank.summary = enter a date of marriage or civil partnership
 error.dateOfMarriage.incorrect.summary = enter a valid date of marriage or civil partnership

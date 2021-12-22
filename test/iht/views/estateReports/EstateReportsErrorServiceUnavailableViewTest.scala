@@ -20,12 +20,14 @@ import iht.views.ViewTestHelper
 import iht.views.helpers.MessagesHelper
 import iht.views.html.estateReports.estateReports_error_serviceUnavailable
 import org.jsoup.Jsoup
+import play.api.i18n.{Lang, MessagesApi}
 import play.api.test.FakeRequest
 
 class EstateReportsErrorServiceUnavailableViewTest  extends ViewTestHelper with MessagesHelper {
 
   implicit lazy val fakeRequest = FakeRequest()
   lazy val estateReportsErrorServiceUnavailableView: estateReports_error_serviceUnavailable = app.injector.instanceOf[estateReports_error_serviceUnavailable]
+//  lazy val messages = app.injector.instanceOf[MessagesApi].preferred(Seq(Lang("en")))
 
   lazy val view = estateReportsErrorServiceUnavailableView()
   lazy val doc = Jsoup.parse(view.body)

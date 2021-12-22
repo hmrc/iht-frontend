@@ -14,12 +14,15 @@
  * limitations under the License.
  *@
 
+@import iht.config.AppConfig
+
 @this(
     form: FormWithCSRF,
     ihtMainTemplateRegistration: iht_main_template_registration,
     errorSummary: ihtHelpers.custom.error_summary,
     dateFields: ihtHelpers.standard.date_fields,
-    continueButton: ihtHelpers.custom.continue_button
+    continueButton: ihtHelpers.custom.continue_button,
+    appConfig: AppConfig
 )
 
 @(deceasedDateOfDeath:Form[iht.models.DeceasedDateOfDeath],
@@ -39,6 +42,12 @@ cancelLocation:Option[Call]=None)(implicit request:Request[_], messages: Message
         @errorSummary(deceasedDateOfDeath)
 
         <h1 class = heading-xlarge>@messages("page.iht.registration.deceasedDateOfDeath.title")</h1>
+
+        <p>
+            @messages("page.iht.registration.deceasedDateOfDeath.p1.a")
+            <a href="@appConfig.checkerToolUrl">@messages("page.iht.registration.deceasedDateOfDeath.p1.href")</a>
+            @messages("page.iht.registration.deceasedDateOfDeath.p1.b")
+        </p>
 
         @dateFields(
             deceasedDateOfDeath,

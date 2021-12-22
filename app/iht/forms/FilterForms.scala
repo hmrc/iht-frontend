@@ -83,4 +83,10 @@ object FilterForms {
       choice => Some(choice)
     )
   )
+
+  def deceasedBefore2022Form(implicit messages: Messages): Form[Option[Boolean]] = Form(
+    single(
+      "value" -> yesNoQuestion("error.selectAnswer")
+    )
+  )
 }
