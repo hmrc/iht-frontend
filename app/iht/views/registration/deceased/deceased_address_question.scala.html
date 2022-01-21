@@ -43,7 +43,7 @@ actionLocation: Call)(implicit request:Request[_], messages: Messages)
         '_legend -> Messages("page.iht.registration.deceasedAddressQuestion.title", StringEscapeUtils.escapeHtml4(deceasedName)),
         '_legendClass -> Some("legend-with-heading"),
         '_labelClass -> "block-label",
-        '_fieldsetId -> "last-contact-address-in-uk",
+        '_fieldsetId -> "isAddressInUk-container",
         '_divClass -> Some("form-group"),
         '_legendIsHeading -> true,
         '_extraText -> Html("<p>" + Messages("page.iht.registration.deceasedAddressQuestion.p1", StringEscapeUtils.escapeHtml4(deceasedName)) + "</p><p>" + Messages("page.iht.registration.deceasedAddressQuestion.p2") + "</p>")
