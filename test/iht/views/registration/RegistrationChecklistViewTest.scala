@@ -72,7 +72,7 @@ class RegistrationChecklistViewTest extends ViewTestHelper with RegistrationChec
 
     "have a progressive disclosure relating to deceased details" should  {
       "have a reveal text in" in {
-        doc.getElementById("application-details-reveal").select("summary").text() mustBe pageIhtRegistrationChecklistRevealText
+        doc.getElementById("application-details-reveal").select("summary").text() mustBe pageIhtRegistrationChecklistRevealTextDied
       }
       "have information relating to deceased details required" in {
         doc.getElementById("application-details-reveal").select("p").get(0).text() mustBe ihtRegistrationDetailsNeededLabel3
@@ -95,7 +95,7 @@ class RegistrationChecklistViewTest extends ViewTestHelper with RegistrationChec
 
       "have a progressive disclosure relating to executor details" should  {
         "have a reveal text in" in {
-          doc.getElementById("co-execs-details-reveal").select("summary").text() mustBe pageIhtRegistrationChecklistRevealText
+          doc.getElementById("co-execs-details-reveal").select("summary").text() mustBe pageIhtRegistrationChecklistRevealTextExecutors
         }
         "have information relating to executor details required" in {
           doc.getElementById("co-execs-details-reveal").select("p").get(0).text() mustBe ihtRegistrationExecutorLabel2

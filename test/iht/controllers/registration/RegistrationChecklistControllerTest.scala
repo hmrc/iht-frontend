@@ -60,7 +60,7 @@ class RegistrationChecklistControllerTest extends RegistrationControllerTest {
     "display at least one click and reveal link on the page" in {
       val result = registrationChecklistController.onPageLoad()(createFakeRequest())
       status(result) must be (OK)
-      contentAsString(result) must include (fakedMessagesApi("page.iht.registration.checklist.revealText"))
+      contentAsString(result) must include (fakedMessagesApi("page.iht.registration.checklist.deceased.revealText"))
     }
 
     "display start registration button on page" in {
