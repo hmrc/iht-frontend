@@ -346,7 +346,8 @@ iht.registration.othersApplyingForProbate = Other executors applying for probate
 page.iht.registration.title = Registration
 
 #Registration - Checklist
-page.iht.registration.checklist.revealText = How to find these details
+page.iht.registration.checklist.deceased.revealText = How to find the details of the person who has died
+page.iht.registration.checklist.executor.revealText = How to find the details of executors or administrators
 page.iht.registration.checklist.startRegistrationButton = Start registration
 page.iht.registration.checklist.continueButton = Continue
 page.iht.registration.checklist.leaveLink = Leave this page to get all of the details you need
@@ -354,7 +355,7 @@ page.iht.registration.checklist.saveLink = Save the link to this page or add it 
 page.iht.registration.checklist.title = Before you start registration
 page.iht.registration.checklist.label1 = Only start once you have everything you will need, because there is no way to save an incomplete registration.
 page.iht.registration.checklist.label2 = To register the estate you will need to sign in to your Government Gateway account (or you will need to create one). You may also be asked some questions to confirm who you are. Details about yourself you may need include:
-page.iht.registration.checklist.deceased.title = You will need the person who has died’s:
+page.iht.registration.checklist.deceased.title = For the person who has died you will need:
 page.iht.registration.checklist.deceased.label3 = date of death (needs to be on or before 31 December 2021)
 page.iht.registration.checklist.deceased.label5 = last known contact address
 page.iht.registration.checklist.deceased.label6 = country where they had their permanent home – you can only use this service if the person who has died lived in England or Wales
@@ -383,7 +384,7 @@ iht.registration.checklist.payslip = recent payslips or last P60
 iht.registration.checklist.taxCredit = tax credits or pension payment amounts
 iht.registration.detailsNeeded.title = Details you will need to register the estate
 iht.registration.detailsNeeded.label1 = You will not be able to change these details later on.
-iht.registration.detailsNeeded.label2 = You will need the person who died’s:
+iht.registration.detailsNeeded.label2 = For the person who has died you will need:
 iht.registration.detailsNeeded.oname = official name 
 iht.registration.detailsNeeded.label3 = The person’s first and last name will be on the death certificate. Their last known contact address is where they had their post sent before they died. This could be to a home that they owned or where they last lived.
 iht.registration.detailsNeeded.label4 = If the person did not have a National Insurance number, you will need to submit an IHT205 paper form instead.
