@@ -22,20 +22,20 @@ trait MessagesHelper {
   val errorApplicationSystemErrorp1 = "Try again later to sign in to the service at https://www.tax.service.gov.uk/inheritance-tax/estate-report (save this link)."
   val ihtApplicationTimeoutp1 = "We saved your progress on the estate report."
   val pageIhtIVFailureYouCanAlso = "You can also:"
-  val pageIhtIVFailureReportWithPaperForm = "report the estate value using the IHT205 paper form instead"
+  val pageIhtIVFailureReportWithPaperForm = "report the estate value using the Inheritance Tax 205 form – (paper version) instead"
   val pageIhtIVFailureaskForHelp = "ask for help by email using ‘Get help with this page’ below"
 
   val errorRegistrationSystemErrorp1 = "Try again later to sign in to the service at https://www.tax.service.gov.uk/inheritance-tax/registration/registration-checklist (save this link)."
 
   val errorEstateOverviewJsonErrorp1 = "You cannot complete your estate report online. This is because of an error in our system."
-  val errorEstateOverviewJsonErrorp2 = "Use the IHT205 paper form to report the estate value."
+  val errorEstateOverviewJsonErrorp2 = "Use the Inheritance Tax 205 form – (paper version) to report the estate value."
 
   val errorRegistrationServiceUnavailablep1 = "Wait a few seconds and try again."
   val errorEstateReportServiceUnavailablep3 = "If you see this message several times you can sign out now and try again later to submit your report at https://www.tax.service.gov.uk/inheritance-tax/estate-report/declaration (save this link)."
 
 
   val errorRegistrationServiceUnavailablep2 = "If you see this message several times, you will need to sign out and register again later at https://www.tax.service.gov.uk/inheritance-tax/registration/registration-checklist (save this link)."
-  val errorRegistrationServiceUnavailablep3 = "You can choose to report the estate value using the IHT205 paper form instead."
+  val errorRegistrationServiceUnavailablep3 = "You can choose to report the estate value using the Inheritance Tax 205 form – (paper version) instead."
   val ihtIVTryAgain = "Try again"
   val ihtIVTryAgainLink = "/inheritance-tax/registration/check-your-answers"
 

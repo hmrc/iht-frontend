@@ -25,7 +25,9 @@
 
 @(ihtForm: Form[Option[String]])(implicit request:Request[_], messages: Messages)
 
-@ihtMainTemplateRegistration(title = Messages("page.iht.registration.deceasedPermanentHome.title"),
+@ihtMainTemplateRegistration(
+    backUrl = Some(iht.controllers.filter.routes.FilterController.onPageLoad),
+    title = Messages("page.iht.registration.deceasedPermanentHome.title"),
     browserTitle = Some(Messages("page.iht.registration.deceasedPermanentHome.title")),
     isFullWidth = false,
     hasSignOut = false,
@@ -51,8 +53,5 @@ FieldMappings.domicileChoices.toSeq,
     <input id='continue' class='button' type='submit' value='@Messages("iht.continue")'>
 </div>
 
-<a id="return-link" href="@iht.controllers.filter.routes.FilterController.onPageLoad().url">
-    @Messages("page.iht.filter.domicile.return.link")
-</a>
 }
 }

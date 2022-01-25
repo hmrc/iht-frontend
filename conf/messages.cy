@@ -258,7 +258,7 @@ iht.address.line2=Cyfeiriad – llinell 2
 iht.estateReport.debts.funeralExpenses.title=Treuliau angladd
 page.iht.application.exemptions.overview.qualifyingBody.screenReader.link.value=Newidiwch y swm ar gyfer asedion a adawyd i gyrff cymwys eraill
 page.iht.application.assets.businessInterest.browserTitle=Diddordebau busnes a berchnogwyd
-page.iht.filter.paperform.northern.ireland.iht205.link.text=ffurflen IHT205
+page.iht.filter.paperform.northern.ireland.iht205.link.text=ffurflen Treth Etifeddiant 205
 page.iht.registration.executor-overview.yesnoQuestion=A ydych eisiau ychwanegu person arall sy’n gwneud cais am brofiant?
 page.iht.application.exemptions.charityNumber.p1=Cewch hyd i rif yr elusen gofrestredig ar wefan y Comisiwn Elusennau drwy
 error.phoneNumber.giveUsing27CharactersOrLess=Rhowch rif ffôn gan ddefnyddio hyd at 27 o gymeriadau
@@ -811,14 +811,14 @@ page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.value.li
 iht.registration.contactAddress=Cyfeiriad cyswllt
 page.iht.application.exemptions.charityNumber.linkText=chwilio’r gofrestr elusennau (yn agor ffenestr neu dab newydd).
 page.iht.application.overview.debts.screenReader.noValue.link=Dechreuwch roi fanylion am ddyledion sy’n ddyledus o’r ystâd
-page.iht.filter.paperform.iht400.link.text=ffurflen IHT400
+page.iht.filter.paperform.iht400.link.text=ffurflen Treth Etifeddiant 400
 page.iht.application.debts.debtsTrust.browserTitle=Dyledion sy’n ddyledus o ymddiriedolaeth
 page.iht.application.overview.inreview.title=Rydym yn adolygu’r adroddiad ynghylch ystâd {0}
 page.iht.application.gifts.lastYears.givenAway.p1=Mae angen i chi gael gwybod pa roddion a rodd {0} i ffwrdd ymhob un o’r 7 mlynedd cyn marw.
 site.button.save.return.debts=Cadw ac yn ôl i ddyledion sydd ar yr ystâd
 page.iht.registration.applicantDetails.countrycode.help=Os nad yw eich cyfeiriad yn y DU
 iht.estateReport.debts.debtsTrust.value=Swm unrhyw ddyledion sy’n ddyledus o ymddiriedolaeth
-page.iht.filter.paperform.million.exit=Gadael ac i’r ffurflen IHT400
+page.iht.filter.paperform.million.exit=Gadael a mynd i’r ffurflen Treth Etifeddiant 400
 page.iht.home.title=Eich adroddiadau Treth Etifeddiant ynghylch yr ystâd
 page.iht.application.assets.deceased-permanent-home.question4.hint=Os nad oedd yr ymadawedig yn byw mewn eiddo roedd yn berchen arno, dylech ddewis cartref yr ymadawedig os mai hwn oedd yr eiddo diwethaf roedd yn berchen arno, a’n byw ynddo’n ogystal.
 page.iht.application.tnrb.kickout.estateMoreThanThreshold.summary=Y rheswm dros hynny yw bod gwerth yr ystâd dros y drothwy Treth Etifeddiant.
@@ -843,7 +843,7 @@ page.iht.registration.notApplyingForProbate.kickout.expander.p5=Ym mhob achos, r
 page.iht.registration.notApplyingForProbate.kickout.expander.p6=Os nad ydych yn siŵr a yw’r ystâd wedi’i heithrio, ffoniwch Wasanaeth Cwsmeriaid Cymraeg CThEM ar 0300 200 1900 (+44 300 123 1072 o dramor – Saesneg yn unig).
 page.iht.registration.notApplyingForProbate.kickout.p2 = Os nad oes angen profiant arnoch, nid oes yn rhaid i chi roi gwybod i CThEM am ddim byd, cyhyd â bod yr ystâd wedi’i heithrio.
 page.iht.registration.notApplyingForProbate.kickout.p1=Mae’ch atebion blaenorol ynglŷn â gwerth yr ystâd yn awgrymu y gallai fod yn ystâd sydd wedi’i heithrio.
-page.iht.registration.notApplyingForProbate.kickout.p3=Os nad yw’r ystâd wedi’i heithrio, rhaid i chi lenwi <a href="{0}" id="iht400">Ffurflen IHT400 yn llawn</a>, p’un a oes angen profiant arnoch ai peidio, a ph’un a yw Treth Etifeddiant yn daladwy ai peidio. Os na fyddwch yn llenwi Ffurflen, mae’n bosibl y cewch gosb.
+page.iht.registration.notApplyingForProbate.kickout.p3=Os nad yw’r ystâd wedi’i heithrio, rhaid i chi lenwi <a href="{0}" id="iht400">Ffurflen lawn (Treth Etifeddiant 400), p’un a oes angen profiant arnoch ai peidio, a ph’un a yw Treth Etifeddiant yn daladwy ai peidio. Os na fyddwch yn llenwi Ffurflen, mae’n bosibl y cewch gosb.
 
 page.iht.application.assets.property.ownership.browserTitle=Beth oedd perchnogaeth yr eiddo
 page.iht.application.assets.pensions.hint=Bydd y darparwr pensiwn yn gallu rhoi gwybod i chi faint sy’n cael ei dalu i’r ystad.
@@ -1154,7 +1154,7 @@ error.isAssetForDeceasedPartner.select=Dewiswch ateb ar gyfer os oes unrhyw ased
 page.iht.home.applicationList.table.guidance.label=Dyma’r holl adroddiadau Treth Etifeddiant ynghylch yr ystâd rydych wedi’u cofrestru.
 error.registration.serviceUnavailable.p1=Arhoswch ychydig o eiliadau ac yna rhowch gynnig arall arni.
 error.estateOverview.jsonError.p1=Ni allwch lenwi’ch adroddiad ynghylch yr ystâd ar-lein. Mae hyn oherwydd gwall yn ein system.
-error.estateOverview.jsonError.p2=Defnyddiwch y <a id="paperFormLink" href="{0}">ffurflen bapur IHT205</a> i roi gwybod am werth yr ystâd yn lle hynny.
+error.estateOverview.jsonError.p2=Defnyddiwch y <a id="paperFormLink" href="{0}">ffurflen Treth Etifeddiant 205 – (fersiwn bapur)</a> i roi gwybod am werth yr ystâd yn lle hynny.
 error.estateReport.serviceUnavailable.p3=Os gwelwch y neges hon sawl gwaith, gallwch allgofnodi nawr a rhoi cynnig arall ar gyflwyno’ch adroddiad nes ymlaen yn <a id="declarationLink" href="{0}">https://www.tax.service.gov.uk/inheritance-tax/estate-report/declaration</a> (dylech gadw’r cysylltiad hwn).
 error.assets.nominated.select=Dewiswch ateb ar gyfer a oes unrhyw asedion enwebedig yn yr ystâd
 iht.estateReport.assets.qualifyingBodyAdd=Ychwanegwch gorff cymwys
@@ -1173,7 +1173,7 @@ page.iht.application.overview.title=Mae’r broses o wneud cais ar gyfer {0} naw
 iht.gov.url=https://www.gov.uk/inheritance-tax
 page.iht.sign.out=Allgofnodi
 error.registration.serviceUnavailable.p2=Os gwelwch y neges hon sawl gwaith, bydd yn rhaid i chi allgofnodi a chofrestru eto nes ymlaen yn <a id="registrationChecklistLink" href="{0}">https://www.tax.service.gov.uk/inheritance-tax/registration/registration-checklist</a> (dylech gadw’r cysylltiad hwn).
-error.registration.serviceUnavailable.p3=Gallwch ddewis rhoi gwybod am werth yr ystâd gan ddefnyddio’r <a id="registrationChecklistLink" href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/459774/IHT205_2011__Cymraeg.pdf">ffurflen bapur IHT205</a> yn lle hynny.
+error.registration.serviceUnavailable.p3=Gallwch ddewis rhoi gwybod am werth yr ystâd gan ddefnyddio’r <a id="registrationChecklistLink" href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/459774/IHT205_2011__Cymraeg.pdf">ffurflen Treth Etifeddiant 205 – (fersiwn bapur)</a> yn lle hynny.
 error.dateOfBirth.giveCorrectDateUsingOnlyNumbers=Rhowch ddyddiad geni cywir gan ddefnyddio rhifau’n unig
 page.iht.application.assets.tenure.freehold.hint=Roedd {0} yn berchen ar yr eiddo a’r tir y mae’n sefyll arno.
 page.iht.application.exemptions.qualifyingBodyDelete.browserTitle=Dilëwch gorff cymwys
@@ -1519,7 +1519,7 @@ page.iht.filter.anyAssets.summary.p2.b = sut i gyfrifo a rhoi gwybod am werth ys
 page.iht.filter.noAssets.title = Sut i ddatgan does dim asedion
 page.iht.filter.noAssets.heading = Sut i ddatgan does dim asedion
 page.iht.filter.noAssets.label.a = Os ydych yn siŵr nad oedd gan y person a fu farw unrhyw asedion o gwbl, ni allwch ddefnyddio’r gwasanaeth ar-lein hwn. Mae’n rhaid i chi ddefnyddio {0} {1}
-page.iht.filter.noAssets.label.b = Ffurflen IHT400 (yn agor tab newydd)
+page.iht.filter.noAssets.label.b = ffurflen Treth Etifeddiant 400 (yn agor tab newydd)
 page.iht.filter.noAssets.label.c = i roi gwybod i CThEM am hyn.
 
 page.iht.application.TnrbEligibilty.spouseOrCivilPartner.commonText=priod neu bartner sifil
@@ -2045,7 +2045,7 @@ page.iht.registration.applicantDetails.mci.contact.charges.href = Gwybodaeth am 
 
 page.iht.filter.useService.under325000.otherWaysToReportValue = Ffyrdd eraill i roi gwybod am werth ystâd
 page.iht.filter.useService.under325000.p1.a = Gallwch
-page.iht.filter.useService.under325000.p1.b = ddefnyddio’r ffurflen bapur IHT205
+page.iht.filter.useService.under325000.p1.b = defnyddiwch y ffurflen Treth Etifeddiant 205 - (fersiwn bapur)
 page.iht.filter.useService.under325000.p1.c = os na allwch roi gwybod ar-lein am werth yr ystâd.
 page.iht.filter.useService.under325000.p2 = Os na allwch lawrlwytho neu argraffu’r ffurflen, gallwch ofyn bod copi’n cael ei anfon atoch drwy ffonio’r llinell gymorth Treth Etifeddiant ar 0300 123 1072. Os ydych y tu allan i’r DU, ffoniwch +44 300 123 1072.
 
@@ -2056,8 +2056,8 @@ page.iht.filter.jointlyowned.no = Nac oedd, nid oedd yn berchen ar rywbeth ar y 
 
 page.iht.filter.useService.between325000And1Million.paragraph0 = Os yw gwerth gros yr ystâd (h.y. y gwerth cyn i chi dynnu dyledion a morgeisi) rhwng £325,000 ac £1 miliwn, efallai y bydd angen i chi ddefnyddio
 page.iht.filter.useService.between325000And1Million.title = Efallai y bydd angen i chi ddefnyddio ffurflen wahanol
-page.iht.filter.useService.between325000And1Million.IHTFormlink = ffurflen IHT400
-page.iht.filter.useService.between325000And1Million.IHTFormlink1 = ffurflen IHT400.
+page.iht.filter.useService.between325000And1Million.IHTFormlink = ffurflen Treth Etifeddiant 400
+page.iht.filter.useService.between325000And1Million.IHTFormlink1 = ffurflen Treth Etifeddiant 400.
 page.iht.filter.useService.between325000And1Million.section1.title = Os oes gan yr ystâd eithriadau
 page.iht.filter.useService.between325000And1Million.paragraph1  = i roi gwybod am werth yr ystâd.
 page.iht.filter.useService.between325000And1Million.paragraph2  = Mae dwy ffordd y gallwch barhau â’r gwasanaeth ar-lein hwn:
@@ -2092,7 +2092,7 @@ page.iht.filter.useService.between325000And1Million.iht400link = ei lawrlwytho a
 
 page.iht.filter.useService.between325000And1Million.section4.p1 = Gofynnir i chi fewngofnodi i gadarnhau pwy ydych gyda CThEM.
 page.iht.filter.useService.between325000And1Million.section4.p2.start = Gallwch ddefnyddio
-page.iht.filter.useService.between325000And1Million.section4.p2.link = ffurflen bapur IHT205
+page.iht.filter.useService.between325000And1Million.section4.p2.link = ffurflen Treth Etifeddiant 205 - (fersiwn bapur)
 page.iht.filter.useService.between325000And1Million.section4.p2.end = os na allwch roi gwybod ar-lein am werth yr ystâd.
 page.iht.filter.useService.between325000And1Million.section4.p3 = Os na allwch lawrlwytho neu argraffu’r ffurflen, gallwch ffonio’r Ganolfan Cyswllt Cymraeg ar 0300 200 1900 i ofyn am un.
 
@@ -2139,7 +2139,7 @@ page.iht.application.overview.common.ifYouNeed = I fynd yn eich blaen â’ch ca
 page.iht.application.overview.common.ifYouFind = Os darganfyddwch unrhyw beth arall yn yr ystâd
 page.iht.application.overview.common.p4 = Bydd ond yn rhaid i chi roi gwybod i ni os yw gwerth y pethau hynny’n mynd â gwerth yr ystâd dros y trothwy. Bydd Treth Etifeddiant i’w thalu.
 page.iht.application.overview.common.youWillNeedTo = Bydd angen i chi
-page.iht.application.overview.common.tellHMRC = roi gwybod i ni am yr ystâd drwy ddefnyddio ffurflen IHT400
+page.iht.application.overview.common.tellHMRC = rhowch wybod i ni am yr ystâd drwy ddefnyddio ffurflen Treth Etifeddiant 400
 page.iht.application.overview.common.needDetails = Rwyf angen y Dynodydd IHT, Ffigur Gros yr Ystâd a Ffigur Net yr Ystâd
 page.iht.application.overview.common.p1 = Gallwch wneud cais am brofiant o’r <a href="{0}">dudalen Ewyllysion a phrofiant.</a> Dyma’r manylion y bydd eu hangen arnoch:
 page.iht.application.overview.inreview.browserTitle = Rydym yn adolygu’r adroddiad hwn ynghylch yr ystâd
@@ -2158,7 +2158,7 @@ iht.iv.signIn = Mewngofnodi
 page.iht.iv.failure.cannotConfirmIdentity = Ni allwn gadarnhau pwy ydych
 page.iht.iv.failure.tryAgainOr = Gallwch roi cynnig arall arni neu:
 page.iht.iv.failure.youCanAlso = Gallwch hefyd:
-page.iht.iv.failure.reportWithPaperForm = rhoi gwybod am werth yr ystâd gan ddefnyddio’r <a href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/459774/IHT205_2011__Cymraeg.pdf">ffurflen bapur IHT205</a> yn lle hynny
+page.iht.iv.failure.reportWithPaperForm = rhoi gwybod am werth yr ystâd gan ddefnyddio <a href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/459774/IHT205_2011__Cymraeg.pdf">ffurflen Treth Etifeddiant 205 - (fersiwn bapur)</a> yn lle hynny
 page.iht.iv.failure.askForHelp = gofyn am help drwy e-bost gan ddefnyddio’r cysylltiad ‘Cael cymorth gyda’r dudalen hon’ isod
 
 page.iht.iv.failure.failedMatching.failureReason = Nid yw’r wybodaeth yr ydych wedi’i rhoi’n cyd-fynd â’r hyn sydd gennym yn ein cofnodion.
@@ -2176,7 +2176,7 @@ page.iht.iv.failure.incomplete.failureReason = Mae’n dal yn rhaid i ni gadarnh
 
 page.iht.iv.failure.preconditionFailed.heading = Ni allwch ddefnyddio’r gwasanaeth hwn
 page.iht.iv.failure.preconditionFailed.failureReason = Ni all CThEM gadarnhau pwy ydych o’r wybodaeth a roesoch.
-page.iht.iv.failure.preconditionFailed.usePaperForm = Defnyddiwch y <a href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/459774/IHT205_2011__Cymraeg.pdf">ffurflen bapur IHT205</a> i roi gwybod am werth yr ystâd yn lle hynny.
+page.iht.iv.failure.preconditionFailed.usePaperForm = Defnyddiwch y <a href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/459774/IHT205_2011__Cymraeg.pdf">ffurflen Treth Etifeddiant 205 – (fersiwn bapur)</a> i roi gwybod am werth yr ystâd yn lle hynny.
 
 page.iht.iv.failure.userAborted.failureReason = Nid ydych wedi rhoi digon o wybodaeth i ni.
 
@@ -2188,7 +2188,7 @@ page.iht.iv.failure.2fa.p1 = Bydd angen i chi sefydlu’r Dull Gwirio 2-Gam er m
 
 #New IV Error Content
 page.iht.iv.failure.couldNotConfirmIdentity=Nid oeddem yn gallu cadarnhau pwy ydych
-page.iht.iv.failure.youCanReport=Gallwch roi gwybod am werth yr ystâd gan ddefnyddio’r <a id="paperFormLink" href="{0}">ffurflen bapur IHT205</a> yn lle hynny.
+page.iht.iv.failure.youCanReport=Gallwch roi gwybod am werth yr ystâd gan ddefnyddio’r <a id="paperFormLink" href="{0}">ffurflen Treth Etifeddiant 205 – (fersiwn bapur)</a> yn lle hynny.
 page.iht.iv.failure.ifYouThink=Os ydych yn dal i feddwl bod gennych ateb i unrhyw un o’r cwestiynau, gallwch roi cynnig arall arni.
 page.iht.iv.failure.lockedOutTryAgain=Os ydych am roi cynnig arall arni, arhoswch am 24 awr ac yna ceisiwch fewngofnodi yn <a id="try-again" href="{0}">https://www.tax.service.gov.uk{0}</a>.
 page.iht.iv.failure.helpWithConfirm=Help gyda chadarnhau pwy ydych
@@ -2229,7 +2229,7 @@ page.iht.application.exemptions.guidance.increasing.threshold.section2.bullet3 =
 page.iht.application.exemptions.guidance.increasing.threshold.section2.bullet4 = elusen gofrestredig neu gorff cymwys arall megis clwb chwaraeon
 page.iht.application.exemptions.guidance.increasing.threshold.section2.p4 = Mae hyn yn golygu y bydd ond angen i chi ddangos i CThEM fod gwerth net yr ystâd yn is na’r trothwy. Caiff eithriadau, dyledion a morgeisi’r ystâd eu tynnu o werth yr ystâd cyn iddi gael ei gwirio yn erbyn y trothwy.  Mae’n rhaid i werth gros yr ystâd fod yn llai na £1 miliwn.
 page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.start = Os nad oes eithriadau, ni ellir didynnu’r dyledion ar y cam hwn. Bydd yn rhaid i chi gyflwyno
-page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.link = ffurflen IHT400
+page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.link = ffurflen Treth Etifeddiant 400
 page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.end = am y rheswm syml fod gwerth gros yr ystâd yn fwy na’r trothwy.
 
 page.iht.application.exemptions.guidance.increasing.threshold.section3.raisedHeader = Os gellir cynyddu’r trothwy
@@ -2244,7 +2244,7 @@ page.iht.application.exemptions.guidance.increasing.threshold.section4.p8 = Os g
 
 page.iht.application.exemptions.guidance.increasing.threshold.link.text = Yn ôl i’r adroddiadau ynghylch eich ystâd
 
-global.error.InternalServerError500.message1 = Os gwelwch y neges hon sawl gwaith, gallwch ddewis rhoi gwybod am werth yr ystâd gan ddefnyddio <a id="paperFormLink" href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/459774/IHT205_2011__Cymraeg.pdf">ffurflen bapur IHT205</a>
+global.error.InternalServerError500.message1 = Os gwelwch y neges hon sawl gwaith, gallwch ddewis rhoi gwybod am werth yr ystâd gan ddefnyddio <a id="paperFormLink" href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/459774/IHT205_2011__Cymraeg.pdf">ffurflen Treth Etifeddiant 205 – (fersiwn bapur)</a>
 
 #Estate Report - Get Help
 iht.estateReport.help = Help gyda’ch adroddiadau ynghylch yr ystâd

@@ -227,7 +227,7 @@ page.iht.filter.paperform.northern.ireland.p2.sentence1.start = If you already k
 page.iht.filter.paperform.northern.ireland.p2.sentence2.start = If you are not sure of the estate value, start filling in the
 page.iht.filter.paperform.northern.ireland.p2.sentence2.end = first.
 page.iht.filter.paperform.northern.ireland.p3 = You can read more about applying for probate in Northern Ireland on
-page.iht.filter.paperform.northern.ireland.iht205.link.text = IHT205 form
+page.iht.filter.paperform.northern.ireland.iht205.link.text = Inheritance Tax 205 form
 page.iht.filter.paperform.northern.ireland.nidirect.link.text = NIDIRECT.GOV.UK
 
 page.iht.filter.paperform.other.country.p1.sentence1.start = Reporting the estate value when the deceased had their permanent home outside of the UK is done by filling in an
@@ -237,17 +237,17 @@ page.iht.filter.paperform.other.country.iht401.link.text = IHT-401 paper form
 
 page.iht.filter.paperform.million.p1 = Because you think the value of the estate is more than £1 million, you will need to report the estate value by filling in an
 page.iht.filter.paperform.million.p2 = The form will guide you through what details you need to give and will tell you if there is any Inheritance Tax to pay.
-page.iht.filter.paperform.million.exit = Exit to the IHT400 form
+page.iht.filter.paperform.million.exit = Exit to the Inheritance Tax 400 form
 
-page.iht.filter.paperform.iht400.link.text = IHT400 form
+page.iht.filter.paperform.iht400.link.text = Inheritance Tax 400 form
 
 page.iht.filter.useService.under325000.paragraph0 = Because you think the estate might be worth less than £325,000, you can use the online service to report the estate value to HMRC.
 page.iht.filter.useService.paragraphFinal = You will need to register to use the service first, but before that, you will need to confirm who you are with HMRC.
 
 
 page.iht.filter.useService.between325000And1Million.paragraph0  = If the gross value of the estate (ie the value before you subtract debts and mortgages) is between £325,000 and £1 million, you may have to use the 
-page.iht.filter.useService.between325000And1Million.IHTFormlink = IHT400 form
-page.iht.filter.useService.between325000And1Million.IHTFormlink1 = IHT400 form.
+page.iht.filter.useService.between325000And1Million.IHTFormlink = Inheritance Tax 400 form
+page.iht.filter.useService.between325000And1Million.IHTFormlink1 = Inheritance Tax 400 form.
 page.iht.filter.useService.between325000And1Million.paragraph1  = to report the estate value.
 page.iht.filter.useService.between325000And1Million.paragraph2  = There are two ways that you can continue with this online service:
 page.iht.filter.useService.between325000And1Million.bullet1     = if the estate has exemptions
@@ -283,14 +283,14 @@ page.iht.filter.useService.between325000And1Million.iht400link = download and pr
 
 page.iht.filter.useService.between325000And1Million.section4.p1 = You’ll be asked to log in to confirm who you are with HMRC.
 page.iht.filter.useService.between325000And1Million.section4.p2.start = You can use the
-page.iht.filter.useService.between325000And1Million.section4.p2.link  = paper IHT205 form
+page.iht.filter.useService.between325000And1Million.section4.p2.link  = Inheritance Tax 205 form – (paper version)
 page.iht.filter.useService.between325000And1Million.section4.p2.end   = if you are not able to report the estate value online.
 page.iht.filter.useService.between325000And1Million.section4.p3 = If you are not able to download or print the form, you can call the Inheritance Tax helpline on 0300 123 1072 to request one.
 
 
 page.iht.filter.useService.under325000.otherWaysToReportValue = Other ways to report the value of an estate
 page.iht.filter.useService.under325000.p1.a = You can
-page.iht.filter.useService.under325000.p1.b = use the paper IHT205 form
+page.iht.filter.useService.under325000.p1.b = use the Inheritance Tax 205 form – (paper version)
 page.iht.filter.useService.under325000.p1.c = if you are not able to report the estate value online.
 page.iht.filter.useService.under325000.p2 = If you are not able to download or print the form, you can ask for a copy to be sent to you by calling the Inheritance Tax helpline on 0300 123 1072. If you are outside of the UK, call +44 300 123 1072.
 
@@ -331,7 +331,7 @@ page.iht.filter.anyAssets.summary.p2.b = how to work out and report the value of
 page.iht.filter.noAssets.title = How to declare no assets
 page.iht.filter.noAssets.heading = How to declare no assets
 page.iht.filter.noAssets.label.a = If you are sure that the person who died had no assets at all you cannot use this online service. You have to use an {0} {1}
-page.iht.filter.noAssets.label.b = IHT400 form (opens in new tab)
+page.iht.filter.noAssets.label.b = Inheritance Tax 400 form (opens in new tab)
 page.iht.filter.noAssets.label.c = to let HMRC know about this.
 
 #Registration
@@ -659,7 +659,7 @@ page.iht.registration.notApplyingForProbate.kickout.expander.bullet4 = a net val
 page.iht.registration.notApplyingForProbate.kickout.expander.p4 = Where an estate has exemptions you can subtract the exemptions and any debts such as mortgages or loans to give the net value.
 page.iht.registration.notApplyingForProbate.kickout.expander.p5 = In all cases the gross value of the estate must be below £1 million.
 page.iht.registration.notApplyingForProbate.kickout.expander.p6 = If you are not sure if the estate is excepted, call the Inheritance Tax helpline on 0300 123 1072 (44 300 123 1072 from overseas).
-page.iht.registration.notApplyingForProbate.kickout.p3 = If the estate is not excepted, you must complete a <a href="{0}" id="iht400">full return (IHT400)</a> whether you need probate or not, and whether Inheritance Tax is payable or not. If you do not complete a return, you may get a penalty.
+page.iht.registration.notApplyingForProbate.kickout.p3 = If the estate is not excepted, you must complete a <a href="{0}" id="iht400">full return (Inheritance Tax 400 form)</a> whether you need probate or not, and whether Inheritance Tax is payable or not. If you do not complete a return, you may get a penalty.
 
 page.iht.registration.notAnExecutor.kickout.p1 = The Inheritance Tax return needs to be made by an executor of the estate who is being named on the probate application, or who is intending to apply to be named as an administrator (if there was no will).
 
@@ -741,7 +741,7 @@ page.iht.application.overview.common.ifYouNeed = To continue your probate applic
 page.iht.application.overview.common.ifYouFind = If you find anything else in the estate
 page.iht.application.overview.common.p4 = You will only need to tell us if the value of those things increase the value of the estate over the threshold. There will be Inheritance Tax to pay.
 page.iht.application.overview.common.youWillNeedTo = You will need to
-page.iht.application.overview.common.tellHMRC = tell us about the estate by using an IHT400 form
+page.iht.application.overview.common.tellHMRC = tell us about the estate by using an Inheritance Tax 400 form
 page.iht.application.overview.common.needDetails = I need the IHT Identifier, Gross Estate Figure and Net Estate Figure
 page.iht.application.overview.common.p1 = You can apply for probate from the <a href="{0}">Wills and probate page.</a> These are the details you will need:
 
@@ -1480,7 +1480,7 @@ page.iht.application.exemptions.guidance.increasing.threshold.section2.bullet3 =
 page.iht.application.exemptions.guidance.increasing.threshold.section2.bullet4 = a registered charity or other qualifying body like a sports club
 page.iht.application.exemptions.guidance.increasing.threshold.section2.p4 = This means you will only need to show HMRC that the net estate value is below the threshold. The estate’s exemptions, debts and mortgages will be subtracted from the value of the estate before it’s checked against the threshold. The gross value of the estate must be less than £1 million.
 page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.start = If there are no exemptions, the debts cannot be subtracted at this stage. You will have to submit an
-page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.link = IHT400 form
+page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.link = Inheritance Tax 400 form
 page.iht.application.exemptions.guidance.increasing.threshold.section2.p5.end = simply because the gross value of the estate exceeds the threshold.
 
 page.iht.application.exemptions.guidance.increasing.threshold.section3.raisedHeader = If the threshold can be raised
@@ -2327,7 +2327,7 @@ iht.iv.signIn = Sign in
 page.iht.iv.failure.cannotConfirmIdentity = We cannot confirm who you are
 page.iht.iv.failure.tryAgainOr = You can try again or:
 page.iht.iv.failure.youCanAlso = You can also:
-page.iht.iv.failure.reportWithPaperForm = report the estate value using the <a id="paperFormLink" href="{0}">IHT205 paper form</a> instead
+page.iht.iv.failure.reportWithPaperForm = report the estate value using the <a id="paperFormLink" href="{0}">Inheritance Tax 205 form – (paper version)</a> instead
 page.iht.iv.failure.askForHelp = ask for help by email using ‘Get help with this page’ below
 
 page.iht.iv.failure.failedMatching.failureReason = The information you have provided does not match what we hold.
@@ -2343,7 +2343,7 @@ page.iht.iv.failure.incomplete.heading = Sorry, there was a problem with the ser
 
 page.iht.iv.failure.preconditionFailed.heading = You cannot use this service
 page.iht.iv.failure.preconditionFailed.failureReason = HMRC cannot confirm your identity from the information you gave.
-page.iht.iv.failure.preconditionFailed.usePaperForm = Use the <a id="paperFormLink" href="{0}">IHT205 paper form</a> to report the estate value instead.
+page.iht.iv.failure.preconditionFailed.usePaperForm = Use the <a id="paperFormLink" href="{0}">Inheritance Tax 205 form – (paper version)</a> to report the estate value instead.
 
 page.iht.iv.failure.userAborted.failureReason = You have not given us enough information.
 
@@ -2355,12 +2355,12 @@ page.iht.iv.failure.2fa.p1 = You need to set up 2-step verification so you can s
 
 error.registration.serviceUnavailable.p1 = Wait a few seconds and try again.
 error.registration.serviceUnavailable.p2 = If you see this message several times, you will need to sign out and register again later at <a id="registrationChecklistLink" href="{0}">https://www.tax.service.gov.uk/inheritance-tax/registration/registration-checklist</a> (save this link).
-error.registration.serviceUnavailable.p3 = You can choose to report the estate value using the <a id="paperFormLink"  href="{0}">IHT205 paper form</a> instead.
+error.registration.serviceUnavailable.p3 = You can choose to report the estate value using the <a id="paperFormLink"  href="{0}">Inheritance Tax 205 form – (paper version)</a> instead.
 
 error.estateReport.serviceUnavailable.p3 = If you see this message several times you can sign out now and try again later to submit your report at <a id="declarationLink" href="{0}">https://www.tax.service.gov.uk/inheritance-tax/estate-report/declaration</a> (save this link).
 
 error.estateOverview.jsonError.p1 = You cannot complete your estate report online. This is because of an error in our system.
-error.estateOverview.jsonError.p2 = Use the <a id="paperFormLink" href="{0}">IHT205 paper form</a> to report the estate value.
+error.estateOverview.jsonError.p2 = Use the <a id="paperFormLink" href="{0}">Inheritance Tax 205 form – (paper version)</a> to report the estate value.
 
 error.application.systemError.p1 = Try again later to sign in to the service at <a id="estateReportLink" href="{0}">https://www.tax.service.gov.uk/inheritance-tax/estate-report</a> (save this link).
 error.registration.systemError.p1 = Try again later to sign in to the service at <a id="checklistLink" href="{0}">https://www.tax.service.gov.uk/inheritance-tax/registration/registration-checklist</a> (save this link).
@@ -2368,7 +2368,7 @@ error.registration.systemError.p1 = Try again later to sign in to the service at
 
 #New IV Error Content
 page.iht.iv.failure.couldNotConfirmIdentity=We could not confirm your identity
-page.iht.iv.failure.youCanReport=You can report the estate value using the <a id="paperFormLink" href="{0}">IHT205 paper form</a> instead.
+page.iht.iv.failure.youCanReport=You can report the estate value using the <a id="paperFormLink" href="{0}">Inheritance Tax 205 form – (paper version)</a> instead.
 page.iht.iv.failure.ifYouThink=If you still think you have an answer for any of the questions, you can try again.
 page.iht.iv.failure.lockedOutTryAgain=If you want to try again please wait 24 hours then try to sign in at <a id="try-again" href="{0}">https://www.tax.service.gov.uk{0}</a>.
 page.iht.iv.failure.helpWithConfirm=Help with confirming your identity
@@ -2430,7 +2430,7 @@ global.error.pageNotFound404.message=Please check that you have entered the corr
 global.error.InternalServerError500.title = Sorry, there is a problem with the service
 global.error.InternalServerError500.heading = Sorry, we are experiencing technical difficulties
 global.error.InternalServerError500.message = Please try again in a few moments.
-global.error.InternalServerError500.message1 = If you see this message several times, you can choose to report the estate value using the <a id="paperFormLink" href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/459092/IHT205_2011_.pdf">IHT205 paper form</a> instead.
+global.error.InternalServerError500.message1 = If you see this message several times, you can choose to report the estate value using the <a id="paperFormLink" href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/459092/IHT205_2011_.pdf">Inheritance Tax 205 form – (paper version)</a> instead.
 
 
 # end of frontend-bootstrap error messages
@@ -2698,5 +2698,3 @@ page.iht.application.overview.closed.viewClearanceCertificate = View this estate
 page.iht.application.overview.closed.p1 = This certificate confirms that we will not make any future tax claims on the estate based on the details you have given in the estate report.
 
 page.iht.questionnaire.intendReturn.question=Do you intend to come back later to complete your estate report?
-
-
