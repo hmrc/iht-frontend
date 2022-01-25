@@ -46,7 +46,7 @@ trait RegistrationChecklistMessages {
   val ihtRegistrationExecutorLabel2                     = "All names should be as they appear on a passport or other official document. They might be different to the names that you know people by."
   val ihtRegistrationExecutorLabel3                     = "The phone number is so that HMRC can contact this person. This might happen after you have finished the estate report and it is being reviewed."
   val pageIhtRegistrationChecklistContinueButton        = "Continue"
-  val pageIhtRegistrationChecklistLeaveLink             = "Leave this page to get all of the details you need"
+  val pageIhtRegistrationChecklistLeaveLink             = "Leave this page and start your application from the beginning"
   val pageIhtRegistrationChecklistSaveLink              = "Save the link to this page or add it to your favourites."
 
 
