@@ -843,7 +843,7 @@ page.iht.registration.notApplyingForProbate.kickout.expander.p5=Ym mhob achos, r
 page.iht.registration.notApplyingForProbate.kickout.expander.p6=Os nad ydych yn siŵr a yw’r ystâd wedi’i heithrio, ffoniwch Wasanaeth Cwsmeriaid Cymraeg CThEM ar 0300 200 1900 (+44 300 123 1072 o dramor – Saesneg yn unig).
 page.iht.registration.notApplyingForProbate.kickout.p2 = Os nad oes angen profiant arnoch, nid oes yn rhaid i chi roi gwybod i CThEM am ddim byd, cyhyd â bod yr ystâd wedi’i heithrio.
 page.iht.registration.notApplyingForProbate.kickout.p1=Mae’ch atebion blaenorol ynglŷn â gwerth yr ystâd yn awgrymu y gallai fod yn ystâd sydd wedi’i heithrio.
-page.iht.registration.notApplyingForProbate.kickout.p3=Os nad yw’r ystâd wedi’i heithrio, rhaid i chi lenwi <a href="{0}" id="iht400">Ffurflen lawn (Treth Etifeddiant 400), p’un a oes angen profiant arnoch ai peidio, a ph’un a yw Treth Etifeddiant yn daladwy ai peidio. Os na fyddwch yn llenwi Ffurflen, mae’n bosibl y cewch gosb.
+page.iht.registration.notApplyingForProbate.kickout.p3=Os nad yw’r ystâd wedi’i heithrio, rhaid i chi lenwi <a href="{0}" id="iht400">Ffurflen lawn (Treth Etifeddiant 400)</a>, p’un a oes angen profiant arnoch ai peidio, a ph’un a yw Treth Etifeddiant yn daladwy ai peidio. Os na fyddwch yn llenwi Ffurflen, mae’n bosibl y cewch gosb.
 
 page.iht.application.assets.property.ownership.browserTitle=Beth oedd perchnogaeth yr eiddo
 page.iht.application.assets.pensions.hint=Bydd y darparwr pensiwn yn gallu rhoi gwybod i chi faint sy’n cael ei dalu i’r ystad.
