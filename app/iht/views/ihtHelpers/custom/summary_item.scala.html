@@ -30,35 +30,35 @@
 
 
 
-<li class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+<div class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
     @if(isNested){
-        <h4 class="tabular-data__data tabular-data__data--4-12">
+        <dt class="tabular-data__data tabular-data__data--4-12">
             @if(dataScreenReaderText > ""){
                 <span aria-hidden="true">@Html(label.replace("\n", "<br/>"))</span>
                 <span class="visually-hidden">@dataScreenReaderText</span>
             } else {
                 @Html(label.replace("\n", "<br/>"))
             }
-        </h4>
+        </dt>
     } else {
-        <h3 class="tabular-data__data tabular-data__data--4-12">
+        <dt class="tabular-data__data tabular-data__data--4-12">
             @if(dataScreenReaderText > ""){
                 <span aria-hidden="true">@Html(label.replace("\n", "<br/>"))</span>
                 <span class="visually-hidden">@dataScreenReaderText</span>
             } else {
                 @Html(label.replace("\n", "<br/>"))
             }
-        </h3>
+        </dt>
     }
-    <div class="tabular-data__data tabular-data__data--6-12">
+    <dd class="tabular-data__data tabular-data__data--6-12">
         @Html(data.trim().replace("\n", "<br/>"))
-    </div>
-    <div class="tabular-data__data tabular-data__data--2-12">
+    </dd>
+    <dd class="tabular-data__data tabular-data__data--2-12">
       @if(hasChangeLink){
         <a href="@changeLink" id="@linkId">
           <span aria-hidden="true">@Messages("iht.change")</span>
           <span class="visually-hidden">@changeLinkHiddenText</span>
         </a>
       }
-    </div>
-</li>
+    </dd>
+</div>

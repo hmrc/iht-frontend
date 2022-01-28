@@ -47,7 +47,7 @@ headingName = deceasedName
 @progressiveDisclosure(request.uri)
 
     <section id="qualifyingBody-table">
-        <ul class="tabular-data tabular-data--list">
+        <dl class="tabular-data tabular-data--list">
         @genericOverviewTableItem(id = appConfig.ExemptionsOtherAssetsID,
             questionText = Messages("page.iht.application.exemptions.qualifyingBodyOverview.question",
             DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
@@ -57,23 +57,23 @@ headingName = deceasedName
             answerValue= Messages(getDisplayValueForBoolean(isAssetLeftToQualifyingBody)),
             link = Some(iht.controllers.application.exemptions.qualifyingBody.routes.AssetsLeftToQualifyingBodyQuestionController.onPageLoad),
             linkScreenReader = Messages("page.iht.application.exemptions.qualifyingBodyOverview.question.screenreader.link", deceasedName))
-        </ul>
+        </dl>
         <div class="subsection">
         <h2>@Messages("page.iht.application.exemptions.qualifyingBodyOverviewTable.header")</h2>
-        <ul id="qualifying_bodies_table" class="tabular-data tabular-data--list">
+        <dl id="qualifying_bodies_table" class="tabular-data tabular-data--list">
         @for((element,i) <- qualifyingBodies.zipWithIndex){
-        <li class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
-            <div class="tabular-data__data tabular-data__data--4-12">
+        <div class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+            <dt class="tabular-data__data tabular-data__data--4-12">
                 <span class="visually-hidden">@Messages("page.iht.application.exemptions.qualifyingBodyOverview.screenreader.ident", (i + 1)) </span>
                 @(element.name) match {
                     case (None) => { @Messages("iht.estateReport.exemptions.charities.noNameAdded") }
                     case (Some(name)) => { @nameHelper(name) }
                 }
-            </div>
-            <div class="tabular-data__data tabular-data__data--4-12 u-align--tablet-right">
+            </dt>
+            <dd class="tabular-data__data tabular-data__data--4-12 u-align--tablet-right">
                 <span id="qualifying-body-total">&pound;@CommonHelper.numberWithCommas(element.totalValue.getOrElse(BigDecimal(0)))</span>
-            </div>
-            <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
+            </dd>
+            <dd class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
                 <a href="@iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDeleteConfirmController.onPageLoad(element.id.getOrElse("")).url"
                 id="@appConfig.ExemptionsOtherDeleteID@element.id.getOrElse("")">
                 <span aria-hidden="true">@Messages("iht.delete")</span>
@@ -82,8 +82,8 @@ headingName = deceasedName
                         case _ => {""}
                     }, (i + 1))</span>
                 </a>
-            </div>
-            <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
+            </dd>
+            <dd class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
                <a href="@iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onEditPageLoad(element.id.getOrElse("")).url"
                id="@appConfig.ExemptionsOtherChangeID@element.id.getOrElse("")">
                 <span aria-hidden="true">@Messages("iht.change")</span>
@@ -92,10 +92,10 @@ headingName = deceasedName
                         case _ => {""}
                     }, (i + 1))</span>
                 </a>
-            </div>
-        </li>
+            </dd>
+        </div>
         }
-        </ul>
+        </dl>
       </div>
     </section>
 

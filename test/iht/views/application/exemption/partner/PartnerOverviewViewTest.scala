@@ -64,15 +64,15 @@ trait PartnerOverviewViewBehaviour extends GenericNonSubmittablePageBehaviour {
                                           expectedAttributeValue: => String,
                                           expectedLinkText: => String) = {
     s"show attribute number ${rowNo + 1} name" in {
-      tableCell(doc, assetsLeftToSpouseAttributesTableId, 0, rowNo).text mustBe expectedAttributeName
+      divCell(doc, assetsLeftToSpouseAttributesTableId, 0, rowNo).text mustBe expectedAttributeName
     }
 
     s"show attribute number ${rowNo + 1} value" in {
-      tableCell(doc, assetsLeftToSpouseAttributesTableId, 1, rowNo).text mustBe expectedAttributeValue
+      divCell(doc, assetsLeftToSpouseAttributesTableId, 1, rowNo).text mustBe expectedAttributeValue
     }
 
     s"show attribute number ${rowNo + 1} change link" in {
-      val changeDiv = tableCell(doc, assetsLeftToSpouseAttributesTableId, 2, rowNo)
+      val changeDiv = divCell(doc, assetsLeftToSpouseAttributesTableId, 2, rowNo)
       val anchor = changeDiv.getElementsByTag("a").first
       getVisibleText(anchor) mustBe messagesApi(expectedLinkText)
     }

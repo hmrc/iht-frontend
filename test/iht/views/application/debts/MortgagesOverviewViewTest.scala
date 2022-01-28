@@ -70,11 +70,11 @@ class MortgagesOverviewViewTest extends ApplicationPageBehaviour {
 
   def addressWithDeleteAndModify(rowNo: Int, expectedValue: String) = {
     s"show address number ${rowNo + 1}" in {
-      tableCell(doc, addressTableId, 0, rowNo).ownText mustBe expectedValue
+      divCell(doc, addressTableId, 0, rowNo).ownText mustBe expectedValue
     }
 
     s"show address number ${rowNo + 1} Give details link" in {
-      val deleteDiv = tableCell(doc, addressTableId, 2, rowNo)
+      val deleteDiv = divCell(doc, addressTableId, 2, rowNo)
       val anchor = deleteDiv.getElementsByTag("a").first
       getVisibleText(anchor) mustBe messagesApi("site.link.giveDetails")
     }

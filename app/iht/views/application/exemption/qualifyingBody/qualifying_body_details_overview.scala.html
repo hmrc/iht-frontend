@@ -47,7 +47,7 @@ isFullWidth = false) {
 <p class="lede" id="qb-guidance-1">@Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodyNotCharities")</p>
 
 <section>
-    <ul id="qualifying-body-details-table" class="tabular-data tabular-data--list">
+    <dl id="qualifying-body-details-table" class="tabular-data tabular-data--list">
     @defining(qualifyingBody.flatMap(_.id))  { qualifyingBodyId =>
 
         @defining(qualifyingBody.flatMap(_.name))  { qualifyingBodyName =>
@@ -108,7 +108,7 @@ isFullWidth = false) {
                     classAllCells = "")
         }
     }
-    </ul>
+    </dl>
 </section>
 <p>
 @returnLink(

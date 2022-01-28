@@ -153,6 +153,36 @@ trait ViewTestHelper extends FakeIhtApp with MockitoSugar with TestUtils with Be
     listItems.get(rowNo).getElementsByTag("div").get(colNo)
   }
 
+  def divCell(doc:Document, tableId:String, colNo: Int, rowNo: Int) = {
+    val propertiesUl = doc.getElementById(tableId)
+    val listItems = propertiesUl.getElementsByTag("div")
+    listItems.get(rowNo).getElementsByClass("tabular-data__data").get(colNo)
+  }
+
+  def thCellProp1(doc:Document, tableId:String, colNo: Int, rowNo: Int) = {
+    val propertiesUl = doc.getElementById(tableId)
+    val listItems = propertiesUl.getElementsByTag("tbody")
+    listItems.get(rowNo).getElementsByTag("th").get(colNo)
+  }
+
+  def tdCellProp1(doc:Document, tableId:String, colNo: Int, rowNo: Int) = {
+    val propertiesUl = doc.getElementById(tableId)
+    val listItems = propertiesUl.getElementsByTag("tbody")
+    listItems.get(rowNo).getElementsByTag("td").get(colNo)
+  }
+
+  def thCellProp2(doc:Document, tableId:String, colNo: Int, rowNo: Int) = {
+    val propertiesUl = doc.getElementById(tableId).lastElementSibling()
+    val listItems = propertiesUl.getElementsByTag("tbody")
+    listItems.get(rowNo).getElementsByTag("th").get(colNo)
+  }
+
+  def tdCellProp2(doc:Document, tableId:String, colNo: Int, rowNo: Int) = {
+    val propertiesUl = doc.getElementsByClass("tabular-data--list").get(1)
+    val listItems = propertiesUl.getElementsByTag("tbody")
+    listItems.get(rowNo).getElementsByTag("td").get(colNo)
+  }
+
   def link(doc: => Document, anchorId: => String, href: => String, text: => String): Unit = {
     def anchor = doc.getElementById(anchorId)
     s"have a link with id $anchorId and correct target" in {

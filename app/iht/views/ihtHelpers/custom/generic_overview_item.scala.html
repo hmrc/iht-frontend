@@ -28,19 +28,19 @@ classValueCell: String = "",
 classAllCells: String = ""
 )
 
-<li class="tabular-data__entry tabular-data__entry--grouped divider--bottom" id="@id-section">
-    <div class="tabular-data__data tabular-data__data--4-12 @classAllCells">@Html(title)</div>
-    <div class="tabular-data__data tabular-data__data--3-12 @classValueCell @classAllCells">
+<div class="tabular-data__entry tabular-data__entry--grouped divider--bottom" id="@id-section">
+    <dt class="tabular-data__data tabular-data__data--4-12 @classAllCells">@Html(title)</dt>
+    <dd class="tabular-data__data tabular-data__data--3-12 @classValueCell @classAllCells">
         @Html(value)
-    </div>
+    </dd>
     @if(itemStatus!= Html("??")){
-    <div id="@id-status" class="tabular-data__data tabular-data__data--3-12 @classAllCells u-align--tablet-center">
+    <dd id="@id-status" class="tabular-data__data tabular-data__data--3-12 @classAllCells u-align--tablet-center">
         @itemStatus
-    </div>
+    </dd>
     }
-    <div class="tabular-data__data tabular-data__data--2-12 @classAllCells">
+    <dd class="tabular-data__data tabular-data__data--2-12 @classAllCells">
         <a id="@id" href="@link">
             @linkText
         </a>
-    </div>
-</li>
+    </dd>
+</div>

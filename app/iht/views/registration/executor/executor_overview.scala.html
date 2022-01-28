@@ -55,16 +55,34 @@
     </div>
   </div>
 
-  <ul>
       @for(coExecutor <- coExecutors) {
-      <li class="grid-layout grid-layout--maintain-width grid-layout--nogutter divider--bottom section">
-        <div id='executorName-@coExecutor.id.getOrElse("")' class="grid-layout__column grid-layout__column--1-2">@nameHelper(coExecutor.name.toString)</div>
-        <div class="grid-layout__column grid-layout__column--1-4 u-align--right"><a href='@iht.controllers.registration.executor.routes.DeleteCoExecutorController.onPageLoad(coExecutor.id.getOrElse("")).url' id='delete-executor-@coExecutor.id.getOrElse("")'><span aria-hidden="true">@Messages("iht.delete")</span><span class="visually-hidden">@Messages("page.iht.registration.executor-overview.executor.delete.screenReader", coExecutor.name)</span></a></div>
-        <div class="grid-layout__column grid-layout__column--1-4 u-align--right"><a href='@iht.controllers.registration.executor.routes.CoExecutorPersonalDetailsController.onPageLoad(coExecutor.id).url' id='change-executor-@coExecutor.id.getOrElse("")'><span aria-hidden="true">@Messages("iht.change")</span><span class="visually-hidden">@Messages("page.iht.registration.executor-overview.executor.change.screenReader", coExecutor.name)</span></a></div>
-      </li>
+<table class="tabular-data tabular-data--list grid-layout grid-layout--maintain-width grid-layout--nogutter divider--bottom section">
+    <caption class="heading-small visually-hidden">@Messages("iht.registration.othersApplyingForProbate")</caption>
+<thead>
+<tr>
+    <th scope="col" class="visually-hidden">Executor name</th>
+    <th scope="col" class="visually-hidden">Delete executor</th>
+    <th scope="col" class="visually-hidden">Change executor</th>
+</tr>
+</thead>
+    <tbody>
+    <tr>
+        <th scope="row" class="grid-layout__column grid-layout__column--1-2" id='executorName-@coExecutor.id.getOrElse("")'>@nameHelper(coExecutor.name.toString)</th>
+        <td class="numeric grid-layout__column grid-layout__column--1-4 u-align--right">
+            <a href='@iht.controllers.registration.executor.routes.DeleteCoExecutorController.onPageLoad(coExecutor.id.getOrElse("")).url' id='delete-executor-@coExecutor.id.getOrElse("")'>
+                <span aria-hidden="true">@Messages("iht.delete")</span><span class="visually-hidden">@Messages("page.iht.registration.executor-overview.executor.delete.screenReader", coExecutor.name)</span>
+            </a>
+        </td>
+        <td class="numeric grid-layout__column grid-layout__column--1-4 u-align--right">
+            <a href='@iht.controllers.registration.executor.routes.CoExecutorPersonalDetailsController.onPageLoad(coExecutor.id).url' id='change-executor-@coExecutor.id.getOrElse("")'>
+                <span aria-hidden="true">@Messages("iht.change")</span><span class="visually-hidden">@Messages("page.iht.registration.executor-overview.executor.change.screenReader", coExecutor.name)</span>
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
       }
-  </ul>
-
+</br>
   @if(coExecutors.length < appConfig.maximumAdditionalCoExecutors) {
     @defining( Messages("page.iht.registration.executor-overview.sectionName"))  { sectionName =>
       @defining( Messages("page.iht.registration.executor-overview.yesnoQuestion")) { legend =>

@@ -70,21 +70,21 @@ class QualifyingBodiesOverviewViewTest extends QualifyingBodiesOverviewViewBehav
 
   def qualifyingBodyWithDeleteAndModify(rowNo: Int, expectedName: String, expectedValue: String) = {
     s"show qualifyingBody number ${rowNo + 1} name" in {
-      tableCell(doc, qualifyingBodyTableId, 0, rowNo).ownText mustBe expectedName
+      divCell(doc, qualifyingBodyTableId, 0, rowNo).ownText mustBe expectedName
     }
 
     s"show qualifyingBody number ${rowNo + 1} value" in {
-      tableCell(doc, qualifyingBodyTableId, 1, rowNo).text mustBe expectedValue
+      divCell(doc, qualifyingBodyTableId, 1, rowNo).text mustBe expectedValue
     }
 
     s"show qualifyingBody number ${rowNo + 1} delete link" in {
-      val div = tableCell(doc, qualifyingBodyTableId, 2, rowNo)
+      val div = divCell(doc, qualifyingBodyTableId, 2, rowNo)
       val anchor = div.getElementsByTag("a").first
       getVisibleText(anchor) mustBe messagesApi("iht.delete")
     }
 
     s"show qualifyingBody number ${rowNo + 1} change link" in {
-      val div = tableCell(doc, qualifyingBodyTableId, 3, rowNo)
+      val div = divCell(doc, qualifyingBodyTableId, 3, rowNo)
       val anchor = div.getElementsByTag("a").first
       getVisibleText(anchor) mustBe messagesApi("iht.change")
     }

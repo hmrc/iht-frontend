@@ -75,15 +75,15 @@ messagesFileBullets:Seq[String] = Seq.empty
     </div>
     }
 
-    <ul class="tabular-data tabular-data--list">
+    <dl class="tabular-data tabular-data--list">
     @section.details.map{detail=>
-      <li id="@{detail.id}" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
-          <div class="tabular-data__data tabular-data__data--4-12" aria-hidden="true">@{Html(Messages(detail.title))}</div>
-          <div class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right" aria-hidden="true">
+      <div id="@{detail.id}" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+          <dt class="tabular-data__data tabular-data__data--4-12" aria-hidden="true">@{Html(Messages(detail.title))}</dt>
+          <dd class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right" aria-hidden="true">
               @Messages(detail.value)
-          </div>
+          </dd>
           @if(showStatus){
-              <div id="@{detail.id}-section-details-status" class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right" aria-hidden="true">
+              <dd id="@{detail.id}-section-details-status" class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right" aria-hidden="true">
                   @if(detail.status.nonEmpty){
                       @if(detail.status == messageNotStarted) {
                         <span class="progress-status progress-status--not-started"><span>@Messages("iht.notStarted")</span></span>
@@ -91,20 +91,20 @@ messagesFileBullets:Seq[String] = Seq.empty
                         <span class="progress-status progress-status--complete"><span>@Messages("iht.complete")</span></span>
                       }
                   }
-              </div>
+              </dd>
           }
 
-          <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
+          <dd class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
             @if(detail.link.linkText.length>0){
               <a id='@{detail.linkId}' href="@detail.link.linkUrl">
                 <span aria-hidden="true">@Messages(detail.link.linkText)</span>
                 <span class="visually-hidden">@Messages(detail.link.linkTextAccessibility, DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails), detail.value)</span>
             </a>
             }
-          </div>
-      </li>
+          </dd>
+      </div>
     }
-  </ul>
+  </dl>
 </section>
 }
 
