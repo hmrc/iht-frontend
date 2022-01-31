@@ -110,8 +110,8 @@ class DomicileViewTest extends ViewTestHelper {
       val result = domicileView(fakeForm)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
 
-      val link = doc.getElementById("return-link")
-      link.text() must be(messagesApi("page.iht.filter.domicile.return.link"))
+      val link = doc.getElementById("back-button")
+      link.text() must be(messagesApi("iht.back"))
       link.attr("href") must be(iht.controllers.filter.routes.FilterController.onPageLoad().url)
     }
   }

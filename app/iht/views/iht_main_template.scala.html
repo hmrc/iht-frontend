@@ -148,6 +148,9 @@
 }
 
     @mainContentIht = {
+    @backUrl.map{ url =>
+        <a id="back-button" class="back-link" href=@url>@Messages("iht.back")</a>
+    }
     @if(title > ""){
         @highlightBoxClass.map{css=>
             <div class="@css">
@@ -168,9 +171,6 @@
     }
     @mainContent
 
-    @backUrl.map{ url =>
-        <a id="back-button" class="back-link" href=@url>@Messages("iht.back")</a>
-    }
     @cancelUrl.map{ url =>
         <p>
             <a id="cancel-button" class="" href=@url>@Html(cancelLabel.getOrElse(""))</a>

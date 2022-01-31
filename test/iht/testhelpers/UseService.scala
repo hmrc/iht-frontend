@@ -18,7 +18,7 @@ package iht.testhelpers
 
 trait UseService {
 
-  val pageIHTFilterUseServiceBetween325000And1MillionParagraph0   = "If the gross value of the estate (ie the value before you subtract debts and mortgages) is between £325,000 and £1 million, you may have to use the IHT400 form to report the estate value."
+  val pageIHTFilterUseServiceBetween325000And1MillionParagraph0   = "If the gross value of the estate (ie the value before you subtract debts and mortgages) is between £325,000 and £1 million, you may have to use the Inheritance Tax 400 form to report the estate value."
   val pageIHTFilterUseServiceBetween325000And1MillionIHTFormlink  = "IHT400 form"
   val pageIHTFilterUseServiceBetween325000And1MillionSection4P1   = "You’ll be asked to log in to confirm who you are with HMRC."
   val pageIHTFilterUseServiceBetween325000And1MillionReport       = "Continue to the online service"
