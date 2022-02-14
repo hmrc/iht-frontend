@@ -289,13 +289,13 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
     }
 
     "display the correct values in the table of entered details where all UK addresses" in {
-      val tableHTMLElements: Elements = doc.select("li.tabular-data__entry")
+      val tableHTMLElements: Elements = doc.select("dl > div.tabular-data__entry")
       val setRows = tableHTMLElements.map(element => SharableOverviewRow.apply(element)).toSet
       setRows mustBe expectedSetRowsAllUKAddresses
     }
 
     "display the correct values in the table of entered details where all foreign addresses" in {
-      val tableHTMLElements: Elements = docForeign.select("li.tabular-data__entry")
+      val tableHTMLElements: Elements = docForeign.select("dl > div.tabular-data__entry")
       val setRows = tableHTMLElements.map(element => SharableOverviewRow.apply(element)).toSet
       setRows mustBe expectedSetRowsAllForeignAddresses
     }
@@ -312,7 +312,7 @@ case class SharableOverviewRow(rowText: String = "", value: String = "", linkTex
 
 object SharableOverviewRow {
   def apply(element: Element): SharableOverviewRow = {
-    val cells = element.select("li > *:not(.visually-hidden)")
+    val cells = element.select("div > *:not(.visually-hidden)")
     val row = cells.size match {
       case 2 => SharableOverviewRow(
         rowText = cells.get(0).text,

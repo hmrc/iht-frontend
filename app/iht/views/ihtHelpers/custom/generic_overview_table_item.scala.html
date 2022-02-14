@@ -26,14 +26,14 @@ answerValue:String = "",
 link:Option[Call] = None,
 linkScreenReader:String
 )(implicit messages: Messages)
-<li id="@id-block" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
-    <div id="@id-question" class="tabular-data__data tabular-data__data--6-12">@Html(questionText)</div>
-    <div id="@id-question-value" class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right">
+<div id="@id-block" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+    <dt id="@id-question" class="tabular-data__data tabular-data__data--6-12">@Html(questionText)</dt>
+    <dd id="@id-question-value" class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right">
         @if(answerValue.nonEmpty){
         @answerValue
         }
-    </div>
-    <div class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right">
+    </dd>
+    <dd class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right">
         <a id="@id" href="@link">
             @if(answerValue.nonEmpty) {
                 @questionCategory match {
@@ -75,5 +75,5 @@ linkScreenReader:String
               }
             }
         </a>
-    </div>
-</li>
+    </dd>
+</div>

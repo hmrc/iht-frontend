@@ -40,9 +40,10 @@ trait GenericOverviewHelper extends ViewTestHelper {
 
   def rowShouldBeAnswered(doc: Document, elementId: String, message: String, value: String, linkMessageKey: String, url: String) = {
     val li = doc.getElementById(elementId)
-    val divs = li.getElementsByTag("div")
-    divs.get(0).text mustBe message
-    divs.get(1).text mustBe value
+    val dt = li.getElementsByTag("dt")
+    val dd = li.getElementsByTag("dd")
+    dt.get(0).text mustBe message
+    dd.get(0).text mustBe value
 
     val link = li.getElementsByTag("a").get(0)
     messagesShouldBePresent(link.text, messagesApi(linkMessageKey))
@@ -52,9 +53,10 @@ trait GenericOverviewHelper extends ViewTestHelper {
 
   def rowShouldBeUnAnswered(doc: Document, elementId: String, messageKey: String, linkMessageKey: String, url: String) = {
     val li = doc.getElementById(elementId)
-    val divs = li.getElementsByTag("div")
-    divs.get(0).text mustBe messagesApi(messageKey)
-    divs.get(1).text mustBe ""
+    val dt = li.getElementsByTag("dt")
+    val dd = li.getElementsByTag("dd")
+    dt.get(0).text mustBe messagesApi(messageKey)
+    dd.get(0).text mustBe ""
 
     val link = li.getElementsByTag("a").get(0)
     messagesShouldBePresent(link.text, messagesApi(linkMessageKey))

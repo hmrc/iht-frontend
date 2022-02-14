@@ -70,21 +70,21 @@ class CharitiesOverviewViewTest extends CharitiesOverviewViewBehaviour {
 
   def charityWithDeleteAndModify(rowNo: Int, expectedName: String, expectedValue: String) = {
     s"show charity number ${rowNo + 1} name" in {
-      tableCell(doc, charityTableId, 0, rowNo).ownText mustBe expectedName
+      divCell(doc, charityTableId, 0, rowNo).ownText mustBe expectedName
     }
 
     s"show charity number ${rowNo + 1} value" in {
-      tableCell(doc, charityTableId, 1, rowNo).text mustBe expectedValue
+      divCell(doc, charityTableId, 1, rowNo).text mustBe expectedValue
     }
 
     s"show charity number ${rowNo + 1} change link" in {
-      val div = tableCell(doc, charityTableId, 2, rowNo)
+      val div = divCell(doc, charityTableId, 2, rowNo)
       val anchor = div.getElementsByTag("a").first
       getVisibleText(anchor) mustBe messagesApi("iht.delete")
     }
 
     s"show charity number ${rowNo + 1} delete link" in {
-      val div = tableCell(doc, charityTableId, 3, rowNo)
+      val div = divCell(doc, charityTableId, 3, rowNo)
       val anchor = div.getElementsByTag("a").first
       getVisibleText(anchor) mustBe messagesApi("iht.change")
     }

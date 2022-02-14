@@ -56,10 +56,10 @@ isFullWidth= false) {
 
         <section id="property-table" class="form-group">
             <h2 class="visually-hidden" id="properties-header">@Messages("page.iht.application.assets.deceased-permanent-home.table.header")</h2>
-            <ul id="properties" class="tabular-data tabular-data--list">
+            <dl id="properties" class="tabular-data tabular-data--list">
             @for((element,i) <- propertyList.zipWithIndex){
-                <li class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
-                      <div class="tabular-data__data tabular-data__data--6-12">
+                <div class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+                      <dt class="tabular-data__data tabular-data__data--6-12">
                           @element.address match{
                               case Some(x) => {
                                 @AddressHelper.addressLayout(x)
@@ -67,8 +67,8 @@ isFullWidth= false) {
                               case None => {@Messages("page.iht.application.assets.deceased-permanent-home.table.emptyAddress.text")}
                           }
 
-                        </div>
-                        <div class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right">
+                        </dt>
+                        <dd class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right">
                             @defining(mortgageList.find(_.id equals element.id.getOrElse(""))) { mortgage =>
                               @mortgage.map(
                                mort => mort.isOwned match{
@@ -78,8 +78,8 @@ isFullWidth= false) {
                                             }
                                      )
                             }
-                        </div>
-                        <div class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right">
+                        </dd>
+                        <dd class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right">
                             <a href='@iht.controllers.application.debts.routes.MortgageValueController.onPageLoad(element.id.getOrElse("")).url' id='@appConfig.DebtsMortgagesPropertyID@element.id.getOrElse("")'>
 
 
@@ -110,10 +110,10 @@ isFullWidth= false) {
                                }
                              }
                             </a>
-                        </div>
-                </li>
+                        </dd>
+                </div>
                }
-            </ul>
+            </dl>
           </section>
 
     }

@@ -45,7 +45,7 @@ role:String)(implicit request : Request[_], messages: Messages, lang : play.api.
 
     <section class="form-group">
         <h2>@Html(Messages("site.nameDetails", nameHelper(deceasedName).toString))</h2>
-        <ul class="tabular-data tabular-data--list">
+        <dl class="tabular-data tabular-data--list">
             @defining(CommonHelper.getOrException(registrationDetails.deceasedDetails, "Deceased Details could not be found")) { deceasedDetails=>
 
                 @summaryItem(
@@ -116,13 +116,13 @@ role:String)(implicit request : Request[_], messages: Messages, lang : play.api.
                     linkId="change-relationship-status"
                 )
             }
-        </ul>
+        </dl>
       </section>
 
 
       <section class="form-group">
         <h2>@Messages("page.iht.registration.registrationSummary.applicantTable.title")</h2>
-        <ul class="tabular-data tabular-data--list">
+        <dl class="tabular-data tabular-data--list">
             @defining( CommonHelper.getOrException(registrationDetails.applicantDetails, "Applicant Details could not be found") ) { applicantDetails=>
 
                 @summaryItem(
@@ -179,7 +179,7 @@ role:String)(implicit request : Request[_], messages: Messages, lang : play.api.
                     linkId="change-probate-location"
                 )
             }
-        </ul>
+        </dl>
       </section>
 
 

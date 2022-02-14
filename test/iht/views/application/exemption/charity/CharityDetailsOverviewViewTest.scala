@@ -52,15 +52,15 @@ trait CharityDetailsOverviewViewBehaviour extends GenericNonSubmittablePageBehav
                                           expectedAttributeValue: => String,
                                           expectedLinkText: => String) = {
     s"show attribute number ${rowNo + 1} name" in {
-      tableCell(doc, propertyAttributesTableId, 0, rowNo).text mustBe expectedAttributeName
+      divCell(doc, propertyAttributesTableId, 0, rowNo).text mustBe expectedAttributeName
     }
 
     s"show attribute number ${rowNo + 1} value" in {
-      tableCell(doc, propertyAttributesTableId, 1, rowNo).text mustBe expectedAttributeValue
+      divCell(doc, propertyAttributesTableId, 1, rowNo).text mustBe expectedAttributeValue
     }
 
     s"show attribute number ${rowNo + 1} change link" in {
-      val changeDiv = tableCell(doc, propertyAttributesTableId, 2, rowNo)
+      val changeDiv = divCell(doc, propertyAttributesTableId, 2, rowNo)
       val anchor = changeDiv.getElementsByTag("a").first
       getVisibleText(anchor) mustBe messagesApi(expectedLinkText)
     }

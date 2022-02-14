@@ -26,13 +26,13 @@ htmlQuestionValue: => Html)(implicit messages: Messages)
 
 <section id="@sectionId" class="form-group">
     @htmlQuestionTitle
-    <ul class="tabular-data tabular-data--list">
+    <dl class="tabular-data tabular-data--list">
     @{isQuestionsShown match {
         case Some(true) => {Html(htmlQuestion.toString + htmlQuestionValue.toString)}
         case Some(false) => {
             htmlQuestion}
         case None => {}
     }}
-  </ul>
+  </dl>
 
 </section>

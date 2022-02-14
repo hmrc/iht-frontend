@@ -39,7 +39,7 @@ isFullWidth=false
 ) {
 
     <section id="charity-table">
-        <ul>
+        <dl>
         @genericOverviewTableItem(id = appConfig.ExemptionsCharitiesAssetsID,
         questionText = Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
                                 DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
@@ -49,21 +49,21 @@ isFullWidth=false
         link = Some(iht.controllers.application.exemptions.charity.routes.AssetsLeftToCharityQuestionController.onPageLoad),
         linkScreenReader = Messages("page.iht.application.exemptions.charityOverview.questionLabel.screenreader.link.value",
             DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))
-        </ul>
+        </dl>
 
         <div class="subsection">
           <h2>@Messages("page.iht.application.exemptions.charityOverviewTable.header")</h2>
-          <ul id="charities_table" class="tabular-data tabular-data--list">
+          <dl id="charities_table" class="tabular-data tabular-data--list">
           @for((element,i) <- charities.zipWithIndex){
-          <li class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
-              <div class="tabular-data__data tabular-data__data--4-12">
+          <div class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+              <dt class="tabular-data__data tabular-data__data--4-12">
                   <span class="visually-hidden">@Messages("page.iht.application.exemptions.assetLeftToCharity.screenreader.ident", (i + 1)) </span>
                   @element.nameValidationMessage.fold(nameHelper(element.name))(message=>Html(message))
-              </div>
-              <div class="tabular-data__data tabular-data__data--4-12 u-align--tablet-right">
+              </dt>
+              <dd class="tabular-data__data tabular-data__data--4-12 u-align--tablet-right">
                   <span id="charity-total">@if(element.totalValue.isDefined){&pound;@CommonHelper.numberWithCommas(element.totalValue.getOrElse(BigDecimal(0)))}</span>
-              </div>
-              <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
+              </dd>
+              <dd class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
                 <a href='@iht.controllers.application.exemptions.charity.routes.CharityDeleteConfirmController.onPageLoad(element.id.getOrElse("")).url'
                    id='@appConfig.ExemptionsCharitiesDeleteID@element.id.getOrElse("")'>
                     <span aria-hidden="true">@Messages("iht.delete")</span><span class="visually-hidden">@Messages("page.iht.application.charity.delete.screenReader", element.name match {
@@ -71,8 +71,8 @@ isFullWidth=false
                         case _ => {""}
                     }, (i + 1))</span>
                 </a>
-              </div>
-              <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
+              </dd>
+              <dd class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
                   <a href='@iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onEditPageLoad(element.id.getOrElse("")).url'
                      id='@appConfig.ExemptionsCharitiesChangeID@element.id.getOrElse("")'>
                       <span aria-hidden="true">@Messages("iht.change")</span><span class="visually-hidden">@Messages("page.iht.application.charity.edit.screenReader", element.name match {
@@ -80,10 +80,10 @@ isFullWidth=false
                           case _ => {""}
                       }, (i + 1))</span>
                   </a>
-              </div>
-          </li>
+              </dd>
+          </div>
           }
-        </ul>
+        </dl>
       </div>
     </section>
 

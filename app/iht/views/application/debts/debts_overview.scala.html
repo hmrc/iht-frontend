@@ -56,7 +56,7 @@ isFullWidth=false) {
 </div>
 
 <div id="table-overview" class="form-group">
-    <ul class="tabular-data tabular-data--list">
+    <dl class="tabular-data tabular-data--list">
     @defining(appDetails.isCompleteMortgages) { isComplete =>
         @genericOverviewItem(Messages("iht.estateReport.debts.mortgages"),
             "mortgages", appConfig.DebtsMortgagesID,
@@ -210,7 +210,7 @@ isFullWidth=false) {
         classValueCell = "u-align--tablet-right"
         )
     }
-    </ul>
+    </dl>
     <section class="subsection">
         <div id="total-row" class="grid-layout grid-layout--stacked grid-layout--nogutter">
             <div class="grid-layout__column grid-layout__column--4-12">

@@ -57,17 +57,35 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
 
   def addressWithDeleteAndModify(rowNo: Int, expectedValue: String) = {
     s"show address number ${rowNo + 1}" in {
-      tableCell(doc, addressTableId, 0, rowNo).ownText mustBe expectedValue
+      thCellProp1(doc, addressTableId, 0, rowNo).ownText mustBe expectedValue
     }
 
     s"show address number ${rowNo + 1} delete link" in {
-      val deleteDiv = tableCell(doc, addressTableId, 3, rowNo)
+      val deleteDiv = tdCellProp1(doc, addressTableId, 1,  rowNo)
       val anchor = deleteDiv.getElementsByTag("a").first
       getVisibleText(anchor) mustBe messagesApi("iht.delete")
     }
 
     s"show address number ${rowNo + 1} give details link" in {
-      val deleteDiv = tableCell(doc, addressTableId, 4, rowNo)
+      val deleteDiv = tdCellProp1(doc, addressTableId,2, rowNo)
+      val anchor = deleteDiv.getElementsByTag("a").first
+      getVisibleText(anchor) mustBe messagesApi("iht.change")
+    }
+  }
+
+  def addressWithDeleteAndModify2(rowNo: Int, expectedValue: String) = {
+    s"show address number 2" in {
+      thCellProp2(doc, addressTableId, 0, 0).ownText mustBe expectedValue
+    }
+
+    s"show address number 2 delete link" in {
+      val deleteDiv = tdCellProp2(doc, addressTableId, 1, rowNo)
+      val anchor = deleteDiv.getElementsByTag("a").first
+      getVisibleText(anchor) mustBe messagesApi("iht.delete")
+    }
+
+    s"show address number 2 give details link" in {
+      val deleteDiv = tdCellProp2(doc, addressTableId, 2, rowNo)
       val anchor = deleteDiv.getElementsByTag("a").first
       getVisibleText(anchor) mustBe messagesApi("iht.change")
     }
@@ -94,7 +112,7 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
 
     behave like addressWithDeleteAndModify(0, formatAddressForDisplay(CommonBuilder.DefaultUkAddress))
 
-    behave like addressWithDeleteAndModify(1, formatAddressForDisplay(CommonBuilder.DefaultUkAddress2))
+    behave like addressWithDeleteAndModify2(0, formatAddressForDisplay(CommonBuilder.DefaultUkAddress2))
 
     "show you haven't added message when there are no properties" in {
       val view = propertiesOverviewView(List(),

@@ -52,7 +52,7 @@ isFullWidth=false
 
 
     <section id="trusts-section" class="form-group">
-        <ul>
+        <dl>
             @{
                 genericOverviewTableItem(id = appConfig.AssetsTrustsBenefitedID,
                     questionText = Messages("iht.estateReport.assets.trusts.question",deceasedName),
@@ -94,7 +94,7 @@ isFullWidth=false
                         Messages("page.iht.application.assets.trusts.value.screenreader.link.noValue"))
                 )
             }
-        </ul>
+        </dl>
     </section>
 
     @returnLink(

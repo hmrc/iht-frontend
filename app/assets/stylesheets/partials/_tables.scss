@@ -87,6 +87,10 @@ table th {
     font-weight: 700;
 }
 
+table tbody th {
+    font-weight: 400;
+}
+
 @media (min-width: 641px) {
     table th, table td {
         font-size: 16px;

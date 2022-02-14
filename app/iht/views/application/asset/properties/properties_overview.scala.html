@@ -46,7 +46,7 @@ isFullWidth=false
 
 
 <div id="property-table" class="form-group" @if(propertyList.isEmpty){}>
-        <ul class="tabular-data tabular-data--list">
+        <dl class="tabular-data tabular-data--list">
         @genericOverviewTableItem(id = appConfig.AssetsPropertiesOwnedID,
             questionText = Messages("page.iht.application.assets.properties.question.question",
                                       DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
@@ -59,51 +59,62 @@ isFullWidth=false
                 case None => Messages("page.iht.application.assets.properties.question.noValue")
             }
         )
-        </ul>
+        </dl>
 
-        <section>
-         @if(propertyList.isEmpty){
-          <p id="properties-empty-table-row">@Messages("page.iht.application.assets.deceased-permanent-home.table.emptyRow.text")</p>
-          }else{
-          <ul id="properties" class="tabular-data tabular-data--list">
-          @for((element,i) <- propertyList.zipWithIndex){
-            <li class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
-                <div class="tabular-data__data tabular-data__data--4-12">
-                    <div class="visually-hidden">@Messages("page.iht.application.assets.property.address.property.number", (i + 1))</div>
+    <section>
+        @if(propertyList.isEmpty){
+        <p id="properties-empty-table-row">@Messages("page.iht.application.assets.deceased-permanent-home.table.emptyRow.text")</p>
+        }else{
+            @for((element,i) <- propertyList.zipWithIndex){
+        <table id="properties" class="tabular-data tabular-data--list">
+            <caption class="heading-small">@Messages("page.iht.application.assets.property.address.property.number", (i + 1))</caption>
+            <thead>
+            <tr>
+                <th scope="col" class="visually-hidden">Property address</th>
+                <th scope="col" class="visually-hidden">Property value</th>
+                <th scope="col" class="visually-hidden">Delete property</th>
+                <th scope="col" class="visually-hidden">Change property</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row" id="property-address-text">
                     @element.address match{
-                        case Some(x) => {
-                            @AddressHelper.addressLayout(x)
-                        }
-                        case None => {@Messages("page.iht.application.assets.deceased-permanent-home.table.emptyAddress.text")}
+                    case Some(x) => {
+                    @AddressHelper.addressLayout(x)
                     }
-                </div>
-                <div class="tabular-data__data tabular-data__data--4-12 u-align--tablet-right">
+                    case None => {@Messages("page.iht.application.assets.deceased-permanent-home.table.emptyAddress.text")}
+                    }
+                </th>
+
+                <td>
                     <span class="js-propertyValInput js-toFormat">@element.value.map(x=> "£"+CommonHelper.numberWithCommas(x))</span>
-                </div>
-                <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
+                </td>
+                <td class="numeric">
                     <a href='@iht.controllers.application.assets.properties.routes.DeletePropertyController.onPageLoad(element.id.getOrElse("")).url' id='@appConfig.AssetsPropertiesDeleteID@element.id.getOrElse("")'>
-                        <span aria-hidden="true">
-                        @Messages("iht.delete")
-                        </span>
+                                <span aria-hidden="true">
+                                @Messages("iht.delete")
+                                </span>
                         <span class="visually-hidden">@Messages("page.iht.application.assets.property.address.property.delete", (i + 1))</span>
                     </a>
-                </div>
-                <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
+                </td>
+                <td class="numeric">
                     <a href='@iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onEditPageLoad(element.id.getOrElse("")).url' id='@appConfig.AssetsPropertiesChangeID@element.id.getOrElse("")'>
                         @if(element.isComplete) {
-                            <span aria-hidden="true">@Messages("iht.change")</span>
-                            <span class="visually-hidden">@Messages("page.iht.application.assets.property.address.property.change", (i + 1))</span>
+                        <span aria-hidden="true">@Messages("iht.change")</span>
+                        <span class="visually-hidden">@Messages("page.iht.application.assets.property.address.property.change", (i + 1))</span>
                         } else {
-                            <span aria-hidden="true">@Messages("site.link.giveDetails")</span>
-                            <span class="visually-hidden">@Messages("page.iht.application.assets.property.address.property.givedetails", (i + 1))</span>
+                        <span aria-hidden="true">@Messages("site.link.giveDetails")</span>
+                        <span class="visually-hidden">@Messages("page.iht.application.assets.property.address.property.givedetails", (i + 1))</span>
                         }
                     </a>
-                </div>
-            </li>
-          }
-          </ul>
-          }
-        </section>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        }
+        }
+    </section>
 </div>
 
 
