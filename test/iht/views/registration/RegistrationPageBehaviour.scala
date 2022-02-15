@@ -44,7 +44,7 @@ trait RegistrationPageBehaviour[A] extends ViewTestHelper {
     }
 
     "have the correct browser title" in {
-      browserTitleShouldBeCorrect(view, browserTitle)
+      browserTitleShouldBeCorrectRegistration(view, browserTitle)
     }
 
     "have a Continue button" in {

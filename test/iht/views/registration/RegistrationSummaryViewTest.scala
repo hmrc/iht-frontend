@@ -255,7 +255,7 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
     }
 
     "have the correct browser title" in {
-      browserTitleShouldBeCorrect(viewAsString, messagesApi("iht.registration.checkYourAnswers"))
+      browserTitleShouldBeCorrectRegistration(viewAsString, messagesApi("iht.registration.checkYourAnswers"))
     }
 
     "have a Confirm details button" in {

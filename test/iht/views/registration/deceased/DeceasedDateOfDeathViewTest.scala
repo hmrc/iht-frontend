@@ -29,7 +29,7 @@ import play.twirl.api.HtmlFormat.Appendable
 class DeceasedDateOfDeathViewTest extends RegistrationPageBehaviour[DeceasedDateOfDeath] {
 
   override def pageTitle = messagesApi("page.iht.registration.deceasedDateOfDeath.title")
-  override def browserTitle = messagesApi("iht.dateOfDeath")
+  override def browserTitle = messagesApi("page.iht.registration.deceasedDateOfDeath.title")
   override def form:Form[DeceasedDateOfDeath] = deceasedDateOfDeathForm
   lazy val deceasedDateOfDeathView: deceased_date_of_death = app.injector.instanceOf[deceased_date_of_death]
 

@@ -63,7 +63,7 @@ class TnrbGuidanceViewTest extends ViewTestHelper {
         false).toString
       val doc = asDocument(view)
       assertEqualsValue(doc, "title",
-        messagesApi("iht.estateReport.tnrb.increasingThreshold") + " " + messagesApi("site.title.govuk"))
+        messagesApi("iht.estateReport.tnrb.increasingThreshold") + " " + messagesApi("site.title.govuk.application"))
     }
 
     "show the correct browser title on system page load" in {
@@ -73,7 +73,7 @@ class TnrbGuidanceViewTest extends ViewTestHelper {
         true).toString
       val doc = asDocument(view)
       assertEqualsValue(doc, "title",
-        messagesApi("page.iht.application.tnrb.guidance.system.title") + " " + messagesApi("site.title.govuk"))
+        messagesApi("page.iht.application.tnrb.guidance.system.title") + " " + messagesApi("site.title.govuk.application"))
     }
 
     "show the correct paragraphs on page load" in {

@@ -49,7 +49,7 @@ class TnrbOverviewViewTest extends ViewTestHelper with TnrbHelper {
       val view = tnrbOverviewView(regDetails, widowCheckModel, tnrbModel, ihtReference).toString
       val doc = asDocument(view)
       assertEqualsValue(doc, "title",
-        messagesApi("iht.estateReport.tnrb.increasingThreshold") + " " + messagesApi("site.title.govuk"))
+        messagesApi("iht.estateReport.tnrb.increasingThreshold") + " " + messagesApi("site.title.govuk.application"))
     }
 
     "show the correct guidance paragraphs" in {

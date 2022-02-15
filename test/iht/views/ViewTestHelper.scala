@@ -64,6 +64,11 @@ trait ViewTestHelper extends FakeIhtApp with MockitoSugar with TestUtils with Be
     assertEqualsValue(doc, "title", buildApplicationTitle(expectedTitle))
   }
 
+  def browserTitleShouldBeCorrectRegistration(pageContent: String, expectedTitle: String) = {
+    val doc = asDocument(pageContent)
+    assertEqualsValue(doc, "title", buildRegistrationTitle(expectedTitle))
+  }
+
   def radioButtonShouldBeCorrect(doc: Document, labelTextMessagesKey: String, radioID: String,
                                  labelID: Option[String] = None) = {
     val labelText = messagesApi(labelTextMessagesKey)
@@ -102,7 +107,12 @@ trait ViewTestHelper extends FakeIhtApp with MockitoSugar with TestUtils with Be
 
   def buildApplicationTitle(title: String) = {
 
-    title + " " + messagesApi("site.title.govuk")
+    title + " " + messagesApi("site.title.govuk.application")
+  }
+
+  def buildRegistrationTitle(title: String) = {
+
+    title + " " + messagesApi("site.title.govuk.registration")
   }
 
   def labelShouldBe(doc: Document, labelId: String, messageKey: String) = {

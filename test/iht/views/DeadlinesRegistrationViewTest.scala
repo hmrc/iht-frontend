@@ -47,7 +47,7 @@ class DeadlinesRegistrationViewTest extends GenericNonSubmittablePageBehaviour {
   override def view = deadlinesRegistrationView(request, messages).toString
 
   "Deadlines view" must {
-    behave like nonSubmittablePage()
+    behave like nonSubmittablePageRegistration()
 
     behave like link("pay-early",
       TestHelper.LinkPayEarly,

@@ -33,7 +33,7 @@ deceasedName: String
 )(implicit request:Request[_], messages: Messages)
 
 @ihtMainTemplateApplication(title = "",
-browserTitle = Some(Messages("page.iht.application.assets.property.tenure.browserTitle")),
+browserTitle = Some(Messages("iht.estateReport.assets.properties.freeholdOrLeasehold")),
 cancelUrl=Some(CommonHelper.addFragmentIdentifier(cancelUrl, Some(appConfig.AssetsPropertiesTenureID))),
 cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty"))
 ) {

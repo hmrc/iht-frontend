@@ -31,7 +31,7 @@ cancelUrl: Call,
 submitUrl: Call)(implicit request:Request[_], messages: Messages)
 
 @ihtMainTemplateApplication(title = Messages("iht.estateReport.assets.property.whatIsAddress.question"),
-browserTitle = Some(Messages("page.iht.application.assets.property.address.browserTitle")),
+browserTitle = Some(Messages("iht.estateReport.assets.property.whatIsAddress.question")),
 isFullWidth = false,
 cancelUrl = Some(CommonHelper.addFragmentIdentifier(cancelUrl, Some(appConfig.AssetsPropertiesPropertyAddressID))),
 cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty")),

@@ -121,7 +121,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
       assertEqualsValue(doc, "h1",
         messagesApi("page.iht.application.overview.title2", registrationDetails.deceasedDetails.get.name))
       assertEqualsValue(doc, "title",
-        messagesApi("page.iht.application.overview.browserTitle") + " " + messagesApi("site.title.govuk"))
+        messagesApi("page.iht.application.overview.browserTitle") + " " + messagesApi("site.title.govuk.application"))
 
       assertNotRenderedById(doc, "continue-to-declaration")
 

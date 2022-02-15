@@ -43,7 +43,7 @@ class UseCheckerView extends ViewTestHelper {
       val result = useCheckerView()(fakeRequest, messages)
       val doc = asDocument(contentAsString(result))
       val browserTitle = doc.getElementsByTag("title").first
-      browserTitle.text must be(messagesApi("page.iht.filter.useChecker.title") + " - GOV.UK")
+      browserTitle.text must be(messagesApi("page.iht.filter.useChecker.title") + " – Register to complete an Inheritance Tax estate report – GOV.UK")
     }
 
     "contain a 'Previous answers' section" in {
