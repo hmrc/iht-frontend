@@ -148,9 +148,6 @@
 }
 
     @mainContentIht = {
-    @backUrl.map{ url =>
-        <a id="back-button" class="back-link" href=@url>@Messages("iht.back")</a>
-    }
     @if(title > ""){
         @highlightBoxClass.map{css=>
             <div class="@css">
@@ -171,6 +168,9 @@
     }
     @mainContent
 
+    @backUrl.map{ url =>
+        <a id="back-button" class="back-link" href=@url>@Messages("iht.back")</a>
+    }
     @cancelUrl.map{ url =>
         <p>
             <a id="cancel-button" class="" href=@url>@Html(cancelLabel.getOrElse(""))</a>
@@ -210,7 +210,7 @@
 }
 
 @govukTemplate(
-    title = if(browserTitle.isDefined) { browserTitle.map(_ + " " + Messages("site.title.govuk.application")) } else Some(title),
+    title = if(browserTitle.isDefined) { browserTitle.map(_ + " " + Messages("site.title.govuk.registration")) } else Some(title),
     bodyClasses = None)(
     head = headWithTrackingConsent(linkElem = Some(linkElement), headScripts = None),
     bodyEnd = bodyEnd,

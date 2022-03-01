@@ -57,7 +57,7 @@ class DeleteCoExecutorConfirmViewTest extends ViewTestHelper{
         messagesApi("page.iht.registration.deleteExecutor.title",
                   messagesApi("page.iht.registration.executor-overview.entity-name")))
 
-     browserTitleShouldBeCorrect(view, messagesApi("page.iht.registration.deleteExecutor.browserTitle"))
+     browserTitleShouldBeCorrectRegistration(view, messagesApi("page.iht.registration.deleteExecutor.browserTitle"))
     }
 
     "show the CoExecutor name" in {

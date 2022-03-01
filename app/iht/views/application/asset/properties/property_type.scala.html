@@ -34,7 +34,7 @@ submitUrl: Call,
 deceasedName: String)(implicit request:Request[_], messages: Messages)
 
 @ihtMainTemplateApplication(title = "",
-browserTitle = Some(Messages("page.iht.application.assets.property.type.browserTitle")),
+browserTitle = Some(Messages("iht.estateReport.assets.properties.whatKind.question")),
 isFullWidth = false,
 cancelUrl = Some(CommonHelper.addFragmentIdentifier(cancelUrl, Some(appConfig.AssetsPropertiesPropertyKindID))),
 cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty"))

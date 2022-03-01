@@ -313,7 +313,7 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
       val result = deceasedWidowCheckDateController.onPageLoad (createFakeRequest())
       val doc = asDocument(contentAsString(result))
       assertEqualsValue(doc, "title",
-        messagesApi("iht.estateReport.tnrb.increasingIHTThreshold") + " " + messagesApi("site.title.govuk"))
+        messagesApi("iht.estateReport.tnrb.increasingIHTThreshold") + " " + messagesApi("site.title.govuk.application"))
     }
 
     "return html containing link which points to estate overview when widow check date is empty" in {

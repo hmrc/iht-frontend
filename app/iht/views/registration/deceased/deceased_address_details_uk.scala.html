@@ -34,7 +34,7 @@
     cancelLocation: Option[Call] = None)(implicit request:Request[_], messages: Messages)
 
 @ihtMainTemplateRegistration(title = Messages("iht.registration.deceased.lastContactAddress", StringEscapeUtils.escapeHtml4(deceasedName)),
-    browserTitle = Some(Messages("iht.registration.contactAddress")),
+    browserTitle = Some(Messages("iht.registration.deceasedLastAddress")),
     cancelUrl=cancelLocation) {
 
     @errorSummary(deceasedAddressDetailsUKForm)

@@ -47,7 +47,7 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
       val view = exemptionsGuidanceIncreasingThresholdView("ihtReference").toString
       val doc = asDocument(view)
       assertEqualsValue(doc, "title",
-        messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.title") + " " + messagesApi("site.title.govuk"))
+        messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.title") + " " + messagesApi("site.title.govuk.application"))
     }
 
     "show the correct paragraphs" in {

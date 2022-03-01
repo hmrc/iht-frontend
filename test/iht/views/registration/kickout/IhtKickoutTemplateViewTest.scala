@@ -49,7 +49,7 @@ class IhtKickoutTemplateViewTest extends ViewTestHelper{
       val view = ihtKickOutTemplateView()
 
       titleShouldBeCorrect(view.toString, title)
-      browserTitleShouldBeCorrect(view.toString, title)
+      browserTitleShouldBeCorrectRegistration(view.toString, title)
       messagesShouldBePresent(view.toString, summaryMessage)
     }
 

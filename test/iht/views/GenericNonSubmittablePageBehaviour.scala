@@ -67,6 +67,37 @@ trait GenericNonSubmittablePageBehaviour extends ViewTestHelper {
     }
   }
 
+ def nonSubmittablePageRegistration() = {
+    "have no message keys in html" in {
+      noMessageKeysShouldBePresent(view)
+    }
+
+    "have the correct title" in {
+      titleShouldBeCorrect(view, pageTitle)
+    }
+
+    "have the correct browser title" in {
+      browserTitleShouldBeCorrectRegistration(view, browserTitle)
+    }
+
+    if (guidanceParagraphs.nonEmpty) {
+      "show the correct guidance paragraphs" in {
+        for (paragraph <- guidanceParagraphs) messagesShouldBePresent(view, paragraph)
+      }
+    }
+
+    if (exitComponent.isDefined) {
+      "show the exit link with the correct target and text" in {
+        exitComponent.foreach { attrib =>
+          val anchor = doc.getElementById(exitId)
+          anchor.attr("href") mustBe addFragmentIdentifierToUrl(attrib.target.url, attrib.hash)
+          anchor.text() mustBe attrib.content
+        }
+      }
+    }
+  }
+
+
   def link(anchorId: => String, href: => String, text: => String) = {
     def anchor = doc.getElementById(anchorId)
     s"have a link with id $anchorId and correct target" in {

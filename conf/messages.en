@@ -2,7 +2,8 @@
 site.pdf.document.link.text = PDF document
 iht.estateReport.copyOfTheEstateReportAndPrint = You should open a copy of the estate report and print it off. (PDF, size is less than 500KB)
 site.copyApplication.link = copy of the application
-site.title.govuk = - GOV.UK
+site.title.govuk.application = – Complete an Inheritance Tax estate report – GOV.UK
+site.title.govuk.registration = – Register to complete an Inheritance Tax estate report – GOV.UK
 site.application.title = Complete an Inheritance Tax estate report
 site.registration.title = Register to complete an Inheritance Tax estate report
 site.date-hint-text = For example, 31 12 2014
@@ -340,9 +341,12 @@ iht.registration.changeAddressToUK = Change to a UK address
 iht.registration.checkYourAnswers = Check your answers
 iht.registration.coExecutors.changeIfOthers = Change if other people are applying for probate
 iht.registration.complete = Start your estate report
-iht.registration.contactAddress = Contact address
+iht.registration.contactAddress = Deceased’s last contact address
+iht.registration.whereWasDeceasedLastAddress = Where was the deceased’s last contact address?
+iht.registration.deceasedLastAddress = Deceased’s last contact address
 iht.registration.ninoNotOnPayslip = Their National Insurance number can be found on a payslip, a P45 or a P60 form.
 iht.registration.othersApplyingForProbate = Other executors applying for probate
+page.iht.registration.executor-overview.browserTitle = Other executors applying for probate
 page.iht.registration.title = Registration
 
 #Registration - Checklist
@@ -407,7 +411,7 @@ page.iht.registration.deceasedDateOfDeath.p1.b = to find out what to do next.
 
 #Registration - Deceased’s permanent home
 page.iht.registration.deceasedPermanentHome.title = Where was the permanent home of the person who has died?
-page.iht.registration.deceasedPermanentHome.browserTitle = Permanent home
+page.iht.registration.deceasedPermanentHome.browserTitle = Where was the permanent home of the person who has died?
 iht.common.other = Other
 
 #Registration - About the person who has died
@@ -491,14 +495,14 @@ page.iht.registration.applicantDetails.mci.contact.charges.href = Find out more 
 
 #Registration - Applicant Apply for probate
 page.iht.registration.applicant.probateLocation.title = Where are you going to apply for probate?
-page.iht.registration.applicant.probateLocation.browserTitle = Probate location
+page.iht.registration.applicant.probateLocation.browserTitle = Where are you going to apply for probate?
 
-page.iht.registration.applicant.applyingForProbate.browserTitle = Apply for probate
+page.iht.registration.applicant.applyingForProbate.browserTitle = Do you need probate for the deceased’s estate?
 page.iht.registration.applicant.applyingForProbate = Do you need probate for {0}’s estate?
 iht.registration.applicant.applyingForProbate = Are you applying for probate for the estate?
 
 #Registration - Applicant Are You An Executor
-page.iht.registration.applicant.executorOfEstate.browserTitle = Are you an executor?
+page.iht.registration.applicant.executorOfEstate.browserTitle = Are you one of the executors for the deceased’s estate?
 page.iht.registration.applicant.executorOfEstate.p1 = You need to be an executor of the estate being named on the probate application, or intend to apply to be named as an administrator (if there was no will).
 page.iht.registration.applicant.executorOfEstate = Are you one of the executors for {0}’s estate?
 
@@ -520,14 +524,14 @@ page.iht.registration.coexecutor.add.title = Add {0}
 
 #Registration - Delete executor confirmation
 page.iht.registration.deleteExecutor.title = Confirm that you want to delete this person
-page.iht.registration.deleteExecutor.browserTitle = Delete applicant
+page.iht.registration.deleteExecutor.browserTitle = Confirm that you want to delete this person
 
 page.iht.registration.co-executor-personal-details.title = Personal details for the other executor
-page.iht.registration.co-executor-personal-details.browserTitle = Other person’s details
+page.iht.registration.co-executor-personal-details.browserTitle = Personal details for the other executor
 page.iht.registration.co-executor-personal-details.isAddressInUk = Is their address in the UK?
 
 page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix = {0} address
-page.iht.registration.others-applying-for-probate-address.browserTitle = Other person’s address
+page.iht.registration.others-applying-for-probate-address.browserTitle = Other executor’s address
 page.iht.registration.others-applying-for-probate-address.address.guidance = This is where HMRC can contact them.
 
 #Registration Summary
@@ -624,11 +628,10 @@ page.iht.registration.duplicateRegistration.ref.text = If any details have chang
 
 page.iht.registration.others-applying-for-probate.sectionName = others-applying-for-probate
 page.iht.registration.others-applying-for-probate.sectionTitle = Are there any other people applying for probate?
-page.iht.registration.others-applying-for-probate.browserTitle = Other probate applicants
+page.iht.registration.others-applying-for-probate.browserTitle = Are there any other people applying for probate?
 page.iht.registration.others-applying-for-probate.description = You have to add the details for the executors or administrators who will also apply for probate for this estate.
 
 page.iht.registration.executor-overview.sectionName = executor-overview
-page.iht.registration.executor-overview.browserTitle = Other applicants
 page.iht.registration.executor-overview.description = A total of 3 other people can apply to the Probate Service with you for a grant of representation for this estate.
 page.iht.registration.executor-overview.yesnoQuestion = Do you want to add another person who is applying for probate?
 page.iht.registration.executor-overview.othersApplyingStatement.are = There are other people applying for probate
@@ -702,7 +705,7 @@ iht.estateReport.estateValue.error.p2 = You must in all cases report the amended
 #Estate report - IhtHome
 page.iht.home.title = Your Inheritance Tax estate reports
 page.iht.home.text = Save the link to this page or add it to your favourites. You’ll then be able to return to add or edit details before you submit the completed report to HMRC.
-page.iht.home.browserTitle = Your estate reports
+page.iht.home.browserTitle = Your Inheritance Tax estate reports
 page.iht.home.applicationList.table.guidance.label = This page shows the estate(s) you have registered.
 page.iht.home.applicationList.table.guidance.label.empty = You have not registered to complete an Inheritance Tax estate report.
 page.iht.home.applicationList.table.guidance.p2.empty = If you have already completed a registration and the details are not listed above, call the Inheritance Tax helpline on 0300 123 1072 for help. Call +44 300 123 1072 if you are outside of the UK.
@@ -763,7 +766,7 @@ page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.
 
 page.iht.application.overview.title = Application progress for {0} is now {1}
 page.iht.application.overview.title2 = {0}’s estate overview
-page.iht.application.overview.browserTitle = Estate overview
+page.iht.application.overview.browserTitle = The deceased’s estate overview
 
 page.iht.application.overview.gifts.nonGiven = No gifts given
 page.iht.application.overview.value = Estate value
@@ -817,7 +820,7 @@ page.iht.application.assets.subtitle = An asset is anything {0} owned that has a
 
 iht.estateReport.assets.getProfessionalValuation = HMRC recommend that you get a professional valuation for anything that might be worth more than £500. Any estimates should be made on an open market value and not an insurance or replacement value.
 iht.estateReport.assets.howOwnedByDeceased = How was this owned by {0}?
-iht.estateReport.assets.inEstate = Assets in the estate
+iht.estateReport.assets.inEstate = The deceased’s assets
 
 #Estate report - Assets - Overview
 page.iht.application.assets.overview.screenreader.link = for the {0} section
@@ -930,20 +933,20 @@ page.iht.application.assets.property.detailsOverview.value.screenReader.link.cha
 page.iht.application.assets.property.detailsOverview.returnLink = Return to properties, buildings and land
 page.iht.application.assets.property.detailsOverview.mortgage.text = If you want to add a mortgage for this property, building or land you can do this in debts owed from the estate.
 
-page.iht.application.assets.property.address.browserTitle = Property address
+page.iht.application.assets.property.address.browserTitle = What is the address?
 page.iht.application.assets.property.address.property.number = Property {0}
 page.iht.application.assets.property.address.property.delete = Delete property {0}
 page.iht.application.assets.property.address.property.change = Change details for property {0}
 page.iht.application.assets.property.address.property.givedetails = Give details for property {0}
 
-page.iht.application.assets.property.tenure.browserTitle = Freehold or leasehold property
+page.iht.application.assets.property.tenure.browserTitle = Was this owned freehold or leasehold?
 page.iht.application.assets.property.tenure.guidance1b = if a property was freehold or leasehold.
 
-page.iht.application.assets.property.type.browserTitle = Type of property
+page.iht.application.assets.property.type.browserTitle = What kind of property, building or land was this?
 page.iht.application.assets.property.type.label1 = If {0} lived in a property that they did not own, you should choose home if this property was both the last one they lived in and owned.
 page.iht.application.assets.property.type.label2 = This could be if {0} moved to an assisted living property owned by someone else but they still owned their old home. You would choose that old home as their home.
 
-page.iht.application.assets.property.ownership.browserTitle = How property was owned
+page.iht.application.assets.property.ownership.browserTitle = How was this owned by the deceased?
 page.iht.application.assets.property.ownership.guidance1b = how a property, building or land was owned.
 page.iht.application.assets.property.ownership.guidance2 = If there was a mortgage, the provider of the mortgage is not counted as an owner.
 
@@ -951,7 +954,7 @@ page.iht.application.propertyDetails.deleteProperty.title = Confirm that you wan
 page.iht.application.propertyDetails.deleteProperty.screenReader = The address of this property is {0}
 page.iht.application.propertyDetails.deleteProperty.button.screenReader = Confirm and delete this property
 
-page.iht.application.property.value.browserTitle = Property value
+page.iht.application.property.value.browserTitle = What was the deceased’s share of the value of this property, building or land?
 page.iht.application.property.value.question.hint1 = Give the full value of the property, building or land if {0} owned this on their own. If they owned this with someone else, only include their share of the total property, building or land value.
 page.iht.application.property.value.question.hint2 = HMRC recommend that you get a professional valuation for this property, building or land.
 
@@ -982,12 +985,12 @@ page.iht.application.assets.money.overview.deceased.joint.screenReader.link.noVa
 page.iht.application.assets.money.overview.deceased.joint.screenReader.link.change = Change the answer for money jointly owned with other people
 page.iht.application.assets.money.overview.deceased.joint.screenReader.link.value = Change the value of money jointly owned with other people
 
-page.iht.application.assets.money.deceased.browserTitle = Own money owned
+page.iht.application.assets.money.deceased.browserTitle = Money owned only by the deceased
 page.iht.application.assets.money.deceased.guidance = This is the value of any money that {0} had, including any in an account in the UK. This includes banks, building societies, National Savings investments, ISAs and safety deposit boxes.
 
 page.iht.application.assets.money.inputLabel1 = Value of money owned by the deceased in their name only
 
-page.iht.application.assets.money.jointly.owned.browserTitle = Joint money owned
+page.iht.application.assets.money.jointly.owned.browserTitle = Money jointly owned with other people
 page.iht.application.assets.money.jointly.owned.guidance.p1 = This is the value of any money that {0} had which was jointly owned with any other people.
 page.iht.application.assets.money.jointly.owned.guidance.p2 = This includes any of {0}’s money provided into a joint account, either by them or by someone else like their employer.
 page.iht.application.assets.money.jointly.owned.guidance.p3 = Only include {0}’s share of the money. If they provided all of the money into a joint account, include the full amount. If {1} was only named on a joint account but provided no money, do not include that account as part of their estate.
@@ -1013,12 +1016,12 @@ page.iht.application.assets.moneyOwed.isOwned = Was any money owed to {0}?
 page.iht.application.assets.moneyOwed.inputLabel1 = Value of money owed to {0} when they died
 
 #Estate report - Assets - Household and personal items
-page.iht.application.assets.household.deceased.browserTitle = Own household items owned
+page.iht.application.assets.household.deceased.browserTitle = Household and personal items owned only by the deceased
 page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.noValue = Give an answer for household and personal items held in {0}’s name
 page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.change = Change the answer for household and personal items held in {0}’s name
 page.iht.application.assets.household.overview.deceased.value.screenreader.link.change = Change the answer for value of household and personal items held in {0}’s name
 
-page.iht.application.assets.household.joint.browserTitle = Joint household items owned
+page.iht.application.assets.household.joint.browserTitle = Household and personal items the deceased owned jointly with other people
 page.iht.application.assets.household.overview.joint.isOwned.screenreader.link.noValue = Give an answer for jointly owned household and personal items
 page.iht.application.assets.household.overview.joint.isOwned.screenreader.link.change = Change the answer for jointly owned household and personal items
 page.iht.application.assets.household.overview.joint.value = Value of {0}’s share of any jointly owned household and personal items
@@ -1037,14 +1040,14 @@ iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title = Househo
 page.iht.application.assets.vehicles.overview.joint.title = Motor vehicles {0} owned with other people
 page.iht.application.assets.vehicles.overview.guidance = These are all cars and motorbikes that {0} owned. You must also include any caravans or boats that {1} had.
 
-page.iht.application.assets.vehicles.deceased.browserTitle = Motor vehicles owned
+page.iht.application.assets.vehicles.deceased.browserTitle = Motor vehicles owned only by the deceased
 page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.noValue = Give an answer for motor vehicles owned by {0}
 page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.change = Change the answer for motor vehicles owned by {0}
 page.iht.application.assets.vehicles.deceased.value = Value of any motor vehicles {0} owned in their own name
 page.iht.application.assets.vehicles.deceased.value.screenreader.link.change = Change the value of motor vehicles owned by {0}
 
 page.iht.application.assets.vehicles.jointly.owned.title = Motor vehicles jointly owned with other people
-page.iht.application.assets.vehicles.jointly.owned.browserTitle = Motor vehicles jointly owned
+page.iht.application.assets.vehicles.jointly.owned.browserTitle = Motor vehicles jointly owned with other people
 page.iht.application.assets.vehicles.jointly.owned.screenreader.link.noValue = Give an answer for jointly owned motor vehicles
 page.iht.application.assets.vehicles.jointly.owned.screenreader.link.change = Change the answer for jointly owned motor vehicles
 page.iht.application.assets.vehicles.jointly.owned.value.screenreader.link.change = Change the value of any jointly owned motor vehicles
@@ -1057,7 +1060,7 @@ iht.estateReport.assets.vehiclesOwned = Motor vehicles owned only by {0}
 
 #Estate report - Assets - Private pensions
 page.iht.application.pensions.isOwned.title = Did {0} have a private pension?
-page.iht.application.pensions.isOwned.browserTitle = Any private pensions
+page.iht.application.pensions.isOwned.browserTitle = Did the deceased have a private pension?
 page.iht.application.assets.pensions.isOwned.p1 = This does not include their state pension.
 page.iht.application.assets.pensions.overview.description.p1 = These are any private pensions that {0} had. This does not include {1}’s state pension.
 page.iht.application.assets.pensions.overview.description.p2 = A private pension could be a personal pension or a pension from {0}’s employer.
@@ -1067,11 +1070,11 @@ page.iht.application.assets.pensions.question.screenreader.link.noValue = Give a
 page.iht.application.assets.pensions.question.screenreader.link.change = Change the answer for private pensions the deceased had
 page.iht.application.assets.pensions.changed.question = This includes a transfer of any benefits or disposing of any part of a private pension in the 2 years before they died.
 page.iht.application.assets.pensions.changed.title = Did {0} make any changes to their private pension in the 2 years before they died?
-page.iht.application.assets.pensions.changed.browserTitle = Changes to pension
+page.iht.application.assets.pensions.changed.browserTitle = Did the deceased make any changes to their private pension in the 2 years before they died?
 page.iht.application.assets.pensions.changed.screenreader.link.change = Change the answer for did the deceased make any changes to a private pension in the 2 years before they died
 page.iht.application.assets.pensions.changed.screenreader.link.noValue = Give an answer for did the deceased make any changes to a private pension in the 2 years before they died
 
-page.iht.application.assets.pensions.value.browserTitle = Pension value
+page.iht.application.assets.pensions.value.browserTitle = Value of remaining pension payments being paid to the estate
 page.iht.application.assets.pensions.value.screenreader.link.change = Change the answer for the value of remaining pension payments being paid to the estate
 page.iht.application.assets.pensions.value.screenreader.link.noValue = Give a value for the remaining pension payments being paid to the estate
 page.iht.application.assets.pensions.hint = The pension provider will be able to tell you how much is being paid to the estate.
@@ -1081,12 +1084,12 @@ iht.estateReport.assets.pensions.valueOfRemainingPaymentsBeingPaid = Value of re
 iht.estateReport.assets.privatePensions = Private pensions
 
 #Estate report - Assets - Stock and shares
-page.iht.application.assets.stocksAndShares.listed.browserTitle = Listed stocks and shares
+page.iht.application.assets.stocksAndShares.listed.browserTitle = Stocks and shares listed on an exchange
 page.iht.application.assets.stocksAndShares.overview.listed.screenreader.link.change = Change the answer for any stocks and shares listed on an exchange
 page.iht.application.assets.stocksAndShares.overview.listed.screenreader.link.noValue = Give an answer for stocks and shares listed on an exchange
 page.iht.application.assets.stocksAndShares.overview.listed.screenreader.link.value = Change the value given for stocks and shares listed on an exchange
 
-page.iht.application.assets.stocksAndSharesNotListed.browserTitle = Unlisted stocks and shares
+page.iht.application.assets.stocksAndSharesNotListed.browserTitle = Stocks and shares not listed on an exchange
 page.iht.application.assets.stocksAndShares.overview.notListed.screenreader.link.change = Change the answer for any stocks and shares not listed on an exchange
 page.iht.application.assets.stocksAndShares.overview.notListed.screenreader.link.noValue = Give an answer for stocks and shares not listed on an exchange
 page.iht.application.assets.stocksAndShares.overview.notListed.screenreader.link.value = Change the value given for stocks and shares not listed on an exchange
@@ -1153,22 +1156,22 @@ page.iht.application.assets.insurance.policies.overview.other.question3.none.scr
 page.iht.application.assets.insurance.policies.overview.other.question4.none.screenReader.link.value = Give an answer for was a policy placed in a trust more than 7 years before {0} died?
 page.iht.application.assets.insurance.policies.overview.other.question5.none.screenReader.link.value = Give an answer for did {0} buy an annuity at any time in their life?
 
-page.iht.application.insurance.policies.section1.browserTitle = Own insurance policies
+page.iht.application.insurance.policies.section1.browserTitle = Policies that are paying out to the deceased
 page.iht.application.insurance.policies.section1.guidance = These are all of the insurance policies that were owned in {0}’s own name and were paying out to them. You should also include any policies that anyone else had and were paying out only to {1}.
 page.iht.application.insurance.policies.section2.title = Policies that were jointly held with other people
-page.iht.application.insurance.policies.section2.browserTitle = Joint insurance policies
+page.iht.application.insurance.policies.section2.browserTitle = Policies that were jointly held with other people
 page.iht.application.insurance.policies.section2.guidance = These are all of the policies that were jointly in the names of {0} and any other person. This could be a life assurance policy or a mortgage protection policy on a house that {1} jointly owned.
 page.iht.application.insurance.policies.section2.guidance2 = Only include {0}’s share of the policy value. You will need to take the total value of the insurance policy and work out how much of that the deceased owned.
-page.iht.application.insurance.policies.section3.browserTitle = Premiums paid for someone else
+page.iht.application.insurance.policies.section3.browserTitle = Did the deceased ever pay insurance premiums for a policy that was not due to pay out to their estate?
 page.iht.application.insurance.policies.section4.title = Was an insurance policy that {0} was paying for placed in trust in the 7 years before they died?
-page.iht.application.insurance.policies.section4.browserTitle = Policies placed in trust
+page.iht.application.insurance.policies.section4.browserTitle = Was an insurance policy that the deceased was paying for placed in trust in the 7 years before they died?
 page.iht.application.insurance.policies.section5.title = Was a policy placed in a trust more than 7 years before the deceased died?
 page.iht.application.insurance.policies.section5.question = Was an insurance policy placed in the trust more than 7 years before the deceased died?
-page.iht.application.insurance.policies.section6.browserTitle = Any annuities bought
+page.iht.application.insurance.policies.section6.browserTitle = Did the deceased buy an annuity at any time in their life?
 page.iht.application.insurance.policies.section6.guidance = An annuity pays out through a number of regular payments. Sometimes this could be from an insurance company where someone receives a regular payment instead of one single payment. You should take your time to check with different financial providers to check if an annuity was bought.
 page.iht.application.insurance.policies.section7.guidance = The insurance premiums paid by {0} on a policy that pays out to someone else was a gift to that person.
 page.iht.application.insurance.policies.section7.guidance2 = Include these values in the gifts section.
-page.iht.application.insurance.policies.section8.browserTitle = Value of gifted policies
+page.iht.application.insurance.policies.section8.browserTitle = Did the deceased spend over £3,000 in any year on the insurance premiums that were for a policy that was not paying out to their estate?
 page.iht.application.insurance.policies.validation.summary.endLine = If you do not want to answer at this time, you can choose to return to insurance policies.
 
 iht.estateReport.assets.insurancePolicies = Insurance policies
@@ -1186,7 +1189,7 @@ iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText2 = You
 
 #Estate report - Assets - Business interests
 iht.estateReport.assets.businessInterests.title = Business interests
-page.iht.application.assets.businessInterest.browserTitle = Business interests owned
+page.iht.application.assets.businessInterest.browserTitle = Business interests
 page.iht.application.assets.businessInterest.description.p1 = This should include the value of {0}’s business interests.
 page.iht.application.assets.businessInterest.description.p2 = If {0} owned any business properties, buildings or land, you should give these details in the properties, buildings and land section.
 page.iht.application.assets.businessInterest.isOwned = Did {0} own any businesses or have any other business interests when they died?
@@ -1195,7 +1198,7 @@ page.iht.application.assets.businessInterest.hint = Do not include any business 
 
 #Estate report - Assets - Nominated
 iht.estateReport.assets.nominated = Nominated assets
-page.iht.application.assets.nominated.browserTitle = Nominated assets owned
+page.iht.application.assets.nominated.browserTitle = Nominated assets
 page.iht.application.assets.nominated.description.p1 = These are assets that {0} had nominated to pass to someone when they died. These should not be confused with an asset being left to someone in a will. If something is left to someone in a will, this is not a nominated asset.
 page.iht.application.assets.nominated.description.p2 = Nominated assets could have been set up when an account was opened with friendly societies, or industrial and provident societies. Before 1 March 1981, National Savings certificates and accounts could also be nominated to pass to someone.
 page.iht.application.assets.nominated.description.p3 = The provider will be able to tell you if the asset was nominated to pass to someone.
@@ -1208,9 +1211,9 @@ page.iht.application.assets.held-in-trust.sectionName = held-in-trust
 page.iht.application.assets.held-in-trust.description.p1 = If the deceased benefited from a trust during their lifetime, such as regular payments being received or dividends from shares, these need to be included in the value of their estate. This includes assets in a trust that the deceased benefited from during their lifetime, or was entitled to benefit from.
 page.iht.application.assets.held-in-trust.description.p2 = If the deceased had the right to live in a house that was held in a trust during their lifetime, the value of that property should be included.
 
-page.iht.application.assets.trusts.isOwned.browserTitle = Any assets in trust
-page.iht.application.assets.trusts.moreThanOne.browserTitle = How many trusts benefited from
-page.iht.application.assets.trusts.value.browserTitle = Trust value
+page.iht.application.assets.trusts.isOwned.browserTitle = Did the deceased benefit from, or have the right to benefit from, a trust during their lifetime?
+page.iht.application.assets.trusts.moreThanOne.browserTitle = Was the deceased benefiting from, or have the right to benefit from, more than 1 trust?
+page.iht.application.assets.trusts.value.browserTitle = Value of the trust that the deceased benefited from when they died
 
 page.iht.application.assets.trusts.question.screenreader.link.noValue = Give an answer for did the deceased benefit from, or have the right to benefit from, a trust during their lifetime
 page.iht.application.assets.trusts.question.screenreader.link.value = Change the answer for did the deceased benefit from, or have the right to benefit from, a trust during their lifetime
@@ -1254,14 +1257,14 @@ page.iht.application.assets.property.question.mortgage.text = If there are no pr
 
 #Estate report - Assets - Any other assets not listed
 iht.estateReport.assets.other.title = Any other assets not listed
-page.iht.application.assets.other.browserTitle = Other assets owned
+page.iht.application.assets.other.browserTitle = Any other assets not listed
 page.iht.application.assets.other.description.p1 = This is the total value of any other assets that are not included in any other section.
 page.iht.application.assets.other.description.p2 = This could be any money owed in salary or wages, pension arrears, rents owed to {0}, or refunds from utility bills.
 page.iht.application.assets.other.isOwned = Did {0} own any other assets?
 page.iht.application.assets.other.inputLabel1 = Value of any other assets owned by {0} when they died
 
 #Estate report - Gifts
-page.iht.application.gifts.sevenYears.values.browserTitle = Value of gifts given away
+page.iht.application.gifts.sevenYears.values.browserTitle = Value of gifts given away in the 7 years before death
 page.iht.application.gifts.sevenYears.values.guidance1 = Enter the total value of gifts given away in each tax year and the amount of exemptions being claimed.
 
 page.iht.application.gifts.sevenYears.values.guidance2 = You can claim exemptions in each tax year
@@ -1338,7 +1341,7 @@ page.iht.application.giftsDetails.value.label = Total value of gifts for {0} to 
 page.iht.application.giftsDetails.exemptions.label = Total value of exemptions for {0} to {1}
 page.iht.application.giftsDetails.amountAdded = Amount added to the estate value is £
 
-iht.estateReport.gifts.givenAway.title = Gifts given away
+iht.estateReport.gifts.givenAway.title = Gifts given away by the deceased
 iht.estateReport.gifts.givenAwayBy = Gifts given away by {0}
 iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath = Types of gifts given away in the 7 years before death
 iht.estateReport.gifts.reservation.question = Did {0} give any gifts away that they still benefited from?
@@ -1348,7 +1351,7 @@ iht.estateReport.gifts.stocksAndSharesListed = stocks and shares listed on the L
 iht.estateReport.gifts.valueOfGiftsGivenAway = Value of gifts given away in the 7 years before death
 iht.estateReport.gifts.withReservation.title = Gifts given away that {0} still benefited from
 
-iht.estateReport.gifts.withReservation.titleWithoutName = Gifts with reservation of benefit
+iht.estateReport.gifts.withReservation.titleWithoutName = Gifts given away that the deceased still benefited from
 
 iht.estateReport.gifts.withReservation.p1 = These are called gifts with reservation of benefit.
 iht.estateReport.gifts.withReservation.p2 = These are gifts that have been given away by someone where they still had some benefit afterwards. This is for any gift given away after 18 March 1986.
@@ -1401,7 +1404,7 @@ page.iht.application.debts.overview.total = Total value of debts owed from the e
 page.iht.application.debts.overview.screenReader.total = The total value of debts owed from the estate is £{0}
 
 page.iht.application.debts.mortgageValue.title = Did {0} have a mortgage on this property?
-page.iht.application.debts.mortgageValue.browserTitle = Any mortgage on property
+page.iht.application.debts.mortgageValue.browserTitle = Did the deceased have a mortgage on this property?
 
 page.iht.application.debts.mortgages.description.p1 = You should use the outstanding balance remaining to pay off a mortgage as the value. Some providers might describe this differently so check with them if you are unsure of how much is outstanding on a mortgage.
 page.iht.application.debts.mortgages.description.p3 = If {0} had a mortgage protection policy which paid out after they died, you should include that value as an asset under insurance policies owned.
@@ -1418,21 +1421,21 @@ page.iht.application.debts.funeralExpenses.description.p1 = You can deduct some 
 page.iht.application.debts.funeralExpenses.description.p2 = If {0} paid for a funeral plan before they died, this would not be a funeral expense. Any travelling or accommodation costs for mourners, or any flowers or refreshments that they gave, cannot be claimed as a funeral expense.
 page.iht.application.debts.funeralExpenses.isOwned = Are there any funeral expenses being paid out of the estate?
 
-page.iht.application.debts.debtsTrust.browserTitle = Debts owed from trust
+page.iht.application.debts.debtsTrust.browserTitle = Debts owed from a trust
 page.iht.application.debts.debtsTrust.description.p1 = This is the value of any debts owed from a trust that {0} was benefiting from. If the trustees only gave you the value of a trust after deducting any debts then do not include a value here.
 page.iht.application.debts.debtsTrust.isOwned = Are there any debts being paid out of the estate that are owed from a trust that {0} benefited from?
 
-page.iht.application.debts.debtsOutsideUk.browserTitle = Foreign debts
+page.iht.application.debts.debtsOutsideUk.browserTitle = Debts owed to anyone outside of the UK
 page.iht.application.debts.debtsOutsideUk.description.p1 = This is the value of all debts owed to anyone outside of the UK including anything owed on any foreign assets.
 page.iht.application.debts.debtsOutsideUk.description.p2 = You must change the foreign value to British pounds using the exchange rate on the date of death.
 page.iht.application.debts.debtsOutsideUk.isOwned = Are there any debts being paid out of the estate that are owed to anyone outside of the UK?
 
-page.iht.application.debts.jointlyOwned.browserTitle = Joint debts
+page.iht.application.debts.jointlyOwned.browserTitle = Debts owed on any jointly owned assets
 page.iht.application.debts.jointlyOwned.description.p1 = This is if {0} jointly owned any assets and there are debts owed on them. This does not include the mortgage on any jointly owned properties.
 page.iht.application.debts.jointlyOwned.description.p2 = You should only include {0}’s share of any debts owed on jointly owned assets.
 page.iht.application.debts.jointlyOwned.isOwned = Are there any debts being paid out of the estate that are owed on any jointly owned assets?
 
-page.iht.application.debts.other.browserTitle = Other debts
+page.iht.application.debts.other.browserTitle = Any other debts not listed
 page.iht.application.debts.other.description.p1 = This is the total value of any other debts that are being paid from the estate that are not included in any other section.
 page.iht.application.debts.other.description.p2 = This includes any loans {0} was paying, including those they were guaranteeing and had been asked to pay when they died.
 page.iht.application.debts.other.description.p3 = Any outstanding credit card debts and money owed on any insurance policies and household bills are included here.
@@ -1456,7 +1459,7 @@ iht.estateReport.debts.valueOfFuneralCosts = Value of the funeral expenses
 page.iht.exemptions.title = Exemptions
 page.iht.application.return.to.exemptionsOf = Return to {0}’s estate exemptions
 page.iht.application.exemptions.overview.screenReader.total = The total value of estate exemptions which are taken away from the estate value is £{0}
-iht.estateReport.exemptions.title = Estate exemptions
+iht.estateReport.exemptions.title = The deceased’s estate exemptions
 
 #Estate report - Exemptions Guidance
 page.iht.application.exemptions.guidance.content1 = You only need to claim estate exemptions if the estate value is over the Inheritance Tax threshold. If you do not know the estate value, it is recommended to only complete the assets, gifts and debts sections before you claim any exemptions.
@@ -1565,7 +1568,7 @@ page.iht.application.exemptions.assetLeftToCharity.p1 = These are all of the ass
 page.iht.application.exemptions.assetLeftToCharity.p2 = You should add each individual charity that received assets and the total value of assets they received.
 page.iht.application.exemptions.assetLeftToCharity.screenreader.ident = Charity {0}.
 
-page.iht.application.exemptions.charityNumber.browserTitle = Charity number
+page.iht.application.exemptions.charityNumber.browserTitle = What is the registered charity number?
 page.iht.application.exemptions.charityNumber.p1 = You can find the registered charity number on the Charity Commission website by
 page.iht.application.exemptions.charityNumber.linkText = searching the charity register (opens in a new window or tab).
 
@@ -1573,7 +1576,7 @@ page.iht.application.exemptions.charityDelete.sectionTitle = Confirm that you wa
 page.iht.application.exemptions.charityDelete.browserTitle = Delete charity
 
 page.iht.application.exemptions.charityValue.sectionTitle = Total value of all assets left to the charity
-page.iht.application.exemptions.charityValue.browserTitle = Value of assets left to charity
+page.iht.application.exemptions.charityValue.browserTitle = Total value of all assets left to the charity
 
 page.iht.application.exemptions.charityName.sectionTitle = What is the charity’s name?
 
@@ -1593,7 +1596,7 @@ page.iht.application.charity.add.registerednumber.helptext = How to find out the
 page.iht.application.exemptions.deleteCharity.screenReader = The name of the charity you may delete is {0} and it is registered charity number is {1}
 
 page.iht.application.exemptions.overview.charity.detailsOverview.title = Add a UK charity
-page.iht.application.exemptions.overview.charity.detailsOverview.browserTitle = Add charity
+page.iht.application.exemptions.overview.charity.detailsOverview.browserTitle = Add a UK charity
 page.iht.application.exemptions.overview.charity.detailsOverview.name.screenreader.link.noValue = Give the charity name
 page.iht.application.exemptions.overview.charity.detailsOverview.name.screenreader.link.value = Change the charity name
 page.iht.application.exemptions.overview.charity.detailsOverview.number.screenreader.link.value = Change the registered charity number
@@ -1608,7 +1611,7 @@ page.iht.application.charity.delete.screenReader = Delete {0} (charity {1}) from
 iht.estateReport.exemptions.charities.assetLeftToCharity.question = Did {0} leave any assets to a charity?
 iht.estateReport.exemptions.charities.assetsLeftToACharity.title = Assets left to a charity
 iht.estateReport.exemptions.charities.assetsLeftToCharities.title = Assets left to charities
-iht.estateReport.exemptions.charities.charityName.title = Charity name
+iht.estateReport.exemptions.charities.charityName.title = What is the charity’s name?
 iht.estateReport.exemptions.charities.charityNo.question = What is the registered charity number?
 iht.estateReport.exemptions.charities.noNameAdded = No name added
 iht.estateReport.exemptions.charities.registeredCharityNo = Registered charity number
@@ -1621,10 +1624,10 @@ iht.estateReport.assets.qualifyingBodyAddAnother = Add another qualifying body
 iht.estateReport.assets.qualifyingBodyAdd = Add a qualifying body
 
 page.iht.application.exemptions.qualifyingBody.value.sectionTitle = Total value of all assets left to the qualifying body
-page.iht.application.exemptions.qualifyingBody.value.browserTitle = Value of assets left to body
+page.iht.application.exemptions.qualifyingBody.value.browserTitle = Total value of all assets left to the qualifying body
 
 page.iht.application.exemptions.qualifyingBody.name.sectionTitle = What is the qualifying body’s name?
-page.iht.application.exemptions.qualifyingBody.name.browserTitle = Body name
+page.iht.application.exemptions.qualifyingBody.name.browserTitle = What is the qualifying body’s name?
 
 page.iht.application.exemptions.qualifyingBodyOverview.screenreader.ident = Qualifying body {0}.
 page.iht.application.exemptions.qualifyingBodyOverview.browserTitle = Assets left to other bodies
@@ -1637,7 +1640,7 @@ page.iht.application.exemptions.qualifyingBodyOverviewTable.header = Qualifying 
 page.iht.application.exemptions.qualifyingBodyOverview.noQualifyingBodies.text = You have not added any qualifying bodies to this estate.
 
 page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle = Did {0} leave any assets to another qualifying body?
-page.iht.application.exemptions.assetsLeftToQualifyingBody.browserTitle = Any assets left to other body
+page.iht.application.exemptions.assetsLeftToQualifyingBody.browserTitle = Did the deceased leave any assets to another qualifying body?
 page.iht.application.exemptions.assetsLeftToQualifyingBody.p1 = These are all of the assets being left to a qualifying body.
 page.iht.application.exemptions.assetsLeftToQualifyingBody.p2 = These are not charities with a registered charity number.
 iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBody.p3 = Other qualifying bodies could include a community amateur sports club or charities outside of the UK.
@@ -1669,7 +1672,7 @@ page.iht.application.qualifyingbodies.delete.screenReader = Delete {0} (qualifyi
 
 page.iht.application.exemptions.qualifyingBodyDelete.browserTitle = Delete qualifying body
 
-page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.browserTitle = Add another body
+page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.browserTitle = Add a qualifying body
 page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.value.title = Total value of assets received by the qualifying body
 page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.name.link.screenreader.noValue = Give the name of the qualifying body
 page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.name.link.screenreader.value = Change the qualifying body name
@@ -1839,7 +1842,7 @@ iht.application.declaration.risking.money.message = You have said that the decea
 iht.application.declaration.risking.money.message.amended = You have said that {0} had no money in any bank accounts. By sending this application, you are declaring that you believe this is correct.
 
 #Estate report - Declaration Received
-page.iht.application.declaration_received.browserTitle = Estate report sent
+page.iht.application.declaration_received.browserTitle = The deceased’s estate report has been sent
 page.iht.application.declaration_received.title ={0}’s estate report has been sent
 page.iht.application.declaration_received.subtitle = What happens next
 page.iht.application.declaration_received.probate.paragraph1 = HMRC will review your Inheritance Tax estate report – this might take up to 2 months. HMRC might be in touch with you during this time if they have any queries. Once the review has been completed, the estate report status will be changed to closed.
@@ -1876,7 +1879,7 @@ page.iht.application.probateDetails.guidance.bullet3 = the net estate figure is 
 page.iht.application.probateDetails.probateDetailsNotAvailableText = You will need to complete your Probate Application form (PA1) with some details from the estate report before you post it off. You can find these details by viewing this estate report on your Inheritance Tax estate reports page.
 
 page.iht.application.probate.title=Details you need for probate
-page.iht.application.probate.browserTitle=Probate form details
+page.iht.application.probate.browserTitle=Details you need for probate
 page.iht.application.probate.print = Download or print this page
 page.iht.application.probate.guidance.p1=Write these details on the PA1 - Probate application form for {0}’s estate.
 page.iht.application.probate.guidance.indent=These details are also saved on your estate report page.

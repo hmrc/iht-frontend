@@ -38,7 +38,7 @@ class KickoutTemplateSimpleViewTest extends ViewTestHelper{
       val view = kickOutTemplateView()
 
       titleShouldBeCorrect(view.toString, messagesApi("iht.notPossibleToUseService"))
-      browserTitleShouldBeCorrect(view.toString, messagesApi("iht.notPossibleToUseService"))
+      browserTitleShouldBeCorrectRegistration(view.toString, messagesApi("iht.notPossibleToUseService"))
       messagesShouldBePresent(view.toString, Contents)
     }
 

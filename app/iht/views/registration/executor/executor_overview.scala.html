@@ -35,7 +35,7 @@
   cancelCall: Option[Call] = None)(implicit request : Request[_], messages: Messages)
 
 @ihtMainTemplateRegistration(title = Messages("iht.registration.othersApplyingForProbate"),
-  browserTitle = Some(Messages("page.iht.registration.executor-overview.browserTitle")),
+  browserTitle = Some(Messages("iht.registration.othersApplyingForProbate")),
   isFullWidth = false,
   cancelUrl = cancelCall,
   hasTimeOut = true) {

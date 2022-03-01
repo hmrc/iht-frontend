@@ -46,7 +46,7 @@ class NoAssetsViewTest extends ViewTestHelper {
       val result = noAssetsView()(fakeRequest, messages)
       val doc = asDocument(contentAsString(result))
       val browserTitle = doc.getElementsByTag("title").first
-      browserTitle.text must be(messagesApi("page.iht.filter.noAssets.title") + " - GOV.UK")
+      browserTitle.text must be(messagesApi("page.iht.filter.noAssets.title") + " – Complete an Inheritance Tax estate report – GOV.UK")
     }
 
     "contain content advising why you must use IHT400 form" in {
