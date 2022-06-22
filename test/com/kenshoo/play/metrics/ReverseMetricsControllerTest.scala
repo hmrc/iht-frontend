@@ -39,7 +39,7 @@ class ReverseMetricsControllerTest extends FakeIhtApp {
   "ReverseMetricsController#metrics" must {
     "generate a call" in {
       val reverseMetricsController = new ReverseMetricsController(_prefix = testPrefixWithASlash)
-      assert(reverseMetricsController.metrics().isInstanceOf[Call])
+      assert(reverseMetricsController.metrics.isInstanceOf[Call])
     }
   }
 

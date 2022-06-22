@@ -45,7 +45,7 @@ class GiftsWithReservationOfBenefitViewTest extends YesNoQuestionViewBehaviour[T
         messagesApi("iht.estateReport.tnrb.thSouseAndCivilPartner"))))
   )
 
-  override def formTarget = Some(iht.controllers.application.tnrb.routes.GiftsWithReservationOfBenefitController.onSubmit())
+  override def formTarget = Some(iht.controllers.application.tnrb.routes.GiftsWithReservationOfBenefitController.onSubmit)
 
   override def form: Form[TnrbEligibiltyModel] = partnerGiftWithResToOtherForm
   lazy val giftsWithReservationOfBenefitView: gifts_with_reservation_of_benefit = app.injector.instanceOf[gifts_with_reservation_of_benefit]

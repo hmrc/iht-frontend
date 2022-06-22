@@ -79,7 +79,7 @@ trait RegistrationController extends FrontendController with IhtBaseController w
 
   def storeKickoutReasonAndRedirect(kickoutReason: String)(implicit hc: HeaderCarrier): Future[Result] =
     cachingConnector.storeSingleValue(RegistrationKickoutReasonCachingKey, kickoutReason) map { _ =>
-      Redirect(routes.KickoutRegController.onPageLoad())
+      Redirect(routes.KickoutRegController.onPageLoad)
     }
 
   def checkGuardCondition(registrationDetails: RegistrationDetails, id: String): Boolean = {
@@ -95,10 +95,10 @@ trait RegistrationController extends FrontendController with IhtBaseController w
         body(rd)
       } else if(!checkGuardCondition(rd, id) && rd.deceasedDateOfDeath.isDefined) {
         logger.info(s"Registration guard condition not met when ${request.uri} requested so re-directing to estate reports page")
-        Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
+        Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad))
       } else {
         logger.info(s"Registration details not found in cache when $uri requested so re-directing to estate reports page")
-        Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
+        Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad))
       }
     }
   }
@@ -117,11 +117,11 @@ trait RegistrationController extends FrontendController with IhtBaseController w
     cachingConnector.getRegistrationDetails flatMap {
       case None =>
         logger.info(s"Registration details not found in cache when $url requested so re-directing to application overview page")
-        Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
+        Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad))
       case Some(rd) =>
         if (rd.ihtReference.isEmpty) {
           logger.info(s"IHT reference number not found in cache when $url requested so re-directing to application overview page")
-          Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
+          Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad))
         } else {
           body(rd)
         }

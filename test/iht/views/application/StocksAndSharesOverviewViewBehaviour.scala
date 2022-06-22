@@ -85,7 +85,7 @@ trait StocksAndSharesOverviewViewBehaviour extends GenericOverviewHelper {
     "show the correct return link with right text" in {
       val f = fixture(dataWithQuestionsAnsweredNo)
       val returnLink = f.doc.getElementById("return-button")
-      returnLink.attr("href") mustBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url + "#" + linkHash
+      returnLink.attr("href") mustBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad.url + "#" + linkHash
       returnLink.text() mustBe messagesApi("page.iht.application.return.to.assetsOf",deceasedName)
     }
   }

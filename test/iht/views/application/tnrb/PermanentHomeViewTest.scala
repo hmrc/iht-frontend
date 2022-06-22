@@ -39,7 +39,7 @@ class PermanentHomeViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyMod
 
   override def browserTitle = messagesApi("iht.registration.deceased.locationOfPermanentHome")
 
-  override def formTarget = Some(iht.controllers.application.tnrb.routes.PermanentHomeController.onSubmit())
+  override def formTarget = Some(iht.controllers.application.tnrb.routes.PermanentHomeController.onSubmit)
 
   override def form: Form[TnrbEligibiltyModel] = partnerLivingInUkForm
   lazy val permanentHomeView: permanent_home = app.injector.instanceOf[permanent_home]

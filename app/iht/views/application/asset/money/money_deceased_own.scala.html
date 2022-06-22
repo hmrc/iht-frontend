@@ -45,7 +45,7 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
 
     @errorSummaryOverrideKeys(money, Constants.AppSectionMoney)
 
-    @form(action = iht.controllers.application.assets.money.routes.MoneyDeceasedOwnController.onSubmit(),'autoComplete -> "off") {
+    @form(action = iht.controllers.application.assets.money.routes.MoneyDeceasedOwnController.onSubmit,'autoComplete -> "off") {
 
     <div class="form-group">
       <p>@Html(Messages("page.iht.application.assets.money.deceased.guidance", nameHelper(deceasedName)))</p>
@@ -65,7 +65,7 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
 }
     @returnLink(
         Messages("site.link.return.money"),
-        Some(iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad()),
+        Some(iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad),
         appConfig.AssetsMoneyOwnID
     )
 

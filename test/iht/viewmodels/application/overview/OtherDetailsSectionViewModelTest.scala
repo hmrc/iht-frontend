@@ -104,7 +104,7 @@ class OtherDetailsSectionViewModelTest
 
     "have the correct URL for the debts link" in {
       val viewModel = OtherDetailsSectionViewModel(applicationDetailsGuidanceNotSeen, ihtRef)
-      viewModel.debtRow.linkUrl mustBe iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()
+      viewModel.debtRow.linkUrl mustBe iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad
     }
 
     //endregion

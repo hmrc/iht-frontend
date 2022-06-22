@@ -75,7 +75,7 @@ trait ShareableElementOverviewViewBehaviour extends GenericOverviewHelper with S
     "show the correct return link with right text" in {
       val doc = asDocument(viewWithQuestionsAnsweredNo)
       val returnLink = doc.getElementById("return-button")
-      returnLink.attr("href") mustBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url + "#" + linkHash
+      returnLink.attr("href") mustBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad.url + "#" + linkHash
       returnLink.text() mustBe messagesApi("page.iht.application.return.to.assetsOf",deceasedName)
     }
   }

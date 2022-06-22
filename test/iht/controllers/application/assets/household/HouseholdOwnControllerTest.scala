@@ -137,7 +137,7 @@ class HouseholdDeceasedOwnControllerTest extends ApplicationControllerTest {
 
       val result = householdDeceasedOwnController.onSubmit()(request)
       status(result) must be (SEE_OTHER)
-      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.HouseholdOverviewController.onPageLoad().url, mockAppConfig.AssetsHouseholdOwnID)))
+      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.HouseholdOverviewController.onPageLoad.url, mockAppConfig.AssetsHouseholdOwnID)))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {

@@ -185,49 +185,49 @@ object ApplicationKickOutHelper {
   }
 
   private lazy val unParameterizedSectionCalls = ListMap[String, Option[Call]](
-    ApplicationSectionAssetsMoneyOwed -> Some(iht.controllers.application.assets.routes.MoneyOwedController.onPageLoad()),
+    ApplicationSectionAssetsMoneyOwed -> Some(iht.controllers.application.assets.routes.MoneyOwedController.onPageLoad),
     ApplicationSectionAssetsMoneyDeceasedOwned ->
-      Some(iht.controllers.application.assets.money.routes.MoneyDeceasedOwnController.onPageLoad()),
+      Some(iht.controllers.application.assets.money.routes.MoneyDeceasedOwnController.onPageLoad),
     ApplicationSectionAssetsHouseholdDeceasedOwned ->
-      Some(iht.controllers.application.assets.household.routes.HouseholdDeceasedOwnController.onPageLoad()),
+      Some(iht.controllers.application.assets.household.routes.HouseholdDeceasedOwnController.onPageLoad),
     ApplicationSectionAssetsHouseholdJointlyOwned ->
-      Some(iht.controllers.application.assets.household.routes.HouseholdJointlyOwnedController.onPageLoad()),
+      Some(iht.controllers.application.assets.household.routes.HouseholdJointlyOwnedController.onPageLoad),
     ApplicationSectionAssetsVehiclesDeceasedOwned ->
-      Some(iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onPageLoad()),
+      Some(iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onPageLoad),
     ApplicationSectionAssetsVehiclesJointlyOwned ->
-      Some(iht.controllers.application.assets.vehicles.routes.VehiclesJointlyOwnedController.onPageLoad()),
+      Some(iht.controllers.application.assets.vehicles.routes.VehiclesJointlyOwnedController.onPageLoad),
     ApplicationSectionAssetsPensions ->
-      Some(iht.controllers.application.assets.pensions.routes.PensionsChangedQuestionController.onPageLoad()),
+      Some(iht.controllers.application.assets.pensions.routes.PensionsChangedQuestionController.onPageLoad),
     ApplicationSectionAssetsPensionsValue ->
-      Some(iht.controllers.application.assets.pensions.routes.PensionsValueController.onPageLoad()),
+      Some(iht.controllers.application.assets.pensions.routes.PensionsValueController.onPageLoad),
     ApplicationSectionAssetsStocksAndSharesListed ->
-      Some(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesListedController.onPageLoad()),
+      Some(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesListedController.onPageLoad),
     ApplicationSectionAssetsStocksAndSharesNotListed ->
-      Some(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesNotListedController.onPageLoad()),
+      Some(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesNotListedController.onPageLoad),
     ApplicationSectionAssetsInsurancePoliciesJointlyOwned ->
-      Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsJointController.onPageLoad()),
+      Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsJointController.onPageLoad),
     ApplicationSectionAssetsInsurancePoliciesOwnedByDeceased ->
-      Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsDeceasedOwnController.onPageLoad()),
+      Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsDeceasedOwnController.onPageLoad),
     ApplicationSectionAssetsBusinessInterests ->
-      Some(iht.controllers.application.assets.routes.BusinessInterestsController.onPageLoad()),
+      Some(iht.controllers.application.assets.routes.BusinessInterestsController.onPageLoad),
     ApplicationSectionAssetsNominatedAssets ->
-      Some(iht.controllers.application.assets.routes.NominatedController.onPageLoad()),
+      Some(iht.controllers.application.assets.routes.NominatedController.onPageLoad),
     ApplicationSectionAssetsForeign ->
-      Some(iht.controllers.application.assets.routes.ForeignController.onPageLoad()),
+      Some(iht.controllers.application.assets.routes.ForeignController.onPageLoad),
     ApplicationSectionAssetsMoneyJointlyOwned ->
-      Some(iht.controllers.application.assets.money.routes.MoneyJointlyOwnedController.onPageLoad()),
+      Some(iht.controllers.application.assets.money.routes.MoneyJointlyOwnedController.onPageLoad),
     ApplicationSectionAssetsOther ->
-      Some(iht.controllers.application.assets.routes.OtherController.onPageLoad()),
+      Some(iht.controllers.application.assets.routes.OtherController.onPageLoad),
     ApplicationSectionGiftsWithReservation ->
-      Some(iht.controllers.application.gifts.routes.WithReservationOfBenefitController.onPageLoad()),
+      Some(iht.controllers.application.gifts.routes.WithReservationOfBenefitController.onPageLoad),
     ApplicationSectionExemptionsSpouse ->
-      Some(iht.controllers.application.exemptions.partner.routes.PartnerPermanentHomeQuestionController.onPageLoad()),
+      Some(iht.controllers.application.exemptions.partner.routes.PartnerPermanentHomeQuestionController.onPageLoad),
     ApplicationSectionAssetsInsurancePolicies7Years ->
-      Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsInTrustController.onPageLoad()),
+      Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsInTrustController.onPageLoad),
     ApplicationSectionAssetsInsurancePoliciesAnnuities ->
-      Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsAnnuityController.onPageLoad()),
+      Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsAnnuityController.onPageLoad),
     ApplicationSectionAssetsInsurancePoliciesMoreThanMax ->
-      Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsMoreThanMaxValueController.onPageLoad())
+      Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsMoreThanMaxValueController.onPageLoad)
   )
 
   private def sectionCall(applicationSection: String, lastID: Option[String]): Option[Call] = {
@@ -255,9 +255,9 @@ object ApplicationKickOutHelper {
     */
   lazy val returnLinkUrls: ListMap[String, Either[Call, Option[String]]] = ListMap(
     /* Assets */
-    TrustsMoreThanOne -> Left(iht.controllers.application.assets.trusts.routes.TrustsMoreThanOneQuestionController.onPageLoad()),
+    TrustsMoreThanOne -> Left(iht.controllers.application.assets.trusts.routes.TrustsMoreThanOneQuestionController.onPageLoad),
     ForeignAssetsValueMoreThanMax -> sectionCallAsLeft(ApplicationSectionAssetsForeign),
-    TrustValueMoreThanMax -> Left(iht.controllers.application.assets.trusts.routes.TrustsValueController.onPageLoad()),
+    TrustValueMoreThanMax -> Left(iht.controllers.application.assets.trusts.routes.TrustsValueController.onPageLoad),
     AnnuitiesOnInsurance -> sectionCallAsLeft(ApplicationSectionAssetsInsurancePoliciesAnnuities),
     PensionDisposedLastTwoYears -> sectionCallAsLeft(ApplicationSectionAssetsPensions),
     PensionsValueMoreThanMax -> sectionCallAsLeft(ApplicationSectionAssetsPensionsValue),
@@ -278,9 +278,9 @@ object ApplicationKickOutHelper {
 
     /* Gifts */
     GiftsWithReservationOfBenefit -> sectionCallAsLeft(ApplicationSectionGiftsWithReservation),
-    GiftsGivenInPast -> Left(iht.controllers.application.gifts.routes.SevenYearsGivenInLast7YearsController.onPageLoad()),
-    GiftsToTrust -> Left(iht.controllers.application.gifts.routes.SevenYearsToTrustController.onPageLoad()),
-    GiftsMaxValue -> Left(iht.controllers.application.gifts.routes.SevenYearsGiftsValuesController.onPageLoad()),
+    GiftsGivenInPast -> Left(iht.controllers.application.gifts.routes.SevenYearsGivenInLast7YearsController.onPageLoad),
+    GiftsToTrust -> Left(iht.controllers.application.gifts.routes.SevenYearsToTrustController.onPageLoad),
+    GiftsMaxValue -> Left(iht.controllers.application.gifts.routes.SevenYearsGiftsValuesController.onPageLoad),
 
     /* Pre-pre TNRB Eligibility */
     TnrbEstateMoreThanThreshold -> Right(Some(estateOverviewControllerURL)),
@@ -291,16 +291,16 @@ object ApplicationKickOutHelper {
     PartnerDiedBeforeMinDate -> Right(Some(estateOverviewControllerURL)),
 
     /* Pre-TNRB EligibilityOpc */
-    PartnerDiedBeforeMinDateOpc -> Left(iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad()),
+    PartnerDiedBeforeMinDateOpc -> Left(iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad),
 
     /* TNRB Eligibility */
-    PartnerNotLivingInUk -> Left(iht.controllers.application.tnrb.routes.PermanentHomeController.onPageLoad()),
-    GiftMadeBeforeDeath -> Left(iht.controllers.application.tnrb.routes.GiftsMadeBeforeDeathController.onPageLoad()),
-    StateClaimAnyBusiness -> Left(iht.controllers.application.tnrb.routes.EstateClaimController.onPageLoad()),
-    PartnerGiftWithResToOther -> Left(iht.controllers.application.tnrb.routes.GiftsWithReservationOfBenefitController.onPageLoad()),
-    PartnerBenFromTrust -> Left(iht.controllers.application.tnrb.routes.BenefitFromTrustController.onPageLoad()),
-    EstateBelowIhtThresholdApplied -> Left(iht.controllers.application.tnrb.routes.EstatePassedToDeceasedOrCharityController.onPageLoad()),
-    JointAssetPassed -> Left(iht.controllers.application.tnrb.routes.JointlyOwnedAssetsController.onPageLoad())
+    PartnerNotLivingInUk -> Left(iht.controllers.application.tnrb.routes.PermanentHomeController.onPageLoad),
+    GiftMadeBeforeDeath -> Left(iht.controllers.application.tnrb.routes.GiftsMadeBeforeDeathController.onPageLoad),
+    StateClaimAnyBusiness -> Left(iht.controllers.application.tnrb.routes.EstateClaimController.onPageLoad),
+    PartnerGiftWithResToOther -> Left(iht.controllers.application.tnrb.routes.GiftsWithReservationOfBenefitController.onPageLoad),
+    PartnerBenFromTrust -> Left(iht.controllers.application.tnrb.routes.BenefitFromTrustController.onPageLoad),
+    EstateBelowIhtThresholdApplied -> Left(iht.controllers.application.tnrb.routes.EstatePassedToDeceasedOrCharityController.onPageLoad),
+    JointAssetPassed -> Left(iht.controllers.application.tnrb.routes.JointlyOwnedAssetsController.onPageLoad)
   )
 
   /**

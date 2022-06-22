@@ -79,7 +79,7 @@ class ThresholdSectionViewTest extends ViewTestHelper {
       assertRenderedById(doc, "tnrb-link")
       val link = doc.getElementById("tnrb-link")
       link.text mustBe messagesApi("page.iht.application.estateOverview.increaseThreshold.link")
-      link.attr("href") mustBe iht.controllers.application.tnrb.routes.TnrbGuidanceController.onPageLoad().url
+      link.attr("href") mustBe iht.controllers.application.tnrb.routes.TnrbGuidanceController.onPageLoad.url
     }
 
     "show the threshold row as a normal row when threshold has not been increased" in {

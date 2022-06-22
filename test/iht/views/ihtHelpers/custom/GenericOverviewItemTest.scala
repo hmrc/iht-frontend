@@ -35,7 +35,7 @@ class GenericOverviewItemTest extends FakeIhtApp with HtmlSpec {
   "GenericOverviewItem helper" must {
 //    implicit val request = createFakeRequest()
 //    implicit val messages: MessagesApi = app.injector.instanceOf[MessagesApi]
-    val linkUrl = iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad()
+    val linkUrl = iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad
     val title = "Money"
     val name = "money"
     val id = "money"

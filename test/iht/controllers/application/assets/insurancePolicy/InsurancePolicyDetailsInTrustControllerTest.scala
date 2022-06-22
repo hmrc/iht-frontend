@@ -178,7 +178,7 @@ class InsurancePolicyDetailsInTrustControllerTest extends ApplicationControllerT
 
       val result = insurancePolicyDetailsInTrustController.onSubmit (request)
       redirectLocation(result) must be (
-        Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsFinalGuidanceController.onPageLoad().url))
+        Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsFinalGuidanceController.onPageLoad.url))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

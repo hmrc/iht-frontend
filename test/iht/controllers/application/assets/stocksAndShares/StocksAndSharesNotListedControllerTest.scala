@@ -29,7 +29,7 @@ import play.api.test.Helpers.{contentAsString, _}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
 class StocksAndSharesNotListedControllerTest extends ApplicationControllerTest {
-  lazy val submitUrl = CommonHelper.addFragmentIdentifierToUrl(routes.StocksAndSharesOverviewController.onPageLoad().url, AssetsStocksNotListedID)
+  lazy val submitUrl = CommonHelper.addFragmentIdentifierToUrl(routes.StocksAndSharesOverviewController.onPageLoad.url, AssetsStocksNotListedID)
 
   def setUpTests(applicationDetails: ApplicationDetails) = {
     createMocksForApplication(mockCachingConnector,

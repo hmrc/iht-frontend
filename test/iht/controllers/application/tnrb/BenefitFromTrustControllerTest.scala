@@ -112,7 +112,7 @@ class BenefitFromTrustControllerTest  extends ApplicationControllerTest{
 
       val result = benefitFromTrustController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + mockAppConfig.TnrbSpouseBenefitFromTrustID))
+      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad.url + "#" + mockAppConfig.TnrbSpouseBenefitFromTrustID))
     }
 
     "go to KickOut page if spouse has the right to benefit from the trust" in {
@@ -154,7 +154,7 @@ class BenefitFromTrustControllerTest  extends ApplicationControllerTest{
 
       val result = benefitFromTrustController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad().url))
+      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad.url))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

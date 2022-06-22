@@ -41,7 +41,7 @@ trait QualifyingBodyDetailsOverviewViewBehaviour extends GenericNonSubmittablePa
 
   override def exitComponent = Some(
     ExitComponent(
-      iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad(),
+      iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad,
       messagesApi("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies"),
       ExemptionsOtherChangeID + "1"
     )

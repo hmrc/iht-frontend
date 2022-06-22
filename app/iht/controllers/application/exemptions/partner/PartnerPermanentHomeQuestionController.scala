@@ -51,10 +51,10 @@ val cc: MessagesControllerComponents) extends FrontendController(cc) with Partne
 trait PartnerPermanentHomeQuestionController extends EstateController with Logging {
 
 
-  lazy val partnerPermanentHomePage = routes.PartnerPermanentHomeQuestionController.onPageLoad()
+  lazy val partnerPermanentHomePage = routes.PartnerPermanentHomeQuestionController.onPageLoad
   lazy val exemptionsOverviewPage = addFragmentIdentifier(
-    iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(appConfig.ExemptionsPartnerHomeID))
-  lazy val partnerOverviewPage = addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(appConfig.ExemptionsPartnerHomeID))
+    iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad, Some(appConfig.ExemptionsPartnerHomeID))
+  lazy val partnerOverviewPage = addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad, Some(appConfig.ExemptionsPartnerHomeID))
 
   val partnerPermanentHomeQuestionView: partner_permanent_home_question
   val nameView: name
@@ -179,7 +179,7 @@ trait PartnerPermanentHomeQuestionController extends EstateController with Loggi
     partner match {
       case Some(x) => {
         if (x.isPartnerHomeInUK.isDefined) {
-          routes.PartnerOverviewController.onPageLoad()
+          routes.PartnerOverviewController.onPageLoad
         } else {
           exemptionsOverviewPage
         }

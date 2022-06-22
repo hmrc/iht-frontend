@@ -38,7 +38,7 @@ class JointlyOwnedAssetsViewTest extends YesNoQuestionViewBehaviour[TnrbEligibil
 
   override def browserTitle = messagesApi("page.iht.application.tnrb.jointlyOwnedAssets.browserTitle")
 
-  override def formTarget = Some(iht.controllers.application.tnrb.routes.JointlyOwnedAssetsController.onSubmit())
+  override def formTarget = Some(iht.controllers.application.tnrb.routes.JointlyOwnedAssetsController.onSubmit)
 
   override def form: Form[TnrbEligibiltyModel] = jointAssetPassedForm
   lazy val jointlyOwnedAssetsView: jointly_owned_assets = app.injector.instanceOf[jointly_owned_assets]

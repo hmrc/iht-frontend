@@ -73,7 +73,7 @@ trait RegistrationSummaryController extends RegistrationController with StringHe
     savedFutureOptionApplicationDetails.map {
       case Some(_) =>
         fillMetrics(rd)
-        Redirect(routes.CompletedRegistrationController.onPageLoad())
+        Redirect(routes.CompletedRegistrationController.onPageLoad)
       case None =>
         logger.warn("Failed to save application details during registration summary")
         InternalServerError("Failed to save application details during registration summary")

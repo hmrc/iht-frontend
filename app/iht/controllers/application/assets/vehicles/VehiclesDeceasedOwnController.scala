@@ -43,7 +43,7 @@ trait VehiclesDeceasedOwnController extends EstateController {
 
 
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.assets.vehicles.routes.VehiclesOverviewController.onPageLoad(),
+    iht.controllers.application.assets.vehicles.routes.VehiclesOverviewController.onPageLoad,
     Some(appConfig.AssetsVehiclesOwnID))
   val vehiclesDeceasedOwnView: vehicles_deceased_own
 

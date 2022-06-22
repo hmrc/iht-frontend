@@ -59,7 +59,7 @@ trait CheckedEverythingQuestionController extends EstateController {
             Future.successful(BadRequest(checkedEverythingQuestionView(formWithErrors, rd)))
           }, optionBoolean => {
             val redirectLocation = if (CommonHelper.getOrException(optionBoolean)) {
-              Redirect(iht.controllers.application.declaration.routes.DeclarationController.onPageLoad())
+              Redirect(iht.controllers.application.declaration.routes.DeclarationController.onPageLoad)
             } else {
               Redirect(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(
                 CommonHelper.getOrExceptionNoIHTRef(rd.ihtReference)))

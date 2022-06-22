@@ -61,7 +61,7 @@ isFullWidth=false) {
         @genericOverviewItem(Messages("iht.estateReport.debts.mortgages"),
             "mortgages", appConfig.DebtsMortgagesID,
             displayValue(appDetails, AppSectionMortgages, isComplete, Some("site.noDebts")), "",
-            Some(iht.controllers.application.debts.routes.MortgagesOverviewController.onPageLoad()),
+            Some(iht.controllers.application.debts.routes.MortgagesOverviewController.onPageLoad),
             genericOverviewStatusLabel(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
@@ -87,7 +87,7 @@ isFullWidth=false) {
         @genericOverviewItem(Messages("iht.estateReport.debts.funeralExpenses.title"),
     "funeralExpenses", appConfig.DebtsFuneralExpensesID,
             displayValue(appDetails, AppSectionFuneralExpenses, isComplete, Some("site.noDebts")), "",
-            Some(iht.controllers.application.debts.routes.FuneralExpensesController.onPageLoad()),
+            Some(iht.controllers.application.debts.routes.FuneralExpensesController.onPageLoad),
             genericOverviewStatusLabel(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(isComplete,
@@ -111,7 +111,7 @@ isFullWidth=false) {
         @genericOverviewItem(Messages("iht.estateReport.debts.debtsTrust.title"),
     "debtsFromTrust", appConfig.DebtsOwedFromTrustID,
             displayValue(appDetails, AppSectionDebtsOwedFromTrust, isComplete, Some("site.noDebts")), "",
-            Some(iht.controllers.application.debts.routes.DebtsOwedFromATrustController.onPageLoad()),
+            Some(iht.controllers.application.debts.routes.DebtsOwedFromATrustController.onPageLoad),
             genericOverviewStatusLabel(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
@@ -137,7 +137,7 @@ isFullWidth=false) {
         @genericOverviewItem(Messages("iht.estateReport.debts.owedOutsideUK"),
     "debtsOutsideUk", appConfig.DebtsOwedOutsideUKID,
             displayValue(appDetails, AppSectionDebtsOwedToAnyoneOutsideUK, isComplete, Some("site.noDebts")), "",
-            Some(iht.controllers.application.debts.routes.OwedOutsideUKDebtsController.onPageLoad()),
+            Some(iht.controllers.application.debts.routes.OwedOutsideUKDebtsController.onPageLoad),
             genericOverviewStatusLabel(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
@@ -163,7 +163,7 @@ isFullWidth=false) {
         @genericOverviewItem(Messages("iht.estateReport.debts.owedOnJointAssets"),
     "jointlyOwned", appConfig.DebtsOwedJointlyID,
             displayValue(appDetails, AppSectionDebtsOwedOnJointAssets, isComplete, Some("site.noDebts")), "",
-            Some(iht.controllers.application.debts.routes.JointlyOwnedDebtsController.onPageLoad()),
+            Some(iht.controllers.application.debts.routes.JointlyOwnedDebtsController.onPageLoad),
             genericOverviewStatusLabel(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
@@ -189,7 +189,7 @@ isFullWidth=false) {
         @genericOverviewItem(Messages("iht.estateReport.debts.other.title"),
     "other", appConfig.DebtsOtherID,
             displayValue(appDetails, AppSectionDebtsOther, isComplete, Some("site.noDebts")), "",
-            Some(iht.controllers.application.debts.routes.AnyOtherDebtsController.onPageLoad()),
+            Some(iht.controllers.application.debts.routes.AnyOtherDebtsController.onPageLoad),
             genericOverviewStatusLabel(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(

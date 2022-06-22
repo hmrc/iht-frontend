@@ -45,7 +45,7 @@ class BenefitFromTrustControllerImpl @Inject()(val ihtConnector: IhtConnector,
 
 trait BenefitFromTrustController extends EstateController with StringHelper with TnrbHelper {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
-  def cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
+  def cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad
   val benefitFromTrustView: benefit_from_trust
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
 
@@ -135,7 +135,7 @@ trait BenefitFromTrustController extends EstateController with StringHelper with
         InternalServerError
       } { _ =>
         updatedAppDetailsWithKickOutReason.kickoutReason match {
-          case Some(reason) => Redirect(iht.controllers.application.routes.KickoutAppController.onPageLoad())
+          case Some(reason) => Redirect(iht.controllers.application.routes.KickoutAppController.onPageLoad)
           case _ => successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(appConfig.TnrbSpouseBenefitFromTrustID))
         }
       }

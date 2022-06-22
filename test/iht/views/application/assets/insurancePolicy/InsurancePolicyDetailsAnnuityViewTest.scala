@@ -38,14 +38,14 @@ class InsurancePolicyDetailsAnnuityViewTest extends YesNoQuestionViewBehaviour[I
 
   override def guidance = guidance(Set(messagesApi("page.iht.application.insurance.policies.section6.guidance")))
 
-  override def formTarget = Some(routes.InsurancePolicyDetailsAnnuityController.onSubmit())
+  override def formTarget = Some(routes.InsurancePolicyDetailsAnnuityController.onSubmit)
 
   override def form: Form[InsurancePolicy] = insurancePolicyAnnuityForm
 
   override def formToView: Form[InsurancePolicy] => Appendable =
     form => insurancePolicyDetailsAnnuityView(form, regDetails)
 
-  override def cancelComponent = Some(CancelComponent(routes.InsurancePolicyOverviewController.onPageLoad(),
+  override def cancelComponent = Some(CancelComponent(routes.InsurancePolicyOverviewController.onPageLoad,
     messagesApi("site.link.return.insurance.policies"),
     TestHelper.InsuranceAnnuityYesNoID
   ))

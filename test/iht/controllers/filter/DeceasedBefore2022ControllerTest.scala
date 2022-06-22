@@ -44,7 +44,7 @@ class DeceasedBefore2022ControllerTest extends ApplicationControllerTest with Ht
   "Deceased Before 2022 Controller" must {
 
     "show the deceased before 2022 page when accessed by an unauthorised person" in {
-      val result = controller.onPageLoad()(createFakeRequest(isAuthorised = false))
+      val result = controller.onPageLoad(createFakeRequest(isAuthorised = false))
       status(result) must be(OK)
 
       val doc = asDocument(contentAsString(result))
@@ -68,7 +68,7 @@ class DeceasedBefore2022ControllerTest extends ApplicationControllerTest with Ht
       val result = controller.onSubmit()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.filter.routes.UseCheckerController.onPageLoad().url))
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.UseCheckerController.onPageLoad.url))
     }
 
     "redirect to the Jointly Owned page if 'yes' is selected" in {
@@ -77,7 +77,7 @@ class DeceasedBefore2022ControllerTest extends ApplicationControllerTest with Ht
       val result = controller.onSubmit()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.filter.routes.FilterJointlyOwnedController.onPageLoad().url))
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.FilterJointlyOwnedController.onPageLoad.url))
 
     }
   }

@@ -87,7 +87,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.DeceasedWidowCheckDateController.onPageLoad().url))
+      redirectLocation(result) must be(Some(routes.DeceasedWidowCheckDateController.onPageLoad.url))
     }
 
     "show errors if invalid fields" in {
@@ -139,7 +139,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.DeceasedWidowCheckDateController.onPageLoad().url))
+      redirectLocation(result) must be(Some(routes.DeceasedWidowCheckDateController.onPageLoad.url))
     }
 
     "go to estate overview page on submit when the deceased is not widowed" in {
@@ -183,7 +183,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad().url + "#" + mockAppConfig.TnrbSpouseMartialStatusID))
+      redirectLocation(result) must be(Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad.url + "#" + mockAppConfig.TnrbSpouseMartialStatusID))
     }
 
     "wipe out the WidowCheck date and tnrb eligibility data, go to estate overview page on submit " +

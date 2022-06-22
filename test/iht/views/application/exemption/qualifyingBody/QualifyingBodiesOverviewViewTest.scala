@@ -46,7 +46,7 @@ trait QualifyingBodiesOverviewViewBehaviour extends GenericNonSubmittablePageBeh
 
   override def exitComponent = Some(
     ExitComponent(
-      iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
+      iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad,
       messagesApi("site.link.return.exemptions"),
       ExemptionsOtherID
     )
@@ -95,7 +95,7 @@ class QualifyingBodiesOverviewViewTest extends QualifyingBodiesOverviewViewBehav
     behave like nonSubmittablePage()
 
     behave like link(ExemptionsOtherAddID,
-      iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onPageLoad().url,
+      iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onPageLoad.url,
       messagesApi("iht.estateReport.assets.qualifyingBodyAddAnother"))
 
     "show ownership question" in {
@@ -107,7 +107,7 @@ class QualifyingBodiesOverviewViewTest extends QualifyingBodiesOverviewViewBehav
     }
 
     behave like link(ExemptionsOtherAssetsID,
-      iht.controllers.application.exemptions.qualifyingBody.routes.AssetsLeftToQualifyingBodyQuestionController.onPageLoad().url,
+      iht.controllers.application.exemptions.qualifyingBody.routes.AssetsLeftToQualifyingBodyQuestionController.onPageLoad.url,
       messagesApi("iht.change"))
 
     behave like qualifyingBodyWithDeleteAndModify(0, qualifyingBodyName1, qualifyingBodyValue1)
@@ -126,7 +126,7 @@ class QualifyingBodiesOverviewViewWithNoBodiesTest extends QualifyingBodiesOverv
 
   "Qualifying bodies overview view with no qualifying bodies" must {
     behave like link(ExemptionsOtherAddID,
-      iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onPageLoad().url,
+      iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onPageLoad.url,
       messagesApi("iht.estateReport.assets.qualifyingBodyAdd"))
   }
 }

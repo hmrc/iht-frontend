@@ -155,7 +155,7 @@ class KickoutAppControllerTest extends ApplicationControllerTest {
         val result = kickoutController.onSubmit(createFakeRequest())
         playStatus(result) mustBe SEE_OTHER
         redirectLocation(result) must be (Some(
-          iht.controllers.application.routes.KickoutAppController.onPageLoadDeleting().url))
+          iht.controllers.application.routes.KickoutAppController.onPageLoadDeleting.url))
     }
 
     "respond with redirect to iht400 page on page submission when first page already seen" in {
@@ -166,7 +166,7 @@ class KickoutAppControllerTest extends ApplicationControllerTest {
         createMockToGetApplicationDetails(mockIhtConnector)
         val result = kickoutController.onSubmit(createFakeRequest())
         playStatus(result) mustBe SEE_OTHER
-        redirectLocation(result) must be (Some(iht.controllers.routes.DeadlinesController.onPageLoadApplication().url))
+        redirectLocation(result) must be (Some(iht.controllers.routes.DeadlinesController.onPageLoadApplication.url))
     }
 
     "respond with INTERNAL_SERVER_ERROR on page submission when unable to store value in cache" in {
@@ -184,7 +184,7 @@ class KickoutAppControllerTest extends ApplicationControllerTest {
         createMockToGetRegDetailsFromCache(mockCachingConnector, None)
         val result = kickoutController.onPageLoad(createFakeRequest())
         playStatus(result) must be(SEE_OTHER)
-        redirectLocation(result) mustBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url)
+        redirectLocation(result) mustBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url)
     }
   }
 }

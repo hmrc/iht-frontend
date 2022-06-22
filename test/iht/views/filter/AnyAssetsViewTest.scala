@@ -85,7 +85,7 @@ class AnyAssetsViewTest extends ViewTestHelper {
       val doc = getPageAsDoc()
       val formElement = doc.getElementsByTag("form").first
 
-      formElement.attr("action") must be(iht.controllers.filter.routes.AnyAssetsController.onSubmitWithoutJointAssets().url)
+      formElement.attr("action") must be(iht.controllers.filter.routes.AnyAssetsController.onSubmitWithoutJointAssets.url)
     }
 
     "contain a 'Previous answers' section" in {
@@ -97,7 +97,7 @@ class AnyAssetsViewTest extends ViewTestHelper {
       val doc = getPageAsDoc()
       val link = doc.getElementById("start-again")
       link.text() must be(messagesApi("iht.startAgain"))
-      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
+      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad.url)
     }
 
     "contain a row showing the user's answer to the previous question" in {
@@ -111,7 +111,7 @@ class AnyAssetsViewTest extends ViewTestHelper {
       val doc = getPageAsDoc()
       val link = doc.getElementById("change-estimate")
       link.text() must include(messagesApi("iht.change"))
-      link.attr("href") must be(iht.controllers.filter.routes.EstimateController.onPageLoadWithoutJointAssets().url)
+      link.attr("href") must be(iht.controllers.filter.routes.EstimateController.onPageLoadWithoutJointAssets.url)
     }
 
   }

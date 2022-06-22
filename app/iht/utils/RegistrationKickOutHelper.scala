@@ -95,7 +95,7 @@ trait RegistrationKickOutHelper extends Logging {
       case Some(_) =>
         getKickoutReason.apply(rd).fold(Future.successful(Redirect(nextPage))) { kickoutReason =>
           cachingConnector.storeSingleValue(RegistrationKickoutReasonCachingKey, kickoutReason).flatMap(_ =>
-            Future.successful(Redirect(iht.controllers.registration.routes.KickoutRegController.onPageLoad())))}
+            Future.successful(Redirect(iht.controllers.registration.routes.KickoutRegController.onPageLoad)))}
 
         case None =>
           logger.warn(failMessage)

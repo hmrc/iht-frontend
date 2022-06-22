@@ -99,7 +99,7 @@ isFullWidth=false
 
     @returnLink(
         Messages("page.iht.application.return.to.assetsOf", deceasedName),
-        Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
+        Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad),
         appConfig.AppSectionHeldInTrustID
     )
 }

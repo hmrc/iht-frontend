@@ -43,7 +43,7 @@ registrationDetails: RegistrationDetails
 
     @errorSummaryOverrideKeys(stockAndSharesListed, Constants.AppSectionStockAndShare)
 
-    @form(action = iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesListedController.onSubmit(),'autoComplete -> "off") {
+    @form(action = iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesListedController.onSubmit,'autoComplete -> "off") {
 
         <div data-exclude="true" class="form-group">
             @inputYesNoRadioGroup(stockAndSharesListed("isListed"),
@@ -72,7 +72,7 @@ registrationDetails: RegistrationDetails
 }
     @returnLink(
         Messages("site.link.return.stocksAndShares"),
-        Some(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad()),
+        Some(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad),
         appConfig.AssetsStocksListedID
     )
 

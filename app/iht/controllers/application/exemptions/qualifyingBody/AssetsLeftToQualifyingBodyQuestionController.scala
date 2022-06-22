@@ -46,12 +46,12 @@ trait AssetsLeftToQualifyingBodyQuestionController extends EstateController {
 
 
   lazy val exemptionsOverviewPage: Call = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(appConfig.ExemptionsOtherID))
+    iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad, Some(appConfig.ExemptionsOtherID))
   lazy val qualifyingBodyOverviewPage: Call =
     CommonHelper.addFragmentIdentifier(
-      iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad(), Some(appConfig.ExemptionsOtherAssetsID))
+      iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad, Some(appConfig.ExemptionsOtherAssetsID))
   lazy val qualifyingBodyDetailsOverviewPage: Call =
-    iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onPageLoad()
+    iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onPageLoad
   val assetsLeftToQualifyingBodyQuestionView: assets_left_to_qualifying_body_question
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>

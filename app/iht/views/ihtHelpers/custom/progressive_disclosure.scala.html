@@ -44,7 +44,7 @@
             <div class="form-group">
                     @for(msg <- getDisclosureInfo(location)._2){
                         @if(msg.contains("link")){
-                            <a href = "@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()"> @messages(msg)</a>
+                            <a href = "@iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad"> @messages(msg)</a>
                         }else{
                             @messages(msg)
                         }

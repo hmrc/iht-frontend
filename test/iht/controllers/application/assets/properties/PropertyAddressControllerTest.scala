@@ -80,12 +80,12 @@ class PropertyAddressControllerTest extends ApplicationControllerTest {
     }
 
     "respond ok on page load" in {
-      val result = propertyAddressController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyAddressController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be (OK)
     }
 
     "display the correct title on page" in {
-      val result = propertyAddressController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyAddressController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be (OK)
       contentAsString(result) must include (messagesApi("iht.estateReport.assets.property.whatIsAddress.question"))
     }

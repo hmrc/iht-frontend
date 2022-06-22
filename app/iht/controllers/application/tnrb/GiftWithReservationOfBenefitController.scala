@@ -45,7 +45,7 @@ class GiftsWithReservationOfBenefitControllerImpl @Inject()(val ihtConnector: Ih
 
 trait GiftsWithReservationOfBenefitController extends EstateController with TnrbHelper with StringHelper {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
-  def cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
+  def cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad
   val giftsWithReservationOfBenefitView: gifts_with_reservation_of_benefit
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
 
@@ -137,7 +137,7 @@ trait GiftsWithReservationOfBenefitController extends EstateController with Tnrb
         InternalServerError
       } { _ =>
         updatedAppDetailsWithKickOutReason.kickoutReason match {
-          case Some(reason) => Redirect(iht.controllers.application.routes.KickoutAppController.onPageLoad())
+          case Some(reason) => Redirect(iht.controllers.application.routes.KickoutAppController.onPageLoad)
           case _ => successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(appConfig.TnrbGiftsWithReservationID))
         }
       }

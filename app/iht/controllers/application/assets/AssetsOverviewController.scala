@@ -49,7 +49,7 @@ trait AssetsOverviewController extends ApplicationController with ExemptionsGuid
       withApplicationDetails(userNino) { rd =>
         ad =>
           lazy val ihtRef = CommonHelper.getOrExceptionNoIHTRef(rd.ihtReference)
-          guidanceRedirect(routes.AssetsOverviewController.onPageLoad(), ad, cachingConnector).map {
+          guidanceRedirect(routes.AssetsOverviewController.onPageLoad, ad, cachingConnector).map {
             case Some(call) => Redirect(call)
             case None => {
               val allAssets = ad.allAssets.fold(new AllAssets())(assets => assets)

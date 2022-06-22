@@ -136,7 +136,7 @@ class SevenYearsGivenInLast7YearsControllerTest  extends ApplicationControllerTe
 
       val result = sevenYearsGivenInLast7YearsController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be (Some(iht.controllers.application.gifts.routes.SevenYearsToTrustController.onPageLoad().url))
+      redirectLocation(result) must be (Some(iht.controllers.application.gifts.routes.SevenYearsToTrustController.onPageLoad.url))
     }
 
     "display error if user submit the page without selecting the answer " in {

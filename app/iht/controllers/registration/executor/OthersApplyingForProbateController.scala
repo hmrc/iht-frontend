@@ -45,9 +45,9 @@ trait OthersApplyingForProbateController extends RegistrationController with CoE
 
   private def submitRoute(arrivedFromOverview: Boolean) =
     if (arrivedFromOverview) {
-      routes.OthersApplyingForProbateController.onSubmitFromOverview()
+      routes.OthersApplyingForProbateController.onSubmitFromOverview
     } else {
-      routes.OthersApplyingForProbateController.onSubmit()
+      routes.OthersApplyingForProbateController.onSubmit
     }
 
   def onPageLoad() = pageLoad(arrivedFromOverview = false)
@@ -74,9 +74,9 @@ trait OthersApplyingForProbateController extends RegistrationController with CoE
   private def submitOnwardResult(othersApplying: Boolean, arrivedFromOverview: Boolean, rd: RegistrationDetails): Result = {
     othersApplying match {
       case true if arrivedFromOverview && rd.coExecutors.isEmpty => Redirect(routes.CoExecutorPersonalDetailsController.onPageLoad(None))
-      case true if arrivedFromOverview => Redirect(routes.ExecutorOverviewController.onPageLoad())
+      case true if arrivedFromOverview => Redirect(routes.ExecutorOverviewController.onPageLoad)
       case true if !arrivedFromOverview => Redirect(routes.CoExecutorPersonalDetailsController.onPageLoad(None))
-      case false => Redirect(registrationRoutes.RegistrationSummaryController.onPageLoad())
+      case false => Redirect(registrationRoutes.RegistrationSummaryController.onPageLoad)
     }
   }
 

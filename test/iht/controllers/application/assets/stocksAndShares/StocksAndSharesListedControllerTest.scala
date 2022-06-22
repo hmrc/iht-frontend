@@ -31,7 +31,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
 class StocksAndSharesListedControllerTest extends ApplicationControllerTest {
 
-  val submitUrl = CommonHelper.addFragmentIdentifierToUrl(routes.StocksAndSharesOverviewController.onPageLoad().url, AssetsStocksListedID)
+  val submitUrl = CommonHelper.addFragmentIdentifierToUrl(routes.StocksAndSharesOverviewController.onPageLoad.url, AssetsStocksListedID)
 
   def setUpTests(applicationDetails: ApplicationDetails) = {
     createMocksForApplication(mockCachingConnector,

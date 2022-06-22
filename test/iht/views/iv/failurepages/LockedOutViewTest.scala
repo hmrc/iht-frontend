@@ -23,7 +23,7 @@ class LockedOutViewTest extends GenericNonSubmittablePageBehaviour {
 
   def guidanceParagraphs = Set(
     messagesApi("page.iht.iv.failure.youCanReport", appConfig.linkIHT205PDF),
-    messagesApi("page.iht.iv.failure.lockedOutTryAgain", iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad())  )
+    messagesApi("page.iht.iv.failure.lockedOutTryAgain", iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad)  )
 
   def pageTitle = messagesApi("page.iht.iv.failure.couldNotConfirmIdentity")
 

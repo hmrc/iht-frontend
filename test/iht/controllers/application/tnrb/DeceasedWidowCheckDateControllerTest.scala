@@ -95,7 +95,7 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckDateForm.data.toSeq: _*)
 
       val result = deceasedWidowCheckDateController.onSubmit (request)
-      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + mockAppConfig.TnrbSpouseDateOfDeathID))
+      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad.url + "#" + mockAppConfig.TnrbSpouseDateOfDeathID))
     }
 
     "when saving application must set the widowed field of the widowed check to Some(true)" in {
@@ -158,7 +158,7 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckDateForm.data.toSeq: _*)
 
       val result = deceasedWidowCheckDateController.onSubmit (request)
-      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad().url))
+      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad.url))
     }
 
     "show errors when incorrect submit is made" in {
@@ -247,7 +247,7 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckDateForm.data.toSeq: _*)
 
       val result = deceasedWidowCheckDateController.onSubmit (request)
-      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad().url))
+      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad.url))
     }
 
     "return internal server error when save of app details fails" in {

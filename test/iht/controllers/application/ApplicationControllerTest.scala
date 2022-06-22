@@ -41,7 +41,7 @@ trait ApplicationControllerTest extends ViewTestHelper with DefaultAwaitTimeout 
       createMockToGetRegDetailsFromCache(mockCachingConnector, None)
       val result = func
       playStatus(result) must be(SEE_OTHER)
-      redirectLocation(result) mustBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url)
+      redirectLocation(result) mustBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url)
     }
   }
 

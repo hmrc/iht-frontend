@@ -71,7 +71,7 @@ class DuplicateRegistrationControllerTest extends RegistrationControllerTest{
     "respond with not implemented" in {
       val result = duplicateRegistrationController.onSubmit(createFakeRequest(authRetrieveNino = false))
       status(result) mustBe(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url))
+      redirectLocation(result) must be(Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url))
     }
   }
 }

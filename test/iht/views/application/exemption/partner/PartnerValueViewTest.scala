@@ -37,13 +37,13 @@ class PartnerValueViewTest extends ValueViewBehaviour[PartnerExemption] {
 
   override def browserTitle = messagesApi("page.iht.application.exemptions.partner.totalAssets.browserTitle")
 
-  override def formTarget = Some(iht.controllers.application.exemptions.partner.routes.PartnerValueController.onSubmit())
+  override def formTarget = Some(iht.controllers.application.exemptions.partner.routes.PartnerValueController.onSubmit)
 
   override val cancelId:String = "cancel-button"
 
   override def cancelComponent = Some(
     CancelComponent(
-      iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(),
+      iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad,
       messagesApi("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"),
       ExemptionsPartnerValueID
     )

@@ -39,9 +39,9 @@ class StocksAndSharesListedViewTest extends ShareableElementInputViewBehaviour[S
   override def valueQuestionHelp = ""
   override def valueInputBoxId = "valueListed"
   override def returnLinkText = messagesApi("site.link.return.stocksAndShares")
-  override def returnLinkUrl = routes.StocksAndSharesOverviewController.onPageLoad().url
+  override def returnLinkUrl = routes.StocksAndSharesOverviewController.onPageLoad.url
   override def linkHash = appConfig.AssetsStocksListedID
-  override def formTarget = Some(routes.StocksAndSharesListedController.onSubmit())
+  override def formTarget = Some(routes.StocksAndSharesListedController.onSubmit)
   override def form: Form[StockAndShare] = stockAndShareListedForm
   lazy val stocksAndSharesListedView: stocks_and_shares_listed = app.injector.instanceOf[stocks_and_shares_listed]
 

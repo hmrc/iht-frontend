@@ -42,9 +42,9 @@ class CharityNameControllerImpl @Inject()(val cachingConnector: CachingConnector
 
 trait CharityNameController extends EstateController {
 
-  lazy val submitUrl: Call = CommonHelper.addFragmentIdentifier(routes.CharityNameController.onSubmit(), Some(appConfig.ExemptionsCharitiesNameID))
+  lazy val submitUrl: Call = CommonHelper.addFragmentIdentifier(routes.CharityNameController.onSubmit, Some(appConfig.ExemptionsCharitiesNameID))
 
-  def cancelUrl: Call = routes.CharityDetailsOverviewController.onPageLoad()
+  def cancelUrl: Call = routes.CharityDetailsOverviewController.onPageLoad
 
   def editCancelUrl(id: String): Call = routes.CharityDetailsOverviewController.onEditPageLoad(id)
 

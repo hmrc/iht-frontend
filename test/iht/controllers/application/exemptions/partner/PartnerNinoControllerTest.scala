@@ -102,7 +102,7 @@ class PartnerNinoControllerTest extends ApplicationControllerTest{
 
       val result = partnerNinoController.onSubmit(request)
       status(result) mustBe (SEE_OTHER)
-      redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerNinoID)))
+      redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad.url, ExemptionsPartnerNinoID)))
     }
 
     "display error validation message when incomplete form is submitted" in {

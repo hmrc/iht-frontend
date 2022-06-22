@@ -109,7 +109,7 @@ class EstateClaimControllerTest  extends ApplicationControllerTest {
 
       val result = estateClaimController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + mockAppConfig.TnrbEstateReliefID))
+      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad.url + "#" + mockAppConfig.TnrbEstateReliefID))
     }
 
     "go to KickOut page if estate claimed any business" in {
@@ -151,7 +151,7 @@ class EstateClaimControllerTest  extends ApplicationControllerTest {
 
       val result = estateClaimController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad().url))
+      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad.url))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

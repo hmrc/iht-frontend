@@ -44,7 +44,7 @@ class InReviewApplicationViewTest extends ApplicationStatusViewBehaviour {
     )
 
     link("view-app-copy",
-      iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF().url,
+      iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF.url,
       messagesApi("page.iht.application.overview.common.viewcopy")
     )
 
@@ -64,7 +64,7 @@ class InReviewApplicationViewTest extends ApplicationStatusViewBehaviour {
     }
 
     "show submit button with correct target and text" in {
-      doc.getElementsByTag("form").attr("action") mustBe iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url
+      doc.getElementsByTag("form").attr("action") mustBe iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url
       val submitButton = doc.getElementById("return-input")
       submitButton.`val` mustBe messagesApi("page.iht.application.overview.common.return")
     }

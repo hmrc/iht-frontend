@@ -48,11 +48,11 @@ class SevenYearsToTrustViewTest extends SubmittableApplicationPageBehaviour[AllG
     )
   )
 
-  override def formTarget = Some(iht.controllers.application.gifts.routes.SevenYearsToTrustController.onSubmit())
+  override def formTarget = Some(iht.controllers.application.gifts.routes.SevenYearsToTrustController.onSubmit)
 
   override def cancelComponent = Some(
     CancelComponent(
-      iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad(),
+      iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad,
       messagesApi("page.iht.application.gifts.return.to.givenAwayBy",
         CommonHelper.getOrException(regDetails.deceasedDetails).name),
       TestHelper.GiftsSevenYearsQuestionID2

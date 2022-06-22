@@ -69,7 +69,7 @@ class AnyAssetsControllerTest extends ApplicationControllerTest with HtmlSpec {
       val result = controller.onSubmitWithoutJointAssets()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.filter.routes.UseServiceController.onPageLoadUnder().url))
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.UseServiceController.onPageLoadUnder.url))
     }
 
     "redirect to the No Assets page if 'no' is selected" in {
@@ -78,7 +78,7 @@ class AnyAssetsControllerTest extends ApplicationControllerTest with HtmlSpec {
       val result = controller.onSubmitWithoutJointAssets()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.filter.routes.NoAssetsController.onPageLoadWithoutJointAssets().url))
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.NoAssetsController.onPageLoadWithoutJointAssets.url))
     }
   }
 

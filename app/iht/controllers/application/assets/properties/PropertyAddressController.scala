@@ -59,9 +59,9 @@ trait PropertyAddressController extends EstateController with FrontendHeaderCarr
   def locationAfterSuccessfulSave(id: String) = CommonHelper.addFragmentIdentifier(
     routes.PropertyDetailsOverviewController.onEditPageLoad(id), Some(appConfig.AssetsPropertiesPropertyAddressID))
 
-  def cancelUrl = routes.PropertyDetailsOverviewController.onPageLoad()
+  def cancelUrl = routes.PropertyDetailsOverviewController.onPageLoad
 
-  lazy val submitUrl = routes.PropertyAddressController.onSubmit()
+  lazy val submitUrl = routes.PropertyAddressController.onSubmit
   def cancelLabel(implicit request: Request[_]) = Messages("iht.estateReport.assets.properties.returnToAddAProperty")
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionProperties)
   val propertyAddressView: property_address
@@ -104,7 +104,7 @@ trait PropertyAddressController extends EstateController with FrontendHeaderCarr
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       doSubmit(
-        redirectLocationIfErrors = routes.PropertyAddressController.onSubmit(),
+        redirectLocationIfErrors = routes.PropertyAddressController.onSubmit,
         submitUrl = submitUrl,
         cancelUrl = cancelUrl,
         userNino)

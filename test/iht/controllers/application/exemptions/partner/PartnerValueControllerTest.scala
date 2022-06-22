@@ -127,7 +127,7 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
 
       val result = partnerValueController.onSubmit(request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerValueID)))
+      redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad.url, ExemptionsPartnerValueID)))
     }
 
     "redirect to overview page on submit when there is no exemptions present" in {
@@ -142,7 +142,7 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
 
       val result = partnerValueController.onSubmit(request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerValueID)))
+      redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad.url, ExemptionsPartnerValueID)))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

@@ -35,8 +35,8 @@ class HouseholdOverviewViewTest extends ViewTestHelper with ShareableElementOver
   override def guidanceParagraphs = Set(messagesApi("page.iht.application.assets.household.overview.guidance"))
   override def ownHeadingElementId = "deceased-own-household"
   override def jointlyOwnedHeadingElementId = "deceased-shared-household"
-  override def urlToOwnPage = HouseholdDeceasedOwnController.onPageLoad().url
-  override def urlToJointlyOwnedPage = HouseholdJointlyOwnedController.onPageLoad().url
+  override def urlToOwnPage = HouseholdDeceasedOwnController.onPageLoad.url
+  override def urlToJointlyOwnedPage = HouseholdJointlyOwnedController.onPageLoad.url
   override def ownHeaderText = messagesApi("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",
                                         deceasedName)
   override def jointlyOwnedHeaderText = messagesApi("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title",

@@ -50,10 +50,10 @@ trait AnyAssetsController extends FrontendController with I18nSupport {
       boundForm.fold(
         formWithErrors => Future.successful(BadRequest(anyAssetsView(formWithErrors, jointAssets))),
         choice => (choice.getOrElse(""), jointAssets) match {
-          case (Constants.anyAssetsYes, false) => Future.successful(Redirect(iht.controllers.filter.routes.UseServiceController.onPageLoadUnder()))
-          case (Constants.anyAssetsYes, true) => Future.successful(Redirect(iht.controllers.filter.routes.UseServiceController.onPageLoadUnderWithJointAssets()))
-          case (Constants.anyAssetsNo, true) => Future.successful(Redirect(iht.controllers.filter.routes.NoAssetsController.onPageLoadWithJointAssets()))
-          case (Constants.anyAssetsNo, false) => Future.successful(Redirect(iht.controllers.filter.routes.NoAssetsController.onPageLoadWithoutJointAssets()))
+          case (Constants.anyAssetsYes, false) => Future.successful(Redirect(iht.controllers.filter.routes.UseServiceController.onPageLoadUnder))
+          case (Constants.anyAssetsYes, true) => Future.successful(Redirect(iht.controllers.filter.routes.UseServiceController.onPageLoadUnderWithJointAssets))
+          case (Constants.anyAssetsNo, true) => Future.successful(Redirect(iht.controllers.filter.routes.NoAssetsController.onPageLoadWithJointAssets))
+          case (Constants.anyAssetsNo, false) => Future.successful(Redirect(iht.controllers.filter.routes.NoAssetsController.onPageLoadWithoutJointAssets))
           case (_, _) => throw new IllegalArgumentException("Invalid Data Submitted")
         }
       )

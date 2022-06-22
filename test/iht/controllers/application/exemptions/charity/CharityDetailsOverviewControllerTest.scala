@@ -63,7 +63,7 @@ class CharityDetailsOverviewControllerTest extends ApplicationControllerTest {
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
-      val result = charityDetailsOverviewController.onPageLoad()(createFakeRequest())
+      val result = charityDetailsOverviewController.onPageLoad()()(createFakeRequest())
       status(result) must be(OK)
     }
 
@@ -157,11 +157,11 @@ class CharityDetailsOverviewControllerTest extends ApplicationControllerTest {
 
       val result = charityDetailsOverviewController.onPageLoad()(createFakeRequest())
       contentAsString(result) must include(
-        iht.controllers.application.exemptions.charity.routes.CharityNameController.onPageLoad().url)
+        iht.controllers.application.exemptions.charity.routes.CharityNameController.onPageLoad.url)
       contentAsString(result) must include(
-        iht.controllers.application.exemptions.charity.routes.CharityValueController.onPageLoad().url)
+        iht.controllers.application.exemptions.charity.routes.CharityValueController.onPageLoad.url)
       contentAsString(result) must include(
-        iht.controllers.application.exemptions.charity.routes.CharityNameController.onPageLoad().url)
+        iht.controllers.application.exemptions.charity.routes.CharityNameController.onPageLoad.url)
     }
   }
 }

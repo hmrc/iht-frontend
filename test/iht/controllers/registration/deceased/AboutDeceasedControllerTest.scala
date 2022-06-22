@@ -106,7 +106,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
-      val result = controller(deceasedForms).onPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,host=host))
+      val result = controller(deceasedForms).onPageLoad(createFakeRequestWithReferrer(referrerURL=referrerURL,host=host))
       status(result) mustBe OK
     }
 
@@ -118,7 +118,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
-      val result = controller(deceasedForms).onPageLoad()(
+      val result = controller(deceasedForms).onPageLoad(
         createFakeRequestWithReferrer(referrerURL=referrerURL,host=host))
       status(result) mustBe OK
       contentAsString(result) must not include "value=\"1\""
@@ -134,7 +134,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
-      val result = controller(deceasedForms).onPageLoad()(
+      val result = controller(deceasedForms).onPageLoad(
         createFakeRequestWithReferrer(referrerURL=referrerURL,host=host))
       status(result) mustBe OK
 
@@ -165,7 +165,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
-      val result = controller(deceasedForms).onPageLoad()(
+      val result = controller(deceasedForms).onPageLoad(
         createFakeRequestWithReferrer(referrerURL=referrerURL,host=host))
       status(result) mustBe OK
     }
@@ -186,7 +186,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
         referrerURL = referrerURL, host = host, data = form.data.toSeq))
       status(result) mustBe SEE_OTHER
       redirectLocation(result) must be(
-        Some(iht.controllers.registration.deceased.routes.DeceasedAddressQuestionController.onPageLoad().url))
+        Some(iht.controllers.registration.deceased.routes.DeceasedAddressQuestionController.onPageLoad.url))
     }
 
     "respond appropriately to a submit with valid values in all fields but the NINO is the same as the login NINO" in  {
@@ -224,7 +224,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
         Some(deceasedDetails))))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
-      val result = controller(deceasedForms).onPageLoad()(request)
+      val result = controller(deceasedForms).onPageLoad(request)
       status(result) mustBe OK
       contentAsString(result) must include (deceasedName)
     }
@@ -265,7 +265,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
 
       val result = controller(deceasedForms).onEditSubmit()(request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be (Some(iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad().url))
+      redirectLocation(result) must be (Some(iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad.url))
     }
 
     "respond appropriately to an invalid submit in edit mode: Missing mandatory fields" in {

@@ -111,7 +111,7 @@ trait KickoutAppController extends ApplicationController with StringHelper with 
           val storedOptionSeen = cachingConnector.storeSingleValue(ApplicationKickOutHelper.SeenFirstKickoutPageCacheKey, "true")
           storedOptionSeen.map {
             case Some(_) =>
-              Redirect(iht.controllers.application.routes.KickoutAppController.onPageLoadDeleting())
+              Redirect(iht.controllers.application.routes.KickoutAppController.onPageLoadDeleting)
             case _ =>
               logger.warn(storageFailureMessage)
               InternalServerError(storageFailureMessage)

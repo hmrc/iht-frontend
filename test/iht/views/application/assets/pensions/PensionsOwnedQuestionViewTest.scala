@@ -45,7 +45,7 @@ class PensionsOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[PrivatePe
     form => pensionsOwnedQuestionView(form, regDetails)
 
   override def cancelComponent = Some(
-                        CancelComponent(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
+                        CancelComponent(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad,
                                       messagesApi("page.iht.application.return.to.assetsOf", deceasedName),
                           TestHelper.AppSectionPrivatePensionID
                         ))

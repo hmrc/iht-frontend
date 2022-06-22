@@ -49,22 +49,22 @@ trait DeceasedAddressQuestionController extends RegistrationDeceasedController {
   def okForPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(deceasedAddressQuestionView(form,
       DeceasedInfoHelper.getDeceasedNameOrDefaultString(name),
-      routes.DeceasedAddressQuestionController.onSubmit())
+      routes.DeceasedAddressQuestionController.onSubmit)
     )
 
   def badRequestForSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(deceasedAddressQuestionView(form,
       DeceasedInfoHelper.getDeceasedNameOrDefaultString(name),
-      routes.DeceasedAddressQuestionController.onSubmit())
+      routes.DeceasedAddressQuestionController.onSubmit)
     )
 
   def onwardRoute(rd: RegistrationDetails) = {
     val addressInUk = rd.deceasedDetails.flatMap(_.isAddressInUK)
     addressInUk.fold(cantFindAddressInUK) { addressInUk =>
       if (addressInUk) {
-        routes.DeceasedAddressDetailsUKController.onPageLoad()
+        routes.DeceasedAddressDetailsUKController.onPageLoad
       } else {
-        routes.DeceasedAddressDetailsOutsideUKController.onPageLoad()
+        routes.DeceasedAddressDetailsOutsideUKController.onPageLoad
       }
     }
   }

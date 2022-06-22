@@ -91,14 +91,14 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
 
       setUpTests(Some(applicationDetails))
 
-      val result = propertyValueController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyValueController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be (OK)
     }
 
     "display the page title on page load" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Future.successful(Some(regDetails)))
 
-      val result = propertyValueController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyValueController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be (OK)
       ContentChecker.stripLineBreaks(contentAsString(result)) must include (messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
     }
@@ -106,7 +106,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
     "display property value label on page" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Future.successful(Some(regDetails)))
 
-      val result = propertyValueController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyValueController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be (OK)
       ContentChecker.stripLineBreaks(contentAsString(result)) must include (messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
     }
@@ -114,7 +114,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
     "display property question sub label on page" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Future.successful(Some(regDetails)))
 
-      val result = propertyValueController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyValueController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be (OK)
       ContentChecker.stripLineBreaks(contentAsString(result)) must include (messagesApi("page.iht.application.property.value.question.hint1",
                                                       deceasedName))
@@ -195,7 +195,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
 
       val result = propertyValueController.onSubmit(request)
       status(result) must be (SEE_OTHER)
-      redirectLocation(result) mustBe Some(iht.controllers.application.routes.KickoutAppController.onPageLoad().url)
+      redirectLocation(result) mustBe Some(iht.controllers.application.routes.KickoutAppController.onPageLoad.url)
     }
     "load the page when editing for kickout" in {
       val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.copy(

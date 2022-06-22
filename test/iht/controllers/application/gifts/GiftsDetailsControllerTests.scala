@@ -143,7 +143,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
 
       val result = giftsDetailsController.onSubmit()(request)
       playStatus(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(routes.SevenYearsGiftsValuesController.onPageLoad().url + "#" + appConfig.GiftsValueDetailID + "1"))
+      redirectLocation(result) must be(Some(routes.SevenYearsGiftsValuesController.onPageLoad.url + "#" + appConfig.GiftsValueDetailID + "1"))
     }
 
     "On processSubmit if no Gift found then redirect" in {
@@ -162,7 +162,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
 
       val result = giftsDetailsController.onSubmit()(request)
       playStatus(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(routes.SevenYearsGiftsValuesController.onPageLoad().url))
+      redirectLocation(result) must be(Some(routes.SevenYearsGiftsValuesController.onPageLoad.url))
     }
 
     "On processSubmit display correct error message if exemptions more than value" in {

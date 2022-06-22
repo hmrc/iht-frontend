@@ -93,7 +93,7 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
     "return a view containing the section title on page load" in {
       createMocksForApplicationWithCharity
 
-      val result = assetsLeftToCharityValueController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = assetsLeftToCharityValueController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be(OK)
       contentAsString(result) must include(
         messagesApi("page.iht.application.exemptions.charityValue.sectionTitle"))

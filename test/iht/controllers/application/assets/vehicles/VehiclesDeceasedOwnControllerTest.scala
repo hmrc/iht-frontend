@@ -160,7 +160,7 @@ class VehiclesDeceasedOwnControllerTest extends ApplicationControllerTest {
       val applicationDetails = CommonBuilder.buildApplicationDetails
       setUpTests(applicationDetails)
 
-      val result = vehiclesDeceasedOwnController.onPageLoad()(createFakeRequest())
+      val result = vehiclesDeceasedOwnController.onPageLoad(createFakeRequest())
       status(result) must be (OK)
       ContentChecker.stripLineBreaks(contentAsString(result)) must include (messagesApi("iht.estateReport.assets.vehiclesOwned", deceasedName))
     }

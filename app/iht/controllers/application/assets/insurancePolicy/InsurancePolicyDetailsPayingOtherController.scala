@@ -84,7 +84,7 @@ trait InsurancePolicyDetailsPayingOtherController extends EstateController {
         (ad, _) => ad.allAssets.flatMap(allAssets => allAssets.insurancePolicy).flatMap(_.isInsurancePremiumsPayedForSomeoneElse)
           .fold(insurancePoliciesRedirectLocation)(isInsurancePremiumsPayedForSomeoneElse =>
             if (isInsurancePremiumsPayedForSomeoneElse) {
-              iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsMoreThanMaxValueController.onPageLoad()
+              iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsMoreThanMaxValueController.onPageLoad
             } else {
               addFragmentIdentifier(insurancePoliciesRedirectLocation, Some(appConfig.InsurancePaidForSomeoneElseYesNoID))
             }

@@ -38,14 +38,14 @@ class PensionsChangedQuestionViewTest extends YesNoQuestionViewBehaviour[Private
 
   override def browserTitle = messagesApi("page.iht.application.assets.pensions.changed.browserTitle")
 
-  override def formTarget = Some(routes.PensionsChangedQuestionController.onSubmit())
+  override def formTarget = Some(routes.PensionsChangedQuestionController.onSubmit)
 
   override def form: Form[PrivatePension] = pensionsChangedQuestionForm
 
   override def formToView: Form[PrivatePension] => Appendable =
     form => pensionsChangedQuestionView(form, regDetails)
 
-  override def cancelComponent = Some(CancelComponent(routes.PensionsOverviewController.onPageLoad(),
+  override def cancelComponent = Some(CancelComponent(routes.PensionsOverviewController.onPageLoad,
     messagesApi("iht.estateReport.assets.pensions.returnToPrivatePensions"),
     AssetsPensionChangesID
   ))

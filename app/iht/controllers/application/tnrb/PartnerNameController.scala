@@ -46,7 +46,7 @@ val cc: MessagesControllerComponents) extends FrontendController(cc) with Partne
 
 trait PartnerNameController extends EstateController with StringHelper with TnrbHelper {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
-  def cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
+  def cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad
   val partnerNameView: partner_name
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
 

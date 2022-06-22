@@ -47,7 +47,7 @@ isFullWidth=false){
     <p id="action-button"><button class="button" id="confirm-delete" name="action" value="save">@Messages("site.button.confirmDelete")</button></p>
     @returnLink(
         Messages("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies"),
-        Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad()),
+        Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad),
         appConfig.ExemptionsOtherDeleteID + qualifyingBody.id.getOrElse("")
     )
 </div>

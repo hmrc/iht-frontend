@@ -42,7 +42,7 @@ class InsurancePolicyDetailsGuidanceViewTest extends ApplicationPageBehaviour {
   override def formTarget: Option[Call] = None
 
   override def cancelComponent: Option[CancelComponent] = Some(CancelComponent(
-    routes.InsurancePolicyOverviewController.onPageLoad(),
+    routes.InsurancePolicyOverviewController.onPageLoad,
     messagesApi("site.link.return.insurance.policies"),
     InsurancePlacedInTrustYesNoID
   ))

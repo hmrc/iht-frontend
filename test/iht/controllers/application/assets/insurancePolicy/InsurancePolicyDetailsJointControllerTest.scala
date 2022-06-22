@@ -172,7 +172,7 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsJointController.onSubmit(request)
-      redirectLocation(result) must be(Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad().url + "#" + mockAppConfig.InsuranceJointlyHeldYesNoID))
+      redirectLocation(result) must be(Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad.url + "#" + mockAppConfig.InsuranceJointlyHeldYesNoID))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

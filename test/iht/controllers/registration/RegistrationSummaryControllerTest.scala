@@ -92,7 +92,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
-      val result = controller.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = controller.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be(OK)
       val content = ContentChecker.stripLineBreaks(contentAsString(result))
 
@@ -117,7 +117,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
 
       val result = controller.onSubmit(createFakeRequest(authRetrieveNino = false))
       redirectLocation(result) mustBe
-        Some(iht.controllers.registration.routes.CompletedRegistrationController.onPageLoad().url)
+        Some(iht.controllers.registration.routes.CompletedRegistrationController.onPageLoad.url)
       status(result) must be(SEE_OTHER)
     }
 
@@ -279,7 +279,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
 
       val result = await(controller.onPageLoad(createFakeRequest(authRetrieveNino = false)))
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) mustBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url)
+      redirectLocation(result) mustBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url)
     }
 
     "redirect to the estate report page if the RegistrationDetails does not contain contact number" in {

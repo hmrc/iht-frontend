@@ -57,7 +57,7 @@ class GivenAwayViewTest extends SubmittableApplicationPageBehaviour[AllGifts] {
     )
   )
 
-  override def formTarget = Some(iht.controllers.application.gifts.routes.GivenAwayController.onSubmit())
+  override def formTarget = Some(iht.controllers.application.gifts.routes.GivenAwayController.onSubmit)
 
   override def cancelComponent = Some(
     CancelComponent(
@@ -90,7 +90,7 @@ class GivenAwayViewTest extends SubmittableApplicationPageBehaviour[AllGifts] {
       link.text mustBe messagesApi("page.iht.application.gifts.return.to.givenAwayBy",
         getOrException(registrationDetails.deceasedDetails).name)
       link.attr("href") mustBe
-        iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad().url + "#" + appConfig.GiftsGivenAwayQuestionID
+        iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad.url + "#" + appConfig.GiftsGivenAwayQuestionID
     }
 
     "show all previous years as bullet points in the correct order" in {

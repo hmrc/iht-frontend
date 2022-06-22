@@ -145,7 +145,7 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
 
       status(result) mustBe (OK)
       contentAsString(result) must include(messagesApi("site.link.cancel"))
-      contentAsString(result) must include(messagesApi(routes.ExecutorOverviewController.onPageLoad().url))
+      contentAsString(result) must include(messagesApi(routes.ExecutorOverviewController.onPageLoad.url))
     }
 
     "if the coexecutor with given id exists - the name of the coexecutor must be visible" in {

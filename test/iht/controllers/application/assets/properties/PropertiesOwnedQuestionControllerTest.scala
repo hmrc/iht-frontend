@@ -94,7 +94,7 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
       status(result) mustBe (SEE_OTHER)
 
       redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(
-        iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url,TestHelper.AppSectionPropertiesID))
+        iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad.url,TestHelper.AppSectionPropertiesID))
       )
     }
 
@@ -118,7 +118,7 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
 
       val result = propertiesOwnedQuestionController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be (Some(routes.PropertyDetailsOverviewController.onPageLoad().url))
+      redirectLocation(result) must be (Some(routes.PropertyDetailsOverviewController.onPageLoad.url))
     }
 
     "save application and go to Property list page on submit where kickout outstanding" in {
@@ -133,7 +133,7 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
 
       val result = propertiesOwnedQuestionController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be (Some(iht.controllers.application.routes.KickoutAppController.onPageLoad().url))
+      redirectLocation(result) must be (Some(iht.controllers.application.routes.KickoutAppController.onPageLoad.url))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

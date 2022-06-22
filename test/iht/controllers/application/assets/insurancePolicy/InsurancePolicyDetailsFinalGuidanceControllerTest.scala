@@ -67,7 +67,7 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
 
   "InsurancePolicyDetailsFinalGuidanceController" must {
     "redirect to login page onPageLoad if the user is not logged in" in {
-      val result = insurancePolicyDetailsFinalGuidanceControllerNotAuthorised.onPageLoad()(createFakeRequest(isAuthorised = false))
+      val result = insurancePolicyDetailsFinalGuidanceControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
       status(result) must be(SEE_OTHER)
       redirectLocation(result).get must be(loginUrl)
     }
@@ -84,7 +84,7 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
         storeAppDetailsInCache = true,
         getSingleValueFromCache = true)
 
-      val result = insurancePolicyDetailsFinalGuidanceController.onPageLoad()(createFakeRequest())
+      val result = insurancePolicyDetailsFinalGuidanceController.onPageLoad(createFakeRequest())
       status(result) mustBe OK
 
       ContentChecker.stripLineBreaks(contentAsString(result)) must include(messagesApi("page.iht.application.insurance.policies.section7.guidance",
@@ -108,7 +108,7 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
 
       val result = insurancePolicyDetailsFinalGuidanceController.giftsPageRedirect(initialGiftsQuestionAnswerOption)
 
-      result must be (iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad())
+      result must be (iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad)
     }
 
     "return initial gifts question page given initial gifts question answered no" in {
@@ -125,7 +125,7 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
 
       val result = insurancePolicyDetailsFinalGuidanceController.giftsPageRedirect(initialGiftsQuestionAnswerOption)
 
-      result must be (iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad())
+      result must be (iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad)
     }
 
     "return gifts overview page when initial question answered yes" in {
@@ -142,7 +142,7 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
 
       val result = insurancePolicyDetailsFinalGuidanceController.giftsPageRedirect(initialGiftsQuestionAnswerOption)
 
-      result must be (iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad())
+      result must be (iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad)
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

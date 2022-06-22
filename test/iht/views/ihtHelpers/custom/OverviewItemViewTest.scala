@@ -32,7 +32,7 @@ class OverviewItemViewTest extends ViewTestHelper {
         messagesApi("iht.estateReport.assets.inEstate"),
         "",
         NotStarted,
-        iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
+        iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad,
         "")
 
       val view = overviewItemView(overviewRow)
@@ -44,7 +44,7 @@ class OverviewItemViewTest extends ViewTestHelper {
         messagesApi("iht.estateReport.assets.inEstate"),
         "",
         NotStarted,
-        iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
+        iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad,
         "")
 
       val view = overviewItemView(overviewRow)
@@ -58,7 +58,7 @@ class OverviewItemViewTest extends ViewTestHelper {
         messagesApi("iht.estateReport.assets.inEstate"),
         "£2,000",
         NotStarted,
-        iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
+        iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad,
         "")
 
       val view = overviewItemView(overviewRow)
@@ -71,7 +71,7 @@ class OverviewItemViewTest extends ViewTestHelper {
         messagesApi("iht.estateReport.assets.inEstate"),
         "£2,000",
         NotStarted,
-        iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
+        iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad,
         "")
 
       val view = overviewItemView(overviewRow)
@@ -79,7 +79,7 @@ class OverviewItemViewTest extends ViewTestHelper {
 
       val link = doc.getElementById(EstateAssetsID)
       link.text mustBe messagesApi("iht.start")
-      link.attr("href") mustBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url
+      link.attr("href") mustBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad.url
       assertRenderedById(doc, EstateAssetsID + "-status")
       assertContainsText(doc, messagesApi("iht.notStarted"))
     }
@@ -89,7 +89,7 @@ class OverviewItemViewTest extends ViewTestHelper {
         messagesApi("iht.estateReport.assets.inEstate"),
         "£2,000",
         PartiallyComplete,
-        iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
+        iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad,
         "")
 
       val view = overviewItemView(overviewRow)
@@ -97,7 +97,7 @@ class OverviewItemViewTest extends ViewTestHelper {
 
       val link = doc.getElementById(EstateAssetsID)
       link.text mustBe messagesApi("iht.giveMoreDetails")
-      link.attr("href") mustBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url
+      link.attr("href") mustBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad.url
       assertRenderedById(doc, EstateAssetsID + "-status")
       assertContainsText(doc, messagesApi("iht.inComplete"))
     }
@@ -107,7 +107,7 @@ class OverviewItemViewTest extends ViewTestHelper {
         messagesApi("iht.estateReport.assets.inEstate"),
         "£2,000",
         Complete,
-        iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
+        iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad,
         "")
 
       val view = overviewItemView(overviewRow)
@@ -115,7 +115,7 @@ class OverviewItemViewTest extends ViewTestHelper {
 
       val link = doc.getElementById(EstateAssetsID)
       link.text mustBe messagesApi("iht.viewOrChange")
-      link.attr("href") mustBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url
+      link.attr("href") mustBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad.url
       assertRenderedById(doc, EstateAssetsID + "-status")
       assertContainsText(doc, messagesApi("iht.complete"))
     }

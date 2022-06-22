@@ -60,7 +60,7 @@ trait SevenYearsToTrustController extends EstateController {
       estateElementOnSubmit[AllGifts](giftSevenYearsToTrustForm,
         sevenYearsToTrustView.apply,
         updateApplicationDetails,
-        CommonHelper.addFragmentIdentifier(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad(), Some(appConfig.GiftsSevenYearsQuestionID2)),
+        CommonHelper.addFragmentIdentifier(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad, Some(appConfig.GiftsSevenYearsQuestionID2)),
         userNino
       )
     }

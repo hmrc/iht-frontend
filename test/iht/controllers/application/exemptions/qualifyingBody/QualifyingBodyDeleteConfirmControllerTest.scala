@@ -98,7 +98,7 @@ class QualifyingBodyDeleteConfirmControllerTest extends ApplicationControllerTes
     val result = qualifyingBodyDeleteConfirmController.onSubmit("1")(createFakeRequest())
 
     status(result) mustBe(SEE_OTHER)
-    redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.QualifyingBodiesOverviewController.onPageLoad().url, ExemptionsOtherAddID)))
+    redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.QualifyingBodiesOverviewController.onPageLoad.url, ExemptionsOtherAddID)))
   }
 
   "when given a valid qualifyingBody id the qualifyingBody must be deleted in load" in {

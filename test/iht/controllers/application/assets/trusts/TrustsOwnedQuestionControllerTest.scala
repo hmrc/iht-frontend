@@ -93,7 +93,7 @@ class TrustsOwnedQuestionControllerTest extends ApplicationControllerTest{
 
       val result = trustsOwnedQuestionController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
-      //redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.AssetsOverviewController.onPageLoad().url, AppSectionHeldInTrustID)))
+      //redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.AssetsOverviewController.onPageLoad.url, AppSectionHeldInTrustID)))
     }
 
     "save application and go to held in trust next page page on submit when Yes chosen" in {

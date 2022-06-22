@@ -43,7 +43,7 @@ class VehiclesJointlyOwnedViewTest extends ShareableElementInputViewBehaviour[Sh
   override def hasValueQuestionHelp = false
   override def valueQuestionHelp = ""
   override def returnLinkText = messagesApi("site.link.return.vehicles")
-  override def returnLinkUrl = VehiclesOverviewController.onPageLoad().url
+  override def returnLinkUrl = VehiclesOverviewController.onPageLoad.url
   override def linkHash = appConfig.AssetsVehiclesSharedID
   override def formTarget =Some(routes.VehiclesJointlyOwnedController.onSubmit)
 

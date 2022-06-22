@@ -103,7 +103,7 @@ class PartnerPermanentHomeQuestionControllerTest extends ApplicationControllerTe
 
       val result = partnerPermanentHomeQuestionController.onSubmit(request)
       status(result) mustBe (SEE_OTHER)
-      redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerHomeID)))
+      redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad.url, ExemptionsPartnerHomeID)))
     }
 
     "display validation message when incomplete form is submitted" in {

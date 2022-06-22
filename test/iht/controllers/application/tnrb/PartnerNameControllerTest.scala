@@ -112,7 +112,7 @@ class PartnerNameControllerTest extends ApplicationControllerTest{
 
       val result = partnerNameController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + mockAppConfig.TnrbSpouseNameID))
+      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad.url + "#" + mockAppConfig.TnrbSpouseNameID))
     }
 
     "go to successful Tnrb page on submit when its satisfies happy path" in {
@@ -136,7 +136,7 @@ class PartnerNameControllerTest extends ApplicationControllerTest{
 
       val result = partnerNameController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad().url))
+      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad.url))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

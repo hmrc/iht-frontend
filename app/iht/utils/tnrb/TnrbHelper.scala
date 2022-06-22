@@ -34,9 +34,9 @@ case class TnrbHelperFixture(x: Any = None)(implicit val appConfig: AppConfig) e
 trait TnrbHelper {
   implicit val appConfig: AppConfig
 
-  lazy val tnrbOverviewPage = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
-  lazy val deceasedWidowCheckDatePage = iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad()
-  lazy val deceasedWidowCheckQuestionPage = iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad()
+  lazy val tnrbOverviewPage = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad
+  lazy val deceasedWidowCheckDatePage = iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad
+  lazy val deceasedWidowCheckQuestionPage = iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad
 
   val nameView = new ihtHelpers.custom.name()
 
@@ -154,14 +154,14 @@ trait TnrbHelper {
 
   def successfulTnrbRedirect(appDetails: ApplicationDetails, linkHash: Option[String] = None): Result = {
     if (appDetails.isSuccessfulTnrbCase) {
-      Redirect(iht.controllers.application.tnrb.routes.TnrbSuccessController.onPageLoad())
+      Redirect(iht.controllers.application.tnrb.routes.TnrbSuccessController.onPageLoad)
     } else {
-      Redirect(CommonHelper.addFragmentIdentifier(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad(), linkHash))
+      Redirect(CommonHelper.addFragmentIdentifier(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad, linkHash))
     }
   }
 
   def cancelLinkUrlForWidowCheckPages(appDetails: ApplicationDetails, linkHash: Option[String] = None) = if (appDetails.isWidowCheckSectionCompleted) {
-    CommonHelper.addFragmentIdentifier(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad(), linkHash)
+    CommonHelper.addFragmentIdentifier(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad, linkHash)
   } else {
     iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(CommonHelper.getOrException(appDetails.ihtRef))
   }

@@ -68,9 +68,9 @@ headingName = deceasedName) {
                 link = if(exemptions.partner.fold(false){
                     partner => partner.isAssetForDeceasedPartner.isDefined && partner.isPartnerHomeInUK.isDefined
                   }){
-                    Some(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad())
+                    Some(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad)
                 } else {
-                  Some(iht.controllers.application.exemptions.partner.routes.AssetsLeftToPartnerQuestionController.onPageLoad())
+                  Some(iht.controllers.application.exemptions.partner.routes.AssetsLeftToPartnerQuestionController.onPageLoad)
                 },
             itemStatus = genericOverviewStatusLabel(
                         isComplete = isComplete,
@@ -105,8 +105,8 @@ headingName = deceasedName) {
                         Some(messages("site.noAssetsLeft"))),
             valueScreenReader = "",
             link = if(exemptions.charity.flatMap(x=>x.isSelected).contains(true))
-                Some(iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad())
-                else Some(iht.controllers.application.exemptions.charity.routes.AssetsLeftToCharityQuestionController.onPageLoad()),
+                Some(iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad)
+                else Some(iht.controllers.application.exemptions.charity.routes.AssetsLeftToCharityQuestionController.onPageLoad),
             itemStatus = genericOverviewStatusLabel(
                         isComplete = isComplete,
                             screenreaderQualifyingText = getScreenReaderQualifyingText(
@@ -139,8 +139,8 @@ headingName = deceasedName) {
                         Some(messages("site.noAssetsLeft"))),
                         valueScreenReader = "",
             link = if(exemptions.qualifyingBody.flatMap(x=>x.isSelected).contains(true))
-            Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad())
-            else Some(iht.controllers.application.exemptions.qualifyingBody.routes.AssetsLeftToQualifyingBodyQuestionController.onPageLoad()),
+            Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad)
+            else Some(iht.controllers.application.exemptions.qualifyingBody.routes.AssetsLeftToQualifyingBodyQuestionController.onPageLoad),
             itemStatus = genericOverviewStatusLabel(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(

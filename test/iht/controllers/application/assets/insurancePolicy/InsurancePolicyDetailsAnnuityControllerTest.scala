@@ -173,7 +173,7 @@ protected abstract class TestController extends FrontendController(mockControlle
 
       val result = insurancePolicyDetailsAnnuityController.onSubmit (request)
       redirectLocation(result) must be (Some(
-        iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsInTrustController.onPageLoad().url))
+        iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsInTrustController.onPageLoad.url))
     }
 
     "redirect to kickout page when yes selected on submit" in {
@@ -186,7 +186,7 @@ protected abstract class TestController extends FrontendController(mockControlle
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsAnnuityController.onSubmit (request)
-      redirectLocation(result) must be (Some(iht.controllers.application.routes.KickoutAppController.onPageLoad().url))
+      redirectLocation(result) must be (Some(iht.controllers.application.routes.KickoutAppController.onPageLoad.url))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

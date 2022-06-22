@@ -49,13 +49,13 @@ trait DomicileController extends FrontendController with I18nSupport {
         formWithErrors => Future.successful(BadRequest(domicileView(formWithErrors))),
         choice => choice.getOrElse("") match {
           case Constants.englandOrWales =>
-            Future.successful(Redirect(iht.controllers.filter.routes.DeceasedBefore2022Controller.onPageLoad()))
+            Future.successful(Redirect(iht.controllers.filter.routes.DeceasedBefore2022Controller.onPageLoad))
           case Constants.scotland =>
-            Future.successful(Redirect(iht.controllers.filter.routes.TransitionController.onPageLoadScotland()))
+            Future.successful(Redirect(iht.controllers.filter.routes.TransitionController.onPageLoadScotland))
           case Constants.northernIreland =>
-            Future.successful(Redirect(iht.controllers.filter.routes.TransitionController.onPageLoadNorthernIreland()))
+            Future.successful(Redirect(iht.controllers.filter.routes.TransitionController.onPageLoadNorthernIreland))
           case Constants.otherCountry =>
-            Future.successful(Redirect(iht.controllers.filter.routes.TransitionController.onPageLoadOtherCountry()))
+            Future.successful(Redirect(iht.controllers.filter.routes.TransitionController.onPageLoadOtherCountry))
         }
       )
     }

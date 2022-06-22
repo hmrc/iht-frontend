@@ -45,8 +45,8 @@ trait ApplyingForProbateController extends RegistrationApplicantControllerWithEd
 
   override val storageFailureMessage = "Store registration details fails on applying for probate submission"
 
-  lazy val submitRoute: Call = routes.ApplyingForProbateController.onSubmit()
-  lazy val editSubmitRoute: Call = routes.ApplyingForProbateController.onEditSubmit()
+  lazy val submitRoute: Call = routes.ApplyingForProbateController.onSubmit
+  lazy val editSubmitRoute: Call = routes.ApplyingForProbateController.onEditSubmit
   val applyingForProbateView: applying_for_probate
   def okForPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]): Result =
     Ok(applyingForProbateView(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), submitRoute))
@@ -66,5 +66,5 @@ trait ApplyingForProbateController extends RegistrationApplicantControllerWithEd
     rd copy (applicantDetails = Some(x))
   }
 
-  def onwardRoute(rd: RegistrationDetails): Call = routes.ExecutorOfEstateController.onPageLoad()
+  def onwardRoute(rd: RegistrationDetails): Call = routes.ExecutorOfEstateController.onPageLoad
 }

@@ -47,7 +47,7 @@ trait GiftsOverviewController extends EstateController with ExemptionsGuidanceHe
 
   private def givenAwayYesNoItems(allGifts: AllGifts, rd: RegistrationDetails) = {
     Seq[QuestionAnswer](
-      QuestionAnswer(allGifts.isGivenAway, routes.GivenAwayController.onPageLoad(),
+      QuestionAnswer(allGifts.isGivenAway, routes.GivenAwayController.onPageLoad,
         _.allGifts.flatMap(_.isGivenAway).fold(true)(_ => true),
         "page.iht.application.gifts.overview.givenAway.question1.yes.screenReader.link.value",
         "page.iht.application.gifts.overview.givenAway.question1.no.screenReader.link.value",
@@ -57,7 +57,7 @@ trait GiftsOverviewController extends EstateController with ExemptionsGuidanceHe
   private def withReservationYesNoItems(allGifts: AllGifts, rd: RegistrationDetails)(implicit messages:Messages) =  {
     val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd, wrapName = true)
     Seq[QuestionAnswer](
-      QuestionAnswer(allGifts.isReservation, routes.WithReservationOfBenefitController.onPageLoad(),
+      QuestionAnswer(allGifts.isReservation, routes.WithReservationOfBenefitController.onPageLoad,
         _.allGifts.flatMap(_.isReservation).fold(false)(_ => true),
         messages("page.iht.application.gifts.overview.reservation.question1.yes.screenReader.link.value", deceasedName),
         messages("page.iht.application.gifts.overview.reservation.question1.no.screenReader.link.value", deceasedName),
@@ -68,12 +68,12 @@ trait GiftsOverviewController extends EstateController with ExemptionsGuidanceHe
   private def sevenYearsYesNoItems(allGifts: AllGifts, rd: RegistrationDetails)(implicit messages:Messages) = {
     val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd, wrapName = true)
     Seq[QuestionAnswer](
-      QuestionAnswer(allGifts.isGivenInLast7Years, routes.SevenYearsGivenInLast7YearsController.onPageLoad(),
+      QuestionAnswer(allGifts.isGivenInLast7Years, routes.SevenYearsGivenInLast7YearsController.onPageLoad,
         _.allGifts.flatMap(_.isGivenInLast7Years).fold(false)(_ => true),
         messages("page.iht.application.gifts.lastYears.question.yes.screenReader.link.value", deceasedName),
         messages("page.iht.application.gifts.lastYears.question.no.screenReader.link.value", deceasedName),
         "page.iht.application.gifts.lastYears.question.none.screenReader.link.value"),
-      QuestionAnswer(allGifts.isToTrust, iht.controllers.application.gifts.routes.SevenYearsToTrustController.onPageLoad(),
+      QuestionAnswer(allGifts.isToTrust, iht.controllers.application.gifts.routes.SevenYearsToTrustController.onPageLoad,
         _.allGifts.flatMap(_.isGivenInLast7Years).fold(false)(_ => !allGifts.isGivenInLast7Years.get),
         messages("page.iht.application.gifts.trust.question.yes.screenReader.link.value", deceasedName),
         messages("page.iht.application.gifts.trust.question.no.screenReader.link.value", deceasedName),
@@ -94,8 +94,8 @@ trait GiftsOverviewController extends EstateController with ExemptionsGuidanceHe
             val ad = getOrExceptionNoApplication(optionApplicationDetails)
 
             ad.allGifts.flatMap(_.isGivenAway)
-              .fold(Future.successful(Redirect(routes.GivenAwayController.onPageLoad()))) { _ =>
-                guidanceRedirect(routes.GiftsOverviewController.onPageLoad(), ad, cachingConnector).map {
+              .fold(Future.successful(Redirect(routes.GivenAwayController.onPageLoad))) { _ =>
+                guidanceRedirect(routes.GiftsOverviewController.onPageLoad, ad, cachingConnector).map {
                   case Some(call) => Redirect(call)
                   case None =>
                     val optionAllGifts: Option[AllGifts] = ad.allGifts
@@ -120,7 +120,7 @@ trait GiftsOverviewController extends EstateController with ExemptionsGuidanceHe
                                 allGifts: AllGifts, deceasedName: String, messages: Messages) = createSectionFromYesNoQuestions(
     id = "givenAway",
     title = None,
-    linkUrl = routes.GivenAwayController.onPageLoad(),
+    linkUrl = routes.GivenAwayController.onPageLoad,
     sectionLevelLinkAccessibilityText = "page.iht.application.gifts.overview.givenAway.giveAnswer.screenReader.link.value",
     questionAnswersPlusChangeLinks = givenAwayYesNoItems(allGifts, regDetails),
     questionTitlesMessagesFileItems = Seq(messages("page.iht.application.gifts.lastYears.givenAway.question", deceasedName)),
@@ -134,7 +134,7 @@ trait GiftsOverviewController extends EstateController with ExemptionsGuidanceHe
                                 allGifts: AllGifts, deceasedName: String, messages: Messages) = createSectionFromYesNoQuestions(
     id = "reservation",
     title = Some(messages("iht.estateReport.gifts.withReservation.title", deceasedName)),
-    linkUrl = routes.WithReservationOfBenefitController.onPageLoad(),
+    linkUrl = routes.WithReservationOfBenefitController.onPageLoad,
     sectionLevelLinkAccessibilityText = messages("page.iht.application.gifts.overview.reservation.giveAnswer.screenReader.link.value", deceasedName),
     questionAnswersPlusChangeLinks = withReservationYesNoItems(allGifts, regDetails)(messages),
     questionTitlesMessagesFileItems = Seq(messages("iht.estateReport.gifts.reservation.question", deceasedName)),
@@ -149,7 +149,7 @@ trait GiftsOverviewController extends EstateController with ExemptionsGuidanceHe
                                allGifts: AllGifts, deceasedName: String, messages: Messages) = createSectionFromYesNoQuestions(
     id = "sevenYear",
     title = Some("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"),
-    linkUrl = routes.SevenYearsGivenInLast7YearsController.onPageLoad(),
+    linkUrl = routes.SevenYearsGivenInLast7YearsController.onPageLoad,
     sectionLevelLinkAccessibilityText = "page.iht.application.gifts.overview.sevenYears.giveAnswer.screenReader.link.value",
     questionAnswersPlusChangeLinks = sevenYearsYesNoItems(allGifts, regDetails)(messages),
     questionTitlesMessagesFileItems = Seq(messages("page.iht.application.gifts.lastYears.question", deceasedName),
@@ -165,7 +165,7 @@ trait GiftsOverviewController extends EstateController with ExemptionsGuidanceHe
                                    allGifts: AllGifts, deceasedName: String) = createSectionFromValueQuestions(
     id = "value",
     title = Some("iht.estateReport.gifts.valueOfGiftsGivenAway"),
-    linkUrl = routes.SevenYearsGiftsValuesController.onPageLoad(),
+    linkUrl = routes.SevenYearsGiftsValuesController.onPageLoad,
     sectionLevelLinkAccessibilityText = "page.iht.application.gifts.overview.value.giveAnswer.screenReader.link.value",
     questionLevelLinkAccessibilityTextValue = "page.iht.application.gifts.overview.value.amount.screenReader.link.value",
     questionAnswerExprValue = if (ad.isValueEnteredForPastYearsGifts) {

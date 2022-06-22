@@ -28,7 +28,7 @@ import uk.gov.hmrc.http.HeaderCarrier
 class YourEstateReportsViewTest extends ViewTestHelper with ApplicationControllerTest with EstateReportMessage {
 
   override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-  lazy val registrationChecklistPageUrl = iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad()
+  lazy val registrationChecklistPageUrl = iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad
 
   def ihtHomeView(ihtApplications: Seq[YourEstateReportsRowViewModel] = Nil) = {
     implicit val request = createFakeRequest()

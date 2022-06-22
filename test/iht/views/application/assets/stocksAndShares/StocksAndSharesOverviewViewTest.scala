@@ -38,8 +38,8 @@ class StocksAndSharesOverviewViewTest extends StocksAndSharesOverviewViewBehavio
   override def stocksAndSharesListedHeadingElementId = "stocks-and-shares-listed"
   override def stocksAndSharesNotListedHeadingElementId = "stocks-and-shares-not-listed"
 
-  override def urlToStocksAnsSharesListedPage = StocksAndSharesListedController.onPageLoad().url
-  override def urlToStocksAnsSharesNotListedPage = StocksAndSharesNotListedController.onPageLoad().url
+  override def urlToStocksAnsSharesListedPage = StocksAndSharesListedController.onPageLoad.url
+  override def urlToStocksAnsSharesNotListedPage = StocksAndSharesNotListedController.onPageLoad.url
 
   override def stocksAndSharesListedHeaderText = messagesApi("iht.estateReport.assets.stocksAndSharesListed")
   override def stocksAndSharesNotListedHeaderText = messagesApi("iht.estateReport.assets.stocksAndSharesNotListed")

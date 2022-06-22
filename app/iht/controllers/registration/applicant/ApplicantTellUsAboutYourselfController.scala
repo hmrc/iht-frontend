@@ -90,9 +90,9 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
   def onwardRoute(rd: RegistrationDetails) = routes.ProbateLocationController.onPageLoad
 
   def routeForSubmit(ad: ApplicantDetails, mode: Mode.Value): Call = ad.doesLiveInUK match {
-    case Some(true) if mode == Mode.Standard => routes.ApplicantAddressController.onPageLoadUk()
-    case Some(false) if mode == Mode.Standard => routes.ApplicantAddressController.onPageLoadAbroad()
-    case _ => registrationRoutes.RegistrationSummaryController.onPageLoad()
+    case Some(true) if mode == Mode.Standard => routes.ApplicantAddressController.onPageLoadUk
+    case Some(false) if mode == Mode.Standard => routes.ApplicantAddressController.onPageLoadAbroad
+    case _ => registrationRoutes.RegistrationSummaryController.onPageLoad
   }
 
   override def submit(mode: Mode.Value) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -143,11 +143,11 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
   def citizenDetailsFailure()(implicit request: Request[_]): PartialFunction[Throwable, Result] = {
     case WithStatusCode(NOT_FOUND) => {
       logger.warn("Citizen Details returned a 404, redirecting to details-not-found")
-      Redirect(iht.controllers.registration.routes.CitizenDetailsNotFoundController.onPageLoad())
+      Redirect(iht.controllers.registration.routes.CitizenDetailsNotFoundController.onPageLoad)
     }
     case WithStatusCode(LOCKED) => {
       logger.warn("Citizen Details returned an MCI error, redirecting to manual-correspondence-indicator")
-      Redirect(iht.controllers.registration.routes.ManualCorrespondenceIndicatorController.onPageLoad())
+      Redirect(iht.controllers.registration.routes.ManualCorrespondenceIndicatorController.onPageLoad)
     }
   }
 

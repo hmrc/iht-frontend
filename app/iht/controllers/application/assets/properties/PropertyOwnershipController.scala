@@ -47,11 +47,11 @@ val cc: MessagesControllerComponents) extends FrontendController(cc) with Proper
 trait PropertyOwnershipController extends EstateController with StringHelper with Logging {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionProperties)
 
-  def cancelUrl = iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad()
+  def cancelUrl = iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad
 
   def editCancelUrl(id: String) = iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onEditPageLoad(id)
 
-  lazy val submitUrl = iht.controllers.application.assets.properties.routes.PropertyOwnershipController.onSubmit()
+  lazy val submitUrl = iht.controllers.application.assets.properties.routes.PropertyOwnershipController.onSubmit
 
   def editSubmitUrl(id: String) = iht.controllers.application.assets.properties.routes.PropertyOwnershipController.onEditSubmit(id)
 
@@ -112,7 +112,7 @@ trait PropertyOwnershipController extends EstateController with StringHelper wit
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       doSubmit(
-        redirectLocationIfErrors = routes.PropertyOwnershipController.onSubmit(),
+        redirectLocationIfErrors = routes.PropertyOwnershipController.onSubmit,
         submitUrl = submitUrl,
         cancelUrl = cancelUrl,
         userNino)

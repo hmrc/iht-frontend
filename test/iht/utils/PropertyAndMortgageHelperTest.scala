@@ -158,14 +158,14 @@ class PropertyAndMortgageHelperTest extends FakeIhtApp with MockitoSugar with Pr
       "return a redirect to Assets Overview when properties is owned answered no " in {
         val result = determineRedirectLocationForPropertiesOwnedQuestion(propertiesNo, appDetailsWithoutProperties)
         result mustBe Results.Redirect(CommonHelper.addFragmentIdentifier(
-          iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
+          iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad,
           Some(appConfig.AppSectionPropertiesID)))
       }
 
       "return a redirect to Property Details Overview when properties owned is answered yes for the first time" in {
         val result = determineRedirectLocationForPropertiesOwnedQuestion(propertiesYes, appDetailsWithoutProperties)
         result mustBe Results.Redirect(
-          iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad())
+          iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad)
       }
 
       "return a redirect to Properties Overview when properties is owned answered yes " +
@@ -173,7 +173,7 @@ class PropertyAndMortgageHelperTest extends FakeIhtApp with MockitoSugar with Pr
         val result = determineRedirectLocationForPropertiesOwnedQuestion(propertiesYes,
           appDetailsWithoutProperties)
         result mustBe Results.Redirect(
-          iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad())
+          iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad)
       }
 
       "return a redirect to Properties Overview when properties is owned answered yes " +
@@ -181,7 +181,7 @@ class PropertyAndMortgageHelperTest extends FakeIhtApp with MockitoSugar with Pr
         val result = determineRedirectLocationForPropertiesOwnedQuestion(propertiesYes,
           appDetailsWithProperties.copy(propertyList = propertyList))
         result mustBe Results.Redirect(CommonHelper.addFragmentIdentifier(
-          iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad(),
+          iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad,
           Some(appConfig.AssetsPropertiesOwnedID)))
       }
 

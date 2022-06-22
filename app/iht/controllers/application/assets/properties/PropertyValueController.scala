@@ -47,10 +47,10 @@ class PropertyValueControllerImpl @Inject()(val metrics: IhtMetrics,
 trait PropertyValueController extends EstateController with Logging {
 
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionProperties)
-  lazy val cancelRedirectLocation = routes.PropertiesOverviewController.onPageLoad()
-  lazy val submitUrl = iht.controllers.application.assets.properties.routes.PropertyValueController.onSubmit()
+  lazy val cancelRedirectLocation = routes.PropertiesOverviewController.onPageLoad
+  lazy val submitUrl = iht.controllers.application.assets.properties.routes.PropertyValueController.onSubmit
 
-  def cancelUrl = iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad()
+  def cancelUrl = iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad
 
   def editCancelUrl(id: String) = iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onEditPageLoad(id)
 
@@ -114,7 +114,7 @@ trait PropertyValueController extends EstateController with Logging {
 
     implicit request => {
       doSubmit(
-        redirectLocationIfErrors = routes.PropertyValueController.onSubmit(),
+        redirectLocationIfErrors = routes.PropertyValueController.onSubmit,
         submitUrl = submitUrl,
         cancelUrl = cancelUrl,
         userNino,

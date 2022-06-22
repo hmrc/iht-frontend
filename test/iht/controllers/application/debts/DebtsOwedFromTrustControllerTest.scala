@@ -56,7 +56,7 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
         appDetails = Some(CommonBuilder.buildApplicationDetails),
         getAppDetails = true)
 
-      val result = debtsOwedFromTrustController.onPageLoad()(createFakeRequest(isAuthorised = true))
+      val result = debtsOwedFromTrustController.onPageLoad(createFakeRequest(isAuthorised = true))
 
       status(result) must be(OK)
     }
@@ -76,7 +76,7 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
 
       val result = debtsOwedFromTrustController.onSubmit()(request)
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(routes.DebtsOverviewController.onPageLoad().url + "#" + appConfig.DebtsOwedFromTrustID))
+      redirectLocation(result) must be(Some(routes.DebtsOverviewController.onPageLoad.url + "#" + appConfig.DebtsOwedFromTrustID))
     }
 
     "respond with bad request on submit when request is malformed" in {
@@ -128,7 +128,7 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
 
       val result = debtsOwedFromTrustController.onSubmit()(request)
       status(result) must be(SEE_OTHER)
-      redirectLocation(result).get must be(routes.DebtsOverviewController.onPageLoad().url + "#" + appConfig.DebtsOwedFromTrustID)
+      redirectLocation(result).get must be(routes.DebtsOverviewController.onPageLoad.url + "#" + appConfig.DebtsOwedFromTrustID)
 
       val capturedValue = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
       val expectedAppDetails = applicationDetails.copy(allLiabilities = applicationDetails.allLiabilities.map(_.copy(

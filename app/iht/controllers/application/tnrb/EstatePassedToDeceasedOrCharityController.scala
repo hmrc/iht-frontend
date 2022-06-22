@@ -46,7 +46,7 @@ val cc: MessagesControllerComponents) extends FrontendController(cc) with Estate
 
 trait EstatePassedToDeceasedOrCharityController extends EstateController with ApplicationKickOutNonSummaryHelper with TnrbHelper with StringHelper {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
-  def cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
+  def cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad
   val estatePassedToDeceasedOrCharityView: estate_passed_to_deceased_or_charity
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
 
@@ -130,7 +130,7 @@ trait EstatePassedToDeceasedOrCharityController extends EstateController with Ap
         InternalServerError
       } { _ =>
         updatedAppDetailsWithKickOutReason.kickoutReason match {
-          case Some(reason) => Redirect(iht.controllers.application.routes.KickoutAppController.onPageLoad())
+          case Some(reason) => Redirect(iht.controllers.application.routes.KickoutAppController.onPageLoad)
           case _ => successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(appConfig.TnrbEstatePassedToDeceasedID))
         }
       }

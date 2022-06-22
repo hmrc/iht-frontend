@@ -72,9 +72,9 @@ class ProbateApplicationFormDetailsControllerTest extends ApplicationControllerT
       createMockToGetRegDetailsFromCache(mockCachingConnector, Option(registrationDetails))
       createMockToGetProbateDetailsFromCache(mockCachingConnector, None)
 
-      val result = probateApplicationFormDetailsController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = probateApplicationFormDetailsController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be (Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url))
+      redirectLocation(result) must be (Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url))
     }
 
     "load the page" in {
@@ -88,7 +88,7 @@ class ProbateApplicationFormDetailsControllerTest extends ApplicationControllerT
         singleValueFormKey = same(Constants.PDFIHTReference),
         singleValueReturn = CommonBuilder.DefaultIHTReference)
 
-      val result = probateApplicationFormDetailsController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = probateApplicationFormDetailsController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be(OK)
     }
 

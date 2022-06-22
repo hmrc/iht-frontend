@@ -43,7 +43,7 @@ trait TrustsValueController extends EstateController {
 
 
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(), Some(appConfig.AssetsTrustsValueID))
+    iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad, Some(appConfig.AssetsTrustsValueID))
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsTrustsValue)
   val trustsValueView: trusts_value
 

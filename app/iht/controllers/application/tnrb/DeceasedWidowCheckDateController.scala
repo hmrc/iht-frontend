@@ -155,7 +155,7 @@ trait DeceasedWidowCheckDateController extends EstateController with TnrbHelper 
         InternalServerError
       } { _ =>
         updatedAppDetailsWithKickOutReason.kickoutReason match {
-          case Some(reason) => Redirect(iht.controllers.application.routes.KickoutAppController.onPageLoad())
+          case Some(reason) => Redirect(iht.controllers.application.routes.KickoutAppController.onPageLoad)
           case _            => successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(appConfig.TnrbSpouseDateOfDeathID))
         }
       }

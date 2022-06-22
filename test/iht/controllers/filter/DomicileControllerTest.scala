@@ -45,7 +45,7 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
   "Domicile Controller" must {
 
     "show the Domicile page when access by an unauthorised person" in {
-      val result = controller.onPageLoad()(createFakeRequest(isAuthorised = false))
+      val result = controller.onPageLoad(createFakeRequest(isAuthorised = false))
       status(result) must be(OK)
 
       val doc = asDocument(contentAsString(result))
@@ -69,7 +69,7 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
       val result = controller.onSubmit()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.filter.routes.DeceasedBefore2022Controller.onPageLoad().url))
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.DeceasedBefore2022Controller.onPageLoad.url))
     }
 
     "redirect to the 'Scotland transition' page if 'Scotland' is selected" in {
@@ -78,7 +78,7 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
       val result = controller.onSubmit()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.filter.routes.TransitionController.onPageLoadScotland().url))
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.TransitionController.onPageLoadScotland.url))
     }
 
     "redirect to the 'Northern Ireland transition' page if 'Northern Ireland' is selected" in {
@@ -87,7 +87,7 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
       val result = controller.onSubmit()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.filter.routes.TransitionController.onPageLoadNorthernIreland().url))
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.TransitionController.onPageLoadNorthernIreland.url))
     }
 
     "redirect to the 'Other country transition' page if 'Other country' is selected" in {
@@ -96,7 +96,7 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
       val result = controller.onSubmit()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.filter.routes.TransitionController.onPageLoadOtherCountry().url))
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.TransitionController.onPageLoadOtherCountry.url))
     }
   }
 }

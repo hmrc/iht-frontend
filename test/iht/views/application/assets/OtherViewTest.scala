@@ -43,7 +43,7 @@ class OtherViewTest extends ShareableElementInputViewBehaviour[BasicEstateElemen
   override def hasValueQuestionHelp = false
   override def valueQuestionHelp = ""
   override def returnLinkText = messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
-  override def returnLinkUrl = AssetsOverviewController.onPageLoad().url
+  override def returnLinkUrl = AssetsOverviewController.onPageLoad.url
   override def formTarget =Some(routes.OtherController.onSubmit)
   override def linkHash = appConfig.AppSectionOtherID
 

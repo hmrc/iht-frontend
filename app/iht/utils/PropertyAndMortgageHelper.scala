@@ -63,18 +63,18 @@ trait PropertyAndMortgageHelper extends Logging {
       previousValueOfIsPropertyOwned(appDetails),
       doesPropertyListContainProperties(appDetails)) match {
       case (Some(false), _, _) => Results.Redirect(CommonHelper.addFragmentIdentifier(
-        iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
+        iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad,
         Some(appConfig.AppSectionPropertiesID)))
       case (Some(true), Some(true), _) =>
         Results.Redirect(CommonHelper.addFragmentIdentifier(
-          iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad(),
+          iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad,
           Some(appConfig.AssetsPropertiesOwnedID)))
       case (Some(true), _, false) =>
         Results.Redirect(
-          iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad())
+          iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad)
       case (_, _, true) =>
         Results.Redirect(CommonHelper.addFragmentIdentifier(
-          iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad(),
+          iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad,
           Some(appConfig.AssetsPropertiesOwnedID)))
       case _ =>
         logger.warn("Problem storing Application details. Redirecting to InternalServerError")

@@ -136,8 +136,8 @@ trait DeceasedWidowCheckQuestionController extends EstateController with TnrbHel
         appDetails =>
           if (appDetails.widowCheck.fold(false)(_.widowed.fold(false)(identity))) {
             appDetails.isWidowCheckSectionCompleted match {
-              case true => Redirect(CommonHelper.addFragmentIdentifier(routes.TnrbOverviewController.onPageLoad(), Some(appConfig.TnrbSpouseMartialStatusID)))
-              case _ => Redirect(routes.DeceasedWidowCheckDateController.onPageLoad())
+              case true => Redirect(CommonHelper.addFragmentIdentifier(routes.TnrbOverviewController.onPageLoad, Some(appConfig.TnrbSpouseMartialStatusID)))
+              case _ => Redirect(routes.DeceasedWidowCheckDateController.onPageLoad)
             }
 
           } else {

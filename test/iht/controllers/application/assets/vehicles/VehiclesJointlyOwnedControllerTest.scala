@@ -149,7 +149,7 @@ class VehiclesJointlyOwnedControllerTest extends ApplicationControllerTest {
       val applicationDetails = CommonBuilder.buildApplicationDetails
       setUpTests(applicationDetails)
 
-      val result = vehiclesJointlyOwnedController.onPageLoad()(createFakeRequest())
+      val result = vehiclesJointlyOwnedController.onPageLoad(createFakeRequest())
       status(result) must be (OK)
       contentAsString(result) must include (messagesApi("page.iht.application.assets.vehicles.jointly.owned.title"))
     }

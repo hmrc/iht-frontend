@@ -143,7 +143,7 @@ class InsurancePolicyDetailsMoreThanMaxValueControllerTest extends ApplicationCo
 
       val result = controller.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
-      redirectLocation(result) must be (Some(iht.controllers.application.routes.KickoutAppController.onPageLoad().url))
+      redirectLocation(result) must be (Some(iht.controllers.application.routes.KickoutAppController.onPageLoad.url))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

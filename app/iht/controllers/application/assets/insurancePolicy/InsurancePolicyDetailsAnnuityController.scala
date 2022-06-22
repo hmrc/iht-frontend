@@ -68,7 +68,7 @@ trait InsurancePolicyDetailsAnnuityController extends EstateController {
         insurancePolicyDetailsAnnuityView.apply, updateApplicationDetails,
         (ad, _) => ad.allAssets.flatMap(allAssets => allAssets.insurancePolicy).flatMap(_.isAnnuitiesBought)
           .fold(insurancePoliciesRedirectLocation)(_ =>
-            iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsInTrustController.onPageLoad()),
+            iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsInTrustController.onPageLoad),
         userNino
       )
     }

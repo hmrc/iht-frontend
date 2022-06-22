@@ -87,7 +87,7 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
     "display the correct title on page load" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector)
 
-      val result = propertyTypeController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyTypeController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be (OK)
       contentAsString(result) must include (messagesApi("iht.estateReport.assets.properties.whatKind.question"))
     }

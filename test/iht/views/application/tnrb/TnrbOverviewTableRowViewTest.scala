@@ -31,7 +31,7 @@ class TnrbOverviewTableRowViewTest extends ViewTestHelper {
   lazy val questionText = "Sample question"
   lazy val questionScreenReaderText = "Sample screen reader"
   lazy val questionCategory = "questionAnswer"
-  lazy val link = iht.controllers.application.tnrb.routes.PermanentHomeController.onPageLoad()
+  lazy val link = iht.controllers.application.tnrb.routes.PermanentHomeController.onPageLoad
   lazy val answerValue = "Sample value"
   lazy val linkID = appConfig.TnrbSpousePermanentHomeInUKID
 

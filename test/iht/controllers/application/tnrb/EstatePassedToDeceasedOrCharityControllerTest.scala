@@ -110,7 +110,7 @@ class EstatePassedToDeceasedOrCharityControllerTest  extends ApplicationControll
 
       val result = estatePassedToDeceasedOrCharityController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + appConfig.TnrbEstatePassedToDeceasedID))
+      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad.url + "#" + appConfig.TnrbEstatePassedToDeceasedID))
     }
 
     "go to KickOut page if all the estate passed to charity" in {
@@ -152,7 +152,7 @@ class EstatePassedToDeceasedOrCharityControllerTest  extends ApplicationControll
 
       val result = estatePassedToDeceasedOrCharityController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad().url))
+      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad.url))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

@@ -48,11 +48,11 @@ trait KickoutRegController extends RegistrationController {
   def cachingConnector: CachingConnector
   override def guardConditions: Set[Predicate] = Set.empty
 
-  lazy val applicantProbateLocationPageLoad = iht.controllers.registration.applicant.routes.ProbateLocationController.onPageLoad()
-  lazy val deceasedPermHomePageLoad = iht.controllers.registration.deceased.routes.DeceasedPermanentHomeController.onPageLoad()
-  lazy val deceasedDateOfDeathPageLoad = iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad()
-  lazy val applicantApplyingForProbatePageLoad = iht.controllers.registration.applicant.routes.ApplyingForProbateController.onPageLoad()
-  lazy val applicantExecutorOfEstatePageLoad = iht.controllers.registration.applicant.routes.ExecutorOfEstateController.onPageLoad()
+  lazy val applicantProbateLocationPageLoad = iht.controllers.registration.applicant.routes.ProbateLocationController.onPageLoad
+  lazy val deceasedPermHomePageLoad = iht.controllers.registration.deceased.routes.DeceasedPermanentHomeController.onPageLoad
+  lazy val deceasedDateOfDeathPageLoad = iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad
+  lazy val applicantApplyingForProbatePageLoad = iht.controllers.registration.applicant.routes.ApplyingForProbateController.onPageLoad
+  lazy val applicantExecutorOfEstatePageLoad = iht.controllers.registration.applicant.routes.ExecutorOfEstateController.onPageLoad
   val kickoutTemplateView: kickout_template
   val kickoutExpanderView: kickout_expander
   val kickoutTemplateSimpleView: kickout_template_simple

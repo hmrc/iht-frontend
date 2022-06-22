@@ -81,14 +81,14 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
 
       setUpTests(Some(applicationDetails))
       
-      val result = propertyTenureController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyTenureController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be (OK)
     }
 
     "display the correct title on page" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector)
 
-      val result = propertyTenureController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyTenureController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be (OK)
       contentAsString(result) must include (messagesApi("iht.estateReport.assets.properties.freeholdOrLeasehold"))
     }

@@ -111,7 +111,7 @@ class GiftsWithReservationOfBenefitControllerTest  extends ApplicationController
 
       val result = giftsWithReservationOfBenefitController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + mockAppConfig.TnrbGiftsWithReservationID))
+      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad.url + "#" + mockAppConfig.TnrbGiftsWithReservationID))
     }
 
     "go to KickOut page if gifts with reservation of benefit given other than spouse" in {
@@ -153,7 +153,7 @@ class GiftsWithReservationOfBenefitControllerTest  extends ApplicationController
 
       val result = giftsWithReservationOfBenefitController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad().url))
+      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad.url))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

@@ -38,14 +38,14 @@ class InsurancePolicyDetailsPayingOtherViewTest extends YesNoQuestionViewBehavio
 
   override def browserTitle = messagesApi("page.iht.application.insurance.policies.section3.browserTitle")
 
-  override def formTarget = Some(routes.InsurancePolicyDetailsPayingOtherController.onSubmit())
+  override def formTarget = Some(routes.InsurancePolicyDetailsPayingOtherController.onSubmit)
 
   override def form: Form[InsurancePolicy] = insurancePolicyJointQuestionForm
 
   override def formToView: Form[InsurancePolicy] => Appendable =
   form => insurancePolicyDetailsPayingOtherView(form, regDetails)
 
-  override def cancelComponent = Some(CancelComponent(routes.InsurancePolicyOverviewController.onPageLoad(),
+  override def cancelComponent = Some(CancelComponent(routes.InsurancePolicyOverviewController.onPageLoad,
     messagesApi("site.link.return.insurance.policies"),
     TestHelper.InsurancePaidForSomeoneElseYesNoID
   ))

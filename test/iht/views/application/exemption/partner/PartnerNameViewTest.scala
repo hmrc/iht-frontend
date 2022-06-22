@@ -37,11 +37,11 @@ class PartnerNameViewTest extends ValueViewBehaviour[PartnerExemption] {
 
   override def browserTitle = messagesApi("page.iht.application.exemptions.partner.name.browserTitle")
 
-  override def formTarget = Some(iht.controllers.application.exemptions.partner.routes.ExemptionPartnerNameController.onSubmit())
+  override def formTarget = Some(iht.controllers.application.exemptions.partner.routes.ExemptionPartnerNameController.onSubmit)
 
   override def cancelComponent = Some(
     CancelComponent(
-      iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(),
+      iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad,
       messagesApi("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"),
       ExemptionsPartnerNameID
     )

@@ -66,9 +66,9 @@ trait InsurancePolicyDetailsFinalGuidanceController extends EstateController {
 
   def giftsPageRedirect(initialGiftsQuestionAnswerOption: Option[Boolean]): Call = {
     if (initialGiftsQuestionAnswerOption.fold(false)(identity)) {
-      iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()
+      iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad
     } else {
-      iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad()
+      iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad
     }
   }
 }

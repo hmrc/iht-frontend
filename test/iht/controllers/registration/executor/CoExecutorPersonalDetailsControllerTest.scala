@@ -446,7 +446,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       val result = controller(coExecutorForms).onEditSubmit("1")(request)
       status(result) must be(SEE_OTHER)
       redirectLocation(result) must be(
-        Some(iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad().url))
+        Some(iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad.url))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val expectedCoExecutor = coExec1 copy (firstName = firstName, lastName = surname, isAddressInUk = Some(true))
@@ -470,7 +470,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
         val result = controller(coExecutorForms).onSubmit(Some("1"))(request)
         redirectLocation(result) must be(
-        Some(iht.controllers.registration.executor.routes.ExecutorOverviewController.onPageLoad().url))
+        Some(iht.controllers.registration.executor.routes.ExecutorOverviewController.onPageLoad.url))
     }
 
     "raise an error when trying to save a new co-executor and the maximum number already exist" in {

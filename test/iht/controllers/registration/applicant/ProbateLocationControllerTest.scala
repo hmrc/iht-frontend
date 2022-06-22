@@ -73,7 +73,7 @@ class ProbateLocationControllerTest
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
-      val result = controller.onPageLoad()(createFakeRequest())
+      val result = controller.onPageLoad(createFakeRequest())
       status(result) mustBe OK
 
       contentAsString(result) must include(messagesApi("page.iht.registration.applicant.probateLocation.title"))
@@ -108,7 +108,7 @@ class ProbateLocationControllerTest
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
       val result = controller.onSubmit()(request)
-      redirectLocation(result) must be(Some(routes.ApplicantTellUsAboutYourselfController.onPageLoad().url))
+      redirectLocation(result) must be(Some(routes.ApplicantTellUsAboutYourselfController.onPageLoad.url))
     }
 
     "respond appropriately to a submit in edit mode with valid values in all fields" in  {
@@ -122,7 +122,7 @@ class ProbateLocationControllerTest
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
       val result = controller.onEditSubmit()(request)
-      redirectLocation(result) must be(Some(registrationRoutes.RegistrationSummaryController.onPageLoad().url))
+      redirectLocation(result) must be(Some(registrationRoutes.RegistrationSummaryController.onPageLoad.url))
     }
 
     "respond appropriately to an invalid submit: Missing mandatory fields" in {
@@ -213,7 +213,7 @@ class ProbateLocationControllerTest
       val result = await(controller.onSubmit()(request))
       status(result) must be(SEE_OTHER)
       redirectLocation(result) must be (
-        Some(iht.controllers.registration.routes.KickoutRegController.onPageLoad().url))
+        Some(iht.controllers.registration.routes.KickoutRegController.onPageLoad.url))
       verifyAndReturnStoredSingleValue(mockCachingConnector) match {
         case (cachedKey, cachedValue) =>
           cachedKey mustBe RegistrationKickoutReasonCachingKey

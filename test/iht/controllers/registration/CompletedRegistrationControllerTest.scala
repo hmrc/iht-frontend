@@ -84,7 +84,7 @@ class CompletedRegistrationControllerTest extends RegistrationControllerTest {
     "respond with not implemented" in {
       val result = completedRegistrationController.onSubmit(createFakeRequest(authRetrieveNino = false))
       status(result) mustBe(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url))
+      redirectLocation(result) must be(Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url))
     }
 
     "display the valid content on the page" in {
@@ -101,7 +101,7 @@ class CompletedRegistrationControllerTest extends RegistrationControllerTest {
       createMockToGetRegDetailsFromCache(mockCachingConnector, None)
       val result = completedRegistrationController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) mustBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url)
+      redirectLocation(result) mustBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url)
     }
 
     "redirect to estate overview when IHT ref is equal to None" in {
@@ -109,7 +109,7 @@ class CompletedRegistrationControllerTest extends RegistrationControllerTest {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       val result = completedRegistrationController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) mustBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url)
+      redirectLocation(result) mustBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url)
     }
 
   }

@@ -42,7 +42,7 @@ class InsurancePolicyDetailsDeceasedOwnViewTest extends ShareableElementInputVie
     override def hasValueQuestionHelp = false
     override def valueQuestionHelp = ""
     override def returnLinkText = messagesApi("site.link.return.insurance.policies")
-    override def returnLinkUrl = routes.InsurancePolicyOverviewController.onPageLoad().url
+    override def returnLinkUrl = routes.InsurancePolicyOverviewController.onPageLoad.url
     override def formTarget =Some(routes.InsurancePolicyDetailsDeceasedOwnController.onSubmit)
     override def linkHash = appConfig.InsurancePayingToDeceasedYesNoID
 

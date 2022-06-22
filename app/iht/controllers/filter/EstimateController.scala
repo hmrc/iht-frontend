@@ -46,9 +46,9 @@ trait EstimateController extends FrontendController with I18nSupport {
     }
   }
 
-  def onPageLoadJointAssets: Action[AnyContent] = onPageLoad(jointAssets = true, iht.controllers.filter.routes.EstimateController.onSubmitJointAssets())
+  def onPageLoadJointAssets: Action[AnyContent] = onPageLoad(jointAssets = true, iht.controllers.filter.routes.EstimateController.onSubmitJointAssets)
 
-  def onPageLoadWithoutJointAssets: Action[AnyContent] = onPageLoad(jointAssets = false, iht.controllers.filter.routes.EstimateController.onSubmitWithoutJointAssets())
+  def onPageLoadWithoutJointAssets: Action[AnyContent] = onPageLoad(jointAssets = false, iht.controllers.filter.routes.EstimateController.onSubmitWithoutJointAssets)
 
   private def onSubmit(jointAssets: Boolean, submitRoute: Call) = Action.async {
     implicit request => {
@@ -59,17 +59,17 @@ trait EstimateController extends FrontendController with I18nSupport {
           submitRoute))), {
           choice => (choice.getOrElse(""), jointAssets) match {
             case (Constants.under325000, false) =>
-              Future.successful(Redirect(iht.controllers.filter.routes.AnyAssetsController.onPageLoadWithoutJointAssets()))
+              Future.successful(Redirect(iht.controllers.filter.routes.AnyAssetsController.onPageLoadWithoutJointAssets))
             case (Constants.under325000, true) =>
-              Future.successful(Redirect(iht.controllers.filter.routes.AnyAssetsController.onPageLoadWithJointAssets()))
+              Future.successful(Redirect(iht.controllers.filter.routes.AnyAssetsController.onPageLoadWithJointAssets))
             case (Constants.between325000and1million, false) =>
-              Future.successful(Redirect(iht.controllers.filter.routes.UseServiceController.onPageLoadOver()))
+              Future.successful(Redirect(iht.controllers.filter.routes.UseServiceController.onPageLoadOver))
             case (Constants.between325000and1million, true) =>
-              Future.successful(Redirect(iht.controllers.filter.routes.UseServiceController.onPageLoadOverWithJointAssets()))
+              Future.successful(Redirect(iht.controllers.filter.routes.UseServiceController.onPageLoadOverWithJointAssets))
             case (Constants.moreThan1million, false) =>
-              Future.successful(Redirect(iht.controllers.filter.routes.UseIHT400Controller.onPageLoadWithoutJointAssets()))
+              Future.successful(Redirect(iht.controllers.filter.routes.UseIHT400Controller.onPageLoadWithoutJointAssets))
             case (Constants.moreThan1million, true) =>
-              Future.successful(Redirect(iht.controllers.filter.routes.UseIHT400Controller.onPageLoadWithJointAssets()))
+              Future.successful(Redirect(iht.controllers.filter.routes.UseIHT400Controller.onPageLoadWithJointAssets))
             case (_, _) => throw new IllegalArgumentException("Invalid Data Submitted")
           }
         }
@@ -77,8 +77,8 @@ trait EstimateController extends FrontendController with I18nSupport {
     }
   }
 
-  def onSubmitJointAssets: Action[AnyContent] = onSubmit(jointAssets = true, iht.controllers.filter.routes.EstimateController.onSubmitJointAssets())
+  def onSubmitJointAssets: Action[AnyContent] = onSubmit(jointAssets = true, iht.controllers.filter.routes.EstimateController.onSubmitJointAssets)
 
-  def onSubmitWithoutJointAssets: Action[AnyContent] = onSubmit(jointAssets = false, iht.controllers.filter.routes.EstimateController.onSubmitWithoutJointAssets())
+  def onSubmitWithoutJointAssets: Action[AnyContent] = onSubmit(jointAssets = false, iht.controllers.filter.routes.EstimateController.onSubmitWithoutJointAssets)
 
 }

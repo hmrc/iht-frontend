@@ -40,7 +40,7 @@ class ReverseIVWayfinderControllerTest extends FakeIhtApp {
 
     "generate a call with a url that starts with the given prefix and ends with 'registration/verification-pass'" in {
 
-      val resultCall = new ReverseIVWayfinderController(testPrefixWithASlash).verificationPass()
+      val resultCall = new ReverseIVWayfinderController(testPrefixWithASlash).verificationPass
 
       resultCall.url mustBe testPrefixWithASlash + "registration/verification-pass"
 
@@ -51,7 +51,7 @@ class ReverseIVWayfinderControllerTest extends FakeIhtApp {
 
     "generate a call with a url that starts with the given prefix and ends with 'registration/login-pass'" in {
 
-      val resultCall = new ReverseIVWayfinderController(testPrefixWithASlash).loginPass()
+      val resultCall = new ReverseIVWayfinderController(testPrefixWithASlash).loginPass
 
       resultCall.url mustBe testPrefixWithASlash + "registration/login-pass"
 

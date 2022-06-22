@@ -110,7 +110,7 @@ class ExemptionPartnerNameControllerTest extends ApplicationControllerTest {
 
       val result = partnerNameController.onSubmit(request)
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerNameID)))
+      redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad.url, ExemptionsPartnerNameID)))
     }
 
     "show relevant error message when page fails in validation while submission" in {

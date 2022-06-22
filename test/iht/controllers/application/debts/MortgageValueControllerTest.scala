@@ -202,7 +202,7 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
       val result = mortgageValueController.onSubmit("1")(request)
 
       status(result) must be (SEE_OTHER)
-      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.MortgagesOverviewController.onPageLoad().url, DebtsMortgagesPropertyID + "1")))
+      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.MortgagesOverviewController.onPageLoad.url, DebtsMortgagesPropertyID + "1")))
     }
   }
 }

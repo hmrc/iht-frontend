@@ -102,7 +102,7 @@ isFullWidth=false
 <p>
     @registrationDetails.deceasedDetails.map{ dd=>
     @returnLink(Messages("page.iht.application.return.to.exemptionsOf", nameHelper(dd.name)),
-    Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()),
+    Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad),
     appConfig.ExemptionsCharityID
     )
     }

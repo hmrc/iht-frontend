@@ -68,7 +68,7 @@ isFullWidth=false
         @registrationDetails.deceasedDetails.map{ dd=>
             @returnLink(
                 Messages("page.iht.application.return.to.assetsOf", nameHelper(dd.name)),
-                Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
+                Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad),
                 appConfig.AppSectionNominatedID
             )
         }

@@ -113,11 +113,11 @@
                     messageMinutesTwo: "@Messages("iht.timeoutDialog.minutes.two")",
 
                     @if(isRegistration){
-                    logout_url: "@iht.controllers.routes.SessionTimeoutController.onRegistrationPageLoad().url",
+                    logout_url: "@iht.controllers.routes.SessionTimeoutController.onRegistrationPageLoad.url",
                     message: "@Messages("iht.timeoutDialog.registration.p1")",
                     keep_alive_button_text: "@Messages("iht.timeoutDialog.registration.button")"
             } else {
-            logout_url: "@iht.controllers.routes.SessionTimeoutController.onApplicationPageLoad().url",
+            logout_url: "@iht.controllers.routes.SessionTimeoutController.onApplicationPageLoad.url",
                     message: "@Messages("iht.timeoutDialog.p1")",
                     keep_alive_button_text: "@Messages("iht.timeoutDialog.button")"
             }

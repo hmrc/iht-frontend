@@ -69,7 +69,7 @@ class EstimateControllerTest extends ApplicationControllerTest with HtmlSpec {
       val result = controller.onSubmitWithoutJointAssets()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.filter.routes.AnyAssetsController.onSubmitWithoutJointAssets().url))
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.AnyAssetsController.onSubmitWithoutJointAssets.url))
     }
 
     "redirect to the Use Service page if 'Between £325,000 and £1 million' is selected" in {
@@ -78,7 +78,7 @@ class EstimateControllerTest extends ApplicationControllerTest with HtmlSpec {
       val result = controller.onSubmitWithoutJointAssets()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.filter.routes.UseServiceController.onPageLoadOver().url))
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.UseServiceController.onPageLoadOver.url))
     }
 
     "redirect to the 'Over £1 million transition' page if 'More than £1 million' is selected" in {
@@ -87,7 +87,7 @@ class EstimateControllerTest extends ApplicationControllerTest with HtmlSpec {
       val result = controller.onSubmitWithoutJointAssets()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.filter.routes.UseIHT400Controller.onPageLoadWithoutJointAssets().url))
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.UseIHT400Controller.onPageLoadWithoutJointAssets.url))
     }
   }
 }

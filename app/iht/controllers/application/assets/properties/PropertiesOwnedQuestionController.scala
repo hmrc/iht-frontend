@@ -103,7 +103,7 @@ trait PropertiesOwnedQuestionController extends EstateController with PropertyAn
           InternalServerError
         } { _ =>
           adAfterUpdatedForKickout.kickoutReason match {
-            case Some(_) => Redirect(iht.controllers.application.routes.KickoutAppController.onPageLoad())
+            case Some(_) => Redirect(iht.controllers.application.routes.KickoutAppController.onPageLoad)
             case _ => determineRedirectLocationForPropertiesOwnedQuestion(properties, appDetails)
           }
         }

@@ -37,7 +37,7 @@ trait DeceasedBefore2022Controller extends FrontendController with I18nSupport {
   implicit val appConfig: AppConfig
   val deceasedBefore2022View: deceased_before_2022
 
-  def onPageLoad(): Action[AnyContent] = Action.async { implicit request =>
+  def onPageLoad: Action[AnyContent] = Action.async { implicit request =>
     Future.successful(Ok(deceasedBefore2022View(deceasedBefore2022Form)))
   }
 
@@ -49,8 +49,8 @@ trait DeceasedBefore2022Controller extends FrontendController with I18nSupport {
     boundForm.fold(
       formWithErrors => Future.successful(BadRequest(deceasedBefore2022View(formWithErrors))),
       {
-        case Some(true) => Future.successful(Redirect(iht.controllers.filter.routes.FilterJointlyOwnedController.onPageLoad()))
-        case _ =>          Future.successful(Redirect(iht.controllers.filter.routes.UseCheckerController.onPageLoad()))
+        case Some(true) => Future.successful(Redirect(iht.controllers.filter.routes.FilterJointlyOwnedController.onPageLoad))
+        case _ =>          Future.successful(Redirect(iht.controllers.filter.routes.UseCheckerController.onPageLoad))
       }
     )
   }

@@ -61,7 +61,7 @@ class ApplicationGlobalTest extends CommonPlaySpec with WithCommonFakeApplicatio
       lazy val doc = Jsoup.parse(template.body)
 
 
-      doc.getElementById("checklistLink").attr("href") shouldBe iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad().url
+      doc.getElementById("checklistLink").attr("href") shouldBe iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad.url
     }
 
     "on the estate-report journey" in new Setup {
@@ -69,7 +69,7 @@ class ApplicationGlobalTest extends CommonPlaySpec with WithCommonFakeApplicatio
       val template = errorHandler.desInternalServerErrorTemplate(request)
       lazy val doc = Jsoup.parse(template.body)
 
-      doc.getElementById("estateReportLink").attr("href") shouldBe iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url
+      doc.getElementById("estateReportLink").attr("href") shouldBe iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url
     }
 
     "on the what-do-you-want-to-do journey" in new Setup {
@@ -91,7 +91,7 @@ class ApplicationGlobalTest extends CommonPlaySpec with WithCommonFakeApplicatio
 
     "return SEE_OTHER on Upstream4xxResponse" in new Setup {
       val exception = ApplicationException(Results.Redirect(CommonHelper.addFragmentIdentifier(
-        iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
+        iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad,
         Some(appConfig.AppSectionPropertiesID))), "test")
       val result = errorHandler.resolveError(FakeRequest(), exception)
 

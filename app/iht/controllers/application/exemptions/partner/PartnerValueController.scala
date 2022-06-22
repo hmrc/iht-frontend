@@ -43,7 +43,7 @@ trait PartnerValueController extends EstateController {
 
 
   lazy val submitUrl = addFragmentIdentifier(
-    iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(),
+    iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad,
     Some(appConfig.ExemptionsPartnerValueID))
 
   val partnerValueView: partner_value

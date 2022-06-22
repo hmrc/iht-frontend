@@ -47,14 +47,14 @@ class SessionTimeoutControllerTest extends ApplicationControllerTest {
 
   "onApplicationPageLoad method" must {
     "execute successfully in" in {
-      val result = controller.onRegistrationPageLoad()(request)
+      val result = controller.onRegistrationPageLoad(request)
       playStatus(result) mustBe OK
     }
   }
 
   "onRegistrationPageLoad method" must {
     "execute successfully in" in {
-      val result = controller.onApplicationPageLoad()(request)
+      val result = controller.onApplicationPageLoad(request)
       playStatus(result) mustBe OK
     }
 

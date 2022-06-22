@@ -111,7 +111,7 @@ class JointlyOwnedAssetsControllerTest  extends ApplicationControllerTest{
 
       val result = jointlyOwnedAssetsController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + mockAppConfig.TnrbJointAssetsPassedToDeceasedID))
+      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad.url + "#" + mockAppConfig.TnrbJointAssetsPassedToDeceasedID))
     }
 
     "go to KickOut page if jointly owned assets have not been passed to deceased" in {
@@ -153,7 +153,7 @@ class JointlyOwnedAssetsControllerTest  extends ApplicationControllerTest{
 
       val result = jointlyOwnedAssetsController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad().url))
+      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad.url))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

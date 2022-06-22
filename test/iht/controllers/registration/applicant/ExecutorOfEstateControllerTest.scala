@@ -164,7 +164,7 @@ class ExecutorOfEstateControllerTest
       val result = controller.onSubmit(request)
       status(result) must be(SEE_OTHER)
       redirectLocation(result) must be(
-        Some(iht.controllers.registration.applicant.routes.ProbateLocationController.onPageLoad().url))
+        Some(iht.controllers.registration.applicant.routes.ProbateLocationController.onPageLoad.url))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val applicant = capturedValue.applicantDetails.get
@@ -189,7 +189,7 @@ class ExecutorOfEstateControllerTest
 
       val result = controller.onSubmit(request)
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.registration.routes.KickoutRegController.onPageLoad().url))
+      redirectLocation(result) must be(Some(iht.controllers.registration.routes.KickoutRegController.onPageLoad.url))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val applicant = capturedValue.applicantDetails.get
@@ -211,7 +211,7 @@ class ExecutorOfEstateControllerTest
 
       val result = controller.onEditSubmit(request)
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad().url))
+      redirectLocation(result) must be(Some(iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad.url))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val applicant = capturedValue.applicantDetails.get
@@ -244,7 +244,7 @@ class ExecutorOfEstateControllerTest
 
       val result = controller.onEditSubmit(request)
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.registration.routes.KickoutRegController.onPageLoad().url))
+      redirectLocation(result) must be(Some(iht.controllers.registration.routes.KickoutRegController.onPageLoad.url))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val applicant = capturedValue.applicantDetails.get

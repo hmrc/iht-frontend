@@ -47,13 +47,13 @@ class AssetsLeftToQualifyingBodyQuestionViewTest extends YesNoQuestionViewBehavi
     )
   )
 
-  override def formTarget = Some(iht.controllers.application.exemptions.qualifyingBody.routes.AssetsLeftToQualifyingBodyQuestionController.onSubmit())
+  override def formTarget = Some(iht.controllers.application.exemptions.qualifyingBody.routes.AssetsLeftToQualifyingBodyQuestionController.onSubmit)
 
   override val cancelId: String = "cancel-button"
 
   override def cancelComponent = Some(
     CancelComponent(
-      iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
+      iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad,
       messagesApi("page.iht.application.return.to.exemptionsOf", deceasedName),
       ExemptionsOtherID
     )

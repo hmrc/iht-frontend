@@ -133,13 +133,13 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest with 
       status(result) mustBe(SEE_OTHER)
 
       redirectLocation(result) must be (
-        Some(iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad().url))
+        Some(iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad.url))
 
     }
 
     "Load the DeceasedDateOfDeath page without sessionId" in {
       setupMocks
-      val result = controller.onPageLoad()(createFakeRequest(true))
+      val result = controller.onPageLoad(createFakeRequest(true))
       status(result) must be(OK)
       contentAsString(result) must include(messagesApi("page.iht.registration.deceasedDateOfDeath.title"))
     }
@@ -154,7 +154,7 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest with 
         Some(deceasedDetails))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
-      val result = controller.onPageLoad()(
+      val result = controller.onPageLoad(
         createFakeRequestWithReferrer(referrerURL=defaultReferrerURL,host=defaultHost))
       status(result) must be(OK)
       contentAsString(result) must include(messagesApi("page.iht.registration.deceasedDateOfDeath.title"))
@@ -201,7 +201,7 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest with 
       val result = controller.onEditSubmit()(requestWithHeadersWithBody)
       status(result) mustBe(SEE_OTHER)
       redirectLocation(result) must be (
-        Some(iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad().url))
+        Some(iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad.url))
 
     }
 
@@ -304,7 +304,7 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest with 
       val result = controller.onEditSubmit()(request)
 
       status(result) mustBe SEE_OTHER
-      redirectLocation(result).get must be (iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad().url)
+      redirectLocation(result).get must be (iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad.url)
     }
 
     "onEditSubmit where date of birth comes after date of death " +
@@ -364,7 +364,7 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest with 
       val result = await(action(request))
       status(result) must be(SEE_OTHER)
       redirectLocation(result) must be (
-        Some(iht.controllers.registration.routes.KickoutRegController.onPageLoad().url))
+        Some(iht.controllers.registration.routes.KickoutRegController.onPageLoad.url))
       verifyAndReturnStoredSingleValue(mockCachingConnector) match {
         case (cachedKey, cachedValue) =>
           cachedKey mustBe RegistrationKickoutReasonCachingKey

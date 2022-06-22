@@ -43,7 +43,7 @@ class MoneyDeceasedOwnViewTest  extends ShareableElementInputViewBehaviour[Share
   override def hasValueQuestionHelp = true
   override def valueQuestionHelp = ""
   override def returnLinkText = messagesApi("site.link.return.money")
-  override def returnLinkUrl = CommonHelper.addFragmentIdentifierToUrl(MoneyOverviewController.onPageLoad().url, TestHelper.AssetsMoneyOwnID)
+  override def returnLinkUrl = CommonHelper.addFragmentIdentifierToUrl(MoneyOverviewController.onPageLoad.url, TestHelper.AssetsMoneyOwnID)
   override def formTarget =Some(routes.MoneyDeceasedOwnController.onSubmit)
 
   "Money Deceased Own view" must {

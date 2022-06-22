@@ -40,7 +40,7 @@ class RegistrationSummaryCoExecutorPanelTest extends ViewTestHelper with TestUti
       implicit val lang = Lang.defaultLang
 
       registrationSummaryCoexecutorPanelView(Seq())(request, messages, lang).toString must include
-        iht.controllers.registration.executor.routes.OthersApplyingForProbateController.onPageLoadFromOverview().url
+        iht.controllers.registration.executor.routes.OthersApplyingForProbateController.onPageLoadFromOverview.url
     }
   }
 }

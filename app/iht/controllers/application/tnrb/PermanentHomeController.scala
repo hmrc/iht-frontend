@@ -45,7 +45,7 @@ class PermanentHomeControllerImpl @Inject()(val ihtConnector: IhtConnector,
 
 trait PermanentHomeController extends EstateController with StringHelper with TnrbHelper with Logging {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
-  def cancelUrl: Call = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
+  def cancelUrl: Call = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad
   val permanentHomeView: permanent_home
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
 
@@ -131,7 +131,7 @@ trait PermanentHomeController extends EstateController with StringHelper with Tn
         InternalServerError
       } { _ =>
         updatedAppDetailsWithKickOutReason.kickoutReason match {
-          case Some(reason) => Redirect(iht.controllers.application.routes.KickoutAppController.onPageLoad())
+          case Some(reason) => Redirect(iht.controllers.application.routes.KickoutAppController.onPageLoad)
           case _ => successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(appConfig.TnrbSpousePermanentHomeInUKID))
         }
       }

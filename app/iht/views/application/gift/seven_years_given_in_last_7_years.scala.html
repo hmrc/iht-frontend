@@ -67,7 +67,7 @@ browserTitle = Some(Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeat
     @registrationDetails.deceasedDetails.map{ dd=>
         @returnLink(
             Messages("page.iht.application.gifts.return.to.givenAwayBy", nameHelper(dd.name)),
-            Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()),
+            Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad),
             appConfig.GiftsSevenYearsQuestionID
         )
     }

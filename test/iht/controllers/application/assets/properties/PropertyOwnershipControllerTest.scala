@@ -88,7 +88,7 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
 
       setUpTests(Some(applicationDetails))
 
-      val result = propertyOwnershipController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyOwnershipController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be (OK)
     }
 
@@ -98,7 +98,7 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Future.successful(Some(regDetails)))
 
-      val result = propertyOwnershipController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyOwnershipController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be (OK)
       ContentChecker.stripLineBreaks(contentAsString(result)) must include (messagesApi("iht.estateReport.assets.howOwnedByDeceased", deceasedName))
     }

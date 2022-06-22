@@ -69,7 +69,7 @@ trait InsurancePolicyDetailsMoreThanMaxValueController extends EstateController 
         insurancePolicyDetailsMoreThanMaxValueView.apply, updateApplicationDetails,
         (ad, _) => ad.allAssets.flatMap(allAssets => allAssets.insurancePolicy).flatMap(_.moreThanMaxValue)
           .fold(insurancePoliciesRedirectLocation)(_ =>
-            iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsAnnuityController.onPageLoad()),
+            iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsAnnuityController.onPageLoad),
         userNino)
     }
   }

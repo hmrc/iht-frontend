@@ -171,7 +171,7 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsDeceasedOwnController.onSubmit (request)
-      redirectLocation(result) must be (Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad().url + "#" + mockAppConfig.InsurancePayingToDeceasedYesNoID))
+      redirectLocation(result) must be (Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad.url + "#" + mockAppConfig.InsurancePayingToDeceasedYesNoID))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

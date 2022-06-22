@@ -44,7 +44,7 @@ class FilterJointlyOwnedControllerTest extends ApplicationControllerTest with Ht
   "Filter Jointly Owned Controller" must {
 
     "show the Filter Jointly Owned page when access by an unauthorised person" in {
-      val result = controller.onPageLoad()(createFakeRequest(isAuthorised = false))
+      val result = controller.onPageLoad(createFakeRequest(isAuthorised = false))
       status(result) must be(OK)
 
       val doc = asDocument(contentAsString(result))

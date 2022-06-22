@@ -73,7 +73,7 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
-      val result = sevenYearsGiftsValuesController.onPageLoad()(createFakeRequest(isAuthorised = true))
+      val result = sevenYearsGiftsValuesController.onPageLoad(createFakeRequest(isAuthorised = true))
       status(result) must be(OK)
     }
 
@@ -95,7 +95,7 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
-      val result = sevenYearsGiftsValuesController.onPageLoad()(createFakeRequest(isAuthorised = true))
+      val result = sevenYearsGiftsValuesController.onPageLoad(createFakeRequest(isAuthorised = true))
       status(result) must be(OK)
     }
 

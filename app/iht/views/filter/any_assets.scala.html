@@ -83,9 +83,9 @@
 
     @formWithCSRF(
         action = if(jointAssets) {
-            iht.controllers.filter.routes.AnyAssetsController.onSubmitWithJointAssets()
+            iht.controllers.filter.routes.AnyAssetsController.onSubmitWithJointAssets
         } else{
-            iht.controllers.filter.routes.AnyAssetsController.onSubmitWithoutJointAssets()
+            iht.controllers.filter.routes.AnyAssetsController.onSubmitWithoutJointAssets
         },
         'autoComplete -> "off") {
 

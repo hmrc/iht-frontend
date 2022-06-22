@@ -48,7 +48,7 @@ trait MoneyJointlyOwnedController extends EstateController {
 
   val moneyJointlyOwnedView: money_jointly_owned
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad(), Some(appConfig.AssetsMoneySharedID))
+    iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad, Some(appConfig.AssetsMoneySharedID))
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>

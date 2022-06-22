@@ -117,7 +117,7 @@ class PensionsOwnedQuestionControllerTest extends ApplicationControllerTest{
       val result = pensionsOwnedQuestionController.onSubmit(request)
       status(result) mustBe (SEE_OTHER)
       redirectLocation(result) mustBe
-        Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url + "#private-pensions")
+        Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad.url + "#private-pensions")
     }
 
     "display validation message when incomplete form is submitted" in {

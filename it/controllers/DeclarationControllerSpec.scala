@@ -146,7 +146,7 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
         }
 
         status(res) shouldBe SEE_OTHER
-        redirectLocation(res) shouldBe Some(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad().url)
+        redirectLocation(res) shouldBe Some(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad.url)
       }
     }
 
@@ -203,7 +203,7 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
 
       "return the correct result" in {
         status(result().get) shouldBe SEE_OTHER
-        redirectLocation(result().get) shouldBe Some(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad().url)
+        redirectLocation(result().get) shouldBe Some(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad.url)
       }
     }
 
@@ -260,7 +260,7 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
 
       "return the correct result" in {
         status(result().get) shouldBe SEE_OTHER
-        redirectLocation(result().get) shouldBe Some(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad().url)
+        redirectLocation(result().get) shouldBe Some(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad.url)
       }
     }
 

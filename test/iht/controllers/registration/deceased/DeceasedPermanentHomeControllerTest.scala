@@ -80,7 +80,7 @@ class DeceasedPermanentHomeControllerTest
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
-      val result = controller.onPageLoad()(createFakeRequestWithReferrer(
+      val result = controller.onPageLoad(createFakeRequestWithReferrer(
         referrerURL=referrerURL,host=host))
       status(result) mustBe(OK)
 
@@ -116,7 +116,7 @@ class DeceasedPermanentHomeControllerTest
       val result = controller.onSubmit()(request)
       status(result) must be(SEE_OTHER)
       redirectLocation(result) must be (
-        Some(iht.controllers.registration.deceased.routes.AboutDeceasedController.onPageLoad().url))
+        Some(iht.controllers.registration.deceased.routes.AboutDeceasedController.onPageLoad.url))
     }
 
     "respond appropriately to an invalid submit: Missing mandatory fields" in {
@@ -145,7 +145,7 @@ class DeceasedPermanentHomeControllerTest
 
       val result = controller.onEditSubmit()(request)
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be (Some(iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad().url))
+      redirectLocation(result) must be (Some(iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad.url))
     }
 
     "respond appropriately to an invalid submit in edit mode: Missing mandatory fields" in {
@@ -210,7 +210,7 @@ class DeceasedPermanentHomeControllerTest
 
       status(result) must be(SEE_OTHER)
       redirectLocation(result) must be (
-        Some(iht.controllers.registration.routes.KickoutRegController.onPageLoad().url))
+        Some(iht.controllers.registration.routes.KickoutRegController.onPageLoad.url))
       verifyAndReturnStoredSingleValue(mockCachingConnector) match {
         case (cachedKey, cachedValue) =>
           cachedKey mustBe RegistrationKickoutReasonCachingKey

@@ -45,7 +45,7 @@ trait VehiclesJointlyOwnedController extends EstateController {
 
 
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.assets.vehicles.routes.VehiclesOverviewController.onPageLoad(),
+    iht.controllers.application.assets.vehicles.routes.VehiclesOverviewController.onPageLoad,
     Some(appConfig.AssetsVehiclesSharedID))
   val vehiclesJointlyOwnedView: vehicles_jointly_owned
 

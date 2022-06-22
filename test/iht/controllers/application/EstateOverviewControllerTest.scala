@@ -141,7 +141,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
       val result = controller.onPageLoadWithIhtRef(ref)(createFakeRequest())
       playStatus(result) mustBe SEE_OTHER
       redirectLocation(result) must be(
-        Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url))
+        Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url))
     }
 
     "respond with INTERNAL_SERVER_ERROR when exception contains 'JSON validation against schema failed'" in {
@@ -211,7 +211,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
         playStatus(result) mustBe SEE_OTHER
         redirectLocation(result) must be(
-          Some(iht.controllers.application.routes.KickoutAppController.onPageLoad().url))
+          Some(iht.controllers.application.routes.KickoutAppController.onPageLoad.url))
 
       }
     }
@@ -238,7 +238,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
         playStatus(result) mustBe SEE_OTHER
         redirectLocation(result) must be(
-          Some(iht.controllers.application.routes.KickoutAppController.onPageLoad().url))
+          Some(iht.controllers.application.routes.KickoutAppController.onPageLoad.url))
 
       }
     }
@@ -256,7 +256,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
         playStatus(result) mustBe SEE_OTHER
         redirectLocation(result) must be(
-          Some(iht.controllers.application.routes.KickoutAppController.onPageLoad().url))
+          Some(iht.controllers.application.routes.KickoutAppController.onPageLoad.url))
       }
     }
 
@@ -280,7 +280,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
         playStatus(result) mustBe SEE_OTHER
         redirectLocation(result) must be(
-          Some(iht.controllers.application.routes.KickoutAppController.onPageLoad().url))
+          Some(iht.controllers.application.routes.KickoutAppController.onPageLoad.url))
 
       }
     }
@@ -303,7 +303,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
         playStatus(result) mustBe SEE_OTHER
         redirectLocation(result) must be(
-          Some(iht.controllers.application.routes.KickoutAppController.onPageLoad().url))
+          Some(iht.controllers.application.routes.KickoutAppController.onPageLoad.url))
 
       }
     }
@@ -328,7 +328,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
         playStatus(result) mustBe SEE_OTHER
         redirectLocation(result) must be(
-          Some(iht.controllers.application.tnrb.routes.TnrbGuidanceController.onSystemPageLoad().url))
+          Some(iht.controllers.application.tnrb.routes.TnrbGuidanceController.onSystemPageLoad.url))
 
       }
     }
@@ -344,7 +344,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
         playStatus(result) mustBe SEE_OTHER
         redirectLocation(result) must be(
-          Some(iht.controllers.application.declaration.routes.CheckedEverythingQuestionController.onPageLoad().url))
+          Some(iht.controllers.application.declaration.routes.CheckedEverythingQuestionController.onPageLoad.url))
 
       }
     }
@@ -378,7 +378,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
         val result = controller.onContinueOrDeclarationRedirect(ref)(createFakeRequest())
         playStatus(result) mustBe SEE_OTHER
         redirectLocation(result) must be(
-          Some(iht.controllers.application.declaration.routes.CheckedEverythingQuestionController.onPageLoad().url))
+          Some(iht.controllers.application.declaration.routes.CheckedEverythingQuestionController.onPageLoad.url))
 
       }
     }

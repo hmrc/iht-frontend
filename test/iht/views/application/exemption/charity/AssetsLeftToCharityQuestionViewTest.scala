@@ -44,13 +44,13 @@ class AssetsLeftToCharityQuestionViewTest extends YesNoQuestionViewBehaviour[Bas
     )
   )
 
-  override def formTarget = Some(iht.controllers.application.exemptions.charity.routes.AssetsLeftToCharityQuestionController.onSubmit())
+  override def formTarget = Some(iht.controllers.application.exemptions.charity.routes.AssetsLeftToCharityQuestionController.onSubmit)
 
   override val cancelId: String = "cancel-button"
 
   override def cancelComponent = Some(
     CancelComponent(
-      iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
+      iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad,
       messagesApi("page.iht.application.return.to.exemptionsOf", deceasedName),
       ExemptionsCharityID
     )

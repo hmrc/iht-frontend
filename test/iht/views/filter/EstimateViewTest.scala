@@ -28,7 +28,7 @@ class EstimateViewTest extends ViewTestHelper {
 
   val fakeRequest = createFakeRequest(isAuthorised = false)
   val fakeForm =  Form(single("s"-> optional(text)))
-  val submitRoute = iht.controllers.filter.routes.EstimateController.onSubmitWithoutJointAssets()
+  val submitRoute = iht.controllers.filter.routes.EstimateController.onSubmitWithoutJointAssets
 
   def getPageAsDoc(form: Form[Option[String]] = fakeForm, request: FakeRequest[AnyContentAsEmpty.type] = fakeRequest) = {
     lazy val estimateView: estimate = app.injector.instanceOf[estimate]
@@ -91,7 +91,7 @@ class EstimateViewTest extends ViewTestHelper {
       val doc = getPageAsDoc()
       val formElement = doc.getElementsByTag("form").first
 
-      formElement.attr("action") must be(iht.controllers.filter.routes.EstimateController.onSubmitWithoutJointAssets().url)
+      formElement.attr("action") must be(iht.controllers.filter.routes.EstimateController.onSubmitWithoutJointAssets.url)
     }
 
     "contain a 'Previous ansewrs' section" in {
@@ -103,7 +103,7 @@ class EstimateViewTest extends ViewTestHelper {
       val doc = getPageAsDoc()
       val link = doc.getElementById("start-again")
       link.text() must be(messagesApi("iht.startAgain"))
-      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
+      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad.url)
     }
 
     "contain a row showing the user's answer to the previous question" in {
@@ -117,7 +117,7 @@ class EstimateViewTest extends ViewTestHelper {
       val doc = getPageAsDoc()
       val link = doc.getElementById("change-domicile")
       link.text() must include(messagesApi("iht.change"))
-      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
+      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad.url)
     }
   }
 }

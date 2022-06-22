@@ -34,7 +34,7 @@ class QualifyingBodyDeleteConfirmViewTest extends GenericNonSubmittablePageBehav
 
   def exitComponent = Some(
     ExitComponent(
-      iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad(),
+      iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad,
       messagesApi("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies"),
       ExemptionsOtherDeleteID + "1"
     )

@@ -91,7 +91,7 @@ class PensionsValueControllerTest extends ApplicationControllerTest{
       val result = pensionsValueController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
       redirectLocation(result) must be
-          (Some(routes.PensionsOverviewController.onPageLoad().url))
+          (Some(routes.PensionsOverviewController.onPageLoad.url))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {

@@ -36,13 +36,13 @@ class PartnerNinoViewTest extends ValueViewBehaviour[PartnerExemption] {
 
   override def browserTitle = messagesApi("page.iht.application.exemptions.partner.nino.browserTitle")
 
-  override def formTarget = Some(iht.controllers.application.exemptions.partner.routes.PartnerNinoController.onSubmit())
+  override def formTarget = Some(iht.controllers.application.exemptions.partner.routes.PartnerNinoController.onSubmit)
 
   override val cancelId: String = "cancel-button"
 
   override def cancelComponent = Some(
     CancelComponent(
-      iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(),
+      iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad,
       messagesApi("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"),
       ExemptionsPartnerNinoID
     )

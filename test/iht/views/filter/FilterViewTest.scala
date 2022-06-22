@@ -135,7 +135,7 @@ class FilterViewTest extends ViewTestHelper with HtmlSpec with FakeIhtApp {
       val doc = asDocument(contentAsString(result))
       val formElement = doc.getElementsByTag("form").first
 
-      formElement.attr("action") must be(iht.controllers.filter.routes.FilterController.onSubmit().url)
+      formElement.attr("action") must be(iht.controllers.filter.routes.FilterController.onSubmit.url)
     }
   }
 }

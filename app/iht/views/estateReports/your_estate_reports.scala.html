@@ -40,7 +40,7 @@
             </summary>
             <div class="panel panel-border-narrow">
                 <p>@Messages("iht.estateReport.estateValue.error.p1")</p>
-                <a id="estate-value-error" href="@iht.controllers.filter.routes.DomicileController.onPageLoad().url">
+                <a id="estate-value-error" href="@iht.controllers.filter.routes.DomicileController.onPageLoad.url">
                     @Messages("iht.estateReport.estateValue.error.link")
                 </a>
                 <p>@Messages("iht.estateReport.estateValue.error.p2")</p>
@@ -77,7 +77,7 @@
     @yourEstateReportsApplicationTable(applications)
     }
 
-<a id="start-new-registration" href="@iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad()">@Messages("site.link.startNewRegistration")</a>
+<a id="start-new-registration" href="@iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad">@Messages("site.link.startNewRegistration")</a>
 <h3>@Messages("iht.estateReport.help")</h3>
 
     @if(showGuidance) { @personalDetailsReveal } else { @personalDetailsSubmittedReveal }

@@ -117,7 +117,7 @@ class AssetsAndGiftsSectionViewModelTest extends FakeIhtApp with MockitoSugar wi
     "have the correct URL for the assets link" in {
       val viewModel = AssetsAndGiftsSectionViewModel(applicationDetails, false)
 
-      viewModel.assetRow.linkUrl mustBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()
+      viewModel.assetRow.linkUrl mustBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad
     }
 
     //endregion
@@ -206,7 +206,7 @@ class AssetsAndGiftsSectionViewModelTest extends FakeIhtApp with MockitoSugar wi
     "have the correct URL for the gifts link when the user has not answered any gifts questions" in {
       val viewModel = AssetsAndGiftsSectionViewModel(applicationDetails, false)
 
-      viewModel.giftRow.linkUrl mustBe iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()
+      viewModel.giftRow.linkUrl mustBe iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad
     }
 
     "have the correct URL for the gifts link when the user has answered some gifts questions" in {
@@ -214,7 +214,7 @@ class AssetsAndGiftsSectionViewModelTest extends FakeIhtApp with MockitoSugar wi
       val appDetails = applicationDetails copy (allGifts = Some(allGifts))
       val viewModel = AssetsAndGiftsSectionViewModel(appDetails, false)
 
-      viewModel.giftRow.linkUrl mustBe iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()
+      viewModel.giftRow.linkUrl mustBe iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad
     }
 
     //endregion

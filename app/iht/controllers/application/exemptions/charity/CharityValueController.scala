@@ -45,8 +45,8 @@ class CharityValueControllerImpl @Inject()(val ihtConnector: IhtConnector,
 trait CharityValueController extends EstateController {
 
 
-  lazy val submitUrl = CommonHelper.addFragmentIdentifier(routes.CharityValueController.onSubmit(), Some(appConfig.ExemptionsCharitiesValueID))
-  def cancelUrl: Call = routes.CharityDetailsOverviewController.onPageLoad()
+  lazy val submitUrl = CommonHelper.addFragmentIdentifier(routes.CharityValueController.onSubmit, Some(appConfig.ExemptionsCharitiesValueID))
+  def cancelUrl: Call = routes.CharityDetailsOverviewController.onPageLoad
 
   private def editCancelUrl(id: String) = routes.CharityDetailsOverviewController.onEditPageLoad(id)
 

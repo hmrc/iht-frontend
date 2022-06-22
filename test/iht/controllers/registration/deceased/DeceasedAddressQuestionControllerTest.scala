@@ -76,7 +76,7 @@ class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest w
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
-      val result = deceasedAddressQuestionController.onPageLoad()(createFakeRequestWithReferrer(referrerURL = referrerURL, host = host, authRetrieveNino = false))
+      val result = deceasedAddressQuestionController.onPageLoad(createFakeRequestWithReferrer(referrerURL = referrerURL, host = host, authRetrieveNino = false))
       status(result) mustBe (OK)
 
       contentAsString(result) must include(messagesApi("iht.continue"))
@@ -95,7 +95,7 @@ class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest w
       val result = deceasedAddressQuestionController.onSubmit()(request)
       status(result) mustBe (SEE_OTHER)
       redirectLocation(result) must be(
-        Some(iht.controllers.registration.deceased.routes.DeceasedAddressDetailsUKController.onPageLoad().url))
+        Some(iht.controllers.registration.deceased.routes.DeceasedAddressDetailsUKController.onPageLoad.url))
 
     }
 
@@ -113,7 +113,7 @@ class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest w
       val result = deceasedAddressQuestionController.onSubmit()(request)
       status(result) mustBe (SEE_OTHER)
       redirectLocation(result) must be(
-        Some(iht.controllers.registration.deceased.routes.DeceasedAddressDetailsOutsideUKController.onPageLoad().url))
+        Some(iht.controllers.registration.deceased.routes.DeceasedAddressDetailsOutsideUKController.onPageLoad.url))
     }
 
     "respond appropriately to an invalid submit: Missing mandatory fields" in {
