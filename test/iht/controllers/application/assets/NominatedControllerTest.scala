@@ -89,7 +89,7 @@ class NominatedControllerTest extends ApplicationControllerTest{
       val nominatedValue = CommonBuilder.buildBasicElement.copy(value=Some(20), isOwned = Some(true))
 
       val filledNominatedForm = businessInterestForm.fill(nominatedValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledNominatedForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledNominatedForm.data.toSeq: _*).withMethod("POST")
 
       val result = nominatedController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
@@ -109,7 +109,7 @@ class NominatedControllerTest extends ApplicationControllerTest{
         storeAppDetailsInCache = true)
 
       val filledNominatedForm = businessInterestForm.fill(nominatedAsset)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledNominatedForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledNominatedForm.data.toSeq: _*).withMethod("POST")
 
       val result = nominatedController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
@@ -122,7 +122,7 @@ class NominatedControllerTest extends ApplicationControllerTest{
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
-     implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
+     implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr")).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
@@ -143,7 +143,7 @@ class NominatedControllerTest extends ApplicationControllerTest{
       val nominatedValue = CommonBuilder.buildBasicElement.copy(value=Some(20),  isOwned = Some(true))
 
       val filledNominatedForm = businessInterestForm.fill(nominatedValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledNominatedForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledNominatedForm.data.toSeq: _*).withMethod("POST")
 
       val result = nominatedController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)

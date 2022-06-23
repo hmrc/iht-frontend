@@ -183,7 +183,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
       val result = controller(deceasedDetailsForm1).onSubmit()(createFakeRequestWithReferrerWithBody(
-        referrerURL = referrerURL, host = host, data = form.data.toSeq))
+        referrerURL = referrerURL, host = host, data = form.data.toSeq).withMethod("POST"))
       status(result) mustBe SEE_OTHER
       redirectLocation(result) must be(
         Some(iht.controllers.registration.deceased.routes.DeceasedAddressQuestionController.onPageLoad.url))
@@ -202,7 +202,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
       val result = controller(deceasedDetailsForm1).onSubmit()(createFakeRequestWithReferrerWithBody(
-        referrerURL=referrerURL,host=host,data=form.data.toSeq))
+        referrerURL=referrerURL,host=host,data=form.data.toSeq).withMethod("POST"))
       status(result) mustBe BAD_REQUEST
     }
 
@@ -217,7 +217,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
       val form: Form[DeceasedDetails] = deceasedForms.aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino).fill(deceasedDetails)
 
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-        data=form.data.toSeq)
+        data=form.data.toSeq).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(RegistrationDetails(None,None,
@@ -238,7 +238,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
       val form: Form[DeceasedDetails] = deceasedForms.aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino).fill(deceasedDetails)
 
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-        data=form.data.toSeq)
+        data=form.data.toSeq).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -257,7 +257,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
       val form: Form[DeceasedDetails] = deceasedForms.aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino).fill(deceasedDetails)
 
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-        data=form.data.toSeq)
+        data=form.data.toSeq).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -277,7 +277,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
       val form: Form[DeceasedDetails] = deceasedForms.aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino).fill(deceasedDetails)
 
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-        data=form.data.toSeq)
+        data=form.data.toSeq).withMethod("POST")
 
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
@@ -305,7 +305,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
       val form: Form[DeceasedDetails] = deceasedForms.aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino).fill(newDetails)
 
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-        data=form.data.toSeq)
+        data=form.data.toSeq).withMethod("POST")
 
       val result = controller(deceasedForms).onSubmit()(request)
       status(result) mustBe SEE_OTHER
@@ -334,7 +334,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
       val form: Form[DeceasedDetails] = deceasedForms.aboutDeceasedForm(loginNino = CommonBuilder.DefaultNino).fill(newDetails)
 
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-        data=form.data.toSeq)
+        data=form.data.toSeq).withMethod("POST")
 
       val result = controller(deceasedForms).onEditSubmit()(request)
       status(result) mustBe SEE_OTHER

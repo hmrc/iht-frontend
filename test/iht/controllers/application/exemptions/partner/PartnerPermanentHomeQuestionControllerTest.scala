@@ -99,7 +99,7 @@ class PartnerPermanentHomeQuestionControllerTest extends ApplicationControllerTe
 
       val filledPartnerPermanentHomeQuestionForm = partnerPermanentHomeQuestionForm.fill(partnerPermanentHomeQuestion)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerPermanentHomeQuestionForm.data
-        .toSeq: _*)
+        .toSeq: _*).withMethod("POST")
 
       val result = partnerPermanentHomeQuestionController.onSubmit(request)
       status(result) mustBe (SEE_OTHER)
@@ -114,7 +114,7 @@ class PartnerPermanentHomeQuestionControllerTest extends ApplicationControllerTe
       val filledPartnerPermanentHomeQuestionForm = partnerPermanentHomeQuestionForm.fill(CommonBuilder.buildPartnerExemption.
         copy(isPartnerHomeInUK = None))
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerPermanentHomeQuestionForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerPermanentHomeQuestionForm.data.toSeq: _*).withMethod("POST")
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,

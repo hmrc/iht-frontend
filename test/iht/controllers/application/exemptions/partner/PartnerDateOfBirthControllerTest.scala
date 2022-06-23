@@ -120,6 +120,7 @@ class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
 
       val dateOfBirthForm = spouseDateOfBirthForm.fill(partnerExemptionValues)
       implicit val request = createFakeRequest(isAuthorised = true).withFormUrlEncodedBody(dateOfBirthForm.data.toSeq: _*)
+        .withMethod("POST")
 
       val applicationDetails = Some(CommonBuilder.buildApplicationDetails.copy(allExemptions = Some
         (CommonBuilder.buildAllExemptions.copy(partner = Some(CommonBuilder.buildPartnerExemption)))))
@@ -141,6 +142,7 @@ class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
 
       val dateOfBirthForm = spouseDateOfBirthForm.fill(partnerExemptionValues)
       implicit val request = createFakeRequest(isAuthorised = true).withFormUrlEncodedBody(dateOfBirthForm.data.toSeq: _*)
+        .withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
@@ -162,6 +164,7 @@ class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
 
       val dateOfBirth = spouseDateOfBirthForm.fill(partnerExemptionValues)
       implicit val request = createFakeRequest(isAuthorised = true).withFormUrlEncodedBody(dateOfBirth.data.toSeq: _*)
+          .withMethod("POST")
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,

@@ -108,7 +108,7 @@ class BenefitFromTrustControllerTest  extends ApplicationControllerTest{
       val withBenefitFromTrustValue = CommonBuilder.buildTnrbEligibility
 
       val filledBenefitFromTrustForm = benefitFromTrustForm.fill(withBenefitFromTrustValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledBenefitFromTrustForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledBenefitFromTrustForm.data.toSeq: _*).withMethod("POST")
 
       val result = benefitFromTrustController.onSubmit (request)
       status(result) mustBe SEE_OTHER
@@ -127,7 +127,7 @@ class BenefitFromTrustControllerTest  extends ApplicationControllerTest{
       val withBenefitFromTrustValue = CommonBuilder.buildTnrbEligibility.copy(isPartnerBenFromTrust = Some(true))
 
       val filledBenefitFromTrustForm = benefitFromTrustForm.fill(withBenefitFromTrustValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledBenefitFromTrustForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledBenefitFromTrustForm.data.toSeq: _*).withMethod("POST")
 
       val result = benefitFromTrustController.onSubmit (request)
       status(result) mustBe SEE_OTHER
@@ -150,7 +150,7 @@ class BenefitFromTrustControllerTest  extends ApplicationControllerTest{
       val withBenefitFromTrustValue = CommonBuilder.buildTnrbEligibility.copy(isPartnerBenFromTrust = Some(false))
 
       val filledBenefitFromTrustForm = benefitFromTrustForm.fill(withBenefitFromTrustValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledBenefitFromTrustForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledBenefitFromTrustForm.data.toSeq: _*).withMethod("POST")
 
       val result = benefitFromTrustController.onSubmit (request)
       status(result) mustBe SEE_OTHER

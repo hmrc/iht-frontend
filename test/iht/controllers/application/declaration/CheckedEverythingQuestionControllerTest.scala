@@ -83,7 +83,7 @@ class CheckedEverythingQuestionControllerTest extends ApplicationControllerTest{
       val filledForm = checkedEverythingQuestionForm.fill(Some(booleanValue))
 
       implicit val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(filledForm.data
-        .toSeq: _*)
+        .toSeq: _*).withMethod("POST")
 
       checkedEverythingQuestionController.onSubmit(request)
     }

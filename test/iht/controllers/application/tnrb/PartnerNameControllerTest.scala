@@ -89,7 +89,7 @@ class PartnerNameControllerTest extends ApplicationControllerTest{
       val withPartnerNameValue = CommonBuilder.buildTnrbEligibility.copy(firstName = None, lastName = None)
 
       val filledPartnerNameForm = partnerNameForm.fill(withPartnerNameValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerNameForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerNameForm.data.toSeq: _*).withMethod("POST")
 
       val result = partnerNameController.onSubmit (request)
       status(result) mustBe BAD_REQUEST
@@ -108,7 +108,7 @@ class PartnerNameControllerTest extends ApplicationControllerTest{
         lastName = Some(CommonBuilder.surnameGenerator))
 
       val filledPartnerNameForm = partnerNameForm.fill(withPartnerNameValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerNameForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerNameForm.data.toSeq: _*).withMethod("POST")
 
       val result = partnerNameController.onSubmit (request)
       status(result) mustBe SEE_OTHER
@@ -132,7 +132,7 @@ class PartnerNameControllerTest extends ApplicationControllerTest{
         lastName = Some(CommonBuilder.surnameGenerator))
 
       val filledPartnerNameForm = partnerNameForm.fill(withPartnerNameValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerNameForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerNameForm.data.toSeq: _*).withMethod("POST")
 
       val result = partnerNameController.onSubmit (request)
       status(result) mustBe SEE_OTHER

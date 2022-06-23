@@ -285,7 +285,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       val addressForm = coExecutorAddressUkForm.fill(CommonBuilder.DefaultUkAddress)
       val request = createFakeRequestWithReferrerWithBody(
         referrerURL = "http://localhost:9070/inheritance-tax/registration/other-persons-address-uk/1",
-        host = host, data = addressForm.data.toSeq, authRetrieveNino = false)
+        host = host, data = addressForm.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -303,7 +303,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       CommonBuilder.DefaultUkAddress copy(postCode = "", countryCode = "AU"))
     val request = createFakeRequestWithReferrerWithBody(
       referrerURL = "http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/1",
-      host = host, data = addressForm.data.toSeq, authRetrieveNino = false)
+      host = host, data = addressForm.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
     createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
     createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -322,7 +322,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
 
     implicit val request = createFakeRequestWithReferrerWithBody(
       referrerURL = "http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/1",
-      host = host, data = form.data.toSeq, authRetrieveNino = false)
+      host = host, data = form.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
     createMockToStoreRegDetailsInCache(mockCachingConnector, registrationDetails)
 
@@ -452,7 +452,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
     val addressForm = coExecutorAddressUkForm.fill(CommonBuilder.DefaultUkAddress)
     val request = createFakeRequestWithReferrerWithBody(
       referrerURL = "http://localhost:9070/inheritance-tax/registration/other-persons-address-uk/1",
-      host = host, data = addressForm.data.toSeq, authRetrieveNino = false)
+      host = host, data = addressForm.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
     createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
     createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -494,7 +494,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
     createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
 
     implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
-      host = host, data = detailsToSubmit, authRetrieveNino = false)
+      host = host, data = detailsToSubmit, authRetrieveNino = false).withMethod("POST")
 
     submissionFunc(submissionId)(request)
   }

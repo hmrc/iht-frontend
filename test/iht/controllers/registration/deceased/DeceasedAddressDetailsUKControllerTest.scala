@@ -81,6 +81,7 @@ class DeceasedAddressDetailsUKControllerTest
       val deceasedDetailsForm1 = deceasedAddressDetailsUKForm.fill(deceasedDetails)
       val request = createFakeRequestWithReferrerWithBody(
         referrerURL = referrerURL, host = host, data = deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
+          .withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -112,6 +113,7 @@ class DeceasedAddressDetailsUKControllerTest
       val deceasedDetailsForm1 = deceasedAddressDetailsUKForm.fill(deceasedDetails)
       val request = createFakeRequestWithReferrerWithBody(
         referrerURL = referrerURL, host = host, data = deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
+          .withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -159,7 +161,7 @@ class DeceasedAddressDetailsUKControllerTest
       val form = deceasedAddressDetailsUKForm.fill(newDeceasedDetails)
 
       val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
-        data = form.data.toSeq, authRetrieveNino = false)
+        data = form.data.toSeq, authRetrieveNino = false).withMethod("POST")
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
@@ -184,6 +186,7 @@ class DeceasedAddressDetailsUKControllerTest
       val form = deceasedAddressDetailsUKForm.fill(newDeceasedDetails)
 
       val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host, data = form.data.toSeq, authRetrieveNino = false)
+        .withMethod("POST")
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(existingRegistrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(existingRegistrationDetails))
 
@@ -211,7 +214,7 @@ class DeceasedAddressDetailsUKControllerTest
       val registrationDetails = RegistrationDetails(None, None, Some(deceasedDetails))
       val deceasedDetailsForm1 = deceasedAddressDetailsUKForm.fill(deceasedDetails)
       val request = createFakeRequestWithReferrerWithBody(
-        referrerURL=referrerURL,host=host, data=deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
+        referrerURL=referrerURL,host=host, data=deceasedDetailsForm1.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))

@@ -107,7 +107,7 @@ class JointlyOwnedAssetsControllerTest  extends ApplicationControllerTest{
       val withJointlyOwnedAssetsValue = CommonBuilder.buildTnrbEligibility
 
       val filledJointlyOwnedAssetsForm = jointAssetPassedForm.fill(withJointlyOwnedAssetsValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledJointlyOwnedAssetsForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledJointlyOwnedAssetsForm.data.toSeq: _*).withMethod("POST")
 
       val result = jointlyOwnedAssetsController.onSubmit (request)
       status(result) mustBe SEE_OTHER
@@ -126,7 +126,7 @@ class JointlyOwnedAssetsControllerTest  extends ApplicationControllerTest{
       val withJointlyOwnedAssetsValue = CommonBuilder.buildTnrbEligibility.copy(isJointAssetPassed = Some(false))
 
       val filledJointlyOwnedAssetsForm = jointAssetPassedForm.fill(withJointlyOwnedAssetsValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledJointlyOwnedAssetsForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledJointlyOwnedAssetsForm.data.toSeq: _*).withMethod("POST")
 
       val result = jointlyOwnedAssetsController.onSubmit (request)
       status(result) mustBe SEE_OTHER
@@ -149,7 +149,7 @@ class JointlyOwnedAssetsControllerTest  extends ApplicationControllerTest{
       val withJointlyOwnedAssetsValue = CommonBuilder.buildTnrbEligibility.copy(isJointAssetPassed = Some(true))
 
       val filledJointlyOwnedAssetsForm = jointAssetPassedForm.fill(withJointlyOwnedAssetsValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledJointlyOwnedAssetsForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledJointlyOwnedAssetsForm.data.toSeq: _*).withMethod("POST")
 
       val result = jointlyOwnedAssetsController.onSubmit (request)
       status(result) mustBe SEE_OTHER

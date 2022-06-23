@@ -132,7 +132,7 @@ class SevenYearsGivenInLast7YearsControllerTest  extends ApplicationControllerTe
       val withSevenYearsGivenInLast7YearsValue = CommonBuilder.buildAllGifts.copy(isGivenInLast7Years = Some(false))
 
       val filledSevenYearsGivenInLast7YearsForm = giftSevenYearsGivenInLast7YearsForm.fill(withSevenYearsGivenInLast7YearsValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledSevenYearsGivenInLast7YearsForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledSevenYearsGivenInLast7YearsForm.data.toSeq: _*).withMethod("POST")
 
       val result = sevenYearsGivenInLast7YearsController.onSubmit (request)
       status(result) mustBe SEE_OTHER
@@ -152,7 +152,7 @@ class SevenYearsGivenInLast7YearsControllerTest  extends ApplicationControllerTe
       val withSevenYearsGivenInLast7YearsValue = CommonBuilder.buildAllGifts.copy(isGivenInLast7Years = None)
 
       val filledSevenYearsGivenInLast7YearsForm = giftSevenYearsGivenInLast7YearsForm.fill(withSevenYearsGivenInLast7YearsValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledSevenYearsGivenInLast7YearsForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledSevenYearsGivenInLast7YearsForm.data.toSeq: _*).withMethod("POST")
 
       val result = sevenYearsGivenInLast7YearsController.onSubmit()(request)
       status(result) must be (BAD_REQUEST)

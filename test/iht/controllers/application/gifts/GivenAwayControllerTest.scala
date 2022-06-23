@@ -95,7 +95,7 @@ class GivenAwayControllerTest extends ApplicationControllerTest {
       val withGivenAwayValue = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(true))
 
       val filledGivenAwayForm = giftsGivenAwayForm.fill(withGivenAwayValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGivenAwayForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGivenAwayForm.data.toSeq: _*).withMethod("POST")
 
       val result = givenAwayController.onSubmit(request)
       status(result) mustBe SEE_OTHER
@@ -109,7 +109,7 @@ class GivenAwayControllerTest extends ApplicationControllerTest {
       val withGivenAwayValue = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(true))
 
       val filledGivenAwayForm = giftsGivenAwayForm.fill(withGivenAwayValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGivenAwayForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGivenAwayForm.data.toSeq: _*).withMethod("POST")
 
       val result = givenAwayController.onSubmit(request)
       status(result) mustBe SEE_OTHER
@@ -126,7 +126,7 @@ class GivenAwayControllerTest extends ApplicationControllerTest {
       val withGivenAwayValue = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(false))
 
       val filledGivenAwayForm = giftsGivenAwayForm.fill(withGivenAwayValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGivenAwayForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGivenAwayForm.data.toSeq: _*).withMethod("POST")
 
       val result = givenAwayController.onSubmit(request)
       status(result) mustBe SEE_OTHER
@@ -150,7 +150,7 @@ class GivenAwayControllerTest extends ApplicationControllerTest {
       val withGivenAwayValue = CommonBuilder.buildAllGifts.copy(isGivenAway = None)
 
       val filledGivenAwayForm = giftsGivenAwayForm.fill(withGivenAwayValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGivenAwayForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGivenAwayForm.data.toSeq: _*).withMethod("POST")
 
       val result = givenAwayController.onSubmit()(request)
       status(result) must be(BAD_REQUEST)

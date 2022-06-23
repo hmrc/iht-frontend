@@ -97,6 +97,7 @@ class ExemptionPartnerNameControllerTest extends ApplicationControllerTest {
 
       val partnerForm = partnerExemptionNameForm.fill(partnerExemptionValues)
       implicit val request = createFakeRequest(isAuthorised = true).withFormUrlEncodedBody(partnerForm.data.toSeq: _*)
+        .withMethod("POST")
 
       val applicationDetails = Some(CommonBuilder.buildApplicationDetails.copy(allExemptions = Some
       (CommonBuilder.buildAllExemptions.copy(partner = Some(CommonBuilder.buildPartnerExemption)))))

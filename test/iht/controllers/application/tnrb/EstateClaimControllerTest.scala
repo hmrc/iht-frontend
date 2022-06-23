@@ -105,7 +105,7 @@ class EstateClaimControllerTest  extends ApplicationControllerTest {
       val withEstateClaimValue = CommonBuilder.buildTnrbEligibility
 
       val filledEstateClaimForm = estateClaimAnyBusinessForm.fill(withEstateClaimValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledEstateClaimForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledEstateClaimForm.data.toSeq: _*).withMethod("POST")
 
       val result = estateClaimController.onSubmit (request)
       status(result) mustBe SEE_OTHER
@@ -124,7 +124,7 @@ class EstateClaimControllerTest  extends ApplicationControllerTest {
       val withEstateClaimValue = CommonBuilder.buildTnrbEligibility.copy(isStateClaimAnyBusiness = Some(true))
 
       val filledEstateClaimForm = estateClaimAnyBusinessForm.fill(withEstateClaimValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledEstateClaimForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledEstateClaimForm.data.toSeq: _*).withMethod("POST")
 
       val result = estateClaimController.onSubmit (request)
       status(result) mustBe SEE_OTHER
@@ -147,7 +147,7 @@ class EstateClaimControllerTest  extends ApplicationControllerTest {
       val withEstateClaimValue = CommonBuilder.buildTnrbEligibility.copy(isStateClaimAnyBusiness = Some(false))
 
       val filledEstateClaimForm = estateClaimAnyBusinessForm.fill(withEstateClaimValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledEstateClaimForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledEstateClaimForm.data.toSeq: _*).withMethod("POST")
 
       val result = estateClaimController.onSubmit (request)
       status(result) mustBe SEE_OTHER

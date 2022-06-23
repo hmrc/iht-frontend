@@ -310,7 +310,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
       mockForApplicationStatus(ApplicationStatus.AwaitingReturn)
 
       val applicantDetailsForm1 = declarationForm.fill(true)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(applicantDetailsForm1.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(applicantDetailsForm1.data.toSeq: _*).withMethod("POST")
 
       val result = declarationController.onSubmit()(request)
       status(result) mustBe SEE_OTHER
@@ -372,7 +372,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
       createMockToStoreProbateDetailsInCache(mockCachingConnector)
 
       val applicantDetailsForm1 = declarationForm.fill(true)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(applicantDetailsForm1.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(applicantDetailsForm1.data.toSeq: _*).withMethod("POST")
 
       val result = declarationController.onSubmit()(request)
       status(result) mustBe SEE_OTHER

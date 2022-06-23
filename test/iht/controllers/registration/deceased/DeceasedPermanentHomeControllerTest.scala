@@ -107,7 +107,7 @@ class DeceasedPermanentHomeControllerTest
       val registrationDetails = RegistrationDetails(defaultDod, None, Some(deceasedDetails))
       val deceasedDetailsForm1 = deceasedPermanentHomeForm.fill(deceasedDetails)
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-        data=deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
+        data=deceasedDetailsForm1.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -124,7 +124,7 @@ class DeceasedPermanentHomeControllerTest
       val registrationDetails = RegistrationDetails(defaultDod, None, Some(deceasedDetails))
       val deceasedDetailsForm1 = deceasedPermanentHomeForm.fill(deceasedDetails)
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-        data=deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
+        data=deceasedDetailsForm1.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
@@ -138,6 +138,7 @@ class DeceasedPermanentHomeControllerTest
       val registrationDetails = RegistrationDetails(defaultDod, None, Some(deceasedDetails))
       val deceasedDetailsForm1 = deceasedPermanentHomeForm.fill(deceasedDetails)
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
+        .withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -153,6 +154,7 @@ class DeceasedPermanentHomeControllerTest
       val registrationDetails = RegistrationDetails(defaultDod, None, Some(deceasedDetails))
       val deceasedDetailsForm1 = deceasedPermanentHomeForm.fill(deceasedDetails)
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
+        .withMethod("POST")
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
@@ -171,6 +173,7 @@ class DeceasedPermanentHomeControllerTest
       val form = deceasedPermanentHomeForm.fill(deceasedDetails)
 
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq, authRetrieveNino = false)
+        .withMethod("POST")
 
       val result = controller.onSubmit()(request)
       status(result) must be (SEE_OTHER)
@@ -195,7 +198,7 @@ class DeceasedPermanentHomeControllerTest
       val registrationDetails = RegistrationDetails(defaultDod, None, Some(deceasedDetails))
       val deceasedDetailsForm1 = deceasedPermanentHomeForm.fill(deceasedDetails)
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-        data=deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
+        data=deceasedDetailsForm1.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))

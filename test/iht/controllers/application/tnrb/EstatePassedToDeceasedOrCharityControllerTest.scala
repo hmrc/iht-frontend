@@ -106,7 +106,7 @@ class EstatePassedToDeceasedOrCharityControllerTest  extends ApplicationControll
       val withEstatePassedToDeceasedOrCharityValue = CommonBuilder.buildTnrbEligibility.copy(isEstateBelowIhtThresholdApplied = Some(true))
 
       val filledEstatePassedToDeceasedOrCharityForm = estatePassedToDeceasedOrCharityForm.fill(withEstatePassedToDeceasedOrCharityValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledEstatePassedToDeceasedOrCharityForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledEstatePassedToDeceasedOrCharityForm.data.toSeq: _*).withMethod("POST")
 
       val result = estatePassedToDeceasedOrCharityController.onSubmit (request)
       status(result) mustBe SEE_OTHER
@@ -125,7 +125,7 @@ class EstatePassedToDeceasedOrCharityControllerTest  extends ApplicationControll
       val withEstatePassedToDeceasedOrCharityValue = CommonBuilder.buildTnrbEligibility.copy(isEstateBelowIhtThresholdApplied = Some(false))
 
       val filledEstatePassedToDeceasedOrCharityForm = estatePassedToDeceasedOrCharityForm.fill(withEstatePassedToDeceasedOrCharityValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledEstatePassedToDeceasedOrCharityForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledEstatePassedToDeceasedOrCharityForm.data.toSeq: _*).withMethod("POST")
 
       val result = estatePassedToDeceasedOrCharityController.onSubmit (request)
       status(result) mustBe SEE_OTHER
@@ -148,7 +148,7 @@ class EstatePassedToDeceasedOrCharityControllerTest  extends ApplicationControll
       val withEstatePassedToDeceasedOrCharityValue = CommonBuilder.buildTnrbEligibility.copy(isEstateBelowIhtThresholdApplied = Some(true))
 
       val filledEstatePassedToDeceasedOrCharityForm = estatePassedToDeceasedOrCharityForm.fill(withEstatePassedToDeceasedOrCharityValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledEstatePassedToDeceasedOrCharityForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledEstatePassedToDeceasedOrCharityForm.data.toSeq: _*).withMethod("POST")
 
       val result = estatePassedToDeceasedOrCharityController.onSubmit (request)
       status(result) mustBe SEE_OTHER

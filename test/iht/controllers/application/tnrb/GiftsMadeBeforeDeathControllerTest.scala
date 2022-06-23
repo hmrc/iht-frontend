@@ -108,7 +108,7 @@ class GiftsMadeBeforeDeathControllerTest  extends ApplicationControllerTest{
       val withGiftsMadeBeforeDeathValue = CommonBuilder.buildTnrbEligibility.copy(isGiftMadeBeforeDeath = Some(false))
 
       val filledGiftsMadeBeforeDeathForm = giftMadeBeforeDeathForm.fill(withGiftsMadeBeforeDeathValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsMadeBeforeDeathForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsMadeBeforeDeathForm.data.toSeq: _*).withMethod("POST")
 
       val result = giftsMadeBeforeDeathController.onSubmit (request)
       status(result) mustBe SEE_OTHER
@@ -127,7 +127,7 @@ class GiftsMadeBeforeDeathControllerTest  extends ApplicationControllerTest{
       val withGiftsMadeBeforeDeathValue = CommonBuilder.buildTnrbEligibility.copy(isGiftMadeBeforeDeath = Some(true))
 
       val filledGiftsMadeBeforeDeathForm = giftMadeBeforeDeathForm.fill(withGiftsMadeBeforeDeathValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsMadeBeforeDeathForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsMadeBeforeDeathForm.data.toSeq: _*).withMethod("POST")
 
       val result = giftsMadeBeforeDeathController.onSubmit (request)
       status(result) mustBe SEE_OTHER
@@ -150,7 +150,7 @@ class GiftsMadeBeforeDeathControllerTest  extends ApplicationControllerTest{
       val withGiftsMadeBeforeDeathValue = CommonBuilder.buildTnrbEligibility.copy(isGiftMadeBeforeDeath = Some(false))
 
       val filledGiftsMadeBeforeDeathForm = giftMadeBeforeDeathForm.fill(withGiftsMadeBeforeDeathValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsMadeBeforeDeathForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsMadeBeforeDeathForm.data.toSeq: _*).withMethod("POST")
 
       val result = giftsMadeBeforeDeathController.onSubmit (request)
       status(result) mustBe SEE_OTHER

@@ -121,7 +121,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr")).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
@@ -147,7 +147,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
         copy(propertyList = List())
 
       val formFill = propertyValueForm.fill(CommonBuilder.buildProperty.copy(value = Some(10)))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
 
       setUpTests(Some(applicationDetails))
 
@@ -165,7 +165,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
           value = Some(1234))))
 
       val formFill = propertyValueForm.fill(CommonBuilder.buildProperty.copy(value = Some(10)))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
 
       setUpTests(Some(applicationDetails))
 
@@ -189,7 +189,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
         ("propertyType", "Deceased's home"),
         ("tenure", "Freehold"),
         ("value", "1000001")
-      )
+      ).withMethod("POST")
 
       setUpTests(Some(applicationDetails))
 

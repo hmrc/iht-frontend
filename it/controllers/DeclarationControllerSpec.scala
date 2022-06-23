@@ -46,7 +46,7 @@ import scala.util.Try
 class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar with TestDataUtil {
 
   lazy val applicantDetailsForm: Form[Boolean] = declarationForm.fill(true)
-  lazy val fakeRequest: FakeRequest[AnyContentAsFormUrlEncoded] = createFakeRequest().withFormUrlEncodedBody(applicantDetailsForm.data.toSeq: _*)
+  lazy val fakeRequest: FakeRequest[AnyContentAsFormUrlEncoded] = createFakeRequest().withFormUrlEncodedBody(applicantDetailsForm.data.toSeq: _*).withMethod("POST")
 
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtMetrics = mock[IhtMetrics]

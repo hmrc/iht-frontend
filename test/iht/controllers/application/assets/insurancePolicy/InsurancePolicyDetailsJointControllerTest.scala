@@ -101,7 +101,7 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
       val insuranceJointValue = CommonBuilder.buildInsurancePolicy.copy(isJointlyOwned = Some(true), shareValue = Some(20))
 
       val filledInsuranceForm = insurancePolicyJointQuestionForm.fill(insuranceJointValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*).withMethod("POST")
 
       val result = insurancePolicyDetailsJointController.onSubmit(request)
       status(result) mustBe (SEE_OTHER)
@@ -119,7 +119,7 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
       val insuranceJointValue = CommonBuilder.buildInsurancePolicy.copy(isJointlyOwned = Some(true), shareValue = Some(20))
 
       val filledInsuranceForm = insurancePolicyJointQuestionForm.fill(insuranceJointValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*).withMethod("POST")
 
       val result = insurancePolicyDetailsJointController.onSubmit(request)
       status(result) mustBe (SEE_OTHER)
@@ -137,7 +137,7 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
       val insuranceJointValue = CommonBuilder.buildInsurancePolicy.copy(isJointlyOwned = Some(false))
 
       val filledInsuranceForm = insurancePolicyJointQuestionForm.fill(insuranceJointValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*).withMethod("POST")
 
       val result = insurancePolicyDetailsJointController.onSubmit(request)
       status(result) mustBe (SEE_OTHER)
@@ -145,7 +145,7 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
 
     "respond with bad request when incorrect value are entered on the page" in {
 
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr")).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
@@ -169,7 +169,7 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
       createMocks(applicationDetails)
 
       val filledForm = insurancePolicyJointQuestionForm.fill(insurancePolicyDetails)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*).withMethod("POST")
 
       val result = insurancePolicyDetailsJointController.onSubmit(request)
       redirectLocation(result) must be(Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad.url + "#" + mockAppConfig.InsuranceJointlyHeldYesNoID))

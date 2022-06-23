@@ -121,7 +121,7 @@ class ApplicantTellUsAboutYourselfControllerTest
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
       val form = applicantTellUsAboutYourselfForm.fill(applicantDetails)
       val request =
-        createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq)
+        createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -138,7 +138,7 @@ class ApplicantTellUsAboutYourselfControllerTest
       val registrationDetails = RegistrationDetails(None, None, None)
       val form = applicantTellUsAboutYourselfForm.fill(applicantDetails)
       val request =
-        createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq)
+        createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -155,7 +155,7 @@ class ApplicantTellUsAboutYourselfControllerTest
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
       val form = applicantTellUsAboutYourselfForm.fill(applicantDetails)
       val request =
-        createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq)
+        createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -173,7 +173,7 @@ class ApplicantTellUsAboutYourselfControllerTest
       val applicantDetailsForm1 = applicantTellUsAboutYourselfForm.fill(applicantDetails)
       val request =
         createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-          data=applicantDetailsForm1.data.toSeq)
+          data=applicantDetailsForm1.data.toSeq).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -191,7 +191,7 @@ class ApplicantTellUsAboutYourselfControllerTest
       val applicantDetailsForm1 = applicantTellUsAboutYourselfForm.fill(applicantDetails)
       val request =
         createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-          data=applicantDetailsForm1.data.toSeq)
+          data=applicantDetailsForm1.data.toSeq).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -208,7 +208,7 @@ class ApplicantTellUsAboutYourselfControllerTest
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
       val form = applicantTellUsAboutYourselfForm.fill(applicantDetails)
       val request =
-        createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq)
+        createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -224,7 +224,7 @@ class ApplicantTellUsAboutYourselfControllerTest
       val applicantDetails = CommonBuilder.buildApplicantDetails copy (doesLiveInUK = Some(false))
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(("phoneNo", CommonBuilder.emptyString))
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(("phoneNo", CommonBuilder.emptyString)).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -240,7 +240,7 @@ class ApplicantTellUsAboutYourselfControllerTest
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
       val form = applicantTellUsAboutYourselfForm.fill(applicantDetails)
       val request =
-        createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq)
+        createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq).withMethod("POST")
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, None)
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
@@ -257,7 +257,7 @@ class ApplicantTellUsAboutYourselfControllerTest
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
       val form = applicantTellUsAboutYourselfForm.fill(applicantDetails)
       val request =
-        createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq)
+        createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -275,7 +275,7 @@ class ApplicantTellUsAboutYourselfControllerTest
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
       val form = applicantTellUsAboutYourselfForm.fill(applicantDetails)
       val request =
-        createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq)
+        createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -294,7 +294,7 @@ class ApplicantTellUsAboutYourselfControllerTest
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
       val form = applicantTellUsAboutYourselfForm.fill(applicantDetails)
       val request =
-        createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq)
+        createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -312,7 +312,7 @@ class ApplicantTellUsAboutYourselfControllerTest
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
       val form = applicantTellUsAboutYourselfForm.fill(applicantDetails)
       val request =
-        createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq)
+        createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -340,7 +340,7 @@ class ApplicantTellUsAboutYourselfControllerTest
       val registrationDetails = RegistrationDetails(Some(existingDod), Some(existingApplicantDetails), Some(existingDeceasedDetails))
       val form = applicantTellUsAboutYourselfEditForm.fill(newApplicantDetails)
       val request =
-        createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq)
+        createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -377,7 +377,7 @@ class ApplicantTellUsAboutYourselfControllerTest
     val applicantDetailsForm1 = applicantTellUsAboutYourselfForm.fill(applicantDetails)
     val request =
       createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-        data=applicantDetailsForm1.data.toSeq)
+        data=applicantDetailsForm1.data.toSeq).withMethod("POST")
 
     createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
     createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))

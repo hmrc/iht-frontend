@@ -136,7 +136,7 @@ class QualifyingBodyValueControllerTest extends ApplicationControllerTest with B
 
     "display an error message when a non-numeric value is entered" in {
       createMocksForQualifyingBodyValue
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("totalValue", "blaaaaah"))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("totalValue", "blaaaaah")).withMethod("POST")
       val result = resultOnSubmit(fakePostRequest)
 
       status(result) mustBe BAD_REQUEST
@@ -145,7 +145,7 @@ class QualifyingBodyValueControllerTest extends ApplicationControllerTest with B
 
     "save new value with new ID to application details onSubmit and redirect to QB detail overview" in {
       createMocksForQualifyingBodyValue
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("totalValue", "100"))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("totalValue", "100")).withMethod("POST")
       val result = resultOnSubmit(fakePostRequest)
 
       status(result) mustBe SEE_OTHER
@@ -162,7 +162,7 @@ class QualifyingBodyValueControllerTest extends ApplicationControllerTest with B
 
     "amend existing value with ID 1 in application details onEditSubmit and redirect to QB detail overview" in {
       createMocksForQualifyingBodyValueWithTwoItems
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("totalValue", "777"))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("totalValue", "777")).withMethod("POST")
       val result = resultOnEditSubmit("1")(fakePostRequest)
 
       status(result) mustBe SEE_OTHER
@@ -174,7 +174,7 @@ class QualifyingBodyValueControllerTest extends ApplicationControllerTest with B
 
     "amend existing value with ID 2 in application details onEditSubmit and redirect to QB detail overview" in {
       createMocksForQualifyingBodyValueWithTwoItems
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("totalValue", "888"))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("totalValue", "888")).withMethod("POST")
       val result = resultOnEditSubmit("2")(fakePostRequest)
 
       status(result) mustBe SEE_OTHER

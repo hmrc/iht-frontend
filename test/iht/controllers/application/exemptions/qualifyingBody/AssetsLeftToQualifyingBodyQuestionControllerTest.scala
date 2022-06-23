@@ -111,7 +111,7 @@ class AssetsLeftToQualifyingBodyQuestionControllerTest extends ApplicationContro
       val assetsLeftToQualifyingBody = BasicExemptionElement(isSelected = Some(true))
 
       val filledAssetLeftToQualifyingBodyQuestionForm = assetsLeftToQualifyingBodyQuestionForm.fill(assetsLeftToQualifyingBody)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledAssetLeftToQualifyingBodyQuestionForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledAssetLeftToQualifyingBodyQuestionForm.data.toSeq: _*).withMethod("POST")
 
       val result = assetsLeftToQualifyingBodyQuestionController.onSubmit(request)
       status(result) must be (SEE_OTHER)
@@ -123,7 +123,7 @@ class AssetsLeftToQualifyingBodyQuestionControllerTest extends ApplicationContro
 
       val filledAssetsLeftToQualifyingBodyQuestionForm = assetsLeftToQualifyingBodyQuestionForm.fill(BasicExemptionElement(isSelected = None))
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledAssetsLeftToQualifyingBodyQuestionForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledAssetsLeftToQualifyingBodyQuestionForm.data.toSeq: _*).withMethod("POST")
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,

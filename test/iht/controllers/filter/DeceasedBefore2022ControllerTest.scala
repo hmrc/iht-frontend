@@ -64,7 +64,7 @@ class DeceasedBefore2022ControllerTest extends ApplicationControllerTest with Ht
 
     "redirect to the Use Checker page if 'no' is selected" in {
       val form = deceasedBefore2022Form.fill(Some(false))
-      val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
+      val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq).withMethod("POST")
       val result = controller.onSubmit()(request)
 
       status(result) must be(SEE_OTHER)
@@ -73,7 +73,7 @@ class DeceasedBefore2022ControllerTest extends ApplicationControllerTest with Ht
 
     "redirect to the Jointly Owned page if 'yes' is selected" in {
       val form = deceasedBefore2022Form.fill(Some(true))
-      val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
+      val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq).withMethod("POST")
       val result = controller.onSubmit()(request)
 
       status(result) must be(SEE_OTHER)

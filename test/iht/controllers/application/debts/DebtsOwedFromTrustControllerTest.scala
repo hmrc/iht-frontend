@@ -64,7 +64,7 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
     "save on submit" in {
       val testValue = BasicEstateElementLiabilities(isOwned = Some(true), value = Some(BigDecimal(33)))
       val filledForm = debtsTrustForm.fill(testValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*).withMethod("POST")
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(allLiabilities = Some(CommonBuilder
         .buildAllLiabilities.copy(trust = Some(testValue))))
 
@@ -82,7 +82,7 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
     "respond with bad request on submit when request is malformed" in {
       val testValue = CommonBuilder.buildBasicEstateElementLiabilities.copy(isOwned = None)
       val filledForm = debtsTrustForm.fill(testValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*).withMethod("POST")
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(allLiabilities = Some(CommonBuilder
         .buildAllLiabilities.copy(trust = Some(testValue))))
 
@@ -99,7 +99,7 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
     "take you to internal server error on failure" in {
       val testValue = BasicEstateElementLiabilities(isOwned = Some(true), value = Some(BigDecimal(33)))
       val filledForm = debtsTrustForm.fill(testValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*).withMethod("POST")
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -118,7 +118,7 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
                                               .buildAllLiabilities.copy(trust = Some(debtForTrust))))
 
       val filledForm = debtsTrustForm.fill(debtForTrust)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*).withMethod("POST")
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,

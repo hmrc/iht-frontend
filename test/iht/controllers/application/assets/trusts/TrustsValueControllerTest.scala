@@ -93,7 +93,7 @@ class TrustsValueControllerTest extends ApplicationControllerTest{
         storeAppDetailsInCache = true)
 
       val filledHeldInTrustForm = trustsValueForm.fill(HeldInTrust(Some(false), Some(1000), None))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledHeldInTrustForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledHeldInTrustForm.data.toSeq: _*).withMethod("POST")
 
       val result = trustsValueController.onSubmit(request)
       status(result) mustBe (SEE_OTHER)
@@ -111,7 +111,7 @@ class TrustsValueControllerTest extends ApplicationControllerTest{
         storeAppDetailsInCache = true)
 
       val filledHeldInTrustForm = trustsValueForm.fill(HeldInTrust(Some(false), Some(1000), None))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledHeldInTrustForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledHeldInTrustForm.data.toSeq: _*).withMethod("POST")
 
       val result = trustsValueController.onSubmit(request)
       status(result) mustBe (SEE_OTHER)
@@ -130,7 +130,7 @@ class TrustsValueControllerTest extends ApplicationControllerTest{
         storeAppDetailsInCache = true)
 
       val filledHeldInTrustForm = trustsValueForm.fill(HeldInTrust(Some(false), Some(560000000), None))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledHeldInTrustForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledHeldInTrustForm.data.toSeq: _*).withMethod("POST")
 
       val result = trustsValueController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
@@ -138,7 +138,7 @@ class TrustsValueControllerTest extends ApplicationControllerTest{
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
-     implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
+     implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr")).withMethod("POST")
 
      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 

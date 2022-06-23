@@ -55,6 +55,7 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
 
     "show an error if no radio button is selected" in {
       val request = createFakeRequestWithBody(isAuthorised = false, data = domicileForm(messages).data.toSeq)
+        .withMethod("POST")
       val result = controller.onSubmit()(request)
 
       status(result) must be(BAD_REQUEST)
@@ -66,6 +67,7 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
     "redirect to the Deceased Before 2022 page if 'England or Wales' is selected" in {
       val form = domicileForm(messages).fill(Some(englandOrWales))
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
+        .withMethod("POST")
       val result = controller.onSubmit()(request)
 
       status(result) must be(SEE_OTHER)
@@ -75,6 +77,7 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
     "redirect to the 'Scotland transition' page if 'Scotland' is selected" in {
       val form = domicileForm(messages).fill(Some(scotland))
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
+        .withMethod("POST")
       val result = controller.onSubmit()(request)
 
       status(result) must be(SEE_OTHER)
@@ -84,6 +87,7 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
     "redirect to the 'Northern Ireland transition' page if 'Northern Ireland' is selected" in {
       val form = domicileForm((messages)).fill(Some(northernIreland))
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
+        .withMethod("POST")
       val result = controller.onSubmit()(request)
 
       status(result) must be(SEE_OTHER)
@@ -93,6 +97,7 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
     "redirect to the 'Other country transition' page if 'Other country' is selected" in {
       val form = domicileForm(messages).fill(Some(otherCountry))
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
+        .withMethod("POST")
       val result = controller.onSubmit()(request)
 
       status(result) must be(SEE_OTHER)

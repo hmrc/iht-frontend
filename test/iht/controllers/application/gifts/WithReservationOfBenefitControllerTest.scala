@@ -90,7 +90,7 @@ class WithReservationOfBenefitControllerTest  extends ApplicationControllerTest{
       val withReservationValue = CommonBuilder.buildAllGifts.copy(isReservation = Some(false))
 
       val filledBusinessInterestsForm = giftWithReservationFromBenefitForm.fill(withReservationValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledBusinessInterestsForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledBusinessInterestsForm.data.toSeq: _*).withMethod("POST")
 
       val result = withReservationOfBenefitController.onSubmit (request)
       status(result) mustBe SEE_OTHER

@@ -101,7 +101,7 @@ class ProbateLocationControllerTest
       val applicantDetails = CommonBuilder.buildApplicantDetails
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
       val filledForm = probateLocationForm.fill(applicantDetails)
-      val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(filledForm.data.toSeq: _*).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -115,7 +115,7 @@ class ProbateLocationControllerTest
       val applicantDetails = CommonBuilder.buildApplicantDetails
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
       val filledForm = probateLocationForm.fill(applicantDetails)
-      val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(filledForm.data.toSeq: _*).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -130,7 +130,7 @@ class ProbateLocationControllerTest
       val registrationDetails = CommonBuilder.buildRegistrationDetailsWithDeceasedDetails copy (
         applicantDetails = Some(applicantDetails))
       val filledForm = probateLocationForm.fill(applicantDetails)
-      val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(filledForm.data.toSeq: _*).withMethod("POST")
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
@@ -150,6 +150,7 @@ class ProbateLocationControllerTest
       val form = probateLocationForm.fill(applicantDetails)
 
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq, authRetrieveNino = false)
+        .withMethod("POST")
 
       val result = controller.onSubmit()(request)
       status(result) must be (SEE_OTHER)
@@ -174,6 +175,7 @@ class ProbateLocationControllerTest
       val form = probateLocationForm.fill(applicantDetails)
 
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq, authRetrieveNino = false)
+        .withMethod("POST")
 
       val result = controller.onEditSubmit()(request)
       status(result) must be (SEE_OTHER)
@@ -201,7 +203,7 @@ class ProbateLocationControllerTest
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
       val applicantDetailsForm1 = probateLocationForm.fill(applicantDetails)
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-        data=applicantDetailsForm1.data.toSeq, authRetrieveNino = false)
+        data=applicantDetailsForm1.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -234,6 +236,7 @@ class ProbateLocationControllerTest
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
       val filledForm = probateLocationForm.fill(applicantDetails)
       val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+          .withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))

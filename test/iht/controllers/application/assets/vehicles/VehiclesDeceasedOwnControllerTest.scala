@@ -94,7 +94,7 @@ class VehiclesDeceasedOwnControllerTest extends ApplicationControllerTest {
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = List())
       val formFill = vehiclesFormOwn.fill(CommonBuilder.buildShareableBasicElementExtended.copy(
         value = Some(100), shareValue = None, isOwned = Some(true), isOwnedShare = None))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
       setUpTests(applicationDetails)
 
       val result = vehiclesDeceasedOwnController.onSubmit()(request)
@@ -110,7 +110,7 @@ class VehiclesDeceasedOwnControllerTest extends ApplicationControllerTest {
                                                 vehicles = Some(vehicleOwned))))
 
       val formFill = vehiclesFormOwn.fill(vehicleOwned)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
       setUpTests(applicationDetails)
 
       val result = vehiclesDeceasedOwnController.onSubmit()(request)
@@ -138,7 +138,7 @@ class VehiclesDeceasedOwnControllerTest extends ApplicationControllerTest {
 
     "redirect to overview when form is submitted with answer yes and a value entered" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(("isOwned", "true"), ("value", "233"))
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(("isOwned", "true"), ("value", "233")).withMethod("POST")
 
       setUpTests(applicationDetails)
 
@@ -148,7 +148,7 @@ class VehiclesDeceasedOwnControllerTest extends ApplicationControllerTest {
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr")).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 

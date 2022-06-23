@@ -83,7 +83,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       val withWidowedValue = CommonBuilder.buildWidowedCheck
 
       val filledDeceasedWidowCheckQuestionForm = deceasedWidowCheckQuestionForm.fill(withWidowedValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*).withMethod("POST")
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
       status(result) mustBe SEE_OTHER
@@ -103,7 +103,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
         saveAppDetails = true)
 
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(("widowed", ""), ("shareValue", "233"))
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(("widowed", ""), ("shareValue", "233")).withMethod("POST")
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
       status(result) mustBe BAD_REQUEST
@@ -116,7 +116,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
         getAppDetails = true,
         saveAppDetails = true)
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(("widowed", ""), ("shareValue", "233"))
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(("widowed", ""), ("shareValue", "233")).withMethod("POST")
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
       status(result) mustBe INTERNAL_SERVER_ERROR
@@ -135,7 +135,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       val withWidowedValue = CommonBuilder.buildWidowedCheck
 
       val filledDeceasedWidowCheckQuestionForm = deceasedWidowCheckQuestionForm.fill(withWidowedValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*).withMethod("POST")
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
       status(result) mustBe SEE_OTHER
@@ -155,7 +155,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       val withWidowedValue = WidowCheck(Some(false), None)
 
       val filledDeceasedWidowCheckQuestionForm = deceasedWidowCheckQuestionForm.fill(withWidowedValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*).withMethod("POST")
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
       status(result) mustBe SEE_OTHER
@@ -179,7 +179,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       val widowedCheckComplete = CommonBuilder.buildWidowedCheck
 
       val filledDeceasedWidowCheckQuestionForm = deceasedWidowCheckQuestionForm.fill(widowedCheckComplete)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*).withMethod("POST")
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
       status(result) mustBe SEE_OTHER
@@ -204,7 +204,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
         saveAppDetails = true)
 
       val filledDeceasedWidowCheckQuestionForm = deceasedWidowCheckQuestionForm.fill(withWidowedValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*).withMethod("POST")
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
       status(result) mustBe SEE_OTHER

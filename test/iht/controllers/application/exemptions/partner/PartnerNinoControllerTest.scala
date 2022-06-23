@@ -98,7 +98,7 @@ class PartnerNinoControllerTest extends ApplicationControllerTest{
 
       val filledPartnerNinoForm = partnerNinoForm.fill(partnerNino)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerNinoForm.data
-        .toSeq: _*)
+        .toSeq: _*).withMethod("POST")
 
       val result = partnerNinoController.onSubmit(request)
       status(result) mustBe (SEE_OTHER)
@@ -113,7 +113,7 @@ class PartnerNinoControllerTest extends ApplicationControllerTest{
       val filledPartnerNinoForm = partnerNinoForm.fill(CommonBuilder.buildPartnerExemption.
         copy(nino = Some("")))
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerNinoForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerNinoForm.data.toSeq: _*).withMethod("POST")
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,

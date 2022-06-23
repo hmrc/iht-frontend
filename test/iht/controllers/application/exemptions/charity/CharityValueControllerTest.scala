@@ -127,7 +127,7 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
       val valueForm = assetsLeftToCharityValueForm.fill(defaultCharity copy (totalValue = Some(BigDecimal(1000))))
       val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
         host = "localhost:9070",
-        data = valueForm.data.toSeq)
+        data = valueForm.data.toSeq).withMethod("POST")
 
       val result = assetsLeftToCharityValueController.onEditSubmit("1")(request)
 
@@ -140,7 +140,7 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
       val valueForm = assetsLeftToCharityValueForm.fill(defaultCharity copy (totalValue = Some(BigDecimal(1000))))
       val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
         host = "localhost:9070",
-        data = valueForm.data.toSeq)
+        data = valueForm.data.toSeq).withMethod("POST")
 
       val result = assetsLeftToCharityValueController.onSubmit()(request)
 
@@ -153,7 +153,7 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
       val valueForm = assetsLeftToCharityValueForm.fill(defaultCharity copy (totalValue = Some(BigDecimal(1000))))
       val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
         host = "localhost:9070",
-        data = valueForm.data.toSeq)
+        data = valueForm.data.toSeq).withMethod("POST")
 
       val result = assetsLeftToCharityValueController.onEditSubmit("1")(request)
 
@@ -169,7 +169,7 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
       val valueForm = assetsLeftToCharityValueForm.fill(defaultCharity copy (totalValue = Some(BigDecimal(1000))))
       val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
         host = "localhost:9070",
-        data = valueForm.data.toSeq)
+        data = valueForm.data.toSeq).withMethod("POST")
 
       val result = assetsLeftToCharityValueController.onEditSubmit("1")(request)
 

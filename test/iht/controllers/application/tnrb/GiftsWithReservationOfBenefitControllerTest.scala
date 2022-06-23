@@ -107,7 +107,7 @@ class GiftsWithReservationOfBenefitControllerTest  extends ApplicationController
       val withGiftsWithReservationOfBenefitValue = CommonBuilder.buildTnrbEligibility
 
       val filledGiftsWithReservationOfBenefitForm = partnerGiftWithResToOtherForm.fill(withGiftsWithReservationOfBenefitValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsWithReservationOfBenefitForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsWithReservationOfBenefitForm.data.toSeq: _*).withMethod("POST")
 
       val result = giftsWithReservationOfBenefitController.onSubmit (request)
       status(result) mustBe SEE_OTHER
@@ -126,7 +126,7 @@ class GiftsWithReservationOfBenefitControllerTest  extends ApplicationController
       val withGiftsWithReservationOfBenefitValue = CommonBuilder.buildTnrbEligibility.copy(isPartnerGiftWithResToOther = Some(true))
 
       val filledGiftsWithReservationOfBenefitForm = partnerGiftWithResToOtherForm.fill(withGiftsWithReservationOfBenefitValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsWithReservationOfBenefitForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsWithReservationOfBenefitForm.data.toSeq: _*).withMethod("POST")
 
       val result = giftsWithReservationOfBenefitController.onSubmit (request)
       status(result) mustBe SEE_OTHER
@@ -149,7 +149,7 @@ class GiftsWithReservationOfBenefitControllerTest  extends ApplicationController
       val withGiftsWithReservationOfBenefitValue = CommonBuilder.buildTnrbEligibility.copy(isPartnerGiftWithResToOther = Some(false))
 
       val filledGiftsWithReservationOfBenefitForm = partnerGiftWithResToOtherForm.fill(withGiftsWithReservationOfBenefitValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsWithReservationOfBenefitForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsWithReservationOfBenefitForm.data.toSeq: _*).withMethod("POST")
 
       val result = giftsWithReservationOfBenefitController.onSubmit (request)
       status(result) mustBe SEE_OTHER

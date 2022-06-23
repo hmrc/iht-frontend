@@ -90,7 +90,7 @@ class SevenYearsToTrustControllerTest  extends ApplicationControllerTest{
       val withSevenYearsToTrustValue = CommonBuilder.buildAllGifts.copy(isToTrust = Some(false))
 
       val filledSevenYearsToTrustForm = giftSevenYearsToTrustForm.fill(withSevenYearsToTrustValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledSevenYearsToTrustForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledSevenYearsToTrustForm.data.toSeq: _*).withMethod("POST")
 
       val result = sevenYearsToTrustController.onSubmit (request)
       status(result) mustBe SEE_OTHER
@@ -103,7 +103,7 @@ class SevenYearsToTrustControllerTest  extends ApplicationControllerTest{
       val withSevenYearsToTrustValue = CommonBuilder.buildAllGifts.copy(isToTrust = None)
 
       val filledSevenYearsToTrustForm = giftSevenYearsToTrustForm.fill(withSevenYearsToTrustValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledSevenYearsToTrustForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledSevenYearsToTrustForm.data.toSeq: _*).withMethod("POST")
 
       val result = sevenYearsToTrustController.onSubmit()(request)
       status(result) must be (BAD_REQUEST)

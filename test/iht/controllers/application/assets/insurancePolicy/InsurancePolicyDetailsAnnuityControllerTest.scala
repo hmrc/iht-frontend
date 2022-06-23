@@ -119,7 +119,7 @@ protected abstract class TestController extends FrontendController(mockControlle
       val insuranceAnnuityValue = CommonBuilder.buildInsurancePolicy.copy(isAnnuitiesBought=Some(true))
 
       val filledInsuranceForm = insurancePolicyAnnuityForm.fill(insuranceAnnuityValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*).withMethod("POST")
 
       val result = insurancePolicyDetailsAnnuityController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
@@ -137,7 +137,7 @@ protected abstract class TestController extends FrontendController(mockControlle
       val insuranceAnnuityValue = CommonBuilder.buildInsurancePolicy.copy(isAnnuitiesBought=Some(true))
 
       val filledInsuranceForm = insurancePolicyAnnuityForm.fill(insuranceAnnuityValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*).withMethod("POST")
 
       val result = insurancePolicyDetailsAnnuityController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
@@ -145,7 +145,7 @@ protected abstract class TestController extends FrontendController(mockControlle
 
     "respond with bad request when incorrect value are entered on the page" in {
 
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr")).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
@@ -169,7 +169,7 @@ protected abstract class TestController extends FrontendController(mockControlle
       createMocks(applicationDetails)
 
       val filledForm = insurancePolicyAnnuityForm.fill(insurancePolicyDetailsAnnuityFalse)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*).withMethod("POST")
 
       val result = insurancePolicyDetailsAnnuityController.onSubmit (request)
       redirectLocation(result) must be (Some(
@@ -183,7 +183,7 @@ protected abstract class TestController extends FrontendController(mockControlle
         .thenReturn(Future.successful(Some(applicationDetails)))
 
       val filledForm = insurancePolicyAnnuityForm.fill(insurancePolicyDetailsKickOut)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*).withMethod("POST")
 
       val result = insurancePolicyDetailsAnnuityController.onSubmit (request)
       redirectLocation(result) must be (Some(iht.controllers.application.routes.KickoutAppController.onPageLoad.url))

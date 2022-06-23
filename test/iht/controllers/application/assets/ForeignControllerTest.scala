@@ -91,7 +91,7 @@ class ForeignControllerTest extends ApplicationControllerTest{
       val foreignValue = CommonBuilder.buildBasicElement.copy(value=Some(20), isOwned = Some(true))
 
       val filledForeignForm = foreignForm.fill(foreignValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForeignForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForeignForm.data.toSeq: _*).withMethod("POST")
 
       val result = foreignController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
@@ -112,7 +112,7 @@ class ForeignControllerTest extends ApplicationControllerTest{
         storeAppDetailsInCache = true)
 
       val filledForeignForm = foreignForm.fill(foreignAsset)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForeignForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForeignForm.data.toSeq: _*).withMethod("POST")
 
       val result = foreignController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
@@ -126,7 +126,7 @@ class ForeignControllerTest extends ApplicationControllerTest{
 
     "respond with bad request when incorrect value are entered on the page" in {
 
-     implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
+     implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr")).withMethod("POST")
 
      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
@@ -147,7 +147,7 @@ class ForeignControllerTest extends ApplicationControllerTest{
       val foreignValue = CommonBuilder.buildBasicElement.copy(value=Some(20), isOwned = Some(true))
 
       val filledForeignForm = foreignForm.fill(foreignValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForeignForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForeignForm.data.toSeq: _*).withMethod("POST")
 
       val result = foreignController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)

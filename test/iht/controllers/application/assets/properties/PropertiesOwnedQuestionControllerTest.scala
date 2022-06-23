@@ -88,7 +88,7 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
       setUpTests(Some(applicationDetails))
 
       val filledPropertiesForm = propertiesForm.fill(Properties(Some(false)))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPropertiesForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPropertiesForm.data.toSeq: _*).withMethod("POST")
 
       val result = propertiesOwnedQuestionController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
@@ -99,7 +99,7 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
-     implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
+     implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr")).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
       createMockToGetApplicationDetails(mockIhtConnector)
@@ -114,7 +114,7 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
       setUpTests(Some(applicationDetails))
 
       val filledPropertiesForm = propertiesForm.fill(Properties(Some(true)))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPropertiesForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPropertiesForm.data.toSeq: _*).withMethod("POST")
 
       val result = propertiesOwnedQuestionController.onSubmit (request)
       status(result) mustBe SEE_OTHER
@@ -129,7 +129,7 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
       setUpTests(Some(applicationDetails))
 
       val filledPropertiesForm = propertiesForm.fill(Properties(Some(true)))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPropertiesForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPropertiesForm.data.toSeq: _*).withMethod("POST")
 
       val result = propertiesOwnedQuestionController.onSubmit (request)
       status(result) mustBe SEE_OTHER

@@ -124,7 +124,7 @@ class PropertyAddressControllerTest extends ApplicationControllerTest {
         copy(propertyList = List())
 
       val formFill = propertyAddressForm.fill(CommonBuilder.property)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
 
       setUpTests(Some(applicationDetails))
 
@@ -142,7 +142,7 @@ class PropertyAddressControllerTest extends ApplicationControllerTest {
         value = Some(1234))))
 
       val formFill = propertyAddressForm.fill(CommonBuilder.property)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
 
       setUpTests(Some(applicationDetails))
 
@@ -156,7 +156,7 @@ class PropertyAddressControllerTest extends ApplicationControllerTest {
         copy(propertyList = List())
 
       val formFill = propertyAddressForm.fill(CommonBuilder.property.copy(address = None))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
 
       setUpTests(Some(applicationDetails))
 

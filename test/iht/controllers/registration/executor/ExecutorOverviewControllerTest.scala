@@ -137,6 +137,7 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
     createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rdWithCoExecs))
 
     val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = "localhost:9070", data = summaryForm.data.toSeq, authRetrieveNino = false)
+      .withMethod("POST")
 
     val result = executorOverviewController.onSubmit()(request)
     status(result) mustBe SEE_OTHER
@@ -154,6 +155,7 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
 
 
     val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = "localhost:9070", data = summaryForm.data.toSeq, authRetrieveNino = false)
+      .withMethod("POST")
 
     val result = executorOverviewController.onSubmit()(request)
     status(result) mustBe SEE_OTHER
@@ -172,6 +174,7 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
 
 
     val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = "localhost:9070", data = summaryForm.data.toSeq, authRetrieveNino = false)
+      .withMethod("POST")
 
     val result = executorOverviewController.onSubmit()(request)
     status(result)
@@ -188,6 +191,7 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
     createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rdWithNoCoExecs))
 
     val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = "localhost:9070", data = summaryForm.data.toSeq, authRetrieveNino = false)
+      .withMethod("POST")
     val result = executorOverviewController.onSubmit()(request)
 
     status(result) mustBe BAD_REQUEST

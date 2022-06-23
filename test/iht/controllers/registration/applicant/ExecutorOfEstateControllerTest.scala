@@ -159,7 +159,7 @@ class ExecutorOfEstateControllerTest
       val form = executorOfEstateForm.fill(ApplicantDetails(executorOfEstate = Some(true), role = Some(mockAppConfig.roleLeadExecutor)))
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
-        host = host, data = form.data.toSeq, authRetrieveNino = false)
+        host = host, data = form.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
       val result = controller.onSubmit(request)
       status(result) must be(SEE_OTHER)
@@ -185,7 +185,7 @@ class ExecutorOfEstateControllerTest
       val form = executorOfEstateForm.fill(ApplicantDetails(executorOfEstate = Some(false), role = Some(mockAppConfig.roleLeadExecutor)))
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
-        host = host, data = form.data.toSeq, authRetrieveNino = false)
+        host = host, data = form.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
       val result = controller.onSubmit(request)
       status(result) must be(SEE_OTHER)
@@ -208,6 +208,7 @@ class ExecutorOfEstateControllerTest
       val form = executorOfEstateForm.fill(ApplicantDetails(executorOfEstate = Some(true), role = Some(mockAppConfig.roleLeadExecutor)))
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host, data = form.data.toSeq, authRetrieveNino = false)
+        .withMethod("POST")
 
       val result = controller.onEditSubmit(request)
       status(result) must be(SEE_OTHER)
@@ -224,6 +225,7 @@ class ExecutorOfEstateControllerTest
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails))
 
       implicit val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(("executorOfEstate", ""))
+        .withMethod("POST")
       val result = controller.onEditSubmit(request)
       status(result) must be(BAD_REQUEST)
     }
@@ -241,6 +243,7 @@ class ExecutorOfEstateControllerTest
       val form = executorOfEstateForm.fill(ApplicantDetails(executorOfEstate = Some(false), role = Some(mockAppConfig.roleLeadExecutor)))
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host, data = form.data.toSeq, authRetrieveNino = false)
+        .withMethod("POST")
 
       val result = controller.onEditSubmit(request)
       status(result) must be(SEE_OTHER)
