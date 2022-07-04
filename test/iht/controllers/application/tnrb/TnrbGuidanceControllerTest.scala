@@ -118,7 +118,7 @@ class TnrbGuidanceControllerTest extends ApplicationControllerTest with HtmlSpec
       val doc = asDocument(content)
 
       val link: Element = doc.getElementById("continue-to-increasing-threshold-link")
-      link.attr("href") mustBe iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad().url
+      link.attr("href") mustBe iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad.url
     }
 
     "respond with correct link (TNRB Widow check page) in on page load when deceased was married" in {
@@ -130,7 +130,7 @@ class TnrbGuidanceControllerTest extends ApplicationControllerTest with HtmlSpec
       val doc = asDocument(content)
 
       val link: Element = doc.getElementById("continue-to-increasing-threshold-link")
-      link.attr("href") mustBe iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad().url
+      link.attr("href") mustBe iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad.url
     }
 
     "respond with correct link (TNRB Widow check page) in on page load when deceased was divorced" in {
@@ -142,7 +142,7 @@ class TnrbGuidanceControllerTest extends ApplicationControllerTest with HtmlSpec
       val doc = asDocument(content)
 
       val link: Element = doc.getElementById("continue-to-increasing-threshold-link")
-      link.attr("href") mustBe iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad().url
+      link.attr("href") mustBe iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad.url
     }
 
     "respond with correct link (TNRB Widow check page) in on page load when deceased was single" in {

@@ -40,11 +40,11 @@ class PropertiesOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[Propert
 
   override def browserTitle = messagesApi("iht.estateReport.assets.propertiesBuildingsAndLand")
 
-  override def formTarget = Some(iht.controllers.application.assets.properties.routes.PropertiesOwnedQuestionController.onSubmit())
+  override def formTarget = Some(iht.controllers.application.assets.properties.routes.PropertiesOwnedQuestionController.onSubmit)
 
   override def cancelComponent = Some(
     CancelComponent(
-      iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
+      iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad,
       messagesApi("page.iht.application.return.to.assetsOf", deceasedName),
       TestHelper.AppSectionPropertiesID
     )

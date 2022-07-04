@@ -46,7 +46,7 @@ trait HouseholdDeceasedOwnController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsHouseholdDeceasedOwned)
 
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad(), Some(appConfig.AssetsHouseholdOwnID))
+    iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad, Some(appConfig.AssetsHouseholdOwnID))
 
   val householdDeceasedOwnView: household_deceased_own
 

@@ -93,7 +93,7 @@ class AssetsLeftToCharityQuestionControllerTest extends ApplicationControllerTes
 
       val filledAssetLeftToSpouseQuestionForm = assetsLeftToCharityQuestionForm.fill(assetLeftToSpouse)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledAssetLeftToSpouseQuestionForm.data
-        .toSeq: _*)
+        .toSeq: _*).withMethod("POST")
 
       val result = assetsLeftToCharityQuestionController.onSubmit(request)
       status(result) mustBe SEE_OTHER
@@ -106,7 +106,7 @@ class AssetsLeftToCharityQuestionControllerTest extends ApplicationControllerTes
 
       val filledAssetLeftToSpouseQuestionForm = assetsLeftToCharityQuestionForm.fill(BasicExemptionElement(isSelected = Some(true)))
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledAssetLeftToSpouseQuestionForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledAssetLeftToSpouseQuestionForm.data.toSeq: _*).withMethod("POST")
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -123,7 +123,7 @@ class AssetsLeftToCharityQuestionControllerTest extends ApplicationControllerTes
     "throw exception when no application details are present" in {
       val filledAssetLeftToSpouseQuestionForm = assetsLeftToCharityQuestionForm.fill(BasicExemptionElement(isSelected = Some(true)))
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledAssetLeftToSpouseQuestionForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledAssetLeftToSpouseQuestionForm.data.toSeq: _*).withMethod("POST")
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -142,7 +142,7 @@ class AssetsLeftToCharityQuestionControllerTest extends ApplicationControllerTes
 
       val filledAssetLeftToSpouseQuestionForm = assetsLeftToCharityQuestionForm.fill(BasicExemptionElement(isSelected = None))
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledAssetLeftToSpouseQuestionForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledAssetLeftToSpouseQuestionForm.data.toSeq: _*).withMethod("POST")
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,

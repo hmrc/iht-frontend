@@ -221,7 +221,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
     }
 
     "redirect to GG login page on PageLoad if the user is not logged in" in {
-      val result = declarationController.onPageLoad()(createFakeRequest(isAuthorised = false))
+      val result = declarationController.onPageLoad(createFakeRequest(isAuthorised = false))
       status(result) must be(SEE_OTHER)
       redirectLocation(result) must be (Some(loginUrl))
     }
@@ -242,7 +242,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
         allAssets = Some(CommonBuilder.buildAllAssets.copy(money = None)))))
       createMockToGetRealtimeRiskMessage(mockIhtConnector)
 
-      val result = declarationController.onPageLoad()(createFakeRequest())
+      val result = declarationController.onPageLoad(createFakeRequest())
 
       status(result) mustBe OK
     }
@@ -264,7 +264,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
 
 
-      val result = declarationController.onPageLoad()(createFakeRequest())
+      val result = declarationController.onPageLoad(createFakeRequest())
 
       contentAsString(result) must include(testRiskMessage)
       status(result) mustBe OK
@@ -288,7 +288,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
 
       val deceasedName = rd.deceasedDetails.map(_.name).getOrElse("")
 
-      val result = declarationController.onPageLoad()(createFakeRequest())
+      val result = declarationController.onPageLoad(createFakeRequest())
       val expectedRiskMessage = messagesApi("iht.application.declaration.risking.money.message.amended", deceasedName)
 
       contentAsString(result) must include(expectedRiskMessage)
@@ -310,7 +310,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
       mockForApplicationStatus(ApplicationStatus.AwaitingReturn)
 
       val applicantDetailsForm1 = declarationForm.fill(true)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(applicantDetailsForm1.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(applicantDetailsForm1.data.toSeq: _*).withMethod("POST")
 
       val result = declarationController.onSubmit()(request)
       status(result) mustBe SEE_OTHER
@@ -353,7 +353,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
 
       val result = declarationController.onSubmit()(createFakeRequest())
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad().url))
+      redirectLocation(result) must be(Some(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad.url))
     }
 
     "must increase the stats counter metric for ADDITIONAL_EXECUTOR_APP " in {
@@ -372,7 +372,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
       createMockToStoreProbateDetailsInCache(mockCachingConnector)
 
       val applicantDetailsForm1 = declarationForm.fill(true)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(applicantDetailsForm1.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(applicantDetailsForm1.data.toSeq: _*).withMethod("POST")
 
       val result = declarationController.onSubmit()(request)
       status(result) mustBe SEE_OTHER
@@ -391,7 +391,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
 
       val result = declarationController.onSubmit()(createFakeRequest())
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) mustBe Some(iht.controllers.routes.NonLeadExecutorController.onPageLoad().url)
+      redirectLocation(result) mustBe Some(iht.controllers.routes.NonLeadExecutorController.onPageLoad.url)
     }
 
     "statsSource should return Some assets only" in {
@@ -490,7 +490,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
       val result = declarationController.onSubmit()(createFakeRequest())
 
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url))
+      redirectLocation(result) must be(Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

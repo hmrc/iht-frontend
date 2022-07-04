@@ -39,7 +39,7 @@ class AgentControllerTest extends ApplicationControllerTest with HtmlSpec {
 
   "AgentController" must {
     "show the 'no change' page when accessed by an unauthorized person" in {
-      val result = controller.onPageLoad()(createFakeRequest(isAuthorised = false))
+      val result = controller.onPageLoad(createFakeRequest(isAuthorised = false))
       status(result) must be(OK)
 
       val doc = asDocument(contentAsString(result))

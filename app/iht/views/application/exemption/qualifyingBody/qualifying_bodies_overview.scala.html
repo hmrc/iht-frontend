@@ -108,7 +108,7 @@ headingName = deceasedName
 
 
 <p>
-    <a id="@appConfig.ExemptionsOtherAddID" href='@iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onPageLoad().url'>
+    <a id="@appConfig.ExemptionsOtherAddID" href='@iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onPageLoad.url'>
         @{
             if(qualifyingBodies.isEmpty){
                 Messages("iht.estateReport.assets.qualifyingBodyAdd")
@@ -122,7 +122,7 @@ headingName = deceasedName
 <p>
     @registrationDetails.deceasedDetails.map{ dd=>
     @returnLink(Messages("site.link.return.exemptions"),
-    Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()),
+    Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad),
     appConfig.ExemptionsOtherID
     )
     }

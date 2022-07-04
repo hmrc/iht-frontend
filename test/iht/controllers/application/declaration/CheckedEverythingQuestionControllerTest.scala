@@ -83,7 +83,7 @@ class CheckedEverythingQuestionControllerTest extends ApplicationControllerTest{
       val filledForm = checkedEverythingQuestionForm.fill(Some(booleanValue))
 
       implicit val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(filledForm.data
-        .toSeq: _*)
+        .toSeq: _*).withMethod("POST")
 
       checkedEverythingQuestionController.onSubmit(request)
     }
@@ -91,7 +91,7 @@ class CheckedEverythingQuestionControllerTest extends ApplicationControllerTest{
     "save application and go to declaration page on submit when yes is chosen" in {
       val result = answerAndSubmit(booleanValue = true, CommonBuilder.buildRegistrationDetails1)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) mustBe Some(iht.controllers.application.declaration.routes.DeclarationController.onPageLoad().url)
+      redirectLocation(result) mustBe Some(iht.controllers.application.declaration.routes.DeclarationController.onPageLoad.url)
     }
 
     "save application and go to declaration page on submit when no is chosen" in {

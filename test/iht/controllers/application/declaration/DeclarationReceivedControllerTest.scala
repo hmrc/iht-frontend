@@ -77,7 +77,7 @@ class DeclarationReceivedControllerTest extends ApplicationControllerTest {
         singleValueFormKey = same(Constants.PDFIHTReference),
         singleValueReturn = CommonBuilder.DefaultIHTReference)
 
-      val result = declarationReceivedController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = declarationReceivedController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be(OK)
     }
 

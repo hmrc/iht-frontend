@@ -51,7 +51,7 @@ trait PartnerOverviewViewBehaviour extends GenericNonSubmittablePageBehaviour {
 
   override def exitComponent = Some(
     ExitComponent(
-      iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
+      iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad,
       messagesApi("page.iht.application.return.to.exemptionsOf", deceasedName),
       ExemptionsPartnerID
     )

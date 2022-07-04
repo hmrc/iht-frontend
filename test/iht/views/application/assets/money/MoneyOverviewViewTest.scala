@@ -36,8 +36,8 @@ class MoneyOverviewViewTest extends ViewTestHelper with ShareableElementOverview
                                         messagesApi("page.iht.application.assets.money.overview.description.p3", deceasedName))
   override def ownHeadingElementId = "deceased-own-money"
   override def jointlyOwnedHeadingElementId = "deceased-shared-money"
-  override def urlToOwnPage = MoneyDeceasedOwnController.onPageLoad().url
-  override def urlToJointlyOwnedPage = MoneyJointlyOwnedController.onPageLoad().url
+  override def urlToOwnPage = MoneyDeceasedOwnController.onPageLoad.url
+  override def urlToJointlyOwnedPage = MoneyJointlyOwnedController.onPageLoad.url
   override def ownHeaderText = messagesApi("iht.estateReport.assets.moneyOwned", deceasedName)
   override def jointlyOwnedHeaderText = messagesApi("iht.estateReport.assets.money.jointlyOwned")
   override def ownQuestionRowId = "deceased-own-money-block"

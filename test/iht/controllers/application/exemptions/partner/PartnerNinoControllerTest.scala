@@ -98,11 +98,11 @@ class PartnerNinoControllerTest extends ApplicationControllerTest{
 
       val filledPartnerNinoForm = partnerNinoForm.fill(partnerNino)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerNinoForm.data
-        .toSeq: _*)
+        .toSeq: _*).withMethod("POST")
 
       val result = partnerNinoController.onSubmit(request)
       status(result) mustBe (SEE_OTHER)
-      redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerNinoID)))
+      redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad.url, ExemptionsPartnerNinoID)))
     }
 
     "display error validation message when incomplete form is submitted" in {
@@ -113,7 +113,7 @@ class PartnerNinoControllerTest extends ApplicationControllerTest{
       val filledPartnerNinoForm = partnerNinoForm.fill(CommonBuilder.buildPartnerExemption.
         copy(nino = Some("")))
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerNinoForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerNinoForm.data.toSeq: _*).withMethod("POST")
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,

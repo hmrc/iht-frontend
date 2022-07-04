@@ -54,7 +54,7 @@ class AnyAssetsControllerTest extends ApplicationControllerTest with HtmlSpec {
     }
 
     "show an error if no radio button is selected" in {
-      val request = createFakeRequestWithBody(isAuthorised = false, data = anyAssetsForm.data.toSeq)
+      val request = createFakeRequestWithBody(isAuthorised = false, data = anyAssetsForm.data.toSeq).withMethod("POST")
       val result = controller.onSubmitWithoutJointAssets()(request)
 
       status(result) must be(BAD_REQUEST)
@@ -65,20 +65,20 @@ class AnyAssetsControllerTest extends ApplicationControllerTest with HtmlSpec {
 
     "redirect to the Use Service page if 'yes' is selected" in {
       val form = anyAssetsForm.fill(Some(Constants.anyAssetsYes))
-      val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
+      val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq).withMethod("POST")
       val result = controller.onSubmitWithoutJointAssets()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.filter.routes.UseServiceController.onPageLoadUnder().url))
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.UseServiceController.onPageLoadUnder.url))
     }
 
     "redirect to the No Assets page if 'no' is selected" in {
       val form = anyAssetsForm.fill(Some(Constants.anyAssetsNo))
-      val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
+      val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq).withMethod("POST")
       val result = controller.onSubmitWithoutJointAssets()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.filter.routes.NoAssetsController.onPageLoadWithoutJointAssets().url))
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.NoAssetsController.onPageLoadWithoutJointAssets.url))
     }
   }
 

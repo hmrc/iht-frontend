@@ -33,7 +33,7 @@ class MortgagesOverviewViewTest extends ApplicationPageBehaviour {
   val deceasedName = CommonHelper.getOrException(regDetails.deceasedDetails).name
 
   val fakeRequest = createFakeRequest(isAuthorised = false)
-  val debtsOverviewPageUrl = iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()
+  val debtsOverviewPageUrl = iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad
   lazy val mortgagesOverviewView: mortgages_overview = app.injector.instanceOf[mortgages_overview]
 
   override def guidance = guidance(

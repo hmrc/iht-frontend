@@ -59,7 +59,7 @@ trait FilterController extends FrontendController with I18nSupport {
   }
 
   def redirectPageLoad: Action[AnyContent] = Action {
-    Redirect(iht.controllers.filter.routes.FilterController.onPageLoad())
+    Redirect(iht.controllers.filter.routes.FilterController.onPageLoad)
   }
 
   def onSubmit: Action[AnyContent] = Action.async {
@@ -73,13 +73,13 @@ trait FilterController extends FrontendController with I18nSupport {
           choice => {
             choice.getOrElse("") match {
               case Constants.continueEstateReport =>
-                Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
+                Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad))
               case Constants.alreadyStarted =>
-                Future.successful(Redirect(iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad()))
+                Future.successful(Redirect(iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad))
               case Constants.agent =>
-                Future.successful(Redirect(iht.controllers.filter.routes.AgentController.onPageLoad()))
+                Future.successful(Redirect(iht.controllers.filter.routes.AgentController.onPageLoad))
               case Constants.register =>
-                Future.successful(Redirect(iht.controllers.filter.routes.DomicileController.onPageLoad()))
+                Future.successful(Redirect(iht.controllers.filter.routes.DomicileController.onPageLoad))
             }
           }
         }

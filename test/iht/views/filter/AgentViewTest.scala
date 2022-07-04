@@ -87,7 +87,7 @@ class AgentViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val button = doc.getElementById("back")
 
-      button.attr("href") must be(iht.controllers.filter.routes.FilterController.onPageLoad().url)
+      button.attr("href") must be(iht.controllers.filter.routes.FilterController.onPageLoad.url)
     }
 
   }

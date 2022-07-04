@@ -107,11 +107,11 @@ class PermanentHomeControllerTest  extends ApplicationControllerTest{
       val withPermanentHomeValue = CommonBuilder.buildTnrbEligibility
 
       val filledPermanentHomeForm = partnerLivingInUkForm.fill(withPermanentHomeValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPermanentHomeForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPermanentHomeForm.data.toSeq: _*).withMethod("POST")
 
       val result = permanentHomeController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + appConfig.TnrbSpousePermanentHomeInUKID))
+      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad.url + "#" + appConfig.TnrbSpousePermanentHomeInUKID))
     }
 
     "go to KickOut page when Partner Home not in the UK " in {
@@ -126,7 +126,7 @@ class PermanentHomeControllerTest  extends ApplicationControllerTest{
       val withPermanentHomeValue = CommonBuilder.buildTnrbEligibility.copy(isPartnerLivingInUk = Some(false))
 
       val filledPermanentHomeForm = partnerLivingInUkForm.fill(withPermanentHomeValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPermanentHomeForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPermanentHomeForm.data.toSeq: _*).withMethod("POST")
 
       val result = permanentHomeController.onSubmit (request)
       status(result) mustBe SEE_OTHER
@@ -149,11 +149,11 @@ class PermanentHomeControllerTest  extends ApplicationControllerTest{
       val withPermanentHomeValue = CommonBuilder.buildTnrbEligibility.copy(isPartnerLivingInUk = Some(true))
 
       val filledPermanentHomeForm = partnerLivingInUkForm.fill(withPermanentHomeValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPermanentHomeForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPermanentHomeForm.data.toSeq: _*).withMethod("POST")
 
       val result = permanentHomeController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad().url))
+      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad.url))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

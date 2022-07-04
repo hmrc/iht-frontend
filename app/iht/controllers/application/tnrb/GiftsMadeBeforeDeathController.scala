@@ -46,7 +46,7 @@ val cc: MessagesControllerComponents) extends FrontendController(cc) with GiftsM
 trait GiftsMadeBeforeDeathController extends EstateController with StringHelper with TnrbHelper with Logging {
 
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
-  def cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
+  def cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad
   val giftsMadeBeforeDeathView: gifts_made_before_death
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -137,7 +137,7 @@ trait GiftsMadeBeforeDeathController extends EstateController with StringHelper 
         InternalServerError
       } { _ =>
         updatedAppDetailsWithKickOutReason.kickoutReason match {
-          case Some(reason) => Redirect(iht.controllers.application.routes.KickoutAppController.onPageLoad())
+          case Some(reason) => Redirect(iht.controllers.application.routes.KickoutAppController.onPageLoad)
           case _ => successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(appConfig.TnrbGiftsGivenAwayID))
         }
       }

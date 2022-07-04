@@ -99,11 +99,11 @@ class PartnerPermanentHomeQuestionControllerTest extends ApplicationControllerTe
 
       val filledPartnerPermanentHomeQuestionForm = partnerPermanentHomeQuestionForm.fill(partnerPermanentHomeQuestion)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerPermanentHomeQuestionForm.data
-        .toSeq: _*)
+        .toSeq: _*).withMethod("POST")
 
       val result = partnerPermanentHomeQuestionController.onSubmit(request)
       status(result) mustBe (SEE_OTHER)
-      redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerHomeID)))
+      redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad.url, ExemptionsPartnerHomeID)))
     }
 
     "display validation message when incomplete form is submitted" in {
@@ -114,7 +114,7 @@ class PartnerPermanentHomeQuestionControllerTest extends ApplicationControllerTe
       val filledPartnerPermanentHomeQuestionForm = partnerPermanentHomeQuestionForm.fill(CommonBuilder.buildPartnerExemption.
         copy(isPartnerHomeInUK = None))
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerPermanentHomeQuestionForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerPermanentHomeQuestionForm.data.toSeq: _*).withMethod("POST")
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,

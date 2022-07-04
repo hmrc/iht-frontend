@@ -125,7 +125,7 @@ class ReducingEstateValueSectionViewModelTest
     "have the correct URL for the exemptions link" in {
       val appDetails = CommonBuilder.buildSomeExemptions(applicationDetails)
       val viewModel = ReducingEstateValueSectionViewModel(appDetails, regDetailsMarriedPerson)
-      viewModel.exemptionRow.linkUrl mustBe iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()
+      viewModel.exemptionRow.linkUrl mustBe iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad
     }
     //endregion
 
@@ -227,7 +227,7 @@ class ReducingEstateValueSectionViewModelTest
       val appDetails = CommonBuilder.buildSomeExemptions(applicationDetails) copy (allLiabilities = Some(CommonBuilder.buildEveryLiability))
       val viewModel = ReducingEstateValueSectionViewModel(appDetails, regDetailsMarriedPerson)
 
-      viewModel.debtRow.get.linkUrl mustBe iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()
+      viewModel.debtRow.get.linkUrl mustBe iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad
     }
     //endregion
 

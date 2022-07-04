@@ -130,7 +130,7 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
 
       val formFill = mortgagesForm.fill(CommonBuilder.buildMortgage.copy("1", None, None))
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -148,7 +148,7 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
     "respond with Internal server when there is no application details" in {
       val formFill = mortgagesForm.fill(CommonBuilder.buildMortgage.copy("1", None, None))
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -168,7 +168,7 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
       val formFill = mortgagesForm.fill(CommonBuilder.buildMortgage.copy("1", isOwned = Some(true),
         value = Some(BigDecimal(2000))))
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -190,7 +190,7 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
         copy(propertyList = List(CommonBuilder.property, CommonBuilder.property2),
           allLiabilities = Some(CommonBuilder.buildAllLiabilitiesWithAllSectionsFilled))
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -202,7 +202,7 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
       val result = mortgageValueController.onSubmit("1")(request)
 
       status(result) must be (SEE_OTHER)
-      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.MortgagesOverviewController.onPageLoad().url, DebtsMortgagesPropertyID + "1")))
+      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.MortgagesOverviewController.onPageLoad.url, DebtsMortgagesPropertyID + "1")))
     }
   }
 }

@@ -102,7 +102,7 @@ class PDFControllerTest extends ApplicationControllerTest {
 
       val result = pdfController.onPostSubmissionPDF(createFakeRequest())
 
-      redirectLocation(result) must be (Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().toString))
+      redirectLocation(result) must be (Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.toString))
     }
   }
 

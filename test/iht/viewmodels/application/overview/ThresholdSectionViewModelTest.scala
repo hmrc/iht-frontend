@@ -182,21 +182,21 @@ class ThresholdSectionViewModelTest extends FakeIhtApp with MockitoSugar with Te
       "and marital status is married'" in {
       val viewModel = ThresholdSectionViewModel(regDetailsMarried, appDetailsTnrbNotAvailable.copy(widowCheck = Some(WidowCheck(Some(true), None))))
       viewModel.increasingThresholdRow.get.linkUrl.toString mustBe
-        iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad().url
+        iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad.url
     }
 
     "have target link for Widowed date of death page in the Increasing the Threshold row if predeceased date has not been saved" +
       "and marital status is Widowed'" in {
       val viewModel = ThresholdSectionViewModel(regDetailsWidowed, appDetailsTnrbNotAvailable.copy(widowCheck = Some(WidowCheck(Some(true), None))))
       viewModel.increasingThresholdRow.get.linkUrl.toString mustBe
-        iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad().url
+        iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad.url
     }
 
     "have target link for Tnrb overview page in the Increasing the Threshold row if predeceased date of death has been saved'" in {
       val viewModel = ThresholdSectionViewModel(regDetailsMarried,
                         appDetailsTnrbNotAvailable.copy(widowCheck = Some(WidowCheck(Some(true), Some(new LocalDate(1998, 12, 12))))))
       viewModel.increasingThresholdRow.get.linkUrl.toString mustBe
-        iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad().url
+        iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad.url
     }
   }
 }

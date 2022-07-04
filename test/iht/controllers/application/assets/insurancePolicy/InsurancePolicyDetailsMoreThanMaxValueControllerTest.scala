@@ -86,7 +86,7 @@ class InsurancePolicyDetailsMoreThanMaxValueControllerTest extends ApplicationCo
       val insuranceAnnuityValue = CommonBuilder.buildInsurancePolicy.copy(moreThanMaxValue=Some(false))
 
       val filledInsuranceForm = insurancePolicyMoreThanMaxForm.fill(insuranceAnnuityValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*).withMethod("POST")
 
       val result = controller.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
@@ -109,7 +109,7 @@ class InsurancePolicyDetailsMoreThanMaxValueControllerTest extends ApplicationCo
       val insuranceAnnuityValue = CommonBuilder.buildInsurancePolicy.copy(moreThanMaxValue=Some(false))
 
       val filledInsuranceForm = insurancePolicyMoreThanMaxForm.fill(insuranceAnnuityValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*).withMethod("POST")
 
       val result = controller.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
@@ -118,7 +118,7 @@ class InsurancePolicyDetailsMoreThanMaxValueControllerTest extends ApplicationCo
 
     "respond with bad request when incorrect value are entered on the page" in {
 
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr")).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
@@ -139,11 +139,11 @@ class InsurancePolicyDetailsMoreThanMaxValueControllerTest extends ApplicationCo
       val insuranceAnnuityValue = CommonBuilder.buildInsurancePolicy.copy(moreThanMaxValue=Some(true))
 
       val filledInsuranceForm = insurancePolicyMoreThanMaxForm.fill(insuranceAnnuityValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*).withMethod("POST")
 
       val result = controller.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
-      redirectLocation(result) must be (Some(iht.controllers.application.routes.KickoutAppController.onPageLoad().url))
+      redirectLocation(result) must be (Some(iht.controllers.application.routes.KickoutAppController.onPageLoad.url))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

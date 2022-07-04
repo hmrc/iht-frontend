@@ -46,7 +46,7 @@ import scala.util.Try
 class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar with TestDataUtil {
 
   lazy val applicantDetailsForm: Form[Boolean] = declarationForm.fill(true)
-  lazy val fakeRequest: FakeRequest[AnyContentAsFormUrlEncoded] = createFakeRequest().withFormUrlEncodedBody(applicantDetailsForm.data.toSeq: _*)
+  lazy val fakeRequest: FakeRequest[AnyContentAsFormUrlEncoded] = createFakeRequest().withFormUrlEncodedBody(applicantDetailsForm.data.toSeq: _*).withMethod("POST")
 
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtMetrics = mock[IhtMetrics]
@@ -146,7 +146,7 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
         }
 
         status(res) shouldBe SEE_OTHER
-        redirectLocation(res) shouldBe Some(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad().url)
+        redirectLocation(res) shouldBe Some(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad.url)
       }
     }
 
@@ -203,7 +203,7 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
 
       "return the correct result" in {
         status(result().get) shouldBe SEE_OTHER
-        redirectLocation(result().get) shouldBe Some(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad().url)
+        redirectLocation(result().get) shouldBe Some(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad.url)
       }
     }
 
@@ -260,7 +260,7 @@ class DeclarationControllerSpec extends IntegrationBaseSpec with MockitoSugar wi
 
       "return the correct result" in {
         status(result().get) shouldBe SEE_OTHER
-        redirectLocation(result().get) shouldBe Some(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad().url)
+        redirectLocation(result().get) shouldBe Some(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad.url)
       }
     }
 

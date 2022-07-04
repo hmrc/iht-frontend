@@ -47,11 +47,11 @@ class WithReservationOfBenefitViewTest extends SubmittableApplicationPageBehavio
     )
   )
 
-  override def formTarget = Some(iht.controllers.application.gifts.routes.WithReservationOfBenefitController.onSubmit())
+  override def formTarget = Some(iht.controllers.application.gifts.routes.WithReservationOfBenefitController.onSubmit)
 
   override def cancelComponent = Some(
     CancelComponent(
-      iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad(),
+      iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad,
       messagesApi("page.iht.application.gifts.return.to.givenAwayBy",
         CommonHelper.getOrException(regDetails.deceasedDetails).name),
       TestHelper.GiftsReservationBenefitQuestionID

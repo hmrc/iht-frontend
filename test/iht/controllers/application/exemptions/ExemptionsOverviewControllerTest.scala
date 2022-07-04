@@ -112,7 +112,7 @@ class ExemptionsOverviewControllerTest extends ApplicationControllerTest with Be
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
-      val result = exemptionsSummaryControllerNotAuthorised.onPageLoad()(createFakeRequest(isAuthorised = false))
+      val result = exemptionsSummaryControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
       redirectLocation(result) must be (Some(loginUrl))
 
     }
@@ -138,7 +138,7 @@ class ExemptionsOverviewControllerTest extends ApplicationControllerTest with Be
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
-      val result = exemptionsSummaryController.onPageLoad()(createFakeRequest())
+      val result = exemptionsSummaryController.onPageLoad(createFakeRequest())
       status(result) must be (OK)
       contentAsString(result) must include ("120")
     }
@@ -151,7 +151,7 @@ class ExemptionsOverviewControllerTest extends ApplicationControllerTest with Be
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
-      val result = exemptionsSummaryController.onPageLoad()(createFakeRequest())
+      val result = exemptionsSummaryController.onPageLoad(createFakeRequest())
       status(result) must be (OK)
       contentAsString(result) must include ("12,345")
     }

@@ -43,7 +43,7 @@ trait StocksAndSharesListedController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsStocksAndSharesListed)
 
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad(),
+    iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad,
     Some(appConfig.AssetsStocksListedID))
 
   val stocksAndSharesListedView: stocks_and_shares_listed

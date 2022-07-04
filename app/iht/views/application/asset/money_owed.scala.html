@@ -67,7 +67,7 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
 
         @returnLink(
             Messages("page.iht.application.return.to.assetsOf", deceasedNameWrap),
-            Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
+            Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad),
             appConfig.AppSectionMoneyOwedID
         )
     }

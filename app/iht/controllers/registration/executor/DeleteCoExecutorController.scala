@@ -73,7 +73,7 @@ trait DeleteCoExecutorController extends RegistrationController {
             val newCoexecutors = rd.coExecutors.patch(index, Nil, 1)
             val newRegistrationDetails = rd copy (coExecutors = newCoexecutors)
             storeRegistrationDetails(newRegistrationDetails,
-              routes.ExecutorOverviewController.onPageLoad(),
+              routes.ExecutorOverviewController.onPageLoad,
               "Failed to store registration details during DeleteCoExecutor"
             )
           }

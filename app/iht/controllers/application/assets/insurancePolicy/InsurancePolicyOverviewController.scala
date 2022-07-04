@@ -60,7 +60,7 @@ trait InsurancePolicyOverviewController extends EstateController {
   private def section3YesNoItems(insurancePolicy: InsurancePolicy, rd: RegistrationDetails)(implicit messages: Messages) = {
     val maritalStatusKey = mapMaritalStatus(rd)
     Seq[QuestionAnswer](
-      QuestionAnswer(insurancePolicy.isInsurancePremiumsPayedForSomeoneElse, routes.InsurancePolicyDetailsPayingOtherController.onPageLoad(),
+      QuestionAnswer(insurancePolicy.isInsurancePremiumsPayedForSomeoneElse, routes.InsurancePolicyDetailsPayingOtherController.onPageLoad,
         ad => displayQ1(ad),
         if (maritalStatusKey == "married") {
           Messages("page.iht.application.assets.insurance.policies.overview.other.question1.yes.screenReader.link.value.married",
@@ -82,7 +82,7 @@ trait InsurancePolicyOverviewController extends EstateController {
         } else {
           "page.iht.application.assets.insurance.policies.overview.other.question1.none.screenReader.link.value.notMarried"
         }),
-      QuestionAnswer(insurancePolicy.moreThanMaxValue, routes.InsurancePolicyDetailsMoreThanMaxValueController.onPageLoad(),
+      QuestionAnswer(insurancePolicy.moreThanMaxValue, routes.InsurancePolicyDetailsMoreThanMaxValueController.onPageLoad,
         ad => displayQ2(ad),
         Messages("page.iht.application.assets.insurance.policies.overview.other.question2.yes.screenReader.link.value",
           DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd)),
@@ -90,7 +90,7 @@ trait InsurancePolicyOverviewController extends EstateController {
           DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd)),
         Messages("page.iht.application.assets.insurance.policies.overview.other.question2.none.screenReader.link.value",
           DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd))),
-      QuestionAnswer(insurancePolicy.isAnnuitiesBought, routes.InsurancePolicyDetailsAnnuityController.onPageLoad(),
+      QuestionAnswer(insurancePolicy.isAnnuitiesBought, routes.InsurancePolicyDetailsAnnuityController.onPageLoad,
         ad => displayQ3(ad),
         Messages("page.iht.application.assets.insurance.policies.overview.other.question3.yes.screenReader.link.value",
           DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd)),
@@ -98,7 +98,7 @@ trait InsurancePolicyOverviewController extends EstateController {
           DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd)),
         Messages("page.iht.application.assets.insurance.policies.overview.other.question3.none.screenReader.link.value",
           DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd))),
-      QuestionAnswer(insurancePolicy.isInTrust, routes.InsurancePolicyDetailsInTrustController.onPageLoad(),
+      QuestionAnswer(insurancePolicy.isInTrust, routes.InsurancePolicyDetailsInTrustController.onPageLoad,
         ad => displayQ4(ad),
         Messages("page.iht.application.assets.insurance.policies.overview.other.question4.yes.screenReader.link.value",
           DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd)),
@@ -114,7 +114,7 @@ trait InsurancePolicyOverviewController extends EstateController {
       id = "deceased",
       title = Some(messages("iht.estateReport.assets.insurancePolicies.payingOutToDeceased",
         DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails, true))),
-      linkUrl = routes.InsurancePolicyDetailsDeceasedOwnController.onPageLoad(),
+      linkUrl = routes.InsurancePolicyDetailsDeceasedOwnController.onPageLoad,
       sectionLevelLinkAccessibilityText = messages(
         "page.iht.application.assets.insurance.policies.overview.deceased.giveAnswer.screenReader.link.value",
         DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)),
@@ -147,7 +147,7 @@ trait InsurancePolicyOverviewController extends EstateController {
     createSectionFromYesNoValueQuestions(
       id = "joint",
       title = Some(messages("page.iht.application.assets.insurance.policies.overview.joint.title")),
-      linkUrl = routes.InsurancePolicyDetailsJointController.onPageLoad(),
+      linkUrl = routes.InsurancePolicyDetailsJointController.onPageLoad,
 
       sectionLevelLinkAccessibilityText = messages(
         "page.iht.application.assets.insurance.policies.overview.joint.giveAnswer.screenReader.link.value",
@@ -183,7 +183,7 @@ trait InsurancePolicyOverviewController extends EstateController {
       id = "other",
       title = Some(messages("iht.estateReport.assets.insurancePolicies.premiumsPaidByOther",
         DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails, true))),
-      linkUrl = routes.InsurancePolicyDetailsPayingOtherController.onPageLoad(),
+      linkUrl = routes.InsurancePolicyDetailsPayingOtherController.onPageLoad,
       sectionLevelLinkAccessibilityText = messages("page.iht.application.assets.insurance.policies.overview.other.giveAnswer.screenReader.link.value",
         DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails, true)),
       questionAnswersPlusChangeLinks = section3YesNoItems(insurancePolicy, regDetails),
@@ -228,7 +228,7 @@ trait InsurancePolicyOverviewController extends EstateController {
 
           Ok(insurancePoliciesOverviewView(regDetails,
             Seq(seqSection1, seqSection2, seqSection3),
-            Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
+            Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad),
             "page.iht.application.return.to.assetsOf"))
         }
       }

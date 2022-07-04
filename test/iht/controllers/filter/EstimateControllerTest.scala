@@ -54,7 +54,7 @@ class EstimateControllerTest extends ApplicationControllerTest with HtmlSpec {
     }
 
     "show an error if no radio button is selected" in {
-      val request = createFakeRequestWithBody(isAuthorised = false, data = estimateForm(messages).data.toSeq)
+      val request = createFakeRequestWithBody(isAuthorised = false, data = estimateForm(messages).data.toSeq).withMethod("POST")
       val result = controller.onSubmitWithoutJointAssets()(request)
 
       status(result) must be(BAD_REQUEST)
@@ -65,29 +65,29 @@ class EstimateControllerTest extends ApplicationControllerTest with HtmlSpec {
 
     "redirect to the Any Assets page if 'Under £325,000' is selected" in {
       val form = estimateForm(messages).fill(Some(under325000))
-      val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
+      val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq).withMethod("POST")
       val result = controller.onSubmitWithoutJointAssets()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.filter.routes.AnyAssetsController.onSubmitWithoutJointAssets().url))
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.AnyAssetsController.onSubmitWithoutJointAssets.url))
     }
 
     "redirect to the Use Service page if 'Between £325,000 and £1 million' is selected" in {
       val form = estimateForm(messages).fill(Some(between325000and1million))
-      val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
+      val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq).withMethod("POST")
       val result = controller.onSubmitWithoutJointAssets()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.filter.routes.UseServiceController.onPageLoadOver().url))
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.UseServiceController.onPageLoadOver.url))
     }
 
     "redirect to the 'Over £1 million transition' page if 'More than £1 million' is selected" in {
       val form = estimateForm(messages).fill(Some(moreThan1million))
-      val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
+      val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq).withMethod("POST")
       val result = controller.onSubmitWithoutJointAssets()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.filter.routes.UseIHT400Controller.onPageLoadWithoutJointAssets().url))
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.UseIHT400Controller.onPageLoadWithoutJointAssets.url))
     }
   }
 }

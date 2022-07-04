@@ -60,7 +60,7 @@ class MortgagesOverviewControllerTest extends ApplicationControllerTest {
         appDetails = Some(applicationDetails),
         getAppDetails = true)
       
-      val result = mortgagesOverviewController.onPageLoad()(createFakeRequest())
+      val result = mortgagesOverviewController.onPageLoad(createFakeRequest())
       status(result) must be (OK)
     }
 
@@ -77,7 +77,7 @@ class MortgagesOverviewControllerTest extends ApplicationControllerTest {
         appDetails = Some(applicationDetails),
         getAppDetails = true)
 
-      val result = mortgagesOverviewController.onPageLoad()(createFakeRequest())
+      val result = mortgagesOverviewController.onPageLoad(createFakeRequest())
       status(result) must be (OK)
     }
 
@@ -91,7 +91,7 @@ class MortgagesOverviewControllerTest extends ApplicationControllerTest {
         appDetails = Some(applicationDetails),
         getAppDetails = true)
 
-      val result = mortgagesOverviewController.onPageLoad()(createFakeRequest())
+      val result = mortgagesOverviewController.onPageLoad(createFakeRequest())
       status(result) must be (OK)
       contentAsString(result) must include(messagesApi("page.iht.application.debts.mortgages.noProperties.description"))
     }
@@ -109,7 +109,7 @@ class MortgagesOverviewControllerTest extends ApplicationControllerTest {
         appDetails = Some(applicationDetails),
         getAppDetails = true)
 
-      val result = mortgagesOverviewController.onPageLoad()(createFakeRequest())
+      val result = mortgagesOverviewController.onPageLoad(createFakeRequest())
       status(result) must be (OK)
     }
 
@@ -119,7 +119,7 @@ class MortgagesOverviewControllerTest extends ApplicationControllerTest {
         appDetails = None,
         getAppDetails = true)
 
-      val result = mortgagesOverviewController.onPageLoad()(createFakeRequest())
+      val result = mortgagesOverviewController.onPageLoad(createFakeRequest())
       status(result) must be (OK)
     }
 
@@ -132,7 +132,7 @@ class MortgagesOverviewControllerTest extends ApplicationControllerTest {
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
 
       a[RuntimeException] mustBe thrownBy {
-        await(mortgagesOverviewController.onPageLoad()(createFakeRequest()))
+        await(mortgagesOverviewController.onPageLoad(createFakeRequest()))
       }
     }
 
@@ -140,7 +140,7 @@ class MortgagesOverviewControllerTest extends ApplicationControllerTest {
       createMockToThrowExceptionWhileGettingExistingRegDetails(mockCachingConnector, "bla")
 
       a[RuntimeException] mustBe thrownBy {
-        Await.result(mortgagesOverviewController.onPageLoad()(createFakeRequest()), Duration.Inf)
+        Await.result(mortgagesOverviewController.onPageLoad(createFakeRequest()), Duration.Inf)
       }
     }
 

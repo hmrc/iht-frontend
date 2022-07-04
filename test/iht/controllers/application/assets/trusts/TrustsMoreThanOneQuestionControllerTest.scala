@@ -94,7 +94,7 @@ class TrustsMoreThanOneQuestionControllerTest extends ApplicationControllerTest{
         storeAppDetailsInCache = true)
 
       val filledHeldInTrustForm = trustsMoreThanOneQuestionForm.fill(HeldInTrust(Some(false), None, None))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledHeldInTrustForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledHeldInTrustForm.data.toSeq: _*).withMethod("POST")
 
       val result = trustsMoreThanOneQuestionController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
@@ -113,7 +113,7 @@ class TrustsMoreThanOneQuestionControllerTest extends ApplicationControllerTest{
         storeAppDetailsInCache = true)
 
       val filledHeldInTrustForm = trustsMoreThanOneQuestionForm.fill(HeldInTrust(Some(true), None, None))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledHeldInTrustForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledHeldInTrustForm.data.toSeq: _*).withMethod("POST")
 
       val result = trustsMoreThanOneQuestionController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
@@ -133,7 +133,7 @@ class TrustsMoreThanOneQuestionControllerTest extends ApplicationControllerTest{
         storeAppDetailsInCache = true)
 
       val filledHeldInTrustForm = trustsMoreThanOneQuestionForm.fill(HeldInTrust(Some(true), None, None))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledHeldInTrustForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledHeldInTrustForm.data.toSeq: _*).withMethod("POST")
 
       val result = trustsMoreThanOneQuestionController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
@@ -141,7 +141,7 @@ class TrustsMoreThanOneQuestionControllerTest extends ApplicationControllerTest{
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
-     implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
+     implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr")).withMethod("POST")
 
      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
@@ -150,7 +150,7 @@ class TrustsMoreThanOneQuestionControllerTest extends ApplicationControllerTest{
     }
 
     "respond with bad request and correct error message when no answer is selected" in {
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("", ""))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("", "")).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 

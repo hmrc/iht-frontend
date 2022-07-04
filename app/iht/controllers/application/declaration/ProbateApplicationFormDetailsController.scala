@@ -50,7 +50,7 @@ trait ProbateApplicationFormDetailsController extends ApplicationController with
           }
           case None =>
             logger.warn("No probate details in keystore")
-            Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
+            Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad))
         }
       }
     }

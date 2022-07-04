@@ -60,7 +60,7 @@ trait SevenYearsGivenInLast7YearsController extends EstateController {
       estateElementOnSubmit[AllGifts](giftSevenYearsGivenInLast7YearsForm,
         sevenYearsGivenInLast7YearsView.apply,
         updateApplicationDetails,
-        iht.controllers.application.gifts.routes.SevenYearsToTrustController.onPageLoad(),
+        iht.controllers.application.gifts.routes.SevenYearsToTrustController.onPageLoad,
         userNino)
     }
   }

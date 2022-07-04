@@ -70,7 +70,7 @@ class TnrbSuccessViewTest extends ViewTestHelper {
 
       val link = doc.getElementById("return-button")
       link.text() mustBe messagesApi("page.iht.application.tnrbEligibilty.returnToTnrbEligibilty")
-      link.attr("href") mustBe routes.TnrbOverviewController.onPageLoad().url
+      link.attr("href") mustBe routes.TnrbOverviewController.onPageLoad.url
     }
 
   }

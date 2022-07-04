@@ -80,7 +80,7 @@ class UsePaperFormViewTest extends ViewTestHelper {
       val doc = getPageAsDoc("iht.countries.scotland")
       val link = doc.getElementById("start-again")
       link.text() must be(messagesApi("iht.startAgain"))
-      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
+      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad.url)
     }
 
     "contain a row showing the user's answer to the previous question" in {
@@ -94,7 +94,7 @@ class UsePaperFormViewTest extends ViewTestHelper {
       val doc = getPageAsDoc("iht.countries.scotland")
       val link = doc.getElementById("change-domicile")
       link.text() must include(messagesApi("iht.change"))
-      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
+      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad.url)
     }
 
     "contain 'Exit to GOV.UK' button to exit from the service" in {
@@ -141,7 +141,7 @@ class UsePaperFormViewTest extends ViewTestHelper {
       val doc = getPageAsDoc("iht.countries.northernIreland")
       val link = doc.getElementById("start-again")
       link.text() must be(messagesApi("iht.startAgain"))
-      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
+      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad.url)
     }
 
     "contain a row showing the user's answer to the previous question" in {
@@ -155,7 +155,7 @@ class UsePaperFormViewTest extends ViewTestHelper {
       val doc = getPageAsDoc("iht.countries.northernIreland")
       val link = doc.getElementById("change-domicile")
       link.text() must include(messagesApi("iht.change"))
-      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
+      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad.url)
     }
 
     "contain 'Exit to GOV.UK' button to exit from the service" in {
@@ -193,7 +193,7 @@ class UsePaperFormViewTest extends ViewTestHelper {
       val doc = getPageAsDoc("page.iht.filter.domicile.choice.other")
       val link = doc.getElementById("start-again")
       link.text() must be(messagesApi("iht.startAgain"))
-      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
+      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad.url)
     }
 
     "contain a row showing the user's answer to the previous question" in {
@@ -207,7 +207,7 @@ class UsePaperFormViewTest extends ViewTestHelper {
       val doc = getPageAsDoc("page.iht.filter.domicile.choice.other")
       val link = doc.getElementById("change-domicile")
       link.text() must include(messagesApi("iht.change"))
-      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
+      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad.url)
     }
 
     "contain 'Exit to GOV.UK' button to exit from the service" in {

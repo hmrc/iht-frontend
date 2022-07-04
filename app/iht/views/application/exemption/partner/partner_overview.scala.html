@@ -47,7 +47,7 @@ isFullWidth=false) {
                     id = appConfig.ExemptionsPartnerAssetsID,
                     value=Messages(getDisplayValueForBoolean(isComplete)),
                     valueScreenReader="",
-                    link=Some(iht.controllers.application.exemptions.partner.routes.AssetsLeftToPartnerQuestionController.onPageLoad()),
+                    link=Some(iht.controllers.application.exemptions.partner.routes.AssetsLeftToPartnerQuestionController.onPageLoad),
                     linkText=genericOverviewStatusLink(
                       isComplete = isComplete,
                       screenreaderQualifyingText = if(isComplete){
@@ -72,7 +72,7 @@ isFullWidth=false) {
                     id = appConfig.ExemptionsPartnerHomeID,
                     value=Messages(getDisplayValueForBoolean(isComplete)),
                     valueScreenReader="",
-                    link=Some(iht.controllers.application.exemptions.partner.routes.PartnerPermanentHomeQuestionController.onPageLoad()),
+                    link=Some(iht.controllers.application.exemptions.partner.routes.PartnerPermanentHomeQuestionController.onPageLoad),
                     linkText=genericOverviewStatusLink(
                       isComplete = isComplete,
                       screenreaderQualifyingText = if(isComplete){
@@ -95,7 +95,7 @@ isFullWidth=false) {
                     id = appConfig.ExemptionsPartnerNameID,
                     value=nameHelper(displayValue(appDetails, AppSectionExemptionsPartnerName, isComplete)).toString,
                     valueScreenReader="",
-                    link=Some(iht.controllers.application.exemptions.partner.routes.ExemptionPartnerNameController.onPageLoad()),
+                    link=Some(iht.controllers.application.exemptions.partner.routes.ExemptionPartnerNameController.onPageLoad),
                     linkText=genericOverviewStatusLink(
                       isComplete = isComplete,
                       messagesFileGiveAnswer = "site.link.giveName",
@@ -119,7 +119,7 @@ isFullWidth=false) {
                     id = appConfig.ExemptionsPartnerDobID,
                     value=displayValue(appDetails, AppSectionExemptionsPartnerDateOfBirth, isComplete)(messages),
                     valueScreenReader="",
-                    link=Some(iht.controllers.application.exemptions.partner.routes.PartnerDateOfBirthController.onPageLoad()),
+                    link=Some(iht.controllers.application.exemptions.partner.routes.PartnerDateOfBirthController.onPageLoad),
                     linkText=genericOverviewStatusLink(
                       isComplete = isComplete,
                       messagesFileGiveAnswer = "site.link.giveDate",
@@ -143,7 +143,7 @@ isFullWidth=false) {
                     id = appConfig.ExemptionsPartnerNinoID,
                     value=displayValue(appDetails, AppSectionExemptionsPartnerNino, isComplete),
                     valueScreenReader="",
-                    link=Some(iht.controllers.application.exemptions.partner.routes.PartnerNinoController.onPageLoad()),
+                    link=Some(iht.controllers.application.exemptions.partner.routes.PartnerNinoController.onPageLoad),
                     linkText=genericOverviewStatusLink(
                       isComplete = isComplete,
                       messagesFileGiveAnswer = "site.link.giveDetails",
@@ -167,7 +167,7 @@ isFullWidth=false) {
                     id = appConfig.ExemptionsPartnerValueID,
                     value=displayValue(appDetails, AppSectionExemptionsPartnerTotalAssets, isComplete),
                     valueScreenReader="",
-                    link=Some(iht.controllers.application.exemptions.partner.routes.PartnerValueController.onPageLoad()),
+                    link=Some(iht.controllers.application.exemptions.partner.routes.PartnerValueController.onPageLoad),
                     linkText=genericOverviewStatusLink(
                       isComplete = isComplete,
                       messagesFileGiveAnswer = "site.link.giveValue",
@@ -188,7 +188,7 @@ isFullWidth=false) {
     @registrationDetails.deceasedDetails.map{ dd=>
         @returnLink(
             Messages("page.iht.application.return.to.exemptionsOf", nameHelper(dd.name)),
-            Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()),
+            Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad),
             appConfig.ExemptionsPartnerID
         )
     }

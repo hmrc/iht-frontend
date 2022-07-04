@@ -100,7 +100,7 @@ trait ExemptionPartnerNameController extends EstateController {
 
           ihtConnector.saveApplication(nino, applicationDetails, regDetails.acknowledgmentReference).map { _ =>
             Redirect(applicationDetails.kickoutReason.fold(
-              addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(appConfig.ExemptionsPartnerNameID))
+              addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad, Some(appConfig.ExemptionsPartnerNameID))
             )(_ => kickoutRedirectLocation))
           }
     }

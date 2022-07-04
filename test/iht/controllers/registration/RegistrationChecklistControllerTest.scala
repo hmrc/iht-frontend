@@ -40,37 +40,37 @@ class RegistrationChecklistControllerTest extends RegistrationControllerTest {
   "RegistrationChecklistController" must {
 
     "return OK on page load" in {
-      val result = registrationChecklistController.onPageLoad()(createFakeRequest())
+      val result = registrationChecklistController.onPageLoad(createFakeRequest())
       status(result) must be (OK)
     }
 
     "display a title on the page" in {
-      val result = registrationChecklistController.onPageLoad()(createFakeRequest())
+      val result = registrationChecklistController.onPageLoad(createFakeRequest())
       status(result) must be (OK)
       contentAsString(result) must include (fakedMessagesApi("page.iht.registration.checklist.title"))
     }
 
     "display the introduction paragraph on the page" in {
-      val result = registrationChecklistController.onPageLoad()(createFakeRequest())
+      val result = registrationChecklistController.onPageLoad(createFakeRequest())
       status(result) must be (OK)
       contentAsString(result) must include (fakedMessagesApi("page.iht.registration.checklist.label1"))
       contentAsString(result) must include (fakedMessagesApi("page.iht.registration.checklist.label2"))
     }
 
     "display at least one click and reveal link on the page" in {
-      val result = registrationChecklistController.onPageLoad()(createFakeRequest())
+      val result = registrationChecklistController.onPageLoad(createFakeRequest())
       status(result) must be (OK)
       contentAsString(result) must include (fakedMessagesApi("page.iht.registration.checklist.deceased.revealText"))
     }
 
     "display start registration button on page" in {
-      val result = registrationChecklistController.onPageLoad()(createFakeRequest())
+      val result = registrationChecklistController.onPageLoad(createFakeRequest())
       status(result) must be (OK)
       contentAsString(result) must include (fakedMessagesApi("page.iht.registration.checklist.continueButton"))
     }
 
     "display a return link on page" in {
-      val result = registrationChecklistController.onPageLoad()(createFakeRequest())
+      val result = registrationChecklistController.onPageLoad(createFakeRequest())
       status(result) must be (OK)
       contentAsString(result) must include(fakedMessagesApi("page.iht.registration.checklist.leaveLink"))
     }

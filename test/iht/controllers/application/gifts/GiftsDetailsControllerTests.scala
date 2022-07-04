@@ -131,7 +131,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
 
       val filledPreviousYearGiftsForm = previousYearsGiftsForm.fill(CommonBuilder.buildPreviousYearsGifts.copy(Some("1"),
         Some(BigDecimal(1000)), Some(BigDecimal(1000)), Some("23"), Some("232")))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPreviousYearGiftsForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPreviousYearGiftsForm.data.toSeq: _*).withMethod("POST")
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -143,7 +143,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
 
       val result = giftsDetailsController.onSubmit()(request)
       playStatus(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(routes.SevenYearsGiftsValuesController.onPageLoad().url + "#" + appConfig.GiftsValueDetailID + "1"))
+      redirectLocation(result) must be(Some(routes.SevenYearsGiftsValuesController.onPageLoad.url + "#" + appConfig.GiftsValueDetailID + "1"))
     }
 
     "On processSubmit if no Gift found then redirect" in {
@@ -152,7 +152,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
 
       val filledPreviousYearGiftsForm = previousYearsGiftsForm.fill(CommonBuilder.buildPreviousYearsGifts.copy(Some("1"),
         Some(BigDecimal(1000)), Some(BigDecimal(1000)), Some("23"), Some("232")))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPreviousYearGiftsForm.data.toSeq:_*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPreviousYearGiftsForm.data.toSeq:_*).withMethod("POST")
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -162,7 +162,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
 
       val result = giftsDetailsController.onSubmit()(request)
       playStatus(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(routes.SevenYearsGiftsValuesController.onPageLoad().url))
+      redirectLocation(result) must be(Some(routes.SevenYearsGiftsValuesController.onPageLoad.url))
     }
 
     "On processSubmit display correct error message if exemptions more than value" in {
@@ -172,7 +172,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
       val filledPreviousYearGiftsForm = previousYearsGiftsForm.fill(CommonBuilder.buildPreviousYearsGifts.copy(Some("1"),
         Some(BigDecimal(100)), Some(BigDecimal(1000)), Some("23"), Some("232")))
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPreviousYearGiftsForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPreviousYearGiftsForm.data.toSeq: _*).withMethod("POST")
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -195,7 +195,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
       val filledPreviousYearGiftsForm = previousYearsGiftsForm.fill(CommonBuilder.buildPreviousYearsGifts.copy(Some("1"),
         None, Some(BigDecimal(1000)), Some("23"), Some("232")))
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPreviousYearGiftsForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPreviousYearGiftsForm.data.toSeq: _*).withMethod("POST")
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,

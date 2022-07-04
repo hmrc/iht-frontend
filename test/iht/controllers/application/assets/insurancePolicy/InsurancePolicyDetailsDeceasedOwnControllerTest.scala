@@ -100,7 +100,7 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
       val insuranceDeceasedOwnValue = CommonBuilder.buildInsurancePolicy.copy(policyInDeceasedName=Some(true),value=Some(20))
 
       val filledInsuranceForm = insurancePolicyDeceasedOwnQuestionForm.fill(insuranceDeceasedOwnValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*).withMethod("POST")
 
       val result = insurancePolicyDetailsDeceasedOwnController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
@@ -118,7 +118,7 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
       val insuranceDeceasedOwnValue = CommonBuilder.buildInsurancePolicy.copy(policyInDeceasedName=Some(true),value=Some(20))
 
       val filledInsuranceForm = insurancePolicyDeceasedOwnQuestionForm.fill(insuranceDeceasedOwnValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*).withMethod("POST")
 
       val result = insurancePolicyDetailsDeceasedOwnController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
@@ -136,7 +136,7 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
       val insuranceDeceasedOwnValue = CommonBuilder.buildInsurancePolicy.copy(policyInDeceasedName=Some(false))
 
       val filledInsuranceForm = insurancePolicyDeceasedOwnQuestionForm.fill(insuranceDeceasedOwnValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*).withMethod("POST")
 
       val result = insurancePolicyDetailsDeceasedOwnController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
@@ -144,7 +144,7 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
 
     "respond with bad request when incorrect value are entered on the page" in {
 
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr")).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
@@ -168,10 +168,10 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
       createMocks(applicationDetails)
 
       val filledForm = insurancePolicyDeceasedOwnQuestionForm.fill(insurancePolicyDetails)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*).withMethod("POST")
 
       val result = insurancePolicyDetailsDeceasedOwnController.onSubmit (request)
-      redirectLocation(result) must be (Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad().url + "#" + mockAppConfig.InsurancePayingToDeceasedYesNoID))
+      redirectLocation(result) must be (Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad.url + "#" + mockAppConfig.InsurancePayingToDeceasedYesNoID))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

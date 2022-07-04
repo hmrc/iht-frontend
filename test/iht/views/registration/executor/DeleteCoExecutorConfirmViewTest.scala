@@ -113,7 +113,7 @@ class DeleteCoExecutorConfirmViewTest extends ViewTestHelper{
       val link = asDocument(view).getElementById("cancel")
       link.text() mustBe messagesApi("site.link.cancel")
       link.attr("href") mustBe
-        iht.controllers.registration.executor.routes.ExecutorOverviewController.onPageLoad().url
+        iht.controllers.registration.executor.routes.ExecutorOverviewController.onPageLoad.url
     }
 
   }

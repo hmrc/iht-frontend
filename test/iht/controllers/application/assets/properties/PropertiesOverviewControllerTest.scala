@@ -82,7 +82,7 @@ class PropertiesOverviewControllerTest extends ApplicationControllerTest {
         saveAppDetails= true,
         storeAppDetailsInCache = true)
 
-      val result = propertiesOverviewController.onPageLoad()(createFakeRequest())
+      val result = propertiesOverviewController.onPageLoad(createFakeRequest())
       status(result) must be (OK)
       contentAsString(result) must include (CommonHelper.numberWithCommas(120000))
     }

@@ -89,7 +89,7 @@ class PartnerNameControllerTest extends ApplicationControllerTest{
       val withPartnerNameValue = CommonBuilder.buildTnrbEligibility.copy(firstName = None, lastName = None)
 
       val filledPartnerNameForm = partnerNameForm.fill(withPartnerNameValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerNameForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerNameForm.data.toSeq: _*).withMethod("POST")
 
       val result = partnerNameController.onSubmit (request)
       status(result) mustBe BAD_REQUEST
@@ -108,11 +108,11 @@ class PartnerNameControllerTest extends ApplicationControllerTest{
         lastName = Some(CommonBuilder.surnameGenerator))
 
       val filledPartnerNameForm = partnerNameForm.fill(withPartnerNameValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerNameForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerNameForm.data.toSeq: _*).withMethod("POST")
 
       val result = partnerNameController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + mockAppConfig.TnrbSpouseNameID))
+      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad.url + "#" + mockAppConfig.TnrbSpouseNameID))
     }
 
     "go to successful Tnrb page on submit when its satisfies happy path" in {
@@ -132,11 +132,11 @@ class PartnerNameControllerTest extends ApplicationControllerTest{
         lastName = Some(CommonBuilder.surnameGenerator))
 
       val filledPartnerNameForm = partnerNameForm.fill(withPartnerNameValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerNameForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerNameForm.data.toSeq: _*).withMethod("POST")
 
       val result = partnerNameController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad().url))
+      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad.url))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

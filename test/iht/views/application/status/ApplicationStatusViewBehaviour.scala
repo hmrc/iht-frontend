@@ -43,7 +43,7 @@ trait ApplicationStatusViewBehaviour extends GenericNonSubmittablePageBehaviour 
 
   override def exitComponent: Option[ExitComponent] = Some(
     ExitComponent(
-      iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad(),
+      iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad,
       messagesApi("page.iht.application.overview.common.return")
     )
   )
@@ -57,7 +57,7 @@ trait ApplicationStatusViewBehaviour extends GenericNonSubmittablePageBehaviour 
     )
 
     link("view-app-copy",
-      iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF().url,
+      iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF.url,
       messagesApi("page.iht.application.overview.common.viewcopy")
     )
   }

@@ -34,8 +34,8 @@ class VehiclesOverviewViewTest extends ShareableElementOverviewViewBehaviour {
                                                 deceasedName, deceasedName))
   override def ownHeadingElementId = "deceased-own-vehicles"
   override def jointlyOwnedHeadingElementId = "deceased-shared-vehicles"
-  override def urlToOwnPage = iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onPageLoad().url
-  override def urlToJointlyOwnedPage = iht.controllers.application.assets.vehicles.routes.VehiclesJointlyOwnedController.onPageLoad().url
+  override def urlToOwnPage = iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onPageLoad.url
+  override def urlToJointlyOwnedPage = iht.controllers.application.assets.vehicles.routes.VehiclesJointlyOwnedController.onPageLoad.url
   override def ownHeaderText = messagesApi("iht.estateReport.assets.vehiclesOwned", deceasedName)
   override def jointlyOwnedHeaderText = messagesApi("page.iht.application.assets.vehicles.overview.joint.title",
                                                  deceasedName)

@@ -121,7 +121,7 @@ class CharityNameControllerTest extends ApplicationControllerTest with BeforeAnd
         storeAppDetailsInCache = true)
 
       val filledForm = charityNameForm.fill(CommonBuilder.buildCharity.copy(name = Some("A Charity 2")))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*).withMethod("POST")
 
       val result = charityNameController.onSubmit(request)
       status(result) mustBe SEE_OTHER
@@ -138,7 +138,7 @@ class CharityNameControllerTest extends ApplicationControllerTest with BeforeAnd
         storeAppDetailsInCache = true)
 
       val filledForm = charityNameForm.fill(CommonBuilder.buildCharity.copy(name = Some("")))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*).withMethod("POST")
 
       val result = charityNameController.onSubmit(request)
       status(result) mustBe BAD_REQUEST
@@ -184,7 +184,7 @@ class CharityNameControllerTest extends ApplicationControllerTest with BeforeAnd
 
       val charityChanged = charity2 copy (name = Some("Another Charity 2"))
       val filledCharityNameForm = charityNameForm.fill(charityChanged)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledCharityNameForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledCharityNameForm.data.toSeq: _*).withMethod("POST")
 
       val result = await(charityNameControllerTemp.onEditSubmit("2")(request))
 

@@ -70,7 +70,7 @@ isFullWidth = false) {
                     <dd class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
                         <a id="@appConfig.AssetsPropertiesPropertyAddressID" href='@{propertyId match{
                                     case Some(id) => PropertyAddressController.onEditPageLoad(id)
-                                    case None => PropertyAddressController.onPageLoad()
+                                    case None => PropertyAddressController.onPageLoad
                                 }
                             }'>
                             @getUpdateElements(
@@ -93,7 +93,7 @@ isFullWidth = false) {
                     <dd class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
                         <a id = "@appConfig.AssetsPropertiesPropertyKindID" href='@{propertyId match{
                                     case Some(id) => PropertyTypeController.onEditPageLoad(id)
-                                    case None => PropertyTypeController.onPageLoad()
+                                    case None => PropertyTypeController.onPageLoad
                                 }
                             }'>
                             @getUpdateElements(
@@ -116,7 +116,7 @@ isFullWidth = false) {
                     <dd class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
                         <a id = "@appConfig.AssetsPropertiesPropertyOwnershipID" href='@{propertyId match{
                                         case Some(id) => PropertyOwnershipController.onEditPageLoad(id)
-                                        case None => PropertyOwnershipController.onPageLoad()
+                                        case None => PropertyOwnershipController.onPageLoad
                                     }
                                 }'>
                             @getUpdateElements(
@@ -139,7 +139,7 @@ isFullWidth = false) {
                     <dd class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
                         <a id="@appConfig.AssetsPropertiesTenureID" href='@{propertyId match{
                                         case Some(id) => PropertyTenureController.onEditPageLoad(id)
-                                        case None => PropertyTenureController.onPageLoad()
+                                        case None => PropertyTenureController.onPageLoad
                                     }
                                 }'>
                             @getUpdateElements(
@@ -162,7 +162,7 @@ isFullWidth = false) {
                     <dd class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
                         <a id="@appConfig.AssetsPropertiesPropertyValueID" href='@{propertyId match{
                                         case Some(id) => PropertyValueController.onEditPageLoad(id)
-                                        case None => PropertyValueController.onPageLoad()
+                                        case None => PropertyValueController.onPageLoad
                                     }
                                 }'>
                             @getUpdateElements(
@@ -185,7 +185,7 @@ isFullWidth = false) {
 @defining(property.flatMap(_.id))  { propertyId =>
     @returnLink(
         Messages("page.iht.application.assets.property.detailsOverview.returnLink"),
-        Some(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad()),
+        Some(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad),
         propertyId match{
             case Some(id) => appConfig.AssetsPropertiesChangeID + id
             case None => appConfig.AssetsPropertiesAddPropertyID

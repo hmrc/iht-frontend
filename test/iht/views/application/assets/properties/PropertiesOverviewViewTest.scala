@@ -42,7 +42,7 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
 
   override def exitComponent = Some(
     ExitComponent(
-      iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
+      iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad,
       messagesApi("site.link.return.assets"),
       TestHelper.AppSectionPropertiesID
     )
@@ -95,7 +95,7 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
     behave like nonSubmittablePage()
 
     behave like link("add-property",
-      iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad().url,
+      iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad.url,
       messagesApi("iht.estateReport.assets.propertyAdd"))
 
     "show ownership question" in {
@@ -107,7 +107,7 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
     }
 
     behave like link("property-owned",
-      iht.controllers.application.assets.properties.routes.PropertiesOwnedQuestionController.onPageLoad().url,
+      iht.controllers.application.assets.properties.routes.PropertiesOwnedQuestionController.onPageLoad.url,
       messagesApi("iht.change"))
 
     behave like addressWithDeleteAndModify(0, formatAddressForDisplay(CommonBuilder.DefaultUkAddress))

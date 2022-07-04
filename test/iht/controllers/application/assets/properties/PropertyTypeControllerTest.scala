@@ -87,7 +87,7 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
     "display the correct title on page load" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector)
 
-      val result = propertyTypeController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyTypeController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be (OK)
       contentAsString(result) must include (messagesApi("iht.estateReport.assets.properties.whatKind.question"))
     }
@@ -104,7 +104,7 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
     "respond with BAD_REQUEST on submit if request is malformed" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = List())
       val formFill = propertyTypeForm.fill(CommonBuilder.buildProperty.copy(propertyType = None))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
 
       setUpTests(Some(applicationDetails))
 
@@ -115,7 +115,7 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
     "save application and go to property overview page in non-edit mode on submit" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = List())
       val formFill = propertyTypeForm.fill(CommonBuilder.buildProperty.copy(propertyType = TestHelper.PropertyTypeDeceasedHome))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
 
       setUpTests(Some(applicationDetails))
 
@@ -141,7 +141,7 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
     "save application and go to property overview page edit mode on submit" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = List())
       val formFill = propertyTypeForm.fill(CommonBuilder.buildProperty.copy(propertyType = TestHelper.PropertyTypeDeceasedHome))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
 
       setUpTests(Some(applicationDetails))
 
@@ -165,7 +165,7 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
         CommonBuilder.property.copy(id = Some("2"))))
       val formFill = propertyTypeForm.fill(CommonBuilder.buildProperty.copy(propertyType = TestHelper.PropertyTypeDeceasedHome))
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
 
       setUpTests(Some(applicationDetails))
 

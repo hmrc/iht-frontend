@@ -107,11 +107,11 @@ class GiftsWithReservationOfBenefitControllerTest  extends ApplicationController
       val withGiftsWithReservationOfBenefitValue = CommonBuilder.buildTnrbEligibility
 
       val filledGiftsWithReservationOfBenefitForm = partnerGiftWithResToOtherForm.fill(withGiftsWithReservationOfBenefitValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsWithReservationOfBenefitForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsWithReservationOfBenefitForm.data.toSeq: _*).withMethod("POST")
 
       val result = giftsWithReservationOfBenefitController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + mockAppConfig.TnrbGiftsWithReservationID))
+      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad.url + "#" + mockAppConfig.TnrbGiftsWithReservationID))
     }
 
     "go to KickOut page if gifts with reservation of benefit given other than spouse" in {
@@ -126,7 +126,7 @@ class GiftsWithReservationOfBenefitControllerTest  extends ApplicationController
       val withGiftsWithReservationOfBenefitValue = CommonBuilder.buildTnrbEligibility.copy(isPartnerGiftWithResToOther = Some(true))
 
       val filledGiftsWithReservationOfBenefitForm = partnerGiftWithResToOtherForm.fill(withGiftsWithReservationOfBenefitValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsWithReservationOfBenefitForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsWithReservationOfBenefitForm.data.toSeq: _*).withMethod("POST")
 
       val result = giftsWithReservationOfBenefitController.onSubmit (request)
       status(result) mustBe SEE_OTHER
@@ -149,11 +149,11 @@ class GiftsWithReservationOfBenefitControllerTest  extends ApplicationController
       val withGiftsWithReservationOfBenefitValue = CommonBuilder.buildTnrbEligibility.copy(isPartnerGiftWithResToOther = Some(false))
 
       val filledGiftsWithReservationOfBenefitForm = partnerGiftWithResToOtherForm.fill(withGiftsWithReservationOfBenefitValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsWithReservationOfBenefitForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsWithReservationOfBenefitForm.data.toSeq: _*).withMethod("POST")
 
       val result = giftsWithReservationOfBenefitController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad().url))
+      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad.url))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

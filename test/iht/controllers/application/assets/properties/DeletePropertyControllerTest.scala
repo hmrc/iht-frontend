@@ -114,7 +114,7 @@ class DeletePropertyControllerTest extends ApplicationControllerTest {
 
       val result = deletePropertyController.onSubmit(firstProperty.id.getOrElse("1"))(createFakeRequest())
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertiesOverviewController.onPageLoad().url,TestHelper.AssetsPropertiesAddPropertyID)))
+      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertiesOverviewController.onPageLoad.url,TestHelper.AssetsPropertiesAddPropertyID)))
     }
 
     "respond with error if there is a problem performing the delete, cannot save deletion" in {

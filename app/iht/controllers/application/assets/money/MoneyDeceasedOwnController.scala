@@ -48,7 +48,7 @@ trait MoneyDeceasedOwnController extends EstateController {
   val moneyDeceasedOwnView: money_deceased_own
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyDeceasedOwned)
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad(), Some(appConfig.AssetsMoneyOwnID))
+    iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad, Some(appConfig.AssetsMoneyOwnID))
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {

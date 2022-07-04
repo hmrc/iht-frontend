@@ -37,14 +37,14 @@ class InsurancePolicyDetailsInTrustViewTest extends YesNoQuestionViewBehaviour[I
 
   override def guidance = noGuidance
 
-  override def formTarget = Some(routes.InsurancePolicyDetailsInTrustController.onSubmit())
+  override def formTarget = Some(routes.InsurancePolicyDetailsInTrustController.onSubmit)
 
   override def form: Form[InsurancePolicy] = insurancePolicyInTrustForm
 
   override def formToView: Form[InsurancePolicy] => Appendable =
     form => insurancePolicyDetailsInTrustView(form, regDetails)
 
-  override def cancelComponent = Some(CancelComponent(routes.InsurancePolicyOverviewController.onPageLoad(),
+  override def cancelComponent = Some(CancelComponent(routes.InsurancePolicyOverviewController.onPageLoad,
     messagesApi("site.link.return.insurance.policies"),
     TestHelper.InsurancePlacedInTrustYesNoID
   ))

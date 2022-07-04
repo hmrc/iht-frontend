@@ -92,10 +92,10 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
       val withWidowedValue = CommonBuilder.buildWidowedCheck
 
       val filledDeceasedWidowCheckDateForm = deceasedWidowCheckDateForm.fill(withWidowedValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckDateForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckDateForm.data.toSeq: _*).withMethod("POST")
 
       val result = deceasedWidowCheckDateController.onSubmit (request)
-      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + mockAppConfig.TnrbSpouseDateOfDeathID))
+      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad.url + "#" + mockAppConfig.TnrbSpouseDateOfDeathID))
     }
 
     "when saving application must set the widowed field of the widowed check to Some(true)" in {
@@ -109,7 +109,7 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
         saveAppDetails = true)
 
       val filledDeceasedWidowCheckDateForm = deceasedWidowCheckDateForm.fill(widowCheckWithNoWidowField)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckDateForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckDateForm.data.toSeq: _*).withMethod("POST")
 
       val result = deceasedWidowCheckDateController.onSubmit (request)
       status(result) mustBe(SEE_OTHER)
@@ -132,7 +132,7 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
         dateOfPreDeceased = Some(TestHelper.dateOfPredeceasedForTnrbEligibility minusDays(1)))
 
       val filledDeceasedWidowCheckDateForm = deceasedWidowCheckDateForm.fill(withWidowedValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckDateForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckDateForm.data.toSeq: _*).withMethod("POST")
 
       val result = deceasedWidowCheckDateController.onSubmit (request)
       status(result) mustBe SEE_OTHER
@@ -155,10 +155,10 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
       val withWidowedValue = CommonBuilder.buildWidowedCheck.copy(dateOfPreDeceased = Some(new LocalDate(1986, 12, 11)))
 
       val filledDeceasedWidowCheckDateForm = deceasedWidowCheckDateForm.fill(withWidowedValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckDateForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckDateForm.data.toSeq: _*).withMethod("POST")
 
       val result = deceasedWidowCheckDateController.onSubmit (request)
-      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad().url))
+      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad.url))
     }
 
     "show errors when incorrect submit is made" in {
@@ -178,7 +178,7 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
         ("dateOfPreDeceased.day", "44"),
         ("dateOfPreDeceased.month", "12"),
         ("dateOfPreDeceased.year", "2000")
-      )
+      ).withMethod("POST")
 
       val result = deceasedWidowCheckDateController.onSubmit (request)
       status(result) mustBe BAD_REQUEST
@@ -200,7 +200,7 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
       val withWidowedValue = CommonBuilder.buildWidowedCheck.copy(dateOfPreDeceased = Some(new LocalDate(1986, 12, 11)))
 
       val filledDeceasedWidowCheckDateForm = deceasedWidowCheckDateForm.fill(withWidowedValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckDateForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckDateForm.data.toSeq: _*).withMethod("POST")
 
       val result = deceasedWidowCheckDateController.onSubmit (request)
       status(result) mustBe INTERNAL_SERVER_ERROR
@@ -222,7 +222,7 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
       val withWidowedValue = CommonBuilder.buildWidowedCheck.copy(dateOfPreDeceased = Some(new LocalDate(1986, 12, 11)))
 
       val filledDeceasedWidowCheckDateForm = deceasedWidowCheckDateForm.fill(withWidowedValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckDateForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckDateForm.data.toSeq: _*).withMethod("POST")
 
       val result = deceasedWidowCheckDateController.onSubmit (request)
       status(result) mustBe BAD_REQUEST
@@ -244,10 +244,10 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
       val withWidowedValue = CommonBuilder.buildWidowedCheck.copy(dateOfPreDeceased = Some(new LocalDate(1986, 12, 11)))
 
       val filledDeceasedWidowCheckDateForm = deceasedWidowCheckDateForm.fill(withWidowedValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckDateForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckDateForm.data.toSeq: _*).withMethod("POST")
 
       val result = deceasedWidowCheckDateController.onSubmit (request)
-      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad().url))
+      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad.url))
     }
 
     "return internal server error when save of app details fails" in {
@@ -267,7 +267,7 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
       val withWidowedValue = CommonBuilder.buildWidowedCheck.copy(dateOfPreDeceased = Some(new LocalDate(1986, 12, 11)))
 
       val filledDeceasedWidowCheckDateForm = deceasedWidowCheckDateForm.fill(withWidowedValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckDateForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckDateForm.data.toSeq: _*).withMethod("POST")
 
       val result = deceasedWidowCheckDateController.onSubmit (request)
       status(result) mustBe INTERNAL_SERVER_ERROR

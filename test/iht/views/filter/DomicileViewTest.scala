@@ -103,7 +103,7 @@ class DomicileViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val formElement = doc.getElementsByTag("form").first
 
-      formElement.attr("action") must be(iht.controllers.filter.routes.DomicileController.onSubmit().url)
+      formElement.attr("action") must be(iht.controllers.filter.routes.DomicileController.onSubmit.url)
     }
 
     "contain a link to return to the 'What do you want to do' page" in {
@@ -112,7 +112,7 @@ class DomicileViewTest extends ViewTestHelper {
 
       val link = doc.getElementById("back-button")
       link.text() must be(messagesApi("iht.back"))
-      link.attr("href") must be(iht.controllers.filter.routes.FilterController.onPageLoad().url)
+      link.attr("href") must be(iht.controllers.filter.routes.FilterController.onPageLoad.url)
     }
   }
 }

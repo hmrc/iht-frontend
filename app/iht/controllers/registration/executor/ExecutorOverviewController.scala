@@ -45,8 +45,8 @@ trait ExecutorOverviewController extends RegistrationController with CoExecutorF
   override def guardConditions: Set[Predicate] = Set((rd, _) => rd.areOthersApplyingForProbate.getOrElse(false))
   def metrics: IhtMetrics
 
-  def submitRoute = routes.ExecutorOverviewController.onSubmit()
-  def editSubmitRoute = routes.ExecutorOverviewController.onEditSubmit()
+  def submitRoute = routes.ExecutorOverviewController.onSubmit
+  def editSubmitRoute = routes.ExecutorOverviewController.onEditSubmit
   val executorOverviewView: executor_overview
   private def badRequest(rd: RegistrationDetails, submitRoute: Call, showCancelRoute: Boolean,
                          formWithErrors: Form[Option[Boolean]], request: Request[AnyContent]) =
@@ -97,7 +97,7 @@ trait ExecutorOverviewController extends RegistrationController with CoExecutorF
               badRequest(rd, route, showCancelRoute,
                 boundForm.withError("addMoreCoExecutors",
                   "error.applicant.insufficientCoExecutors"), request)
-            case _ => Future.successful(Redirect(registrationRoutes.RegistrationSummaryController.onPageLoad()))
+            case _ => Future.successful(Redirect(registrationRoutes.RegistrationSummaryController.onPageLoad))
           }
         })
       }

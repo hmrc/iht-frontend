@@ -46,7 +46,7 @@ class FilterControllerTest extends ApplicationControllerTest with HtmlSpec {
 
   "FilterController" must {
     "show the 'what do you want to do' page when accessed by an unauthorized person" in {
-      val result = controller.onPageLoad()(createFakeRequest(isAuthorised = false, Some("")))
+      val result = controller.onPageLoad(createFakeRequest(isAuthorised = false, Some("")))
       status(result) must be(OK)
 
       val doc = asDocument(contentAsString(result))
@@ -66,38 +66,38 @@ class FilterControllerTest extends ApplicationControllerTest with HtmlSpec {
 
     "redirect to sign in with Estate reports as the ultimate destination when the page is submitted with the continue choice selected" in {
       val form = filterForm(messages).fill(Some(continueEstateReport))
-      val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
+      val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq).withMethod("POST")
       val result = controller.onSubmit()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url))
+      redirectLocation(result) must be(Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url))
     }
 
     "redirect to the already started page as the ultimate destination when the page is submitted with the already started choice selected" in {
       val form = filterForm(messages).fill(Some(alreadyStarted))
-      val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
+      val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq).withMethod("POST")
       val result = controller.onSubmit()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad().url))
+      redirectLocation(result) must be(Some(iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad.url))
     }
 
     "redirect to the agent page when the page is submitted with agent choice selected" in {
       val form = filterForm(messages).fill(Some(agent))
-      val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
+      val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq).withMethod("POST")
       val result = controller.onSubmit()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.filter.routes.AgentController.onPageLoad().url))
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.AgentController.onPageLoad.url))
     }
 
     "redirect to the domicile page when the page is submitted with register choice selected" in {
       val form = filterForm(messages).fill(Some(register))
-      val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
+      val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq).withMethod("POST")
       val result = controller.onSubmit()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.filter.routes.DomicileController.onPageLoad().url))
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.DomicileController.onPageLoad.url))
     }
 
     "switch languages when the referer ends with .cy" in {

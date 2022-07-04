@@ -95,7 +95,7 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
       val filledPartnerValueForm = partnerValueForm.fill(CommonBuilder.buildPartnerExemption.
         copy(totalAssets = None))
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerValueForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerValueForm.data.toSeq: _*).withMethod("POST")
 
       setUpTests(applicationDetails)
 
@@ -123,11 +123,11 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
 
       val filledPartnerValueForm = partnerValueForm.fill(partnerValue)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerValueForm.data
-        .toSeq: _*)
+        .toSeq: _*).withMethod("POST")
 
       val result = partnerValueController.onSubmit(request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerValueID)))
+      redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad.url, ExemptionsPartnerValueID)))
     }
 
     "redirect to overview page on submit when there is no exemptions present" in {
@@ -138,11 +138,11 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
       val partnerValue = CommonBuilder.buildPartnerExemption.copy(totalAssets = Some(BigDecimal(1000)))
       val filledPartnerValueForm = partnerValueForm.fill(partnerValue)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerValueForm.data
-        .toSeq: _*)
+        .toSeq: _*).withMethod("POST")
 
       val result = partnerValueController.onSubmit(request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerValueID)))
+      redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad.url, ExemptionsPartnerValueID)))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

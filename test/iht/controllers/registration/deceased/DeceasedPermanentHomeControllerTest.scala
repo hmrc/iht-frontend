@@ -80,7 +80,7 @@ class DeceasedPermanentHomeControllerTest
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
-      val result = controller.onPageLoad()(createFakeRequestWithReferrer(
+      val result = controller.onPageLoad(createFakeRequestWithReferrer(
         referrerURL=referrerURL,host=host))
       status(result) mustBe(OK)
 
@@ -107,7 +107,7 @@ class DeceasedPermanentHomeControllerTest
       val registrationDetails = RegistrationDetails(defaultDod, None, Some(deceasedDetails))
       val deceasedDetailsForm1 = deceasedPermanentHomeForm.fill(deceasedDetails)
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-        data=deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
+        data=deceasedDetailsForm1.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -116,7 +116,7 @@ class DeceasedPermanentHomeControllerTest
       val result = controller.onSubmit()(request)
       status(result) must be(SEE_OTHER)
       redirectLocation(result) must be (
-        Some(iht.controllers.registration.deceased.routes.AboutDeceasedController.onPageLoad().url))
+        Some(iht.controllers.registration.deceased.routes.AboutDeceasedController.onPageLoad.url))
     }
 
     "respond appropriately to an invalid submit: Missing mandatory fields" in {
@@ -124,7 +124,7 @@ class DeceasedPermanentHomeControllerTest
       val registrationDetails = RegistrationDetails(defaultDod, None, Some(deceasedDetails))
       val deceasedDetailsForm1 = deceasedPermanentHomeForm.fill(deceasedDetails)
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-        data=deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
+        data=deceasedDetailsForm1.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
@@ -138,6 +138,7 @@ class DeceasedPermanentHomeControllerTest
       val registrationDetails = RegistrationDetails(defaultDod, None, Some(deceasedDetails))
       val deceasedDetailsForm1 = deceasedPermanentHomeForm.fill(deceasedDetails)
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
+        .withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -145,7 +146,7 @@ class DeceasedPermanentHomeControllerTest
 
       val result = controller.onEditSubmit()(request)
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be (Some(iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad().url))
+      redirectLocation(result) must be (Some(iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad.url))
     }
 
     "respond appropriately to an invalid submit in edit mode: Missing mandatory fields" in {
@@ -153,6 +154,7 @@ class DeceasedPermanentHomeControllerTest
       val registrationDetails = RegistrationDetails(defaultDod, None, Some(deceasedDetails))
       val deceasedDetailsForm1 = deceasedPermanentHomeForm.fill(deceasedDetails)
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
+        .withMethod("POST")
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
@@ -171,6 +173,7 @@ class DeceasedPermanentHomeControllerTest
       val form = deceasedPermanentHomeForm.fill(deceasedDetails)
 
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq, authRetrieveNino = false)
+        .withMethod("POST")
 
       val result = controller.onSubmit()(request)
       status(result) must be (SEE_OTHER)
@@ -195,7 +198,7 @@ class DeceasedPermanentHomeControllerTest
       val registrationDetails = RegistrationDetails(defaultDod, None, Some(deceasedDetails))
       val deceasedDetailsForm1 = deceasedPermanentHomeForm.fill(deceasedDetails)
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-        data=deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
+        data=deceasedDetailsForm1.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -210,7 +213,7 @@ class DeceasedPermanentHomeControllerTest
 
       status(result) must be(SEE_OTHER)
       redirectLocation(result) must be (
-        Some(iht.controllers.registration.routes.KickoutRegController.onPageLoad().url))
+        Some(iht.controllers.registration.routes.KickoutRegController.onPageLoad.url))
       verifyAndReturnStoredSingleValue(mockCachingConnector) match {
         case (cachedKey, cachedValue) =>
           cachedKey mustBe RegistrationKickoutReasonCachingKey

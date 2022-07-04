@@ -61,7 +61,7 @@ class TnrbSuccessControllerTest extends ApplicationControllerTest {
   "TnrbSuccessController" must {
 
     "redirect to GG login page on PageLoad if the user is not logged in" in {
-      val result = tnrbSuccessControllerNotAuthorised.onPageLoad()(createFakeRequest(isAuthorised = false))
+      val result = tnrbSuccessControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
       status(result) must be(SEE_OTHER)
       redirectLocation(result) must be (Some(loginUrl))
     }
@@ -75,7 +75,7 @@ class TnrbSuccessControllerTest extends ApplicationControllerTest {
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetApplicationDetails(mockIhtConnector, Some(applicationDetails))
 
-      val result = tnrbSuccessController.onPageLoad()(createFakeRequest())
+      val result = tnrbSuccessController.onPageLoad(createFakeRequest())
       status(result) must be (OK)
     }
 

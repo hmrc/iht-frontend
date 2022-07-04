@@ -97,6 +97,7 @@ class ExemptionPartnerNameControllerTest extends ApplicationControllerTest {
 
       val partnerForm = partnerExemptionNameForm.fill(partnerExemptionValues)
       implicit val request = createFakeRequest(isAuthorised = true).withFormUrlEncodedBody(partnerForm.data.toSeq: _*)
+        .withMethod("POST")
 
       val applicationDetails = Some(CommonBuilder.buildApplicationDetails.copy(allExemptions = Some
       (CommonBuilder.buildAllExemptions.copy(partner = Some(CommonBuilder.buildPartnerExemption)))))
@@ -110,7 +111,7 @@ class ExemptionPartnerNameControllerTest extends ApplicationControllerTest {
 
       val result = partnerNameController.onSubmit(request)
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerNameID)))
+      redirectLocation(result) must be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad.url, ExemptionsPartnerNameID)))
     }
 
     "show relevant error message when page fails in validation while submission" in {

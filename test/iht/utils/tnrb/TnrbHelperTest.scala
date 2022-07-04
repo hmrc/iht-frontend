@@ -229,7 +229,7 @@ class TnrbHelperTest extends FakeIhtApp with MockitoSugar with TnrbHelper {
         widowCheck = Some(CommonBuilder.buildWidowedCheck))
       val result = successfulTnrbRedirect(applicationDetails)
       val actualResult: Option[String] = redirectLocation(result)
-      val expectedResult: Option[String] = Some(routes.TnrbSuccessController.onPageLoad().url)
+      val expectedResult: Option[String] = Some(routes.TnrbSuccessController.onPageLoad.url)
       actualResult must be(expectedResult)
     }
 
@@ -241,7 +241,7 @@ class TnrbHelperTest extends FakeIhtApp with MockitoSugar with TnrbHelper {
       val result = successfulTnrbRedirect(applicationDetails)
 
       val actualResult: Option[String] = redirectLocation(result)
-      val expectedResult: Option[String] = Some(routes.TnrbOverviewController.onPageLoad().url)
+      val expectedResult: Option[String] = Some(routes.TnrbOverviewController.onPageLoad.url)
       actualResult must be(expectedResult)
     }
   }
@@ -293,7 +293,7 @@ class TnrbHelperTest extends FakeIhtApp with MockitoSugar with TnrbHelper {
       val appDetails = CommonBuilder.buildApplicationDetails
 
       getEntryPointForTnrb(regDetailsDeceasedMarried, appDetails) mustBe
-        iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad()
+        iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad
 
     }
   }
@@ -308,7 +308,7 @@ class TnrbHelperTest extends FakeIhtApp with MockitoSugar with TnrbHelper {
       val appDetails = CommonBuilder.buildApplicationDetails.copy(widowCheck = Some(CommonBuilder.buildWidowedCheck))
 
       getEntryPointForTnrb(regDetailsDeceasedMarried, appDetails) mustBe
-        iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
+        iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad
 
     }
   }
@@ -323,7 +323,7 @@ class TnrbHelperTest extends FakeIhtApp with MockitoSugar with TnrbHelper {
       val appDetails = CommonBuilder.buildApplicationDetails
 
       getEntryPointForTnrb(regDetailsDeceasedWidowed, appDetails) mustBe
-        iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad()
+        iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad
 
     }
   }
@@ -345,7 +345,7 @@ class TnrbHelperTest extends FakeIhtApp with MockitoSugar with TnrbHelper {
     "return deceasedWidowCheckDatePage if Marital status is widowed" in {
 
      urlForIncreasingThreshold(appConfig.statusWidowed) must be
-      iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad()
+      iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad
     }
   }
 
@@ -353,7 +353,7 @@ class TnrbHelperTest extends FakeIhtApp with MockitoSugar with TnrbHelper {
     "return deceasedWidowCheckDatePage if Marital status is either Divorced or Married" in {
 
       urlForIncreasingThreshold(appConfig.statusWidowed) must be
-      iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad()
+      iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad
     }
   }
 

@@ -154,7 +154,7 @@ class CharityNumberControllerTest extends ApplicationControllerTest with BeforeA
         storeAppDetailsInCache = true)
 
       val filledForm = charityNumberForm.fill(CommonBuilder.buildCharity.copy(number = Some("123456")))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*).withMethod("POST")
 
       val result = charityNumberController.onSubmit(request)
       status(result) mustBe SEE_OTHER
@@ -171,7 +171,7 @@ class CharityNumberControllerTest extends ApplicationControllerTest with BeforeA
         storeAppDetailsInCache = true)
 
       val filledForm = charityNumberForm.fill(CommonBuilder.buildCharity.copy(number = None))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*).withMethod("POST")
 
       val result = charityNumberController.onSubmit(request)
       status(result) mustBe BAD_REQUEST
@@ -217,7 +217,7 @@ class CharityNumberControllerTest extends ApplicationControllerTest with BeforeA
 
       val charityChanged = charity2 copy (number = Some("3333333"))
       val filledCharityNumberForm = charityNumberForm.fill(charityChanged)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledCharityNumberForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledCharityNumberForm.data.toSeq: _*).withMethod("POST")
 
       val result = await(charityNumberControllerTemp.onEditSubmit("2")(request))
 

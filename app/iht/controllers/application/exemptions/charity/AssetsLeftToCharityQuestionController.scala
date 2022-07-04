@@ -42,13 +42,13 @@ trait AssetsLeftToCharityQuestionController extends EstateController {
 
 
   lazy val exemptionsOverviewPage = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(appConfig.ExemptionsCharityID))
+    iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad, Some(appConfig.ExemptionsCharityID))
 
   lazy val charityOverviewPage = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad(), Some(appConfig.ExemptionsCharitiesAssetsID))
+    iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad, Some(appConfig.ExemptionsCharitiesAssetsID))
 
   lazy val charityDetailsOverviewPage = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onPageLoad(), Some(appConfig.ExemptionsCharitiesAssetsID))
+    iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onPageLoad, Some(appConfig.ExemptionsCharitiesAssetsID))
 
   val assetsLeftToCharityQuestionView: assets_left_to_charity_question
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>

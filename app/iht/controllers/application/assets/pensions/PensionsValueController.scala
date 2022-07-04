@@ -45,7 +45,7 @@ trait PensionsValueController extends EstateController {
   val pensionsValueView: pensions_value
 
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad(), Some(appConfig.AssetsPensionsValueID))
+    iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad, Some(appConfig.AssetsPensionsValueID))
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsPensionsValue)
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>

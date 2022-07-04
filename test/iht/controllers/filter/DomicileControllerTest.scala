@@ -45,7 +45,7 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
   "Domicile Controller" must {
 
     "show the Domicile page when access by an unauthorised person" in {
-      val result = controller.onPageLoad()(createFakeRequest(isAuthorised = false))
+      val result = controller.onPageLoad(createFakeRequest(isAuthorised = false))
       status(result) must be(OK)
 
       val doc = asDocument(contentAsString(result))
@@ -55,6 +55,7 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
 
     "show an error if no radio button is selected" in {
       val request = createFakeRequestWithBody(isAuthorised = false, data = domicileForm(messages).data.toSeq)
+        .withMethod("POST")
       val result = controller.onSubmit()(request)
 
       status(result) must be(BAD_REQUEST)
@@ -66,37 +67,41 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
     "redirect to the Deceased Before 2022 page if 'England or Wales' is selected" in {
       val form = domicileForm(messages).fill(Some(englandOrWales))
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
+        .withMethod("POST")
       val result = controller.onSubmit()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.filter.routes.DeceasedBefore2022Controller.onPageLoad().url))
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.DeceasedBefore2022Controller.onPageLoad.url))
     }
 
     "redirect to the 'Scotland transition' page if 'Scotland' is selected" in {
       val form = domicileForm(messages).fill(Some(scotland))
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
+        .withMethod("POST")
       val result = controller.onSubmit()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.filter.routes.TransitionController.onPageLoadScotland().url))
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.TransitionController.onPageLoadScotland.url))
     }
 
     "redirect to the 'Northern Ireland transition' page if 'Northern Ireland' is selected" in {
       val form = domicileForm((messages)).fill(Some(northernIreland))
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
+        .withMethod("POST")
       val result = controller.onSubmit()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.filter.routes.TransitionController.onPageLoadNorthernIreland().url))
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.TransitionController.onPageLoadNorthernIreland.url))
     }
 
     "redirect to the 'Other country transition' page if 'Other country' is selected" in {
       val form = domicileForm(messages).fill(Some(otherCountry))
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
+        .withMethod("POST")
       val result = controller.onSubmit()(request)
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.filter.routes.TransitionController.onPageLoadOtherCountry().url))
+      redirectLocation(result) must be(Some(iht.controllers.filter.routes.TransitionController.onPageLoadOtherCountry.url))
     }
   }
 }

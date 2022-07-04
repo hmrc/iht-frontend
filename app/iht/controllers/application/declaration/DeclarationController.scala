@@ -176,7 +176,7 @@ trait DeclarationController extends ApplicationController with StringHelper with
           processApplication(getNino(userNino))
         } else {
           Future.successful(Redirect(
-            iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
+            iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad))
         }
       }
     }
@@ -203,11 +203,11 @@ trait DeclarationController extends ApplicationController with StringHelper with
           submitApplication(nino, updatedAppDetails, ihtAppReference)
         }).flatMap {
           case None =>
-            Future.successful(Redirect(iht.controllers.routes.NonLeadExecutorController.onPageLoad()))
+            Future.successful(Redirect(iht.controllers.routes.NonLeadExecutorController.onPageLoad))
           case returnId@Some(_) =>
             processToGetProbateDetails(nino, ihtAppReference, returnId).flatMap(probateDetails => storeProbateDetails(probateDetails))
               .map { _ =>
-                Redirect(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad())
+                Redirect(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad)
               }
         }
       }

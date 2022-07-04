@@ -37,7 +37,7 @@ class ClosedApplicationViewTest extends ApplicationStatusViewBehaviour {
 
   override def exitComponent = Some(
     ExitComponent(
-      iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad(),
+      iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad,
       messagesApi("page.iht.application.overview.common.return")
     )
   )
@@ -46,7 +46,7 @@ class ClosedApplicationViewTest extends ApplicationStatusViewBehaviour {
     behave like applicationStatusPage()
 
     behave like link("view-certificate-button",
-      iht.controllers.application.pdf.routes.PDFController.onClearancePDF().url,
+      iht.controllers.application.pdf.routes.PDFController.onClearancePDF.url,
       messagesApi("page.iht.application.overview.closed.viewClearanceCertificate")
     )
 

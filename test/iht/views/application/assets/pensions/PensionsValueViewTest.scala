@@ -40,7 +40,7 @@ class PensionsValueViewTest extends ValueViewBehaviour[PrivatePension] {
 
   override def formTarget = Some(routes.PensionsValueController.onSubmit)
 
-  override def cancelComponent = Some(CancelComponent(routes.PensionsOverviewController.onPageLoad(),
+  override def cancelComponent = Some(CancelComponent(routes.PensionsOverviewController.onPageLoad,
                                         messagesApi("iht.estateReport.assets.pensions.returnToPrivatePensions"),
                                         AssetsPensionsValueID
                                       )

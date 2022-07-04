@@ -43,7 +43,7 @@ class VehiclesDeceasedOwnViewTest  extends ShareableElementInputViewBehaviour[Sh
   override def hasValueQuestionHelp = true
   override def valueQuestionHelp = messagesApi("iht.estateReport.assets.getProfessionalValuation")
   override def returnLinkText = messagesApi("site.link.return.vehicles")
-  override def returnLinkUrl = VehiclesOverviewController.onPageLoad().url
+  override def returnLinkUrl = VehiclesOverviewController.onPageLoad.url
   override def linkHash = appConfig.AssetsVehiclesOwnID
   override def formTarget =Some(routes.VehiclesDeceasedOwnController.onSubmit)
 

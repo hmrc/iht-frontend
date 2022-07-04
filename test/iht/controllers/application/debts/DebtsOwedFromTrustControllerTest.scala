@@ -56,7 +56,7 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
         appDetails = Some(CommonBuilder.buildApplicationDetails),
         getAppDetails = true)
 
-      val result = debtsOwedFromTrustController.onPageLoad()(createFakeRequest(isAuthorised = true))
+      val result = debtsOwedFromTrustController.onPageLoad(createFakeRequest(isAuthorised = true))
 
       status(result) must be(OK)
     }
@@ -64,7 +64,7 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
     "save on submit" in {
       val testValue = BasicEstateElementLiabilities(isOwned = Some(true), value = Some(BigDecimal(33)))
       val filledForm = debtsTrustForm.fill(testValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*).withMethod("POST")
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(allLiabilities = Some(CommonBuilder
         .buildAllLiabilities.copy(trust = Some(testValue))))
 
@@ -76,13 +76,13 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
 
       val result = debtsOwedFromTrustController.onSubmit()(request)
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(routes.DebtsOverviewController.onPageLoad().url + "#" + appConfig.DebtsOwedFromTrustID))
+      redirectLocation(result) must be(Some(routes.DebtsOverviewController.onPageLoad.url + "#" + appConfig.DebtsOwedFromTrustID))
     }
 
     "respond with bad request on submit when request is malformed" in {
       val testValue = CommonBuilder.buildBasicEstateElementLiabilities.copy(isOwned = None)
       val filledForm = debtsTrustForm.fill(testValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*).withMethod("POST")
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(allLiabilities = Some(CommonBuilder
         .buildAllLiabilities.copy(trust = Some(testValue))))
 
@@ -99,7 +99,7 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
     "take you to internal server error on failure" in {
       val testValue = BasicEstateElementLiabilities(isOwned = Some(true), value = Some(BigDecimal(33)))
       val filledForm = debtsTrustForm.fill(testValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*).withMethod("POST")
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -118,7 +118,7 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
                                               .buildAllLiabilities.copy(trust = Some(debtForTrust))))
 
       val filledForm = debtsTrustForm.fill(debtForTrust)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*).withMethod("POST")
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -128,7 +128,7 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
 
       val result = debtsOwedFromTrustController.onSubmit()(request)
       status(result) must be(SEE_OTHER)
-      redirectLocation(result).get must be(routes.DebtsOverviewController.onPageLoad().url + "#" + appConfig.DebtsOwedFromTrustID)
+      redirectLocation(result).get must be(routes.DebtsOverviewController.onPageLoad.url + "#" + appConfig.DebtsOwedFromTrustID)
 
       val capturedValue = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
       val expectedAppDetails = applicationDetails.copy(allLiabilities = applicationDetails.allLiabilities.map(_.copy(

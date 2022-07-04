@@ -88,7 +88,7 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
 
       setUpTests(Some(applicationDetails))
 
-      val result = propertyOwnershipController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyOwnershipController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be (OK)
     }
 
@@ -98,7 +98,7 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Future.successful(Some(regDetails)))
 
-      val result = propertyOwnershipController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyOwnershipController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be (OK)
       ContentChecker.stripLineBreaks(contentAsString(result)) must include (messagesApi("iht.estateReport.assets.howOwnedByDeceased", deceasedName))
     }
@@ -138,7 +138,7 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
 
       val formFill = typeOfOwnershipForm.fill(
                             CommonBuilder.buildProperty.copy(typeOfOwnership = TestHelper.TypesOfOwnershipDeceasedOnly))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
 
       setUpTests(Some(applicationDetails))
 
@@ -157,7 +157,7 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
 
       val formFill = typeOfOwnershipForm.fill(CommonBuilder.buildProperty.copy(
                                                   typeOfOwnership = TestHelper.TypesOfOwnershipDeceasedOnly))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
 
       setUpTests(Some(applicationDetails))
 
@@ -174,7 +174,7 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
           value = Some(1234))))
 
       val formFill = typeOfOwnershipForm.fill(CommonBuilder.buildProperty.copy(typeOfOwnership = None))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
 
       setUpTests(Some(applicationDetails))
 

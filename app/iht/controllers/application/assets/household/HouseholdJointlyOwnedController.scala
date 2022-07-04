@@ -46,7 +46,7 @@ trait HouseholdJointlyOwnedController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsHouseholdJointlyOwned)
 
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad(), Some(appConfig.AssetsHouseholdSharedID))
+    iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad, Some(appConfig.AssetsHouseholdSharedID))
 
   val householdJointlyOwnedView: household_jointly_owned
 

@@ -79,7 +79,7 @@ class ExecutorOverviewViewTest extends YesNoQuestionViewBehaviour[Option[Boolean
 
     "Display a change link for other people applying for probate" in {
       val othersApplyingLink = doc.getElementById("edit-others-applying-for-probate")
-      othersApplyingLink.attr("href") mustBe iht.controllers.registration.executor.routes.OthersApplyingForProbateController.onPageLoadFromOverview().url
+      othersApplyingLink.attr("href") mustBe iht.controllers.registration.executor.routes.OthersApplyingForProbateController.onPageLoadFromOverview.url
       othersApplyingLink.text() mustBe messagesApi("iht.change") + messagesApi("iht.registration.coExecutors.changeIfOthers")
     }
 

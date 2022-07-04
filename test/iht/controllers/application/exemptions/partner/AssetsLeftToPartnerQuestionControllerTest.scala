@@ -110,7 +110,7 @@ class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTes
 
       val filledAssetLeftToSpouseQuestionForm = assetsLeftToSpouseQuestionForm.fill(assetLeftToSpouse)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledAssetLeftToSpouseQuestionForm.data
-        .toSeq: _*)
+        .toSeq: _*).withMethod("POST")
 
       val result = assetsLeftToPartnerQuestionController.onSubmit(request)
       status(result) mustBe (SEE_OTHER)
@@ -128,7 +128,7 @@ class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTes
 
       val filledAssetLeftToSpouseQuestionForm = assetsLeftToSpouseQuestionForm.fill(assetLeftToSpouse)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledAssetLeftToSpouseQuestionForm.data
-        .toSeq: _*)
+        .toSeq: _*).withMethod("POST")
 
       val result = assetsLeftToPartnerQuestionController.onSubmit(request)
       status(result) mustBe INTERNAL_SERVER_ERROR
@@ -151,7 +151,7 @@ class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTes
 
       val filledAssetLeftToSpouseQuestionForm = assetsLeftToSpouseQuestionForm.fill(assetLeftToSpouse)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledAssetLeftToSpouseQuestionForm.data
-        .toSeq: _*)
+        .toSeq: _*).withMethod("POST")
 
       val result = assetsLeftToPartnerQuestionController.onSubmit(request)
       status(result) mustBe (SEE_OTHER)
@@ -174,7 +174,7 @@ class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTes
       val filledAssetLeftToSpouseQuestionForm = assetsLeftToSpouseQuestionForm.fill(CommonBuilder.buildPartnerExemption.
         copy(isAssetForDeceasedPartner = Some(true)))
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledAssetLeftToSpouseQuestionForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledAssetLeftToSpouseQuestionForm.data.toSeq: _*).withMethod("POST")
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -197,7 +197,7 @@ class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTes
       val filledAssetLeftToSpouseQuestionForm = assetsLeftToSpouseQuestionForm.fill(CommonBuilder.buildPartnerExemption.
         copy(isAssetForDeceasedPartner = None))
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledAssetLeftToSpouseQuestionForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledAssetLeftToSpouseQuestionForm.data.toSeq: _*).withMethod("POST")
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,

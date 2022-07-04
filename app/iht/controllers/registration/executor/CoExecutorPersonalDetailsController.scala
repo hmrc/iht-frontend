@@ -95,7 +95,7 @@ trait CoExecutorPersonalDetailsController extends RegistrationController with Co
     val index = rd.coExecutors.indexWhere(c => c.id.contains(id))
     if (index == -1) {
       logger.info(s"Coexecutor id $id not found, redirecting user to coexecutor overview")
-      Future(Redirect(iht.controllers.registration.executor.routes.ExecutorOverviewController.onPageLoad()))
+      Future(Redirect(iht.controllers.registration.executor.routes.ExecutorOverviewController.onPageLoad))
     } else {
       val updatedCoExec = rd.coExecutors(index).updatePersonalDetails(coExecutor)
       val route = getRoute(coExecutor.isAddressInUk.getOrElse(true), id, mode)

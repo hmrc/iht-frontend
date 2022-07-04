@@ -47,11 +47,11 @@ class EstateOverviewControllerImpl @Inject()(val ihtConnector: IhtConnector,
 trait EstateOverviewController extends ApplicationController with ExemptionsGuidanceHelper
   with EstateNotDeclarableHelper with ApplicationKickOutNonSummaryHelper with TnrbHelper with StringHelper with RegistrationDetailsHelper {
 
-  lazy val checkedEverythingQuestionPage = iht.controllers.application.declaration.routes.CheckedEverythingQuestionController.onPageLoad()
+  lazy val checkedEverythingQuestionPage = iht.controllers.application.declaration.routes.CheckedEverythingQuestionController.onPageLoad
 
-  lazy val kickOutPage = iht.controllers.application.routes.KickoutAppController.onPageLoad()
-  lazy val exemptionsOverviewPage= iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()
-  lazy val tnrbGuidancePage = iht.controllers.application.tnrb.routes.TnrbGuidanceController.onSystemPageLoad()
+  lazy val kickOutPage = iht.controllers.application.routes.KickoutAppController.onPageLoad
+  lazy val exemptionsOverviewPage= iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad
+  lazy val tnrbGuidancePage = iht.controllers.application.tnrb.routes.TnrbGuidanceController.onSystemPageLoad
 
   def cachingConnector: CachingConnector
 
@@ -90,7 +90,7 @@ trait EstateOverviewController extends ApplicationController with ExemptionsGuid
                 }
               }
             }
-            case _ => Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
+            case _ => Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad))
           }
       } recover errorHandler
     }

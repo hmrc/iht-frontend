@@ -73,7 +73,7 @@ trait PropertyDetailsOverviewController extends EstateController with Logging {
             case Some(applicationDetails) => {
               applicationDetails.propertyList.find(property => property.id.getOrElse("") equals propertyId).fold {
                 logger.info(s"User attempted to navigate to property details of non-existent property (id $propertyId)")
-                Redirect(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad())
+                Redirect(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad)
               } {
                 (matchedProperty) =>
                   Ok(propertyDetailsOverviewView(

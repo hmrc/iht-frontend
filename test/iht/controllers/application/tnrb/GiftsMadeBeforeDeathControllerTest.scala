@@ -108,11 +108,11 @@ class GiftsMadeBeforeDeathControllerTest  extends ApplicationControllerTest{
       val withGiftsMadeBeforeDeathValue = CommonBuilder.buildTnrbEligibility.copy(isGiftMadeBeforeDeath = Some(false))
 
       val filledGiftsMadeBeforeDeathForm = giftMadeBeforeDeathForm.fill(withGiftsMadeBeforeDeathValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsMadeBeforeDeathForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsMadeBeforeDeathForm.data.toSeq: _*).withMethod("POST")
 
       val result = giftsMadeBeforeDeathController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + mockAppConfig.TnrbGiftsGivenAwayID))
+      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad.url + "#" + mockAppConfig.TnrbGiftsGivenAwayID))
     }
 
     "go to KickOut page if gifts were given away in last 7 years " in {
@@ -127,7 +127,7 @@ class GiftsMadeBeforeDeathControllerTest  extends ApplicationControllerTest{
       val withGiftsMadeBeforeDeathValue = CommonBuilder.buildTnrbEligibility.copy(isGiftMadeBeforeDeath = Some(true))
 
       val filledGiftsMadeBeforeDeathForm = giftMadeBeforeDeathForm.fill(withGiftsMadeBeforeDeathValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsMadeBeforeDeathForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsMadeBeforeDeathForm.data.toSeq: _*).withMethod("POST")
 
       val result = giftsMadeBeforeDeathController.onSubmit (request)
       status(result) mustBe SEE_OTHER
@@ -150,11 +150,11 @@ class GiftsMadeBeforeDeathControllerTest  extends ApplicationControllerTest{
       val withGiftsMadeBeforeDeathValue = CommonBuilder.buildTnrbEligibility.copy(isGiftMadeBeforeDeath = Some(false))
 
       val filledGiftsMadeBeforeDeathForm = giftMadeBeforeDeathForm.fill(withGiftsMadeBeforeDeathValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsMadeBeforeDeathForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledGiftsMadeBeforeDeathForm.data.toSeq: _*).withMethod("POST")
 
       val result = giftsMadeBeforeDeathController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad().url))
+      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad.url))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

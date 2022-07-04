@@ -45,7 +45,7 @@ val cc: MessagesControllerComponents) extends FrontendController(cc) with Estate
 
 trait EstateClaimController extends EstateController with StringHelper with TnrbHelper {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
-  def cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
+  def cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad
 
   val estateClaimView: estate_claim
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -125,7 +125,7 @@ trait EstateClaimController extends EstateController with StringHelper with Tnrb
         InternalServerError
       } { _ =>
         updatedAppDetailsWithKickOutReason.kickoutReason match {
-          case Some(reason) => Redirect(iht.controllers.application.routes.KickoutAppController.onPageLoad())
+          case Some(reason) => Redirect(iht.controllers.application.routes.KickoutAppController.onPageLoad)
           case _ => successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(appConfig.TnrbEstateReliefID))
         }
       }

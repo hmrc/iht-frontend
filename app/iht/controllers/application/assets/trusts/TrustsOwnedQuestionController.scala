@@ -43,7 +43,7 @@ trait TrustsOwnedQuestionController extends EstateController {
 
 
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(), Some(appConfig.AssetsTrustsBenefitedID))
+    iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad, Some(appConfig.AssetsTrustsBenefitedID))
   val trustsOwnedQuestionView: trusts_owned_question
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>

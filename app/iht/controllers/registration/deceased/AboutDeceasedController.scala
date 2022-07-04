@@ -46,8 +46,8 @@ class AboutDeceasedControllerImpl @Inject()(val ihtConnector: IhtConnector,
 }
 
 trait AboutDeceasedController extends RegistrationController with StringHelper {
-  lazy val submitRoute: Call = routes.AboutDeceasedController.onSubmit()
-  lazy val editSubmitRoute: Call = routes.AboutDeceasedController.onEditSubmit()
+  lazy val submitRoute: Call = routes.AboutDeceasedController.onSubmit
+  lazy val editSubmitRoute: Call = routes.AboutDeceasedController.onEditSubmit
 
   def cachingConnector: CachingConnector
 
@@ -55,7 +55,7 @@ trait AboutDeceasedController extends RegistrationController with StringHelper {
 
   override def guardConditions = guardConditionsAboutDeceased
 
-  def onPageLoad = pageLoad(routes.AboutDeceasedController.onSubmit())
+  def onPageLoad = pageLoad(routes.AboutDeceasedController.onSubmit)
   def pageLoad(actionCall: Call, mode: Mode.Value = Mode.Standard,
                cancelCall: Option[Call] = None) = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>
@@ -85,12 +85,12 @@ trait AboutDeceasedController extends RegistrationController with StringHelper {
   def okForEditPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(aboutDeceasedView(form, editSubmitRoute, cancelToRegSummary))
 
-  def onEditPageLoad = pageLoad(routes.AboutDeceasedController.onEditSubmit(), Mode.Edit, cancelToRegSummary)
+  def onEditPageLoad = pageLoad(routes.AboutDeceasedController.onEditSubmit, Mode.Edit, cancelToRegSummary)
 
-  def onSubmit: Action[AnyContent] = submit(routes.AboutDeceasedController.onSubmit())
+  def onSubmit: Action[AnyContent] = submit(routes.AboutDeceasedController.onSubmit)
 
   def onEditSubmit: Action[AnyContent] = {
-    submit(routes.AboutDeceasedController.onEditSubmit(),
+    submit(routes.AboutDeceasedController.onEditSubmit,
       Mode.Edit, cancelToRegSummary)
   }
 
@@ -126,9 +126,9 @@ trait AboutDeceasedController extends RegistrationController with StringHelper {
       }
   }
 
-  def onwardRoute(rd: RegistrationDetails) = routes.DeceasedAddressQuestionController.onPageLoad()
+  def onwardRoute(rd: RegistrationDetails) = routes.DeceasedAddressQuestionController.onPageLoad
 
-  def onwardRouteInEditMode(rd: RegistrationDetails): Call = registrationRoutes.RegistrationSummaryController.onPageLoad()
+  def onwardRouteInEditMode(rd: RegistrationDetails): Call = registrationRoutes.RegistrationSummaryController.onPageLoad
 
   def badRequestForSubmit(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
     BadRequest(aboutDeceasedView(form, submitRoute))

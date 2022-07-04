@@ -44,7 +44,7 @@ trait StocksAndSharesNotListedController extends EstateController {
 
 
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad(),
+    iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad,
     Some(appConfig.AssetsStocksNotListedID))
   val stocksAndSharesNotListedView: stocks_and_shares_not_listed
 

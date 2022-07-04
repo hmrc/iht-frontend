@@ -92,7 +92,7 @@ class OwedOutsideUKDebtsControllerTest extends ApplicationControllerTest{
       val debtsOutsideUkValue = BasicEstateElementLiabilities(isOwned = Some(true), value = Some(BigDecimal(33)))
 
       val filledOwedOutsideUKDebtsForm = debtsOutsideUkForm.fill(debtsOutsideUkValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledOwedOutsideUKDebtsForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledOwedOutsideUKDebtsForm.data.toSeq: _*).withMethod("POST")
 
       val result = debtsOutsideUkController.onSubmit (request)
       status(result) mustBe SEE_OTHER
@@ -114,7 +114,7 @@ class OwedOutsideUKDebtsControllerTest extends ApplicationControllerTest{
         storeAppDetailsInCache = true)
 
       val filledOwedOutsideUKDebtsForm = debtsOutsideUkForm.fill(debtsOutsideUk)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledOwedOutsideUKDebtsForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledOwedOutsideUKDebtsForm.data.toSeq: _*).withMethod("POST")
 
       val result = debtsOutsideUkController.onSubmit (request)
       status(result) mustBe SEE_OTHER
@@ -127,7 +127,7 @@ class OwedOutsideUKDebtsControllerTest extends ApplicationControllerTest{
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr")).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
@@ -150,7 +150,7 @@ class OwedOutsideUKDebtsControllerTest extends ApplicationControllerTest{
       val debtsOutsideUkValue = BasicEstateElementLiabilities(isOwned = Some(true), value = Some(BigDecimal(33)))
 
       val filledOwedOutsideUKDebtsForm = debtsOutsideUkForm.fill(debtsOutsideUkValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledOwedOutsideUKDebtsForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledOwedOutsideUKDebtsForm.data.toSeq: _*).withMethod("POST")
 
       val result = debtsOutsideUkController.onSubmit (request)
       status(result) mustBe SEE_OTHER

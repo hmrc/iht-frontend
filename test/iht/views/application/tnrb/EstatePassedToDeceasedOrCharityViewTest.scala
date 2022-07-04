@@ -38,7 +38,7 @@ class EstatePassedToDeceasedOrCharityViewTest extends YesNoQuestionViewBehaviour
 
   override def guidance = noGuidance
 
-  override def formTarget = Some(iht.controllers.application.tnrb.routes.EstatePassedToDeceasedOrCharityController.onSubmit())
+  override def formTarget = Some(iht.controllers.application.tnrb.routes.EstatePassedToDeceasedOrCharityController.onSubmit)
 
   override def form: Form[TnrbEligibiltyModel] = estatePassedToDeceasedOrCharityForm
   lazy val estatePassedToDeceasedOrCharityView: estate_passed_to_deceased_or_charity = app.injector.instanceOf[estate_passed_to_deceased_or_charity]

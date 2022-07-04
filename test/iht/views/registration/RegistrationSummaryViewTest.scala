@@ -163,30 +163,30 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
   def expectedSetRows(deceasedAddress: String, applicantAddress: String,
                       coExecutor1Address: String, coExecutor2Address: String, coExecutor3Address: String) = Set(
     SharableOverviewRow(messagesApi("iht.dateOfDeath"), "12 December 2011", messagesApi("iht.change"),
-      deceasedRoutes.DeceasedDateOfDeathController.onEditPageLoad().url + "#date-of-death"),
+      deceasedRoutes.DeceasedDateOfDeathController.onEditPageLoad.url + "#date-of-death"),
     SharableOverviewRow(messagesApi("iht.name.upperCaseInitial"), s"$deceasedFirstName $deceasedLastName", messagesApi("iht.change"),
-      deceasedRoutes.AboutDeceasedController.onEditPageLoad().url + "#firstName"),
+      deceasedRoutes.AboutDeceasedController.onEditPageLoad.url + "#firstName"),
     SharableOverviewRow(messagesApi("iht.registration.deceased.locationOfPermanentHome"), englandOrWales, messagesApi("iht.change"),
-      deceasedRoutes.DeceasedPermanentHomeController.onEditPageLoad().url + "#country"),
+      deceasedRoutes.DeceasedPermanentHomeController.onEditPageLoad.url + "#country"),
     SharableOverviewRow(messagesApi("iht.registration.contactAddress"), deceasedAddress, messagesApi("iht.change"),
-      deceasedRoutes.DeceasedAddressDetailsUKController.onEditPageLoad().url + "#details"),
+      deceasedRoutes.DeceasedAddressDetailsUKController.onEditPageLoad.url + "#details"),
     SharableOverviewRow(messagesApi("iht.dateofbirth"), dob, messagesApi("iht.change"),
-      deceasedRoutes.AboutDeceasedController.onEditPageLoad().toString + "#date-of-birth"),
+      deceasedRoutes.AboutDeceasedController.onEditPageLoad.toString + "#date-of-birth"),
     SharableOverviewRow(messagesApi("iht.nationalInsuranceNo"), deceasedNino, messagesApi("iht.change"),
-      deceasedRoutes.AboutDeceasedController.onEditPageLoad().url + "#nino"),
+      deceasedRoutes.AboutDeceasedController.onEditPageLoad.url + "#nino"),
     SharableOverviewRow(messagesApi("page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.label"),
       "Never married or in a civil partnership", messagesApi("iht.change"),
-      deceasedRoutes.AboutDeceasedController.onEditPageLoad().url + "#relationship-status"),
+      deceasedRoutes.AboutDeceasedController.onEditPageLoad.url + "#relationship-status"),
 
     SharableOverviewRow(messagesApi("iht.registration.applicant.applyingForProbate"), "Yes", messagesApi("iht.change"),
-      applicantRoutes.ApplyingForProbateController.onEditPageLoad().url + "#applying-for-probate"),
+      applicantRoutes.ApplyingForProbateController.onEditPageLoad.url + "#applying-for-probate"),
     SharableOverviewRow(messagesApi("iht.name.upperCaseInitial"), s"$applicantFirstName $applicantLastName"),
     SharableOverviewRow(messagesApi("page.iht.registration.applicant.probateLocation.title"), englandOrWales, messagesApi("iht.change"),
-      applicantRoutes.ProbateLocationController.onEditPageLoad().url + "#country"),
+      applicantRoutes.ProbateLocationController.onEditPageLoad.url + "#country"),
     SharableOverviewRow(messagesApi("iht.registration.checklist.phoneNo.upperCaseInitial"), coExecutorPhoneNo3, messagesApi("iht.change"),
-      applicantRoutes.ApplicantTellUsAboutYourselfController.onEditPageLoad().url + "#phoneNo"),
+      applicantRoutes.ApplicantTellUsAboutYourselfController.onEditPageLoad.url + "#phoneNo"),
     SharableOverviewRow(messagesApi("iht.address.upperCaseInitial"), applicantAddress, messagesApi("iht.change"),
-      applicantRoutes.ApplicantAddressController.onEditPageLoadUk().url + "#details"),
+      applicantRoutes.ApplicantAddressController.onEditPageLoadUk.url + "#details"),
     SharableOverviewRow(messagesApi("iht.nationalInsuranceNo"), applicantNino),
     SharableOverviewRow(messagesApi("iht.dateofbirth"), dob)
   ) ++ expectedExecutor("1", s"$coExecutorFirstName1 $coExecutorLastName1", coExecutorNino1,
@@ -303,7 +303,7 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
     "have a link to add or delete an executor" in {
       val anchor = doc.getElementById("coexecutors-summary")
       anchor.text mustBe messagesApi("page.iht.registration.registrationSummary.coExecutorTable.changeOthersApplying.link")
-      anchor.attr("href") mustBe iht.controllers.registration.executor.routes.ExecutorOverviewController.onPageLoad().url
+      anchor.attr("href") mustBe iht.controllers.registration.executor.routes.ExecutorOverviewController.onPageLoad.url
     }
   }
 }

@@ -106,12 +106,12 @@ class RegistrationChecklistViewTest extends ViewTestHelper with RegistrationChec
 
     "have a continue button" in {
       doc.getElementById("start-registration").text() mustBe pageIhtRegistrationChecklistContinueButton
-      doc.getElementById("start-registration").attr("href") mustBe iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad().url
+      doc.getElementById("start-registration").attr("href") mustBe iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad.url
     }
 
     "have a leave this page text link" in {
       doc.getElementById("leave-page").text() mustBe pageIhtRegistrationChecklistLeaveLink
-      doc.getElementById("leave-page").attr("href") mustBe iht.controllers.filter.routes.FilterController.onPageLoad().url
+      doc.getElementById("leave-page").attr("href") mustBe iht.controllers.filter.routes.FilterController.onPageLoad.url
     }
 
     "have a save link text" in {

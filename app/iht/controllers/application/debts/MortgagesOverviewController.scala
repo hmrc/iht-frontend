@@ -50,7 +50,7 @@ trait MortgagesOverviewController extends ApplicationController with PropertyAnd
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       doPageLoad(
-        onCancel=iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad(),
+        onCancel=iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad,
         onCancelMessageKey=MessageKeyReturnToDebts,
         isVisiblePropertyWarningAndLink=true,
         userNino)

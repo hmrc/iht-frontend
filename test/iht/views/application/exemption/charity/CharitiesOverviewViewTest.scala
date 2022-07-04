@@ -46,7 +46,7 @@ trait CharitiesOverviewViewBehaviour extends GenericNonSubmittablePageBehaviour 
 
   override def exitComponent = Some(
     ExitComponent(
-      iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
+      iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad,
       messagesApi("page.iht.application.return.to.exemptionsOf", deceasedName),
       ExemptionsCharityID
     )
@@ -94,7 +94,7 @@ class CharitiesOverviewViewTest extends CharitiesOverviewViewBehaviour {
     behave like nonSubmittablePage()
 
     behave like link(ExemptionsCharitiesAddID,
-      iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onPageLoad().url,
+      iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onPageLoad.url,
       messagesApi("page.iht.application.exemptions.assetLeftToCharity.addCharity"))
 
     "show ownership question" in {
@@ -106,7 +106,7 @@ class CharitiesOverviewViewTest extends CharitiesOverviewViewBehaviour {
     }
 
     behave like link(ExemptionsCharitiesAssetsID,
-      iht.controllers.application.exemptions.charity.routes.AssetsLeftToCharityQuestionController.onPageLoad().url,
+      iht.controllers.application.exemptions.charity.routes.AssetsLeftToCharityQuestionController.onPageLoad.url,
       messagesApi("iht.change"))
 
     behave like charityWithDeleteAndModify(0, charityName1, charityValue1)
@@ -125,7 +125,7 @@ class CharitiesOverviewViewWithNoBodiesTest extends CharitiesOverviewViewBehavio
 
   "Charities overview view with no qualifying bodies" must {
     behave like link("add-charity",
-      iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onPageLoad().url,
+      iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onPageLoad.url,
       messagesApi("page.iht.application.exemptions.assetLeftToCharity.addCharity"))
   }
 }

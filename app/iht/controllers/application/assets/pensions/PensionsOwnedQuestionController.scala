@@ -44,7 +44,7 @@ trait PensionsOwnedQuestionController extends EstateController {
 
   val pensionsOwnedQuestionView: pensions_owned_question
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad(), Some(appConfig.AssetsPensionsOwnedID))
+    iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad, Some(appConfig.AssetsPensionsOwnedID))
 
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request =>

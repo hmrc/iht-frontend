@@ -83,11 +83,11 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       val withWidowedValue = CommonBuilder.buildWidowedCheck
 
       val filledDeceasedWidowCheckQuestionForm = deceasedWidowCheckQuestionForm.fill(withWidowedValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*).withMethod("POST")
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.DeceasedWidowCheckDateController.onPageLoad().url))
+      redirectLocation(result) must be(Some(routes.DeceasedWidowCheckDateController.onPageLoad.url))
     }
 
     "show errors if invalid fields" in {
@@ -103,7 +103,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
         saveAppDetails = true)
 
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(("widowed", ""), ("shareValue", "233"))
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(("widowed", ""), ("shareValue", "233")).withMethod("POST")
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
       status(result) mustBe BAD_REQUEST
@@ -116,7 +116,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
         getAppDetails = true,
         saveAppDetails = true)
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(("widowed", ""), ("shareValue", "233"))
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(("widowed", ""), ("shareValue", "233")).withMethod("POST")
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
       status(result) mustBe INTERNAL_SERVER_ERROR
@@ -135,11 +135,11 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       val withWidowedValue = CommonBuilder.buildWidowedCheck
 
       val filledDeceasedWidowCheckQuestionForm = deceasedWidowCheckQuestionForm.fill(withWidowedValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*).withMethod("POST")
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.DeceasedWidowCheckDateController.onPageLoad().url))
+      redirectLocation(result) must be(Some(routes.DeceasedWidowCheckDateController.onPageLoad.url))
     }
 
     "go to estate overview page on submit when the deceased is not widowed" in {
@@ -155,7 +155,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       val withWidowedValue = WidowCheck(Some(false), None)
 
       val filledDeceasedWidowCheckQuestionForm = deceasedWidowCheckQuestionForm.fill(withWidowedValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*).withMethod("POST")
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
       status(result) mustBe SEE_OTHER
@@ -179,11 +179,11 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       val widowedCheckComplete = CommonBuilder.buildWidowedCheck
 
       val filledDeceasedWidowCheckQuestionForm = deceasedWidowCheckQuestionForm.fill(widowedCheckComplete)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*).withMethod("POST")
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad().url + "#" + mockAppConfig.TnrbSpouseMartialStatusID))
+      redirectLocation(result) must be(Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad.url + "#" + mockAppConfig.TnrbSpouseMartialStatusID))
     }
 
     "wipe out the WidowCheck date and tnrb eligibility data, go to estate overview page on submit " +
@@ -204,7 +204,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
         saveAppDetails = true)
 
       val filledDeceasedWidowCheckQuestionForm = deceasedWidowCheckQuestionForm.fill(withWidowedValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*).withMethod("POST")
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
       status(result) mustBe SEE_OTHER

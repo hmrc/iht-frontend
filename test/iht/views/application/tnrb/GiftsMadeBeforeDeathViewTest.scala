@@ -47,7 +47,7 @@ class GiftsMadeBeforeDeathViewTest extends YesNoQuestionViewBehaviour[TnrbEligib
       messagesApi("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2"))
   )
 
-  override def formTarget = Some(iht.controllers.application.tnrb.routes.GiftsMadeBeforeDeathController.onSubmit())
+  override def formTarget = Some(iht.controllers.application.tnrb.routes.GiftsMadeBeforeDeathController.onSubmit)
 
   override def form: Form[TnrbEligibiltyModel] = giftMadeBeforeDeathForm
   lazy val giftsMadeBeforeDeathView: gifts_made_before_death = app.injector.instanceOf[gifts_made_before_death]

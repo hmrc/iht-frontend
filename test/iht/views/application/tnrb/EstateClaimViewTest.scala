@@ -39,7 +39,7 @@ class EstateClaimViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel
 
   override def guidance = noGuidance
 
-  override def formTarget = Some(iht.controllers.application.tnrb.routes.EstateClaimController.onSubmit())
+  override def formTarget = Some(iht.controllers.application.tnrb.routes.EstateClaimController.onSubmit)
 
   override def form: Form[TnrbEligibiltyModel] = estateClaimAnyBusinessForm
 

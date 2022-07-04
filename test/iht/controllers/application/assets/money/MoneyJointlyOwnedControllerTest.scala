@@ -83,7 +83,7 @@ class MoneyJointlyOwnedControllerTest extends ApplicationControllerTest {
       val formFill = moneyJointlyOwnedForm.fill(CommonBuilder.buildShareableBasicElementExtended.copy(
         shareValue = Some(1000), isOwnedShare = Some(true)))
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
       setUpTests(applicationDetails)
 
       val result = moneyJointlyOwnedController.onSubmit()(request)
@@ -99,7 +99,7 @@ class MoneyJointlyOwnedControllerTest extends ApplicationControllerTest {
         money = Some(moneyJointlyOwed))))
       val formFill = moneyJointlyOwnedForm.fill(moneyJointlyOwed)
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
       setUpTests(applicationDetails)
 
       val result = moneyJointlyOwnedController.onSubmit()(request)
@@ -126,7 +126,7 @@ class MoneyJointlyOwnedControllerTest extends ApplicationControllerTest {
 
     "redirect to overview when form is submitted with answer yes and a value entered" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(("isOwnedShare", "true"), ("shareValue", "233"))
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(("isOwnedShare", "true"), ("shareValue", "233")).withMethod("POST")
 
       setUpTests(applicationDetails)
 
@@ -136,7 +136,7 @@ class MoneyJointlyOwnedControllerTest extends ApplicationControllerTest {
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("shareValue", "utytyyterrrrrrrrrrrrrr"))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("shareValue", "utytyyterrrrrrrrrrrrrr")).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 

@@ -48,8 +48,8 @@ trait FilterJointlyOwnedController extends FrontendController with I18nSupport {
       boundForm.fold(
         formWithErrors => Future.successful(BadRequest(filterJointlyOwnedView(formWithErrors))),
         choice => choice.getOrElse("") match {
-          case Constants.filterJointlyOwnedNo => Future.successful(Redirect(iht.controllers.filter.routes.EstimateController.onPageLoadWithoutJointAssets()))
-          case Constants.filterJointlyOwnedYes => Future.successful(Redirect(iht.controllers.filter.routes.EstimateController.onPageLoadJointAssets()))
+          case Constants.filterJointlyOwnedNo => Future.successful(Redirect(iht.controllers.filter.routes.EstimateController.onPageLoadWithoutJointAssets))
+          case Constants.filterJointlyOwnedYes => Future.successful(Redirect(iht.controllers.filter.routes.EstimateController.onPageLoadJointAssets))
         }
       )
     }

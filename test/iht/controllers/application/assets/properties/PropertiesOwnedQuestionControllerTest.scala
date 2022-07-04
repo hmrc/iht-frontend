@@ -88,18 +88,18 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
       setUpTests(Some(applicationDetails))
 
       val filledPropertiesForm = propertiesForm.fill(Properties(Some(false)))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPropertiesForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPropertiesForm.data.toSeq: _*).withMethod("POST")
 
       val result = propertiesOwnedQuestionController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
 
       redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(
-        iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url,TestHelper.AppSectionPropertiesID))
+        iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad.url,TestHelper.AppSectionPropertiesID))
       )
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
-     implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
+     implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr")).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
       createMockToGetApplicationDetails(mockIhtConnector)
@@ -114,11 +114,11 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
       setUpTests(Some(applicationDetails))
 
       val filledPropertiesForm = propertiesForm.fill(Properties(Some(true)))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPropertiesForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPropertiesForm.data.toSeq: _*).withMethod("POST")
 
       val result = propertiesOwnedQuestionController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be (Some(routes.PropertyDetailsOverviewController.onPageLoad().url))
+      redirectLocation(result) must be (Some(routes.PropertyDetailsOverviewController.onPageLoad.url))
     }
 
     "save application and go to Property list page on submit where kickout outstanding" in {
@@ -129,11 +129,11 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
       setUpTests(Some(applicationDetails))
 
       val filledPropertiesForm = propertiesForm.fill(Properties(Some(true)))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPropertiesForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPropertiesForm.data.toSeq: _*).withMethod("POST")
 
       val result = propertiesOwnedQuestionController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be (Some(iht.controllers.application.routes.KickoutAppController.onPageLoad().url))
+      redirectLocation(result) must be (Some(iht.controllers.application.routes.KickoutAppController.onPageLoad.url))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

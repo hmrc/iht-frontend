@@ -92,7 +92,7 @@ class FuneralExpensesControllerTest extends ApplicationControllerTest{
       val funeralExpensesValue = BasicEstateElementLiabilities(isOwned = Some(true), value = Some(BigDecimal(33)))
       
       val filledFuneralExpensesForm = funeralExpensesForm.fill(funeralExpensesValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledFuneralExpensesForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledFuneralExpensesForm.data.toSeq: _*).withMethod("POST")
 
       val result = funeralExpensesController.onSubmit (request)
       status(result) mustBe SEE_OTHER
@@ -114,7 +114,7 @@ class FuneralExpensesControllerTest extends ApplicationControllerTest{
         storeAppDetailsInCache = true)
 
       val filledFuneralExpensesForm = funeralExpensesForm.fill(funeralExpenses)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledFuneralExpensesForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledFuneralExpensesForm.data.toSeq: _*).withMethod("POST")
 
       val result = funeralExpensesController.onSubmit (request)
       status(result) mustBe SEE_OTHER
@@ -127,7 +127,7 @@ class FuneralExpensesControllerTest extends ApplicationControllerTest{
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr")).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
@@ -150,7 +150,7 @@ class FuneralExpensesControllerTest extends ApplicationControllerTest{
       val funeralExpensesValue = BasicEstateElementLiabilities(isOwned = Some(true), value = Some(BigDecimal(33)))
 
       val filledFuneralExpensesForm = funeralExpensesForm.fill(funeralExpensesValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledFuneralExpensesForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledFuneralExpensesForm.data.toSeq: _*).withMethod("POST")
 
       val result = funeralExpensesController.onSubmit (request)
       status(result) mustBe SEE_OTHER

@@ -43,7 +43,7 @@ class MoneyJointlyOwnedViewTest extends ShareableElementInputViewBehaviour[Share
   override def hasValueQuestionHelp = false
   override def valueQuestionHelp = ""
   override def returnLinkText = messagesApi("site.link.return.money")
-  override def returnLinkUrl = CommonHelper.addFragmentIdentifierToUrl(MoneyOverviewController.onPageLoad().url, TestHelper.AssetsMoneySharedID)
+  override def returnLinkUrl = CommonHelper.addFragmentIdentifierToUrl(MoneyOverviewController.onPageLoad.url, TestHelper.AssetsMoneySharedID)
   override def formTarget =Some(routes.MoneyJointlyOwnedController.onSubmit)
 
   "Money Jointly Owned view" must {

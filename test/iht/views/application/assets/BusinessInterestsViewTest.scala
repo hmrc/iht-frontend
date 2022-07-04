@@ -42,7 +42,7 @@ class BusinessInterestsViewTest  extends ShareableElementInputViewBehaviour[Basi
   override def hasValueQuestionHelp = true
   override def valueQuestionHelp = messagesApi("page.iht.application.assets.businessInterest.hint")
   override def returnLinkText = messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
-  override def returnLinkUrl = AssetsOverviewController.onPageLoad().url
+  override def returnLinkUrl = AssetsOverviewController.onPageLoad.url
   override def formTarget =Some(routes.BusinessInterestsController.onSubmit)
   override def linkHash = appConfig.AppSectionBusinessInterestID
 

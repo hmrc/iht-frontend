@@ -46,7 +46,7 @@
 
     @errorSummaryOverrideKeys(householdJointlyOwned, Constants.AppSectionHousehold)
 
-    @form(action = iht.controllers.application.assets.household.routes.HouseholdJointlyOwnedController.onSubmit(),'autoComplete -> "off") {
+    @form(action = iht.controllers.application.assets.household.routes.HouseholdJointlyOwnedController.onSubmit,'autoComplete -> "off") {
 
     @genericEstateElementAssets(
                                 assetType = Constants.AssetTypeJoint,
@@ -63,7 +63,7 @@
     }
     @returnLink(
         Messages("site.link.return.household"),
-        Some(iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad()),
+        Some(iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad),
         appConfig.AssetsHouseholdSharedID
     )
 

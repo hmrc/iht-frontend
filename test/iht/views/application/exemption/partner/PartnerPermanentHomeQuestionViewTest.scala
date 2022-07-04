@@ -39,13 +39,13 @@ class PartnerPermanentHomeQuestionViewTest extends YesNoQuestionViewBehaviour[Pa
 
   override def guidance = noGuidance
 
-  override def formTarget = Some(iht.controllers.application.exemptions.partner.routes.PartnerPermanentHomeQuestionController.onSubmit())
+  override def formTarget = Some(iht.controllers.application.exemptions.partner.routes.PartnerPermanentHomeQuestionController.onSubmit)
 
   override val cancelId: String = "cancel-button"
 
   override def cancelComponent = Some(
     CancelComponent(
-      iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(),
+      iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad,
       CommonBuilder.DefaultString,
       ExemptionsPartnerHomeID
     )

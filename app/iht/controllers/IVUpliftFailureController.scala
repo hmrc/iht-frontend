@@ -47,8 +47,8 @@ trait IVUpliftFailureController extends FrontendController with I18nSupport with
   val cc: MessagesControllerComponents
   implicit lazy val ec: ExecutionContext = cc.executionContext
 
-  lazy val ivUrlApplication: String = iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url
-  lazy val ivUrlRegistration: String = iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad().url
+  lazy val ivUrlApplication: String = iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url
+  lazy val ivUrlRegistration: String = iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad.url
 
   def showNotAuthorisedApplication(journeyId: Option[String]) : Action[AnyContent] = Action.async {implicit request =>
     showNotAuthorised(journeyId, ivUrlApplication)

@@ -39,7 +39,7 @@ trait CharityDetailsOverviewViewBehaviour extends GenericNonSubmittablePageBehav
 
   override def exitComponent = Some(
     ExitComponent(
-      iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad(),
+      iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad,
       messagesApi("iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities"),
       ExemptionsCharitiesChangeID + "1"
     )

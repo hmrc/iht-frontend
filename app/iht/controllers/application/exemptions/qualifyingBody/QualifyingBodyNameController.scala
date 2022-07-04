@@ -43,9 +43,9 @@ class QualifyingBodyNameControllerImpl @Inject()(val ihtConnector: IhtConnector,
 trait QualifyingBodyNameController extends EstateController {
 
 
-  lazy val submitUrl = CommonHelper.addFragmentIdentifier(routes.QualifyingBodyNameController.onSubmit(), Some(appConfig.ExemptionsOtherNameID))
+  lazy val submitUrl = CommonHelper.addFragmentIdentifier(routes.QualifyingBodyNameController.onSubmit, Some(appConfig.ExemptionsOtherNameID))
 
-  def cancelUrl = routes.QualifyingBodyDetailsOverviewController.onPageLoad()
+  def cancelUrl = routes.QualifyingBodyDetailsOverviewController.onPageLoad
 
   private def editCancelUrl(id: String) = routes.QualifyingBodyDetailsOverviewController.onEditPageLoad(id)
 

@@ -50,7 +50,7 @@ trait GiftsDetailsController extends EstateController {
 
   override val applicationSection: Option[String] = Some(ApplicationKickOutHelper.ApplicationSectionGiftDetails)
   private lazy val cancelLabelKey = "GiftsDetailsCancelLabel"
-  private lazy val sevenYearsGiftsRedirectLocation = iht.controllers.application.gifts.routes.SevenYearsGiftsValuesController.onPageLoad()
+  private lazy val sevenYearsGiftsRedirectLocation = iht.controllers.application.gifts.routes.SevenYearsGiftsValuesController.onPageLoad
   private lazy val cancelLabelKeyValueCancel = "iht.estateReport.gifts.returnToGiftsGivenAwayInThe7YearsBeforeDeath"
   private lazy val cancelLabelKeyValueReturnToGifts = "iht.estateReport.gifts.returnToGiftsGivenAway"
 

@@ -40,12 +40,12 @@ trait EstateController extends ApplicationController with ApplicationKickOutNonS
   def ihtConnector: IhtConnector
 
   lazy val assetsRedirectLocation =
-    iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()
+    iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad
   lazy val insurancePoliciesRedirectLocation =
-    iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()
-  lazy val debtsRedirectLocation = iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()
-  lazy val giftsRedirectLocation = iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()
-  lazy val kickoutRedirectLocation = iht.controllers.application.routes.KickoutAppController.onPageLoad()
+    iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad
+  lazy val debtsRedirectLocation = iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad
+  lazy val giftsRedirectLocation = iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad
+  lazy val kickoutRedirectLocation = iht.controllers.application.routes.KickoutAppController.onPageLoad
 
   val retrieveSectionDetailsOrExceptionIfInvalidID: String => ApplicationDetails => Option[Charity] = id => ad => {
     val foundCharity = ad.charities.find(_.id.contains(id))

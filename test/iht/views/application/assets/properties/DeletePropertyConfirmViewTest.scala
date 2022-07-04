@@ -50,7 +50,7 @@ class DeletePropertyConfirmViewTest extends GenericNonSubmittablePageBehaviour {
 
     "show cancel link with correct target and text" in {
       val submitButton = doc.getElementById("cancel-button")
-      submitButton.attr("href") mustBe CommonHelper.addFragmentIdentifierToUrl(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad().url, TestHelper.AssetsPropertiesDeleteID + "1")
+      submitButton.attr("href") mustBe CommonHelper.addFragmentIdentifierToUrl(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad.url, TestHelper.AssetsPropertiesDeleteID + "1")
       submitButton.text() mustBe messagesApi("site.link.cancel")
     }
 

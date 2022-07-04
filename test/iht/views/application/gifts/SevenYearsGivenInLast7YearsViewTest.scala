@@ -52,11 +52,11 @@ class SevenYearsGivenInLast7YearsViewTest extends SubmittableApplicationPageBeha
     )
   )
 
-  override def formTarget = Some(iht.controllers.application.gifts.routes.SevenYearsGivenInLast7YearsController.onSubmit())
+  override def formTarget = Some(iht.controllers.application.gifts.routes.SevenYearsGivenInLast7YearsController.onSubmit)
 
   override def cancelComponent = Some(
     CancelComponent(
-      iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad(),
+      iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad,
       messagesApi("page.iht.application.gifts.return.to.givenAwayBy",
         CommonHelper.getOrException(regDetails.deceasedDetails).name),
       TestHelper.GiftsSevenYearsQuestionID

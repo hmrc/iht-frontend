@@ -121,7 +121,7 @@ class ApplyingForProbateControllerTest
         role = Some(mockAppConfig.roleLeadExecutor)))
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
-        host = host, data = form.data.toSeq, authRetrieveNino = false)
+        host = host, data = form.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
       val result = controller.onSubmit(request)
       status(result) mustBe SEE_OTHER
@@ -136,7 +136,7 @@ class ApplyingForProbateControllerTest
       val form = applyingForProbateForm.fill(ApplicantDetails(role = Some(mockAppConfig.roleLeadExecutor))).data.toSeq
       val seq = form filter { case (key: String, value: String) => key != "isApplyingForProbate"}
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
-        host = host, data = seq, authRetrieveNino = false)
+        host = host, data = seq, authRetrieveNino = false).withMethod("POST")
 
       val result = controller.onSubmit(request)
       status(result) must be(BAD_REQUEST)
@@ -153,11 +153,12 @@ class ApplyingForProbateControllerTest
       val form = applyingForProbateForm.fill(ApplicantDetails(isApplyingForProbate = Some(true), role = Some(mockAppConfig.roleLeadExecutor)))
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host, data = form.data.toSeq, authRetrieveNino = false)
+        .withMethod("POST")
 
       val result = controller.onSubmit(request)
       status(result) must be(SEE_OTHER)
       redirectLocation(result) must be(
-        Some(iht.controllers.registration.applicant.routes.ExecutorOfEstateController.onPageLoad().url))
+        Some(iht.controllers.registration.applicant.routes.ExecutorOfEstateController.onPageLoad.url))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val applicant = capturedValue.applicantDetails.get
@@ -178,11 +179,11 @@ class ApplyingForProbateControllerTest
       val form = applyingForProbateForm.fill(ApplicantDetails(isApplyingForProbate = Some(false), role = Some(mockAppConfig.roleLeadExecutor)))
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
-        host = host, data = form.data.toSeq, authRetrieveNino = false)
+        host = host, data = form.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
       val result = controller.onSubmit(request)
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.registration.routes.KickoutRegController.onPageLoad().url))
+      redirectLocation(result) must be(Some(iht.controllers.registration.routes.KickoutRegController.onPageLoad.url))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val applicant = capturedValue.applicantDetails.get
@@ -201,10 +202,11 @@ class ApplyingForProbateControllerTest
       val form = applyingForProbateForm.fill(ApplicantDetails(isApplyingForProbate = Some(true), role = Some(mockAppConfig.roleLeadExecutor)))
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host, data = form.data.toSeq, authRetrieveNino = false)
+        .withMethod("POST")
 
       val result = controller.onEditSubmit(request)
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad().url))
+      redirectLocation(result) must be(Some(iht.controllers.registration.routes.RegistrationSummaryController.onPageLoad.url))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val applicant = capturedValue.applicantDetails.get
@@ -234,10 +236,11 @@ class ApplyingForProbateControllerTest
       val form = applyingForProbateForm.fill(ApplicantDetails(isApplyingForProbate = Some(false), role = Some(mockAppConfig.roleLeadExecutor)))
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host, data = form.data.toSeq, authRetrieveNino = false)
+        .withMethod("POST")
 
       val result = controller.onEditSubmit(request)
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(iht.controllers.registration.routes.KickoutRegController.onPageLoad().url))
+      redirectLocation(result) must be(Some(iht.controllers.registration.routes.KickoutRegController.onPageLoad.url))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val applicant = capturedValue.applicantDetails.get

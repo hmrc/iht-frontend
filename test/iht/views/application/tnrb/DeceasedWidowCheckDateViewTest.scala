@@ -47,7 +47,7 @@ class DeceasedWidowCheckDateViewTest extends ViewTestHelper with TnrbHelper {
 
   lazy val returnLinkId = "cancel-button"
   lazy val returnLinkText = messagesApi("page.iht.application.tnrb.returnToIncreasingThreshold")
-  lazy val returnLinkTargetUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
+  lazy val returnLinkTargetUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad
 
   "DeceasedWidowCheckDateView " must {
 

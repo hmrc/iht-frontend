@@ -136,7 +136,7 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
       contentAsString(result) must include(messagesApi("iht.address.line4"))
       contentAsString(result) must include(messagesApi("iht.postcode"))
       contentAsString(result) must include(messagesApi("iht.registration.changeAddressToAbroad"))
-      contentAsString(result) must include(routes.ApplicantAddressController.onPageLoadAbroad().url)
+      contentAsString(result) must include(routes.ApplicantAddressController.onPageLoadAbroad.url)
     }
 
     "load when revisited and applicant lives in the UK" in {
@@ -175,7 +175,7 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
       contentAsString(result) must include(messagesApi("iht.address.line4"))
       contentAsString(result) must include(messagesApi("iht.country"))
       contentAsString(result) must include(messagesApi("iht.registration.changeAddressToUK"))
-      contentAsString(result) must include(routes.ApplicantAddressController.onPageLoadUk().url)
+      contentAsString(result) must include(routes.ApplicantAddressController.onPageLoadUk.url)
     }
 
     "load when revisited and applicant lives abroad" in {
@@ -259,7 +259,7 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
       val form = applicantAddressUkForm.fill(ukAddress)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
-        data = form.data.toSeq, authRetrieveNino = false)
+        data = form.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
       val result = controller.onSubmitUk(request)
       status(result) must be(SEE_OTHER)
@@ -279,7 +279,7 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
       val form = applicantAddressAbroadForm.fill(addressAbroad)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
-        data = form.data.toSeq, authRetrieveNino = false)
+        data = form.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
       val result = controller.onSubmitAbroad(request)
       status(result) must be(SEE_OTHER)
@@ -299,10 +299,11 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
       val form = applicantAddressUkForm.fill(ukAddress)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host, data = form.data.toSeq, authRetrieveNino = false)
+        .withMethod("POST")
 
       val result = controller.onEditSubmitUk(request)
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(registrationRoutes.RegistrationSummaryController.onPageLoad().url))
+      redirectLocation(result) must be(Some(registrationRoutes.RegistrationSummaryController.onPageLoad.url))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val applicant = capturedValue.applicantDetails.get
@@ -317,10 +318,11 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
       val form = applicantAddressAbroadForm.fill(addressAbroad)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host, data = form.data.toSeq, authRetrieveNino = false)
+        .withMethod("POST")
 
       val result = controller.onEditSubmitAbroad(request)
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) must be(Some(registrationRoutes.RegistrationSummaryController.onPageLoad().url))
+      redirectLocation(result) must be(Some(registrationRoutes.RegistrationSummaryController.onPageLoad.url))
 
       val capturedValue = verifyAndReturnStoredRegistationDetails(mockCachingConnector)
       val applicant = capturedValue.applicantDetails.get
@@ -333,7 +335,7 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
 
       val result = await(controller.onPageLoadUk(createFakeRequest(authRetrieveNino = false)))
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) mustBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url)
+      redirectLocation(result) mustBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url)
     }
 
     "redirect address to estate report if RegistrationDetails object does not contain applicant details" in {
@@ -349,7 +351,7 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
 
       val form = applicantAddressUkForm.fill(ukAddress)
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
-        data = form.data.toSeq, authRetrieveNino = false)
+        data = form.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
       val result = await(controller.onSubmitUk(request))
       status(result) mustBe SEE_OTHER
@@ -451,7 +453,7 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
       val form = if (isInternational) applicantAddressAbroadForm.fill(address) else applicantAddressUkForm.fill(address)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
-        data = form.data.toSeq, authRetrieveNino = false)
+        data = form.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
       val result = if (isInternational) controller.onSubmitAbroad(request) else controller.onSubmitUk(request)
       status(result) must be(BAD_REQUEST)
@@ -465,7 +467,7 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
       val form = applicantAddressUkForm.fill(ukAddress)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
-        data = form.data.toSeq, authRetrieveNino = false)
+        data = form.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
       val result = controller.onSubmitUk(request)
       status(result) must be(INTERNAL_SERVER_ERROR)

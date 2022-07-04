@@ -106,7 +106,7 @@ class InsurancePolicyDetailsPayingOtherControllerTest extends ApplicationControl
       val insurancePayingOtherValue = CommonBuilder.buildInsurancePolicy.copy(isInsurancePremiumsPayedForSomeoneElse=Some(true))
 
       val filledInsuranceForm = insurancePolicyPayingOtherForm.fill(insurancePayingOtherValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*).withMethod("POST")
 
       val result = insurancePolicyDetailsPayingOtherController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
@@ -126,7 +126,7 @@ class InsurancePolicyDetailsPayingOtherControllerTest extends ApplicationControl
       val insurancePayingOtherValue = CommonBuilder.buildInsurancePolicy.copy(isInsurancePremiumsPayedForSomeoneElse=Some(false))
 
       val filledInsuranceForm = insurancePolicyPayingOtherForm.fill(insurancePayingOtherValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*).withMethod("POST")
 
       val result = insurancePolicyDetailsPayingOtherController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
@@ -144,7 +144,7 @@ class InsurancePolicyDetailsPayingOtherControllerTest extends ApplicationControl
       val insurancePayingOtherValue = CommonBuilder.buildInsurancePolicy.copy(isInsurancePremiumsPayedForSomeoneElse=Some(true))
 
       val filledInsuranceForm = insurancePolicyPayingOtherForm.fill(insurancePayingOtherValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*).withMethod("POST")
 
       val result = insurancePolicyDetailsPayingOtherController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
@@ -152,7 +152,7 @@ class InsurancePolicyDetailsPayingOtherControllerTest extends ApplicationControl
 
     "respond with bad request when incorrect value are entered on the page" in {
 
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr")).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
@@ -176,7 +176,7 @@ class InsurancePolicyDetailsPayingOtherControllerTest extends ApplicationControl
       createMocks(applicationDetails)
 
       val filledForm = insurancePolicyPayingOtherForm.fill(insurancePolicyDetails)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*).withMethod("POST")
 
       val result = insurancePolicyDetailsPayingOtherController.onSubmit (request)
       redirectLocation(result) must be (Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsMoreThanMaxValueController.onPageLoad.url))

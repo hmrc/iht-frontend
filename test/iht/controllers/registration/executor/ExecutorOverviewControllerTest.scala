@@ -72,7 +72,7 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
 
       intercept[Exception] {
-        val result = executorOverviewController.onPageLoad()(createFakeRequestWithReferrer(referrerURL = referrerURL, host = host, authRetrieveNino = false))
+        val result = executorOverviewController.onPageLoad(createFakeRequestWithReferrer(referrerURL = referrerURL, host = host, authRetrieveNino = false))
         status(result) mustBe (OK)
       }
     }
@@ -82,7 +82,7 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
 
-      val result = executorOverviewController.onPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,host="localhost:9070", authRetrieveNino = false))
+      val result = executorOverviewController.onPageLoad(createFakeRequestWithReferrer(referrerURL=referrerURL,host="localhost:9070", authRetrieveNino = false))
 
       status(result) mustBe(OK)
       contentAsString(result) must include(messagesApi("iht.registration.othersApplyingForProbate"))
@@ -97,7 +97,7 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithCoExecs))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rdWithCoExecs))
 
-      val result = executorOverviewController.onPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,host="localhost:9070", authRetrieveNino = false))
+      val result = executorOverviewController.onPageLoad(createFakeRequestWithReferrer(referrerURL=referrerURL,host="localhost:9070", authRetrieveNino = false))
 
       status(result) must be(OK)
       contentAsString(result) must include(CommonBuilder.DefaultName)
@@ -114,7 +114,7 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rdWithCoExecs))
 
 
-      val result = executorOverviewController.onPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,host="localhost:9070", authRetrieveNino = false))
+      val result = executorOverviewController.onPageLoad(createFakeRequestWithReferrer(referrerURL=referrerURL,host="localhost:9070", authRetrieveNino = false))
 
       status(result) must be(OK)
       contentAsString(result) must include(CommonBuilder.DefaultName)
@@ -137,6 +137,7 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
     createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rdWithCoExecs))
 
     val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = "localhost:9070", data = summaryForm.data.toSeq, authRetrieveNino = false)
+      .withMethod("POST")
 
     val result = executorOverviewController.onSubmit()(request)
     status(result) mustBe SEE_OTHER
@@ -154,10 +155,11 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
 
 
     val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = "localhost:9070", data = summaryForm.data.toSeq, authRetrieveNino = false)
+      .withMethod("POST")
 
     val result = executorOverviewController.onSubmit()(request)
     status(result) mustBe SEE_OTHER
-    redirectLocation(result) mustBe Some(registrationRoutes.RegistrationSummaryController.onPageLoad().url)
+    redirectLocation(result) mustBe Some(registrationRoutes.RegistrationSummaryController.onPageLoad.url)
   }
 
   "when the summary page is displayed with fewer than three names, clicking on continue without selecting yes of no is an error" in {
@@ -172,6 +174,7 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
 
 
     val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = "localhost:9070", data = summaryForm.data.toSeq, authRetrieveNino = false)
+      .withMethod("POST")
 
     val result = executorOverviewController.onSubmit()(request)
     status(result)
@@ -188,6 +191,7 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
     createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rdWithNoCoExecs))
 
     val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = "localhost:9070", data = summaryForm.data.toSeq, authRetrieveNino = false)
+      .withMethod("POST")
     val result = executorOverviewController.onSubmit()(request)
 
     status(result) mustBe BAD_REQUEST

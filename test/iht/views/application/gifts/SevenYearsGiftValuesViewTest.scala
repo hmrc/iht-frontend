@@ -43,7 +43,7 @@ class SevenYearsGiftValuesViewTest extends GenericNonSubmittablePageBehaviour {
 
   override def exitComponent = Some(
     ExitComponent(
-      iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad(),
+      iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad,
       messagesApi("page.iht.application.gifts.return.to.givenAwayBy", deceasedName),
       TestHelper.GiftsValueOfGiftsQuestionID
     )

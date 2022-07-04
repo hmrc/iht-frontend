@@ -42,7 +42,7 @@ class PropertyDetailsOverviewViewTest extends GenericNonSubmittablePageBehaviour
 
   override def exitComponent = Some(
     ExitComponent(
-      iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad(),
+      iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad,
       messagesApi("page.iht.application.assets.property.detailsOverview.returnLink"),
       TestHelper.AssetsPropertiesChangeID + "1"
     )

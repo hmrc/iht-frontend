@@ -72,7 +72,7 @@ trait CharityDeleteConfirmController extends EstateController with StringHelper 
 
             ihtConnector.saveApplication(nino, newAppDetails, rd.acknowledgmentReference).map {
               case Some(_) =>
-                Redirect(iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad())
+                Redirect(iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad)
               case _ => {
                 logger.warn("Save of app details fails with id = " + id
                   + " during save of app details during onSubmit of delete confirmation")

@@ -73,7 +73,7 @@ class ProbateLocationControllerTest
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
-      val result = controller.onPageLoad()(createFakeRequest())
+      val result = controller.onPageLoad(createFakeRequest())
       status(result) mustBe OK
 
       contentAsString(result) must include(messagesApi("page.iht.registration.applicant.probateLocation.title"))
@@ -101,28 +101,28 @@ class ProbateLocationControllerTest
       val applicantDetails = CommonBuilder.buildApplicantDetails
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
       val filledForm = probateLocationForm.fill(applicantDetails)
-      val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(filledForm.data.toSeq: _*).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
       val result = controller.onSubmit()(request)
-      redirectLocation(result) must be(Some(routes.ApplicantTellUsAboutYourselfController.onPageLoad().url))
+      redirectLocation(result) must be(Some(routes.ApplicantTellUsAboutYourselfController.onPageLoad.url))
     }
 
     "respond appropriately to a submit in edit mode with valid values in all fields" in  {
       val applicantDetails = CommonBuilder.buildApplicantDetails
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
       val filledForm = probateLocationForm.fill(applicantDetails)
-      val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(filledForm.data.toSeq: _*).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
       val result = controller.onEditSubmit()(request)
-      redirectLocation(result) must be(Some(registrationRoutes.RegistrationSummaryController.onPageLoad().url))
+      redirectLocation(result) must be(Some(registrationRoutes.RegistrationSummaryController.onPageLoad.url))
     }
 
     "respond appropriately to an invalid submit: Missing mandatory fields" in {
@@ -130,7 +130,7 @@ class ProbateLocationControllerTest
       val registrationDetails = CommonBuilder.buildRegistrationDetailsWithDeceasedDetails copy (
         applicantDetails = Some(applicantDetails))
       val filledForm = probateLocationForm.fill(applicantDetails)
-      val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(filledForm.data.toSeq: _*).withMethod("POST")
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
@@ -150,6 +150,7 @@ class ProbateLocationControllerTest
       val form = probateLocationForm.fill(applicantDetails)
 
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq, authRetrieveNino = false)
+        .withMethod("POST")
 
       val result = controller.onSubmit()(request)
       status(result) must be (SEE_OTHER)
@@ -174,6 +175,7 @@ class ProbateLocationControllerTest
       val form = probateLocationForm.fill(applicantDetails)
 
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq, authRetrieveNino = false)
+        .withMethod("POST")
 
       val result = controller.onEditSubmit()(request)
       status(result) must be (SEE_OTHER)
@@ -201,7 +203,7 @@ class ProbateLocationControllerTest
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
       val applicantDetailsForm1 = probateLocationForm.fill(applicantDetails)
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-        data=applicantDetailsForm1.data.toSeq, authRetrieveNino = false)
+        data=applicantDetailsForm1.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -213,7 +215,7 @@ class ProbateLocationControllerTest
       val result = await(controller.onSubmit()(request))
       status(result) must be(SEE_OTHER)
       redirectLocation(result) must be (
-        Some(iht.controllers.registration.routes.KickoutRegController.onPageLoad().url))
+        Some(iht.controllers.registration.routes.KickoutRegController.onPageLoad.url))
       verifyAndReturnStoredSingleValue(mockCachingConnector) match {
         case (cachedKey, cachedValue) =>
           cachedKey mustBe RegistrationKickoutReasonCachingKey
@@ -234,6 +236,7 @@ class ProbateLocationControllerTest
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
       val filledForm = probateLocationForm.fill(applicantDetails)
       val request = createFakeRequest(authRetrieveNino = false).withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+          .withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))

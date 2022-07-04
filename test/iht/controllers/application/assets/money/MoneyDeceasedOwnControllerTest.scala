@@ -95,7 +95,7 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = List())
       val formFill = moneyFormOwn.fill(CommonBuilder.buildShareableBasicElementExtended.copy(value = Some(100),
                                                     shareValue = None, isOwned = Some(true), isOwnedShare = None))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
       setUpTests(applicationDetails)
 
       val result = moneyDeceasedOwnController.onSubmit()(request)
@@ -112,7 +112,7 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
         money = Some(moneyOwed))))
 
       val formFill = moneyFormOwn.fill(moneyOwed)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
       setUpTests(applicationDetails)
 
       val result = moneyDeceasedOwnController.onSubmit()(request)
@@ -139,7 +139,7 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
 
     "redirect to overview when form is submitted with answer yes and a value entered" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(("isOwned", "true"), ("value", "233"))
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(("isOwned", "true"), ("value", "233")).withMethod("POST")
 
       setUpTests(applicationDetails)
 
@@ -149,7 +149,7 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr")).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
@@ -158,7 +158,7 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
     }
 
     "respond with bad request and correct error message when no answer is selected" in {
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("", ""))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("", "")).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 

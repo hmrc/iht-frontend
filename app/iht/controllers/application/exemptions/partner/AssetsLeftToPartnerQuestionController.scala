@@ -49,12 +49,12 @@ class AssetsLeftToPartnerQuestionControllerImpl @Inject()(val ihtConnector: IhtC
 trait AssetsLeftToPartnerQuestionController extends EstateController with ApplicationKickOutNonSummaryHelper with StringHelper
   with Logging {
 
-  lazy val partnerPermanentHomePage = routes.PartnerPermanentHomeQuestionController.onPageLoad()
+  lazy val partnerPermanentHomePage = routes.PartnerPermanentHomeQuestionController.onPageLoad
 
   lazy val exemptionsOverviewPage = addFragmentIdentifier(
-    iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(appConfig.ExemptionsPartnerID))
+    iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad, Some(appConfig.ExemptionsPartnerID))
 
-  lazy val partnerOverviewPage = addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(appConfig.ExemptionsPartnerAssetsID))
+  lazy val partnerOverviewPage = addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad, Some(appConfig.ExemptionsPartnerAssetsID))
 
   val assetsLeftToPartnerQuestionView: assets_left_to_partner_question
   def onPageLoad = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
@@ -199,7 +199,7 @@ trait AssetsLeftToPartnerQuestionController extends EstateController with Applic
     partner match {
       case Some(x) =>
         if (x.isAssetForDeceasedPartner.isDefined && x.isPartnerHomeInUK.isDefined) {
-          routes.PartnerOverviewController.onPageLoad()
+          routes.PartnerOverviewController.onPageLoad
         } else {
           exemptionsOverviewPage
         }

@@ -96,7 +96,7 @@ class MoneyOwedControllerTest extends ApplicationControllerTest{
       val moneyOwedValue = CommonBuilder.buildBasicElement.copy(value=Some(20), isOwned=Some(true))
 
       val filledMoneyOwedForm = moneyOwedForm.fill(moneyOwedValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledMoneyOwedForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledMoneyOwedForm.data.toSeq: _*).withMethod("POST")
 
       val result = moneyOwedController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
@@ -117,7 +117,7 @@ class MoneyOwedControllerTest extends ApplicationControllerTest{
         storeAppDetailsInCache = true)
 
       val filledMoneyOwedForm = moneyOwedForm.fill(moneyOwed)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledMoneyOwedForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledMoneyOwedForm.data.toSeq: _*).withMethod("POST")
 
       val result = moneyOwedController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
@@ -131,7 +131,7 @@ class MoneyOwedControllerTest extends ApplicationControllerTest{
 
     "respond with bad request when incorrect value are entered on the page" in {
 
-     implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
+     implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr")).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
@@ -153,14 +153,14 @@ class MoneyOwedControllerTest extends ApplicationControllerTest{
       val moneyOwedValue = CommonBuilder.buildBasicElement.copy(value=Some(20), isOwned=Some(true))
 
       val filledMoneyOwedForm = moneyOwedForm.fill(moneyOwedValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledMoneyOwedForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledMoneyOwedForm.data.toSeq: _*).withMethod("POST")
 
       val result = moneyOwedController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
     }
 
     "respond with bad request and correct error message when no answer is selected" in {
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("", ""))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("", "")).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 

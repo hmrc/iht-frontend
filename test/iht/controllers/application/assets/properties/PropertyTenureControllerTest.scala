@@ -81,14 +81,14 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
 
       setUpTests(Some(applicationDetails))
       
-      val result = propertyTenureController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyTenureController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be (OK)
     }
 
     "display the correct title on page" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector)
 
-      val result = propertyTenureController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyTenureController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be (OK)
       contentAsString(result) must include (messagesApi("iht.estateReport.assets.properties.freeholdOrLeasehold"))
     }
@@ -126,7 +126,7 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
       val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.copy(propertyList = List())
       val formFill = propertyTenureForm.fill(CommonBuilder.buildProperty.copy(tenure = None))
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
 
       setUpTests(Some(applicationDetails))
 
@@ -140,7 +140,7 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
 
       val formFill = propertyTenureForm.fill(CommonBuilder.buildProperty.copy(tenure = TestHelper.TenureFreehold))
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
 
       setUpTests(Some(applicationDetails))
 
@@ -160,7 +160,7 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
 
       val formFill = propertyTenureForm.fill(CommonBuilder.buildProperty.copy(tenure = TestHelper.TenureFreehold))
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
 
       setUpTests(Some(applicationDetails))
 

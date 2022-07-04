@@ -26,7 +26,7 @@
 @ihtMainTemplateApplication(title = Messages("page.iht.iv.failure.technicalIssue.heading")) {
  <p>@Messages("iht.application.timeout.p1")</p>
  <p data-journey="estateReport-service-unavailable:page-view:service-unavailable">@Messages("error.registration.serviceUnavailable.p1")</p>
- <p>@Html(Messages("error.estateReport.serviceUnavailable.p3",iht.controllers.application.declaration.routes.DeclarationController.onPageLoad()))</p>
+ <p>@Html(Messages("error.estateReport.serviceUnavailable.p3",iht.controllers.application.declaration.routes.DeclarationController.onPageLoad))</p>
  <p>@Messages("page.iht.iv.failure.youCanAlso")</p>
  <div class="form-group">
  <ul class="list-bullet">
@@ -39,11 +39,11 @@
  </div>
 
  <div class="form-group">
-  <a class="button" href="@iht.controllers.application.declaration.routes.DeclarationController.onPageLoad().url">@Messages("iht.iv.tryAgain")</a>
+  <a class="button" href="@iht.controllers.application.declaration.routes.DeclarationController.onPageLoad.url">@Messages("iht.iv.tryAgain")</a>
  </div>
 
  <div>
-  <a href="@iht.controllers.routes.FeedbackSurveyController.redirectExitSurvey().url">
+  <a href="@iht.controllers.routes.FeedbackSurveyController.redirectExitSurvey.url">
   @Messages("page.iht.sign.out")
   </a>
  </div>

@@ -42,11 +42,11 @@ class TrustsOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[HeldInTrust
 
   override def browserTitle = messagesApi("page.iht.application.assets.trusts.isOwned.browserTitle")
 
-  override def formTarget = Some(iht.controllers.application.assets.trusts.routes.TrustsOwnedQuestionController.onSubmit())
+  override def formTarget = Some(iht.controllers.application.assets.trusts.routes.TrustsOwnedQuestionController.onSubmit)
 
   override def cancelComponent = Some(
     CancelComponent(
-      iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
+      iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad,
       messagesApi("page.iht.application.return.to.assetsOf", deceasedName),
       AppSectionHeldInTrustID
     )

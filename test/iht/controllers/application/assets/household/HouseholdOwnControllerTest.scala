@@ -85,7 +85,7 @@ class HouseholdDeceasedOwnControllerTest extends ApplicationControllerTest {
       val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.copy(propertyList = List())
       val formFill = householdFormOwn.fill(CommonBuilder.buildShareableBasicElementExtended.copy(
                                         value = Some(100), shareValue = None, isOwned = Some(true), isOwnedShare = None))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
       setUpTests(applicationDetails)
 
       val result = householdDeceasedOwnController.onSubmit()(request)
@@ -103,7 +103,7 @@ class HouseholdDeceasedOwnControllerTest extends ApplicationControllerTest {
                           household = Some(houseHold))))
 
       val formFill = householdFormOwn.fill(houseHold)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
       setUpTests(applicationDetails)
 
       val result = householdDeceasedOwnController.onSubmit()(request)
@@ -131,17 +131,17 @@ class HouseholdDeceasedOwnControllerTest extends ApplicationControllerTest {
 
     "redirect to overview when form is submitted with answer yes and a value entered" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(("isOwned", "true"), ("value", "233"))
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(("isOwned", "true"), ("value", "233")).withMethod("POST")
 
       setUpTests(applicationDetails)
 
       val result = householdDeceasedOwnController.onSubmit()(request)
       status(result) must be (SEE_OTHER)
-      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.HouseholdOverviewController.onPageLoad().url, mockAppConfig.AssetsHouseholdOwnID)))
+      redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.HouseholdOverviewController.onPageLoad.url, mockAppConfig.AssetsHouseholdOwnID)))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr")).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 

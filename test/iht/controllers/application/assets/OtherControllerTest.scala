@@ -93,7 +93,7 @@ class OtherControllerTest extends ApplicationControllerTest{
       val otherValue = CommonBuilder.buildBasicElement.copy(value=Some(20), isOwned=Some(true))
 
       val filledOtherForm = otherForm.fill(otherValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledOtherForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledOtherForm.data.toSeq: _*).withMethod("POST")
 
       val result = otherController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
@@ -114,7 +114,7 @@ class OtherControllerTest extends ApplicationControllerTest{
         storeAppDetailsInCache = true)
 
       val filledOtherForm = otherForm.fill(otherAsset)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledOtherForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledOtherForm.data.toSeq: _*).withMethod("POST")
 
       val result = otherController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
@@ -128,7 +128,7 @@ class OtherControllerTest extends ApplicationControllerTest{
 
     "respond with bad request when incorrect value are entered on the page" in {
 
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr")).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
@@ -150,7 +150,7 @@ class OtherControllerTest extends ApplicationControllerTest{
       val otherValue = CommonBuilder.buildBasicElement.copy(value=Some(20), isOwned=Some(true))
 
       val filledOtherForm = otherForm.fill(otherValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledOtherForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledOtherForm.data.toSeq: _*).withMethod("POST")
 
       val result = otherController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)

@@ -118,7 +118,7 @@ class CharityDeleteConfirmControllerTest extends ApplicationControllerTest with 
     val result = charityDeleteConfirmController.onSubmit("1")(createFakeRequest())
 
     status(result) mustBe(SEE_OTHER)
-    redirectLocation(result) must be(Some(routes.CharitiesOverviewController.onPageLoad().url))
+    redirectLocation(result) must be(Some(routes.CharitiesOverviewController.onPageLoad.url))
   }
 
   "when given a valid charity id the charity must be deleted in load" in {

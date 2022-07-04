@@ -35,7 +35,7 @@
             <h2 class="bold-small">@Messages("page.iht.filter.previous.answers")</h2>
         </div>
         <div class="grid-layout__column grid-layout__column--1-4">
-          <a id="start-again" class="font-xsmall" href="@iht.controllers.filter.routes.DomicileController.onPageLoad().url">
+          <a id="start-again" class="font-xsmall" href="@iht.controllers.filter.routes.DomicileController.onPageLoad.url">
               <span>@Messages("iht.startAgain")</span>
           </a>
         </div>
@@ -53,12 +53,12 @@
             </div>
             <div class="tabular-data__data tabular-data__data--3-12">
                 @if(jointAssets.get) {
-                <a id="change-any-assets" href="@iht.controllers.filter.routes.AnyAssetsController.onPageLoadWithJointAssets().url">
+                <a id="change-any-assets" href="@iht.controllers.filter.routes.AnyAssetsController.onPageLoadWithJointAssets.url">
                     <span aria-hidden="true">@Messages("iht.change")</span>
                     <span class="visually-hidden">@Messages("page.iht.filter.previous.answers.change.anyAssets")</span>
                 </a>
                 } else {
-                <a id="change-any-assets" href="@iht.controllers.filter.routes.AnyAssetsController.onPageLoadWithoutJointAssets().url">
+                <a id="change-any-assets" href="@iht.controllers.filter.routes.AnyAssetsController.onPageLoadWithoutJointAssets.url">
                     <span aria-hidden="true">@Messages("iht.change")</span>
                     <span class="visually-hidden">@Messages("page.iht.filter.previous.answers.change.anyAssets")</span>
                 </a>
@@ -85,12 +85,12 @@
             </div>
             <div class="tabular-data__data tabular-data__data--3-12">
                 @if(jointAssets.get) {
-                    <a id="change-estimate" href="@iht.controllers.filter.routes.EstimateController.onPageLoadJointAssets().url">
+                    <a id="change-estimate" href="@iht.controllers.filter.routes.EstimateController.onPageLoadJointAssets.url">
                         <span aria-hidden="true">@Messages("iht.change")</span>
                         <span class="visually-hidden">@Messages("page.iht.filter.previous.answers.change.estate")</span>
                     </a>
                 } else {
-                    <a id="change-estimate" href="@iht.controllers.filter.routes.EstimateController.onPageLoadWithoutJointAssets().url">
+                    <a id="change-estimate" href="@iht.controllers.filter.routes.EstimateController.onPageLoadWithoutJointAssets.url">
                         <span aria-hidden="true">@Messages("iht.change")</span>
                         <span class="visually-hidden">@Messages("page.iht.filter.previous.answers.change.estate")</span>
                     </a>
@@ -108,7 +108,7 @@
                     @if(jointAssets.get) { @Messages("iht.yes") } else { @Messages("iht.no") }
                 </div>
                 <div class="tabular-data__data tabular-data__data--3-12">
-                    <a id="change-joint-assets" href="@iht.controllers.filter.routes.FilterJointlyOwnedController.onPageLoad().url">
+                    <a id="change-joint-assets" href="@iht.controllers.filter.routes.FilterJointlyOwnedController.onPageLoad.url">
                         <span aria-hidden="true">@Messages("iht.change")</span>
                         <span class="visually-hidden">@Messages("page.iht.filter.previous.answers.change.jointlyOwned")</span>
                     </a>
@@ -127,7 +127,7 @@
                     @if(deceasedBefore2022.get) { @Messages("iht.yes") } else { @Messages("iht.no") }
                 </div>
                 <div class="tabular-data__data tabular-data__data--3-12">
-                    <a id="change-deceased-before-2022" href="@iht.controllers.filter.routes.DeceasedBefore2022Controller.onPageLoad().url">
+                    <a id="change-deceased-before-2022" href="@iht.controllers.filter.routes.DeceasedBefore2022Controller.onPageLoad.url">
                         <span aria-hidden="true">@Messages("iht.change")</span>
                         <span class="visually-hidden">@Messages("page.iht.filter.previous.answers.change.deceasedBefore2022")</span>
                     </a>
@@ -143,7 +143,7 @@
               @country
             </div>
             <div class="tabular-data__data tabular-data__data--3-12">
-              <a id="change-domicile" href="@iht.controllers.filter.routes.DomicileController.onPageLoad().url">
+              <a id="change-domicile" href="@iht.controllers.filter.routes.DomicileController.onPageLoad.url">
                   <span aria-hidden="true">@Messages("iht.change")</span>
                   <span class="visually-hidden">@Messages("page.iht.filter.previous.answers.change.home")</span>
               </a>

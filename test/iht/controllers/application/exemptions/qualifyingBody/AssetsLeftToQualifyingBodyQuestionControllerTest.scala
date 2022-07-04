@@ -53,13 +53,13 @@ class AssetsLeftToQualifyingBodyQuestionControllerTest extends ApplicationContro
 
 
     "redirect to login page on page load if the user is not logged in" in {
-      val result = assetsLeftToQualifyingBodyQuestionControllerNotAuthorised.onPageLoad()(createFakeRequest(isAuthorised = false))
+      val result = assetsLeftToQualifyingBodyQuestionControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
       status(result) must be (SEE_OTHER)
       redirectLocation(result) must be(Some(loginUrl))
     }
 
     "redirect to login page on submit if the user is not logged in" in {
-      val result = assetsLeftToQualifyingBodyQuestionControllerNotAuthorised.onPageLoad()(createFakeRequest(isAuthorised = false))
+      val result = assetsLeftToQualifyingBodyQuestionControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
       status(result) must be (SEE_OTHER)
       redirectLocation(result) must be (Some(loginUrl))
     }
@@ -74,7 +74,7 @@ class AssetsLeftToQualifyingBodyQuestionControllerTest extends ApplicationContro
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
-      val result = assetsLeftToQualifyingBodyQuestionController.onPageLoad()(createFakeRequest())
+      val result = assetsLeftToQualifyingBodyQuestionController.onPageLoad(createFakeRequest())
       status(result) must be(OK)
     }
 
@@ -91,7 +91,7 @@ class AssetsLeftToQualifyingBodyQuestionControllerTest extends ApplicationContro
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
-      val result = assetsLeftToQualifyingBodyQuestionController.onPageLoad()(createFakeRequest())
+      val result = assetsLeftToQualifyingBodyQuestionController.onPageLoad(createFakeRequest())
       val resultAsString = ContentChecker.stripLineBreaks(contentAsString(result))
       resultAsString must include (messagesApi("iht.saveAndContinue"))
       resultAsString must include (messagesApi("page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle", deceasedName))
@@ -111,7 +111,7 @@ class AssetsLeftToQualifyingBodyQuestionControllerTest extends ApplicationContro
       val assetsLeftToQualifyingBody = BasicExemptionElement(isSelected = Some(true))
 
       val filledAssetLeftToQualifyingBodyQuestionForm = assetsLeftToQualifyingBodyQuestionForm.fill(assetsLeftToQualifyingBody)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledAssetLeftToQualifyingBodyQuestionForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledAssetLeftToQualifyingBodyQuestionForm.data.toSeq: _*).withMethod("POST")
 
       val result = assetsLeftToQualifyingBodyQuestionController.onSubmit(request)
       status(result) must be (SEE_OTHER)
@@ -123,7 +123,7 @@ class AssetsLeftToQualifyingBodyQuestionControllerTest extends ApplicationContro
 
       val filledAssetsLeftToQualifyingBodyQuestionForm = assetsLeftToQualifyingBodyQuestionForm.fill(BasicExemptionElement(isSelected = None))
 
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledAssetsLeftToQualifyingBodyQuestionForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledAssetsLeftToQualifyingBodyQuestionForm.data.toSeq: _*).withMethod("POST")
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,

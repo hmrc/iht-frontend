@@ -37,7 +37,7 @@
 
 @errorSummary(ihtForm)
 
-@formWithCSRF(iht.controllers.filter.routes.DeceasedBefore2022Controller.onSubmit(), 'autoComplete -> "off") {
+@formWithCSRF(iht.controllers.filter.routes.DeceasedBefore2022Controller.onSubmit, 'autoComplete -> "off") {
         @inputYesNoRadioGroup(
             ihtForm("value"),
             '_divClass -> Some("form-group"),

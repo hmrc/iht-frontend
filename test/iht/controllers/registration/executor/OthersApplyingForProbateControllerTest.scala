@@ -97,7 +97,7 @@ class OthersApplyingForProbateControllerTest extends RegistrationControllerTest 
       val registrationDetails = RegistrationDetails(None, None, None)
       val probateForm = othersApplyingForProbateForm.fill(Some(true))
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-        data=probateForm.data.toSeq, authRetrieveNino = false)
+        data=probateForm.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -112,7 +112,7 @@ class OthersApplyingForProbateControllerTest extends RegistrationControllerTest 
       val registrationDetails = RegistrationDetails(None, None, None)
       val probateForm = othersApplyingForProbateForm.fill(Some(false))
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-        data=probateForm.data.toSeq, authRetrieveNino = false)
+        data=probateForm.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -127,6 +127,7 @@ class OthersApplyingForProbateControllerTest extends RegistrationControllerTest 
       val registrationDetails = CommonBuilder.buildRegistrationDetailsWithCoExecutors
       val probateForm = othersApplyingForProbateForm.fill(Some(true))
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=probateForm.data.toSeq, authRetrieveNino = false)
+        .withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -143,6 +144,7 @@ class OthersApplyingForProbateControllerTest extends RegistrationControllerTest 
       val registrationDetails = CommonBuilder.buildRegistrationDetailsWithCoExecutors
       val probateForm = othersApplyingForProbateForm.fill(Some(false))
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=probateForm.data.toSeq, authRetrieveNino = false)
+        .withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -160,7 +162,7 @@ class OthersApplyingForProbateControllerTest extends RegistrationControllerTest 
       val registrationDetails = RegistrationDetails(None, None, None)
       val probateForm = othersApplyingForProbateForm.fill(None)
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-        data=probateForm.data.toSeq, authRetrieveNino = false)
+        data=probateForm.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, None)
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
@@ -179,7 +181,7 @@ class OthersApplyingForProbateControllerTest extends RegistrationControllerTest 
       val registrationDetails = RegistrationDetails(None, None, None)
       val probateForm = othersApplyingForProbateForm.fill(Some(true))
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-        data=probateForm.data.toSeq, authRetrieveNino = false)
+        data=probateForm.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))

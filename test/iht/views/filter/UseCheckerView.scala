@@ -57,7 +57,7 @@ class UseCheckerView extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val link = doc.getElementById("start-again")
       link.text() must be(messagesApi("iht.startAgain"))
-      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
+      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad.url)
     }
 
     "contain a row showing the user's answer to the previous deceasedBefore2022 question" in {
@@ -73,7 +73,7 @@ class UseCheckerView extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val link = doc.getElementById("change-deceased-before-2022")
       link.text() must include(messagesApi("iht.change"))
-      link.attr("href") must be(iht.controllers.filter.routes.DeceasedBefore2022Controller.onPageLoad().url)
+      link.attr("href") must be(iht.controllers.filter.routes.DeceasedBefore2022Controller.onPageLoad.url)
     }
 
     "contain a row showing the user's answer to the previous domicile question" in {
@@ -89,7 +89,7 @@ class UseCheckerView extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val link = doc.getElementById("change-domicile")
       link.text() must include(messagesApi("iht.change"))
-      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
+      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad.url)
     }
   }
 }

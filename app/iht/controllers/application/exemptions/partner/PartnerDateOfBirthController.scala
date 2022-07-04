@@ -86,7 +86,7 @@ trait PartnerDateOfBirthController extends EstateController {
           applicationDetails = copyOfAD)
       ihtConnector.saveApplication(nino, applicationDetails, regDetails.acknowledgmentReference).flatMap { _ =>
         Future.successful(Redirect(applicationDetails.kickoutReason.fold(
-          addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(appConfig.ExemptionsPartnerDobID))
+          addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad, Some(appConfig.ExemptionsPartnerDobID))
         )(_ => kickoutRedirectLocation)))
         }
     }

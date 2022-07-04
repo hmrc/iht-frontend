@@ -75,7 +75,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
   "GiftsOverviewController" must {
 
     "redirect to login page onPageLoad if the user is not logged in" in {
-      val result = giftsOverviewControllerNotAuthorised.onPageLoad()(createFakeRequest(isAuthorised = false))
+      val result = giftsOverviewControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
       status(result) must be(SEE_OTHER)
       redirectLocation(result) must be(Some(loginUrl))
     }
@@ -120,10 +120,10 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
-      val result = giftsOverviewController.onPageLoad()(createFakeRequest())
+      val result = giftsOverviewController.onPageLoad(createFakeRequest())
 
       status(result) must be(SEE_OTHER)
-      redirectLocation(result) mustBe Some(iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad().url)
+      redirectLocation(result) mustBe Some(iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad.url)
     }
 
     "display NO on page when there is no reservation of benefit" in {
@@ -138,7 +138,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
-      val result = giftsOverviewController.onPageLoad()(createFakeRequest())
+      val result = giftsOverviewController.onPageLoad(createFakeRequest())
 
       status(result) must be(OK)
       contentAsString(result) must include(messagesApi("iht.no"))
@@ -156,7 +156,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
-      val result = giftsOverviewController.onPageLoad()(createFakeRequest())
+      val result = giftsOverviewController.onPageLoad(createFakeRequest())
 
       status(result) must be(OK)
       contentAsString(result) must include(messagesApi("iht.yes"))
@@ -174,7 +174,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
-      val result = giftsOverviewController.onPageLoad()(createFakeRequest())
+      val result = giftsOverviewController.onPageLoad(createFakeRequest())
 
       status(result) must be(OK)
       contentAsString(result) must include(messagesApi("iht.estateReport.returnToEstateOverview"))
@@ -195,7 +195,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
-      val result = giftsOverviewController.onPageLoad()(createFakeRequest())
+      val result = giftsOverviewController.onPageLoad(createFakeRequest())
       status(result) must be(OK)
       ContentChecker.stripLineBreaks(contentAsString(result)) must include(messagesApi("page.iht.application.gifts.overview.guidance1",
                                                        DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails),
@@ -215,7 +215,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
-      val result = giftsOverviewController.onPageLoad()(createFakeRequest())
+      val result = giftsOverviewController.onPageLoad(createFakeRequest())
       status(result) must be(OK)
       contentAsString(result) must include(messagesApi("page.iht.application.gifts.overview.value.question1"))
       contentAsString(result) must include("£0")
@@ -235,7 +235,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
-      val result = giftsOverviewController.onPageLoad()(createFakeRequest())
+      val result = giftsOverviewController.onPageLoad(createFakeRequest())
       status(result) must be(OK)
       contentAsString(result) must not include messagesApi("page.iht.application.gifts.overview.value.question1")
     }
@@ -252,7 +252,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
-      val result = giftsOverviewController.onPageLoad()(createFakeRequest())
+      val result = giftsOverviewController.onPageLoad(createFakeRequest())
       status(result) must be(OK)
       contentAsString(result) must not include messagesApi("iht.estateReport.gifts.valueOfGiftsGivenAway")
     }
@@ -269,7 +269,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
-      val result = giftsOverviewController.onPageLoad()(createFakeRequest())
+      val result = giftsOverviewController.onPageLoad(createFakeRequest())
       status(result) must be(OK)
       contentAsString(result) must include(messagesApi("iht.estateReport.gifts.valueOfGiftsGivenAway"))
     }
@@ -290,7 +290,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
-      val result = giftsOverviewController.onPageLoad()(createFakeRequest())
+      val result = giftsOverviewController.onPageLoad(createFakeRequest())
       status(result) must be (OK)
       ContentChecker.stripLineBreaks(contentAsString(result)) must include (messagesApi("page.iht.application.gifts.trust.question",
         deceasedName))
@@ -308,7 +308,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
-      val result = giftsOverviewController.onPageLoad()(createFakeRequest())
+      val result = giftsOverviewController.onPageLoad(createFakeRequest())
       status(result) must be (OK)
       contentAsString(result) mustNot include (messagesApi("page.iht.application.gifts.trust.question"))
     }

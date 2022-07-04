@@ -87,37 +87,37 @@ trait PropertyDetailsOverviewControllerBehaviour extends ApplicationControllerTe
 
     "display the page title on page load" in new Setup {
 
-      val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyDetailsOverviewController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be(OK)
       contentAsString(result) must include(messagesApi("iht.estateReport.assets.propertyAdd"))
     }
 
     "display property address details question on page" in new Setup {
-      val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyDetailsOverviewController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be(OK)
       contentAsString(result) must include(messagesApi("iht.estateReport.assets.property.whatIsAddress.question"))
     }
 
     "display kind of property question on page" in new Setup {
-      val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyDetailsOverviewController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be(OK)
       contentAsString(result) must include(messagesApi("iht.estateReport.assets.properties.whatKind.question"))
     }
 
     "display how the property was owned question on the page" in new Setup {
-      val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyDetailsOverviewController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be(OK)
       ContentChecker.stripLineBreaks(contentAsString(result)) must include(messagesApi("iht.estateReport.assets.howOwnedByDeceased", deceasedName))
     }
 
     "display freehold leasehold question on page" in new Setup {
-      val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyDetailsOverviewController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be(OK)
       contentAsString(result) must include(messagesApi("iht.estateReport.assets.properties.freeholdOrLeasehold"))
     }
 
     "display value of property question on the page" in new Setup {
-      val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyDetailsOverviewController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be(OK)
       ContentChecker.stripLineBreaks(contentAsString(result)) must include(messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
     }
@@ -143,7 +143,7 @@ trait PropertyDetailsOverviewControllerBehaviour extends ApplicationControllerTe
 }
 
 class PropertyDetailsOverviewControllerTest extends PropertyDetailsOverviewControllerBehaviour {
-  def pageLoad(request: Request[_]): Future[Result] = propertyDetailsOverviewController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+  def pageLoad(request: Request[_]): Future[Result] = propertyDetailsOverviewController.onPageLoad(createFakeRequest(authRetrieveNino = false))
 }
 
 class PropertyDetailsOverviewControllerInEditModeTest extends PropertyDetailsOverviewControllerBehaviour {

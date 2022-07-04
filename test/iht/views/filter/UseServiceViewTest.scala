@@ -126,7 +126,7 @@ class UseServiceViewTest extends ViewTestHelper with UseService {
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 
-      button.attr("href") must be(iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad().url)
+      button.attr("href") must be(iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad.url)
     }
 
     "contain a 'Previous answers' section" in {
@@ -140,7 +140,7 @@ class UseServiceViewTest extends ViewTestHelper with UseService {
       val doc = asDocument(contentAsString(result))
       val link = doc.getElementById("start-again")
       link.text() must be(messagesApi("iht.startAgain"))
-      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
+      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad.url)
     }
 
     "contain a row showing the user's answer to the previous domicile question" in {
@@ -156,7 +156,7 @@ class UseServiceViewTest extends ViewTestHelper with UseService {
       val doc = asDocument(contentAsString(result))
       val link = doc.getElementById("change-domicile")
       link.text() must include(messagesApi("iht.change"))
-      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
+      link.attr("href") must be(iht.controllers.filter.routes.DomicileController.onPageLoad.url)
     }
 
     "contain a row showing the user's answer to the previous estimate question when given the under 32500 parameter" in {
@@ -179,7 +179,7 @@ class UseServiceViewTest extends ViewTestHelper with UseService {
       val doc = asDocument(contentAsString(result))
       val link = doc.getElementById("change-estimate")
       link.text() must include(messagesApi("iht.change"))
-      link.attr("href") must be(iht.controllers.filter.routes.EstimateController.onPageLoadWithoutJointAssets().url)
+      link.attr("href") must be(iht.controllers.filter.routes.EstimateController.onPageLoadWithoutJointAssets.url)
     }
   }
 }

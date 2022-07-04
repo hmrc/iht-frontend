@@ -92,7 +92,7 @@ class PensionsOwnedQuestionControllerTest extends ApplicationControllerTest{
 
       val filledPrivatePensionForm = privatePensionForm.fill(privatePensionOwned)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPrivatePensionForm.data
-        .toSeq: _*)
+        .toSeq: _*).withMethod("POST")
 
       val result = pensionsOwnedQuestionController.onSubmit(request)
       status(result) mustBe (SEE_OTHER)
@@ -112,12 +112,12 @@ class PensionsOwnedQuestionControllerTest extends ApplicationControllerTest{
 
       val filledPrivatePensionForm = privatePensionForm.fill(privatePensionOwned)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPrivatePensionForm.data
-        .toSeq: _*)
+        .toSeq: _*).withMethod("POST")
 
       val result = pensionsOwnedQuestionController.onSubmit(request)
       status(result) mustBe (SEE_OTHER)
       redirectLocation(result) mustBe
-        Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url + "#private-pensions")
+        Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad.url + "#private-pensions")
     }
 
     "display validation message when incomplete form is submitted" in {
@@ -125,7 +125,7 @@ class PensionsOwnedQuestionControllerTest extends ApplicationControllerTest{
         .buildAllAssets.copy(privatePension = Some(CommonBuilder.buildPrivatePensionExtended.copy(isOwned = None)))))
 
       val formFill = privatePensionForm.fill(CommonBuilder.buildPrivatePensionExtended)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,

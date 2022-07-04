@@ -43,7 +43,7 @@ trait TrustsMoreThanOneQuestionController extends EstateController {
 
 
   lazy val submitUrl = CommonHelper.addFragmentIdentifier(
-    iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(), Some(appConfig.AssetsTrustsMultipleID))
+    iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad, Some(appConfig.AssetsTrustsMultipleID))
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoreThanOneTrust)
 
   val trustsMoreThanOneQuestionView: trusts_more_than_one_question

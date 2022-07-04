@@ -53,7 +53,7 @@ isFullWidth=false){
 
     @returnLink(
         Messages("iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities"),
-        Some(iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad()),
+        Some(iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad),
         appConfig.ExemptionsCharitiesDeleteID + charity.id.getOrElse("")
     )
 

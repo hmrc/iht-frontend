@@ -41,7 +41,7 @@ class BenefitFromTrustViewTest extends YesNoQuestionViewBehaviour[TnrbEligibilty
 
   override def browserTitle = messagesApi("page.iht.application.tnrb.benefitFromTrust.browserTitle")
 
-  override def formTarget = Some(iht.controllers.application.tnrb.routes.BenefitFromTrustController.onSubmit())
+  override def formTarget = Some(iht.controllers.application.tnrb.routes.BenefitFromTrustController.onSubmit)
 
   override def form: Form[TnrbEligibiltyModel] = benefitFromTrustForm
 

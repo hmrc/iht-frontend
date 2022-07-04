@@ -41,7 +41,7 @@ class ForeignViewTest  extends ShareableElementInputViewBehaviour[BasicEstateEle
   override def hasValueQuestionHelp = false
   override def valueQuestionHelp = ""
   override def returnLinkText = messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
-  override def returnLinkUrl = iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url
+  override def returnLinkUrl = iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad.url
   override def formTarget =Some(routes.ForeignController.onSubmit)
   override def linkHash = appConfig.AppSectionForeignID
 

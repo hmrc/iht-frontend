@@ -36,11 +36,11 @@ class TrustsMoreThanOneQuestionViewTest extends YesNoQuestionViewBehaviour[HeldI
 
   override def browserTitle = messagesApi("page.iht.application.assets.trusts.moreThanOne.browserTitle")
 
-  override def formTarget = Some(iht.controllers.application.assets.trusts.routes.TrustsMoreThanOneQuestionController.onSubmit())
+  override def formTarget = Some(iht.controllers.application.assets.trusts.routes.TrustsMoreThanOneQuestionController.onSubmit)
 
   override def cancelComponent = Some(
     CancelComponent(
-      iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(),
+      iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad,
       messagesApi("site.link.return.trusts", deceasedName),
       AssetsTrustsMultipleID
     )

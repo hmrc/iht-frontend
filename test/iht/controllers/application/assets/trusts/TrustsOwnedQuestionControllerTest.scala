@@ -89,11 +89,11 @@ class TrustsOwnedQuestionControllerTest extends ApplicationControllerTest{
         storeAppDetailsInCache = true)
 
       val filledHeldInTrustForm = trustsOwnedQuestionForm.fill(HeldInTrust(None, None, Some(false)))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledHeldInTrustForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledHeldInTrustForm.data.toSeq: _*).withMethod("POST")
 
       val result = trustsOwnedQuestionController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
-      //redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.AssetsOverviewController.onPageLoad().url, AppSectionHeldInTrustID)))
+      //redirectLocation(result) must be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.AssetsOverviewController.onPageLoad.url, AppSectionHeldInTrustID)))
     }
 
     "save application and go to held in trust next page page on submit when Yes chosen" in {
@@ -108,7 +108,7 @@ class TrustsOwnedQuestionControllerTest extends ApplicationControllerTest{
         storeAppDetailsInCache = true)
 
       val filledHeldInTrustForm = trustsOwnedQuestionForm.fill(HeldInTrust(None, None, Some(true)))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledHeldInTrustForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledHeldInTrustForm.data.toSeq: _*).withMethod("POST")
 
       val result = trustsOwnedQuestionController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
@@ -116,7 +116,7 @@ class TrustsOwnedQuestionControllerTest extends ApplicationControllerTest{
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
-     implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
+     implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr")).withMethod("POST")
 
      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 

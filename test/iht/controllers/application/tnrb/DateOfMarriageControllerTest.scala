@@ -86,7 +86,7 @@ class DateOfMarriageControllerTest  extends ApplicationControllerTest{
       val dateOfMarriageValue = CommonBuilder.buildTnrbEligibility.copy(dateOfMarriage = None)
 
       val filledDateOfMarriageValueForm = dateOfMarriageForm.fill(dateOfMarriageValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDateOfMarriageValueForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDateOfMarriageValueForm.data.toSeq: _*).withMethod("POST")
 
       val result = dateOfMarriageController.onSubmit (request)
       status(result) mustBe BAD_REQUEST
@@ -105,7 +105,7 @@ class DateOfMarriageControllerTest  extends ApplicationControllerTest{
       val dateOfMarriageValue = CommonBuilder.buildTnrbEligibility.copy(dateOfMarriage = Some(new LocalDate(1988,12,12)))
 
       val filledDateOfMarriageValueForm = dateOfMarriageForm.fill(dateOfMarriageValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDateOfMarriageValueForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDateOfMarriageValueForm.data.toSeq: _*).withMethod("POST")
 
       val result = dateOfMarriageController.onSubmit (request)
       status(result) mustBe BAD_REQUEST
@@ -123,11 +123,11 @@ class DateOfMarriageControllerTest  extends ApplicationControllerTest{
       val dateOfMarriageValue = CommonBuilder.buildTnrbEligibility.copy(dateOfMarriage = Some(new LocalDate(1986,12,12)))
 
       val filleDateOfMarriageValueForm = dateOfMarriageForm.fill(dateOfMarriageValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filleDateOfMarriageValueForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filleDateOfMarriageValueForm.data.toSeq: _*).withMethod("POST")
 
       val result = dateOfMarriageController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + mockAppConfig.TnrbSpouseDateOfMarriageID))
+      redirectLocation(result) must be(Some(routes.TnrbOverviewController.onPageLoad.url + "#" + mockAppConfig.TnrbSpouseDateOfMarriageID))
     }
 
     "go to successful Tnrb page on submit when its satisfies happy path" in {
@@ -145,11 +145,11 @@ class DateOfMarriageControllerTest  extends ApplicationControllerTest{
       val dateOfMarriageValue = CommonBuilder.buildTnrbEligibility.copy(dateOfMarriage = Some(new LocalDate(1986,12,12)))
 
       val filleDateOfMarriageValueForm = dateOfMarriageForm.fill(dateOfMarriageValue)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filleDateOfMarriageValueForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filleDateOfMarriageValueForm.data.toSeq: _*).withMethod("POST")
 
       val result = dateOfMarriageController.onSubmit (request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad().url))
+      redirectLocation(result) must be(Some(routes.TnrbSuccessController.onPageLoad.url))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

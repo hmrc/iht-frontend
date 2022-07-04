@@ -132,7 +132,7 @@ class QualifyingBodyNameControllerTest extends ApplicationControllerTest with Be
 
     "display errors when a blank value is submitted" in {
       createMocksForQualifyingBodyName
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("name", ""))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("name", "")).withMethod("POST")
       val result = resultOnSubmit(fakePostRequest)
 
       status(result) mustBe BAD_REQUEST
@@ -141,7 +141,7 @@ class QualifyingBodyNameControllerTest extends ApplicationControllerTest with Be
 
     "save new value with new ID to application details onSubmit where exactly 36 characters in length and redirect to QB detail overview" in {
       createMocksForQualifyingBodyName
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("name", QualifyingBodyNameAtLengthBoundary))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("name", QualifyingBodyNameAtLengthBoundary)).withMethod("POST")
       val result = resultOnSubmit(fakePostRequest)
 
       status(result) mustBe SEE_OTHER
@@ -153,7 +153,7 @@ class QualifyingBodyNameControllerTest extends ApplicationControllerTest with Be
 
     "save new value with new ID to application details onSubmit and redirect to QB detail overview" in {
       createMocksForQualifyingBodyName
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("name", QualifyingBody1Name))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("name", QualifyingBody1Name)).withMethod("POST")
       val result = resultOnSubmit(fakePostRequest)
 
       status(result) mustBe SEE_OTHER
@@ -170,7 +170,7 @@ class QualifyingBodyNameControllerTest extends ApplicationControllerTest with Be
 
     "amend existing value with ID 1 in application details onEditSubmit and redirect to QB detail overview" in {
       createMocksForQualifyingBodyNameWithTwoItems
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("name", QualifyingBody2Name))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("name", QualifyingBody2Name)).withMethod("POST")
       val result = resultOnEditSubmit("1")(fakePostRequest)
 
       status(result) mustBe SEE_OTHER
@@ -182,7 +182,7 @@ class QualifyingBodyNameControllerTest extends ApplicationControllerTest with Be
 
     "amend existing value with ID 2 in application details onEditSubmit and redirect to QB detail overview" in {
       createMocksForQualifyingBodyNameWithTwoItems
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("name", QualifyingBody1Name))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("name", QualifyingBody1Name)).withMethod("POST")
       val result = resultOnEditSubmit("2")(fakePostRequest)
 
       status(result) mustBe SEE_OTHER

@@ -75,7 +75,7 @@ trait InsurancePolicyDetailsInTrustController extends EstateController {
         insurancePolicyDetailsInTrustView.apply, updateApplicationDetails,
         (ad, _) => ad.allAssets.flatMap(allAssets => allAssets.insurancePolicy).flatMap(_.isInTrust)
           .fold(insurancePoliciesRedirectLocation)(_ =>
-            iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsFinalGuidanceController.onPageLoad()
+            iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsFinalGuidanceController.onPageLoad
           ),
         userNino
       )

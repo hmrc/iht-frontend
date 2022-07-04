@@ -91,14 +91,14 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
 
       setUpTests(Some(applicationDetails))
 
-      val result = propertyValueController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyValueController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be (OK)
     }
 
     "display the page title on page load" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Future.successful(Some(regDetails)))
 
-      val result = propertyValueController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyValueController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be (OK)
       ContentChecker.stripLineBreaks(contentAsString(result)) must include (messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
     }
@@ -106,7 +106,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
     "display property value label on page" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Future.successful(Some(regDetails)))
 
-      val result = propertyValueController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyValueController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be (OK)
       ContentChecker.stripLineBreaks(contentAsString(result)) must include (messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
     }
@@ -114,14 +114,14 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
     "display property question sub label on page" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Future.successful(Some(regDetails)))
 
-      val result = propertyValueController.onPageLoad()(createFakeRequest(authRetrieveNino = false))
+      val result = propertyValueController.onPageLoad(createFakeRequest(authRetrieveNino = false))
       status(result) must be (OK)
       ContentChecker.stripLineBreaks(contentAsString(result)) must include (messagesApi("page.iht.application.property.value.question.hint1",
                                                       deceasedName))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr")).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
@@ -147,7 +147,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
         copy(propertyList = List())
 
       val formFill = propertyValueForm.fill(CommonBuilder.buildProperty.copy(value = Some(10)))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
 
       setUpTests(Some(applicationDetails))
 
@@ -165,7 +165,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
           value = Some(1234))))
 
       val formFill = propertyValueForm.fill(CommonBuilder.buildProperty.copy(value = Some(10)))
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*).withMethod("POST")
 
       setUpTests(Some(applicationDetails))
 
@@ -189,13 +189,13 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
         ("propertyType", "Deceased's home"),
         ("tenure", "Freehold"),
         ("value", "1000001")
-      )
+      ).withMethod("POST")
 
       setUpTests(Some(applicationDetails))
 
       val result = propertyValueController.onSubmit(request)
       status(result) must be (SEE_OTHER)
-      redirectLocation(result) mustBe Some(iht.controllers.application.routes.KickoutAppController.onPageLoad().url)
+      redirectLocation(result) mustBe Some(iht.controllers.application.routes.KickoutAppController.onPageLoad.url)
     }
     "load the page when editing for kickout" in {
       val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.copy(

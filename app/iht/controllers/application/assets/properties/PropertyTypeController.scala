@@ -47,9 +47,9 @@ trait PropertyTypeController extends EstateController with StringHelper {
 
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionProperties)
 
-  def cancelUrl = routes.PropertyDetailsOverviewController.onPageLoad()
+  def cancelUrl = routes.PropertyDetailsOverviewController.onPageLoad
 
-  lazy val submitUrl = routes.PropertyTypeController.onSubmit()
+  lazy val submitUrl = routes.PropertyTypeController.onSubmit
 
   def editCancelUrl(id: String) = routes.PropertyDetailsOverviewController.onEditPageLoad(id)
 
@@ -179,7 +179,7 @@ trait PropertyTypeController extends EstateController with StringHelper {
   def onSubmit = authorisedForIhtWithRetrievals(ninoRetrieval) { userNino =>
     implicit request => {
       doSubmit(
-        redirectLocationIfErrors = routes.PropertyTypeController.onSubmit(),
+        redirectLocationIfErrors = routes.PropertyTypeController.onSubmit,
         submitUrl = submitUrl,
         cancelUrl = cancelUrl,
         userNino)

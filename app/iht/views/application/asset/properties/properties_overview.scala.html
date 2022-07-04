@@ -119,12 +119,12 @@ isFullWidth=false
 
 
 <div class="form-group" id="add-property-link">
-    <a id="@appConfig.AssetsPropertiesAddPropertyID" href="@iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad()"> @Messages("iht.estateReport.assets.propertyAdd") </a>
+    <a id="@appConfig.AssetsPropertiesAddPropertyID" href="@iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad"> @Messages("iht.estateReport.assets.propertyAdd") </a>
 </div>
 
 @returnLink(
     Messages("site.link.return.assets"),
-    Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
+    Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad),
     appConfig.AppSectionPropertiesID
 )
 

@@ -51,7 +51,7 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
     title = "",
     browserTitle = Some(Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.browserTitle")),
     isFullWidth = false,
-    cancelUrl = Some(CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(appConfig.ExemptionsOtherID))),
+    cancelUrl = Some(CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad, Some(appConfig.ExemptionsOtherID))),
     cancelLabel = Some(Messages("page.iht.application.return.to.exemptionsOf",
                             nameHelper(registrationDetails.deceasedDetails.map(_.name).fold("")(identity))))
 ){

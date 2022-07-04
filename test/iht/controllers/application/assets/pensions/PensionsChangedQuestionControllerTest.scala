@@ -86,12 +86,12 @@ class PensionsChangedQuestionControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val filledPensionsChangedQuestionForm = pensionsChangedQuestionForm.fill(privatePension)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPensionsChangedQuestionForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPensionsChangedQuestionForm.data.toSeq: _*).withMethod("POST")
 
       val result = pensionsChangedQuestionController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
       redirectLocation(result) must be
-          (Some(routes.PensionsOverviewController.onPageLoad().url))
+          (Some(routes.PensionsOverviewController.onPageLoad.url))
     }
 
     "save application and go to Kick out page on submit when Yes chosen" in {
@@ -107,15 +107,15 @@ class PensionsChangedQuestionControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val filledPensionsChangedQuestionForm = pensionsChangedQuestionForm.fill(privatePension)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPensionsChangedQuestionForm.data.toSeq: _*)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPensionsChangedQuestionForm.data.toSeq: _*).withMethod("POST")
 
       val result = pensionsChangedQuestionController.onSubmit (request)
       status(result) mustBe (SEE_OTHER)
-      redirectLocation(result) must be (Some(iht.controllers.application.routes.KickoutAppController.onPageLoad().url))
+      redirectLocation(result) must be (Some(iht.controllers.application.routes.KickoutAppController.onPageLoad.url))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
-     implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
+     implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr")).withMethod("POST")
 
      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 

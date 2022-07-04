@@ -54,7 +54,7 @@ class DebtsOverviewControllerTest extends ApplicationControllerTest {
         appDetails = Some(CommonBuilder.buildApplicationDetails),
         getAppDetails = true)
 
-      val result = debtsOverviewController.onPageLoad()(createFakeRequest())
+      val result = debtsOverviewController.onPageLoad(createFakeRequest())
       playStatus(result) must be (OK)
     }
 
@@ -70,7 +70,7 @@ class DebtsOverviewControllerTest extends ApplicationControllerTest {
         getAppDetails = true)
 
       a[RuntimeException] mustBe thrownBy {
-        await(debtsOverviewController.onPageLoad()(createFakeRequest()))
+        await(debtsOverviewController.onPageLoad(createFakeRequest()))
       }
     }
 

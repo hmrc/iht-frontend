@@ -69,7 +69,7 @@ class DeceasedAddressDetailsUKControllerTest
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(existingRegistrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(existingRegistrationDetails))
 
-      val result = controller.onPageLoad()(createFakeRequestWithReferrer(referrerURL = referrerURL, host = host))
+      val result = controller.onPageLoad(createFakeRequestWithReferrer(referrerURL = referrerURL, host = host))
       status(result) mustBe OK
       contentAsString(result) must not include("New Line 1")
       contentAsString(result) must not include("New Line 2")
@@ -81,6 +81,7 @@ class DeceasedAddressDetailsUKControllerTest
       val deceasedDetailsForm1 = deceasedAddressDetailsUKForm.fill(deceasedDetails)
       val request = createFakeRequestWithReferrerWithBody(
         referrerURL = referrerURL, host = host, data = deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
+          .withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -88,7 +89,7 @@ class DeceasedAddressDetailsUKControllerTest
 
       val result = controller.onSubmit()(request)
       status(result) mustBe SEE_OTHER
-      redirectLocation(result) must be(Some(applicantRoutes.ApplyingForProbateController.onPageLoad().url))
+      redirectLocation(result) must be(Some(applicantRoutes.ApplyingForProbateController.onPageLoad.url))
     }
 
     "respond appropriately to a edit page load with valid values in all fields in edit mode" in {
@@ -112,6 +113,7 @@ class DeceasedAddressDetailsUKControllerTest
       val deceasedDetailsForm1 = deceasedAddressDetailsUKForm.fill(deceasedDetails)
       val request = createFakeRequestWithReferrerWithBody(
         referrerURL = referrerURL, host = host, data = deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
+          .withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -119,7 +121,7 @@ class DeceasedAddressDetailsUKControllerTest
 
       val result = controller.onEditSubmit()(request)
       status(result) mustBe (SEE_OTHER)
-      redirectLocation(result) must be (Some(registrationRoutes.RegistrationSummaryController.onPageLoad().url))
+      redirectLocation(result) must be (Some(registrationRoutes.RegistrationSummaryController.onPageLoad.url))
     }
 
     "respond appropriately to a submit in edit mode with invalid values in one or more fields" in {
@@ -159,7 +161,7 @@ class DeceasedAddressDetailsUKControllerTest
       val form = deceasedAddressDetailsUKForm.fill(newDeceasedDetails)
 
       val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
-        data = form.data.toSeq, authRetrieveNino = false)
+        data = form.data.toSeq, authRetrieveNino = false).withMethod("POST")
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
@@ -184,6 +186,7 @@ class DeceasedAddressDetailsUKControllerTest
       val form = deceasedAddressDetailsUKForm.fill(newDeceasedDetails)
 
       val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host, data = form.data.toSeq, authRetrieveNino = false)
+        .withMethod("POST")
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(existingRegistrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(existingRegistrationDetails))
 
@@ -211,7 +214,7 @@ class DeceasedAddressDetailsUKControllerTest
       val registrationDetails = RegistrationDetails(None, None, Some(deceasedDetails))
       val deceasedDetailsForm1 = deceasedAddressDetailsUKForm.fill(deceasedDetails)
       val request = createFakeRequestWithReferrerWithBody(
-        referrerURL=referrerURL,host=host, data=deceasedDetailsForm1.data.toSeq, authRetrieveNino = false)
+        referrerURL=referrerURL,host=host, data=deceasedDetailsForm1.data.toSeq, authRetrieveNino = false).withMethod("POST")
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, Future.successful(Some(registrationDetails)))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))

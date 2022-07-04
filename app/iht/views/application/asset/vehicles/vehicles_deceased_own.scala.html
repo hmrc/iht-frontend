@@ -46,7 +46,7 @@ registrationDetails: RegistrationDetails
 
 @errorSummaryOverrideKeys(vehicles, Constants.AppSectionVehicles)
 
-@form(action = iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onSubmit(),'autoComplete -> "off") {
+@form(action = iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onSubmit,'autoComplete -> "off") {
 
 @genericEstateElementAssets(
                             assetType = Constants.AssetTypeSingle,
@@ -65,7 +65,7 @@ registrationDetails: RegistrationDetails
 }
     @returnLink(
         Messages("site.link.return.vehicles"),
-        Some(iht.controllers.application.assets.vehicles.routes.VehiclesOverviewController.onPageLoad()),
+        Some(iht.controllers.application.assets.vehicles.routes.VehiclesOverviewController.onPageLoad),
         appConfig.AssetsVehiclesOwnID
     )
 

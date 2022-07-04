@@ -44,7 +44,7 @@ class PartnerNameViewTest extends SubmittableApplicationPageBehaviour[TnrbEligib
     )
   )
 
-  override def formTarget = Some(iht.controllers.application.tnrb.routes.PartnerNameController.onSubmit())
+  override def formTarget = Some(iht.controllers.application.tnrb.routes.PartnerNameController.onSubmit)
 
   override def form: Form[TnrbEligibiltyModel] = partnerNameForm
   lazy val partnerNameView: partner_name = app.injector.instanceOf[partner_name]
@@ -52,13 +52,13 @@ class PartnerNameViewTest extends SubmittableApplicationPageBehaviour[TnrbEligib
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
     form =>
       partnerNameView(form, Some(new LocalDate(2000,10,1)),
-        CommonHelper.addFragmentIdentifier(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad(), Some(TestHelper.TnrbSpouseNameID))
+        CommonHelper.addFragmentIdentifier(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad, Some(TestHelper.TnrbSpouseNameID))
         )
 
   override val cancelId: String = "cancel-button"
 
   override def cancelComponent = Some(
-    CancelComponent(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad(),
+    CancelComponent(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad,
       messagesApi("page.iht.application.tnrb.returnToIncreasingThreshold"),
       TestHelper.TnrbSpouseNameID
     )

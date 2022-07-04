@@ -28,7 +28,7 @@ import play.twirl.api.HtmlFormat.Appendable
 class GiftsDetailsViewTest extends SubmittableApplicationPageBehaviour[PreviousYearsGifts] {
   lazy val ihtRef = "ABC123"
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1.copy(ihtReference = Some(ihtRef))
-  lazy val returnLocation = iht.controllers.application.gifts.routes.SevenYearsGiftsValuesController.onPageLoad()
+  lazy val returnLocation = iht.controllers.application.gifts.routes.SevenYearsGiftsValuesController.onPageLoad
   lazy val returnLinkLabelMsgKey = "iht.estateReport.gifts.returnToGiftsGivenAwayInThe7YearsBeforeDeath"
 
   lazy val giftsValue = BigDecimal(200)
@@ -41,7 +41,7 @@ class GiftsDetailsViewTest extends SubmittableApplicationPageBehaviour[PreviousY
 
   override def guidance = noGuidance
 
-  override def formTarget = Some(iht.controllers.application.gifts.routes.GiftsDetailsController.onSubmit())
+  override def formTarget = Some(iht.controllers.application.gifts.routes.GiftsDetailsController.onSubmit)
 
   override def cancelComponent = Some(
     CancelComponent(

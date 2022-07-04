@@ -25,7 +25,7 @@
 
 @ihtMainTemplateApplication(title = Messages("global.error.InternalServerError500.title"), browserTitle = Some(Messages("global.error.InternalServerError500.title"))) {
 
-<p>@Html(Messages("error.application.systemError.p1", iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url))</p>
+<p>@Html(Messages("error.application.systemError.p1", iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad.url))</p>
 <p data-journey="generic-technical-error-page:page-view:@{request.uri.drop(16)}">@Messages("iht.application.timeout.p1")</p>
 <p>@Html(Messages("global.error.InternalServerError500.message1"))</p>
 

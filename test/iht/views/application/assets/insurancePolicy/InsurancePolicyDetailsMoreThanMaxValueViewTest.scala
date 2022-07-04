@@ -38,14 +38,14 @@ class InsurancePolicyDetailsMoreThanMaxValueViewTest extends YesNoQuestionViewBe
 
   override def guidance = noGuidance
 
-  override def formTarget = Some(routes.InsurancePolicyDetailsMoreThanMaxValueController.onSubmit())
+  override def formTarget = Some(routes.InsurancePolicyDetailsMoreThanMaxValueController.onSubmit)
 
   override def form: Form[InsurancePolicy] = insurancePolicyMoreThanMaxForm
 
   override def formToView: Form[InsurancePolicy] => Appendable =
     form => insurancePolicyDetailsMoreThanMaxValueView(form, regDetails)
 
-  override def cancelComponent = Some(CancelComponent(routes.InsurancePolicyOverviewController.onPageLoad(),
+  override def cancelComponent = Some(CancelComponent(routes.InsurancePolicyOverviewController.onPageLoad,
     messagesApi("site.link.return.insurance.policies"),
     TestHelper.InsurancePremiumnsYesNoID
   ))
