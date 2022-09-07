@@ -50,17 +50,17 @@ object AppDependencies {
   object Test {
     def apply(): Seq[ModuleID] = new TestDependencies {
       override lazy val test = Seq(
-        "uk.gov.hmrc" %% "http-caching-client" % httpCachingClientVersion % scope,
-        "org.scalatest" %% "scalatest" % scalaTestVersion % scope,
+        "uk.gov.hmrc" %% "http-caching-client" % httpCachingClientVersion,
+        "org.scalatest" %% "scalatest" % scalaTestVersion,
         "org.scalatestplus.play" %% "scalatestplus-play" % scalaTestPlusPlayVersion,
-        "org.scalatestplus" %%  "scalatestplus-mockito" % scalaTestPlusMockitoVersion % scope,
-        "com.vladsch.flexmark" % "flexmark-all" % flexmarkVersion % scope,
-        "org.pegdown" % "pegdown" % pegdownVersion % scope,
-        "org.jsoup" % "jsoup" % jsoupVersion % scope,
-        "com.typesafe.play" %% "play-test" % PlayVersion.current % scope,
-        "org.mockito" % "mockito-core" % mockitoVersion % scope,
-        "org.json" % "json" % jsonVersion % scope
-      )
+        "org.scalatestplus" %%  "scalatestplus-mockito" % scalaTestPlusMockitoVersion,
+        "com.vladsch.flexmark" % "flexmark-all" % flexmarkVersion,
+        "org.pegdown" % "pegdown" % pegdownVersion,
+        "org.jsoup" % "jsoup" % jsoupVersion,
+        "com.typesafe.play" %% "play-test" % PlayVersion.current,
+        "org.mockito" % "mockito-core" % mockitoVersion,
+        "org.json" % "json" % jsonVersion
+      ).map(_ % scope)
     }.test
   }
 
@@ -72,20 +72,20 @@ object AppDependencies {
       override lazy val scope: String = "it"
 
       override lazy val test = Seq(
-        "uk.gov.hmrc" %% "http-caching-client" % httpCachingClientVersion % scope,
-        "org.scalatest" %% "scalatest" % scalaTestVersion % scope,
+        "uk.gov.hmrc" %% "http-caching-client" % httpCachingClientVersion,
+        "org.scalatest" %% "scalatest" % scalaTestVersion,
         "org.scalatestplus.play" %% "scalatestplus-play" % scalaTestPlusPlayVersion,
-        "org.scalatestplus" %%  "scalatestplus-mockito" % scalaTestPlusMockitoVersion % scope,
-        "com.vladsch.flexmark" % "flexmark-all" % flexmarkVersion % scope,
-        "org.pegdown" % "pegdown" % pegdownVersion % scope,
-        "org.jsoup" % "jsoup" % jsoupVersion % scope,
-        "com.typesafe.play" %% "play-test" % PlayVersion.current % scope,
-        "org.mockito" % "mockito-core" % mockitoVersion % scope,
-        "org.json" % "json" % jsonVersion % scope,
-        "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.12.2" % scope,
-        "com.github.tomakehurst" % "wiremock" % wireMockVersion % scope,
-        "com.github.tomakehurst" % "wiremock-jre8" % wireMockVersion % scope
-      )
+        "org.scalatestplus" %%  "scalatestplus-mockito" % scalaTestPlusMockitoVersion,
+        "com.vladsch.flexmark" % "flexmark-all" % flexmarkVersion,
+        "org.pegdown" % "pegdown" % pegdownVersion,
+        "org.jsoup" % "jsoup" % jsoupVersion,
+        "com.typesafe.play" %% "play-test" % PlayVersion.current,
+        "org.mockito" % "mockito-core" % mockitoVersion,
+        "org.json" % "json" % jsonVersion,
+        "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.12.2",
+        "com.github.tomakehurst" % "wiremock" % wireMockVersion,
+        "com.github.tomakehurst" % "wiremock-jre8" % wireMockVersion
+      ).map(_ % scope)
     }.test
   }
 
